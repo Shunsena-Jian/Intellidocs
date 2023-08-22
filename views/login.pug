@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title #{title}
+  body
+    h1 this page is reserved for logging in
+    h1 do you understand #{name} ?
+    div
+        a(href='/') HOME
+    div
+        form(role='form' method='POST')
+            label(for='studentUsername') Username:
+            input(type='text', placeholder='Username' name='userName')
+            br
+            label(for='studentPassword') Password:
+            input(type='password', placeholder='Password' name='passWord')
+            br
+            br
+            button(type="submit", name="submitButton") Login
+
+
+
