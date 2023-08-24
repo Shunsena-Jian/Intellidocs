@@ -36,6 +36,11 @@ app.get('/', function(req, res){
         console.log();
 });
 
+app.get('/logout', function(req, res){
+        res.redirect('login');
+        console.log("User has logged out!");
+});
+
 app.get('/login', function(req, res){
         res.render('login', {
             title: 'Login Page', name: name
@@ -61,7 +66,7 @@ app.post('/login', function (req, res) {
             if (!user) {
                 console.log("failure to find user");
                 res.render('login', {
-                    title: 'Login Page', name: "Wrong Answer Beech"
+                    title: 'Login Page', receivedError: "Incorrect Username or Password!"
                 });
             } else if (password === user.password) {
                 res.render('index', {

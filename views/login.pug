@@ -1,22 +1,164 @@
 doctype html
-html
-  head
-    title #{title}
-  body
-    h1 this page is reserved for logging in
-    h1 do you understand #{name} ?
-    div
-        a(href='/') HOME
-    div
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=1517, maximum-scale=1.0')
+  style
+    include css/logins.css
+    include css/teamsSlide.css
+input#anPageName(type='hidden' name='page' value='logins')
+.container-center-horizontal
+  .logins.screen
+    img.slu-logo1.slu(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b4851905dc166a2813905d/img/slulogo1.png' alt='sluLogo1')
+    .overlap-group7
+      img.home-design2(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b4851905dc166a2813905d/img/homedesign2.png' alt='homeDesign2')
+      img.home-design1(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b4851905dc166a2813905d/img/homedesign1.png' alt='homeDesign1')
+      img.samcis-image.smart-layers-pointers(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b8a72b66eeea0c82bab2fe/img/samcisimage.png' alt='samcisImage')
+      .white-box
+      img.about-us-line(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64a9c3f32859aef66eeabdc7/img/aboutusline.svg' alt='AboutUsLine')
+      .about-us-title.hindvadodara-bold-blackcurrant-48px
+        span.hindvadodara-bold-blackcurrant-48px
+          | About Us
+          br
+        span.hindvadodara-light-blackcurrant-48px IntelliJent
+      p.about-us-description.hindvadodara-normal-blackcurrant-20px
+        span.hindvadodara-normal-blackcurrant-20px
+          | We are Information Technology students of Saint Louis University. This system is called
+        span.hindvadodara-bold-blackcurrant-20px IntelliDocs
+        span.hindvadodara-normal-blackcurrant-20px
+          | which is in partial fulfillment for the course IT Project. The developers is composed of 8 members and our
+          | adviser in this project is Ms. Kasima Mendoza.
+          br
+          br
+          | The rationale behind implementing the
+          |               IntelliDocs at SLU is to address the challenges associated with traditional paper-based document
+          |               management systems, such as redundant form-making, inconsistent format, late submissions, lack of storage,
+          |               document duplication, security, and no centralized repository
+      .tech-support-desgin1
+      .tech-support-box
+        .overlap-group5
+          .overlap-group
+            img.mask-group(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b8a4e2945d3409cc00d245/img/mask-group.png' alt='Mask Group')
+            img.mask-group-1.mask-group-3(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b8a4e2945d3409cc00d245/img/mask-group-1.png' alt='Mask Group')
+            img.mask-group-2.mask-group-3(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b476a9e482ed2458cb0f96/img/mask-group-5.png' alt='Mask Group')
+            img.andres-herrera-h-eff(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b4819ef8e1d7542c95ee34/img/andres-herrera-heffjtldpu0-unsplash-1.png' alt='andres-herrera-HEffJTlDpu0-unsplash 1')
+            img.andres-herrera-h-eff-1(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b4819ef8e1d7542c95ee34/img/andres-herrera-heffjtldpu0-unsplash-3.png' alt='andres-herrera-HEffJTlDpu0-unsplash 3')
+            .ellipse-10
+          img.tech-support-design-top(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64a9c3f32859aef66eeabdc7/img/techsupportdesigntop.svg' alt='techSupportDesignTop')
+          img.group-5(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b4819ef8e1d7542c95ee34/img/group-5.png' alt='Group 5')
+          .ellipse-9
+          .ellipse-11
+          .ellipse-12
+          .support-title.aclonica-normal-mulled-wine-145-9px
+            .overlap-group3
+              .overlap-group1
+                .price.valign-text-middle S
+                .u.valign-text-middle u
+              .p.valign-text-middle.p-2 p
+            .p-1.valign-text-middle.p-2 p
+            .o.valign-text-middle o
+            .overlap-group2.aclonica-normal-mulled-wine-145-9px
+              .r.valign-text-middle r
+              .t.valign-text-middle t
+          h1.tech-support-title1.valign-text-middle.aclonica-normal-mulled-wine-145-9px Tech
+          img.slu-logo2.slu(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64a6f499f727a7806c9d0e88/img/saint-louis-university-ph-logo-2-1.png' alt='sluLogo2')
+          .tech-support-input-box3
+          input.tech-support-placeholder1.abel-normal-ebony-clay-16px(name='techsupportplaceholder1' placeholder='enter your name' type='text' required='')
+          input.tech-support-placeholder2.abel-normal-ebony-clay-16px(name='techsupportplaceholder2' placeholder='enter your address' type='text' required='')
+          textarea.tech-support-placeholder3.abel-normal-ebony-clay-16px(name='techsupportplaceholder3' placeholder='ask us anything,,,' type='text' required='')
+          .submit-button.smart-layers-pointers
+            .overlap-group4
+              .submit.valign-text-middle.aclonica-normal-white-24px Submit
+      .footer
+        .site-l-name
+          .site-logo.roboto-light-white-22px IntelliDocs
+        .copyright
+          p.x2021-all-rights-reserved.valign-text-middle.roboto-light-white-12px
+            | &copy; 2023 All Rights Reserved
+        .footer-left-text1.footer-left.roboto-bold-white-22px Team IntelliJent
+        p.footer-left-text2.footer-left.roboto-normal-white-18px
+          | In partial fulfillment for the course IT Project
+        .footer-left-text3.footer-left.roboto-bold-white-22px Saint Louis University
+        p.footer-left-text4.footer-left.roboto-normal-white-18px
+          | SLU Mary Heights Road, 2600 Baguio City, Philippines
+      .about-us-circle
+      img.about-us-design1(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b4819ef8e1d7542c95ee34/img/aboutusdesign1.svg' alt='aboutUsDesign1')
+      img.about-us-image.smart-layers-pointers(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b8a4e2945d3409cc00d245/img/aboutusimage.svg' alt='aboutUsImage')
+      .teams-space
+        // teams slide
+        .wrapper.center
+          i#left.fa-solid.fa-angle-left
+          ul.carousel
+            li.card
+              .img
+                img(src='res/alyanna.jpg' alt='img' draggable='false')
+              h2 Alyanna Ramos
+              span Project Analyst
+            li.card
+              .img
+                img(src='res/cass.jpg' alt='img' draggable='false')
+              h2 Cassandra Narvasa
+              span Project Manager
+            li.card
+              .img
+                img(src='res/denmark.jpg' alt='img' draggable='false')
+              h2 Denmark Chan
+              span Front End Support
+            li.card
+              .img
+                img(src='res/jao.png' alt='img' draggable='false')
+              h2 John Poul Pangalo
+              span Technical Lead
+            li.card
+              .img
+                img(src='res/jian.jpg' alt='img' draggable='false')
+              h2 Jian Cundimat
+              span Lead Software Developer
+            li.card
+              .img
+                img(src='res/lei.jpg' alt='img' draggable='false')
+              h2 Leianneza Pioquinto
+              span Front End Lead
+            li.card
+              .img
+                img(src='res/lywe.png' alt='img' draggable='false')
+              h2 Lywe Joen Dup-et
+              span Business Analyst
+            li.card
+              .img
+                img(src='res/machian.jpg' alt='img' draggable='false')
+              h2 Machian Oliva
+              span Document Research Specialist
+          i#right.fa-solid.fa-angle-right
+    img.saint_-louis_-university_ph_-logo-3(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b4851905dc166a2813905d/img/saint-louis-university-ph-logo-3.png' alt='Saint_Louis_University_PH_Logo 3')
+    .overlap-group6
         form(role='form' method='POST')
-            label(for='studentUsername') Username:
-            input(type='text', placeholder='Username' name='userName')
-            br
-            label(for='studentPassword') Password:
-            input(type='password', placeholder='Password' name='passWord')
-            br
-            br
-            button(type="submit", name="submitButton") Login
+            .overlap-group1-1
+                .login.valign-text-middle.login-2 Login
+                .username.valign-text-middle.abeezee-normal-oil-12px Username
+                .overlap-group4-1
+                  .rectangle-1387
+                  input.usernamegmailcom.abeezee-normal-silver-14px(name='userName' placeholder='username' required='')
+                .overlap-group2-1
+                  input.password.password-2(name='passWord' placeholder='Password' type='password' required='')
+                .password-1.valign-text-middle.password-2.abeezee-normal-oil-12px Password
+                .overlap-group3-1
+                  p#errorMSG.dont-have-an-account-yet.valign-text-middle.abeezee-normal-oil-12px
+                    |
+                  .register-to-the-admin.valign-text-middle
+                .forgot-password.smart-layers-pointers.valign-text-middle.abeezee-normal-oil-10px
+                  | Forgot Password?
+                button(type="submit")
+                  .group-1000001593.smart-layers-pointers
+                    .overlap-group-1
+                      .login-1.valign-text-middle.login-2 LOGIN
+                button
+                  img.clarityeye-hide-line(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b8a4e2945d3409cc00d245/img/clarity-eye-hide-line.svg' alt='clarity:eye-hide-line')
 
+                script(type='text/javascript').
+                    var errorMessage = document.getElementById("errorMSG");
+                    var receivedError = "#{receivedError}";
 
+                    if(receivedError){
+                        errorMessage.innerHTML = "#{receivedError}";
+                    }
 

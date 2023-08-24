@@ -1,21 +1,94 @@
 doctype html
-html
-  head
-    title #{title}
-  body
-    h1 this page is reserved for home (needs express session to identify if user is logged in)
-
-    div
-        a(href='/') HOME
-        br
-        a(href='/login') LOGIN
-        br
-        a(href='/createform') Create Form
-        br
-        a(href='/createuser') Create User
-        br
-        a(href='/viewform') View Forms
-        br
-        a(href='/') LOGOUT
-
-
+head
+  title #{title}
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=1656, maximum-scale=1.0')
+  style
+    include css/adminDashboard.css
+//-     include res/SeekPng.com_cats-png_9804157.png
+input#anPageName(type='hidden' name='page' value='adminDashboard')
+.container-center-horizontal
+  .adminDashboard.screen
+    .overlap-group7
+      .main-box
+      img.report.smart-layers-pointers(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/report.png' alt='report')
+      img.recent-docs-box(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b47ead93bcbf92614da031/img/frame-458.png' alt='RecentDocsBox')
+      .slu-logo
+        img.saint_-louis_-university_ph_-logo-3(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b47ead93bcbf92614da031/img/saint-louis-university-ph-logo-3@2x.png' alt='Saint_Louis_University_PH_Logo 3')
+      .rectangle-3
+      .rectangle-1
+      img.reports-icon(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/reportsicon.svg' alt='ReportsIcon')
+      img.manage-users-icon(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/649856ba5894740270132821/img/vector.svg' alt='manageUsersIcon')
+      .rectangle-1-1
+      .rectangle-4
+      .overlap-group7-item
+      a(href='adminTemplates.html')
+        .templates.smart-layers-pointers.poppins-normal-mystic-15px Templates
+      a(href='adminNewDoc.html')
+        .new-document.smart-layers-pointers.poppins-normal-mystic-14px New Document
+      img.category(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/category.svg' alt='Category')
+      .dashboard Dashboard
+      a(href='adminArchives.html')
+        .archive.smart-layers-pointers.poppins-normal-mystic-15px Archive
+      .submissions.smart-layers-pointers.poppins-normal-mystic-15px Submissions
+      .document-code.smart-layers-pointers.poppins-normal-mystic-15px Document Code
+      .reports.smart-layers-pointers.poppins-normal-mystic-15px Reports
+      .manage-users.smart-layers-pointers.poppins-normal-mystic-15px Manage Users
+      .deploy-document.smart-layers-pointers.poppins-normal-mystic-15px Deploy Document
+      .view-approve.smart-layers-pointers.poppins-normal-mystic-15px View &amp; Approve
+      .for-approval-icon.smart-layers-pointers
+        .overlap-group
+          img.uarrow-left(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/u-arrow-left.svg' alt='u:arrow-left')
+          .for-approval.nunito-bold-mystic-14px For Approval
+          .number.number-3.nunito-normal-mystic-24px 27
+          .overlap-group1
+            img.vector(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/649856ba5894740270132821/img/vector-7.svg' alt='Vector')
+      .approved-box.smart-layers-pointers
+        .overlap-group2
+          .approved.nunito-bold-mystic-12px Approved
+          .number-1.number-3.nunito-normal-mystic-24px 15
+          .overlap-group-1
+            img.file-download-done(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/file-download-done.svg' alt='File download done')
+          img.uarrow-left-1.uarrow-left-3(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/u-arrow-left-1.svg' alt='u:arrow-left')
+      img.templates-icon(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64985621dd90da8d348569b7/img/vector-1.svg' alt='TemplatesIcon')
+      img.archive-icon(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64985621dd90da8d348569b7/img/vector-2.svg' alt='archiveIcon')
+      img.submission-icon(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64985621dd90da8d348569b7/img/vector-3.svg' alt='submissionIcon')
+      img.doc-code-icon(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64985621dd90da8d348569b7/img/vector-4.svg' alt='docCodeIcon')
+      img.new-docs-icon(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/newdocsicon.svg' alt='newDocsIcon')
+      img.logo(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b47ead93bcbf92614da031/img/orange-modern-circle-book-library-logo--4--1@2x.png' alt='logo')
+      .overlap-group3
+        .rectangle-22.smart-layers-pointers
+        img.uarrow-left-2.uarrow-left-3(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/u-arrow-left-1.svg' alt='u:arrow-left')
+        .created-documents.nunito-bold-mystic-12px Created Documents
+        .number-2.number-3.nunito-normal-mystic-24px 40
+        .ellipse-11
+        img.vector-1(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/6495c3d3a6421e37ef40d7a9/img/vector.svg' alt='Vector')
+      .loogout-button.smart-layers-pointers
+        a.logout.poppins-normal-mystic-14px(href="/logout") Logout
+      img.dissiminate-box.smart-layers-pointers(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/dissiminatebox.png' alt='dissiminateBox')
+      .overlap-group7-item
+      img.dashboard-icon(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64b47ead93bcbf92614da031/img/iconly-bold-category@2x.png' alt='dashboardIcon')
+      .dashboard-1 Dashboard
+      .notif-box
+      .notifications.valign-text-middle Notifications
+      .overlap-group4
+        .container
+        p.afar-has-been-update.valign-text-middle.poppins-medium-black-12px
+          | AFAR has been updated. You can now view it.
+        p.address.valign-text-middle.poppins-normal-silver-chalice-10px 24 April, 2023 | 04:00 PM
+        img.orange-modern-circle(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/notificon@2x.png' alt='Orange Modern Circle Book Library Logo (2) 4')
+      .overlap-group5
+        .container
+        p.table-of-specificati.valign-text-middle.poppins-medium-black-12px
+          | Table of Specifications has been posted.
+        p.address.valign-text-middle.poppins-normal-silver-chalice-10px 24 April, 2023 | 3:36 PM
+        img.orange-modern-circle-1.orange-modern-circle-3(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/notificon@2x.png' alt='Orange Modern Circle Book Library Logo (2) 5')
+      .overlap-group6
+        .container
+        p.course-syllabi-is-due-in-5-days.valign-text-middle.poppins-medium-black-12px
+          | Course Syllabi is due in 5 days.
+        p.address.valign-text-middle.poppins-normal-silver-chalice-10px 24 April, 2023 | 1:49 PM
+        img.orange-modern-circle-2.orange-modern-circle-3(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/notificon@2x.png' alt='Orange Modern Circle Book Library Logo (2) 3')
+      img.notif-icon(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/notificon@2x.png' alt='notifIcon')
+      img.view-icon(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/viewicon@2x.png' alt='viewIcon')
+      img.deploy-icon(src='https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/64bca0f4f92891f2e93c9aa9/img/deployicon@2x.png' alt='deployIcon')

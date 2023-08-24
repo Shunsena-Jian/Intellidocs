@@ -1,0 +1,989 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+@import url("https://fonts.googleapis.com/css?family=Hind+Vadodara:300,700,400|Aclonica:400|Abel:400|Roboto:300,700,400|ABeeZee:400,400italic");
+/* The following line is used to measure usage of this code. You can remove it if you want. */
+@import url("https://px.animaapp.com/647c58bbe40e14687d39eeb7.647c58bc84f1b52fb45f1527.647c59221cfea0c81ae97581.hcp.png");
+
+
+/* screen - logins */
+.logins {
+  background-color: var(--scotch-mist);
+  border: 1px none;
+  height: 3782px;
+  overflow: hidden;
+  position: relative;
+  width: 1517px;
+}
+
+.logins .slu-logo1 {
+  height: 235px;
+  left: -5432px;
+  top: 22933px;
+  width: 126px;
+}
+
+.logins .overlap-group7 {
+  height: 3780px;
+  left: -52px;
+  position: absolute;
+  top: 18px;
+  width: 1981px;
+}
+
+.logins .home-design2 {
+  height: 1721px;
+  left: 52px;
+  position: absolute;
+  top: 0;
+  width: 1470px;
+}
+
+.logins .home-design1 {
+  height: 507px;
+  left: 58px;
+  position: absolute;
+  top: 250px;
+  width: 891px;
+}
+
+.logins .samcis-image {
+  cursor: pointer;
+  height: 628px;
+  left: 95px;
+  object-fit: cover;
+  position: absolute;
+  top: 110px;
+  transition: all 0.2s ease-in-out;
+  width: 710px;
+}
+
+.logins .samcis-image:hover {
+  transform: scale(1.1);
+}
+
+.logins .white-box {
+  background-color: var(--white);
+  height: 2942px;
+  left: 46px;
+  position: absolute;
+  top: 838px;
+  width: 1935px;
+}
+
+.logins .about-us-line {
+  height: 7px;
+  left: 221px;
+  position: absolute;
+  top: 1072px;
+  width: 98px;
+}
+
+.logins .about-us-title {
+  left: 221px;
+  letter-spacing: -0.48px;
+  line-height: 51.0px;
+  position: absolute;
+  top: 972px;
+  width: 238px;
+}
+
+.logins .about-us-description {
+  left: 224px;
+  letter-spacing: 0.40px;
+  line-height: 29.3px;
+  position: absolute;
+  top: 1118px;
+  width: 506px;
+}
+
+.logins .tech-support-desgin1 {
+  background-color: var(--peach-schnapps);
+  border-radius: 0px 400px 0px 0px;
+  height: 673px;
+  left: 762px;
+  position: absolute;
+  top: 2340px;
+  transform: rotate(180deg);
+  width: 833px;
+}
+
+.logins .tech-support-box {
+  background-color: var(--panache);
+  border-radius: 30px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 973px;
+  left: 156px;
+  overflow: hidden;
+  position: absolute;
+  top: 2378px;
+  width: 1309px;
+}
+
+.logins .overlap-group5 {
+  height: 973px;
+  position: relative;
+}
+
+.logins .overlap-group {
+  height: 973px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1309px;
+}
+
+.logins .mask-group {
+  height: 466px;
+  left: 897px;
+  position: absolute;
+  top: 0;
+  width: 412px;
+}
+
+.logins .mask-group-1 {
+  height: 453px;
+  top: 520px;
+  width: 428px;
+}
+
+.logins .mask-group-2 {
+  height: 211px;
+  top: 0;
+  width: 424px;
+}
+
+.logins .andres-herrera-h-eff {
+  height: 973px;
+  left: 0;
+  mix-blend-mode: soft-light;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 990px;
+}
+
+.logins .andres-herrera-h-eff-1 {
+  height: 659px;
+  left: 0;
+  mix-blend-mode: soft-light;
+  object-fit: cover;
+  position: absolute;
+  top: 314px;
+  width: 1309px;
+}
+
+.logins .ellipse-10 {
+  background-color: var(--panache);
+  border-radius: 40px;
+  height: 80px;
+  left: 94px;
+  position: absolute;
+  top: 67px;
+  width: 80px;
+}
+
+.logins .tech-support-design-top {
+  height: 71px;
+  left: 40px;
+  position: absolute;
+  top: 37px;
+  width: 99px;
+}
+
+.logins .group-5 {
+  height: 703px;
+  left: 641px;
+  position: absolute;
+  top: 244px;
+  width: 618px;
+}
+
+.logins .ellipse-9 {
+  background-color: var(--sunglow);
+  border-radius: 186.5px;
+  height: 373px;
+  left: 138px;
+  position: absolute;
+  top: 463px;
+  width: 373px;
+}
+
+.logins .ellipse-11 {
+  background-color: var(--white);
+  border-radius: 118px;
+  height: 236px;
+  left: 93px;
+  position: absolute;
+  top: 318px;
+  width: 236px;
+}
+
+.logins .ellipse-12 {
+  background-color: var(--white);
+  border-radius: 110.5px;
+  height: 221px;
+  left: 338px;
+  position: absolute;
+  top: 743px;
+  width: 221px;
+}
+
+.logins .support-title {
+  height: 229px;
+  left: 39px;
+  position: absolute;
+  top: 159px;
+  width: 628px;
+}
+
+.logins .overlap-group3 {
+  height: 229px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 270px;
+}
+
+.logins .overlap-group1 {
+  height: 220px;
+  left: 0;
+  position: absolute;
+  top: 9px;
+  width: 207px;
+}
+
+.logins .price {
+  height: 185px;
+  left: 24px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 25px;
+  transform: rotate(-16.13deg);
+  width: 98px;
+}
+
+.logins .u {
+  height: 185px;
+  left: 115px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 4px;
+  transform: rotate(-6.23deg);
+  width: 82px;
+}
+
+.logins .p {
+  left: 206px;
+  top: 0;
+  transform: rotate(-0.68deg);
+  width: 62px;
+}
+
+.logins .p-1 {
+  left: 290px;
+  top: 3px;
+  transform: rotate(5.44deg);
+  width: 77px;
+}
+
+.logins .o {
+  height: 185px;
+  left: 372px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 21px;
+  transform: rotate(5.44deg);
+  width: 77px;
+}
+
+.logins .overlap-group2 {
+  height: 198px;
+  left: 449px;
+  position: absolute;
+  top: 30px;
+  width: 165px;
+}
+
+.logins .r {
+  height: 185px;
+  left: 9px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 3px;
+  transform: rotate(5.44deg);
+  width: 77px;
+}
+
+.logins .t {
+  height: 185px;
+  left: 80px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 10px;
+  transform: rotate(5.44deg);
+  width: 77px;
+}
+
+.logins .tech-support-title1 {
+  height: 185px;
+  left: 166px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 53px;
+  transform: rotate(-1.09deg);
+  width: 473px;
+}
+
+.logins .slu-logo2 {
+  height: 564px;
+  left: 167px;
+  top: 329px;
+  width: 387px;
+}
+
+.logins .tech-support-input-box3 {
+  background-color: var(--tuna);
+  box-shadow: 0px 4px 4px #00000040;
+  height: 143px;
+  left: 743px;
+  position: absolute;
+  top: 632px;
+  width: 444px;
+}
+
+.logins .tech-support-placeholder1 {
+  background-color: transparent;
+  border: 0;
+  height: 26px;
+  left: 749px;
+  letter-spacing: 0;
+  line-height: 26.4px;
+  padding: 0;
+  position: absolute;
+  top: 474px;
+  white-space: nowrap;
+  width: 438px;
+}
+
+.logins .tech-support-placeholder1::placeholder {
+  color: #222b4599;
+}
+
+.logins .tech-support-placeholder2 {
+  background-color: transparent;
+  border: 0;
+  height: 26px;
+  left: 749px;
+  letter-spacing: 0;
+  line-height: 26.4px;
+  padding: 0;
+  position: absolute;
+  top: 546px;
+  white-space: nowrap;
+  width: 438px;
+}
+
+.logins .tech-support-placeholder2::placeholder {
+  color: #222b4599;
+}
+
+.logins .tech-support-placeholder3 {
+  background-color: transparent;
+  border: 0;
+  height: 129px;
+  left: 758px;
+  letter-spacing: 0;
+  line-height: 26.4px;
+  padding: 0;
+  position: absolute;
+  top: 639px;
+  width: 419px;
+}
+
+.logins .tech-support-placeholder3::placeholder {
+  color: #222b4599;
+}
+
+.logins .submit-button {
+  cursor: pointer;
+  height: 70px;
+  left: 669px;
+  position: absolute;
+  top: 842px;
+  transition: all 0.2s ease-in-out;
+  width: 590px;
+}
+
+.logins .submit-button:hover {
+  transform: scale(1.1);
+}
+
+.logins .overlap-group4 {
+  background-image: url(https://anima-uploads.s3.amazonaws.com/projects/647c59221cfea0c81ae97581/releases/647d884d49878b9267afb6b3/img/rectangle-55.svg);
+  background-size: 100% 100%;
+  height: 70px;
+  position: relative;
+  width: 588px;
+}
+
+.logins .submit {
+  height: 27px;
+  left: 225px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 20px;
+  white-space: nowrap;
+  width: 93px;
+}
+
+.logins .footer {
+  background-color: var(--mulled-wine);
+  height: 343px;
+  left: 52px;
+  position: absolute;
+  top: 3437px;
+  width: 1521px;
+}
+
+.logins .site-l-name {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  left: 109px;
+  position: absolute;
+  top: 76px;
+  width: fit-content;
+}
+
+.logins .site-logo {
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -1.00px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.logins .copyright {
+  height: 16px;
+  left: 109px;
+  position: absolute;
+  top: 250px;
+  width: 171px;
+}
+
+.logins .x2021-all-rights-reserved {
+  height: 14px;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+}
+
+.logins .footer-left-text1 {
+  left: 1304px;
+  top: 88px;
+}
+
+.logins .footer-left-text2 {
+  left: 993px;
+  text-align: right;
+  top: 137px;
+  width: 471px;
+}
+
+.logins .footer-left-text3 {
+  left: 1249px;
+  top: 213px;
+}
+
+.logins .footer-left-text4 {
+  left: 993px;
+  text-align: right;
+  top: 250px;
+  width: 471px;
+}
+
+.logins .about-us-circle {
+  border: 2px dashed;
+  border-color: var(--black);
+  border-radius: 270.4px/265.65px;
+  height: 531px;
+  left: 914px;
+  position: absolute;
+  top: 1092px;
+  width: 541px;
+}
+
+.logins .about-us-design1 {
+  height: 627px;
+  left: 835px;
+  position: absolute;
+  top: 952px;
+  width: 646px;
+}
+
+.logins .about-us-image {
+  cursor: pointer;
+  height: 528px;
+  left: 801px;
+  position: absolute;
+  top: 1014px;
+  transition: all 0.2s ease-in-out;
+  width: 667px;
+}
+
+.logins .about-us-image:hover {
+  transform: scale(1.1);
+}
+
+.logins .teams-space {
+  background-image: url('/res/bg5.gif');
+  background-repeat: no-repeat;
+  background-size: 2000px 1500px;
+  background-position: 5% 95%;
+
+  background-color: var(--lightning-yellow);
+  height: 600px;
+  left: 0;
+  position: absolute;
+  top: 1692px;
+  width: 1935px;
+}
+
+.logins .saint_-louis_-university_ph_-logo-3 {
+  height: 181px;
+  left: 1385px;
+  object-fit: cover;
+  position: absolute;
+  top: 19px;
+  width: 118px;
+}
+
+.logins .overlap-group6 {
+  border-radius: 10px;
+  height: 597px;
+  left: 868px;
+  position: absolute;
+  top: 126px;
+  width: 521px;
+}
+
+.logins .overlap-group1-1 {
+  background-color: #f8f8f7;
+  border-radius: 10px;
+  height: 597px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 521px;
+}
+
+.logins .login {
+  color: var(--oil);
+  font-size: 30px;
+  height: 40px;
+  left: 66px;
+  top: 123px;
+  width: 92px;
+}
+
+.logins .username {
+  height: 15px;
+  left: 66px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 214px;
+  width: 64px;
+}
+
+.logins .overlap-group4-1 {
+  background-color: var(--white);
+  border-radius: 10px;
+  height: 45px;
+  left: 67px;
+  position: absolute;
+  top: 235px;
+  width: 382px;
+}
+
+.logins .rectangle-1387 {
+  background-color: var(--white);
+  border-radius: 10px;
+  height: 45px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 382px;
+}
+
+.logins .usernamegmailcom {
+  background-color: transparent;
+  border: 0;
+  height: 15px;
+  left: 21px;
+  letter-spacing: 0;
+  line-height: normal;
+  padding: 0;
+  position: absolute;
+  top: 15px;
+  white-space: nowrap;
+  width: 361px;
+}
+
+.logins .usernamegmailcom::placeholder {
+  color: #bcbec099;
+}
+
+.logins .overlap-group2-1 {
+  background-color: var(--white);
+  border-radius: 10px;
+  height: 45px;
+  left: 67px;
+  position: absolute;
+  top: 330px;
+  width: 382px;
+}
+
+.logins .password {
+  background-color: transparent;
+  border: 0;
+  color: var(--silver);
+  font-family: var(--font-family-abeezee);
+  font-size: var(--font-size-xs2);
+  font-weight: 400;
+  left: 21px;
+  padding: 0;
+  position: relative;
+  top: 15px;
+  width: 361px;
+}
+
+.logins .password::placeholder {
+  color: #bcbec099;
+}
+
+.logins .password-1 {
+  left: 66px;
+  position: absolute;
+  top: 309px;
+  width: 61px;
+}
+
+.logins .overlap-group3-1 {
+  height: 16px;
+  left: 65px;
+  position: absolute;
+  top: 170px;
+  width: 298px;
+}
+
+.logins .dont-have-an-account-yet {
+  height: 15px;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  width: 200px;
+}
+
+.logins .register-to-the-admin {
+  color: var(--oil);
+  font-family: var(--font-family-abeezee);
+  font-size: var(--font-size-xs2);
+  font-style: italic;
+  font-weight: 400;
+  height: 15px;
+  left: 159px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  width: 139px;
+}
+
+.logins .forgot-password {
+  cursor: pointer;
+  height: 13px;
+  left: 67px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 391px;
+  transition: all 0.2s ease;
+  width: 96px;
+}
+
+.logins .forgot-password:hover {
+  color: #ff0800
+}
+
+.logins .group-1000001593 {
+  cursor: pointer;
+  height: 45px;
+  left: 67px;
+  position: absolute;
+  top: 441px;
+  transition: all 0.2s ease-in-out;
+  width: 384px;
+}
+
+.logins .group-1000001593:hover {
+  transform: scale(1.1);
+}
+
+.logins .overlap-group-1 {
+  background-color: #f3e80f;
+  border-radius: 10px;
+  height: 45px;
+  position: relative;
+  width: 382px;
+}
+
+.logins .login-1 {
+  color: var(--white);
+  font-size: 15px;
+  height: 22px;
+  left: 161px;
+  top: 12px;
+  width: 54px;
+}
+
+.logins .clarityeye-hide-line {
+  height: 14px;
+  left: 413px;
+  position: absolute;
+  top: 346px;
+  width: 15px;
+}
+
+.logins .footer-left {
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  white-space: nowrap;
+}
+
+.logins .login-2 {
+  font-family: var(--font-family-abeezee);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+}
+
+.logins .mask-group-3 {
+  left: 0;
+  position: absolute;
+}
+
+.logins .p-2 {
+  height: 185px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+}
+
+.logins .password-2 {
+  height: 15px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.logins .slu {
+  object-fit: cover;
+  position: absolute;
+}
+
+/*globals*/
+.screen a {
+  display: contents;
+  text-decoration: none;
+}
+
+.container-center-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  pointer-events: none;
+  width: 100%;
+}
+
+.container-center-horizontal > * {
+  flex-shrink: 0;
+  pointer-events: auto;
+}
+
+.valign-text-middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+input:focus {
+  outline: none;
+}
+
+.smart-layers-pointers,
+.smart-layers-pointers * {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/*styleguide*/
+:root {
+  --black: #000000;
+  --blackcurrant-22: #331b3ba8;
+  --blackcurrant2: #331b3b;
+  --ebony-clay2: #222b45;
+  --lightning-yellow: #fdc021;
+  --mulled-wine: #4c4c6d;
+  --oil: #2a1e17;
+  --panache: #e8f6ef;
+  --peach-schnapps: #ffded480;
+  --scotch-mist: #fbfbdd;
+  --silver: #bcbec0;
+  --sunglow: #ffd749;
+  --tuna: #32324714;
+  --white: #ffffff;
+
+  --font-size-l: 22px;
+  --font-size-m2: 20px;
+  --font-size-s2: 18px;
+  --font-size-xs: 16px;
+  --font-size-xs2: 12px;
+  --font-size-xxl2: 48px;
+  --font-size-xxxl: 145.9px;
+
+  --font-family-abeezee: "ABeeZee", Helvetica;
+  --font-family-abel: "Abel", Helvetica;
+  --font-family-aclonica: "Aclonica", Helvetica;
+  --font-family-hind_vadodara: "Hind Vadodara", Helvetica;
+  --font-family-roboto: "Roboto", Helvetica;
+}
+.aclonica-normal-mulled-wine-145-9px {
+  color: var(--mulled-wine);
+  font-family: var(--font-family-aclonica);
+  font-size: var(--font-size-xxxl);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.hindvadodara-normal-blackcurrant-20px {
+  color: var(--blackcurrant-22);
+  font-family: var(--font-family-hind_vadodara);
+  font-size: var(--font-size-m2);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.abel-normal-ebony-clay-16px {
+  color: var(--ebony-clay2);
+  font-family: var(--font-family-abel);
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.abeezee-normal-oil-12px {
+  color: var(--oil);
+  font-family: var(--font-family-abeezee);
+  font-size: var(--font-size-xs2);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.hindvadodara-bold-blackcurrant-48px {
+  color: var(--blackcurrant2);
+  font-family: var(--font-family-hind_vadodara);
+  font-size: var(--font-size-xxl2);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.roboto-bold-white-22px {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-l);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.roboto-normal-white-18px {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-s2);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.hindvadodara-light-blackcurrant-48px {
+  color: var(--blackcurrant2);
+  font-family: var(--font-family-hind_vadodara);
+  font-size: var(--font-size-xxl2);
+  font-style: normal;
+  font-weight: 300;
+}
+
+.hindvadodara-bold-blackcurrant-20px {
+  color: var(--blackcurrant-22);
+  font-family: var(--font-family-hind_vadodara);
+  font-size: var(--font-size-m2);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.aclonica-normal-white-24px {
+  color: var(--white);
+  font-family: var(--font-family-aclonica);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.roboto-light-white-22px {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-l);
+  font-style: normal;
+  font-weight: 300;
+}
+
+.roboto-light-white-12px {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-xs2);
+  font-style: normal;
+  font-weight: 300;
+}
+
+.abeezee-normal-silver-14px {
+  color: var(--silver);
+  font-family: var(--font-family-abeezee);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.abeezee-normal-oil-10px {
+  color: var(--oil);
+  font-family: var(--font-family-abeezee);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+}
