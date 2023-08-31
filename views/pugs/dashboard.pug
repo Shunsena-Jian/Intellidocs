@@ -1,22 +1,22 @@
 head
-  title #{title}
+  title Home
   meta(charset='UTF-8')
   meta(name='viewport' content='width=device-width, initial-scale=1')
   link(rel='stylesheet' href='https://www.w3schools.com/w3css/4/w3.css')
   link(rel='stylesheet' href='https://www.w3schools.com/lib/w3-theme-blue-grey.css')
   link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans')
   link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+  link(rel='stylesheet' type='text/css' href='base_style.css')
   link(rel='stylesheet' type='text/css' href='src/table.css')
   style
     include css/w3StyleSheet1.css
     include css/w3StyleSheet2.css
-    include css/base_style.css
 // Navbar
 .navbar
   .w3-bar.w3-left-align.w3-large.navbar
     a.w3-bar-item.w3-button.w3-hide-medium.w3-hide-large.w3-right.w3-padding-large.w3-hover-white.w3-large.w3-theme-d2(href='javascript:void(0);' onclick='openNav()')
       i.fa.fa-bars
-    a.w3-bar-item.w3-button.w3-padding-large.w3-theme-d5(href='/')
+    a.w3-bar-item.w3-button.w3-padding-large.w3-theme-d5(href='#')
       i.fa.fa-home.w3-margin-right
       | IntelliDocs
     a.w3-bar-item.w3-button.w3-hide-small.w3-padding-large.w3-hover-white(href='#' title='News')
@@ -34,9 +34,7 @@ head
         a.w3-bar-item.w3-button(href='#') AFAR is due tommorow
         a.w3-bar-item.w3-button(href='#') Syllabus is due tommorow
     a.w3-bar-item.w3-button.w3-hide-small.w3-right.w3-padding-large.w3-hover-white(href='#' title='My Account')
-      a.logout.poppins-normal-mystic-14px(href="/logout") Logout
       img.w3-circle(src='src/avatar2.png' style='height:23px;width:23px' alt='Avatar')
-
 // Navbar on small screens
 #navDemo.w3-bar-block.w3-theme-d2.w3-hide.w3-hide-large.w3-hide-medium.w3-large
   a.w3-bar-item.w3-button.w3-padding-large(href='#') Link 1
@@ -52,22 +50,19 @@ head
       // Profile
       .w3-card.w3-round.w3-white
         .w3-container
-          h4#userFirstName.w3-center Name Placeholder
+          h4.w3-center Admin
           p.w3-center
             img.w3-circle(src='src/avatar3.png' style='height:106px;width:106px' alt='Avatar')
           hr
           p
             i.fa.fa-info-circle.fa-fw.w3-margin-right.w3-text-theme
-            |
-            myElement#empID
+            |  2222222
           p
             i.fa.fa-user.fa-fw.w3-margin-right.w3-text-theme
-            |
-            myElement#fullName
+            |  Delfin Tokyas
           p
             i.fa.fa-briefcase.fa-fw.w3-margin-right.w3-text-theme
-            |
-            myElement#userLevel
+            |  Document Controller
       br
       // Accordion
       .w3-card.w3-round
@@ -113,7 +108,7 @@ head
                 i.fa.fa-plus-circle.w3-margin-right
                 | Create User
             p
-              a(href="/viewusers")
+              a(href='manage_user.html')
                 i.fa.fa-users.w3-margin-right
                 | View Users
             p
@@ -205,18 +200,8 @@ footer.w3-container.light-mode
     a(href='https://www.w3schools.com/w3css/default.asp' target='_blank') w3.css
 
 script.
-    var receivedUserDetailsBlock = !{JSON.stringify(userDetailsBlock)};
-
-    var userFirstName = document.getElementById("userFirstName");
-    var empID = document.getElementById("empID");
-    var fullName = document.getElementById("fullName");
-    var userLevel = document.getElementById("userLevel");
-
-    userFirstName.innerHTML = receivedUserDetailsBlock.firstName;
-    empID.innerHTML = receivedUserDetailsBlock.empID;
-    fullName.innerHTML = receivedUserDetailsBlock.firstName + " " + receivedUserDetailsBlock.lastName ;
-    userLevel.innerHTML = receivedUserDetailsBlock.userLevel;
-
+    var userDetailsBlock = !{JSON.stringify(userDetailsBlock)};
+    console.log(userDetailsBlock.firstName);
 
   function myFunction(id) {
   var x = document.getElementById(id);

@@ -5,8 +5,14 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const port = 3000;
+
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+app.use('/views/src', express.static(path.join(__dirname, 'views', 'src')));
+app.use(express.static(path.join(__dirname, 'views')));
+
 var name = null;
 
 // Connect to the database
@@ -18,14 +24,6 @@ app.use(session({
   saveUninitialized: true
 }));
 
-function checkLoggedIn(req, res, next) {
-    if (req.session.loggedIn) {
-        next();
-    } else {
-        res.redirect('/login');
-    }
-}
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -34,7 +32,8 @@ const userSchema = new mongoose.Schema({
     password: String,
     emp_id: Number,
     first_name: String,
-    last_name: String
+    last_name: String,
+    user_level: String
   });
 
 const User = mongoose.model('User', userSchema);
@@ -43,19 +42,19 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-app.get('/', checkLoggedIn, function(req, res){
+app.get('/', function(req, res){
     if (req.session.loggedIn) {
-        res.redirect('/'); // if logged in
+            res.render('index', {
+                title: 'Home Page', userDetails : req.session.userDetailsBlock
+            });
+
     } else {
-        res.redirect('login'); // if not logged in
+        res.redirect('login');
     }
-        // res.render('index', {
-        //     title: 'Home page'
-        // });
-        // console.log(req.session.first_name);
 });
 
 app.get('/logout', function(req, res){
+    req.session.loggedIn = false;
     req.session.destroy();
     res.redirect('/login');
     console.log("User has logged out!");
@@ -63,7 +62,7 @@ app.get('/logout', function(req, res){
 
 app.get('/login', function(req, res){
     if (req.session.loggedIn) {
-        res.redirect('/index');
+        res.redirect('/');
     } else {
         res.render('login', {
             title: 'Login Page'
@@ -74,29 +73,39 @@ app.get('/login', function(req, res){
 app.post('/login', function (req, res) {
     if(req.session.loggedIn){
         res.render('index', {
-            title: 'Home Page', first_name: req.session.first_name, last_name: req.session.last_name
+            title: 'Home Page', userDetails: req.session.userDetails
         });
     } else {
         var username = req.body.userName;
         var password = req.body.passWord;
 
-        User.findOne({ username: username }) // finds the inputted username
+        User.findOne({ username: username })
         .then(function(user) {
             if (!user) {
                 console.log("Failed to find User");
                 res.render('login', {
                     title: 'Login Page', receivedError: "Wrong User Credentials!"
                 });
-            } else if (password === user.password) { // if correct password
+            } else if (password === user.password) {
+                //RESERVED MANUAL DATA BLOCK
+                req.session.userFirstName = user.first_name;
+                req.session.userLastName = user.last_name;
+                req.session.userEmpID = user.emp_id;
+                req.session.userLevel = user.user_level;
+
+                //JSON DATA BLOCK
+                userDetailsBlock = {"firstName": user.first_name,
+                                    "lastName": user.last_name,
+                                    "empID": user.emp_id,
+                                    "userLevel": user.user_level
+                                    };
+
+                req.session.userDetailsBlock = userDetailsBlock;
 
                 req.session.loggedIn = true;
-                req.session.username = user.username;
-                req.session.emp_id = user.emp_id;
-                req.session.first_name = user.first_name;
-                req.session.last_name = user.last_name;                
 
                 res.render('index', {
-                    title: 'Home Page', name: user.username
+                    title: 'Home Page', userDetails : req.session.userDetailsBlock
                 });
                 console.log("User " + user.first_name, user.last_name, user.emp_id + " has logged in.");
             } else {
@@ -113,33 +122,12 @@ app.post('/login', function (req, res) {
     }
 });
 
-app.get('/createform', function(req, res){
-    if(req.session.loggedIn) {
-        res.redirect('/createform');
-    } else {
-        res.render('createform', {
-            title: 'CREATE FORM', name: name
-        });
-    }
-});
-
-app.get('/createuser', function(req, res){
-
+app.get('/viewusers', function(req, res){
     if (req.session.loggedIn) {
-        res.redirect('/createuser');
-    } else {
-        res.render('createuser', {
-            title: 'CREATE USER', name: name
+        res.render('viewusers', {
+            title: 'View Users', userDetails : req.session.userDetailsBlock
         });
+    } else {
+        res.redirect('login');
     }
-});
-
-app.get('/viewform', function(req, res){
-    if(req.session.loggedIn) {
-        res.redirect('/viewform');
-    } else {
-        res.render('viewform', {
-            title: 'View Forms', name: name
-        });
-    }        
 });

@@ -1,0 +1,81 @@
+html, h1, h2, h3, h4, h5  {
+   font-family: "Open Sans", sans-serif;
+}
+
+body {
+background-color: #FFFDBE;
+font-family: "Open Sans", sans-serif;
+}
+
+.navbar {
+background-color: #2E2E2E;
+}
+
+a {
+text-decoration: none;
+}
+
+.row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 5px; /* Adding padding between columns */
+
+        }
+
+        .column {
+            background-color: #F5D857;
+            flex: 1;
+            padding: 10px;
+            margin: 5px; /* Adding padding between columns */
+            border: 1px solid #ccc;
+            text-align: center;
+            border-radius: 10px; /* Adding curved edges */
+        }
+
+.column .title {
+    font-size: 1vw;
+    background-color: #FFFFFF;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
+
+}
+
+.column .count {
+    font-size: 2vw;
+
+}
+
+.chart {
+    width: 400px;
+}
+.icon-light {
+    color: black;
+}
+
+.icon-dark {
+    color: white;
+}
+
+.light-mode {
+background-color: #2E2E2E;
+color: white;
+}
+
+.dark-mode {
+background-color: white;
+color: black;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Set the height of your footer */
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    line-height: 60px;
+}

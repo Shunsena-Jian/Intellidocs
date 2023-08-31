@@ -6,7 +6,8 @@ head
   link(rel='stylesheet' href='https://www.w3schools.com/lib/w3-theme-blue-grey.css')
   link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans')
   link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
-  link(rel='stylesheet' type='text/css' href='src/table.css')
+
+  link(href='https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css')
   style
     include css/w3StyleSheet1.css
     include css/w3StyleSheet2.css
@@ -34,9 +35,7 @@ head
         a.w3-bar-item.w3-button(href='#') AFAR is due tommorow
         a.w3-bar-item.w3-button(href='#') Syllabus is due tommorow
     a.w3-bar-item.w3-button.w3-hide-small.w3-right.w3-padding-large.w3-hover-white(href='#' title='My Account')
-      a.logout.poppins-normal-mystic-14px(href="/logout") Logout
       img.w3-circle(src='src/avatar2.png' style='height:23px;width:23px' alt='Avatar')
-
 // Navbar on small screens
 #navDemo.w3-bar-block.w3-theme-d2.w3-hide.w3-hide-large.w3-hide-medium.w3-large
   a.w3-bar-item.w3-button.w3-padding-large(href='#') Link 1
@@ -113,7 +112,7 @@ head
                 i.fa.fa-plus-circle.w3-margin-right
                 | Create User
             p
-              a(href="/viewusers")
+              a(href='manage_user.html')
                 i.fa.fa-users.w3-margin-right
                 | View Users
             p
@@ -135,62 +134,88 @@ head
       // End Left Column
     // Middle Column
     .w3-col.m9
-      .row
-        .column
-          .title
-            | Created Document
-          .count
-            | 40
-        .column
-          .title
-            | Deployed
-          .count
-            | 40
-        .column
-          .title
-            | Pending Approval
-          .count
-            | 69
-        .column
-          .title
-            | Approved
-          .count
-            | 35
-      .w3-row-padding(style='margin:0 -16px')
-      .w3-col.m6
-        .w3-container.w3-card.w3-white.w3-round.w3-margin
-          br
-          |                     Notifications
-          hr.w3-clear
-          .row
-            | Machian shared Mia Khalifa&apos;s post
-          .row
-            | Alyanna commented on Jak Roberto&apos;s Page
-          .row
-            | Denmark shared Jaoao&apos;s Post
-          hr.w3-clear
-          .row
-            a(href='#') view all
-      .w3-col.m6
-        .w3-container.w3-card.w3-white.w3-round.w3-margin
-          br
-          .row
-            img.chart(src='src/report.png')
-      .w3-col.m12
-        .w3-container.w3-card.w3-white.w3-round.w3-margin
-          br
-          |                     Recent Documents
-          hr.w3-clear
-          table
-            tr
-              td  Petition Form
-              td  Ralph Edwards
-              td  Student
-            tr
-              td  OJT Form
-              td  Albert Flores
-              td  Admin
-          br
+      .w3-container.w3-card.w3-white.w3-round.w3-margin
+        h4 Manage Users
+        hr.w3-clear
+        table#datatablesSimple
+            thead
+                tr
+                    th Username
+                    th Password
+                    th First Name
+                    th Middle Name
+                    th Last Name
+                    th Employee ID
+                    th Role
+                    th Actions
+            tbody
+                tr
+                    td  mroderick@slu.edu.ph
+                    td  *********
+                    td  Roderick
+                    td  R.
+                    td  Makil
+                    td  00000
+                    td  Faculty
+                    td
+                      a.edit-btn(href='#')
+                        i.fa.fa-pencil.w3-text-theme
+                      a(href='#')
+                        i.fa.fa-times.w3-text-theme
+                tr
+                    td  rfernandez@slu.edu.ph
+                    td  *********
+                    td  Ria
+                    td  A.
+                    td  Fernandez
+                    td  00000
+                    td  Faculty
+                    td
+                      a.edit-btn(href='#')
+                        i.fa.fa-pencil.w3-text-theme
+                      a(href='#')
+                        i.fa.fa-times.w3-text-theme
+                tr
+                    td  tpilar@slu.edu.ph
+                    td  ************
+                    td  Teresa
+                    td  Polario
+                    td  Pilar
+                    td  000000
+                    td  Dean
+                    td
+                      a.edit-btn(href='#')
+                        i.fa.fa-pencil.w3-text-theme
+                      a(href='#')
+                        i.fa.fa-times.w3-text-theme
+                tr
+                    td  ltoredo@slu.edu.ph
+                    td  ************
+                    td  Los
+                    td  Maricon
+                    td  Toredo
+                    td  000000
+                    td  Admin
+                    td
+                      a.edit-btn(href='#')
+                        i.fa.fa-pencil.w3-text-theme
+                      a(href='#')
+                        i.fa.fa-times.w3-text-theme
+                tr
+                    td  mjoreno@slu.edu.ph
+                    td  *********
+                    td  Marjorie
+                    td  Delos Penis
+                    td  Moreno
+                    td  000000
+                    td  Secretary
+                    td
+                      a.edit-btn(href='#')
+                        i.fa.fa-pencil.w3-text-theme
+                      a(href='#')
+                        i.fa.fa-times.w3-text-theme
+        br
+        // <button class="w3-button w3-theme-d2 w3-margin-bottom" type="button"><i class="fa fa-eye"></i> &nbsp;View    </button>
       // End Middle Column
     //
       Right Column// End Right Column
@@ -204,6 +229,9 @@ footer.w3-container.light-mode
     | Powered by
     a(href='https://www.w3schools.com/w3css/default.asp' target='_blank') w3.css
 
+script(src='https://cdn.jsdelivr.net/npm/simple-datatables@latest' crossorigin='anonymous')
+script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js' crossorigin='anonymous')
+
 script.
     var receivedUserDetailsBlock = !{JSON.stringify(userDetailsBlock)};
 
@@ -216,6 +244,16 @@ script.
     empID.innerHTML = receivedUserDetailsBlock.empID;
     fullName.innerHTML = receivedUserDetailsBlock.firstName + " " + receivedUserDetailsBlock.lastName ;
     userLevel.innerHTML = receivedUserDetailsBlock.userLevel;
+
+    window.addEventListener('DOMContentLoaded', event => {
+        // Simple-DataTables
+        // https://github.com/fiduswriter/Simple-DataTables/wiki
+
+        const datatablesSimple = document.getElementById('datatablesSimple');
+        if (datatablesSimple) {
+            new simpleDatatables.DataTable(datatablesSimple);
+        }
+    });
 
 
   function myFunction(id) {
