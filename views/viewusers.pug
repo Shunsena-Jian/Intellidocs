@@ -2,16 +2,18 @@ head
   title #{title}
   meta(charset='UTF-8')
   meta(name='viewport' content='width=device-width, initial-scale=1')
-  link(rel='stylesheet' href='https://www.w3schools.com/w3css/4/w3.css')
-  link(rel='stylesheet' href='https://www.w3schools.com/lib/w3-theme-blue-grey.css')
+
+  //link(rel='stylesheet' href='https://www.w3schools.com/w3css/4/w3.css')
+  //link(rel='stylesheet' href='https://www.w3schools.com/lib/w3-theme-blue-grey.css')
   link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans')
   link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
-
   link(href='https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css')
   style
+    include css/test.css
     include css/w3StyleSheet1.css
     include css/w3StyleSheet2.css
     include css/base_style.css
+
 // Navbar
 .navbar
   .w3-bar.w3-left-align.w3-large.navbar
@@ -76,19 +78,19 @@ head
             |  Form Management
           #Demo1.w3-hide.w3-container
             p
-              a(href='create_form.html')
+              a(href='/createform')
                 i.fa.fa-plus-circle.w3-margin-right
                 | Create Forms
             p
-              a(href='view_form.html')
+              a(href='/viewforms')
                 i.fa.fa-file-o.w3-margin-right
                 | View Forms
             p
-              a(href='document_code.html')
+              a(href='/documentcode')
                 i.fa.fa-info.w3-margin-right
                 | Document Codes
             p
-              a(href='report.html')
+              a(href='/viewreports')
                 i.fa.fa-pie-chart.w3-margin-right
                 | View Reports
           button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo2')")
@@ -96,11 +98,11 @@ head
             |  Form Events
           #Demo2.w3-hide.w3-container
             p
-              a(href='notification.html')
+              a(href='/managenotifications')
                 i.fa.fa-bell-o.w3-margin-right
                 | Set Form notifications
             p
-              a(href='deadline.html')
+              a(href='/managedeadlines')
                 i.fa.fa-calendar-check-o.w3-margin-right
                 | Set Form due dates
           button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo3')")
@@ -108,19 +110,19 @@ head
             |  User Management
           #Demo3.w3-hide.w3-container
             p
-              a(href='create_user.html')
+              a(href='/createusers')
                 i.fa.fa-plus-circle.w3-margin-right
                 | Create User
             p
-              a(href='manage_user.html')
+              a(href='/viewusers')
                 i.fa.fa-users.w3-margin-right
                 | View Users
             p
-              a(href='access_roles.html')
+              a(href='/manageuserroles')
                 i.fa.fa-thumb-tack.w3-margin-right
                 | Manage Roles
             p
-              a(href='role_settings.html')
+              a(href='/manageusersettings')
                 i.fa.fa-pencil.w3-margin-right
                 | Modify User Settings
       br
@@ -137,83 +139,48 @@ head
       .w3-container.w3-card.w3-white.w3-round.w3-margin
         h4 Manage Users
         hr.w3-clear
-        table#datatablesSimple
-            thead
+        .card-body
+          .datatable-container
+            //table.datatable-table#datatablesSimple
+            table#datatablesSimple
+              thead
                 tr
-                    th Username
-                    th Password
-                    th First Name
-                    th Middle Name
-                    th Last Name
-                    th Employee ID
-                    th Role
-                    th Actions
-            tbody
+                  th Username
+                  th Password
+                  th First Name
+                  th Middle Name
+                  th Last Name
+                  th Employee ID
+                  th Role
+                  th Actions
+              tbody
                 tr
-                    td  mroderick@slu.edu.ph
-                    td  *********
-                    td  Roderick
-                    td  R.
-                    td  Makil
-                    td  00000
-                    td  Faculty
-                    td
-                      a.edit-btn(href='#')
-                        i.fa.fa-pencil.w3-text-theme
-                      a(href='#')
-                        i.fa.fa-times.w3-text-theme
+                  td  mroderick@slu.edu.ph
+                  td  *********
+                  td  Roderick
+                  td  R.
+                  td  Makil
+                  td  00000
+                  td  Faculty
+                  td
+                    a.edit-btn(href='#')
+                      i.fa.fa-pencil.w3-text-theme
+                    a(href='#')
+                      i.fa.fa-times.w3-text-theme
                 tr
-                    td  rfernandez@slu.edu.ph
-                    td  *********
-                    td  Ria
-                    td  A.
-                    td  Fernandez
-                    td  00000
-                    td  Faculty
-                    td
-                      a.edit-btn(href='#')
-                        i.fa.fa-pencil.w3-text-theme
-                      a(href='#')
-                        i.fa.fa-times.w3-text-theme
-                tr
-                    td  tpilar@slu.edu.ph
-                    td  ************
-                    td  Teresa
-                    td  Polario
-                    td  Pilar
-                    td  000000
-                    td  Dean
-                    td
-                      a.edit-btn(href='#')
-                        i.fa.fa-pencil.w3-text-theme
-                      a(href='#')
-                        i.fa.fa-times.w3-text-theme
-                tr
-                    td  ltoredo@slu.edu.ph
-                    td  ************
-                    td  Los
-                    td  Maricon
-                    td  Toredo
-                    td  000000
-                    td  Admin
-                    td
-                      a.edit-btn(href='#')
-                        i.fa.fa-pencil.w3-text-theme
-                      a(href='#')
-                        i.fa.fa-times.w3-text-theme
-                tr
-                    td  mjoreno@slu.edu.ph
-                    td  *********
-                    td  Marjorie
-                    td  Delos Penis
-                    td  Moreno
-                    td  000000
-                    td  Secretary
-                    td
-                      a.edit-btn(href='#')
-                        i.fa.fa-pencil.w3-text-theme
-                      a(href='#')
-                        i.fa.fa-times.w3-text-theme
+                  td  rfernandez@slu.edu.ph
+                  td  *********
+                  td  Ria
+                  td  A.
+                  td  Fernandez
+                  td  00000
+                  td  Faculty
+                  td
+                    a.edit-btn(href='#')
+                      i.fa.fa-pencil.w3-text-theme
+                    a(href='#')
+                      i.fa.fa-times.w3-text-theme
+
         br
         // <button class="w3-button w3-theme-d2 w3-margin-bottom" type="button"><i class="fa fa-eye"></i> &nbsp;View    </button>
       // End Middle Column
@@ -229,8 +196,8 @@ footer.w3-container.light-mode
     | Powered by
     a(href='https://www.w3schools.com/w3css/default.asp' target='_blank') w3.css
 
+script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js')
 script(src='https://cdn.jsdelivr.net/npm/simple-datatables@latest' crossorigin='anonymous')
-script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js' crossorigin='anonymous')
 
 script.
     var receivedUserDetailsBlock = !{JSON.stringify(userDetailsBlock)};

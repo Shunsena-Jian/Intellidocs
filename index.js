@@ -131,3 +131,103 @@ app.get('/viewusers', function(req, res){
         res.redirect('login');
     }
 });
+
+app.get('/createform', function(req, res){
+    if (req.session.loggedIn) {
+        res.render('createform', {
+            title: 'Create Form', userDetails : req.session.userDetailsBlock
+        });
+    } else {
+        res.redirect('login');
+    }
+});
+
+app.get('/viewforms', function(req, res){
+    if (req.session.loggedIn) {
+        res.render('viewforms', {
+            title: 'View Forms', userDetails : req.session.userDetailsBlock
+        });
+    } else {
+        res.redirect('login');
+    }
+});
+
+app.get('/documentcode', function(req, res){
+    if (req.session.loggedIn) {
+        res.render('documentcode', {
+            title: 'Document Code', userDetails : req.session.userDetailsBlock
+        });
+    } else {
+        res.redirect('login');
+    }
+});
+
+app.get('/viewreports', function(req, res){
+    if (req.session.loggedIn) {
+        res.render('viewreports', {
+            title: 'View Reports', userDetails : req.session.userDetailsBlock
+        });
+    } else {
+        res.redirect('login');
+    }
+});
+
+app.get('/managenotifications', function(req, res){
+    if (req.session.loggedIn) {
+        res.render('managenotifications', {
+            title: 'Manage Notifications', userDetails : req.session.userDetailsBlock
+        });
+    } else {
+        res.redirect('login');
+    }
+});
+
+app.get('/managedeadlines', function(req, res){
+    if (req.session.loggedIn) {
+        res.render('managedeadlines', {
+            title: 'Manage Deadlines', userDetails : req.session.userDetailsBlock
+        });
+    } else {
+        res.redirect('login');
+    }
+});
+
+app.get('/createusers', function(req, res){
+    if (req.session.loggedIn) {
+        res.render('createusers', {
+            title: 'Create Users', userDetails : req.session.userDetailsBlock
+        });
+    } else {
+        res.redirect('login');
+    }
+});
+
+app.get('/accessroles', function(req, res){
+    if (req.session.loggedIn) {
+        res.render('accessroles', {
+            title: 'Access Roles', userDetails : req.session.userDetailsBlock
+        });
+    } else {
+        res.redirect('login');
+    }
+});
+
+app.get('/manageuserroles', function(req, res){
+    if (req.session.loggedIn) {
+        res.render('accessroles', {
+            title: 'Access Roles', userDetails : req.session.userDetailsBlock
+        });
+    } else {
+        res.redirect('login');
+    }
+});
+
+app.get('/manageusersettings', function(req, res){
+    if (req.session.loggedIn) {
+        res.render('manageusersettings', {
+            title: 'Manage User Settings', userDetails : req.session.userDetailsBlock
+        });
+    } else {
+        res.redirect('login');
+    }
+});
