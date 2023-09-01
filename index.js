@@ -202,19 +202,9 @@ app.get('/createusers', function(req, res){
     }
 });
 
-app.get('/accessroles', function(req, res){
-    if (req.session.loggedIn) {
-        res.render('accessroles', {
-            title: 'Access Roles', userDetails : req.session.userDetailsBlock
-        });
-    } else {
-        res.redirect('login');
-    }
-});
-
 app.get('/manageuserroles', function(req, res){
     if (req.session.loggedIn) {
-        res.render('accessroles', {
+        res.render('manageuserroles', {
             title: 'Access Roles', userDetails : req.session.userDetailsBlock
         });
     } else {
