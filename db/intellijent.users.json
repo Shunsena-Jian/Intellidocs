@@ -1,0 +1,88 @@
+[{
+  "_id": {
+    "$oid": "64e83ea15fab0463809af93e"
+  },
+  "username": "jian",
+  "password": "123",
+  "emp_id": "11111111",
+  "first_name": "Jian Raphael",
+  "last_name": "Cudiamat",
+  "user_level": "admin"
+},
+{
+  "_id": {
+    "$oid": "64e83ea15fab0463809af93f"
+  },
+  "username": "jao",
+  "password": "123",
+  "emp_id": "22222222",
+  "first_name": "John Poul",
+  "last_name": "Panglao",
+  "user_level": "admin"
+},
+{
+  "_id": {
+    "$oid": "64ec006308ac5dd60d32e852"
+  },
+  "username": "cass",
+  "password": "123",
+  "emp_id": "33333333",
+  "first_name": "Cassandra",
+  "last_name": "Narvasa",
+  "user_level": "faculty"
+},
+{
+  "_id": {
+    "$oid": "64ec00b208ac5dd60d32e853"
+  },
+  "username": "denmark",
+  "password": "123",
+  "emp_id": "44444444",
+  "first_name": "Denmark",
+  "last_name": "Chan",
+  "user_level": "dean"
+},
+{
+  "_id": {
+    "$oid": "64ec00d108ac5dd60d32e854"
+  },
+  "username": "lei",
+  "password": "123",
+  "emp_id": "55555555",
+  "first_name": "Leianneza",
+  "last_name": "Pioquinto",
+  "user_level": "document_controller"
+},
+{
+  "_id": {
+    "$oid": "64ec011508ac5dd60d32e855"
+  },
+  "username": "alyanna",
+  "password": "123",
+  "emp_id": "66666666",
+  "first_name": "Alyanna",
+  "last_name": "Ramos",
+  "user_level": "faculty"
+},
+{
+  "_id": {
+    "$oid": "64ec012e08ac5dd60d32e856"
+  },
+  "username": "lywe",
+  "password": "123",
+  "emp_id": "77777777",
+  "first_name": "Lywe",
+  "last_name": "Dup-et",
+  "user_level": "department_head"
+},
+{
+  "_id": {
+    "$oid": "64ec015408ac5dd60d32e858"
+  },
+  "username": "machian",
+  "password": "123",
+  "emp_id": "88888888",
+  "first_name": "Machian",
+  "last_name": "Oliva",
+  "user_level": "document_controller"
+}]
