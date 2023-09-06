@@ -146,40 +146,24 @@ head
               thead
                 tr
                   th Username
-                  th Password
-                  th First Name
-                  th Middle Name
-                  th Last Name
                   th Employee ID
+                  th First Name
+                  th Last Name
                   th Role
                   th Actions
               tbody
-                tr
-                  td  mroderick@slu.edu.ph
-                  td  *********
-                  td  Roderick
-                  td  R.
-                  td  Makil
-                  td  00000
-                  td  Faculty
-                  td
-                    a.edit-btn(href='#')
-                      i.fa.fa-pencil.w3-text-theme
-                    a(href='#')
-                      i.fa.fa-times.w3-text-theme
-                tr
-                  td  rfernandez@slu.edu.ph
-                  td  *********
-                  td  Ria
-                  td  A.
-                  td  Fernandez
-                  td  00000
-                  td  Faculty
-                  td
-                    a.edit-btn(href='#')
-                      i.fa.fa-pencil.w3-text-theme
-                    a(href='#')
-                      i.fa.fa-times.w3-text-theme
+                each user in users
+                  tr
+                    td= user[1]
+                    td= user[3]
+                    td= user[4]
+                    td= user[5]
+                    td= user[6]
+                    td
+                      a.edit-btn(href='#')
+                        i.fa.fa-pencil.w3-text-theme
+                      a(href='#')
+                        i.fa.fa-times.w3-text-theme
 
         br
         // <button class="w3-button w3-theme-d2 w3-margin-bottom" type="button"><i class="fa fa-eye"></i> &nbsp;View    </button>

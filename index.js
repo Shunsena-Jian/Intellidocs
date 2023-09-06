@@ -3,9 +3,9 @@ const session = require('express-session');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+const MongoClient = require('mongodb').MongoClient;
 const port = 3000;
-
+let client;
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -13,10 +13,20 @@ app.set('view engine', 'pug');
 app.use('/views/src', express.static(path.join(__dirname, 'views', 'src')));
 app.use(express.static(path.join(__dirname, 'views')));
 
-var name = null;
-
 // Connect to the database
-mongoose.connect('mongodb://127.0.0.1/intellijent', {useNewUrlParser: true, useUnifiedTopology: true});
+const url = 'mongodb://127.0.0.1/intellijent';
+const dbName = 'intellijent';
+
+(async () => {
+    try {
+        const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        db = client.db(dbName);
+    } catch (error) {
+        console.error("Failed to connect to the database: " + error);
+        process.exit(1); // Exit the application on database connection failure
+    }
+})();
 
 app.use(session({
   secret: 'your secret here',
@@ -27,27 +37,15 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const userSchema = new mongoose.Schema({
-    username: String,
-    password: String,
-    emp_id: Number,
-    first_name: String,
-    last_name: String,
-    user_level: String
-  });
-
-const User = mongoose.model('User', userSchema);
-
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
 app.get('/', function(req, res){
     if (req.session.loggedIn) {
-            res.render('index', {
-                title: 'Home Page', userDetails : req.session.userDetailsBlock
-            });
-
+        res.render('index', {
+            title: 'Home Page', userDetails : req.session.userDetailsBlock
+        });
     } else {
         res.redirect('login');
     }
@@ -70,8 +68,8 @@ app.get('/login', function(req, res){
     }
 });
 
-app.post('/login', function (req, res) {
-    if(req.session.loggedIn){
+app.post('/login', async function (req, res) {
+    if (req.session.loggedIn) {
         res.render('index', {
             title: 'Home Page', userDetails: req.session.userDetails
         });
@@ -79,56 +77,53 @@ app.post('/login', function (req, res) {
         var username = req.body.userName;
         var password = req.body.passWord;
 
-        User.findOne({ username: username })
-        .then(function(user) {
+        try {
+            const collection = db.collection('users');
+            const user = await collection.findOne({ username: username });
+
             if (!user) {
                 console.log("Failed to find User");
                 res.render('login', {
                     title: 'Login Page', receivedError: "Wrong User Credentials!"
                 });
             } else if (password === user.password) {
-                //RESERVED MANUAL DATA BLOCK
+                // RESERVED MANUAL DATA BLOCK
                 req.session.userFirstName = user.first_name;
                 req.session.userLastName = user.last_name;
                 req.session.userEmpID = user.emp_id;
                 req.session.userLevel = user.user_level;
 
-                //JSON DATA BLOCK
-                userDetailsBlock = {"firstName": user.first_name,
-                                    "lastName": user.last_name,
-                                    "empID": user.emp_id,
-                                    "userLevel": user.user_level
-                                    };
+                // JSON DATA BLOCK
+                userDetailsBlock = {
+                    "firstName": user.first_name,
+                    "lastName": user.last_name,
+                    "empID": user.emp_id,
+                    "userLevel": user.user_level
+                };
 
                 req.session.userDetailsBlock = userDetailsBlock;
 
                 req.session.loggedIn = true;
 
                 res.render('index', {
-                    title: 'Home Page', userDetails : req.session.userDetailsBlock
+                    title: 'Home Page', userDetails: req.session.userDetailsBlock
                 });
                 console.log("User " + user.first_name, user.last_name, user.emp_id + " has logged in.");
+                console.log(req.session.userDetailsBlock);
             } else {
                 res.render('login', {
                     title: 'Login Page', name: "Wrong User Credentials"
                 });
                 console.log("Wrong User Credentials!");
             }
-        })
-        .catch(function(error) {
+        } catch (error) {
             console.error(error);
             res.status(500).send('Internal Server Error');
-        });
-    }
-});
-
-app.get('/viewusers', function(req, res){
-    if (req.session.loggedIn) {
-        res.render('viewusers', {
-            title: 'View Users', userDetails : req.session.userDetailsBlock
-        });
-    } else {
-        res.redirect('login');
+        } finally {
+        if (client) {
+            await client.close();
+        }
+        }
     }
 });
 
@@ -205,7 +200,7 @@ app.get('/createusers', function(req, res){
 app.get('/manageuserroles', function(req, res){
     if (req.session.loggedIn) {
         res.render('manageuserroles', {
-            title: 'Access Roles', userDetails : req.session.userDetailsBlock
+            title: 'Manage User Roles', userDetails : req.session.userDetailsBlock
         });
     } else {
         res.redirect('login');
@@ -221,3 +216,40 @@ app.get('/manageusersettings', function(req, res){
         res.redirect('login');
     }
 });
+
+app.get('/viewusers', async function(req, res) {
+    try {
+        if (!req.session.loggedIn) {
+            res.redirect('login');
+            return;
+        }
+        const documents = await fetchUserAccounts();
+        var users = [];
+
+        for (let i = 0; i < documents.length; i++) {
+            var values = Object.values(documents[i]);
+            users.push(values);
+        }
+
+        res.render('viewusers', {
+            title: 'View Users',
+            userDetails: req.session.userDetailsBlock,
+            users: users // Pass the users data to the view
+        });
+    } catch (error) {
+        console.log("Error: " + error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+async function fetchUserAccounts() {
+    try {
+        const collection = db.collection('users');
+        const documents = await collection.find({}).toArray();
+
+        return documents;
+    } catch (error) {
+        console.log("Failed to retrieve documents: " + error);
+    }
+}
