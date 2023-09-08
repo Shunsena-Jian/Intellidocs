@@ -19,16 +19,22 @@ app.use(express.static(path.join(__dirname, 'views')));
 const url = 'mongodb://127.0.0.1/intellijent';
 const dbName = 'intellijent';
 
+var users;
+
 (async () => {
     try {
         const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
         await client.connect();
         db = client.db(dbName);
+        users = db.collection('users');
     } catch (error) {
         console.error("Failed to connect to the database: " + error);
         process.exit(1); // Exit the application on database connection failure
     }
 })();
+
+
+
 
 app.use(session({
   secret: 'your secret here',
@@ -106,8 +112,8 @@ app.post('/login', async function (req, res) {
         var password = req.body.passWord;
 
         try {
-            const collection = db.collection('users');
-            const user = await collection.findOne({ username: username });
+
+            const user = await users.findOne({ username: username });
 
             if (!user) {
                 console.log("Failed to find User");
