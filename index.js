@@ -4,6 +4,8 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
+const multer = require('multer');
+const fs = require('fs');
 const port = 3000;
 let client;
 
@@ -40,6 +42,32 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+const getUploadDirectory = (req, file, cb) => {
+  // Replace 'getUserFirstName' with your actual method to get the user's first name
+  const empID = req.session.userDetailsBlock.empID;
+
+  // Create the user's directory if it doesn't exist
+  const uploadDirectory = `uploads/${empID}`;
+  fs.mkdirSync(uploadDirectory, { recursive: true });
+
+  cb(null, uploadDirectory);
+};
+
+// Handles file uploads by specifying the destination and filename for uploaded files.
+const storage = multer.diskStorage({
+  destination: getUploadDirectory,
+  filename: function (req, file, cb) {
+    //const currentDate = new Date();
+    //const formattedDate = `${currentDate.getMonth() + 1}-${currentDate.getDate()}-${currentDate.getFullYear()}`;
+
+    //cb(null, formattedDate + '-' + file.originalname); // Specify the filename
+    cb(null, file.originalname); // Specify the filename
+  }
+});
+
+const upload = multer({ storage: storage });
+app.use('/uploads', express.static('uploads'));
 
 app.get('/', function(req, res){
     if (req.session.loggedIn) {
@@ -240,6 +268,27 @@ app.get('/viewusers', async function(req, res) {
         console.log("Error: " + error);
         res.status(500).send('Internal Server Error');
     }
+});
+
+app.get('/uploadfiles', function(req, res){
+    if (req.session.loggedIn) {
+        res.render('uploadfiles', {
+            title: 'Upload File Page'
+        });
+    } else {
+        res.redirect('login');
+    }
+});
+
+app.post('/upload', upload.single('file'), (req, res) => {
+    const uploadedFile = req.file;
+
+    if (!uploadedFile) {
+        console.log("No file Uploaded");
+    }
+
+    const { originalname, filename, size } = uploadedFile;
+    console.log("File Uploaded Successfully in " + `/uploads/${userDetailsBlock.firstName}/${filename}`);
 });
 
 
