@@ -25,230 +25,256 @@ head
     .w3-bar.w3-theme.w3-top.w3-left-align.w3-large
         a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(href='javascript:void(0)' onclick='w3_open()')
             i.fa.fa-bars
-        a.w3-bar-item.w3-button.w3-hover-white(href='index.php') Home
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='viewprojects.php') View Projects
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='logout.php') Logout
-        a.w3-bar-item.w3-hide-small.w3-hide-medium hariet
+        a.w3-bar-item.w3-button.w3-hover-white(href='/')
+            i.fa.fa-home.w3-margin-right
+            |   Home
+        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='')
+            i.fa.fa-user.icon-dark
+            |   Account Settings
+        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='')
+            i.fa.fa-bell.icon-dark
+            span.w3-badge.w3-right.w3-small.w3-green 3
+            |   Notifications
+        a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='/logout')
+            img.w3-circle(src='src/avatar2.png' style='height:23px;width:23px' alt='Avatar')
+            |  Logout
+        a#userFirstNameNav.w3-bar-item.w3-hide-small.w3-hide-medium Name Placeholder
 
 nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-left
-          a.w3-right.w3-xlarge.w3-padding-large.w3-hover-black.w3-hide-large(href='javascript:void(0)' onclick='w3_close()' title='Close Menu')
-                i.fa.fa-remove
-          h4.w3-bar-item
-                b
-                    i.bi.bi-gear
-                    |  Project Settings
-          a.w3-bar-item.w3-button.edit-name.w3-hover-black(href='#')
+    .w3-card.w3-round.w3-white
+        .w3-container
+            h4#userFirstName.w3-center Name Placeholder
+            p.w3-center
+                img.w3-circle(src='src/avatar3.png' style='height:106px;width:106px' alt='Avatar')
+            hr
+            h6
+                i.fa.fa-info-circle.fa-fw.w3-margin-right.w3-text-theme
+                |
+                myElement#empID
+            h6
+                i.fa.fa-user.fa-fw.w3-margin-right.w3-text-theme
+                |
+                myElement#fullName
+            h6
+                i.fa.fa-briefcase.fa-fw.w3-margin-right.w3-text-theme
+                |
+                myElement#userLevel
+
+    .w3-card.w3-round
+        .w3-white
+            button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo1')")
+                i.fa.fa-circle-o-notch.fa-fw.w3-margin-right
+                |  Form Management
+            #Demo1.w3-hide.w3-container
+                p
+                    a(href='/createform')
+                        i.fa.fa-plus-circle.w3-margin-right
+                        | Create Forms
+                p
+                    a(href='/viewforms')
+                        i.fa.fa-file-o.w3-margin-right
+                        | View Forms
+                p
+                    a(href='/documentcode')
+                        i.fa.fa-info.w3-margin-right
+                        | Document Codes
+                p
+                    a(href='/viewreports')
+                        i.fa.fa-pie-chart.w3-margin-right
+                        | View Reports
+            button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo2')")
+                i.fa.fa-calendar-check-o.fa-fw.w3-margin-right
+                |  Form Events
+            #Demo2.w3-hide.w3-container
+                p
+                    a(href='/managenotifications')
+                        i.fa.fa-bell-o.w3-margin-right
+                        | Set Form notifications
+                p
+                    a(href='/managedeadlines')
+                        i.fa.fa-calendar-check-o.w3-margin-right
+                        | Set Form due dates
+            button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo3')")
+                i.fa.fa-users.fa-fw.w3-margin-right
+                |  User Management
+            #Demo3.w3-hide.w3-container
+                p
+                    a(href='/createusers')
+                        i.fa.fa-plus-circle.w3-margin-right
+                        | Create User
+                p
+                    a(href='/viewusers')
+                        i.fa.fa-users.w3-margin-right
+                        | View Users
+                p
+                    a(href='/manageuserroles')
+                        i.fa.fa-thumb-tack.w3-margin-right
+                        | Manage Roles
+                p
+                    a(href='/manageusersettings')
+                        i.fa.fa-pencil.w3-margin-right
+                        | Modify User Settings
+
+        a.w3-bar-item.w3-button.edit-name.w3-hover-black(href='#')
                 i.bi.bi-pencil-square
                 |  Edit Project Name
-          a.w3-bar-item.w3-button.w3-hover-black(href='#')
+        a.w3-bar-item.w3-button.w3-hover-black(href='#')
                 i.bi.bi-pencil-square
                 |  Edit Abstract
-          a.w3-bar-item.w3-button.w3-hover-black(href='#uploadfiles')
+        a.w3-bar-item.w3-button.w3-hover-black(href='#uploadfiles')
                 i.bi.bi-file-arrow-up
                 |  Upload Files
-          a.w3-bar-item.w3-button.w3-hover-black(href='#')
+        a.w3-bar-item.w3-button.w3-hover-black(href='#')
                 i.bi.bi-person-plus
                 |  Add Authors
 
-          .w3-card.w3-round.w3-white
-                  .w3-container
-                        h4.w3-center Admin
+
+.w3-main(style='margin-left:250px')
+    .w3-row.w3-padding-64
+        .w3-twothird.w3-container
+            h1.w3-text-teal
+                center #{title}
+        .w3-row.w3-padding-64
+            .w3-twothird.w3-container
+                h1.w3-text-teal Something
+                p
+                    |   A lot of things
+            .w3-third.w3-container
+                p.w3-border.w3-padding-large.w3-center Something
+                p.w3-border.w3-padding-large.w3-center
+                    |   Notification 1 - Harvey Spectre
+                    br
+                    |   Notification 2 - Gustavo Fring
+                    br
+                    |   Lucifer Morningstar
+                    br
+                    |   Rachel Green
+        h3
+        table.container
+            thead
+                tr
+                    th
+                        center Sample Table
+                tr
+                    th Something: Something
+                tr
+                    th Something: 2ztxsflyiy
+                tr
+                    th Something: Something
+
+        .w3-row.w3-padding-64
+            .w3-twothird.w3-container
+                h1#uploadfiles.w3-text-teal Project Files
+                table.container
+                    thead
+                        tr
+                            th
+                                center File Name
+                            th
+                                center File Type
+                            th
+                                center Upload Date
+                            th
+                                center Store ID
+                    tbody
+                        tr.del_file5
+                            td stuff.txt
+                            td txt
+                            td 2023-05-18, 02:03 PM
+                            td 5
+
+
+
+            .w3-third.w3-container
+                .w3-card.w3-round.w3-white
+                    .w3-container
+                        h4#userFirstName.w3-center Name Placeholder
                         p.w3-center
                             img.w3-circle(src='src/avatar3.png' style='height:106px;width:106px' alt='Avatar')
                         hr
-                        p
+                        h6
                             i.fa.fa-info-circle.fa-fw.w3-margin-right.w3-text-theme
                             |
                             myElement#empID
-                        p
+                        h6
                             i.fa.fa-user.fa-fw.w3-margin-right.w3-text-theme
                             |
                             myElement#fullName
-                        p
+                        h6
                             i.fa.fa-briefcase.fa-fw.w3-margin-right.w3-text-theme
                             |
                             myElement#userLevel
 
-          .w3-card.w3-round
-                  .w3-white
-                        button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo1')")
-                            i.fa.fa-circle-o-notch.fa-fw.w3-margin-right
-                            |  Form Management
-                        #Demo1.w3-hide.w3-container
-                              p
-                                    a(href='/createform')
-                                          i.fa.fa-plus-circle.w3-margin-right
-                                          | Create Forms
-                              p
-                                    a(href='/viewforms')
-                                      i.fa.fa-file-o.w3-margin-right
-                                      | View Forms
-                              p
-                                a(href='/documentcode')
-                                  i.fa.fa-info.w3-margin-right
-                                  | Document Codes
-                              p
-                                a(href='/viewreports')
-                                  i.fa.fa-pie-chart.w3-margin-right
-                                  | View Reports
-                        button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo2')")
-                          i.fa.fa-calendar-check-o.fa-fw.w3-margin-right
-                          |  Form Events
-                        #Demo2.w3-hide.w3-container
-                          p
-                            a(href='/managenotifications')
-                              i.fa.fa-bell-o.w3-margin-right
-                              | Set Form notifications
-                          p
-                            a(href='/managedeadlines')
-                              i.fa.fa-calendar-check-o.w3-margin-right
-                              | Set Form due dates
-                        button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo3')")
-                          i.fa.fa-users.fa-fw.w3-margin-right
-                          |  User Management
-                        #Demo3.w3-hide.w3-container
-                          p
-                            a(href='/createusers')
-                              i.fa.fa-plus-circle.w3-margin-right
-                              | Create User
-                          p
-                            a(href='/viewusers')
-                              i.fa.fa-users.w3-margin-right
-                              | View Users
-                          p
-                            a(href='/manageuserroles')
-                              i.fa.fa-thumb-tack.w3-margin-right
-                              | Manage Roles
-                          p
-                            a(href='/manageusersettings')
-                              i.fa.fa-pencil.w3-margin-right
-                              | Modify User Settings
+        script(src='js/jquery-3.2.1.min.js')
+        script(src='js/bootstrap.js')
+        script(src='js/jquery.dataTables.js')
+        script(src='js/sidebar.js')
+
+        script.
+            var receivedUserDetailsBlock = !{JSON.stringify(userDetailsBlock)};
+
+            var userFirstName = document.getElementById("userFirstName");
+            var userFirstNameNav = document.getElementById("userFirstNameNav");
+            var empID = document.getElementById("empID");
+            var fullName = document.getElementById("fullName");
+            var userLevel = document.getElementById("userLevel");
+
+            userFirstName.innerHTML = receivedUserDetailsBlock.firstName;
+            userFirstNameNav.innerHTML = receivedUserDetailsBlock.firstName;
+            empID.innerHTML = receivedUserDetailsBlock.empID;
+            fullName.innerHTML = receivedUserDetailsBlock.firstName + " " + receivedUserDetailsBlock.lastName ;
+            userLevel.innerHTML = receivedUserDetailsBlock.userLevel;
 
 
+            function myFunction(id) {
+            var x = document.getElementById(id);
+            if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+            x.previousElementSibling.className += " w3-theme-d1";
+            } else {
+            x.className = x.className.replace("w3-show", "");
+            x.previousElementSibling.className =
+            x.previousElementSibling.className.replace(" w3-theme-d1", "");
+            }
+            }
 
-.w3-main(style='margin-left:250px')
-      .w3-row.w3-padding-64
-            .w3-twothird.w3-container
-                h1.w3-text-teal
-                    center Thesis 1
-            .w3-row.w3-padding-64
-                  .w3-twothird.w3-container
-                        h1.w3-text-teal Abstract
-                        p
-                            | An abstract is a concise summary of a research paper or entire thesis. It is an original work, not an excerpted passage. An abstract must be fully self-contained and make sense by itself, without further reference to outside sources or to the actual paper.
-                  .w3-third.w3-container
-                        p.w3-border.w3-padding-large.w3-center Project Authors
-                        p.w3-border.w3-padding-large.w3-center
-                            | Harvey Spectre
-                            br
-                            |           Gustavo Fring
-                            br
-                            |           Lucifer Morningstar
-                            br
-                            |           Rachel Green
-            h3
-            table.container
-                  thead
-                        tr
-                            th
-                                center PROJECT DETAILS
-                        tr
-                            th Project Name: Thesis 1
-                        tr
-                            th Control Number: 2ztxsflyiy
-                        tr
-                            th Adviser: Randy Domantay
+        script(type='text/javascript').
+            $(document).ready(function() {
+            $('#table').DataTable();
+            } );
 
-            .w3-row.w3-padding-64
-                  .w3-twothird.w3-container
-                        h1#uploadfiles.w3-text-teal Project Files
-                        // <table id="table" class="container">
-                        table.container
-                              thead
-                                    tr
-                                          th
-                                                center File Name
-                                          th
-                                                center File Type
-                                          th
-                                                center Upload Date
-                                          th
-                                                center Store ID
-                              tbody
-                                    tr.del_file5
-                                          td stuff.txt
-                                          td txt
-                                          td 2023-05-18, 02:03 PM
-                                          td 5
-
-
-
-                  .w3-third.w3-container.w3-theme.w3-border
-                        p.w3-padding-large.w3-padding-32.w3-center Upload File
-                        form(method='POST' enctype='multipart/form-data' action='uploadfile.php')
-                              input(type='hidden' name='project_id' value='2')
-                              input(type='hidden' name='project_name' value='Thesis 1')
-                              input.pull-left(type='file' name='file' size='4' required='required')
-                              button.pull-right  Add File
-                              br
-                              br
-
-
-            script(src='js/jquery-3.2.1.min.js')
-            script(src='js/bootstrap.js')
-            script(src='js/jquery.dataTables.js')
-            script(src='js/sidebar.js')
-
-
-            script.
-                  function myFunction(id) {
-                  var x = document.getElementById(id);
-                  if (x.className.indexOf("w3-show") == -1) {
-                  x.className += " w3-show";
-                  x.previousElementSibling.className += " w3-theme-d1";
-                  } else {
-                  x.className = x.className.replace("w3-show", "");
-                  x.previousElementSibling.className =
-                  x.previousElementSibling.className.replace(" w3-theme-d1", "");
-                  }
-                  }
-
-            script(type='text/javascript').
-              $(document).ready(function() {
-              $('#table').DataTable();
-              } );
-            script(type='text/javascript').
-              $(document).ready(function(){
-              //bi-trash
-              //$('.btn_remove').on('click', function(){
-              //delete file modal
-              $('.bi-trash').on('click', function(){
-              var store_id = $(this).attr('id');
-              $("#modal_remove").modal('show');
-              $('#btn_yes').attr('name', store_id);
-              });
-              $('.edit-name').on('click', function(){
-              $("#modal_rename").modal('show');
-              });
-              $('#btn_yes').on('click', function(){
-              var id = $(this).attr('name');
-              $.ajax({
-              type: "POST",
-              url: "deletefile.php",
-              data:{
-              store_id: id
-              },
-              success: function(data){
-              $("#modal_remove").modal('hide');
-              $(".del_file" + id).empty();
-              $(".del_file" + id).html("<td colspan='4'><center class='text-danger'>Deleting...</center></td>");
-              setTimeout(function(){
-              $(".del_file" + id).fadeOut('slow');
-              }, 1000);
-              }
-              });
-              });
-              });
+        script(type='text/javascript').
+            $(document).ready(function(){
+            //bi-trash
+            //$('.btn_remove').on('click', function(){
+            //delete file modal
+            $('.bi-trash').on('click', function(){
+            var store_id = $(this).attr('id');
+            $("#modal_remove").modal('show');
+            $('#btn_yes').attr('name', store_id);
+            });
+            $('.edit-name').on('click', function(){
+            $("#modal_rename").modal('show');
+            });
+            $('#btn_yes').on('click', function(){
+            var id = $(this).attr('name');
+            $.ajax({
+            type: "POST",
+            url: "deletefile.php",
+            data:{
+            store_id: id
+            },
+            success: function(data){
+            $("#modal_remove").modal('hide');
+            $(".del_file" + id).empty();
+            $(".del_file" + id).html("<td colspan='4'><center class='text-danger'>Deleting...</center></td>");
+            setTimeout(function(){
+            $(".del_file" + id).fadeOut('slow');
+            }, 1000);
+            }
+            });
+            });
+            });
 
 
 footer#myFooter
