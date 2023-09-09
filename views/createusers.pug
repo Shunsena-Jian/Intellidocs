@@ -123,7 +123,46 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
 
 .w3-main(style='margin-left:250px')
     .w3-row.w3-padding-64
-        | Create Users
+        .w3-container.w3-card.w3-white.w3-round.w3-margin
+            h4 Create a User
+            hr.w3-clear
+            form
+                label(for='username') Username:
+                input#username(type='text' name='username' required='')
+                br
+                br
+                label(for='password') Password:
+                input#password(type='password' name='password' required='')
+                br
+                br
+                label(for='firstName') First Name:
+                input#firstName(type='text' name='firstName' required='')
+                br
+                br
+                label(for='firstName') Middle Name:
+                input#middleName(type='text' name='firstName' required='')
+                br
+                br
+                label(for='lastName') Last Name:
+                input#lastName(type='text' name='lastName' required='')
+                br
+                br
+                label(for='empId') Employee ID:
+                input#empId(type='text' name='empId' required='')
+                br
+                br
+                label(for='userLevel') User Level:
+                select#userLevel(name='userLevel')
+                    option(value='null') Choose Role
+                    option(value='documentController') Document Controller
+                    option(value='departmentHead') Department Head
+                    option(value='faculty') Faculty
+                    option(value='dean') Dean
+                    option(value='admin') Admin
+                    option(value='secretary') Secretary
+                br
+                br
+                input(type='submit' value='Register')
 
         script(src='js/jquery-3.2.1.min.js')
         script(src='js/bootstrap.js')
