@@ -186,14 +186,12 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                             th Form Name
                             th Submitted By
                             th Role
-                        tr
-                            td  Petition Form
-                            td  Ralph Edwards
-                            td  Student
-                        tr
-                            td  OJT Form
-                            td  Albert Flores
-                            td  Admin
+                    tbody
+                        each file in files
+                            tr
+                                td= file.originalname
+                                td= file.size
+                                td= file.uploadedAt
 
         script(src='js/jquery-3.2.1.min.js')
         script(src='js/bootstrap.js')
@@ -202,7 +200,7 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
 
         script.
             var receivedUserDetailsBlock = !{JSON.stringify(userDetailsBlock)};
-
+            console.log(#{filesuploaded});
             var userFirstName = document.getElementById("userFirstName");
             var userFirstNameNav = document.getElementById("userFirstNameNav");
             var empID = document.getElementById("empID");

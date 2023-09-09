@@ -19,32 +19,28 @@ app.use(express.static(path.join(__dirname, 'views')));
 const url = 'mongodb://127.0.0.1/intellijent';
 const dbName = 'intellijent';
 
-var users;
-async function connectDatabase(){
-    try{
-        client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-        await client.connect();
-        db = client.db(dbName);
-        console.log("Connected to the Database.");
-        try{
-            users = db.collection('users');
-            console.log("User Collection Initiated");
-        }catch(error){
-            console.log("Failed to connect to the database: " + error);
-            process.exit(0);
-        }
-    } catch(error){
-        console.log("Failed to connect to the database: " + error);
-        process.exit(0);
-    }
+
+try{
+    client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+    client.connect();
+    db = client.db(dbName);
+    console.log("Connected to the Database.");
+} catch {
+    console.log("Failed to connect to the User Collections!");
+    process.exit(0);
 }
 
-async function closeDatabase() {
-  if (client) {
-    await client.close();
-    console.log('Users collection closed');
-  }
+//users
+var users;
+
+try{
+    users = db.collection('users');
+    console.log("Connected to the Database Users Collection.");
+}catch(error){
+    console.log(error);
 }
+
+
 
 app.use(session({
   secret: 'your secret here',
@@ -85,32 +81,52 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 app.use('/uploads', express.static('uploads'));
 
-app.get('/', async function(req, res){
-    await connectDatabase();
-    if (req.session.loggedIn) {
-        res.render('index', {
-            title: 'Home Page', userDetails : req.session.userDetailsBlock
-        });
-    } else {
-        res.redirect('login');
+app.get('/', function (req, res) {
+    try {
+        if (req.session.loggedIn) {
+            const files = db.collection('files');
+            console.log("Connected to Collection Files");
+            files.findOne({ uploadedBy: "22222" }).then(document => {
+                console.log(document);
+
+                res.render('index', {
+                    title: 'Home Page',
+                    userDetails: req.session.userDetailsBlock,
+                });
+
+                console.log("Connected to the Database files Collection.");
+            }).catch(error => {
+                console.log("Error finding document: " + error);
+            });
+        } else {
+            res.redirect('login');
+        }
+    } catch (error) {
+        console.log("Error: " + error);
     }
-    await closeDatabase();
 });
+
+
+async function fetchFiles() {
+    try {
+
+        return files;
+    } catch (error) {
+        console.log("Failed to retrieve documents: " + error);
+    }
+}
 
 app.get('/logout', async function(req, res){
     req.session.loggedIn = false;
     req.session.destroy();
-    await closeDatabase();
     res.redirect('/login');
     console.log("User has logged out!");
     console.log("Database connection stopped.");
 });
 
 app.get('/login', async function(req, res){
-    await closeDatabase();
     if (req.session.loggedIn) {
         res.redirect('/');
-        await closeDatabase();
     } else {
         res.render('login', {
             title: 'Login Page'
@@ -119,12 +135,10 @@ app.get('/login', async function(req, res){
 });
 
 app.post('/login', async function (req, res) {
-    await connectDatabase();
     if (req.session.loggedIn) {
         res.render('index', {
             title: 'Home Page', userDetails: req.session.userDetails
         });
-        await closeDatabase();
     } else {
         var username = req.body.userName;
         var password = req.body.passWord;
@@ -159,9 +173,8 @@ app.post('/login', async function (req, res) {
                     title: 'Home Page', userDetails: req.session.userDetailsBlock
                 });
                 console.log("User " + user.first_name, user.last_name, user.emp_id + " has logged in.");
-                console.log(req.session.userDetailsBlock);
-
-                await closeDatabase();
+                //console.log(req.session.userDetailsBlock);
+                console.log(userDetailsBlock);
             } else {
                 res.render('login', {
                     title: 'Login Page', name: "Wrong User Credentials"
@@ -171,40 +184,31 @@ app.post('/login', async function (req, res) {
         } catch (error) {
             console.error(error);
             res.status(500).send('Internal Server Error');
-        } finally {
-        if (client) {
-            await client.close();
-        }
         }
     }
 });
 
 app.get('/createform', async function(req, res){
-    await connectDatabase();
     if (req.session.loggedIn) {
         res.render('createform', {
             title: 'Create Form', userDetails : req.session.userDetailsBlock
         });
-        await closeDatabase();
     } else {
         res.redirect('login');
     }
 });
 
 app.get('/viewforms', async function(req, res){
-    await connectDatabase();
     if (req.session.loggedIn) {
         res.render('viewforms', {
             title: 'View Forms', userDetails : req.session.userDetailsBlock
         });
-        await closeDatabase();
     } else {
         res.redirect('login');
     }
 });
 
 app.get('/documentcode', async function(req, res){
-    await connectDatabase();
     if (req.session.loggedIn) {
         res.render('documentcode', {
             title: 'Document Code', userDetails : req.session.userDetailsBlock
@@ -215,7 +219,6 @@ app.get('/documentcode', async function(req, res){
 });
 
 app.get('/viewreports', async function(req, res){
-    await connectDatabase();
     if (req.session.loggedIn) {
         res.render('viewreports', {
             title: 'View Reports', userDetails : req.session.userDetailsBlock
@@ -226,7 +229,6 @@ app.get('/viewreports', async function(req, res){
 });
 
 app.get('/managenotifications', async function(req, res){
-    await connectDatabase();
     if (req.session.loggedIn) {
         res.render('managenotifications', {
             title: 'Manage Notifications', userDetails : req.session.userDetailsBlock
@@ -237,7 +239,6 @@ app.get('/managenotifications', async function(req, res){
 });
 
 app.get('/managedeadlines', async function(req, res){
-    await connectDatabase();
     if (req.session.loggedIn) {
         res.render('managedeadlines', {
             title: 'Manage Deadlines', userDetails : req.session.userDetailsBlock
@@ -247,7 +248,7 @@ app.get('/managedeadlines', async function(req, res){
     }
 });
 
-app.get('/createusers', function(req, res){
+app.get('/createusers', async function(req, res){
     if (req.session.loggedIn) {
         res.render('createusers', {
             title: 'Create Users', userDetails : req.session.userDetailsBlock
@@ -258,7 +259,6 @@ app.get('/createusers', function(req, res){
 });
 
 app.post('/createusers', async function(req, res){
-    await connectDatabase();
     if (req.session.loggedIn) {
                 var username = req.body.userName;
                 var password = req.body.passWord;
@@ -299,7 +299,6 @@ app.post('/createusers', async function(req, res){
 });
 
 app.get('/manageuserroles', async function(req, res){
-    await connectDatabase();
     if (req.session.loggedIn) {
         res.render('manageuserroles', {
             title: 'Manage User Roles', userDetails : req.session.userDetailsBlock
@@ -310,7 +309,6 @@ app.get('/manageuserroles', async function(req, res){
 });
 
 app.get('/manageusersettings', async function(req, res){
-    await connectDatabase();
     if (req.session.loggedIn) {
         res.render('manageusersettings', {
             title: 'Manage User Settings', userDetails : req.session.userDetailsBlock
@@ -321,7 +319,6 @@ app.get('/manageusersettings', async function(req, res){
 });
 
 app.get('/viewusers', async function(req, res) {
-    await connectDatabase();
     try {
         if (!req.session.loggedIn) {
             res.redirect('login');
@@ -347,10 +344,9 @@ app.get('/viewusers', async function(req, res) {
 });
 
 app.get('/uploadfiles', async function(req, res){
-    await connectDatabase();
     if (req.session.loggedIn) {
         res.render('uploadfiles', {
-            title: 'Upload File Page'
+            title: 'Upload File Page', userDetails: req.session.userDetails
         });
     } else {
         res.redirect('login');
@@ -358,17 +354,34 @@ app.get('/uploadfiles', async function(req, res){
 });
 
 app.post('/upload', upload.single('file'), async function (req, res) {
-    await connectDatabase();
     const uploadedFile = req.file;
 
     if (!uploadedFile) {
         console.log("No file Uploaded");
+    }else{
+        const { originalname, size } = uploadedFile;
+
+        console.log("File Uploaded Successfully in " + `/uploads/${userDetailsBlock.firstName}/${originalname}`);
+
+        try{
+            uploadInfo = {
+                "file_name": originalname,
+                "file_size": size,
+                "uploadedBy": req.session.userEmpID, // Replace with appropriate user information
+                "uploadedAt": new Date() // Include a timestamp
+            };
+            result = await files.insertOne(uploadInfo);
+            //console.log("Inserted : " + result);
+
+            console.log("Inserted : " + uploadInfo);
+            res.redirect('/');
+        } catch(error){
+            console.log(error);
+        }
+
     }
 
-    const { originalname, filename, size } = uploadedFile;
-    console.log("File Uploaded Successfully in " + `/uploads/${userDetailsBlock.firstName}/${filename}`);
 });
-
 
 async function fetchUserAccounts() {
     try {
