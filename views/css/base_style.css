@@ -25,7 +25,7 @@ font-size:15px;
         }
 
         .column {
-            background-color: #F5D857;
+            background-color: #FDCF6F;
             flex: 1;
             padding: 10px;
             margin: 5px; /* Adding padding between columns */
@@ -45,7 +45,6 @@ font-size:15px;
 
 .column .count {
     font-size: 2vw;
-
 }
 
 .chart {

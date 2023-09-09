@@ -129,82 +129,79 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                 i.bi.bi-person-plus
                 |  Add Authors
 
-
 .w3-main(style='margin-left:250px')
     .w3-row.w3-padding-64
-        .w3-twothird.w3-container
-            h1.w3-text-teal
-                center #{title}
-        .w3-row.w3-padding-64
-            .w3-twothird.w3-container
-                h1.w3-text-teal Something
-                p
-                    |   A lot of things
-            .w3-third.w3-container
-                p.w3-border.w3-padding-large.w3-center Something
-                p.w3-border.w3-padding-large.w3-center
-                    |   Notification 1 - Harvey Spectre
-                    br
-                    |   Notification 2 - Gustavo Fring
-                    br
-                    |   Lucifer Morningstar
-                    br
-                    |   Rachel Green
-        h3
-        table.container
-            thead
-                tr
-                    th
-                        center Sample Table
-                tr
-                    th Something: Something
-                tr
-                    th Something: 2ztxsflyiy
-                tr
-                    th Something: Something
-
-        .w3-row.w3-padding-64
-            .w3-twothird.w3-container
-                h1#uploadfiles.w3-text-teal Project Files
-                table.container
+        .w3-quarter.w3-container
+            .grow.shadowEffect.column
+                .title
+                    | Created Document
+                .count
+                    | 40
+        .w3-quarter.w3-container
+            .grow.shadowEffect.column
+                .title
+                    | Deployed
+                .count
+                        | 40
+        .w3-quarter.w3-row
+            .grow.shadowEffect.column
+                .title
+                    | Approved
+                .count
+                    | 35
+        .w3-quarter.w3-container
+            .grow.shadowEffect.column
+                .title
+                    | Created Document
+                .count
+                    | 40
+        .w3-half.w3-container
+            .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                br
+                |                     Notifications
+                hr.w3-clear
+                .row
+                    | Machian shared Mia Khalifa&apos;s post
+                .row
+                    | Alyanna commented on Jak Roberto&apos;s Page
+                .row
+                    | Denmark shared Jaoao&apos;s Post
+                hr.w3-clear
+                .row
+                a(href='#') view all
+        .w3-half.w3-container
+            .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                br
+                |                    Chart goes here
+                br
+                br
+                br
+                br
+                br
+                br
+                br
+                br
+                br
+                br
+        .w3-row.w3-container
+            .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                br
+                h4
+                    | Recent Submissions
+                table.container.w3-container
                     thead
                         tr
-                            th
-                                center File Name
-                            th
-                                center File Type
-                            th
-                                center Upload Date
-                            th
-                                center Store ID
-                    tbody
-                        tr.del_file5
-                            td stuff.txt
-                            td txt
-                            td 2023-05-18, 02:03 PM
-                            td 5
-
-
-
-            .w3-third.w3-container
-                .w3-card.w3-round.w3-white
-                    .w3-container
-                        h4#userFirstName.w3-center Name Placeholder
-                        p.w3-center
-                            img.w3-circle(src='src/avatar3.png' style='height:106px;width:106px' alt='Avatar')
-                        hr
-                        h6
-                            i.fa.fa-info-circle.fa-fw.w3-margin-right.w3-text-theme
-                            |
-                            myElement#empID
-                        h6
-                            i.fa.fa-user.fa-fw.w3-margin-right.w3-text-theme
-                            |
-                            myElement#fullName
-                        h6
-                            i.fa.fa-briefcase.fa-fw.w3-margin-right.w3-text-theme
-                            |
-                            myElement#userLevel
+                            th Form Name
+                            th Submitted By
+                            th Role
+                        tr
+                            td  Petition Form
+                            td  Ralph Edwards
+                            td  Student
+                        tr
+                            td  OJT Form
+                            td  Albert Flores
+                            td  Admin
 
         script(src='js/jquery-3.2.1.min.js')
         script(src='js/bootstrap.js')
