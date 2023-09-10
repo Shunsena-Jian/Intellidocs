@@ -150,7 +150,7 @@ app.post('/login', async function (req, res) {
             if (!user) {
                 console.log("Failed to find User");
                 res.render('login', {
-                    title: 'Login Page', receivedError: "Wrong User Credentials!"
+                    title: 'Login Page', receivedError: "Incorrect Username or Password!"
                 });
             } else if (password === user.password) {
                 // RESERVED MANUAL DATA BLOCK
@@ -168,41 +168,22 @@ app.post('/login', async function (req, res) {
                 };
 
                 req.session.userDetailsBlock = userDetailsBlock;
-
                 req.session.loggedIn = true;
 
-                        getFiles(user.emp_id)
-                            .then(function (filesDocuments) {
-                                var filesgroup = [];
+                const documents = await getFiles(req.session.userEmpID);
 
-                                if (filesDocuments) {
-                                    for (let i = 0; i < filesDocuments.length; i++) {
-                                        var filevalues = Object.values(filesDocuments[i]);
-                                        filesgroup.push(filevalues);
-                                    }
-                                }
+                res.render('index', {
+                    title: 'Home Page',
+                    userDetails: req.session.userDetailsBlock,
+                    filesData: documents
+                });
 
-                                res.render('index', {
-                                    title: 'Home Page',
-                                    userDetails: req.session.userDetailsBlock,
-                                    filesData: filesgroup
-                                });
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            });
-
-                //res.render('index', {
-                //    title: 'Home Page', userDetails: req.session.userDetailsBlock
-                //});
                 console.log("User " + user.first_name, user.last_name, user.emp_id + " has logged in.");
-                //console.log(req.session.userDetailsBlock);
                 console.log(userDetailsBlock);
             } else {
                 res.render('login', {
-                    title: 'Login Page', name: "Wrong User Credentials"
+                    title: 'Login Page', receivedError: "Incorrect Username or Password!"
                 });
-                console.log("Wrong User Credentials!");
             }
         } catch (error) {
             console.error(error);
