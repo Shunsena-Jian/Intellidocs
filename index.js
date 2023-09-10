@@ -31,21 +31,19 @@ try{
 
 // Users collection
 var users;
-try{
-    users = db.collection('users');
-    console.log("Connected to the Database Users Collection.");
-}catch(error){
-    console.log(error);
+function initializeUsersCollectionConnection(){
+    try{
+        users = db.collection('users');
+        console.log("Connected to the Database Users Collection.");
+    }catch(error){
+        console.log(error);
+    }
 }
+initializeUsersCollectionConnection();
+
 
 // Files collection
-var files;
-try{
-    filesCollection = db.collection('files');
-    console.log("Connected to the Database Files Collection.");
-}catch(error){
-    console.log(error);
-}
+
 
 app.use(session({
   secret: 'your secret here',
@@ -118,16 +116,7 @@ app.get('/', function (req, res) {
     }
 });
 
-async function fetchFiles(empID) {
-    try {
-        const filesCollection = db.collection('files');
-        const filesDocuments = await filesCollection.find({ uploadedBy: empID }).toArray();
 
-        return filesDocuments;
-    } catch (error) {
-        console.log("Failed to retrieve documents: " + error);
-    }
-}
 
 app.get('/logout', async function(req, res){
     req.session.loggedIn = false;
@@ -437,11 +426,31 @@ app.post('/upload', upload.single('file'), async function (req, res) {
 
 });
 
+var files;
+try{
+    filesCollection = db.collection('files');
+    console.log("Connected to the Database Files Collection.");
+}catch(error){
+    console.log(error);
+}
+
+async function fetchFiles(empID) {
+    try {
+        const filesCollection = db.collection('files');
+        const filesDocuments = await filesCollection.find({ uploadedBy: empID }).toArray();
+
+        return filesDocuments;
+    } catch (error) {
+        console.log("Failed to retrieve documents: " + error);
+    }
+}
+
 async function fetchUserAccounts() {
     try {
-        const collection = db.collection('users');
-        const documents = await collection.find({}).toArray();
-        console.log("The array documents at line 449 : " + JSON.stringify(documents));
+        //const collection = db.collection('users');
+        //const documents = await collection.find({}).toArray();
+        const documents = await users.find({}).toArray();
+        console.log("The array documents at line 449 : " + JSON.stringify(documents)); //stringified for logging purposes only
         return documents;
     } catch (error) {
         console.log("Failed to retrieve documents: " + error);
