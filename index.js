@@ -38,18 +38,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+    console.log(`Server running on port ${port}`);
 });
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const uploadDirectory = 'uploads/' + req.session.userEmpID;
-    fs.mkdirSync(uploadDirectory, { recursive: true });
-    cb(null, uploadDirectory);
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  }
+    destination: function (req, file, cb) {
+        const uploadDirectory = 'uploads/' + req.session.userEmpID;
+        fs.mkdirSync(uploadDirectory, { recursive: true });
+        cb(null, uploadDirectory);
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
 });
 
 const upload = multer({ storage: storage });
@@ -60,23 +60,33 @@ app.get('/deletefile/:file_name', function(req, res){
     console.log(selectedFileForDeletion);
 
     function deleteFile(filePath, callback) {
-      fs.unlink(filePath, function (err) {
-        if (err) {
-          callback(err);
-        } else {
-          callback(null);
-        }
-      });
+        fs.unlink(filePath, function (err) {
+            if (err) {
+                callback(err);
+            } else {
+                callback(null);
+            }
+        });
     }
 
     var filePathToDelete = "uploads/" + req.session.userEmpID + "/"  + selectedFileForDeletion;
 
     deleteFile(filePathToDelete, function (err) {
-      if (err) {
-        console.error('Error deleting file:', err);
-      } else {
-        console.log('File deleted successfully.');
-      }
+        if (err) {
+            console.error('Error deleting file:', err);
+        } else {
+            console.log('File deleted successfully.');
+        }
+    });
+
+    const deleteCriteria = {file_name: selectedFileForDeletion, uploadedBy: req.session.userEmpID};
+
+    files.deleteOne(deleteCriteria, function (err, result) {
+        if (err) {
+            console.error('Error deleting document:', err);
+        } else {
+            console.log('Document deleted successfully.');
+        }
     });
 
     res.redirect('/');
