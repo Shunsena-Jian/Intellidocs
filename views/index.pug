@@ -181,19 +181,22 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                 br
                 h4
                     | Recent Submissions
+                hr
                 if filesData && filesData.length > 0
                     table.container.w3-container
                         thead
                             tr
                                 th Files Uploaded
+                                th File Size
                                 th Submitted By
                                 th Date Uploaded
                         tbody
                             each file in filesData
                                 tr
-                                    td= file[1]
-                                    td= file[3]
-                                    td= file[4]
+                                    td #{file.file_name}
+                                    td #{file.file_size}
+                                    td #{file.uploadedBy}
+                                    td #{file.uploadedAt}
 
         script(src='js/jquery-3.2.1.min.js')
         script(src='js/bootstrap.js')

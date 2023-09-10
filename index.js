@@ -93,33 +93,23 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 app.use('/uploads', express.static('uploads'));
 
-app.get('/', function (req, res) {
+app.get('/', async function (req, res) {
     try {
         if (!req.session.loggedIn) {
             res.redirect('login');
             return;
+        }else{
+            const documents = await getFiles(req.session.userEmpID);
+
+            res.render('index', {
+                title: 'Home Page',
+                userDetails: req.session.userDetailsBlock,
+                filesData: documents
+            });
+
+
         }
 
-        getFiles(req.session.userEmpID)
-            .then(function (filesDocuments) {
-                var filesgroup = [];
-
-                if (filesDocuments) {
-                    for (let i = 0; i < filesDocuments.length; i++) {
-                        var filevalues = Object.values(filesDocuments[i]);
-                        filesgroup.push(filevalues);
-                    }
-                }
-
-                res.render('index', {
-                    title: 'Home Page',
-                    userDetails: req.session.userDetailsBlock,
-                    filesData: filesgroup
-                });
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
     } catch (error) {
         console.log(error);
     }
