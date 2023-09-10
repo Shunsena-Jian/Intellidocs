@@ -41,7 +41,6 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const uploadDirectory = 'uploads/' + req.session.userEmpID;
@@ -54,6 +53,35 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+app.get('/deletefile/:file_name', function(req, res){
+
+    var selectedFileForDeletion = req.params.file_name;
+    console.log(selectedFileForDeletion);
+
+    function deleteFile(filePath, callback) {
+      fs.unlink(filePath, function (err) {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null);
+        }
+      });
+    }
+
+    var filePathToDelete = "uploads/" + req.session.userEmpID + "/"  + selectedFileForDeletion;
+
+    deleteFile(filePathToDelete, function (err) {
+      if (err) {
+        console.error('Error deleting file:', err);
+      } else {
+        console.log('File deleted successfully.');
+      }
+    });
+
+    res.redirect('/');
+});
+
 
 app.get('/', async function (req, res) {
     try {
