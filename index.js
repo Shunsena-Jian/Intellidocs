@@ -14,6 +14,7 @@ app.set('view engine', 'pug');
 
 app.use('/views/src', express.static(path.join(__dirname, 'views', 'src')));
 app.use(express.static(path.join(__dirname, 'views')));
+app.use('/uploads', express.static('uploads'));
 
 // Define the database
 const url = 'mongodb://127.0.0.1/intellijent';
@@ -40,31 +41,19 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-const getUploadDirectory = (req, file, cb) => {
-  // Replace 'getUserFirstName' with your actual method to get the user's first name
-  const empID = req.session.userDetailsBlock.empID;
 
-  // Create the user's directory if it doesn't exist
-  const uploadDirectory = `uploads/${empID}`;
-  fs.mkdirSync(uploadDirectory, { recursive: true });
-
-  cb(null, uploadDirectory);
-};
-
-// Handles file uploads by specifying the destination and filename for uploaded files.
 const storage = multer.diskStorage({
-  destination: getUploadDirectory,
+  destination: function (req, file, cb) {
+    const uploadDirectory = 'uploads/' + req.session.userEmpID;
+    fs.mkdirSync(uploadDirectory, { recursive: true });
+    cb(null, uploadDirectory);
+  },
   filename: function (req, file, cb) {
-    //const currentDate = new Date();
-    //const formattedDate = `${currentDate.getMonth() + 1}-${currentDate.getDate()}-${currentDate.getFullYear()}`;
-
-    //cb(null, formattedDate + '-' + file.originalname); // Specify the filename
-    cb(null, file.originalname); // Specify the filename
+    cb(null, file.originalname);
   }
 });
 
 const upload = multer({ storage: storage });
-app.use('/uploads', express.static('uploads'));
 
 app.get('/', async function (req, res) {
     try {
@@ -357,7 +346,7 @@ app.post('/upload', upload.single('file'), async function (req, res) {
 async function getFiles(empID) {
     try {
         const filesDocuments = await files.find({ uploadedBy: empID }).toArray();
-        console.log("The array documents at line 443 : " + JSON.stringify(filesDocuments)); //stringified for logging purposes only
+        console.log("The array documents at function getFiles() : " + JSON.stringify(filesDocuments)); //stringified for logging purposes only
         return filesDocuments;
     } catch (error) {
         console.log("Failed to retrieve documents: " + error);
@@ -367,7 +356,7 @@ async function getFiles(empID) {
 async function getUserAccounts() {
     try {
         const documents = await users.find({}).toArray();
-        console.log("The array documents at line 452 : " + JSON.stringify(documents)); //stringified for logging purposes only
+        console.log("The array documents at function getUserAccounts() : " + JSON.stringify(documents)); //stringified for logging purposes only
         return documents;
     } catch (error) {
         console.log("Failed to retrieve documents: " + error);
