@@ -106,8 +106,6 @@ app.get('/', async function (req, res) {
                 userDetails: req.session.userDetailsBlock,
                 filesData: documents
             });
-
-
         }
 
     } catch (error) {
@@ -142,30 +140,7 @@ app.get('/login', async function(req, res){
 
 app.post('/login', async function (req, res) {
     if (req.session.loggedIn) {
-            getFiles()
-                .then(function (filesDocuments) {
-                    var filesgroup = [];
-
-                    if (filesDocuments) {
-                        for (let i = 0; i < filesDocuments.length; i++) {
-                            var filevalues = Object.values(filesDocuments[i]);
-                            filesgroup.push(filevalues);
-                        }
-                    }
-
-                    res.render('index', {
-                        title: 'Home Page',
-                        userDetails: req.session.userDetailsBlock,
-                        filesData: filesgroup
-                    });
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-
-        //res.render('index', {
-        //    title: 'Home Page', userDetails: req.session.userDetails
-        //});
+        res.redirect('/');
     } else {
         var username = req.body.userName;
         var password = req.body.passWord;
