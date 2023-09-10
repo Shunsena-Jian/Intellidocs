@@ -127,79 +127,22 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
             hr.w3-clear
             table
                 tr
-                    th Username
-                    th Password
-                    th First Name
-                    th Middle Name
-                    th Last Name
                     th Employee ID
-                    th Role
+                    th First Name
+                    th Last Name
+                    th User Level
                     th Actions
-                tr
-                    td  mroderick@slu.edu.ph
-                    td  *********
-                    td  Roderick
-                    td  R.
-                    td  Makil
-                    td  00000
-                    td  Faculty
-                    td
-                        a.edit-btn(href='#')
-                            i.fa.fa-pencil.w3-text-theme
-                        a(href='#')
-                            i.fa.fa-times.w3-text-theme
-                tr
-                    td  rfernandez@slu.edu.ph
-                    td  *********
-                    td  Ria
-                    td  A.
-                    td  Fernandez
-                    td  00000
-                    td  Faculty
-                    td
-                        a.edit-btn(href='#')
-                            i.fa.fa-pencil.w3-text-theme
-                        a(href='#')
-                            i.fa.fa-times.w3-text-theme
-                tr
-                    td  tpilar@slu.edu.ph
-                    td  ************
-                    td  Teresa
-                    td  Polario
-                    td  Pilar
-                    td  000000
-                    td  Dean
-                    td
-                        a.edit-btn(href='#')
-                            i.fa.fa-pencil.w3-text-theme
-                        a(href='#')
-                            i.fa.fa-times.w3-text-theme
-                tr
-                    td  ltoredo@slu.edu.ph
-                    td  ************
-                    td  Los
-                    td  Maricon
-                    td  Toredo
-                    td  000000
-                    td  Admin
-                    td
-                        a.edit-btn(href='#')
-                            i.fa.fa-pencil.w3-text-theme
-                        a(href='#')
-                            i.fa.fa-times.w3-text-theme
-                tr
-                td  mjoreno@slu.edu.ph
-                    td  *********
-                    td  Marjorie
-                    td  Delos Penis
-                    td  Moreno
-                    td  000000
-                    td  Secretary
-                    td
-                        a.edit-btn(href='#')
-                            i.fa.fa-pencil.w3-text-theme
-                        a(href='#')
-                            i.fa.fa-times.w3-text-theme
+                each user in users
+                    tr
+                        td= user[3]
+                        td= user[4]
+                        td= user[5]
+                        td= user[6]
+                        td
+                            a.edit-btn(href='#')
+                                i.fa.fa-pencil.w3-text-theme
+                            a(href='#')
+                                i.fa.fa-times.w3-text-theme
             br
 
         script(src='js/jquery-3.2.1.min.js')
