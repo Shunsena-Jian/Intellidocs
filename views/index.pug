@@ -190,6 +190,7 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                                 th File Size
                                 th Submitted By
                                 th Date Uploaded
+                                th File Actions
                         tbody
                             each file in filesData
                                 tr
@@ -197,6 +198,11 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                                     td #{file.file_size}
                                     td #{file.uploadedBy}
                                     td #{file.uploadedAt}
+                                    td
+                                        a.w3-half.w3-hover-white.edit-btn(href='#')
+                                            i.fa.fa-pencil.w3-text-theme
+                                        a.w3-half.w3-hover-white(href='#')
+                                            i.fa.fa-times.w3-text-theme
 
         script(src='js/jquery-3.2.1.min.js')
         script(src='js/bootstrap.js')
