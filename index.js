@@ -41,8 +41,17 @@ function initializeUsersCollectionConnection(){
 }
 initializeUsersCollectionConnection();
 
-
 // Files collection
+var files;
+function initializeFilesCollectionConnection(){
+    try{
+        files = db.collection('files');
+        console.log("Connected to the Database Files Collection.");
+    }catch(error){
+        console.log(error);
+    }
+}
+initializeFilesCollectionConnection();
 
 
 app.use(session({
@@ -91,7 +100,7 @@ app.get('/', function (req, res) {
             return;
         }
 
-        fetchFiles(req.session.userEmpID)
+        getFiles(req.session.userEmpID)
             .then(function (filesDocuments) {
                 var filesgroup = [];
 
@@ -128,7 +137,7 @@ app.get('/logout', async function(req, res){
 
 app.get('/login', async function(req, res){
     try {
-        const filesDocuments = await fetchFiles();
+        const filesDocuments = await getFiles(); // why in God's name is this here?
         if (req.session.loggedIn) {
             res.redirect('/');
         } else {
@@ -143,7 +152,7 @@ app.get('/login', async function(req, res){
 
 app.post('/login', async function (req, res) {
     if (req.session.loggedIn) {
-            fetchFiles()
+            getFiles()
                 .then(function (filesDocuments) {
                     var filesgroup = [];
 
@@ -197,7 +206,7 @@ app.post('/login', async function (req, res) {
 
                 req.session.loggedIn = true;
 
-                        fetchFiles(user.emp_id)
+                        getFiles(user.emp_id)
                             .then(function (filesDocuments) {
                                 var filesgroup = [];
 
@@ -373,7 +382,7 @@ app.get('/viewusers', async function(req, res) {
             res.redirect('login');
             return;
         }
-        const documents = await fetchUserAccounts();
+        const documents = await getUserAccounts();
 
         res.render('viewusers', {
             title: 'View Users',
@@ -414,7 +423,7 @@ app.post('/upload', upload.single('file'), async function (req, res) {
                 "uploadedAt": new Date() // Include a timestamp
             };
 
-            result = await filesCollection.insertOne(uploadInfo);
+            result = await files.insertOne(uploadInfo);
 
             console.log("Inserted : " + uploadInfo);
             res.redirect('/');
@@ -426,31 +435,22 @@ app.post('/upload', upload.single('file'), async function (req, res) {
 
 });
 
-var files;
-try{
-    filesCollection = db.collection('files');
-    console.log("Connected to the Database Files Collection.");
-}catch(error){
-    console.log(error);
-}
 
-async function fetchFiles(empID) {
+
+async function getFiles(empID) {
     try {
-        const filesCollection = db.collection('files');
-        const filesDocuments = await filesCollection.find({ uploadedBy: empID }).toArray();
-
+        const filesDocuments = await files.find({ uploadedBy: empID }).toArray();
+        console.log("The array documents at line 443 : " + JSON.stringify(filesDocuments)); //stringified for logging purposes only
         return filesDocuments;
     } catch (error) {
         console.log("Failed to retrieve documents: " + error);
     }
 }
 
-async function fetchUserAccounts() {
+async function getUserAccounts() {
     try {
-        //const collection = db.collection('users');
-        //const documents = await collection.find({}).toArray();
         const documents = await users.find({}).toArray();
-        console.log("The array documents at line 449 : " + JSON.stringify(documents)); //stringified for logging purposes only
+        console.log("The array documents at line 452 : " + JSON.stringify(documents)); //stringified for logging purposes only
         return documents;
     } catch (error) {
         console.log("Failed to retrieve documents: " + error);
