@@ -1,6 +1,7 @@
 doctype html
 head
-    title #{title}
+    //title #{title}
+    title #{userDetailsBlock.lastName}
     //meta(charset='UTF-8')
     //meta(name='viewport' content='width=device-width, initial-scale=1')
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
@@ -180,18 +181,19 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                 br
                 h4
                     | Recent Submissions
-                table.container.w3-container
-                    thead
-                        tr
-                            th Form Name
-                            th Submitted By
-                            th Role
-                    tbody
-                        each file in files
+                if filesData && filesData.length > 0
+                    table.container.w3-container
+                        thead
                             tr
-                                td= file.originalname
-                                td= file.size
-                                td= file.uploadedAt
+                                th Files Uploaded
+                                th Submitted By
+                                th Date Uploaded
+                        tbody
+                            each file in filesData
+                                tr
+                                    td= file[1]
+                                    td= file[3]
+                                    td= file[4]
 
         script(src='js/jquery-3.2.1.min.js')
         script(src='js/bootstrap.js')
@@ -206,7 +208,6 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
             var empID = document.getElementById("empID");
             var fullName = document.getElementById("fullName");
             var userLevel = document.getElementById("userLevel");
-
             userFirstName.innerHTML = receivedUserDetailsBlock.firstName;
             userFirstNameNav.innerHTML = receivedUserDetailsBlock.firstName;
             empID.innerHTML = receivedUserDetailsBlock.empID;

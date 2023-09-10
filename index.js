@@ -19,7 +19,6 @@ app.use(express.static(path.join(__dirname, 'views')));
 const url = 'mongodb://127.0.0.1/intellijent';
 const dbName = 'intellijent';
 
-
 try{
     client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
     client.connect();
@@ -30,9 +29,8 @@ try{
     process.exit(0);
 }
 
-//users
+// Users collection
 var users;
-
 try{
     users = db.collection('users');
     console.log("Connected to the Database Users Collection.");
@@ -40,7 +38,14 @@ try{
     console.log(error);
 }
 
-
+// Files collection
+var files;
+try{
+    filesCollection = db.collection('files');
+    console.log("Connected to the Database Files Collection.");
+}catch(error){
+    console.log(error);
+}
 
 app.use(session({
   secret: 'your secret here',
@@ -83,34 +88,42 @@ app.use('/uploads', express.static('uploads'));
 
 app.get('/', function (req, res) {
     try {
-        if (req.session.loggedIn) {
-            const files = db.collection('files');
-            console.log("Connected to Collection Files");
-            files.findOne({ uploadedBy: "22222" }).then(document => {
-                console.log(document);
+        if (!req.session.loggedIn) {
+            res.redirect('login');
+            return;
+        }
+
+        fetchFiles(req.session.userEmpID)
+            .then(function (filesDocuments) {
+                var filesgroup = [];
+
+                if (filesDocuments) {
+                    for (let i = 0; i < filesDocuments.length; i++) {
+                        var filevalues = Object.values(filesDocuments[i]);
+                        filesgroup.push(filevalues);
+                    }
+                }
 
                 res.render('index', {
                     title: 'Home Page',
                     userDetails: req.session.userDetailsBlock,
+                    filesData: filesgroup
                 });
-
-                console.log("Connected to the Database files Collection.");
-            }).catch(error => {
-                console.log("Error finding document: " + error);
+            })
+            .catch(function (error) {
+                console.log(error);
             });
-        } else {
-            res.redirect('login');
-        }
     } catch (error) {
-        console.log("Error: " + error);
+        console.log(error);
     }
 });
 
-
-async function fetchFiles() {
+async function fetchFiles(empID) {
     try {
+        const filesCollection = db.collection('files');
+        const filesDocuments = await filesCollection.find({ uploadedBy: empID }).toArray();
 
-        return files;
+        return filesDocuments;
     } catch (error) {
         console.log("Failed to retrieve documents: " + error);
     }
@@ -125,20 +138,46 @@ app.get('/logout', async function(req, res){
 });
 
 app.get('/login', async function(req, res){
-    if (req.session.loggedIn) {
-        res.redirect('/');
-    } else {
-        res.render('login', {
-            title: 'Login Page'
-        });
+    try {
+        const filesDocuments = await fetchFiles();
+        if (req.session.loggedIn) {
+            res.redirect('/');
+        } else {
+            res.render('login', {
+                title: 'Login Page'
+            });
+        }
+    } catch (error){
+        console.log(error);
     }
 });
 
 app.post('/login', async function (req, res) {
     if (req.session.loggedIn) {
-        res.render('index', {
-            title: 'Home Page', userDetails: req.session.userDetails
-        });
+            fetchFiles()
+                .then(function (filesDocuments) {
+                    var filesgroup = [];
+
+                    if (filesDocuments) {
+                        for (let i = 0; i < filesDocuments.length; i++) {
+                            var filevalues = Object.values(filesDocuments[i]);
+                            filesgroup.push(filevalues);
+                        }
+                    }
+
+                    res.render('index', {
+                        title: 'Home Page',
+                        userDetails: req.session.userDetailsBlock,
+                        filesData: filesgroup
+                    });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+        //res.render('index', {
+        //    title: 'Home Page', userDetails: req.session.userDetails
+        //});
     } else {
         var username = req.body.userName;
         var password = req.body.passWord;
@@ -169,9 +208,30 @@ app.post('/login', async function (req, res) {
 
                 req.session.loggedIn = true;
 
-                res.render('index', {
-                    title: 'Home Page', userDetails: req.session.userDetailsBlock
-                });
+                        fetchFiles(user.emp_id)
+                            .then(function (filesDocuments) {
+                                var filesgroup = [];
+
+                                if (filesDocuments) {
+                                    for (let i = 0; i < filesDocuments.length; i++) {
+                                        var filevalues = Object.values(filesDocuments[i]);
+                                        filesgroup.push(filevalues);
+                                    }
+                                }
+
+                                res.render('index', {
+                                    title: 'Home Page',
+                                    userDetails: req.session.userDetailsBlock,
+                                    filesData: filesgroup
+                                });
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+
+                //res.render('index', {
+                //    title: 'Home Page', userDetails: req.session.userDetailsBlock
+                //});
                 console.log("User " + user.first_name, user.last_name, user.emp_id + " has logged in.");
                 //console.log(req.session.userDetailsBlock);
                 console.log(userDetailsBlock);
@@ -370,8 +430,8 @@ app.post('/upload', upload.single('file'), async function (req, res) {
                 "uploadedBy": req.session.userEmpID, // Replace with appropriate user information
                 "uploadedAt": new Date() // Include a timestamp
             };
-            result = await files.insertOne(uploadInfo);
-            //console.log("Inserted : " + result);
+
+            result = await filesCollection.insertOne(uploadInfo);
 
             console.log("Inserted : " + uploadInfo);
             res.redirect('/');
