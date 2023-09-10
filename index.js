@@ -19,39 +19,18 @@ app.use(express.static(path.join(__dirname, 'views')));
 const url = 'mongodb://127.0.0.1/intellijent';
 const dbName = 'intellijent';
 
-try{
-    client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-    client.connect();
-    db = client.db(dbName);
-    console.log("Connected to the Database.");
-} catch {
-    console.log("Failed to connect to the User Collections!");
-    process.exit(0);
-}
 
-// Users collection
+
+var db;
 var users;
-function initializeUsersCollectionConnection(){
-    try{
-        users = db.collection('users');
-        console.log("Connected to the Database Users Collection.");
-    }catch(error){
-        console.log(error);
-    }
-}
-initializeUsersCollectionConnection();
-
-// Files collection
 var files;
-function initializeFilesCollectionConnection(){
-    try{
-        files = db.collection('files');
-        console.log("Connected to the Database Files Collection.");
-    }catch(error){
-        console.log(error);
-    }
-}
+
+initializeDatabaseConnection(url,dbName);
+initializeUsersCollectionConnection();
 initializeFilesCollectionConnection();
+
+
+
 
 
 app.use(session({
@@ -112,8 +91,6 @@ app.get('/', async function (req, res) {
         console.log(error);
     }
 });
-
-
 
 app.get('/logout', async function(req, res){
     req.session.loggedIn = false;
@@ -400,5 +377,38 @@ async function getUserAccounts() {
         return documents;
     } catch (error) {
         console.log("Failed to retrieve documents: " + error);
+    }
+}
+
+// Database initialization
+function initializeDatabaseConnection(url,dbName){
+    try{
+        client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+        client.connect();
+        db = client.db(dbName);
+        console.log("Connected to the Database.");
+    } catch {
+        console.log("Failed to connect to the Database!");
+        process.exit(0);
+    }
+}
+
+// Users collection initialization
+function initializeUsersCollectionConnection(){
+    try{
+        users = db.collection('users');
+        console.log("Connected to the Database Users Collection.");
+    }catch(error){
+        console.log(error);
+    }
+}
+
+// Files collection initialization
+function initializeFilesCollectionConnection(){
+    try{
+        files = db.collection('files');
+        console.log("Connected to the Database Files Collection.");
+    }catch(error){
+        console.log(error);
     }
 }
