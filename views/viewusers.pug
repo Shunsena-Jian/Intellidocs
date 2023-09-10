@@ -134,10 +134,10 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                     th Actions
                 each user in users
                     tr
-                        td= user[3]
-                        td= user[4]
-                        td= user[5]
-                        td= user[6]
+                        td #{user.emp_id}
+                        td #{user.first_name}
+                        td #{user.last_name}
+                        td #{user.user_level}
                         td
                             a.edit-btn(href='#')
                                 i.fa.fa-pencil.w3-text-theme

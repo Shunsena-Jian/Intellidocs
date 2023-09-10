@@ -385,17 +385,11 @@ app.get('/viewusers', async function(req, res) {
             return;
         }
         const documents = await fetchUserAccounts();
-        var users = [];
-
-        for (let i = 0; i < documents.length; i++) {
-            var values = Object.values(documents[i]);
-            users.push(values);
-        }
 
         res.render('viewusers', {
             title: 'View Users',
             userDetails: req.session.userDetailsBlock,
-            users: users // Pass the users data to the view
+            users: documents
         });
     } catch (error) {
         console.log("Error: " + error);
@@ -447,7 +441,7 @@ async function fetchUserAccounts() {
     try {
         const collection = db.collection('users');
         const documents = await collection.find({}).toArray();
-
+        console.log("The array documents at line 449 : " + JSON.stringify(documents));
         return documents;
     } catch (error) {
         console.log("Failed to retrieve documents: " + error);
