@@ -15,11 +15,9 @@ app.set('view engine', 'pug');
 app.use('/views/src', express.static(path.join(__dirname, 'views', 'src')));
 app.use(express.static(path.join(__dirname, 'views')));
 
-// Connect to the database
+// Define the database
 const url = 'mongodb://127.0.0.1/intellijent';
 const dbName = 'intellijent';
-
-
 
 var db;
 var users;
@@ -28,10 +26,6 @@ var files;
 initializeDatabaseConnection(url,dbName);
 initializeUsersCollectionConnection();
 initializeFilesCollectionConnection();
-
-
-
-
 
 app.use(session({
   secret: 'your secret here',
