@@ -92,6 +92,13 @@ app.get('/deletefile/:file_name', function(req, res){
     res.redirect('/');
 });
 
+app.get('/downloadfile/:file_name', function(req, res){
+    var selectedFileForDownload = req.params.file_name;
+    console.log("user enetered download request" + selectedFileForDownload);
+    res.download("./uploads/" + req.session.userEmpID + "/" + selectedFileForDownload);
+
+});
+
 
 app.get('/', async function (req, res) {
     try {
