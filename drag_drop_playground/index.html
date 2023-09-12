@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag and Drop Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container" id="outer-container">
+    <div class="page-container">
+        <div class="draggable-content">
+            <table class="table draggable" id="table_header" draggable="true">
+                <tr>
+                    <th>Document Code</th>
+                    <th>********</th>
+                </tr>
+                <tr>
+                    <th>Revision Number</th>
+                    <th>00</th>
+                </tr>
+                <tr>
+                    <th>Effectivity</th>
+                    <th>******</th>
+                </tr>
+                <tr>
+                    <th>Page</th>
+                    <th>1 of 7</th>
+                </tr>
+            </table>
+            <br>
+
+            <div class="box draggable" draggable="true">
+                SCHOOL OF ACCOUNTANCY, MANAGEMENT, <br>
+                COMPUTING, AND INFORMATION STUDIES
+                <p style="font-size:1.2rem; color: black; text-align:center;">
+                    Saint Louis University, Baguio City
+            </div>
+
+            <table class="table draggable"  draggable="true">
+                <tr>
+                    <th rowspan="2">Designation</th>
+                    <th rowspan="2">Institution</th>
+                    <th colspan="2" >Status (Please Check)</th>
+                    <th rowspan="2">Dates</th>
+                    <th rowspan="2">No. of Years</th>
+                </tr>
+                <tr>
+                    <th>Full-time</th>
+                    <th>Part-time</th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+
+            <br>
+
+            <table class="draggable table" draggable="true">
+                <tr>
+                    <th>Header 1</th>
+                    <th>Header 2</th>
+                </tr>
+                <tr>
+                    <td ></td>
+                    <td ></td>
+                </tr>
+                <tr>
+                    <td ></td>
+                    <td ></td>
+                </tr>
+            </table>
+
+    </div>
+    </div>
+    <div class="pages">
+        <div class="drop-container" id="page-1">
+        </div>
+    </div>
+</div>
+
+<script src="app_v2.js"></script>
+<!--<script src="page.js"></script>-->
+</body>
+</html>
