@@ -21,10 +21,21 @@ head
         bottom: 0;
         height: inherit;
         }
+        .parent-container {
+            height: 100%; /* Set the maximum height of the parent container */
+            border: 1px solid #000000; /* Optional: Add a border to visualize the container */
+            position: relative; /* Optional: Needed if you want to position child elements */
+        }
+
+        .child-container {
+            border: 1px solid #ccc;
+            height: 100%; /* Make the child div occupy the full height of its parent */
+            background-color: lightblue; /* Optional: Background color for visualization */
+        }
 
 .w3-top
     .w3-bar.w3-theme.w3-top.w3-left-align.w3-large
-        a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(href='javascript:void(0)' onclick='w3_open()')
+        a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(onclick='openNavigation()')
             i.fa.fa-bars
         a.w3-bar-item.w3-button.w3-hover-white(href='/')
             i.fa.fa-home.w3-margin-right
@@ -121,7 +132,7 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                 i.bi.bi-person-plus
                 |  Add Authors
 
-.w3-main(style='margin-left:250px')
+.w3-main#main(style='margin-left:250px')
     .w3-row.w3-padding-64
         .w3-quarter.w3-container
             .grow.shadowEffect.column
@@ -276,8 +287,24 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
             });
 
 
-footer#myFooter
+footer#myFooter.w3-bottom
     .w3-container.w3-theme-l1
         p
-            center SLU IT Projects Catalogue
+            |SLU IT Projects Catalogue
 
+script.
+    /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+    function openNavigation() {
+        // Get the element by its ID
+        const sidebar = document.getElementById("mySidebar");
+        const main = document.getElementById("main");
+        // Toggle the classes for showing/hiding the sidebar
+        sidebar.classList.toggle("w3-show");
+        // Toggle the margin of the main content
+        main.style.marginLeft = "250px";
+        }
+    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }

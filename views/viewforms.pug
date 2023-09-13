@@ -5,22 +5,35 @@ head
     //meta(name='viewport' content='width=device-width, initial-scale=1')
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
     link(rel='stylesheet' href='css/style.css')
-    link(rel='stylesheet' href='css/base_style.css')
     link(rel='stylesheet' href='css/w3css4.css')
     link(rel='stylesheet' href='css/w3-theme.css')
 
     style.
-        html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
-        .w3-sidebar {
-        z-index: 3;
-        width: 250px;
-        top: 43px;
-        bottom: 0;
-        height: inherit;
-        }
-        th{
-        color: white;
-        }
+      html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+      .w3-sidebar {
+      z-index: 3;
+      width: 250px;
+      top: 43px;
+      bottom: 0;
+      height: inherit;
+      }
+      th{
+      color: white;
+      }
+      h3 {
+      text-align: center;
+      }
+      button {
+      width: 100%;
+      border: none;
+      padding: 5px;
+      font-weight: bold;
+      }
+      button:hover {
+      background: #000000;
+      color: #FFFFFF;
+      }
+
 
 .w3-top
     .w3-bar.w3-theme.w3-top.w3-left-align.w3-large
@@ -123,7 +136,25 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
 
 .w3-main(style='margin-left:250px')
     .w3-row.w3-padding-64
-        | View Forms
+        .w3-container.w3-white.w3-round.w3-margin
+            h4 View Forms
+            hr.w3-clear
+            .w3-third.w3-container
+                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
+                    h3  Annual Faculty Activity Report Form (AFAR)
+                    hr.w3-clear
+                    p
+                        b  Status:
+                        |  Deployed
+                    p
+                        b  Date Created:
+                        |  January 12, 2021
+                    p
+                        b  Last Edited:
+                        |  January 12, 2022
+                    button  View Form
+
+
 
         script(src='js/jquery-3.2.1.min.js')
         script(src='js/bootstrap.js')
