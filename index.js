@@ -230,10 +230,10 @@ app.get('/viewforms', async function(req, res){
     }
 });
 
-app.get('/documentcode', async function(req, res){
+app.get('/submission', async function(req, res){
     if (req.session.loggedIn) {
-        res.render('documentcode', {
-            title: 'Document Code', userDetails : req.session.userDetailsBlock
+        res.render('submissions', {
+            title: 'Submissions', userDetails : req.session.userDetailsBlock
         });
     } else {
         res.redirect('login');
