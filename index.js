@@ -109,10 +109,12 @@ app.get('/', async function (req, res) {
             return;
         }else{
             const documents = await getFiles(req.session.userEmpID);
+            userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+            privileges = await getUserPrivileges(userDetailsBlock.user_level);
 
             res.render('index', {
                 title: 'Home Page',
-                userDetails: req.session.userDetailsBlock,
+                userDetails: userDetailsBlock,
                 filesData: documents
             });
         }
@@ -160,34 +162,21 @@ app.post('/login', async function (req, res) {
                     title: 'Login Page', receivedError: "Incorrect Username or Password!"
                 });
             } else if (password === user.password) {
-                // RESERVED MANUAL DATA BLOCK
-                req.session.userFirstName = user.first_name;
-                req.session.userLastName = user.last_name;
                 req.session.userEmpID = user.emp_id;
-                req.session.userLevel = user.user_level;
-
-                // JSON DATA BLOCK
-//                userDetailsBlock = {
-//                    "firstName": user.first_name,
-//                    "lastName": user.last_name,
-//                    "empID": user.emp_id,
-//                    "userLevel": user.user_level
-//                };
                 userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-
-                req.session.userDetailsBlock = userDetailsBlock;
                 req.session.loggedIn = true;
 
                 const documents = await getFiles(req.session.userEmpID);
+                privileges = await getUserPrivileges(userDetailsBlock.userLevel);
 
                 res.render('index', {
                     title: 'Home Page',
-                    userDetails: req.session.userDetailsBlock,
+                    userDetails: userDetailsBlock,
                     filesData: documents
                 });
 
-
                 console.log(userDetailsBlock);
+
                 // FOR REMODELING
 //                userPrivileges = await getUserPrivileges(req.session.userLevel);
 //
@@ -197,7 +186,8 @@ app.post('/login', async function (req, res) {
 
 
 
-                console.log("User " + user.first_name, user.last_name, user.emp_id + " has logged in with " + JSON.stringify(req.session.userPrivileges) + " privileges!");
+                console.log("User " + userDetailsBlock.firstName, userDetailsBlock.lastName, userDetailsBlock.empID + " has logged in with " + JSON.stringify(privileges) + " privileges!");
+
             } else {
                 res.render('login', {
                     title: 'Login Page', receivedError: "Incorrect Username or Password!"
@@ -212,8 +202,10 @@ app.post('/login', async function (req, res) {
 
 app.get('/createform', async function(req, res){
     if (req.session.loggedIn) {
+        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        privileges = await getUserPrivileges(userDetailsBlock.user_level);
         res.render('createform', {
-            title: 'Create Form', userDetails : req.session.userDetailsBlock
+            title: 'Create Form', userDetails : userDetailsBlock
         });
     } else {
         res.redirect('login');
@@ -222,8 +214,10 @@ app.get('/createform', async function(req, res){
 
 app.get('/viewforms', async function(req, res){
     if (req.session.loggedIn) {
+        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        privileges = await getUserPrivileges(userDetailsBlock.user_level);
         res.render('viewforms', {
-            title: 'View Forms', userDetails : req.session.userDetailsBlock
+            title: 'View Forms', userDetails : userDetailsBlock
         });
     } else {
         res.redirect('login');
@@ -232,8 +226,10 @@ app.get('/viewforms', async function(req, res){
 
 app.get('/submission', async function(req, res){
     if (req.session.loggedIn) {
+        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        privileges = await getUserPrivileges(userDetailsBlock.user_level);
         res.render('submissions', {
-            title: 'Submissions', userDetails : req.session.userDetailsBlock
+            title: 'Submissions', userDetails : userDetailsBlock
         });
     } else {
         res.redirect('login');
@@ -242,8 +238,10 @@ app.get('/submission', async function(req, res){
 
 app.get('/viewreports', async function(req, res){
     if (req.session.loggedIn) {
+        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        privileges = await getUserPrivileges(userDetailsBlock.user_level);
         res.render('viewreports', {
-            title: 'View Reports', userDetails : req.session.userDetailsBlock
+            title: 'View Reports', userDetails : userDetailsBlock
         });
     } else {
         res.redirect('login');
@@ -252,8 +250,10 @@ app.get('/viewreports', async function(req, res){
 
 app.get('/managenotifications', async function(req, res){
     if (req.session.loggedIn) {
+        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        privileges = await getUserPrivileges(userDetailsBlock.user_level);
         res.render('managenotifications', {
-            title: 'Manage Notifications', userDetails : req.session.userDetailsBlock
+            title: 'Manage Notifications', userDetails : userDetailsBlock
         });
     } else {
         res.redirect('login');
@@ -262,8 +262,10 @@ app.get('/managenotifications', async function(req, res){
 
 app.get('/managedeadlines', async function(req, res){
     if (req.session.loggedIn) {
+        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        privileges = await getUserPrivileges(userDetailsBlock.user_level);
         res.render('managedeadlines', {
-            title: 'Manage Deadlines', userDetails : req.session.userDetailsBlock
+            title: 'Manage Deadlines', userDetails : userDetailsBlock
         });
     } else {
         res.redirect('login');
@@ -272,9 +274,11 @@ app.get('/managedeadlines', async function(req, res){
 
 app.get('/createusers', async function(req, res){
     if (req.session.loggedIn) {
-        console.log(userDetailsBlock.userLevel)
+        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        privileges = await getUserPrivileges(userDetailsBlock.user_level);
+//        console.log(userDetailsBlock.userLevel) FIX THIS
         res.render('createusers', {
-            title: 'Create Users', userDetails : req.session.userDetailsBlock
+            title: 'Create Users', userDetails : userDetailsBlock
         });
     } else {
         res.redirect('login');
@@ -283,37 +287,39 @@ app.get('/createusers', async function(req, res){
 
 app.post('/createusers', async function(req, res){
     if (req.session.loggedIn) {
-                var username = req.body.userName;
-                var password = req.body.passWord;
-                var emp_id = req.body.empId;
-                var firstname = req.body.firstName;
-                var lastname = req.body.lastName;
-                var userlevel = req.body.userLevel;
+        var username = req.body.userName;
+        var password = req.body.passWord;
+        var emp_id = req.body.empId;
+        var firstname = req.body.firstName;
+        var lastname = req.body.lastName;
+        var userlevel = req.body.userLevel;
 
-                console.log(username + password + emp_id + firstname + lastname + userlevel);
-                try {
-                    const existingUser = await db.collection('users').findOne({ username: username });
-                    if(existingUser) {
-                        console.log("Username already exists!");
-                    } else {
-                        const newUser = {
-                            "username": username,
-                            "password": password,
-                            "emp_id": emp_id,
-                            "first_name": firstname,
-                            "last_name": lastname,
-                            "user_level": userlevel
-                        };
+        console.log(username + password + emp_id + firstname + lastname + userlevel);
+        try {
+            const existingUser = await db.collection('users').findOne({ username: username });
+            if(existingUser) {
+                console.log("Username already exists!");
+            } else {
+                const newUser = {
+                    "username": username,
+                    "password": password,
+                    "emp_id": emp_id,
+                    "first_name": firstname,
+                    "last_name": lastname,
+                    "user_level": userlevel
+                };
 
-                        const result = await db.collection('users').insertOne(newUser);
-                        console.log("User created");
-                    }
-                } catch (error) {
-                    console.log("Error creating the user: " + error);
-                }
-                        res.render('createusers', {
-                            title: 'Create Users', userDetails : req.session.userDetailsBlock
-                        });
+                const result = await db.collection('users').insertOne(newUser);
+                console.log("User created");
+            }
+        } catch (error) {
+            console.log("Error creating the user: " + error);
+        }
+        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        privileges = await getUserPrivileges(userDetailsBlock.user_level);
+        res.render('createusers', {
+            title: 'Create Users', userDetails : userDetailsBlock
+        });
     } else {
        res.render('login', {
             title: 'Login Page'
@@ -323,8 +329,10 @@ app.post('/createusers', async function(req, res){
 
 app.get('/manageuserroles', async function(req, res){
     if (req.session.loggedIn) {
+        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        privileges = await getUserPrivileges(userDetailsBlock.user_level);
         res.render('manageuserroles', {
-            title: 'Manage User Roles', userDetails : req.session.userDetailsBlock
+            title: 'Manage User Roles', userDetails : userDetailsBlock
         });
     } else {
         res.redirect('login');
@@ -333,8 +341,10 @@ app.get('/manageuserroles', async function(req, res){
 
 app.get('/manageusersettings', async function(req, res){
     if (req.session.loggedIn) {
+        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        privileges = await getUserPrivileges(userDetailsBlock.user_level);
         res.render('manageusersettings', {
-            title: 'Manage User Settings', userDetails : req.session.userDetailsBlock
+            title: 'Manage User Settings', userDetails : userDetailsBlock
         });
     } else {
         res.redirect('login');
@@ -347,11 +357,13 @@ app.get('/viewusers', async function(req, res) {
             res.redirect('login');
             return;
         }
+        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         const documents = await getUserAccounts();
+        privileges = await getUserPrivileges(userDetailsBlock.user_level);
 
         res.render('viewusers', {
             title: 'View Users',
-            userDetails: req.session.userDetailsBlock,
+            userDetails: userDetailsBlock,
             users: documents
         });
     } catch (error) {
@@ -362,8 +374,10 @@ app.get('/viewusers', async function(req, res) {
 
 app.get('/uploadfiles', async function(req, res){
     if (req.session.loggedIn) {
+        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        privileges = await getUserPrivileges(userDetailsBlock.user_level);
         res.render('uploadfiles', {
-            title: 'Upload File Page', userDetails: req.session.userDetails
+            title: 'Upload File Page', userDetails: userDetailsBlock
         });
     } else {
         res.redirect('login');
@@ -377,9 +391,7 @@ app.post('/upload', upload.single('file'), async function (req, res) {
         console.log("No file Uploaded");
     }else{
         const { originalname, size } = uploadedFile;
-
         console.log("File Uploaded Successfully in " + `/uploads/${userDetailsBlock.firstName}/${originalname}`);
-
         try{
             uploadInfo = {
                 "file_name": originalname,
@@ -387,17 +399,13 @@ app.post('/upload', upload.single('file'), async function (req, res) {
                 "uploadedBy": req.session.userEmpID, // Replace with appropriate user information
                 "uploadedAt": new Date() // Include a timestamp
             };
-
             result = await files.insertOne(uploadInfo);
-
             console.log("Inserted : " + uploadInfo);
             res.redirect('/');
         } catch(error){
             console.log(error);
         }
-
     }
-
 });
 
 async function getUserDetailsBlock(empID){
@@ -405,7 +413,6 @@ async function getUserDetailsBlock(empID){
 
     try{
         const user = await users.findOne({ emp_id: empID });
-
 
         if(!user){
             console.log("user not found!");
@@ -451,7 +458,19 @@ async function getUserAccounts() {
 async function getUserPrivileges(user_level) {
     try {
         const privilegesDocuments = await privileges.find({ user_level: user_level }).toArray();
-        console.log("The array documents at function getUserPrivileges() : " + JSON.stringify(privilegesDocuments)); //stringified for logging purposes only
+        //console.log("The array documents at function getUserPrivileges() : " + JSON.stringify(privilegesDocuments)); //stringified for logging purposes only
+        var rights = privilegesDocuments[0].user_privileges;
+        var rCount = 0;
+        for(i=0;i<rights.length;i++){
+            if(rights[i] == "Export Documents"){
+                console.log("we found an admin right!");
+            }
+
+        }
+
+
+        console.log("Eto nA" + rCount);
+
         return privilegesDocuments;
     } catch (error) {
         console.log("Failed to retrieve privileges: " + error);
