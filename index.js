@@ -167,12 +167,13 @@ app.post('/login', async function (req, res) {
                 req.session.userLevel = user.user_level;
 
                 // JSON DATA BLOCK
-                userDetailsBlock = {
-                    "firstName": user.first_name,
-                    "lastName": user.last_name,
-                    "empID": user.emp_id,
-                    "userLevel": user.user_level
-                };
+//                userDetailsBlock = {
+//                    "firstName": user.first_name,
+//                    "lastName": user.last_name,
+//                    "empID": user.emp_id,
+//                    "userLevel": user.user_level
+//                };
+                userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
 
                 req.session.userDetailsBlock = userDetailsBlock;
                 req.session.loggedIn = true;
@@ -399,6 +400,32 @@ app.post('/upload', upload.single('file'), async function (req, res) {
 
 });
 
+async function getUserDetailsBlock(empID){
+    var userDetailsBlock;
+
+    try{
+        const user = await users.findOne({ emp_id: empID });
+
+
+        if(!user){
+            console.log("user not found!");
+            console.log("if you are here, you deleted the profile mid-session");
+            userDetailsBlock = ""; // future error handling for respective req-res
+        }else{
+            userDetailsBlock = {
+                "firstName": user.first_name,
+                "lastName": user.last_name,
+                "empID": user.emp_id,
+                "userLevel": user.user_level
+            }
+        }
+    }catch(error){
+        console.log("Failed to retrieve user details block: " + error);
+    }
+    console.log("Executed getUserDetailsBlock" + userDetailsBlock);
+    return userDetailsBlock;
+}
+
 
 
 async function getFiles(empID) {
@@ -464,6 +491,7 @@ function initializeFilesCollectionConnection(){
     }
 }
 
+// Privileges collection initialization
 function initializePrivilegesCollectionConnection(){
     try{
         privileges = db.collection('privileges');
