@@ -129,12 +129,10 @@ app.get('/logout', async function(req, res){
     req.session.destroy();
     res.redirect('/login');
     console.log("User has logged out!");
-    console.log("Database connection stopped.");
 });
 
 app.get('/login', async function(req, res){
     try {
-        const filesDocuments = await getFiles(); // why in God's name is this here?
         if (req.session.loggedIn) {
             res.redirect('/');
         } else {
@@ -184,9 +182,7 @@ app.post('/login', async function (req, res) {
 //
 //                for(i=0;i<=)
 
-
-
-                console.log("User " + userDetailsBlock.firstName, userDetailsBlock.lastName, userDetailsBlock.empID + " has logged in with " + JSON.stringify(privileges) + " privileges!");
+                console.log("User " + userDetailsBlock.firstName, userDetailsBlock.lastName, userDetailsBlock.empID + " has logged in with " + userDetailsBlock.userLevel + " privileges!");
 
             } else {
                 res.render('login', {
@@ -457,23 +453,17 @@ async function getUserAccounts() {
 
 async function getUserPrivileges(user_level) {
     try {
-        const privilegesDocuments = await privileges.find({ user_level: user_level }).toArray();
-        //console.log("The array documents at function getUserPrivileges() : " + JSON.stringify(privilegesDocuments)); //stringified for logging purposes only
-        var rights = privilegesDocuments[0].user_privileges;
-        var rCount = 0;
-        for(i=0;i<rights.length;i++){
-            if(rights[i] == "Export Documents"){
-                console.log("we found an admin right!");
-            }
+        const privilegesDocuments = await db.collection('privileges').findOne({ user_level: user_level });
 
+        if (!privilegesDocuments || !privilegesDocuments.user_privileges) {
+            console.log("No privileges found for user level: " + user_level);
+            return [];
         }
-
-
-        console.log("Eto nA" + rCount);
-
-        return privilegesDocuments;
+        console.log(privilegesDocuments.user_privileges)
+        return privilegesDocuments.user_privileges;
     } catch (error) {
         console.log("Failed to retrieve privileges: " + error);
+        return [];
     }
 }
 
