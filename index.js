@@ -23,10 +23,12 @@ const dbName = 'intellijent';
 var db;
 var users;
 var files;
+var privileges;
 
 initializeDatabaseConnection(url,dbName);
 initializeUsersCollectionConnection();
 initializeFilesCollectionConnection();
+initializePrivilegesCollectionConnection();
 
 app.use(session({
   secret: 'your secret here',
@@ -183,8 +185,18 @@ app.post('/login', async function (req, res) {
                     filesData: documents
                 });
 
-                console.log("User " + user.first_name, user.last_name, user.emp_id + " has logged in.");
+
                 console.log(userDetailsBlock);
+                // FOR REMODELING
+//                userPrivileges = await getUserPrivileges(req.session.userLevel);
+//
+//                req.session.userPrivilegesBlock = [];
+//
+//                for(i=0;i<=)
+
+
+
+                console.log("User " + user.first_name, user.last_name, user.emp_id + " has logged in with " + JSON.stringify(req.session.userPrivileges) + " privileges!");
             } else {
                 res.render('login', {
                     title: 'Login Page', receivedError: "Incorrect Username or Password!"
@@ -259,6 +271,7 @@ app.get('/managedeadlines', async function(req, res){
 
 app.get('/createusers', async function(req, res){
     if (req.session.loggedIn) {
+        console.log(userDetailsBlock.userLevel)
         res.render('createusers', {
             title: 'Create Users', userDetails : req.session.userDetailsBlock
         });
@@ -408,6 +421,16 @@ async function getUserAccounts() {
     }
 }
 
+async function getUserPrivileges(user_level) {
+    try {
+        const privilegesDocuments = await privileges.find({ user_level: user_level }).toArray();
+        console.log("The array documents at function getUserPrivileges() : " + JSON.stringify(privilegesDocuments)); //stringified for logging purposes only
+        return privilegesDocuments;
+    } catch (error) {
+        console.log("Failed to retrieve privileges: " + error);
+    }
+}
+
 // Database initialization
 function initializeDatabaseConnection(url,dbName){
     try{
@@ -436,6 +459,15 @@ function initializeFilesCollectionConnection(){
     try{
         files = db.collection('files');
         console.log("Connected to the Database Files Collection.");
+    }catch(error){
+        console.log(error);
+    }
+}
+
+function initializePrivilegesCollectionConnection(){
+    try{
+        privileges = db.collection('privileges');
+        console.log("Connected to the Database Privileges Collection.");
     }catch(error){
         console.log(error);
     }
