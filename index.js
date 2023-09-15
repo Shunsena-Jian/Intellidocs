@@ -1,13 +1,20 @@
 const express = require('express');
 const session = require('express-session');
-const app = express();
+
+const http = require('http');
+const socketIo = require('socket.io');
+
 const path = require('path');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const multer = require('multer');
 const fs = require('fs');
 const port = 3000;
-let client;
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -16,10 +23,14 @@ app.use('/views/src', express.static(path.join(__dirname, 'views', 'src')));
 app.use(express.static(path.join(__dirname, 'views')));
 app.use('/uploads', express.static('uploads'));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Define the database
 const url = 'mongodb://127.0.0.1/intellijent';
 const dbName = 'intellijent';
 
+let client;
 var db;
 var users;
 var files;
@@ -30,16 +41,17 @@ initializeUsersCollectionConnection();
 initializeFilesCollectionConnection();
 initializePrivilegesCollectionConnection();
 
-app.use(session({
-  secret: 'your secret here',
-  resave: false,
-  saveUninitialized: true
-}));
+app.use(
+    session({
+        secret: 'your secret here',
+        resave: false,
+        saveUninitialized: true
+    })
+);
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(port, () => {
+
+server.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
