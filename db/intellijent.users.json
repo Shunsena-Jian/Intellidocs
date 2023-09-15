@@ -7,7 +7,7 @@
   "emp_id": "11111111",
   "first_name": "Jian Raphael",
   "last_name": "Cudiamat",
-  "user_level": "admin"
+  "user_level": "Admin"
 },
 {
   "_id": {
@@ -18,7 +18,7 @@
   "emp_id": "22222222",
   "first_name": "John Poul",
   "last_name": "Panglao",
-  "user_level": "admin"
+  "user_level": "Admin"
 },
 {
   "_id": {
@@ -29,7 +29,7 @@
   "emp_id": "33333333",
   "first_name": "Cassandra",
   "last_name": "Narvasa",
-  "user_level": "faculty"
+  "user_level": "Faculty"
 },
 {
   "_id": {
@@ -40,7 +40,7 @@
   "emp_id": "44444444",
   "first_name": "Denmark",
   "last_name": "Chan",
-  "user_level": "dean"
+  "user_level": "Dean"
 },
 {
   "_id": {
@@ -51,7 +51,7 @@
   "emp_id": "55555555",
   "first_name": "Leianneza",
   "last_name": "Pioquinto",
-  "user_level": "document_controller"
+  "user_level": "Document Controller"
 },
 {
   "_id": {
@@ -62,7 +62,7 @@
   "emp_id": "66666666",
   "first_name": "Alyanna",
   "last_name": "Ramos",
-  "user_level": "faculty"
+  "user_level": "Faculty"
 },
 {
   "_id": {
@@ -73,7 +73,7 @@
   "emp_id": "77777777",
   "first_name": "Lywe",
   "last_name": "Dup-et",
-  "user_level": "department_head"
+  "user_level": "Non-Faculty"
 },
 {
   "_id": {
@@ -84,5 +84,27 @@
   "emp_id": "88888888",
   "first_name": "Machian",
   "last_name": "Oliva",
-  "user_level": "document_controller"
+  "user_level": "Document Controller"
+},
+{
+  "_id": {
+    "$oid": "64faab2dd91cee3f0fb70e1d"
+  },
+  "username": "lastsample",
+  "password": "123",
+  "emp_id": "99999999",
+  "first_name": "First Sample",
+  "last_name": "Last Sample",
+  "user_level": "Admin"
+},
+{
+  "_id": {
+    "$oid": "64faabd2a9d6a24819dd43db"
+  },
+  "username": "mashan",
+  "password": "123",
+  "emp_id": "213115",
+  "first_name": "Mashikovs",
+  "last_name": "Delphers",
+  "user_level": "Document Controller"
 }]

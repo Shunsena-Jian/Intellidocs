@@ -1,0 +1,117 @@
+[{
+  "_id": {
+    "$oid": "650194f97c29345c91640e9e"
+  },
+  "user_level": "Admin",
+  "user_privileges": [
+    "Create Templates",
+    "View Templates",
+    "Edit Templates",
+    "Delete Templates",
+    "Create Documents",
+    "View Documents",
+    "Edit Documents",
+    "Save Documents",
+    "Archive Documents",
+    "Download Documents",
+    "Approve Documents",
+    "View Document Metadata",
+    "Edit Document Metadata",
+    "View Reports",
+    "Export Reports",
+    "Assign User",
+    "Add Document Widgets",
+    "Edit Document Widgets",
+    "Delete Document Widgets",
+    "Add User",
+    "Edit User",
+    "Delete User"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6501a258d2ae20234fe218d6"
+  },
+  "user_level": [
+    "Faculty",
+    "Non-Faculty"
+  ],
+  "user_privileges": [
+    "View Documents",
+    "Sign Documents",
+    "Fill-Out Documents"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6501ab70d2ae20234fe218d9"
+  },
+  "user_level": "Core Process Owner",
+  "user_privileges": [
+    "Create Templates",
+    "View Documents",
+    "Store Documents",
+    "Edit Documents",
+    "Save Documents",
+    "Archive Documents",
+    "Sign Documents",
+    "Download Documents",
+    "Approve Documents",
+    "Approve Forms",
+    "Sign Documents",
+    "View Reports",
+    "Export Reports"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6501afd1d2ae20234fe218da"
+  },
+  "user_level": "Document Controller",
+  "user_privileges": [
+    "Create Templates",
+    "View Templates",
+    "Edit Templates",
+    "Delete Templates",
+    "Create Documents",
+    "View Documents",
+    "Save Documents",
+    "Store Documents",
+    "Edit Documents",
+    "Archive Documents",
+    "Download Documents",
+    "Approve Documents",
+    "Edit Document Metadata",
+    "View Document Metadata",
+    "Add Document Widgets",
+    "Edit Document Widgets",
+    "Delete Document Widgets",
+    "Assign User",
+    "View Reports",
+    "Export Reports"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6501b1cbd2ae20234fe218dc"
+  },
+  "user_level": "Department Head",
+  "user_privileges": [
+    "View Documents",
+    "Store Documents",
+    "Edit Documents",
+    "Save Documents",
+    "Download Documents",
+    "Approve Documents"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6501b307d2ae20234fe218dd"
+  },
+  "user_level": "Secretary",
+  "user_privileges": [
+    "View Documents",
+    "Approve Documents"
+  ]
+}]
