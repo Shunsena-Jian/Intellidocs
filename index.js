@@ -209,15 +209,41 @@ app.post('/login', async function (req, res) {
 });
 
 app.get('/createform', async function(req, res){
+    var requiredPrivilege = 'Create Templates';
+    var accessGranted = false;
+
     if (req.session.loggedIn) {
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.user_level);
-        res.render('createform', {
-            title: 'Create Form', userDetails : userDetailsBlock
-        });
+        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+
+        for(i = 0; i < privileges.length; i++) {
+            if(privileges[i] == requiredPrivilege){
+                accessGranted = true;
+            }
+        }
+
+        if(accessGranted){
+            res.render('createform', {
+                title: 'Create Form', userDetails : userDetailsBlock
+            });
+            console.log("Access Granted!");
+        } else {
+            res.render('error_screen', {
+                title: 'Create Form', userDetails : userDetailsBlock,
+                errorMSG : "Access Denied"
+            });
+            console.log("User Denied");
+        }
+
     } else {
         res.redirect('login');
     }
+});
+
+app.get('/123', async function(req, res){
+    res.render('error_screen', {
+        title: 'BASTA ERROR'
+    });
 });
 
 app.get('/viewforms', async function(req, res){
@@ -464,19 +490,26 @@ async function getUserAccounts() {
 }
 
 async function getUserPrivileges(user_level) {
+    var privilegesDocumentsBlock;
+    var privilegesDocuments;
+
     try {
-        const privilegesDocuments = await db.collection('privileges').findOne({ user_level: user_level });
+        privilegesDocuments = await db.collection('privileges').findOne({ user_level: user_level });
 
         if (!privilegesDocuments || !privilegesDocuments.user_privileges) {
             console.log("No privileges found for user level: " + user_level);
-            return [];
+            privilegesDocumentsBlock = [];
+        } else {
+            console.log(privilegesDocuments.user_privileges)
+            privilegesDocumentsBlock = privilegesDocuments.user_privileges;
         }
-        console.log(privilegesDocuments.user_privileges)
-        return privilegesDocuments.user_privileges;
+
+
     } catch (error) {
         console.log("Failed to retrieve privileges: " + error);
-        return [];
+        privilegesDocumentsBlock = [];
     }
+    return privilegesDocumentsBlock;
 }
 
 // Database initialization
