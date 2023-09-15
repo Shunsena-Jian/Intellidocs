@@ -234,25 +234,38 @@ app.get('/createform', async function(req, res){
             });
             console.log("User Denied");
         }
-
     } else {
         res.redirect('login');
     }
 });
 
-app.get('/123', async function(req, res){
-    res.render('error_screen', {
-        title: 'BASTA ERROR'
-    });
-});
-
 app.get('/viewforms', async function(req, res){
+    var requiredPrivilege = 'View Documents';
+    var accessGranted = false;
+
     if (req.session.loggedIn) {
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.user_level);
-        res.render('viewforms', {
-            title: 'View Forms', userDetails : userDetailsBlock
-        });
+        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+
+        for(i = 0; i < privileges.length; i++) {
+            if(privileges[i] == requiredPrivilege){
+                accessGranted = true;
+            }
+        }
+
+        if(accessGranted){
+            res.render('viewforms', {
+                title: 'View Forms', userDetails : userDetailsBlock
+            });
+            console.log("Access Granted!");
+        } else {
+            res.render('error_screen', {
+                title: 'View Forms', userDetails : userDetailsBlock,
+                errorMSG : "Access Denied"
+            });
+            console.log("User Denied");
+        }
+
     } else {
         res.redirect('login');
     }
@@ -261,7 +274,8 @@ app.get('/viewforms', async function(req, res){
 app.get('/submission', async function(req, res){
     if (req.session.loggedIn) {
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.user_level);
+        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+
         res.render('submissions', {
             title: 'Submissions', userDetails : userDetailsBlock
         });
@@ -271,12 +285,32 @@ app.get('/submission', async function(req, res){
 });
 
 app.get('/viewreports', async function(req, res){
+    var requiredPrivilege = 'View Reports';
+    var accessGranted = false;
+
     if (req.session.loggedIn) {
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.user_level);
-        res.render('viewreports', {
-            title: 'View Reports', userDetails : userDetailsBlock
-        });
+        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+
+        for(i = 0; i < privileges.length; i++) {
+            if(privileges[i] == requiredPrivilege){
+                accessGranted = true;
+            }
+        }
+
+        if(accessGranted){
+            res.render('viewreports', {
+                title: 'View Reports', userDetails : userDetailsBlock
+            });
+        } else {
+            res.render('error_screen', {
+                title: 'View Reports', userDetails : userDetailsBlock,
+                errorMSG : "Access Denied"
+            });
+            console.log("User Denied");
+        }
+
+
     } else {
         res.redirect('login');
     }
@@ -285,7 +319,7 @@ app.get('/viewreports', async function(req, res){
 app.get('/managenotifications', async function(req, res){
     if (req.session.loggedIn) {
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.user_level);
+        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
         res.render('managenotifications', {
             title: 'Manage Notifications', userDetails : userDetailsBlock
         });
@@ -297,7 +331,7 @@ app.get('/managenotifications', async function(req, res){
 app.get('/managedeadlines', async function(req, res){
     if (req.session.loggedIn) {
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.user_level);
+        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
         res.render('managedeadlines', {
             title: 'Manage Deadlines', userDetails : userDetailsBlock
         });
@@ -307,13 +341,30 @@ app.get('/managedeadlines', async function(req, res){
 });
 
 app.get('/createusers', async function(req, res){
+    var requiredPrivilege = 'Add User';
+    var accessGranted = false;
+
     if (req.session.loggedIn) {
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.user_level);
-//        console.log(userDetailsBlock.userLevel) FIX THIS
-        res.render('createusers', {
-            title: 'Create Users', userDetails : userDetailsBlock
-        });
+        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+
+        for(i = 0; i < privileges.length; i++) {
+            if(privileges[i] == requiredPrivilege){
+                accessGranted = true;
+            }
+        }
+
+        if(accessGranted) {
+            res.render('createusers', {
+                title: 'Create Users', userDetails : userDetailsBlock
+            });
+        } else {
+            res.render('error_screen', {
+                title: 'Create Users', userDetails : userDetailsBlock,
+                errorMSG : "Access Denied"
+            });
+        }
+
     } else {
         res.redirect('login');
     }
@@ -350,7 +401,7 @@ app.post('/createusers', async function(req, res){
             console.log("Error creating the user: " + error);
         }
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.user_level);
+        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
         res.render('createusers', {
             title: 'Create Users', userDetails : userDetailsBlock
         });
@@ -362,30 +413,68 @@ app.post('/createusers', async function(req, res){
 });
 
 app.get('/manageuserroles', async function(req, res){
+    var requiredPrivilege = 'Edit User';
+    var accessGranted = false;
+
     if (req.session.loggedIn) {
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.user_level);
-        res.render('manageuserroles', {
-            title: 'Manage User Roles', userDetails : userDetailsBlock
-        });
+        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+
+        for(i = 0; i < privileges.length; i++) {
+            if(privileges[i] == requiredPrivilege){
+                accessGranted = true;
+            }
+        }
+
+        if(accessGranted){
+            res.render('manageuserroles', {
+                title: 'Manage User Roles', userDetails : userDetailsBlock
+            });
+            console.log("Access Granted!");
+        } else {
+            res.render('error_screen', {
+                title: 'Manage User Roles', userDetails : userDetailsBlock,
+                errorMSG : "Access Denied"
+            });
+            console.log("User Denied");
+        }
+
     } else {
         res.redirect('login');
     }
 });
 
 app.get('/manageusersettings', async function(req, res){
+    var requiredPrivilege = 'Edit User';
+    var accessGranted = false;
+
     if (req.session.loggedIn) {
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.user_level);
-        res.render('manageusersettings', {
-            title: 'Manage User Settings', userDetails : userDetailsBlock
-        });
+        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+
+        if(accessGranted){
+            res.render('manageusersettings', {
+                title: 'Manage User Settings', userDetails : userDetailsBlock
+            });
+            console.log("Access Granted!");
+        } else {
+            res.render('error_screen', {
+                title: 'Manage User Settings', userDetails : userDetailsBlock,
+                errorMSG : "Access Denied"
+            });
+            console.log("User Denied");
+        }
+
+
     } else {
         res.redirect('login');
     }
 });
 
 app.get('/viewusers', async function(req, res) {
+    var requiredPrivilege = 'Edit User';
+    var accessGranted = false;
+
     try {
         if (!req.session.loggedIn) {
             res.redirect('login');
@@ -393,13 +482,29 @@ app.get('/viewusers', async function(req, res) {
         }
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         const documents = await getUserAccounts();
-        privileges = await getUserPrivileges(userDetailsBlock.user_level);
+        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
 
-        res.render('viewusers', {
-            title: 'View Users',
-            userDetails: userDetailsBlock,
-            users: documents
-        });
+        for(i = 0; i < privileges.length; i++) {
+            if(privileges[i] == requiredPrivilege){
+                accessGranted = true;
+            }
+        }
+
+        if(accessGranted){
+            res.render('viewusers', {
+                title: 'View Users',
+                userDetails: userDetailsBlock,
+                users: documents
+            });
+            console.log("Access Granted!");
+        } else {
+            res.render('error_screen', {
+                title: 'View Users', userDetails : userDetailsBlock,
+                errorMSG : "Access Denied"
+            });
+            console.log("User Denied");
+        }
+
     } catch (error) {
         console.log("Error: " + error);
         res.status(500).send('Internal Server Error');
@@ -409,7 +514,7 @@ app.get('/viewusers', async function(req, res) {
 app.get('/uploadfiles', async function(req, res){
     if (req.session.loggedIn) {
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.user_level);
+        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
         res.render('uploadfiles', {
             title: 'Upload File Page', userDetails: userDetailsBlock
         });
