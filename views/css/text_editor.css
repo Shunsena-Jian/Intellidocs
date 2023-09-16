@@ -1,0 +1,220 @@
+.align-right {
+   text-align: right;
+   width: 100%;
+   padding: 60px;
+}
+
+.body-container {
+    padding: 30px;
+}
+
+.grid-container {
+  align-items:center;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: #ccc;
+  display: flex;
+  border: 1px solid #ccc;
+  padding: 5px;
+  overflow-x: auto; /* Add horizontal scroll if necessary */
+}
+
+.grid-item {
+  padding: 5px;
+  border: 1px solid #ccc;
+  min-width: 10px; /* Set a minimum width for each column */
+}
+
+
+.grid-item:hover {
+  background: #808080;
+
+}
+
+.borderless {
+ border: none;
+ padding: 0;
+}
+
+.element-spacing-5 {
+   margin: 2px;
+   padding: 2px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    font-size:1rem;
+    color: black;
+    text-align:left;
+}
+
+p {
+    font-size:1.2rem;
+    color: black;
+
+}
+
+
+.container {
+    max-width: 1200px; /* Adjust the maximum width as needed */
+    margin: 0 auto;
+    padding: 20px;
+    display: block;
+    align-items: center;
+    justify-content: space-between;
+    user-drag: none;
+}
+
+.page-container,
+.pages {
+  display: inline-block;
+  vertical-align: top; /* Align them vertically if needed */
+}
+
+.page-container {
+  margin: 10px;
+  width: 100%; /* Adjust the width as needed */
+  background-color: #ccc; /* Set background color for page-container */
+  box-sizing: border-box; /* Include padding and border in the width */
+  padding: 10px; /* Add some padding for spacing */
+  height: 100%; /* Set a maximum height for the scrollable area */
+  overflow-y: auto; /* Make the container scrollable vertically */
+  overflow-x: auto; /* Make the container scrollable vertically */
+}
+
+.pages {
+  width: 100%; /* Adjust the width as needed */
+  box-sizing: border-box; /* Include padding and border in the width */
+  padding: 10px; /* Add some padding for spacing */
+}
+
+
+
+
+.drop-container {
+  width: 80%; /* Minimum width to match A4 width */
+  height: 100%; /* A4 height in pixels */
+  margin: 10px auto;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+}
+
+
+.box {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 2px;
+    cursor: grab;
+    min-width: 100px; /* Minimum width for each child */
+    flex: 1 0 auto; /* Allow flex items to grow and shrink */
+}
+
+
+
+.box.draggable {
+    cursor: grab;
+}
+
+.box.dragging {
+    opacity: 0.5;
+}
+
+.drop-box {
+     width: 794px; /* A4 width in pixels */
+     height: 1200px; /* A4 height in pixels */
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 2px dashed #ccc;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    min-width: 100px; /* Minimum width for each child */
+    flex: 1 1 auto; /* Allow flex items to grow and shrink */
+}
+
+.drop-box.hover {
+    background-color: #e0e0e0;
+}
+
+
+
+
+.drop-box {
+            background-color: #f4f4f4;
+            margin: 5px;
+            border: 1px solid #eee;
+            padding: 5px;
+            flex: 1 1 auto; /* Allow flex items to grow and shrink */
+            min-width: 100px; /* Minimum width for each child */
+}
+
+.table_fillup_center {
+    float: center;
+    margin: 5px;
+}
+
+.drop-box.hover {
+    background-color: #d9d9d9;
+}
+
+table {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+}
+
+table.right {
+width:40%;
+float: right;
+}
+
+.selected {
+  background-color: #FFFF99;
+}
+
+.merged {
+  background-color: #FFFFCC;
+}
+
+
+td {
+    border: 2px solid black;
+    padding: 5px;
+    font-size: 1vw;
+    max-width: 200px; /* Adjust the value as needed */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis;  */
+    text-align: left;
+    width: 200px;
+}
+
+th {
+    width: 200px;
+    border: 1px solid black;
+    padding: 5px;
+    font-size: 1vw;
+    max-width: 150px; /* Adjust the value as needed */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis;  */
+    text-align: center;
+}
+
+
+/* Add this to your CSS file */
+.non-draggable {
+    cursor: auto; /* Change the cursor to the default pointer */
+    opacity: 1; /* Make it fully visible */
+    pointer-events: auto; /* Allow pointer events on the element */
+    user-drag: none; /* Disable user dragging */
+}
