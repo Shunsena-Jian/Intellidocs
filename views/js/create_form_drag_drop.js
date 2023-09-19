@@ -90,9 +90,36 @@ function unmergeCells(table) {
 
         // Iterate to restore original content and appearance for each cell
         for (let i = 0; i < rowspan; i++) {
-            const newRow = table.rows[rowIndex + i];
+            const newRow = table.rows[rowIndex+i];
+
             if (newRow) {
-                for (let j = 0; j < colspan; j++) {
+                 let colOrRow = null;
+                 let newCellCount = newRow.cells.length;
+                if (colspan > 1) {
+                 newCellCount = newRow.cells.length + (colspan-1) ;
+                 colOrRow = 'col';
+                }
+
+                console.log(newCellCount);
+                if (colOrRow === 'col') {
+                    if (newCellCount > newRow.cells.length) {
+                          // Add <td> elements to match the new column count
+                          for (let i = newRow.cells.length; i < newCellCount; i++) {
+                          const cell = document.createElement('td');
+                          newRow.appendChild(cell);
+                          }
+                    }
+                }
+
+                if (newCellCount > newRow.cells.length) {
+                    // Add <td> elements to match the new column count
+                      for (let i = newRow.cells.length; i < newCellCount; i++) {
+                        const cell = document.createElement('td');
+                        newRow.appendChild(cell);
+                      }
+                }
+                for (let j = 0; j < newCellCount; j++) {
+                    console.log(j);
                     const existingCell = newRow.cells[cellIndex + j];
                     if (existingCell) {
                         existingCell.textContent = originalContent;
@@ -100,19 +127,10 @@ function unmergeCells(table) {
                     }
                 }
             }
-        }
+}
     });
-
-    // Replace the rest of the selected cells with empty cells
-            selectedCells.slice(1).forEach(cell => {
-              cell.parentElement.removeChild(cell);
-            });
-
-
     clearSelection(table);
 }
-
-
 
 
     function clearSelection(table) {
@@ -158,8 +176,30 @@ function removeTableColumn(table, columnIndex) {
 
 function addTableRow(table) {
     const newRow = table.insertRow(table.rows.length);
-    console.log(table.rows)
-    for (let i = 0; i < table.rows[0].cells.length; i++) {
+
+    let sumColSpan = -1;
+
+    let hasColspan = false;
+
+    // Get the first row of the table
+    const firstRow = table.rows[0];
+
+    // Iterate through the cells in the first row
+    for (let j = 0; j < firstRow.cells.length; j++) {
+      const cell = firstRow.cells[j];
+
+      // Check if the cell has a colspan attribute greater than 1
+      if (cell.colSpan > 1) {
+        sumColSpan += cell.colSpan;
+      }
+    }
+
+    if (sumColSpan == -1) {
+        sumColSpan = 0;
+    }
+    let rowColCount = sumColSpan + table.rows[0].cells.length;
+
+    for (let i = 0; i < rowColCount; i++) {
         const cell = newRow.insertCell(i);
         cell.contentEditable = true;
         cell.textContent = '';
@@ -347,11 +387,6 @@ function createNewPage() {
   }
 
 
-
-
-
-
-
 function addEventListenerToDiv(dropBox) {
     dropBox.addEventListener('dragover', (e) => {
         e.preventDefault();
@@ -406,7 +441,7 @@ dropBox.addEventListener('drop', (e) => {
                             clonedDiv.addEventListener('click', (e) => {
                                         const cell = e.target;
 
-                                        if (cell.tagName === 'TD' && !cell.classList.contains('merged')) {
+                                        if (cell.tagName === 'TD' && !cell.classList.contains('merged') || cell.tagName === 'TH' && !cell.classList.contains('merged')) {
                                             if (cell.classList.contains('selected')) {
                                                 // Deselect the cell
                                                 cell.classList.remove('selected');
