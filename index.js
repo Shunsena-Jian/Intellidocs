@@ -216,11 +216,7 @@ app.get('/createform', async function(req, res){
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         privileges = await getUserPrivileges(userDetailsBlock.userLevel);
 
-        for(i = 0; i < privileges.length; i++) {
-            if(privileges[i] == requiredPrivilege){
-                accessGranted = true;
-            }
-        }
+        accessGranted = validateAction(privileges, requiredPrivilege);
 
         if(accessGranted){
             res.render('createform', {
@@ -247,11 +243,7 @@ app.get('/viewforms', async function(req, res){
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         privileges = await getUserPrivileges(userDetailsBlock.userLevel);
 
-        for(i = 0; i < privileges.length; i++) {
-            if(privileges[i] == requiredPrivilege){
-                accessGranted = true;
-            }
-        }
+        accessGranted = validateAction(privileges, requiredPrivilege);
 
         if(accessGranted){
             res.render('viewforms', {
@@ -292,11 +284,7 @@ app.get('/viewreports', async function(req, res){
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         privileges = await getUserPrivileges(userDetailsBlock.userLevel);
 
-        for(i = 0; i < privileges.length; i++) {
-            if(privileges[i] == requiredPrivilege){
-                accessGranted = true;
-            }
-        }
+        accessGranted = validateAction(privileges, requiredPrivilege);
 
         if(accessGranted){
             res.render('viewreports', {
@@ -348,11 +336,7 @@ app.get('/createusers', async function(req, res){
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         privileges = await getUserPrivileges(userDetailsBlock.userLevel);
 
-        for(i = 0; i < privileges.length; i++) {
-            if(privileges[i] == requiredPrivilege){
-                accessGranted = true;
-            }
-        }
+        accessGranted = validateAction(privileges, requiredPrivilege);
 
         if(accessGranted) {
             res.render('createusers', {
@@ -420,11 +404,7 @@ app.get('/manageuserroles', async function(req, res){
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         privileges = await getUserPrivileges(userDetailsBlock.userLevel);
 
-        for(i = 0; i < privileges.length; i++) {
-            if(privileges[i] == requiredPrivilege){
-                accessGranted = true;
-            }
-        }
+        accessGranted = validateAction(privileges, requiredPrivilege);
 
         if(accessGranted){
             res.render('manageuserroles', {
@@ -451,6 +431,8 @@ app.get('/manageusersettings', async function(req, res){
     if (req.session.loggedIn) {
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+
+        accessGranted = validateAction(privileges, requiredPrivilege);
 
         if(accessGranted){
             res.render('manageusersettings', {
@@ -484,11 +466,7 @@ app.get('/viewusers', async function(req, res) {
         const documents = await getUserAccounts();
         privileges = await getUserPrivileges(userDetailsBlock.userLevel);
 
-        for(i = 0; i < privileges.length; i++) {
-            if(privileges[i] == requiredPrivilege){
-                accessGranted = true;
-            }
-        }
+        accessGranted = validateAction(privileges, requiredPrivilege);
 
         if(accessGranted){
             res.render('viewusers', {
@@ -658,4 +636,20 @@ function initializePrivilegesCollectionConnection(){
     }catch(error){
         console.log(error);
     }
+}
+
+function validateAction(privileges,requestedAction ){
+    var accessGranted = false;
+     console.log("Received " + privileges + " as privileges");
+    try{
+	    for(i = 0; i < privileges.length; i++) {
+            if(privileges[i] == requestedAction){
+                accessGranted = true;
+            }
+        }
+    } catch(error) {
+        console.log(error);
+    }
+    console.log("Returning " + accessGranted);
+    return accessGranted;
 }
