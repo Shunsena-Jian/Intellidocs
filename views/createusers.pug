@@ -126,29 +126,25 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
         .w3-container.w3-card.w3-white.w3-round.w3-margin
             h4 Create a User
             hr.w3-clear
-            form
+            form(role='form' method='POST')
                 label(for='username') Username:
-                input.w3-input#username(type='text' name='username' required='')
+                input.w3-input#username(type='text' name='userName' required='')
                 br
                 br
                 label(for='password') Password:
-                input#password(type='password' name='password' required='')
+                input#password(type='password' name='passWord' required='')
+                br
+                br
+                label(for='empId') Employee ID:
+                input#empId(type='text' name='empId' required='')
                 br
                 br
                 label(for='firstName') First Name:
                 input#firstName(type='text' name='firstName' required='')
                 br
                 br
-                label(for='firstName') Middle Name:
-                input#middleName(type='text' name='firstName' required='')
-                br
-                br
                 label(for='lastName') Last Name:
                 input#lastName(type='text' name='lastName' required='')
-                br
-                br
-                label(for='empId') Employee ID:
-                input#empId(type='text' name='empId' required='')
                 br
                 br
                 label(for='userLevel') User Level:
