@@ -11,6 +11,7 @@ head
     link(rel='stylesheet' href='css/w3-theme.css')
     link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
     link(rel='stylesheet' href='https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')
 
     style.
         html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
@@ -175,16 +176,11 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
         .w3-half.w3-container
             .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
                 br
-                |                    Chart goes here
-                br
-                br
-                br
-                br
-                br
-                br
-                br
-                br
-                br
+                |                    Chart goes here THIS WILL BE MOVED
+                hr.w3-clear
+                form(action="/upload", method="POST", enctype="multipart/form-data" id="upload-form")
+                    input(type="file", name="file", id="file")
+                    input(type="submit", value="Upload")
                 br
         .w3-row.w3-container
             .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
@@ -248,43 +244,56 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
             }
             }
 
-        script(type='text/javascript').
+        script.
             $(document).ready(function() {
-            $('#table').DataTable();
-            } );
+                $('#upload-form').on('submit', function(e) {
+                    e.preventDefault();
 
-        script(type='text/javascript').
-            $(document).ready(function(){
-            //bi-trash
-            //$('.btn_remove').on('click', function(){
-            //delete file modal
-            $('.bi-trash').on('click', function(){
-            var store_id = $(this).attr('id');
-            $("#modal_remove").modal('show');
-            $('#btn_yes').attr('name', store_id);
+                    const formData = new FormData(this);
+
+                    $.ajax({
+                        url: '/',
+                        type: 'POST',
+                        data: formData,
+                        success: function(data) {
+                            console.log('File uploaded successfully!');
+                            console.log(data);
+                            /*updateTableWithData(data);*/
+
+                            // Clear existing tbody content
+                                                        $('table#data_table tbody').empty();
+
+                                                        // Iterate through the filesData and update the table
+                                                        data.forEach(function(data) {
+                                                            var newRow = $('<tr>');
+                                                            newRow.append('<td>' + file.file_name + '</td>');
+                                                            newRow.append('<td>' + file.file_size + '</td>');
+                                                            newRow.append('<td>' + file.uploadedBy + '</td>');
+                                                            newRow.append('<td>' + file.uploadedAt + '</td>');
+                                                            newRow.append('<td>File Actions</td>');  // You might need to populate this column appropriately
+                                                            $('table#data_table tbody').append(newRow);
+                                                        });
+
+                                                        // Refresh the DataTable (assuming you are using DataTables plugin)
+                                                        $('table#data_table').DataTable().destroy();
+                                                        $('table#data_table').DataTable(data);
+                        },
+                        error: function(err) {
+                            console.error('Error uploading file: ', err.responseText);
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    });
+                });
+
+
+
+
+
             });
-            $('.edit-name').on('click', function(){
-            $("#modal_rename").modal('show');
-            });
-            $('#btn_yes').on('click', function(){
-            var id = $(this).attr('name');
-            $.ajax({
-            type: "POST",
-            url: "deletefile.php",
-            data:{
-            store_id: id
-            },
-            success: function(data){
-            $("#modal_remove").modal('hide');
-            $(".del_file" + id).empty();
-            $(".del_file" + id).html("<td colspan='4'><center class='text-danger'>Deleting...</center></td>");
-            setTimeout(function(){
-            $(".del_file" + id).fadeOut('slow');
-            }, 1000);
-            }
-            });
-            });
-            });
+
+
 
 
 footer#myFooter.w3-bottom

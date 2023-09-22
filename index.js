@@ -136,6 +136,34 @@ app.get('/', async function (req, res) {
     }
 });
 
+app.post('/', upload.single('file'), async function (req, res) {
+    const uploadedFile = req.file;
+
+    if (!uploadedFile) {
+        console.log("No file Uploaded");
+    }else{
+        const { originalname, size } = uploadedFile;
+        console.log("File Uploaded Successfully in " + `/uploads/${userDetailsBlock.firstName}/${originalname}`);
+        try{
+            uploadInfo = {
+                "file_name": originalname,
+                "file_size": size,
+                "uploadedBy": req.session.userEmpID, // Replace with appropriate user information
+                "uploadedAt": new Date() // Include a timestamp
+            };
+            result = await files.insertOne(uploadInfo);
+            console.log("Inserted : " + uploadInfo);
+            //res.redirect('/');
+
+            const documents = await getFiles(req.session.userEmpID);
+
+            res.json({documents});
+        } catch(error){
+            console.log(error);
+        }
+    }
+});
+
 app.get('/logout', async function(req, res){
     req.session.loggedIn = false;
     req.session.destroy();
