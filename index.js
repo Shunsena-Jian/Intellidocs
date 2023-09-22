@@ -153,7 +153,6 @@ app.post('/', upload.single('file'), async function (req, res) {
             };
             result = await files.insertOne(uploadInfo);
             console.log("Inserted : " + uploadInfo);
-            //res.redirect('/');
 
             const documents = await getFiles(req.session.userEmpID);
 
@@ -546,6 +545,8 @@ app.post('/upload', upload.single('file'), async function (req, res) {
             };
             result = await files.insertOne(uploadInfo);
             console.log("Inserted : " + uploadInfo);
+
+            const documents = await getFiles(req.session.userEmpID);
             res.redirect('/');
         } catch(error){
             console.log(error);

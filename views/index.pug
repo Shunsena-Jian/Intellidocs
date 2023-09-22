@@ -188,32 +188,29 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                 h4
                     | Recent Submissions
                 hr
-                if filesData && filesData.length > 0
-                    table#data_table.table.dataTable
-                        thead
+                table#data_table.table.dataTable
+                    thead
+                        tr
+                            th Files Uploaded
+                            th File Size
+                            th Submitted By
+                            th Date Uploaded
+                            th File Actions
+                    tbody
+                        each file in filesData
                             tr
-                                th Files Uploaded
-                                th File Size
-                                th Submitted By
-                                th Date Uploaded
-                                th File Actions
-                        tbody
-                            each file in filesData
-                                tr
-                                    td #{file.file_name}
-                                    td #{file.file_size}
-                                    td #{file.uploadedBy}
-                                    td #{file.uploadedAt}
-                                    td
-                                        a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
-                                            i.fa.fa-pencil.w3-text-theme
-                                        a.w3-half.w3-hover-white(href='/deletefile/'+file.file_name)
-                                            i.fa.fa-times.w3-text-theme
-                else
-                    p No Files Uploaded
+                                td #{file.file_name}
+                                td #{file.file_size}
+                                td #{file.uploadedBy}
+                                td #{file.uploadedAt}
+                                td
+                                    a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
+                                        i.fa.fa-pencil.w3-text-theme
+                                    a.w3-half.w3-hover-white(href='/deletefile/'+file.file_name)
+                                        i.fa.fa-times.w3-text-theme
 
         script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
-        //script(src='https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js')
+        script(src='https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js')
         script(src='js/table.js')
         script(src='js/sidebar.js')
 
@@ -257,26 +254,35 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                         data: formData,
                         success: function(data) {
                             console.log('File uploaded successfully!');
-                            console.log(data);
+                            console.log(data.documents);
                             /*updateTableWithData(data);*/
 
-                            // Clear existing tbody content
-                                                        $('table#data_table tbody').empty();
+                                var tableBody = document.querySelector('#data_table tbody');
+                                console.log("This is the Table Body " + tableBody);
+                                tableBody.innerHTML = '';  // Clear existing tbody content
 
-                                                        // Iterate through the filesData and update the table
-                                                        data.forEach(function(data) {
-                                                            var newRow = $('<tr>');
-                                                            newRow.append('<td>' + file.file_name + '</td>');
-                                                            newRow.append('<td>' + file.file_size + '</td>');
-                                                            newRow.append('<td>' + file.uploadedBy + '</td>');
-                                                            newRow.append('<td>' + file.uploadedAt + '</td>');
-                                                            newRow.append('<td>File Actions</td>');  // You might need to populate this column appropriately
-                                                            $('table#data_table tbody').append(newRow);
-                                                        });
+                                var jsonData = data.documents;
 
-                                                        // Refresh the DataTable (assuming you are using DataTables plugin)
-                                                        $('table#data_table').DataTable().destroy();
-                                                        $('table#data_table').DataTable(data);
+                                jsonData.forEach(function(file) {
+                                    console.log("ran iteration");
+                                    var newRow = document.createElement('tr');
+                                    newRow.innerHTML = `
+                                        <td>${file.file_name}</td>
+                                        <td>${file.file_size}</td>
+                                        <td>${file.uploadedBy}</td>
+                                        <td>${file.uploadedAt}</td>
+                                        <td>File Actions</td>`;  // You might need to populate this column appropriately
+                                        console.log("will and SHOULD append now");
+                                        console.log(newRow);
+                                        tableBody.appendChild(newRow);
+                                });
+
+                                // Assuming you are using DataTables plugin
+                                // Refresh the DataTable
+                                // var dataTable = $('#data_table').DataTable();
+                                // dataTable.destroy();
+                                //dataTable = $('#data_table tbody').DataTable();
+                                // console.log("This is the new dataTable: " + dataTable.innerHTML);
                         },
                         error: function(err) {
                             console.error('Error uploading file: ', err.responseText);
@@ -286,10 +292,6 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                         processData: false
                     });
                 });
-
-
-
-
 
             });
 
