@@ -1,9 +1,27 @@
-const { app, express, session, http, socketIo, path, bodyParser, multer, fs } = require('./imports.js');
-const { MongoClient, initializeUsersCollectionConnection, initializePrivilegesCollectionConnection, initializeFilesCollectionConnection, initializeDatabaseConnection } = require('./dbinit.js');
+const { app,
+        express,
+        session,
+        http,
+        socketIo,
+        path,
+        bodyParser,
+        multer,
+        fs } = require('./imports.js');
+
+const { MongoClient,
+        initializeUsersCollectionConnection,
+        initializePrivilegesCollectionConnection,
+        initializeFilesCollectionConnection,
+        initializeDatabaseConnection } = require('./dbinit.js');
+
 const config = require('./configinit.js');
 
 const url = `mongodb://${config.database.host}:${config.database.port}`;
 const dbName = config.database.name;
+
+console.log("debug mode: " + config.debug_mode);
+
+var debug_mode = config.debug_mode;
 
 const db = initializeDatabaseConnection(url,dbName);
 var users = initializeUsersCollectionConnection();
@@ -52,7 +70,10 @@ const upload = multer({ storage: storage });
 app.get('/deletefile/:file_name', function(req, res){
 
     var selectedFileForDeletion = req.params.file_name;
-    console.log(selectedFileForDeletion);
+
+    if(debug_mode){
+        logStatus(selectedFileForDeletion);
+    }
 
     function deleteFile(filePath, callback) {
         fs.unlink(filePath, function (err) {
@@ -68,9 +89,13 @@ app.get('/deletefile/:file_name', function(req, res){
 
     deleteFile(filePathToDelete, function (err) {
         if (err) {
-            console.error('Error deleting file:', err);
+            if(debug_mode){
+                logStatus('Error deleting file:' + err);
+            }
         } else {
-            console.log('File deleted successfully.');
+            if(debug_mode){
+                logStatus('File deleted successfully.');
+            }
         }
     });
 
@@ -78,9 +103,13 @@ app.get('/deletefile/:file_name', function(req, res){
 
     files.deleteOne(deleteCriteria, function (err, result) {
         if (err) {
-            console.error('Error deleting document:', err);
+            if(debug_mode){
+                logStatus('Error deleting document:' + err);
+            }
         } else {
-            console.log('Document deleted successfully.');
+            if(debug_mode){
+                logStatus('Document deleted successfully.')
+            }
         }
     });
 
@@ -89,7 +118,11 @@ app.get('/deletefile/:file_name', function(req, res){
 
 app.get('/downloadfile/:file_name', function(req, res){
     var selectedFileForDownload = req.params.file_name;
-    console.log("user enetered download request" + selectedFileForDownload);
+
+    if(debug_mode){
+        logStatus("user enetered download request" + selectedFileForDownload);
+    }
+
     res.download("./uploads/" + req.session.userEmpID + "/" + selectedFileForDownload);
 
 });
@@ -119,13 +152,23 @@ app.get('/', async function (req, res) {
 app.post('/', upload.single('file'), async function (req, res) {
     const uploadedFile = req.file;
 
-    console.log("logging received file count " + req.file);
+    if(debug_mode){
+        logStatus("logging received file count " + req.file);
+    }
 
     if (!uploadedFile) {
-        console.log("No file Uploaded");
+
+        if(debug_mode){
+            logStatus("No file Uploaded");
+        }
+
     }else{
         const { originalname, size } = uploadedFile;
-        console.log("File Uploaded Successfully in " + `/uploads/${userDetailsBlock.firstName}/${originalname}`);
+
+        if(debug_mode){
+            logStatus("File Uploaded Successfully in " + `/uploads/${userDetailsBlock.firstName}/${originalname}`);
+        }
+
         try{
             uploadInfo = {
                 "file_name": originalname,
@@ -134,7 +177,10 @@ app.post('/', upload.single('file'), async function (req, res) {
                 "uploadedAt": new Date() // Include a timestamp
             };
             result = await files.insertOne(uploadInfo);
-            console.log("Inserted : " + uploadInfo);
+
+            if(debug_mode){
+                logStatus("Inserted : " + uploadInfo);
+            }
 
             const documents = await getFiles(req.session.userEmpID);
 
@@ -149,7 +195,11 @@ app.get('/logout', async function(req, res){
     req.session.loggedIn = false;
     req.session.destroy();
     res.redirect('/login');
-    console.log("User has logged out!");
+
+    if(debug_mode){
+        logStatus("User has logged out!");
+    }
+
 });
 
 app.get('/login', async function(req, res){
@@ -162,7 +212,10 @@ app.get('/login', async function(req, res){
             });
         }
     } catch (error){
-        console.log(error);
+        if(debug_mode){
+            logStatus(error);
+        }
+
     }
 });
 
@@ -176,7 +229,9 @@ app.post('/login', async function (req, res) {
         try {
             const user = await users.findOne({ username: username });
             if (!user) {
-                console.log("Failed to find User");
+                if(debug_mode){
+                    logStatus("Failed to find User");
+                }
                 res.render('login', {
                     title: 'Login Page', receivedError: "Incorrect Username or Password!"
                 });
@@ -194,16 +249,10 @@ app.post('/login', async function (req, res) {
                     filesData: documents
                 });
 
-                console.log(userDetailsBlock);
-
-                // FOR REMODELING
-//                userPrivileges = await getUserPrivileges(req.session.userLevel);
-//
-//                req.session.userPrivilegesBlock = [];
-//
-//                for(i=0;i<=)
-
-                console.log("User " + userDetailsBlock.firstName, userDetailsBlock.lastName, userDetailsBlock.empID + " has logged in with " + userDetailsBlock.userLevel + " privileges!");
+                if(debug_mode){
+                    logStatus(userDetailsBlock);
+                    logStatus("User " + userDetailsBlock.firstName + userDetailsBlock.lastName + userDetailsBlock.empID + " has logged in with " + userDetailsBlock.userLevel + " privileges!");
+                }
 
             } else {
                 res.render('login', {
@@ -231,13 +280,19 @@ app.get('/createform', async function(req, res){
             res.render('createform', {
                 title: 'Create Form', userDetails : userDetailsBlock
             });
-            console.log("Access Granted!");
+
+            if(debug_mode){
+                logStatus("Access Granted!");
+            }
         } else {
             res.render('error_screen', {
                 title: 'Create Form', userDetails : userDetailsBlock,
                 errorMSG : "Access Denied"
             });
-            console.log("User Denied");
+
+            if(debug_mode){
+                logStatus("User Denied");
+            }
         }
     } else {
         res.redirect('login');
@@ -258,13 +313,19 @@ app.get('/viewforms', async function(req, res){
             res.render('viewforms', {
                 title: 'View Forms', userDetails : userDetailsBlock
             });
-            console.log("Access Granted!");
+
+            if(debug_mode){
+                logStatus("Access Granted!");
+            }
         } else {
             res.render('error_screen', {
                 title: 'View Forms', userDetails : userDetailsBlock,
                 errorMSG : "Access Denied"
             });
-            console.log("User Denied");
+
+            if(debug_mode){
+                logStatus("User Denied");
+            }
         }
 
     } else {
@@ -304,7 +365,6 @@ app.get('/viewreports', async function(req, res){
                 title: 'View Reports', userDetails : userDetailsBlock,
                 errorMSG : "Access Denied"
             });
-            console.log("User Denied");
         }
 
 
@@ -376,7 +436,10 @@ app.post('/createusers', async function(req, res){
         try {
             const existingUser = await db.collection('users').findOne({ username: username });
             if(existingUser) {
-                console.log("Username already exists!");
+                if(debug_mode){
+                    logStatus("Username already exists!");
+                }
+
             } else {
                 const newUser = {
                     "username": username,
@@ -388,10 +451,16 @@ app.post('/createusers', async function(req, res){
                 };
 
                 const result = await db.collection('users').insertOne(newUser);
-                console.log("User created");
+                if(debug_mode){
+                    logStatus("User created");
+                }
+
             }
         } catch (error) {
-            console.log("Error creating the user: " + error);
+            if(debug_mode){
+                logStatus("Error creating the user: " + error);
+            }
+
         }
         userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         privileges = await getUserPrivileges(userDetailsBlock.userLevel);
@@ -419,13 +488,20 @@ app.get('/manageuserroles', async function(req, res){
             res.render('manageuserroles', {
                 title: 'Manage User Roles', userDetails : userDetailsBlock
             });
-            console.log("Access Granted!");
+
+            if(debug_mode){
+                logStatus("Access Granted!");
+            }
+
         } else {
             res.render('error_screen', {
                 title: 'Manage User Roles', userDetails : userDetailsBlock,
                 errorMSG : "Access Denied"
             });
-            console.log("User Denied");
+
+            if(debug_mode){
+                logStatus("User Denied");
+            }
         }
 
     } else {
@@ -447,13 +523,21 @@ app.get('/manageusersettings', async function(req, res){
             res.render('manageusersettings', {
                 title: 'Manage User Settings', userDetails : userDetailsBlock
             });
-            console.log("Access Granted!");
+
+            if(debug_mode){
+                logStatus("Access Granted!");
+            }
+
         } else {
             res.render('error_screen', {
                 title: 'Manage User Settings', userDetails : userDetailsBlock,
                 errorMSG : "Access Denied"
             });
-            console.log("User Denied");
+
+            if(debug_mode){
+                logStatus("User Denied");
+            }
+
         }
 
 
@@ -483,17 +567,28 @@ app.get('/viewusers', async function(req, res) {
                 userDetails: userDetailsBlock,
                 users: documents
             });
-            console.log("Access Granted!");
+
+            if(debug_mode){
+                logStatus("Access Granted!");
+            }
+
         } else {
             res.render('error_screen', {
                 title: 'View Users', userDetails : userDetailsBlock,
                 errorMSG : "Access Denied"
             });
-            console.log("User Denied");
+
+            if(debug_mode){
+                logStatus("User Denied");
+            }
+
         }
 
     } catch (error) {
-        console.log("Error: " + error);
+        if(debug_mode){
+            logStatus("Error: " + error);
+        }
+
         res.status(500).send('Internal Server Error');
     }
 });
@@ -514,10 +609,17 @@ app.post('/upload', upload.single('file'), async function (req, res) {
     const uploadedFile = req.file;
 
     if (!uploadedFile) {
-        console.log("No file Uploaded");
+        if(debug_mode){
+            logStatus("No file Uploaded");
+        }
+
     }else{
         const { originalname, size } = uploadedFile;
-        console.log("File Uploaded Successfully in " + `/uploads/${userDetailsBlock.firstName}/${originalname}`);
+
+        if(debug_mode){
+            logStatus("File Uploaded Successfully in " + `/uploads/${userDetailsBlock.firstName}/${originalname}`);
+        }
+
         try{
             uploadInfo = {
                 "file_name": originalname,
@@ -526,10 +628,12 @@ app.post('/upload', upload.single('file'), async function (req, res) {
                 "uploadedAt": new Date() // Include a timestamp
             };
             result = await files.insertOne(uploadInfo);
-            console.log("Inserted : " + uploadInfo);
+
+            if(debug_mode){
+                logStatus("Inserted : " + uploadInfo);
+            }
 
             const documents = await getFiles(req.session.userEmpID);
-            //res.redirect('/');
 
             res.json({documents});
         } catch(error){
@@ -545,8 +649,11 @@ async function getUserDetailsBlock(empID){
         const user = await users.findOne({ emp_id: empID });
 
         if(!user){
-            console.log("user not found!");
-            console.log("if you are here, you deleted the profile mid-session");
+            if(debug_mode){
+                logStatus("user not found!");
+                logStatus("if you are here, you deleted the profile mid-session");
+            }
+
             userDetailsBlock = ""; // future error handling for respective req-res
         }else{
             userDetailsBlock = {
@@ -557,29 +664,50 @@ async function getUserDetailsBlock(empID){
             }
         }
     }catch(error){
-        console.log("Failed to retrieve user details block: " + error);
+        if(debug_mode){
+            logStatus("Failed to retrieve user details block: " + error);
+        }
     }
-    console.log("Executed getUserDetailsBlock" + userDetailsBlock);
+
+    if(debug_mode){
+        logStatus("Executed getUserDetailsBlock" + userDetailsBlock);
+    }
+
     return userDetailsBlock;
 }
 
 async function getFiles(empID) {
     try {
         const filesDocuments = await files.find({ uploadedBy: empID }).toArray();
-        console.log("The array documents at function getFiles() : " + JSON.stringify(filesDocuments)); //stringified for logging purposes only
+
+        if(debug_mode){
+            logStatus("The array documents at function getFiles() : " + JSON.stringify(filesDocuments)); //stringified for logging purposes only
+        }
+
         return filesDocuments;
     } catch (error) {
-        console.log("Failed to retrieve documents: " + error);
+        if(debug_mode){
+            logStatus("Failed to retrieve documents: " + error);
+        }
+
     }
 }
 
 async function getUserAccounts() {
     try {
         const documents = await users.find({}).toArray();
-        console.log("The array documents at function getUserAccounts() : " + JSON.stringify(documents)); //stringified for logging purposes only
+
+        if(debug_mode){
+            logStatus("The array documents at function getUserAccounts() : " + JSON.stringify(documents)); //stringified for logging purposes only
+        }
+
         return documents;
     } catch (error) {
-        console.log("Failed to retrieve documents: " + error);
+
+        if(debug_mode){
+            logStatus("Failed to retrieve documents: " + error);
+        }
+
     }
 }
 
@@ -591,16 +719,26 @@ async function getUserPrivileges(user_level) {
         privilegesDocuments = await db.collection('privileges').findOne({ user_level: user_level });
 
         if (!privilegesDocuments || !privilegesDocuments.user_privileges) {
-            console.log("No privileges found for user level: " + user_level);
+
+            if(debug_mode){
+                logStatus("No privileges found for user level: " + user_level);
+            }
+
             privilegesDocumentsBlock = [];
         } else {
-            console.log(privilegesDocuments.user_privileges)
+            if(debug_mode){
+                logStatus(privilegesDocuments.user_privileges);
+            }
+
             privilegesDocumentsBlock = privilegesDocuments.user_privileges;
         }
 
 
     } catch (error) {
-        console.log("Failed to retrieve privileges: " + error);
+        if(debug_mode){
+            logStatus("Failed to retrieve privileges: " + error);
+        }
+
         privilegesDocumentsBlock = [];
     }
     return privilegesDocumentsBlock;
@@ -608,7 +746,10 @@ async function getUserPrivileges(user_level) {
 
 function validateAction(privileges,requestedAction ){
     var accessGranted = false;
-     console.log("Received " + privileges + " as privileges");
+    if(debug_mode){
+        logStatus("Received " + privileges + " as privileges");
+    }
+
     try{
 	    for(i = 0; i < privileges.length; i++) {
             if(privileges[i] == requestedAction){
@@ -616,8 +757,18 @@ function validateAction(privileges,requestedAction ){
             }
         }
     } catch(error) {
-        console.log(error);
+        if(debug_mode){
+            logStatus(error);
+        }
+
     }
-    console.log("Returning " + accessGranted);
+    if(debug_mode){
+        logStatus("Returning " + accessGranted);
+    }
+
     return accessGranted;
+}
+
+function logStatus(statusLog){
+    console.log(statusLog);
 }
