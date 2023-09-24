@@ -139,6 +139,8 @@ app.get('/', async function (req, res) {
 app.post('/', upload.single('file'), async function (req, res) {
     const uploadedFile = req.file;
 
+    console.log("logging received file count " + req.file);
+
     if (!uploadedFile) {
         console.log("No file Uploaded");
     }else{
@@ -547,7 +549,9 @@ app.post('/upload', upload.single('file'), async function (req, res) {
             console.log("Inserted : " + uploadInfo);
 
             const documents = await getFiles(req.session.userEmpID);
-            res.redirect('/');
+            //res.redirect('/');
+
+            res.json({documents});
         } catch(error){
             console.log(error);
         }

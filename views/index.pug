@@ -10,8 +10,13 @@ head
     link(rel='stylesheet' href='css/w3css4.css')
     link(rel='stylesheet' href='css/w3-theme.css')
     link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
-    link(rel='stylesheet' href='https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css')
+    //link(rel='stylesheet' href='https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')
+
+    //midnight run
+    script(src='https://code.jquery.com/jquery-3.7.0.js')
+    script(src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js')
+    link(rel='stylesheet' href='https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css')
 
     style.
         html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
@@ -178,7 +183,7 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                 br
                 |                    Chart goes here THIS WILL BE MOVED
                 hr.w3-clear
-                form(action="/upload", method="POST", enctype="multipart/form-data" id="upload-form")
+                form(action="/", method="POST", enctype="multipart/form-data" id="upload-form")
                     input(type="file", name="file", id="file")
                     input(type="submit", value="Upload")
                 br
@@ -188,29 +193,20 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                 h4
                     | Recent Submissions
                 hr
-                table#data_table.table.dataTable
+                table#example.display(width='100%')
                     thead
                         tr
-                            th Files Uploaded
-                            th File Size
-                            th Submitted By
-                            th Date Uploaded
-                            th File Actions
-                    tbody
-                        each file in filesData
-                            tr
-                                td #{file.file_name}
-                                td #{file.file_size}
-                                td #{file.uploadedBy}
-                                td #{file.uploadedAt}
-                                td
-                                    a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
-                                        i.fa.fa-pencil.w3-text-theme
-                                    a.w3-half.w3-hover-white(href='/deletefile/'+file.file_name)
-                                        i.fa.fa-times.w3-text-theme
+                            th _id
+                            th file_name
+                            th file_size
+                            th uploadedBy
+                            th uploadedAt
+
+
 
         script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
-        script(src='https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js')
+        //script(src='https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js')
+
         script(src='js/table.js')
         script(src='js/sidebar.js')
 
@@ -248,49 +244,52 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
 
                     const formData = new FormData(this);
 
-                    $.ajax({
-                        url: '/',
-                        type: 'POST',
-                        data: formData,
-                        success: function(data) {
-                            console.log('File uploaded successfully!');
-                            console.log(data.documents);
-                            /*updateTableWithData(data);*/
+                                        $.ajax({
+                                            url: '/',
+                                            type: 'POST',
+                                            data: formData,
+                                            success: function(data) {
+                                                console.log('File uploaded successfully!');
+                                                console.log(data.documents);
+                                                /*updateTableWithData(data);*/
 
-                                var tableBody = document.querySelector('#data_table tbody');
-                                console.log("This is the Table Body " + tableBody);
-                                tableBody.innerHTML = '';  // Clear existing tbody content
+                                                    var updatedData = data.documents;
+                                                    var finalData = [];
 
-                                var jsonData = data.documents;
+                                                    var table = $('#example').DataTable();
+                                                    table.clear().draw();
 
-                                jsonData.forEach(function(file) {
-                                    console.log("ran iteration");
-                                    var newRow = document.createElement('tr');
-                                    newRow.innerHTML = `
-                                        <td>${file.file_name}</td>
-                                        <td>${file.file_size}</td>
-                                        <td>${file.uploadedBy}</td>
-                                        <td>${file.uploadedAt}</td>
-                                        <td>File Actions</td>`;  // You might need to populate this column appropriately
-                                        console.log("will and SHOULD append now");
-                                        console.log(newRow);
-                                        tableBody.appendChild(newRow);
-                                });
+                                                    for(i=0;i<updatedData.length;i++){
+                                                        console.log("found an object");
 
-                                // Assuming you are using DataTables plugin
-                                // Refresh the DataTable
-                                // var dataTable = $('#data_table').DataTable();
-                                // dataTable.destroy();
-                                //dataTable = $('#data_table tbody').DataTable();
-                                // console.log("This is the new dataTable: " + dataTable.innerHTML);
-                        },
-                        error: function(err) {
-                            console.error('Error uploading file: ', err.responseText);
-                        },
-                        cache: false,
-                        contentType: false,
-                        processData: false
-                    });
+                                                        var curLine = {
+                                                            _id: updatedData[i]._id,
+                                                            file_name: updatedData[i].file_name,
+                                                            file_size: updatedData[i].file_size,
+                                                            uploadedBy: updatedData[i].uploadedBy,
+                                                            uploadedAt: updatedData[i].uploadedAt
+                                                        }
+
+                                                        finalData.push(curLine);
+                                                        table.row.add(curLine).draw();
+
+                                                    }
+                                                        console.log(finalData);
+
+                                                        // Clear the existing table data
+
+
+                                                        // Add the updated data to the table
+
+                                            },
+                                            error: function(err) {
+                                                console.error('Error uploading file: ', err.responseText);
+                                            },
+                                            cache: false,
+                                            contentType: false,
+                                            processData: false
+                                        });
+
                 });
 
             });
@@ -319,3 +318,7 @@ script.
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById("main").style.marginLeft = "0";
     }
+
+script(src='https://code.jquery.com/jquery-3.7.0.js')
+script(src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js')
+link(rel='stylesheet' href='https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css')
