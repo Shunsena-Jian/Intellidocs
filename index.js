@@ -191,6 +191,57 @@ app.post('/', upload.single('file'), async function (req, res) {
     }
 });
 
+app.delete('/ajaxdelete/:file_name', async function (req, res) {
+
+    var selectedFileForDeletion = req.params.file_name;
+
+    if(debug_mode){
+        logStatus(selectedFileForDeletion);
+    }
+
+    function deleteFile(filePath, callback) {
+        fs.unlink(filePath, function (err) {
+            if (err) {
+                callback(err);
+            } else {
+                callback(null);
+            }
+        });
+    }
+
+    var filePathToDelete = "uploads/" + req.session.userEmpID + "/"  + selectedFileForDeletion;
+
+    deleteFile(filePathToDelete, function (err) {
+        if (err) {
+            if(debug_mode){
+                logStatus('Error deleting file:' + err);
+            }
+        } else {
+            if(debug_mode){
+                logStatus('File deleted successfully.');
+            }
+        }
+    });
+
+    const deleteCriteria = {file_name: selectedFileForDeletion, uploadedBy: req.session.userEmpID};
+
+    await files.deleteOne(deleteCriteria, function (err, result) {
+        if (err) {
+            if(debug_mode){
+                logStatus('Error deleting document:' + err);
+            }
+        } else {
+            if(debug_mode){
+                logStatus('Document deleted successfully.')
+            }
+        }
+    });
+
+    const documents = await getFiles(req.session.userEmpID);
+
+    res.json({documents});
+});
+
 app.get('/logout', async function(req, res){
     req.session.loggedIn = false;
     req.session.destroy();
