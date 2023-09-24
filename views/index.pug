@@ -196,11 +196,19 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                 table#example.display(width='100%')
                     thead
                         tr
-                            th _id
-                            th file_name
-                            th file_size
-                            th uploadedBy
-                            th uploadedAt
+                            th File Name
+                            th File Size
+                            th Uploaded By
+                            th Uploaded At
+                            th File Actions
+                    tbody
+                        each file in filesData
+                            tr
+                                td #{file.file_name}
+                                td #{file.file_size}
+                                td #{file.uploadedBy}
+                                td #{file.uploadedAt}
+                                td nothingForNow
 
 
 
@@ -239,6 +247,7 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
 
         script.
             $(document).ready(function() {
+            var table = $('#example').DataTable();
                 $('#upload-form').on('submit', function(e) {
                     e.preventDefault();
 
@@ -256,21 +265,21 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                                                     var updatedData = data.documents;
                                                     var finalData = [];
 
-                                                    var table = $('#example').DataTable();
+                                                    //var table = $('#example').DataTable();
                                                     table.clear().draw();
 
                                                     for(i=0;i<updatedData.length;i++){
                                                         console.log("found an object");
 
-                                                        var curLine = {
-                                                            _id: updatedData[i]._id,
-                                                            file_name: updatedData[i].file_name,
-                                                            file_size: updatedData[i].file_size,
-                                                            uploadedBy: updatedData[i].uploadedBy,
-                                                            uploadedAt: updatedData[i].uploadedAt
-                                                        }
+                                                        var curLine = [
+                                                            updatedData[i].file_name,
+                                                            updatedData[i].file_size,
+                                                            updatedData[i].uploadedBy,
+                                                            updatedData[i].uploadedAt,
+                                                            "Null Actions for now"
+                                                        ];
 
-                                                        finalData.push(curLine);
+                                                        //finalData.push(curLine);
                                                         table.row.add(curLine).draw();
 
                                                     }
