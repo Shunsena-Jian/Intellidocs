@@ -1,20 +1,18 @@
-const express = require('express');
-const session = require('express-session');
+const { app, express, session, http, socketIo, path, bodyParser, multer, fs } = require('./imports.js');
+const { MongoClient, initializeUsersCollectionConnection, initializePrivilegesCollectionConnection, initializeFilesCollectionConnection, initializeDatabaseConnection } = require('./dbinit.js');
+const config = require('./configinit.js');
 
-const http = require('http');
-const socketIo = require('socket.io');
+const url = `mongodb://${config.database.host}:${config.database.port}`;
+const dbName = config.database.name;
 
-const path = require('path');
-const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
-const multer = require('multer');
-const fs = require('fs');
-const port = 3000;
+const db = initializeDatabaseConnection(url,dbName);
+var users = initializeUsersCollectionConnection();
+var files = initializeFilesCollectionConnection();
+var privileges = initializePrivilegesCollectionConnection();
 
-const app = express();
+const port = config.port;
 const server = http.createServer(app);
 const io = socketIo(server);
-
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -26,21 +24,6 @@ app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Define the database
-const url = 'mongodb://127.0.0.1/intellijent';
-const dbName = 'intellijent';
-
-let client;
-var db;
-var users;
-var files;
-var privileges;
-
-initializeDatabaseConnection(url,dbName);
-initializeUsersCollectionConnection();
-initializeFilesCollectionConnection();
-initializePrivilegesCollectionConnection();
-
 app.use(
     session({
         secret: 'your secret here',
@@ -48,8 +31,6 @@ app.use(
         saveUninitialized: true
     })
 );
-
-
 
 server.listen(port, () => {
     console.log(`Server running on port ${port}`);
@@ -112,7 +93,6 @@ app.get('/downloadfile/:file_name', function(req, res){
     res.download("./uploads/" + req.session.userEmpID + "/" + selectedFileForDownload);
 
 });
-
 
 app.get('/', async function (req, res) {
     try {
@@ -583,8 +563,6 @@ async function getUserDetailsBlock(empID){
     return userDetailsBlock;
 }
 
-
-
 async function getFiles(empID) {
     try {
         const filesDocuments = await files.find({ uploadedBy: empID }).toArray();
@@ -626,49 +604,6 @@ async function getUserPrivileges(user_level) {
         privilegesDocumentsBlock = [];
     }
     return privilegesDocumentsBlock;
-}
-
-// Database initialization
-function initializeDatabaseConnection(url,dbName){
-    try{
-        client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-        client.connect();
-        db = client.db(dbName);
-        console.log("Connected to the Database.");
-    } catch {
-        console.log("Failed to connect to the Database!");
-        process.exit(0);
-    }
-}
-
-// Users collection initialization
-function initializeUsersCollectionConnection(){
-    try{
-        users = db.collection('users');
-        console.log("Connected to the Database Users Collection.");
-    }catch(error){
-        console.log(error);
-    }
-}
-
-// Files collection initialization
-function initializeFilesCollectionConnection(){
-    try{
-        files = db.collection('files');
-        console.log("Connected to the Database Files Collection.");
-    }catch(error){
-        console.log(error);
-    }
-}
-
-// Privileges collection initialization
-function initializePrivilegesCollectionConnection(){
-    try{
-        privileges = db.collection('privileges');
-        console.log("Connected to the Database Privileges Collection.");
-    }catch(error){
-        console.log(error);
-    }
 }
 
 function validateAction(privileges,requestedAction ){
