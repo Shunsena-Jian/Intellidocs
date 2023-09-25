@@ -41,23 +41,27 @@ head
         }
 
 .w3-top
-    .w3-bar.w3-theme.w3-top.w3-left-align.w3-large
-        a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(onclick='openNavigation()')
-            i.fa.fa-bars
-        a.w3-bar-item.w3-button.w3-hover-white(href='/')
-            i.fa.fa-home.w3-margin-right
-            |   Home
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='')
-            i.fa.fa-user.icon-dark
-            |   Account Settings
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='')
-            i.fa.fa-bell.icon-dark
-            span.w3-badge.w3-right.w3-small.w3-green 3
-            |   Notifications
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='/logout')
-            img.w3-circle(src='src/avatar2.png' style='height:23px;width:23px' alt='Avatar')
-            |  Logout
-        a#userFirstNameNav.w3-bar-item.w3-hide-small.w3-hide-medium Name Placeholder
+    #pageStatusBar.w3-row
+        .w3-bar.w3-amber.w3-left-align.w3-small
+            p#currentStatusHolder test
+    .w3-row
+        .w3-bar.w3-theme.w3-left-align.w3-large
+            a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(onclick='openNavigation()')
+                i.fa.fa-bars
+            a.w3-bar-item.w3-button.w3-hover-white(href='/')
+                i.fa.fa-home.w3-margin-right
+                |   Home
+            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='')
+                i.fa.fa-user.icon-dark
+                |   Account Settings
+            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='')
+                i.fa.fa-bell.icon-dark
+                span.w3-badge.w3-right.w3-small.w3-green 3
+                |   Notifications
+            a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='/logout')
+                img.w3-circle(src='src/avatar2.png' style='height:23px;width:23px' alt='Avatar')
+                |  Logout
+            a#userFirstNameNav.w3-bar-item.w3-hide-small.w3-hide-medium Name Placeholder
 
 nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-left
     .w3-card.w3-round.w3-white
@@ -166,9 +170,13 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                 .count
                     | 40
         .w3-half.w3-container
+            button#testShow(onclick=`showStatusBar()`) show
+            button#testHide(onclick=`hideStatusBar()`) hide
+
             .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
                 br
                 |                     Notifications
+
                 hr.w3-clear
                 .row
                     | Machian shared Mia Khalifa&apos;s post
@@ -232,16 +240,29 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
         script(src='js/sidebar.js')
 
         script.
+            hideStatusBar();
             var selectedFileForDeletion;
             var currLineFileName;
+
+            function showStatusBar(){
+                var pageStatusBar = document.getElementById('pageStatusBar');
+                pageStatusBar.style.display = 'block';
+
+                var mySidebar = document.getElementById('mySidebar');
+                mySidebar.style.top = '86px';
+            }
+
+            function hideStatusBar(){
+                var pageStatusBar = document.getElementById('pageStatusBar');
+                pageStatusBar.style.display = 'none';
+
+                var mySidebar = document.getElementById('mySidebar');
+                mySidebar.style.top = '43px';
+            }
+
             function showModal(fileName) {
-                //document.getElementById("fileNameToDelete").href = "/ajaxdelete/" + fileName;
-
                 selectedFileForDeletion = fileName;
-                //console.log("selected " & fileName);
-
                 document.getElementById('id01').style.display = 'block';
-
             }
 
             function middleMan(){
@@ -262,11 +283,8 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                         console.log('File deleted successfully!');
                         console.log(data.documents);
 
-
                             var updatedData = data.documents;
                             table.clear().draw();
-
-
 
                             for(i=0;i<updatedData.length;i++){
                                 console.log("found an object");
@@ -279,7 +297,6 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
 
                                     `<a class="w3-half w3-hover-white edit-btn" href="/downloadfile/${updatedData[i].file_name}"><i class="fa fa-pencil w3-text-theme"></i></a>
                                     <a class="w3-half w3-hover-white" onclick="showModal('${updatedData[i].file_name}')"><i class="fa fa-times w3-text-theme"></i></a>`
-
 
                                 ];
                                 table.row.add(curLine).draw();
