@@ -297,7 +297,8 @@ app.post('/login', async function (req, res) {
                 res.render('index', {
                     title: 'Home Page',
                     userDetails: userDetailsBlock,
-                    filesData: documents
+                    filesData: documents,
+                    userPrivileges: privileges
                 });
 
                 if(debug_mode){

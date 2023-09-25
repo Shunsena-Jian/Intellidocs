@@ -1,8 +1,7 @@
 doctype html
 head
     title #{title}
-    //meta(charset='UTF-8')
-    //meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(charset='UTF-8')
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
     link(rel='stylesheet' href='css/base_style.css')
     link(rel='stylesheet' href='css/w3css4.css')
@@ -12,31 +11,10 @@ head
     script(src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js')
     link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
     link(rel='stylesheet' href='https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css')
-
-
-    style.
-     html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
-     .w3-sidebar {
-     z-index: 3;
-     width: 250px;
-     top: 43px;
-     bottom: 0;
-     height: inherit;
-     }
-     .parent-container {
-     height: 100%; /* Set the maximum height of the parent container */
-     border: 1px solid #000000; /* Optional: Add a border to visualize the container */
-     position: relative; /* Optional: Needed if you want to position child elements */
-     }
-     .child-container {
-     border: 1px solid #ccc;
-     height: 100%; /* Make the child div occupy the full height of its parent */
-     background-color: lightblue; /* Optional: Background color for visualization */
-     }
-     h4 {
-     font-weight: bold;
-     }
-
+    script(src='js/jquery-3.2.1.min.js')
+    script(src='js/bootstrap.js')
+    script(src='js/jquery.dataTables.js')
+    script(src='js/sidebar.js')
 
 .w3-top
     .w3-bar.w3-theme.w3-top.w3-left-align.w3-large
@@ -55,27 +33,27 @@ head
         a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='/logout')
             img.w3-circle(src='src/avatar2.png' style='height:23px;width:23px' alt='Avatar')
             |  Logout
-        a#userFirstNameNav.w3-bar-item.w3-hide-small.w3-hide-medium Name Placeholder
+        a#userFirstNameNav.w3-bar-item.w3-hide-small.w3-hide-medium #{userDetailsBlock.firstName}
 
 nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-left
     .w3-card.w3-round.w3-white
         .w3-container
-            h4#userFirstName.w3-center Name Placeholder
+            h4.w3-center #{userDetailsBlock.firstName}
             p.w3-center
                 img.w3-circle(src='src/avatar3.png' style='height:106px;width:106px' alt='Avatar')
             hr
             h6
                 i.fa.fa-info-circle.fa-fw.w3-margin-right.w3-text-theme
                 |
-                myElement#empID
+                myElement #{userDetailsBlock.empID}
             h6
                 i.fa.fa-user.fa-fw.w3-margin-right.w3-text-theme
                 |
-                myElement#fullName
+                myElement #{userDetailsBlock.firstName} #{userDetailsBlock.lastName}
             h6
                 i.fa.fa-briefcase.fa-fw.w3-margin-right.w3-text-theme
                 |
-                myElement#userLevel
+                myElement #{userDetailsBlock.userLevel}
 
     .w3-card.w3-round
         .w3-white
@@ -267,27 +245,9 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                           td
                           td
 
-        script(src='js/jquery-3.2.1.min.js')
-        script(src='js/bootstrap.js')
-        script(src='js/jquery.dataTables.js')
-        script(src='js/sidebar.js')
+
 
         script.
-            var receivedUserDetailsBlock = !{JSON.stringify(userDetailsBlock)};
-
-            var userFirstName = document.getElementById("userFirstName");
-            var userFirstNameNav = document.getElementById("userFirstNameNav");
-            var empID = document.getElementById("empID");
-            var fullName = document.getElementById("fullName");
-            var userLevel = document.getElementById("userLevel");
-
-            userFirstName.innerHTML = receivedUserDetailsBlock.firstName;
-            userFirstNameNav.innerHTML = receivedUserDetailsBlock.firstName;
-            empID.innerHTML = receivedUserDetailsBlock.empID;
-            fullName.innerHTML = receivedUserDetailsBlock.firstName + " " + receivedUserDetailsBlock.lastName ;
-            userLevel.innerHTML = receivedUserDetailsBlock.userLevel;
-
-
             function myFunction(id) {
             var x = document.getElementById(id);
             if (x.className.indexOf("w3-show") == -1) {
