@@ -16,7 +16,8 @@ head
 .w3-top
     #pageStatusBar.w3-row
         .w3-bar.w3-amber.w3-left-align.w3-small
-            p#currentStatusHolder test
+            p#currentStatusHolder
+                center DISCONNECTED FROM SERVER - ATTEMPTING TO RECONNECT
     .w3-row
         .w3-bar.w3-theme.w3-left-align.w3-large
             a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(onclick='openNavigation()')
@@ -337,6 +338,7 @@ footer#myFooter.w3-bottom
     .w3-container.w3-theme-l1
         p
             |SLU IT Projects Catalogue
+script(src="/js/socket.io/socket.io.js")
 
 script.
     /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
@@ -354,4 +356,33 @@ script.
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById("main").style.marginLeft = "0";
     }
+
+
+    const socket = io();
+
+    socket.on('connect', () => {
+        console.log('Connected to WebSocket server');
+        hideStatusBar();
+
+        var manualPingData = !{JSON.stringify(userDetailsBlock)};
+
+        socket.emit('manualPing', manualPingData);
+    });
+
+    socket.on('manualPong',(response) =>{
+        console.log('Received server response:', response);
+    });
+
+
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected from WebSocket server');
+        showStatusBar();
+        setTimeout(() => {
+            socket.connect();
+        }, 3000);
+    });
+
+
+
 

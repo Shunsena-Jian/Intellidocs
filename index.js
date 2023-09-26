@@ -54,6 +54,25 @@ server.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
+
+// WebSocket logic
+io.on('connection', (socket) => {
+    console.log('A user connected');
+
+    const sessionData = socket.handshake.session;
+    console.log('Session data:', sessionData);
+
+    socket.on('manualPing', (data) => {
+        console.log('Received client ping:', data);
+        socket.emit('manualPong', 'Server received: ' + data);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('A user disconnected');
+    });
+});
+
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const uploadDirectory = 'uploads/' + req.session.userEmpID;
@@ -68,7 +87,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.get('/deletefile/:file_name', function(req, res){
-
     var selectedFileForDeletion = req.params.file_name;
 
     if(debug_mode){
@@ -112,7 +130,6 @@ app.get('/deletefile/:file_name', function(req, res){
             }
         }
     });
-
     res.redirect('/');
 });
 
