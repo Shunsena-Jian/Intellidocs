@@ -357,7 +357,7 @@ script.
         document.getElementById("main").style.marginLeft = "0";
     }
 
-
+    //---socket handling
     const socket = io();
 
     socket.on('connect', () => {
@@ -373,8 +373,6 @@ script.
         console.log('Received server response:', response);
     });
 
-
-
     socket.on('disconnect', () => {
         console.log('Disconnected from WebSocket server');
         showStatusBar();
@@ -383,6 +381,24 @@ script.
         }, 3000);
     });
 
+    //---idle user handling
+    var idleTimeOut;
 
+    function resetIdleTimeOut(){
+        //prep to receive argument from config init - we define this every req res
+        clearTimeout(idleTimeOut);
+        idleTimeOut = setTimeout(alertIdle, 3000);
+    }
 
+    function alertIdle(){
+        alert("WHY ARE YOU IDLE?! KEEP WORKING! ./.");
+        //mag lalagay tayo nang function to call logout req res
+        //papalitan natin to nang modal
+        //modal will contain yes no i dont care
+    }
+
+    document.addEventListener("mousemove", resetIdleTimeOut);
+    document.addEventListener("keydown", resetIdleTimeOut);
+
+    resetIdleTimeOut();
 
