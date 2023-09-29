@@ -33,131 +33,133 @@ head
                 span.w3-badge.w3-right.w3-small.w3-green #{userUnseenNotifications}
                 |   Notifications
             a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='/logout')
-                img.w3-circle(src='src/avatar2.png' style='height:23px;width:23px' alt='Avatar')
+                img.w3-circle(src='../src/avatar3.png' style='height:23px;width:23px' alt='Avatar')
                 |  Logout
             a#userFirstNameNav.w3-bar-item.w3-hide-small.w3-hide-medium #{userDetailsBlock.firstName}
 
-nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-left
-    .w3-card.w3-round.w3-white
-        .w3-container
-            h4.w3-center #{userDetailsBlock.firstName}
-            p.w3-center
-                img.w3-circle(src='src/avatar3.png' style='height:106px;width:106px' alt='Avatar')
-            hr
-            h6
-                i.fa.fa-info-circle.fa-fw.w3-margin-right.w3-text-theme
-                |
-                myElement #{userDetailsBlock.empID}
-            h6
-                i.fa.fa-user.fa-fw.w3-margin-right.w3-text-theme
-                |
-                myElement #{userDetailsBlock.firstName} #{userDetailsBlock.lastName}
-            h6
-                i.fa.fa-briefcase.fa-fw.w3-margin-right.w3-text-theme
-                |
-                myElement #{userDetailsBlock.userLevel}
-
-    .w3-card.w3-round
-        .w3-white
-            button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo1')")
-                i.fa.fa-circle-o-notch.fa-fw.w3-margin-right
-                |  Form Management
-            #Demo1.w3-hide.w3-container
-                p
-                    a(href='/createform')
-                        i.fa.fa-plus-circle.w3-margin-right
-                        | Create Forms
-                p
-                    a(href='/viewforms')
-                        i.fa.fa-file-o.w3-margin-right
-                        | View Forms
-                p
-                    a(href='/submission')
-                        i.fa.fa-info.w3-margin-right
-                        | Submission
-                p
-                    a(href='/viewreports')
-                        i.fa.fa-pie-chart.w3-margin-right
-                        | View Reports
-            button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo2')")
-                i.fa.fa-calendar-check-o.fa-fw.w3-margin-right
-                |  Form Events
-            #Demo2.w3-hide.w3-container
-                p
-                    a(href='/managenotifications')
-                        i.fa.fa-bell-o.w3-margin-right
-                        | Set Form notifications
-                p
-                    a(href='/managedeadlines')
-                        i.fa.fa-calendar-check-o.w3-margin-right
-                        | Set Form due dates
-            button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo3')")
-                i.fa.fa-users.fa-fw.w3-margin-right
-                |  User Management
-            #Demo3.w3-hide.w3-container
-                p
-                    a(href='/createusers')
-                        i.fa.fa-plus-circle.w3-margin-right
-                        | Create User
-                p
-                    a(href='/viewusers')
-                        i.fa.fa-users.w3-margin-right
-                        | View Users
-
-        a.w3-bar-item.w3-button.edit-name.w3-hover-black(href='#')
-                i.bi.bi-pencil-square
-                |  Edit Project Name
-        a.w3-bar-item.w3-button.w3-hover-black(href='#')
-                i.bi.bi-pencil-square
-                |  Edit Abstract
-        a.w3-bar-item.w3-button.w3-hover-black(href='/uploadfiles')
-                i.bi.bi-file-arrow-up
-                |  Upload Files
-        a.w3-bar-item.w3-button.w3-hover-black(href='#')
-                i.bi.bi-person-plus
-                |  Add Authors
+nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
+  div
+    .w3-container
+      h4#userFirstName.w3-center(style='font-family: Acme, monospace') Cassandra
+      p.w3-center
+        img.w3-circle(src='../src/avatar3.png' style='height:106px;width:106px' alt='Avatar')
+      hr(style='border-top: 1px dashed black;')
+      h6
+        i.fa.fa-info-circle.fa-fw.w3-margin-right.w3-text-theme
+        myelement#empID 55555555
+      h6
+        i.fa.fa-user.fa-fw.w3-margin-right.w3-text-theme
+        myelement#fullName Cassandra Narvasa
+      h6
+        i.fa.fa-briefcase.fa-fw.w3-margin-right.w3-text-theme
+        myelement#userLevel document_controller
+      hr(style='border-top: 1px dashed black;')
+  div
+    div
+      button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="myFunction('Demo1')")
+        i.fa.fa-circle-o-notch.fa-fw.w3-margin-right
+        |  Form Management
+      #Demo1.w3-hide.w3-container
+        p
+          a(href='/createform')
+            i.fa.fa-plus-circle.w3-margin-right
+            | Create Forms
+        p
+          a(href='/viewforms')
+            i.fa.fa-file-o.w3-margin-right
+            | View Forms
+        p
+          a(href='/submission')
+            i.fa.fa-info.w3-margin-right
+            | Submission
+        p
+          a(href='/viewreports')
+            i.fa.fa-pie-chart.w3-margin-right
+            | View Reports
+      button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="myFunction('Demo2')")
+        i.fa.fa-calendar-check-o.fa-fw.w3-margin-right
+        |  Form Events
+      #Demo2.w3-hide.w3-container
+        p
+          a(href='/managenotifications')
+            i.fa.fa-bell-o.w3-margin-right
+            | Set Form notifications
+        p
+          a(href='/managedeadlines')
+            i.fa.fa-calendar-check-o.w3-margin-right
+            | Set Form due dates
+      button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="myFunction('Demo3')")
+        i.fa.fa-users.fa-fw.w3-margin-right
+        |  User Management
+      #Demo3.w3-hide.w3-container
+        p
+          a(href='/createusers')
+            i.fa.fa-plus-circle.w3-margin-right
+            | Create User
+        p
+          a(href='/viewusers')
+            i.fa.fa-users.w3-margin-right
+            | View Users
+    br
+    a.w3-bar-item.w3-button.edit-name.w3-hover-black(href='#')
+      i.bi.bi-pencil-square
+      |  Edit Project Name
+    a.w3-bar-item.w3-button.w3-hover-black(href='#')
+      i.bi.bi-pencil-square
+      |  Edit Abstract
+    a.w3-bar-item.w3-button.w3-hover-black(href='/uploadfiles')
+      i.bi.bi-file-arrow-up
+      |  Upload Files
+    a.w3-bar-item.w3-button.w3-hover-black(href='#')
+      i.bi.bi-person-plus
+      |  Add Authors
 
 .w3-main#main(style='margin-left:250px')
+    .w3-half.w3-container
+                button#testShow(onclick=`showStatusBar()`) show
+                button#testHide(onclick=`hideStatusBar()`) hide
     .w3-row.w3-padding-64
         .w3-quarter.w3-container
-            .grow.shadowEffect.column
+            .grow.shadowEffect.column(style='background-color:#EC844B;')
                 .title
                     | Created Document
                 .count
                     | 40
         .w3-quarter.w3-container
-            .grow.shadowEffect.column
+            .grow.shadowEffect.column(style='background-color:#FDCF6F;')
                 .title
                     | Deployed
                 .count
                         | 40
-        .w3-quarter.w3-row
-            .grow.shadowEffect.column
+        .w3-quarter.w3-containeru
+            .grow.shadowEffect.column(style='background-color:#0D4990;')
                 .title
                     | Approved
                 .count
                     | 35
         .w3-quarter.w3-container
-            .grow.shadowEffect.column
+            .grow.shadowEffect.column(style='background-color:#C24040;')
                 .title
                     | Created Document
                 .count
                     | 40
         .w3-half.w3-container
-            button#testShow(onclick=`showStatusBar()`) show
-            button#testHide(onclick=`hideStatusBar()`) hide
-
             .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
                 br
                 |                     Notifications
 
                 hr.w3-clear
-                each notification in userNotifications
-                    .row
-                        p= notification.notification_content
+                .row
+                    | Machian shared Mia Khalifa&apos;s post
+                .row
+                    | Alyanna commented on Jak Roberto&apos;s Page
+                .row
+                    | Denmark shared Jaoao&apos;s Post
                 hr.w3-clear
                 .row
-                a(href='#') view all
+                div(style='text-align:right; padding-bottom: 20px;')
+                          a(href='#') view all
+
         .w3-half.w3-container
             .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
                 br
@@ -202,19 +204,6 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                             a(onclick="closeModal()") No
 
         script(src='js/sidebar.js')
-
-        script.
-            var testnotif = document.getElementById('testnotif');
-
-
-            var notificationBlock = !{JSON.stringify(userNotifications)};
-            if(!notificationBlock){
-
-            } else {
-                var b = notificationBlock[0].notification_content;
-                console.log(b);
-            }
-
 
         script.
             hideStatusBar();
@@ -286,20 +275,6 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                 });
             }
 
-            function attemptReconnect(empID) {
-                $.ajax({
-                    url: `/reseat/${empID}`,
-                    type: 'put',
-                    success: function(data) {
-                        console.log('Reseated session successfully!' + data);
-                    },
-                    error: function(err) {
-                        console.error('Error reconnecting: ', err.responseText);
-                        //window.location.replace("https://yourdomain.com/success");
-                    }
-                });
-            }
-
             function myFunction(id) {
             var x = document.getElementById(id);
             if (x.className.indexOf("w3-show") == -1) {
@@ -359,15 +334,12 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
 
 
 footer#myFooter.w3-bottom
-    .w3-container.w3-theme-l1
-        p
-            |SLU IT Projects Catalogue
+  .w3-container.w3-theme-l1
+    h5(style='text-align:center; font-family: Acme; font-weight:lighter;') SLU IT Project Catalogues
+    h6(style='text-align:center; font-family: Acme, monospace; font-weight:lighter;') &copy; 2023 All Rights Reserved
 script(src="/js/socket.io/socket.io.js")
 
 script.
-    //handling time
-    var min_handlingTime = #{min_idleTime};
-
     /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
     function openNavigation() {
         // Get the element by its ID
@@ -387,15 +359,12 @@ script.
     //---socket handling
     const socket = io();
 
-    var receivedUserDetailsBlock = !{JSON.stringify(userDetailsBlock)};
-    var reconID = receivedUserDetailsBlock.empID;
-
-    console.log(reconID);
-
     socket.on('connect', () => {
         console.log('Connected to WebSocket server');
         hideStatusBar();
-        manualPingData = !{JSON.stringify(userDetailsBlock)};
+
+        var manualPingData = !{JSON.stringify(userDetailsBlock)};
+
         socket.emit('manualPing', manualPingData);
     });
 
@@ -408,7 +377,6 @@ script.
         showStatusBar();
         setTimeout(() => {
             socket.connect();
-            attemptReconnect(reconID);
         }, 3000);
     });
 
@@ -418,11 +386,11 @@ script.
     function resetIdleTimeOut(){
         //prep to receive argument from config init - we define this every req res
         clearTimeout(idleTimeOut);
-        idleTimeOut = setTimeout(alertIdle, min_handlingTime);
+        idleTimeOut = setTimeout(alertIdle, 3000);
     }
 
     function alertIdle(){
-        alert("WHY ARE YOU IDLE?! KEEP WORKING!");
+        alert("WHY ARE YOU IDLE?! KEEP WORKING! ./.");
         //mag lalagay tayo nang function to call logout req res
         //papalitan natin to nang modal
         //modal will contain yes no i dont care
