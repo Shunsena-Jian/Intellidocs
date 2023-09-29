@@ -30,7 +30,7 @@ head
                 |   Account Settings
             a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='')
                 i.fa.fa-bell.icon-dark
-                span.w3-badge.w3-right.w3-small.w3-green 3
+                span.w3-badge.w3-right.w3-small.w3-green #{userUnseenNotifications}
                 |   Notifications
             a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='/logout')
                 img.w3-circle(src='src/avatar2.png' style='height:23px;width:23px' alt='Avatar')
@@ -152,12 +152,9 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                 |                     Notifications
 
                 hr.w3-clear
-                .row
-                    | Machian shared Mia Khalifa&apos;s post
-                .row
-                    | Alyanna commented on Jak Roberto&apos;s Page
-                .row
-                    | Denmark shared Jaoao&apos;s Post
+                each notification in userNotifications
+                    .row
+                        p= notification.notification_content
                 hr.w3-clear
                 .row
                 a(href='#') view all
@@ -205,6 +202,19 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                             a(onclick="closeModal()") No
 
         script(src='js/sidebar.js')
+
+        script.
+            var testnotif = document.getElementById('testnotif');
+
+
+            var notificationBlock = !{JSON.stringify(userNotifications)};
+            if(!notificationBlock){
+
+            } else {
+                var b = notificationBlock[0].notification_content;
+                console.log(b);
+            }
+
 
         script.
             hideStatusBar();
@@ -276,6 +286,20 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                 });
             }
 
+            function attemptReconnect(empID) {
+                $.ajax({
+                    url: `/reseat/${empID}`,
+                    type: 'put',
+                    success: function(data) {
+                        console.log('Reseated session successfully!' + data);
+                    },
+                    error: function(err) {
+                        console.error('Error reconnecting: ', err.responseText);
+                        //window.location.replace("https://yourdomain.com/success");
+                    }
+                });
+            }
+
             function myFunction(id) {
             var x = document.getElementById(id);
             if (x.className.indexOf("w3-show") == -1) {
@@ -341,6 +365,9 @@ footer#myFooter.w3-bottom
 script(src="/js/socket.io/socket.io.js")
 
 script.
+    //handling time
+    var min_handlingTime = #{min_idleTime};
+
     /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
     function openNavigation() {
         // Get the element by its ID
@@ -360,12 +387,15 @@ script.
     //---socket handling
     const socket = io();
 
+    var receivedUserDetailsBlock = !{JSON.stringify(userDetailsBlock)};
+    var reconID = receivedUserDetailsBlock.empID;
+
+    console.log(reconID);
+
     socket.on('connect', () => {
         console.log('Connected to WebSocket server');
         hideStatusBar();
-
-        var manualPingData = !{JSON.stringify(userDetailsBlock)};
-
+        manualPingData = !{JSON.stringify(userDetailsBlock)};
         socket.emit('manualPing', manualPingData);
     });
 
@@ -378,6 +408,7 @@ script.
         showStatusBar();
         setTimeout(() => {
             socket.connect();
+            attemptReconnect(reconID);
         }, 3000);
     });
 
@@ -387,11 +418,11 @@ script.
     function resetIdleTimeOut(){
         //prep to receive argument from config init - we define this every req res
         clearTimeout(idleTimeOut);
-        idleTimeOut = setTimeout(alertIdle, 3000);
+        idleTimeOut = setTimeout(alertIdle, min_handlingTime);
     }
 
     function alertIdle(){
-        alert("WHY ARE YOU IDLE?! KEEP WORKING! ./.");
+        alert("WHY ARE YOU IDLE?! KEEP WORKING!");
         //mag lalagay tayo nang function to call logout req res
         //papalitan natin to nang modal
         //modal will contain yes no i dont care

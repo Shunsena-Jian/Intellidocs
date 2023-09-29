@@ -2,9 +2,12 @@ let client;
 var db;
 var users;
 var files;
+var notifications;
 var privileges;
 
 const MongoClient = require('mongodb').MongoClient;
+
+
 
 // Database initialization
 function initializeDatabaseConnection(url,dbName){
@@ -43,10 +46,21 @@ function initializeFilesCollectionConnection(){
     }
 }
 
-// Privileges collection initialization
-function initializePrivilegesCollectionConnection(){
+// Notifications collection initialization
+function initializeNotificationsCollectionConnection(){
     try{
-        privileges = db.collection('privileges');
+        notifications = db.collection('notifications');
+        console.log("Connected to the Database Notifications Collection.");
+        return notifications;
+    }catch(error){
+        console.log(error);
+    }
+}
+
+// Privileges collection initialization
+function initializePrivilegesCollectionConnection(dbc){
+    try{
+        privileges = dbc.collection('privileges');
         console.log("Connected to the Database Privileges Collection.");
         return privileges;
     }catch(error){
@@ -59,5 +73,6 @@ module.exports = {
     initializeDatabaseConnection,
     initializeFilesCollectionConnection,
     initializePrivilegesCollectionConnection,
-    initializeUsersCollectionConnection
+    initializeUsersCollectionConnection,
+    initializeNotificationsCollectionConnection
 };

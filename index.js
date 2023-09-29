@@ -8,11 +8,7 @@ const { app,
         multer,
         fs } = require('./imports.js');
 
-const { MongoClient,
-        initializeUsersCollectionConnection,
-        initializePrivilegesCollectionConnection,
-        initializeFilesCollectionConnection,
-        initializeDatabaseConnection } = require('./dbinit.js');
+
 
 const config = require('./configinit.js');
 
@@ -22,11 +18,26 @@ const dbName = config.database.name;
 console.log("debug mode: " + config.debug_mode);
 
 var debug_mode = config.debug_mode;
+var min_idleTime = config.min_idleTime;
+
+console.log("This is our idle time: " + min_idleTime);
+
+
+
+const { MongoClient,
+        initializeUsersCollectionConnection,
+        initializePrivilegesCollectionConnection,
+        initializeFilesCollectionConnection,
+        initializeNotificationsCollectionConnection,
+        initializeDatabaseConnection } = require('./dbinit.js');
 
 const db = initializeDatabaseConnection(url,dbName);
 var users = initializeUsersCollectionConnection();
 var files = initializeFilesCollectionConnection();
-var privileges = initializePrivilegesCollectionConnection();
+var privileges = initializePrivilegesCollectionConnection(db);
+var notifications = initializeNotificationsCollectionConnection();
+
+//notificationsblarb.find();
 
 const port = config.port;
 const server = http.createServer(app);
@@ -59,8 +70,8 @@ server.listen(port, () => {
 io.on('connection', (socket) => {
     console.log('A user connected');
 
-    const sessionData = socket.handshake.session;
-    console.log('Session data:', sessionData);
+    //const sessionData = socket.handshake.session;
+    //console.log('Session data:', sessionData);
 
     socket.on('manualPing', (data) => {
         console.log('Received client ping:', data);
@@ -152,12 +163,16 @@ app.get('/', async function (req, res) {
         }else{
             const documents = await getFiles(req.session.userEmpID);
             userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-            privileges = await getUserPrivileges(userDetailsBlock.user_level);
+            privileges = await getUserPrivileges(userDetailsBlock.userLevel); // sira yata to
+            userNotifs = await getNotifications(req.session.userEmpID);
 
             res.render('index', {
                 title: 'Home Page',
                 userDetails: userDetailsBlock,
-                filesData: documents
+                filesData: documents,
+                userPrivileges: privileges,
+                userNotifications: userNotifs,
+                min_idleTime: min_idleTime
             });
         }
 
@@ -259,6 +274,19 @@ app.delete('/ajaxdelete/:file_name', async function (req, res) {
     res.json({documents});
 });
 
+app.put('/reseat/:empID', async function (req, res) {
+    var dataPlaceholder = "success!!";
+    try{
+        var reconnectingEmpID = req.params.empID;
+        req.session.userEmpID = reconnectingEmpID;
+        req.session.loggedIn = true;
+        res.json({dataPlaceholder});
+    }catch(error){
+        res.json({error});
+    }
+
+});
+
 app.get('/logout', async function(req, res){
     req.session.loggedIn = false;
     req.session.destroy();
@@ -310,12 +338,15 @@ app.post('/login', async function (req, res) {
 
                 const documents = await getFiles(req.session.userEmpID);
                 privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+                userNotifs = await getNotifications(req.session.userEmpID);
 
                 res.render('index', {
                     title: 'Home Page',
                     userDetails: userDetailsBlock,
                     filesData: documents,
-                    userPrivileges: privileges
+                    userPrivileges: privileges,
+                    userNotifications: userNotifs,
+                    min_idleTime: min_idleTime
                 });
 
                 if(debug_mode){
@@ -743,6 +774,34 @@ async function getUserDetailsBlock(empID){
     }
 
     return userDetailsBlock;
+}
+
+async function logError(errorMessage) {
+    const logMessage = `${new Date().toISOString()}: ${errorMessage}\n`;
+    fs.appendFile('error_log.txt', logMessage, (err) => {
+        if (err) {
+            console.error('Error appending to error_log.txt:', err);
+        }
+    });
+}
+
+
+async function getNotifications(empID){
+    var userNotifications;
+
+    try { // TO BE FIXED ERROR RECEIVED WHEN NULL
+        userNotifications = await notifications.find({ recipients: empID }).toArray();
+        if (debug_mode) {
+            logStatus("The notifications are: " + JSON.stringify(userNotifications));
+        }
+    } catch (error) {
+        if (debug_mode) {
+            logStatus("Failed to retrieve unseen notifications: " + error);
+        }
+        throw error; // Re-throw the error to handle it elsewhere if needed
+    }
+
+    return userNotifications;
 }
 
 async function getFiles(empID) {

@@ -6,5 +6,6 @@
     "name": "intellijent"
   },
   "debug_mode": false,
-  "maintenance_mode": false
+  "maintenance_mode": false,
+  "min_idleTime": 1000
 }
