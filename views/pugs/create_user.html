@@ -3,168 +3,347 @@
     <title>Register User</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" type="text/css" href="../css/base_style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/w3css4.css">
+    <link rel="stylesheet" type="text/css" href="../css/w3-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="base_style.css" />
-    <link rel="stylesheet" type="text/css" href="src/table.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+
+    <style>
+        html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+        .w3-sidebar {
+        z-index: 3;
+        width: 250px;
+        top: 43px;
+        bottom: 0;
+        height: inherit;
+        }
+        .parent-container {
+            height: 100%; /* Set the maximum height of the parent container */
+            border: 1px solid #000000; /* Optional: Add a border to visualize the container */
+            position: relative; /* Optional: Needed if you want to position child elements */
+        }
+        .child-container {
+            border: 1px solid #ccc;
+            height: 100%; /* Make the child div occupy the full height of its parent */
+            background-color: lightblue; /* Optional: Background color for visualization */
+        }
+    </style>
 </head>
 <body>
-<!-- Navbar-->
-<div class="navbar">
-    <div class="w3-bar w3-left-align w3-large navbar">
-        <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()">
-            <i class="fa fa-bars"></i></a>
-        <a class="w3-bar-item w3-button w3-padding-large w3-theme-d5" href="dashboard.html"><i class="fa fa-home w3-margin-right"></i>IntelliDocs</a>
-        <a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" href="#" title="News"><i class="fa fa-globe icon-dark"></i>
-        </a><a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" href="#" title="Account Settings"><i class="fa fa-user icon-dark"></i>
-    </a><a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" href="#" title="Messages"><i class="fa fa-envelope icon-dark"></i></a>
-        <div class="w3-dropdown-hover w3-hide-small">
-            <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell icon-dark"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>
-            <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px"><a class="w3-bar-item w3-button" href="#">One new form </a><a class="w3-bar-item w3-button" href="#">AFAR is due tommorow</a><a class="w3-bar-item w3-button" href="#">Syllabus is due tommorow</a></div>
-        </div><a class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" href="#" title="My Account"><img class="w3-circle" src="src/avatar2.png" style="height:23px;width:23px" alt="Avatar"/></a>
+<div class="w3-top">
+    <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+        <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" onclick="openNavigation()">
+            <i class="fa fa-bars"></i>
+        </a>
+        <a class="w3-bar-item w3-button w3-hover-white" href="/">
+            <i class="fa fa-home w3-margin-right"></i>  Home
+        </a>
+        <a class="w3-bar-item w3-button w3-hide-small w3-hover-white" href="">
+            <i class="fa fa-user icon-dark"></i>  Account Settings
+        </a>
+        <a class="w3-bar-item w3-button w3-hide-small w3-hover-white" href="">
+            <i class="fa fa-bell icon-dark"></i>
+            <span class="w3-badge w3-right w3-small w3-green">3</span>  Notifications
+        </a>
+        <a class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white" href="/logout">
+            <img class="w3-circle" src="../src/avatar3.png" style="height:23px;width:23px" alt="Avatar"> Logout</a>
+        <a class="w3-bar-item w3-hide-small w3-hide-medium" id="userFirstNameNav">Cassandra</a>
     </div>
 </div>
 
-<!-- Navbar on small screens-->
-<div class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large" id="navDemo">
-    <a class="w3-bar-item w3-button w3-padding-large" href="#">Link 1</a>
-    <a class="w3-bar-item w3-button w3-padding-large" href="#">Link 2</a>
-    <a class="w3-bar-item w3-button w3-padding-large" href="#">Link 3</a>
-    <a class="w3-bar-item w3-button w3-padding-large" href="#">My Profile</a>
-</div>
-
-<!-- Page Container-->
-<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
-    <!-- The Grid-->
-    <div class="w3-row">
-        <!-- Left Column-->
-        <div class="w3-col m3">
-            <!-- Profile-->
-            <div class="w3-card w3-round w3-white">
-                <div class="w3-container">
-                    <h4 class="w3-center">Admin</h4>
-                    <p class="w3-center"><img class="w3-circle" src="src/avatar3.png" style="height:106px;width:106px" alt="Avatar"/></p>
-                    <hr/>
-                    <p><i class="fa fa-info-circle fa-fw w3-margin-right w3-text-theme"></i> 2222222</p>
-                    <p><i class="fa fa-user fa-fw w3-margin-right w3-text-theme"></i> Delfin Tokyas</p>
-                    <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-text-theme"></i> Document Controller</p>
-                </div>
-            </div><br/>
-            <!-- Accordion-->
-            <div class="w3-card w3-round">
-                <div class="w3-white">
-                    <button class="w3-button w3-block light-mode w3-left-align" onclick="myFunction('Demo1')"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Form Management</button>
-                    <div class="w3-hide w3-container" id="Demo1">
-                        <p><a href="create_form.html"> <i class="fa fa-plus-circle w3-margin-right"> </i>Create Forms </a> </p>
-                        <p> <a href="view_form.html">  <i class="fa fa-file-o w3-margin-right"> </i>View Forms </a></p>
-                        <p> <a href="document_code.html">  <i class="fa fa-info w3-margin-right"> </i>Document Codes </a></p>
-                        <p> <a href="report.html">  <i class="fa fa-pie-chart w3-margin-right"> </i>View Reports </a></p>
-                    </div>
-                    <button class="w3-button w3-block light-mode w3-left-align" onclick="myFunction('Demo2')"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> Form Events</button>
-                    <div class="w3-hide w3-container" id="Demo2">
-                        <p> <a href="notification.html">  <i class="fa fa-bell-o w3-margin-right"> </i>Set Form notifications </a></p>
-                        <p> <a href="deadline.html">  <i class="fa fa-calendar-check-o w3-margin-right"> </i>Set Form due dates </a></p>
-                    </div>
-                    <button class="w3-button w3-block light-mode w3-left-align" onclick="myFunction('Demo3')"><i class="fa fa-users fa-fw w3-margin-right"></i> User Management</button>
-                    <div class="w3-hide w3-container" id="Demo3">
-                        <p> <a href="create_user.html">  <i class="fa fa-plus-circle w3-margin-right"></i>Create User </a></p>
-                        <p> <a href="manage_user.html"> <i class="fa fa-users w3-margin-right"></i>View Users </a></p>
-                        <p> <a href="access_roles.html"> <i class="fa fa-thumb-tack w3-margin-right"></i>Manage Roles </a></p>
-                        <p> <a href="role_settings.html"> <i class="fa fa-pencil w3-margin-right"></i>Modify User Settings </a></p>
-                    </div>
-                </div>
-            </div>
-            <br/>
-            <!-- Alert Box-->
-            <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small"><span class="w3-button w3-theme-l3 w3-display-topright" onclick="this.parentElement.style.display='none'"><i class="fa fa-remove"></i></span>
-                <p><strong>Hey!</strong></p>
-                <p>You have 3 pending forms to fill out, find out which.</p>
-            </div>
-            <!-- End Left Column-->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-theme-light w3-animate-left" id="mySidebar">
+    <div>
+        <div class="w3-container">
+            <h6 class="w3-center" id="userFirstName">Cassandra</h6>
+            <p class="w3-center">
+                <img class="w3-circle" src="../src/avatar3.png" style="height:106px;width:106px" alt="Avatar">
+            </p>
+            <hr style="border-top: 1px dashed black;">
+            <h6>
+                <i class="fa fa-info-circle fa-fw w3-margin-right w3-text-theme "></i>
+                <myelement id="empID">55555555</myelement>
+            </h6>
+            <h6>
+                <i class="fa fa-user fa-fw w3-margin-right w3-text-theme"></i>
+                <myelement id="fullName">Cassandra Narvasa</myelement>
+            </h6>
+            <h6>
+                <i class="fa fa-briefcase fa-fw w3-margin-right w3-text-theme"></i>
+                <myelement id="userLevel">document_controller</myelement>
+            </h6>
+            <hr style="border-top: 1px dashed black;">
         </div>
-        <!-- Middle Column-->
-        <div class="w3-col m9">
-            <div class="w3-container w3-card w3-white w3-round w3-margin">
-                <h4>Create a User</h4>
-                <hr class="w3-clear"/>
+    </div>
 
-                <form>
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required><br><br>
+    <div>
+        <div>
+            <button class="w3-button w3-block w3-theme-dark w3-left-align" onclick="myFunction('Demo1')">
+                <i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Form Management
+            </button><div class="w3-hide w3-container" id="Demo1">
+            <p>
+                <a href="/createform">
+                    <i class="fa fa-plus-circle w3-margin-right"></i>Create Forms
+                </a>
+            </p>
 
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required><br><br>
+            <p>
+                <a href="/viewforms">
+                    <i class="fa fa-file-o w3-margin-right"></i>View Forms
+                </a>
+            </p>
 
-                    <label for="firstName">First Name:</label>
-                    <input type="text" id="firstName" name="firstName" required><br><br>
+            <p>
+                <a href="/submission">
+                    <i class="fa fa-info w3-margin-right"></i>Submission</a>
+            </p>
 
-                    <label for="firstName">Middle Name:</label>
-                    <input type="text" id="middleName" name="firstName" required><br><br>
+            <p>
+                <a href="/viewreports">
+                    <i class="fa fa-pie-chart w3-margin-right"></i>View Reports</a>
+            </p>
+        </div>
 
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" id="lastName" name="lastName" required><br><br>
+            <button class="w3-button w3-block w3-theme-dark w3-left-align" onclick="myFunction('Demo2')">
+                <i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> Form Events
+            </button>
 
-                    <label for="empId">Employee ID:</label>
-                    <input type="text" id="empId" name="empId" required><br><br>
+            <div class="w3-hide w3-container" id="Demo2">
+                <p>
+                    <a href="/managenotifications">
+                        <i class="fa fa-bell-o w3-margin-right"></i>Set Form notifications
+                    </a>
+                </p>
 
-                    <label for="userLevel">User Level:</label>
-                    <select id="userLevel" name="userLevel">
-                        <option value="null">Choose Role</option>
-                        <option value="documentController">Document Controller</option>
-                        <option value="departmentHead">Department Head</option>
-                        <option value="faculty">Faculty</option>
-                        <option value="dean">Dean</option>
-                        <option value="admin">Admin</option>
-                        <option value="secretary">Secretary</option>
-                    </select><br><br>
+                <p>
+                    <a href="/managedeadlines">
+                        <i class="fa fa-calendar-check-o w3-margin-right"></i>Set Form due dates
+                    </a>
+                </p>
+            </div>
 
-                    <input type="submit" value="Register">
+            <button class="w3-button w3-block w3-theme-dark w3-left-align" onclick="myFunction('Demo3')">
+                <i class="fa fa-users fa-fw w3-margin-right"></i> User Management
+            </button>
+
+            <div class="w3-hide w3-container" id="Demo3">
+
+                <p>
+                    <a href="/createusers">
+                        <i class="fa fa-plus-circle w3-margin-right"></i>Create User
+                    </a>
+                </p>
+                <p>
+                    <a href="/viewusers">
+                        <i class="fa fa-users w3-margin-right"></i>View Users
+                    </a>
+                </p>
+            </div>
+
+        </div>
+        <br>
+        <a class="w3-bar-item w3-button edit-name w3-hover-black" href="#">
+            <i class="bi bi-pencil-square"></i> Edit Project Name
+        </a>
+
+        <a class="w3-bar-item w3-button w3-hover-black" href="#">
+            <i class="bi bi-pencil-square"></i> Edit Abstract
+        </a>
+
+        <a class="w3-bar-item w3-button w3-hover-black" href="/uploadfiles">
+            <i class="bi bi-file-arrow-up"></i> Upload Files
+        </a>
+
+        <a class="w3-bar-item w3-button w3-hover-black" href="#">
+            <i class="bi bi-person-plus"></i> Add Authors
+        </a>
+    </div>
+</nav>
+
+
+
+
+<div class="w3-main" id="main" style="margin-left:250px">
+    <div class="w3-row w3-padding-64">
+        <div class="w3-container2 w3-card w3-white w3-round w3-margin">
+            <div class="form_container">
+                <form name="form">
+
+                    <h2 class="heading">CREATE A USER</h2>
+
+                    <div class="form_wrap fullname">
+                        <div class="form_item">
+                            <label style="font-family: Courier New, monospace; font-weight:normal;">Email</label>
+                            <input type="text">
+                            <div class="error" id="email"></div>
+                        </div>
+                        <div class="form_item">
+                            <label style="font-family:Courier New, monospace;; font-weight:normal;">ID Number</label>
+                            <input type="text">
+                            <div class="error" id="empID"></div>
+                        </div>
+                    </div>
+
+                    <div class="form_wrap fullname">
+                        <div class="form_item">
+                            <label style="font-family: Courier New, monospace; font-weight:normal;">Username</label>
+                            <input type="text">
+                            <div class="error" id="username"></div>
+                        </div>
+                        <div class="form_item">
+                            <label style="font-family:Courier New, monospace;; font-weight:normal;">Password</label>
+                            <input type="text">
+                            <div class="error" id="password"></div>
+                        </div>
+                    </div>
+
+                    <div class="form_wrap fullname">
+                        <div class="form_item">
+                            <label style="font-family: Courier New, monospace;; font-weight:normal;">First Name</label>
+                            <input type="text">
+                            <div class="error" id="firstName"></div>
+                        </div>
+                        <div class="form_item">
+                            <label style="font-family: Courier New, monospace;; font-weight:normal;">LastName</label>
+                            <input type="text">
+                            <div class="error" id="lastName"></div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form_wrap fullname">
+                        <div class="form_item">
+                            <label style="font-family: Courier New, monospace;; font-weight:normal;">Middle Name</label>
+                            <input type="text">
+                            <div class="error" id="middleName"></div>
+                        </div>
+
+                        <div class="form_item">
+                            <label for="userLevel" style="font-family: Courier New, monospace;; font-weight:normal;">User Level:</label>
+                            <select id="userLevel" name="userLevel">
+                                <option value="null">Choose Role</option>
+                                <option value="Document Controller">Document Controller</option>
+                                <option value="Department Head">Department Head</option>
+                                <option value="Faculty">Faculty</option>
+                                <option value="Dean">Dean</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Secretary">Secretary</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="btnPosition">
+                        <button class="btn">Register</button>
+                    </div>
+
+
                 </form>
-                <!--                <button class="w3-button w3-theme-d2 w3-margin-bottom" type="button"><i class="fa fa-eye"></i> &nbsp;View    </button>-->
             </div>
-            <!-- End Middle Column-->
-        </div>
-        <!-- Right Column// End Right Column
-        -->
-        <!-- End Grid-->
-    </div>
-    <!-- End Page Container-->
-</div>
-<br>
 
-<!-- Footer -->
-<footer class="w3-container light-mode">
-    <h5>Footer</h5>
-    <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+        </div>
+
+    </div>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery.dataTables.js"></script>
+    <script src="js/sidebar.js"></script>
+
+    <script>
+                var receivedUserDetailsBlock = {"firstName":"John Poul","lastName":"Panglao","empID":"22222222","userLevel":"Admin"};
+
+                var userFirstName = document.getElementById("userFirstName");
+                var userFirstNameNav = document.getElementById("userFirstNameNav");
+                var empID = document.getElementById("empID");
+                var fullName = document.getElementById("fullName");
+                var userLevel = document.getElementById("userLevel");
+
+                userFirstName.innerHTML = receivedUserDetailsBlock.firstName;
+                userFirstNameNav.innerHTML = receivedUserDetailsBlock.firstName;
+                empID.innerHTML = receivedUserDetailsBlock.empID;
+                fullName.innerHTML = receivedUserDetailsBlock.firstName + " " + receivedUserDetailsBlock.lastName ;
+                userLevel.innerHTML = receivedUserDetailsBlock.userLevel;
+
+
+                function myFunction(id) {
+                var x = document.getElementById(id);
+                if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+                x.previousElementSibling.className += " w3-theme-d1";
+                } else {
+                x.className = x.className.replace("w3-show", "");
+                x.previousElementSibling.className =
+                x.previousElementSibling.className.replace(" w3-theme-d1", "");
+                }
+                }
+                    </script><script type="text/javascript">$(document).ready(function() {
+                $('#table').DataTable();
+                } );
+                    </script><script type="text/javascript">$(document).ready(function(){
+                //bi-trash
+                //$('.btn_remove').on('click', function(){
+                //delete file modal
+                $('.bi-trash').on('click', function(){
+                var store_id = $(this).attr('id');
+                $("#modal_remove").modal('show');
+                $('#btn_yes').attr('name', store_id);
+                });
+                $('.edit-name').on('click', function(){
+                $("#modal_rename").modal('show');
+                });
+                $('#btn_yes').on('click', function(){
+                var id = $(this).attr('name');
+                $.ajax({
+                type: "POST",
+                url: "deletefile.php",
+                data:{
+                store_id: id
+                },
+                success: function(data){
+                $("#modal_remove").modal('hide');
+                $(".del_file" + id).empty();
+                $(".del_file" + id).html("<td colspan='4'><center class='text-danger'>Deleting...</center></td>");
+                setTimeout(function(){
+                $(".del_file" + id).fadeOut('slow');
+                }, 1000);
+                }
+                });
+                });
+                });
+
+                    </script>
+</div>
+</div>
+
+<footer class="w3-bottom" id="myFooter">
+    <div class="w3-container w3-theme-l1">
+        <h5 style="text-align:center; font-family: Acme; font-weight:lighter;">SLU IT Project Catalogues</h5>
+        <h6 style="text-align:center; font-family: Acme, monospace; font-weight:lighter;">&#169; 2023 All Rights Reserved</h6>
+    </div>
 </footer>
 
 <script>
-    // Accordion
-    function myFunction(id) {
-      var x = document.getElementById(id);
-      if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-        x.previousElementSibling.className += " w3-theme-d1";
-      } else {
-        x.className = x.className.replace("w3-show", "");
-        x.previousElementSibling.className =
-        x.previousElementSibling.className.replace(" w3-theme-d1", "");
-      }
-    }
 
-    // Used to toggle the menu on smaller screens when clicking on the menu button
-    function openNav() {
-      var x = document.getElementById("navDemo");
-      if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-      } else {
-        x.className = x.className.replace(" w3-show", "");
-      }
+    /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+function openNavigation() {
+    // Get the element by its ID
+    const sidebar = document.getElementById("mySidebar");
+    const main = document.getElementById("main");
+    // Toggle the classes for showing/hiding the sidebar
+    sidebar.classList.toggle("w3-show");
+    // Toggle the margin of the main content
+    main.style.marginLeft = "250px";
     }
+/* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+function closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+}
 </script>
-
 </body>
 </html>
