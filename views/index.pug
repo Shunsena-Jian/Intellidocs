@@ -131,7 +131,7 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
                     | Deployed
                 .count
                         | 40
-        .w3-quarter.w3-containeru
+        .w3-quarter.w3-container
             .grow.shadowEffect.column(style='background-color:#0D4990;')
                 .title
                     | Approved
@@ -390,7 +390,7 @@ script.
     }
 
     function alertIdle(){
-        alert("WHY ARE YOU IDLE?! KEEP WORKING! ./.");
+        customAlert.alert('For your security, we will automatically log you out in 120 seconds.','Are you still there?')
         //mag lalagay tayo nang function to call logout req res
         //papalitan natin to nang modal
         //modal will contain yes no i dont care
@@ -400,4 +400,40 @@ script.
     document.addEventListener("keydown", resetIdleTimeOut);
 
     resetIdleTimeOut();
+
+    function CustomAlert(){
+      this.alert = function(message,title){
+        document.body.innerHTML = document.body.innerHTML + '<div id="dialogoverlay"></div><div id="dialogbox" class="slit-in-vertical"><div><div id="dialogboxhead"></div><div id="dialogboxbody"></div><div id="dialogboxfoot"></div><div id="dialogboxfoot2"></div></div></div>';
+
+        let dialogoverlay = document.getElementById('dialogoverlay');
+        let dialogbox = document.getElementById('dialogbox');
+
+        let winH = window.innerHeight;
+        dialogoverlay.style.height = winH+"px";
+
+        dialogbox.style.top = "100px";
+
+        dialogoverlay.style.display = "block";
+        dialogbox.style.display = "block";
+
+        document.getElementById('dialogboxhead').style.display = 'block';
+
+        if(typeof title === 'undefined') {
+          document.getElementById('dialogboxhead').style.display = 'none';
+        } else {
+          document.getElementById('dialogboxhead').innerHTML = '<i class="fa fa-exclamation-circle" aria-hidden="true"></i> '+ title;
+        }
+        document.getElementById('dialogboxbody').innerHTML = message;
+        document.getElementById('dialogboxfoot').innerHTML = '<button class="pure-material-button-contained active" onclick="customAlert.ok()">Keep Me Logged In</button>';
+        document.getElementById('dialogboxfoot2').innerHTML = '<button class="pure-material-button-contained active" onclick="customAlert.ok()">Log Me out</button>';
+
+      }
+
+      this.ok = function(){
+        document.getElementById('dialogbox').style.display = "none";
+        document.getElementById('dialogoverlay').style.display = "none";
+      }
+    }
+
+    let customAlert = new CustomAlert();
 
