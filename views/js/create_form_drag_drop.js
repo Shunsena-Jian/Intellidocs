@@ -750,13 +750,38 @@ function createTextBox() {
       selectedTextBoxType = selectElement(selectedTextBoxType);
 
       // This line is not working
-        selectedTextBoxType.addEventListener('hover', (e) => {
+        selectedTextBoxType.addEventListener('contextmenu', (e) => {
         console.log("Contextmenu event fired.");
         createContextMenuBox(e.clientX, e.clientY, selectedTextBoxType);
     });
 
       currentPageContent.appendChild(selectedTextBoxType);
    }
+
+function removeElementAndReturnText(element, classname) {
+    let textContent = '';
+
+    // Check if the element has the specified class name
+    if (element.classList.contains(classname)) {
+        // Get the text content before removing the element
+        textContent = element.textContent;
+
+        // Create a text node with the element's text content
+        const textNode = document.createTextNode(textContent);
+
+        // Insert the text node before the element (i.e., replace the element)
+        element.parentNode.insertBefore(textNode, element);
+
+        // Remove the element
+        element.remove();
+    }
+
+    // Return the text content
+    return textContent;
+}
+
+
+
 
 function selectElement(element) {
    element.addEventListener('click', function () {
@@ -868,13 +893,18 @@ function makeBold() {
             // Replace the selected text with the span
             const range = selection.getRangeAt(0);
             let currentSpan = checkForExistingTextSpan(range);
+            console.log(currentSpan);
 
-            if (currentSpan != null) {
+            if (currentSpan == null) {
+                        range.deleteContents();
+                        range.insertNode(span);
+            } else if (currentSpan != null && !currentSpan.classList.contains("w3-bold")) {
                 currentSpan.classList.add('w3-bold');
             } else {
-                range.deleteContents();
-                range.insertNode(span);
-                  selection.removeAllRanges(); // Clear the selection
+                var textContent = removeElementAndReturnText(currentSpan, 'w3-bold');
+
+                // Append the textContent in the current span
+                currentSpan.appendChild(document.createTextNode(textContent));
             }
         }
     }
@@ -1048,25 +1078,30 @@ function makeUnderline() {
         const selection = window.getSelection();
         const selectedText = selection.toString().trim();
 
-        if (selectedText) {
-            // Create a new HTML structure with the selected text wrapped in a span
-            const span = document.createElement("span");
-            span.className = "w3-underline";
-            span.textContent = selectedText;
+if (selectedText) {
+    // Create a new HTML structure with the selected text wrapped in a span
+    const span = document.createElement("span");
+    span.className = "w3-underline"; // Initialize with the desired class name
 
-            // Replace the selected text with the span
-            const range = selection.getRangeAt(0);
-            let currentSpan = checkForExistingTextSpan(range);
+    // Replace the selected text with the span
+    const range = selection.getRangeAt(0);
+    let currentSpan = checkForExistingTextSpan(range);
+    console.log(currentSpan);
 
-            if (currentSpan != null) {
-                currentSpan.classList.add('w3-underline');
-            } else {
-                range.deleteContents();
-                range.insertNode(span);
-                  selection.removeAllRanges(); // Clear the selection
-            }
-        }
-    }
+    if (currentSpan == null) {
+                          range.deleteContents();
+                          range.insertNode(span);
+              } else if (currentSpan != null && !currentSpan.classList.contains("w3-underline")) {
+                  currentSpan.classList.add('w3-underline');
+              } else {
+                  var textContent = removeElementAndReturnText(currentSpan, 'w3-underline');
+
+                  // Append the textContent in the current span
+                  currentSpan.appendChild(document.createTextNode(textContent));
+              }
+}
+
+}
 }
 
 function makeItalic() {
@@ -1086,14 +1121,17 @@ function makeItalic() {
             const range = selection.getRangeAt(0);
             let currentSpan = checkForExistingTextSpan(range);
             console.log(currentSpan);
-            if (currentSpan != null) {
-                console.log("add");
+
+            if (currentSpan == null) {
+                        range.deleteContents();
+                        range.insertNode(span);
+            } else if (currentSpan != null && !currentSpan.classList.contains("w3-italic")) {
                 currentSpan.classList.add('w3-italic');
             } else {
-                console.log("new");
-                range.deleteContents();
-                range.insertNode(span);
-                  selection.removeAllRanges(); // Clear the selection
+                var textContent = removeElementAndReturnText(currentSpan, 'w3-italic');
+
+                // Append the textContent in the current span
+                currentSpan.appendChild(document.createTextNode(textContent));
             }
 
         }
