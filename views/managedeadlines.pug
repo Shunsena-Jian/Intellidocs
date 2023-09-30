@@ -3,6 +3,7 @@ head
     title #{title}
     meta(charset='UTF-8')
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+    link(rel='stylesheet' href='css/style.css')
     link(rel='stylesheet' href='css/base_style.css')
     link(rel='stylesheet' href='css/w3css4.css')
     link(rel='stylesheet' href='css/w3-theme.css')
@@ -13,7 +14,7 @@ head
 
 .w3-top
     .w3-bar.w3-theme.w3-top.w3-left-align.w3-large
-        a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(href='javascript:void(0)' onclick='w3_open()')
+        a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(onclick='openNavigation()')
             i.fa.fa-bars
         a.w3-bar-item.w3-button.w3-hover-white(href='/')
             i.fa.fa-home.w3-margin-right
@@ -171,3 +172,19 @@ footer#myFooter
         p
             center SLU IT Projects Catalogue
 
+script.
+    /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+    function openNavigation() {
+        // Get the element by its ID
+        const sidebar = document.getElementById("mySidebar");
+        const main = document.getElementById("main");
+        // Toggle the classes for showing/hiding the sidebar
+        sidebar.classList.toggle("w3-show");
+        // Toggle the margin of the main content
+        main.style.marginLeft = "250px";
+        }
+    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }

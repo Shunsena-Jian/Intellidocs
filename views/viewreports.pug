@@ -14,7 +14,7 @@ head
 
 .w3-top
     .w3-bar.w3-theme.w3-top.w3-left-align.w3-large
-        a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(href='javascript:void(0)' onclick='w3_open()')
+        a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(onclick='openNavigation()')            i.fa.fa-bars
             i.fa.fa-bars
         a.w3-bar-item.w3-button.w3-hover-white(href='/')
             i.fa.fa-home.w3-margin-right
@@ -115,7 +115,27 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
     .w3-row.w3-padding-64
         | View Reports
 
+        script(src='js/jquery-3.2.1.min.js')
+        script(src='js/bootstrap.js')
+        script(src='js/jquery.dataTables.js')
+        script(src='js/sidebar.js')
+
         script.
+            var receivedUserDetailsBlock = !{JSON.stringify(userDetailsBlock)};
+
+            var userFirstName = document.getElementById("userFirstName");
+            var userFirstNameNav = document.getElementById("userFirstNameNav");
+            var empID = document.getElementById("empID");
+            var fullName = document.getElementById("fullName");
+            var userLevel = document.getElementById("userLevel");
+
+            userFirstName.innerHTML = receivedUserDetailsBlock.firstName;
+            userFirstNameNav.innerHTML = receivedUserDetailsBlock.firstName;
+            empID.innerHTML = receivedUserDetailsBlock.empID;
+            fullName.innerHTML = receivedUserDetailsBlock.firstName + " " + receivedUserDetailsBlock.lastName ;
+            userLevel.innerHTML = receivedUserDetailsBlock.userLevel;
+
+
             function myFunction(id) {
             var x = document.getElementById(id);
             if (x.className.indexOf("w3-show") == -1) {
@@ -172,3 +192,19 @@ footer#myFooter
         p
             center SLU IT Projects Catalogue
 
+script.
+    /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+    function openNavigation() {
+        // Get the element by its ID
+        const sidebar = document.getElementById("mySidebar");
+        const main = document.getElementById("main");
+        // Toggle the classes for showing/hiding the sidebar
+        sidebar.classList.toggle("w3-show");
+        // Toggle the margin of the main content
+        main.style.marginLeft = "250px";
+        }
+    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }

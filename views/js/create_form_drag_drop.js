@@ -1,16 +1,40 @@
 const draggable = document.querySelectorAll('.draggable');
 const dropBox = document.querySelector('.drop-container');
 let activeDraggable = null;
-
+var i = 1;
 let currentPage = 1;
 let currentHeight = 0;
-const maxHeight = 840; // A4 height in pixels
+var maxHeight = 1020; // A4 height in pixels
 let currentPageContent = document.querySelector('.drop-container'); // Reference to the current page's content
 const containerDiv = document.getElementById('outer-container');
 let isSelecting = false;
 let startCell = null;
+padding = 36;
+header_height = 0;
 
 const tables = document.querySelectorAll('.table');
+
+    // Keep track of the currently hovered text box
+  let selectedTextBox = null;
+
+function setMaxHeight() {
+  // Get all elements with the class "drop-container"
+      var dropContainers = document.querySelectorAll('.drop-container');
+dropContainers.forEach(function (dropContainer) {
+            const computedStyle = getComputedStyle(dropContainer);
+            // Extract the padding value
+            const paddingValue = computedStyle.getPropertyValue('padding');
+            console.log("padding value is: " + paddingValue);
+            // Extract the numeric part of the padding value (removing 'px' or other units)
+            padding = parseFloat(paddingValue);
+            maxHeight = dropContainer.offsetHeight - padding;
+        });
+}
+
+setMaxHeight();
+console.log("Max Height is: " + maxHeight);
+
+
 
 tables.forEach((table) => {
     let selectedCells = [];
@@ -20,6 +44,61 @@ tables.forEach((table) => {
                 activeDraggable = table;
             });
     });
+
+
+function getPDF(id) {
+
+    var top_left_margin = 15;
+    var PDF_Width = 210; // A4 width in mm
+    var PDF_Height = 297; // A4 height in mm
+
+    var pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: [PDF_Width, PDF_Height],
+        autoPaging: true // Enable text selection
+    });
+
+    // Select all elements with the class .canvas_div_pdf
+    let content_id = "." + id;
+    var contentElements = document.querySelectorAll(content_id);
+
+    // Define a function to generate PDF for a single content element
+    function generatePDFForElement(index) {
+        var content = contentElements[index];
+        var HTML_Width = content.offsetWidth;
+        var HTML_Height = content.offsetHeight;
+        var canvas_image_width = HTML_Width;
+        var canvas_image_height = HTML_Height;
+
+
+
+        html2canvas(content, { allowTaint: true, scale: 1 }).then(function (canvas) {
+            canvas.getContext('2d');
+
+             content.style.backgroundColor = 'white'; // Change 'white' to the desired background color
+
+
+            var imgData = canvas.toDataURL("image/jpeg", 1.0);
+
+            if (index > 0) {
+                pdf.addPage([PDF_Width, PDF_Height]);
+            }
+
+            pdf.addImage(imgData, 'JPEG', top_left_margin, top_left_margin, PDF_Width, PDF_Height);
+
+            if (index < contentElements.length - 1) {
+                generatePDFForElement(index + 1); // Recursively generate PDF for the next content element
+            } else {
+                pdf.save("HTML-Document.pdf"); // Save the final PDF when all elements have been processed
+            }
+        });
+    }
+
+    if (contentElements.length > 0) {
+        generatePDFForElement(0); // Start generating PDF for the first content element
+    }
+}
 
 
 function mergeCells(table) {
@@ -218,9 +297,59 @@ function addTableColumn(table) {
     }
 }
 
-function createContextMenu(x, y, element) {
+function createContextMenuBox(x,y,element) {
+  const contextMenu = document.createElement('div');
+    contextMenu.classList.add('context-menu');
+
+    if (element.classList.contains('draggable')) {
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Delete Field';
+            deleteButton.addEventListener('click', () => {
+                if (confirm('Are you sure you want to delete this box?')) {
+                    element.remove();
+                    repositionBoxes();
+                }
+                contextMenu.remove();
+            });
+
+            contextMenu.appendChild(deleteButton);
+
+        }
+
+   contextMenu.style.position = 'fixed';
+    contextMenu.style.left = x + 'px';
+    contextMenu.style.top = y + 'px';
+    document.body.appendChild(contextMenu);
+
+    document.addEventListener('click', () => {
+        contextMenu.remove();
+    });
+
+    // Prevent the default context menu from appearing
+    document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+    });
+
+}
+
+function createContextMenuTable(x, y, element) {
     const contextMenu = document.createElement('div');
     contextMenu.classList.add('context-menu');
+
+    if (element.classList.contains('draggable')) {
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Delete Widget';
+            deleteButton.addEventListener('click', () => {
+                if (confirm('Are you sure you want to delete this box?')) {
+                    element.remove();
+                    repositionBoxes();
+                }
+                contextMenu.remove();
+            });
+
+            contextMenu.appendChild(deleteButton);
+
+        }
 
     if (element.classList.contains('table')) {
         const addRowButton = document.createElement('button');
@@ -278,24 +407,24 @@ function createContextMenu(x, y, element) {
         contextMenu.appendChild(removeColumnButton);
     }
 
-    if (element.classList.contains('resizable')) {
-        const increaseHeightButton = document.createElement('button');
-        increaseHeightButton.innerText = 'Increase Height';
-        increaseHeightButton.addEventListener('click', () => {
-            resizeBoxHeight(element, 10); // Increase the height by 10 pixels (adjust as needed)
-            contextMenu.remove();
-        });
-
-        const decreaseHeightButton = document.createElement('button');
-        decreaseHeightButton.innerText = 'Decrease Height';
-        decreaseHeightButton.addEventListener('click', () => {
-            resizeBoxHeight(element, -10); // Decrease the height by 10 pixels (adjust as needed)
-            contextMenu.remove();
-        });
-
-        contextMenu.appendChild(increaseHeightButton);
-        contextMenu.appendChild(decreaseHeightButton);
-    }
+//    if (element.classList.contains('resizable')) {
+//        const increaseHeightButton = document.createElement('button');
+//        increaseHeightButton.innerText = 'Increase Height';
+//        increaseHeightButton.addEventListener('click', () => {
+//            resizeBoxHeight(element, 10); // Increase the height by 10 pixels (adjust as needed)
+//            contextMenu.remove();
+//        });
+//
+//        const decreaseHeightButton = document.createElement('button');
+//        decreaseHeightButton.innerText = 'Decrease Height';
+//        decreaseHeightButton.addEventListener('click', () => {
+//            resizeBoxHeight(element, -10); // Decrease the height by 10 pixels (adjust as needed)
+//            contextMenu.remove();
+//        });
+//
+//        contextMenu.appendChild(increaseHeightButton);
+//        contextMenu.appendChild(decreaseHeightButton);
+//    }
 
     contextMenu.style.position = 'fixed';
     contextMenu.style.left = x + 'px';
@@ -336,33 +465,77 @@ function repositionBoxes() {
 }
 
 
-function calculateDivHeight(div) {
-    const styles = getComputedStyle(div);
-    //const marginTop = parseFloat(styles.marginTop);
-    //const marginBottom = parseFloat(styles.marginBottom);
+function calculateDivHeight(element) {
+    const styles = getComputedStyle(element);
+    const marginTop = parseFloat(styles.marginTop);
+    const marginBottom = parseFloat(styles.marginBottom);
     const paddingTop = parseFloat(styles.paddingTop);
     const paddingBottom = parseFloat(styles.paddingBottom);
     const borderHeight = parseFloat(styles.borderTopWidth) + parseFloat(styles.borderBottomWidth);
-//    const height = div.offsetHeight + marginTop + marginBottom + paddingTop + paddingBottom + borderHeight;
-    const height = div.offsetHeight + paddingTop + paddingBottom + borderHeight;
-    return height;
+
+
+
+        // Check if the element is a table
+            if (element.tagName.toLowerCase() === 'table') {
+                // Calculate the height differently for tables
+                const rows = element.rows;
+                let tableHeight = element.offsetHeight;
+
+//                // Calculate the height by summing the height of each row
+//                for (let i = 0; i < rows.length; i++) {
+//                    tableHeight += rows[i].offsetHeight;
+//                }
+
+                // Add margins, padding, and borders
+                tableHeight = tableHeight + marginBottom + marginTop;
+                console.log("table");
+                return tableHeight;
+            } else {
+                // Calculate the height for non-table elements
+//                const height = element.offsetHeight - marginBottom - paddingBottom - paddingTop - borderHeight -  (padding);
+                const height = element.offsetHeight + marginBottom + marginTop;
+                console.log("div");
+                return height;
+            }
+
+
 }
 
-function createNewPage() {
-    currentHeight = 0;
-    currentPage++;
 
+function createNewPage() {
+    console.log("new page tanga!!!");
+    currentPage++;
     const newPage = document.createElement('div');
     newPage.classList.add('drop-container', 'draggable'); // Add custom class names including 'draggable'
     newPage.setAttribute('id', `page-${currentPage}`); // Give the page a unique ID
 
+    var dropContainers = document.querySelectorAll('.drop-container');
+
+    // Check if the first drop container has a class of 'landscape'
+    if (dropContainers.length > 0 && dropContainers[0].classList.contains('landscape')) {
+        // The first drop container has the 'landscape' class
+        newPage.classList.add('landscape');
+    }
+
     const containerDiv = document.querySelector('.pages');
     containerDiv.appendChild(newPage); // Append the new page to the container div
-    downloadPDF(newPage);
+
+    // Copy the first 'header' div from the previous page, if it exists
+    if (currentPage > 1) {
+        const previousPage = document.querySelector(`#page-${currentPage - 1}`);
+        const headerDiv = previousPage.querySelector('.header');
+        if (headerDiv) {
+            const headerClone = headerDiv.cloneNode(true);
+            newPage.appendChild(headerClone);
+        }
+    }
+
+    //downloadPDF(newPage);
     addEventListenerToDiv(newPage);
 
     return newPage;
 }
+
 
   function downloadPDF(divToPrint) {
 
@@ -400,43 +573,85 @@ function addEventListenerToDiv(dropBox) {
 // Handle the drop event
 dropBox.addEventListener('drop', (e) => {
     e.preventDefault();
+
     dropBox.classList.remove('hover');
 
     if (activeDraggable) {
         const boxHeight = calculateDivHeight(activeDraggable);
-        console.log();
+        if (i === 1) {
+            header_height = boxHeight;
+            i = -1;
+            console.log(header_height);
+        }
+        console.log(currentHeight + " is the current height");
+        console.log(boxHeight + " is the new element height");
         console.log(currentHeight + boxHeight + "px");
-        if (currentHeight + boxHeight > maxHeight) {
+        if (currentHeight + boxHeight > (maxHeight + padding)) {
             currentPageContent.style.pageBreakAfter = 'always'; // Add page break after the current page
             currentPageContent = createNewPage(); // Create a new page
-            currentHeight = 0; // Reset current height for the new page
+            currentHeight = 0 + header_height + padding; // Reset current height for the new page
         }
 
         const data = e.dataTransfer.getData('text/html');
+//        console.log(data);
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = data;
 
         const newDiv = tempDiv.querySelector('.draggable');
 
         if (newDiv) {
-            const clonedDiv = newDiv.cloneNode(true);
-            clonedDiv.addEventListener('contextmenu', (e) => {
-                e.preventDefault();
-                createContextMenu(e.clientX, e.clientY, clonedDiv);
-            });
-
-            // Add the non-draggable class
-             clonedDiv.removeAttribute("draggable");
+            var clonedDiv = newDiv.cloneNode(true);
+            clonedDiv.removeAttribute("draggable");
 
             // Check if the clonedDiv is a table
-            console.log(clonedDiv.classList);
+            console.log(clonedDiv.nodeName.toLowerCase());
+
             // Check if the clonedDiv is a table or contains tables within divs
                         if (clonedDiv.nodeName.toLowerCase() === 'table') {
+                              clonedDiv.addEventListener('contextmenu', (e) => {
+                                e.preventDefault();
+                                createContextMenuTable(e.clientX, e.clientY, clonedDiv);
+                              });
+                              clonedDiv = activateTable(clonedDiv);
 
-                            if (clonedDiv.id === "table_header") {
-                              // Add CSS styles to the table
-                                clonedDiv.classList.add("right");
-                            }
+                        } else if (clonedDiv.nodeName.toLowerCase() === 'div' && clonedDiv.querySelector('table')) {
+                            // Check if it is a div and has a table child element. If yes, apply
+                            const tableChild = clonedDiv.querySelector('table');
+                            var updatedTableChild = activateTable(tableChild);
+
+                            // Update the tableChild in the clonedDiv after
+                            const oldTableChild = clonedDiv.querySelector('table');
+
+                            const parentDiv = oldTableChild.parentNode;
+                            parentDiv.replaceChild(updatedTableChild, oldTableChild);
+
+                            clonedDiv.addEventListener('contextmenu', (e) => {
+                                e.preventDefault();
+                                createContextMenuBox(e.clientX, e.clientY, clonedDiv);
+                            });
+                        } else {
+                            clonedDiv.addEventListener('contextmenu', (e) => {
+                            e.preventDefault();
+                            createContextMenuBox(e.clientX, e.clientY, clonedDiv);
+                        });
+                        }
+
+            if (currentPageContent) { // Check if currentPageContent is defined
+                currentPageContent.appendChild(clonedDiv); // Append to the current page's content
+                currentHeight += boxHeight; // Update the current height
+                console.log(currentHeight);
+            } else {
+                console.error('currentPageContent is undefined.'); // Log an error if currentPageContent is undefined
+            }
+        }
+
+        activeDraggable = null;
+    }
+});
+}
+
+function activateTable(clonedDiv) {
+
                             let selectedCells = [];
                             clonedDiv.addEventListener('click', (e) => {
                                         const cell = e.target;
@@ -463,22 +678,7 @@ dropBox.addEventListener('drop', (e) => {
                             cells_head.forEach((cell) => {
                                 cell.setAttribute('contenteditable', 'true');
                             });
-                        } else if (clonedDiv.nodeName.toLowerCase() === 'div') {
-
-                        }
-
-            if (currentPageContent) { // Check if currentPageContent is defined
-                currentPageContent.appendChild(clonedDiv); // Append to the current page's content
-                currentHeight += boxHeight; // Update the current height
-                console.log(currentHeight);
-            } else {
-                console.error('currentPageContent is undefined.'); // Log an error if currentPageContent is undefined
-            }
-        }
-
-        activeDraggable = null;
-    }
-});
+ return clonedDiv;
 }
 
 function resizeBoxHeight(box, deltaHeight) {
@@ -491,9 +691,486 @@ function resizeBoxHeight(box, deltaHeight) {
         // Adjust the content inside the box
         const content = box.querySelector('.draggable-content');
         if (content) {
-            content.style.height = (newHeight - 10 ) + 'px';
+            content.style.height = (newHeight) + 'px';
         }
     }
+}
+
+function createTextBox() {
+     const select = document.getElementById("textBoxSelect");
+     const selectedValue = select.value;
+     var selectedTextBoxType = null;
+
+     if (selectedValue === "title") {
+       const div = document.createElement("div");
+       div.className = "title";
+       div.setAttribute('contenteditable', 'true');
+       div.textContent = "This is a title.";
+       selectedTextBoxType = div;
+
+     } else if (selectedValue === "normal-text") {
+       const p = document.createElement("p");
+       p.className = "paragraph";
+       p.setAttribute('contenteditable', 'true');
+       p.textContent = "This is a paragraph.";
+       selectedTextBoxType = p;
+
+     } else if (selectedValue === "subtitle") {
+       const div = document.createElement("div");
+       div.className = "subtitle";
+       div.setAttribute('contenteditable', 'true');
+       div.textContent = "This is a subtitle.";
+       selectedTextBoxType = div;
+
+     } else if (selectedValue === "heading-1") {
+       const heading = document.createElement("h1");
+       heading.className = "heading-1";
+       heading.setAttribute('contenteditable', 'true');
+       heading.textContent = "This is heading 1.";
+       selectedTextBoxType = heading;
+
+     } else if (selectedValue === "heading-2") {
+       const heading = document.createElement("h2");
+       heading.className = "heading-2";
+       heading.setAttribute('contenteditable', 'true');
+       heading.textContent = "This is heading 2.";
+       selectedTextBoxType = heading;
+
+     } else if (selectedValue === "heading-3") {
+       const heading = document.createElement("h3");
+       heading.className = "heading-3";
+       heading.setAttribute('contenteditable', 'true');
+       heading.textContent = "This is heading 3.";
+       selectedTextBoxType = heading;
+     }
+
+      selectedTextBoxType.classList.add("element-spacing-5");
+
+      // Add click event listener to toggle selection
+      selectedTextBoxType = selectElement(selectedTextBoxType);
+
+      // This line is not working
+        selectedTextBoxType.addEventListener('hover', (e) => {
+        console.log("Contextmenu event fired.");
+        createContextMenuBox(e.clientX, e.clientY, selectedTextBoxType);
+    });
+
+      currentPageContent.appendChild(selectedTextBoxType);
+   }
+
+function selectElement(element) {
+   element.addEventListener('click', function () {
+
+               // Unselect the previously selected text box, if any
+               if (selectedTextBox) {
+                   selectedTextBox.removeAttribute('id'); // Remove the "id" attribute
+
+
+               }
+               // Select the current text box
+               element.setAttribute('contentEditable', 'true');
+               element.id = 'selected'; // Add the "id" attribute
+               selectedTextBox =  element;
+
+               // Ensure the text box is editable
+               element.removeAttribute('readonly'); // Remove readonly attribute
+           });
+   return element;
+   }
+
+    function createTable() {
+      const table = document.createElement("table");
+      const tableBody = document.createElement("tbody");
+
+      // Create table header row
+      const headerRow = document.createElement("tr");
+      const headerCell1 = document.createElement("th");
+      headerCell1.textContent = "Header 1";
+      const headerCell2 = document.createElement("th");
+      headerCell2.textContent = "Header 2";
+      headerRow.appendChild(headerCell1);
+      headerRow.appendChild(headerCell2);
+
+      // Create table data rows
+      for (let i = 1; i <= 3; i++) {
+        const row = document.createElement("tr");
+        let cell1 = document.createElement("td");
+        cell1 = selectElement(cell1);
+        cell1.setAttribute('contenteditable', 'true');
+        let cell2 = document.createElement("td");
+        cell2 = selectElement(cell2);
+
+        row.appendChild(cell1);
+        row.appendChild(cell2);
+        tableBody.appendChild(row);
+      }
+
+      table.classList.add("table");
+      table.setAttribute('contenteditable', 'true');
+      table.appendChild(headerRow);
+      table.appendChild(tableBody);
+      currentPageContent.appendChild(table);
+    }
+
+   function changeTextColor() {
+    if (selectedTextBox) {
+        const selectedTextDisplay = document.getElementById("selectedTextDisplay");
+
+        const selection = window.getSelection();
+        const selectedText = selection.toString().trim();
+
+        if (selectedText) {
+            // Get the selected color from the dropdown
+            const colorSelect = document.getElementById("colorSelect");
+            const selectedColor = colorSelect.value;
+
+            // Create a new HTML structure with the selected text wrapped in a span with the new color class
+            const span = document.createElement("span");
+            span.className = "w3-text-" + selectedColor;
+            span.textContent = selectedText;
+
+            // Replace the selected text with the span
+            const range = selection.getRangeAt(0);
+            let currentSpan = checkForExistingTextSpan(range);
+
+            if (currentSpan != null) {
+                // Check if the current span already has a color class
+                const currentColorClass = Array.from(currentSpan.classList).find(cls => cls.startsWith("w3-text-"));
+                if (currentColorClass) {
+                    // Remove the current color class
+                    currentSpan.classList.remove(currentColorClass);
+                }
+                // Add the new color class
+                currentSpan.classList.add("w3-text-" + selectedColor);
+            } else {
+                range.deleteContents();
+                range.insertNode(span);
+                selection.removeAllRanges(); // Clear the selection
+            }
+        }
+    }
+}
+
+
+function makeBold() {
+    if (selectedTextBox) {
+        const selectedTextDisplay = document.getElementById("selectedTextDisplay");
+
+        const selection = window.getSelection();
+        const selectedText = selection.toString().trim();
+
+        if (selectedText) {
+            // Create a new HTML structure with the selected text wrapped in a span
+            const span = document.createElement("span");
+            span.className = "w3-bold";
+            span.textContent = selectedText;
+
+            // Replace the selected text with the span
+            const range = selection.getRangeAt(0);
+            let currentSpan = checkForExistingTextSpan(range);
+
+            if (currentSpan != null) {
+                currentSpan.classList.add('w3-bold');
+            } else {
+                range.deleteContents();
+                range.insertNode(span);
+                  selection.removeAllRanges(); // Clear the selection
+            }
+        }
+    }
+}
+
+function makeUnorderedList() {
+    const list = document.createElement("ul");
+
+    let li_1 = document.createElement("li");
+    li_1.textContent = "text1";
+    li_1 = selectElement(li_1);
+    list.appendChild(li_1);
+
+    let li_2 = document.createElement("li");
+    li_2.textContent = "text2";
+    li_2 = selectElement(li_2);
+    list.appendChild(li_2);
+
+    let li_3 = document.createElement("li");
+    li_3.textContent = "text3";
+    li_3 = selectElement(li_3);
+    list.appendChild(li_3);
+    list.setAttribute('contenteditable', 'true');
+
+    currentPageContent.appendChild(list);
+}
+
+function makeOrderedList() {
+      const list = document.createElement("ol");
+
+      let li_1 = document.createElement("li");
+      li_1.textContent = "text1";
+      li_1 = selectElement(li_1);
+      list.appendChild(li_1);
+
+      let li_2 = document.createElement("li");
+      li_2.textContent = "text2";
+      li_2 = selectElement(li_2);
+      list.appendChild(li_2);
+
+      let li_3 = document.createElement("li");
+      li_3.textContent = "text3";
+      li_3 = selectElement(li_3);
+      list.appendChild(li_3);
+      list.setAttribute('contenteditable', 'true');
+
+      currentPageContent.appendChild(list);
+}
+
+function modifyOrientation() {
+
+const orientation = document.getElementById("modifyOrientation");
+     const selectedValue = orientation.value;
+
+      // Get all elements with the class "drop-container"
+      var dropContainers = document.querySelectorAll('.drop-container');
+
+     if (selectedValue === "landscape") {
+            // Add the 'landscape' class to all drop containers
+            dropContainers.forEach(function (dropContainer) {
+                dropContainer.classList.add("landscape");
+            });
+        } else if (selectedValue === "portrait") {
+            // Remove the 'landscape' class from all drop containers
+            dropContainers.forEach(function (dropContainer) {
+                dropContainer.classList.remove("landscape");
+            });
+        }
+}
+
+function changeFontSize() {
+    if (selectedTextBox) {
+            const selectedTextDisplay = document.getElementById("selectedTextDisplay");
+
+            const selection = window.getSelection();
+            const selectedText = selection.toString().trim();
+
+            if (selectedText) {
+                // Get the selected color from the dropdown
+                const fontSizeSelect = document.getElementById("fontSizeSelect");
+                const selectedFontSize = fontSizeSelect.value;
+                console.log(selectedFontSize);
+
+                // Create a new HTML structure with the selected text wrapped in a span with the new color class
+                const span = document.createElement("span");
+                span.className = "w3-font-size-" + selectedFontSize;
+                span.textContent = selectedText;
+
+                // Replace the selected text with the span
+                const range = selection.getRangeAt(0);
+                let currentSpan = checkForExistingTextSpan(range);
+
+                if (currentSpan != null) {
+                    // Check if the current span already has a color class
+                    const currentColorClass = Array.from(currentSpan.classList).find(cls => cls.startsWith("w3-font-size-"));
+                    if (currentColorClass) {
+                        // Remove the current color class
+                        currentSpan.classList.remove(currentColorClass);
+                    }
+                    // Add the new color class
+                    currentSpan.classList.add("w3-font-size-" + selectedFontSize);
+                } else {
+                    range.deleteContents();
+                    range.insertNode(span);
+                    selection.removeAllRanges(); // Clear the selection
+                }
+            }
+        }
+}
+
+
+function createPageMargin() {
+    const select = document.getElementById("createPageMargin");
+    const selectedValue = select.value;
+
+    // Get all elements with the class "drop-container"
+    var dropContainers = document.querySelectorAll('.drop-container');
+
+    // Remove any existing margin class from all dropContainers
+    dropContainers.forEach(function (dropContainer) {
+        dropContainer.classList.remove('margin-whole-inch', 'margin-half-inch', 'margin-moderate');
+    });
+
+
+    if (selectedValue === "normal") {
+        // Add the new margin class
+        dropContainers.forEach(function (dropContainer) {
+            dropContainer.classList.add('margin-whole-inch');
+            const computedStyle = getComputedStyle(dropContainer);
+            // Extract the padding value
+            const paddingValue = computedStyle.getPropertyValue('padding');
+
+            // Extract the numeric part of the padding value (removing 'px' or other units)
+            padding = parseFloat(paddingValue);
+            maxHeight = dropContainer.offsetHeight - padding;
+        });
+    } else if (selectedValue === "narrow") {
+        // Add the new margin class
+        dropContainers.forEach(function (dropContainer) {
+            dropContainer.classList.add('margin-half-inch');
+
+            const computedStyle = getComputedStyle(dropContainer);
+            // Extract the padding value
+            const paddingValue = computedStyle.getPropertyValue('padding');
+
+            // Extract the numeric part of the padding value (removing 'px' or other units)
+            padding = parseFloat(paddingValue) * 2;
+            maxHeight = dropContainer.offsetHeight - padding;
+        });
+    } else if (selectedValue === "moderate") {
+       // Add the new margin class
+            dropContainers.forEach(function (dropContainer) {
+                dropContainer.classList.add('margin-moderate');
+                const computedStyle = getComputedStyle(dropContainer);
+                // Extract the padding value
+                const paddingValue = computedStyle.getPropertyValue('padding');
+                // Extract the numeric part of the padding value (removing 'px' or other units)
+                padding = parseFloat(paddingValue);
+                maxHeight = dropContainer.offsetHeight - padding;
+            });
+    }
+    console.log(padding);
+    console.log(maxHeight);
+}
+
+
+function makeUnderline() {
+    if (selectedTextBox) {
+        const selectedTextDisplay = document.getElementById("selectedTextDisplay");
+
+        const selection = window.getSelection();
+        const selectedText = selection.toString().trim();
+
+        if (selectedText) {
+            // Create a new HTML structure with the selected text wrapped in a span
+            const span = document.createElement("span");
+            span.className = "w3-underline";
+            span.textContent = selectedText;
+
+            // Replace the selected text with the span
+            const range = selection.getRangeAt(0);
+            let currentSpan = checkForExistingTextSpan(range);
+
+            if (currentSpan != null) {
+                currentSpan.classList.add('w3-underline');
+            } else {
+                range.deleteContents();
+                range.insertNode(span);
+                  selection.removeAllRanges(); // Clear the selection
+            }
+        }
+    }
+}
+
+function makeItalic() {
+  if (selectedTextBox) {
+        const selectedTextDisplay = document.getElementById("selectedTextDisplay");
+
+        const selection = window.getSelection();
+        const selectedText = selection.toString().trim();
+
+        if (selectedText) {
+            // Create a new HTML structure with the selected text wrapped in a span
+            const span = document.createElement("span");
+            span.className = "w3-italic";
+            span.textContent = selectedText;
+
+            // Replace the selected text with the span
+            const range = selection.getRangeAt(0);
+            let currentSpan = checkForExistingTextSpan(range);
+            console.log(currentSpan);
+            if (currentSpan != null) {
+                console.log("add");
+                currentSpan.classList.add('w3-italic');
+            } else {
+                console.log("new");
+                range.deleteContents();
+                range.insertNode(span);
+                  selection.removeAllRanges(); // Clear the selection
+            }
+
+        }
+    }
+}
+
+function makeAlignCenter() {
+  if (selectedTextBox) {
+        selectedTextBox.classList.remove('w3-center', 'w3-justify', 'w3-right-align', 'w3-left-align');
+        selectedTextBox.classList.add('w3-center');
+  }
+}
+
+function makeAlignLeft() {
+  if (selectedTextBox) {
+        selectedTextBox.classList.remove('w3-center', 'w3-justify', 'w3-right-align', 'w3-left-align');
+        selectedTextBox.classList.add('w3-left-align');
+  }
+}
+
+function makeAlignJustify() {
+  if (selectedTextBox) {
+        selectedTextBox.classList.remove('w3-center', 'w3-justify', 'w3-right-align', 'w3-left-align');
+        selectedTextBox.classList.add('w3-justify');
+  }
+}
+
+function makeAlignRight() {
+  if (selectedTextBox) {
+        selectedTextBox.classList.remove('w3-center', 'w3-justify', 'w3-right-align', 'w3-left-align');
+        selectedTextBox.classList.add('w3-right-align');
+  }
+}
+function checkForExistingTextSpan(range) {
+
+    const container = range.commonAncestorContainer;
+    // Define an array of class names to check
+    const classNames = ['w3-bold', 'w3-italic', 'w3-underline', 'w3-left-align',
+    'w3-right-align', 'w3-center', 'w3-justify', 'w3-text-red', 'w3-text-blue', 'w3-text-grey', 'w3-text-white',
+    'w3-text-black', 'w3-font-size-1', 'w3-font-size-2', 'w3-font-size-3', 'w3-font-size-4', 'w3-font-size-5',
+    'w3-font-size-6', 'w3-font-size-7', 'w3-font-size-8', 'w3-font-size-9', 'w3-font-size-10', 'w3-font-size-11',
+     'w3-font-size-12', 'w3-font-size-13', 'w3-font-size-14', 'w3-font-size-15', 'w3-font-size-16',
+     'w3-font-size-17', 'w3-font-size-18', 'w3-font-size-19', 'w3-font-size-20', 'w3-font-size-21',
+     'w3-font-size-22', 'w3-font-size-23', 'w3-font-size-24', 'w3-font-size-25', 'w3-font-size-26',
+     'w3-font-size-27', 'w3-font-size-28', 'w3-font-size-29', 'w3-font-size-30', 'w3-font-size-31',
+     'w3-font-size-32', 'w3-font-size-33', 'w3-font-size-34', 'w3-font-size-35', 'w3-font-size-36',
+     'w3-font-size-37', 'w3-font-size-38', 'w3-font-size-39', 'w3-font-size-40', 'w3-font-size-41',
+     'w3-font-size-42', 'w3-font-size-43', 'w3-font-size-44', 'w3-font-size-45', 'w3-font-size-46',
+     'w3-font-size-47', 'w3-font-size-48', 'w3-font-size-49', 'w3-font-size-50', 'w3-font-size-51',
+     'w3-font-size-52', 'w3-font-size-53', 'w3-font-size-54', 'w3-font-size-55', 'w3-font-size-56',
+     'w3-font-size-57', 'w3-font-size-58', 'w3-font-size-59', 'w3-font-size-60', 'w3-font-size-61',
+     'w3-font-size-62', 'w3-font-size-63', 'w3-font-size-64', 'w3-font-size-65', 'w3-font-size-66',
+     'w3-font-size-67', 'w3-font-size-68', 'w3-font-size-69', 'w3-font-size-70', 'w3-font-size-71',
+      'w3-font-size-72', 'w3-font-size-73', 'w3-font-size-74', 'w3-font-size-75', 'w3-font-size-76',
+      'w3-font-size-77', 'w3-font-size-78', 'w3-font-size-79', 'w3-font-size-80', 'w3-font-size-81',
+      'w3-font-size-82', 'w3-font-size-83', 'w3-font-size-84', 'w3-font-size-85', 'w3-font-size-86',
+      'w3-font-size-87', 'w3-font-size-88', 'w3-font-size-89', 'w3-font-size-90', 'w3-font-size-91',
+      'w3-font-size-92', 'w3-font-size-93', 'w3-font-size-94', 'w3-font-size-95', 'w3-font-size-96',
+      'w3-font-size-97', 'w3-font-size-98', 'w3-font-size-99', 'w3-font-size-100'];
+
+
+    // Function to check if an element has any of the specified classes
+    function hasAnyClass(element) {
+        return classNames.some(className => element.classList.contains(className));
+    }
+
+    // Traverse the DOM tree upwards from the selection container
+    let currentNode = range.startContainer;
+    console.log(currentNode);
+    while (currentNode) {
+        if (currentNode.nodeType === Node.ELEMENT_NODE && hasAnyClass(currentNode)) {
+            return currentNode;
+        }
+        currentNode = currentNode.parentElement;
+    }
+
+    return null;
 }
 
 // DO NOT TOUCH THIS, OR EVERYTHING WILL CRUMBLE
