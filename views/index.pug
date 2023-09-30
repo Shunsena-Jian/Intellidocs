@@ -41,19 +41,19 @@ head
 nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
   div
     .w3-container
-      h4#userFirstName.w3-center(style='font-family: Acme, monospace') Cassandra
+      h4#userFirstName.w3-center(style='font-family: Acme, monospace') #{userDetailsBlock.firstName}
       p.w3-center
         img.w3-circle(src='../src/avatar3.png' style='height:106px;width:106px' alt='Avatar')
       hr(style='border-top: 1px dashed black;')
       h6
         i.fa.fa-info-circle.fa-fw.w3-margin-right.w3-text-theme
-        myelement#empID 55555555
+        myelement #{userDetailsBlock.empID}
       h6
         i.fa.fa-user.fa-fw.w3-margin-right.w3-text-theme
-        myelement#fullName Cassandra Narvasa
+        myelement #{userDetailsBlock.firstName} #{userDetailsBlock.lastName}
       h6
         i.fa.fa-briefcase.fa-fw.w3-margin-right.w3-text-theme
-        myelement#userLevel document_controller
+        myelement #{userDetailsBlock.userLevel}
       hr(style='border-top: 1px dashed black;')
   div
     div
@@ -373,21 +373,44 @@ script.
         console.log('Received server response:', response);
     });
 
+    var receivedUserDetailsBlock = !{JSON.stringify(userDetailsBlock)};
+    var reconID = receivedUserDetailsBlock.empID;
+
     socket.on('disconnect', () => {
         console.log('Disconnected from WebSocket server');
         showStatusBar();
         setTimeout(() => {
             socket.connect();
+            attemptReconnect(reconID);
         }, 3000);
     });
 
+
+
+    function attemptReconnect(reconID) {
+        $.ajax({
+            url: `/reseat/${reconID}`,
+            type: 'put',
+            success: function(data) {
+                console.log('Reseated session successfully!' + data);
+            },
+            error: function(err) {
+                console.error('Error reconnecting: ', err.responseText);
+                //window.location.replace("https://yourdomain.com/success");
+            }
+        });
+    }
+
+
     //---idle user handling
     var idleTimeOut;
+    var min_handlingTime = #{min_idleTime};
+    console.log(min_handlingTime);
 
     function resetIdleTimeOut(){
         //prep to receive argument from config init - we define this every req res
         clearTimeout(idleTimeOut);
-        idleTimeOut = setTimeout(alertIdle, 3000);
+        idleTimeOut = setTimeout(alertIdle, min_handlingTime);
     }
 
     function alertIdle(){

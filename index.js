@@ -281,6 +281,7 @@ app.put('/reseat/:empID', async function (req, res) {
         req.session.userEmpID = reconnectingEmpID;
         req.session.loggedIn = true;
         res.json({dataPlaceholder});
+        console.log("user reseated!");
     }catch(error){
         res.json({error});
     }
