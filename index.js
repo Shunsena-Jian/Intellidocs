@@ -198,7 +198,7 @@ app.post('/', upload.single('file'), async function (req, res) {
         const { originalname, size } = uploadedFile;
 
         if(debug_mode){
-            logStatus("File Uploaded Successfully in " + `/uploads/${userDetailsBlock.firstName}/${originalname}`);
+            logStatus("File Uploaded Successfully in " + `/uploads/${currentUserDetailsBlock.firstName}/${originalname}`);
         }
 
         try{
@@ -957,7 +957,8 @@ async function getUserPrivileges(user_level) {
     var privilegesDocuments;
 
     try {
-        privilegesDocuments = await db.collection('privileges').findOne({ user_level: user_level });
+        //privilegesDocuments = await db.collection('privileges').findOne({ user_level: user_level });
+        privilegesDocuments = await privileges.findOne({ user_level: user_level });
 
         if (!privilegesDocuments || !privilegesDocuments.user_privileges) {
 
