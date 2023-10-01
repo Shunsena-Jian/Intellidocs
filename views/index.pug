@@ -237,24 +237,28 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
 
             function updateCountDownElement(){
                 var countDownPlaceholder = document.getElementById('countDownPlaceholder');
+                countDownPlaceholder.innerHTML = 'For your security, we will automatically log you out in ' + initialTimeOut + ' seconds.';
+
                 console.log("logging off in: " + initialTimeOut);
                 initialTimeOut = initialTimeOut - 1;
-                countDownPlaceholder.innerHTML = 'For your security, we will automatically log you out in ' + initialTimeOut + ' seconds.';
                 if(initialTimeOut == 0){
                     window.location.replace("/logout");
                 }
             }
 
-            function countDown(toStart){
-                console.log("current to start value: " + toStart);
-                var countDownIntervalHolder = setInterval(updateCountDownElement, 1000);
-                if(!toStart){
-                    clearInterval(countDownIntervalHolder);
-                }
+            var countDownIntervalHolder;
+
+            function countDown(){
+                countDownIntervalHolder = setInterval(updateCountDownElement, 1000);
+            }
+
+            function stopCountDown(){
+                clearInterval(countDownIntervalHolder);
+                initialTimeOut = 60;
             }
 
             function hideIdleModal(){
-                countDown(false);
+                stopCountDown();
                 var idleModal = document.getElementById('idleModal');
                 idleModal.style.display = 'none';
 
@@ -281,7 +285,7 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
                 dialogoverlay.style.display = "block";
                 dialogbox.style.display = "block";
                 document.getElementById('dialogboxhead').style.display = 'block';
-                countDown(true);
+                countDown();
             }
 
 
