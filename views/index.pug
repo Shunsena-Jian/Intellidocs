@@ -20,9 +20,7 @@ head
         .w3-bar.w3-amber.w3-small
             #myProgress
                 #myBar
-                    DISCONNECTED - ATTEMPTING TO RECONNECT
-
-
+                    p DISCONNECTED - ATTEMPTING TO RECONNECT
 
     .w3-row
         .w3-bar.w3-theme.w3-left-align.w3-large
@@ -389,7 +387,7 @@ script.
     var loaderInterval = 0;
     function move() {
         var elem = document.getElementById("myBar");
-        var width = 1;
+        var width = 15;
 
         if (loaderInterval == 0) {
             loaderInterval = 1;
