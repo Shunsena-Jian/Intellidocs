@@ -1,9 +1,9 @@
-#myProgress {
+#loaderBarContainer {
     width: 100%;
     background-color: white;
 }
 
-#myBar {
+#statusBar {
     width: 15%;
     height: 30px;
     background-color: #4FFFB0;
