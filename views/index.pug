@@ -213,12 +213,15 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
 #idleModal
     #dialogoverlay
     #dialogbox.slit-in-vertical
-        #dialogboxhead.i.fa.fa-exclamation-circle Something
-        #dialogboxbody customAlert.alert('For your security, we will automatically log you out in 120 seconds.','Are you still there?');
-        #dialogboxfoot
-            button.pure-material-button-contained.active(onclick=`hideIdleModal()`) Keep me logged in
-        #dialogboxfoot2
-            button.pure-material-button-contained.active(onclick=`hideIdleModal()`) Log me out
+        #randomDiv
+            #dialogboxhead.i.fa.fa-exclamation-circle Something
+            #dialogboxbody
+                p For your security, we will automatically log you out in 120 seconds.
+                p Are you still there?
+            #dialogboxfoot
+                button.pure-material-button-contained.active(onclick=`hideIdleModal()`) Keep me logged in
+            #dialogboxfoot2
+                button.pure-material-button-contained.active(onclick=`hideIdleModal()`) Log me out
 
         script(src='js/sidebar.js')
 
