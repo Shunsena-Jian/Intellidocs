@@ -5,7 +5,7 @@
     "port": 27017,
     "name": "intellijent"
   },
-  "debug_mode": false,
+  "debug_mode": true,
   "maintenance_mode": false,
   "min_idleTime": 10000
 }

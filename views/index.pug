@@ -36,24 +36,24 @@ head
             a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='/logout')
                 img.w3-circle(src='../src/avatar3.png' style='height:23px;width:23px' alt='Avatar')
                 |  Logout
-            a#userFirstNameNav.w3-bar-item.w3-hide-small.w3-hide-medium #{userDetailsBlock.firstName}
+            a#userFirstNameNav.w3-bar-item.w3-hide-small.w3-hide-medium #{currentUserDetailsBlock.firstName}
 
 nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
   div
     .w3-container
-      h4#userFirstName.w3-center(style='font-family: Acme, monospace') #{userDetailsBlock.firstName}
+      h4#userFirstName.w3-center(style='font-family: Acme, monospace') #{currentUserDetailsBlock.firstName}
       p.w3-center
         img.w3-circle(src='../src/avatar3.png' style='height:106px;width:106px' alt='Avatar')
       hr(style='border-top: 1px dashed black;')
       h6
         i.fa.fa-info-circle.fa-fw.w3-margin-right.w3-text-theme
-        myelement #{userDetailsBlock.empID}
+        myelement #{currentUserDetailsBlock.empID}
       h6
         i.fa.fa-user.fa-fw.w3-margin-right.w3-text-theme
-        myelement #{userDetailsBlock.firstName} #{userDetailsBlock.lastName}
+        myelement #{currentUserDetailsBlock.firstName} #{currentUserDetailsBlock.lastName}
       h6
         i.fa.fa-briefcase.fa-fw.w3-margin-right.w3-text-theme
-        myelement #{userDetailsBlock.userLevel}
+        myelement #{currentUserDetailsBlock.userLevel}
       hr(style='border-top: 1px dashed black;')
   div
     div
@@ -185,7 +185,7 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
                             th Uploaded At
                             th File Actions
                     tbody
-                        each file in filesData
+                        each file in currentUserFiles
                             tr
                                 td #{file.file_name}
                                 td #{file.file_size}
@@ -277,15 +277,16 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
             }
 
             function myFunction(id) {
-            var x = document.getElementById(id);
-            if (x.className.indexOf("w3-show") == -1) {
-            x.className += " w3-show";
-            x.previousElementSibling.className += " w3-theme-d1";
-            } else {
-            x.className = x.className.replace("w3-show", "");
-            x.previousElementSibling.className =
-            x.previousElementSibling.className.replace(" w3-theme-d1", "");
-            }
+                var x = document.getElementById(id);
+
+                if (x.className.indexOf("w3-show") == -1) {
+                    x.className += " w3-show";
+                    x.previousElementSibling.className += " w3-theme-d1";
+                } else {
+                    x.className = x.className.replace("w3-show", "");
+                    //x.previousElementSibling.className =
+                    x.previousElementSibling.className.replace(" w3-theme-d1", "");
+                }
             }
 
         script.
@@ -350,7 +351,8 @@ script.
         sidebar.classList.toggle("w3-show");
         // Toggle the margin of the main content
         main.style.marginLeft = "250px";
-        }
+    }
+
     /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
     function closeNav() {
         document.getElementById("mySidebar").style.width = "0";
@@ -364,7 +366,7 @@ script.
         console.log('Connected to WebSocket server');
         hideStatusBar();
 
-        var manualPingData = !{JSON.stringify(userDetailsBlock)};
+        var manualPingData = !{JSON.stringify(currentUserDetailsBlock)};
 
         socket.emit('manualPing', manualPingData);
     });
@@ -373,7 +375,7 @@ script.
         console.log('Received server response:', response);
     });
 
-    var receivedUserDetailsBlock = !{JSON.stringify(userDetailsBlock)};
+    var receivedUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
     var reconID = receivedUserDetailsBlock.empID;
 
     socket.on('disconnect', () => {
@@ -414,7 +416,7 @@ script.
     }
 
     function alertIdle(){
-        customAlert.alert('For your security, we will automatically log you out in 120 seconds.','Are you still there?')
+        customAlert.alert('For your security, we will automatically log you out in 120 seconds.','Are you still there?');
         //mag lalagay tayo nang function to call logout req res
         //papalitan natin to nang modal
         //modal will contain yes no i dont care

@@ -1,16 +1,8 @@
-let client;
-var db;
-var users;
-var files;
-var notifications;
-var privileges;
-
 const MongoClient = require('mongodb').MongoClient;
-
-
 
 // Database initialization
 function initializeDatabaseConnection(url,dbName){
+    var db;
     try{
         client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
         client.connect();
@@ -25,7 +17,8 @@ function initializeDatabaseConnection(url,dbName){
 }
 
 // Users collection initialization
-function initializeUsersCollectionConnection(){
+function initializeUsersCollectionConnection(db){
+    var users;
     try{
         users = db.collection('users');
         console.log("Connected to the Database Users Collection.");
@@ -36,7 +29,8 @@ function initializeUsersCollectionConnection(){
 }
 
 // Files collection initialization
-function initializeFilesCollectionConnection(){
+function initializeFilesCollectionConnection(db){
+    var files;
     try{
         files = db.collection('files');
         console.log("Connected to the Database Files Collection.");
@@ -47,7 +41,8 @@ function initializeFilesCollectionConnection(){
 }
 
 // Notifications collection initialization
-function initializeNotificationsCollectionConnection(){
+function initializeNotificationsCollectionConnection(db){
+    var notifications;
     try{
         notifications = db.collection('notifications');
         console.log("Connected to the Database Notifications Collection.");
@@ -58,9 +53,10 @@ function initializeNotificationsCollectionConnection(){
 }
 
 // Privileges collection initialization
-function initializePrivilegesCollectionConnection(dbc){
+function initializePrivilegesCollectionConnection(db){
+    var privileges;
     try{
-        privileges = dbc.collection('privileges');
+        privileges = db.collection('privileges');
         console.log("Connected to the Database Privileges Collection.");
         return privileges;
     }catch(error){

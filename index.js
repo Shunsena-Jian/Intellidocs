@@ -8,20 +8,10 @@ const { app,
         multer,
         fs } = require('./imports.js');
 
-
-
 const config = require('./configinit.js');
 
 const url = `mongodb://${config.database.host}:${config.database.port}`;
 const dbName = config.database.name;
-
-console.log("debug mode: " + config.debug_mode);
-
-var debug_mode = config.debug_mode;
-var min_idleTime = config.min_idleTime;
-
-console.log("This is our idle time: " + min_idleTime);
-
 
 
 const { MongoClient,
@@ -32,16 +22,18 @@ const { MongoClient,
         initializeDatabaseConnection } = require('./dbinit.js');
 
 const db = initializeDatabaseConnection(url,dbName);
-var users = initializeUsersCollectionConnection();
-var files = initializeFilesCollectionConnection();
-var privileges = initializePrivilegesCollectionConnection(db);
-var notifications = initializeNotificationsCollectionConnection();
+const users = initializeUsersCollectionConnection(db);
+const files = initializeFilesCollectionConnection(db);
+const privileges = initializePrivilegesCollectionConnection(db);
+const notifications = initializeNotificationsCollectionConnection(db);
 
-//notificationsblarb.find();
 
 const port = config.port;
+const debug_mode = config.debug_mode;
+const min_idleTime = config.min_idleTime;
 const server = http.createServer(app);
 const io = socketIo(server);
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -53,6 +45,12 @@ app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+var currentUserFiles;
+var currentUserDetailsBlock;
+var currentUserPrivileges;
+var currentUserNotifications;
+
 app.use(
     session({
         secret: 'your secret here',
@@ -61,8 +59,10 @@ app.use(
     })
 );
 
+
 server.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+    console.log("Server started \nPort: " + port + "\nDebug mode: " + debug_mode + "\nMinimum User idle time: " + min_idleTime);
+
 });
 
 
@@ -161,17 +161,17 @@ app.get('/', async function (req, res) {
             res.redirect('login');
             return;
         }else{
-            const documents = await getFiles(req.session.userEmpID);
-            userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-            privileges = await getUserPrivileges(userDetailsBlock.userLevel); // sira yata to
-            userNotifs = await getNotifications(req.session.userEmpID);
+            currentUserFiles = await getFiles(req.session.userEmpID);
+            currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+            currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+            currentUserNotifications = await getNotifications(req.session.userEmpID);
 
             res.render('index', {
                 title: 'Home Page',
-                userDetails: userDetailsBlock,
-                filesData: documents,
-                userPrivileges: privileges,
-                userNotifications: userNotifs,
+                currentUserDetailsBlock: currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
                 min_idleTime: min_idleTime
             });
         }
@@ -278,7 +278,7 @@ app.put('/reseat/:empID', async function (req, res) {
     var dataPlaceholder = "success!!";
     try{
         var reconnectingEmpID = req.params.empID;
-        req.session.userEmpID = reconnectingEmpID;
+        req.session.userEmpID = reconnectingEmpID; //possible hacking - TO BE RESOLVED
         req.session.loggedIn = true;
         res.json({dataPlaceholder});
         console.log("user reseated!");
@@ -333,26 +333,26 @@ app.post('/login', async function (req, res) {
                     title: 'Login Page', receivedError: "Incorrect Username or Password!"
                 });
             } else if (password === user.password) {
-                req.session.userEmpID = user.emp_id;
-                userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
                 req.session.loggedIn = true;
+                req.session.userEmpID = user.emp_id;
 
-                const documents = await getFiles(req.session.userEmpID);
-                privileges = await getUserPrivileges(userDetailsBlock.userLevel);
-                userNotifs = await getNotifications(req.session.userEmpID);
+                currentUserFiles = await getFiles(req.session.userEmpID);
+                currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+                currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+                currentUserNotifications = await getNotifications(req.session.userEmpID);
 
                 res.render('index', {
                     title: 'Home Page',
-                    userDetails: userDetailsBlock,
-                    filesData: documents,
-                    userPrivileges: privileges,
-                    userNotifications: userNotifs,
+                    currentUserDetailsBlock: currentUserDetailsBlock,
+                    currentUserFiles: currentUserFiles,
+                    currentUserPrivileges: currentUserPrivileges,
+                    currentUserNotifications: currentUserNotifications,
                     min_idleTime: min_idleTime
                 });
 
                 if(debug_mode){
-                    logStatus(userDetailsBlock);
-                    logStatus("User " + userDetailsBlock.firstName + userDetailsBlock.lastName + userDetailsBlock.empID + " has logged in with " + userDetailsBlock.userLevel + " privileges!");
+                    logStatus(currentUserDetailsBlock);
+                    logStatus("User " + currentUserDetailsBlock.firstName + currentUserDetailsBlock.lastName + currentUserDetailsBlock.empID + " has logged in with " + currentUserDetailsBlock.userLevel + " privileges!");
                 }
 
             } else {
@@ -372,14 +372,19 @@ app.get('/createform', async function(req, res){
     var accessGranted = false;
 
     if (req.session.loggedIn) {
-        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(userDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
 
-        accessGranted = validateAction(privileges, requiredPrivilege);
+        accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
             res.render('createform', {
-                title: 'Create Form', userDetails : userDetailsBlock
+                title: 'Create Form',
+                currentUserDetailsBlock : currentUserDetailsBlock,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime
             });
 
             if(debug_mode){
@@ -387,7 +392,12 @@ app.get('/createform', async function(req, res){
             }
         } else {
             res.render('error_screen', {
-                title: 'Create Form', userDetails : userDetailsBlock,
+                title: 'Create Form',
+                currentUserDetailsBlock : currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
 
@@ -405,14 +415,19 @@ app.get('/viewforms', async function(req, res){
     var accessGranted = false;
 
     if (req.session.loggedIn) {
-        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
 
-        accessGranted = validateAction(privileges, requiredPrivilege);
+        accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
             res.render('viewforms', {
-                title: 'View Forms', userDetails : userDetailsBlock
+                title: 'View Forms',
+                currentUserDetailsBlock : currentUserDetailsBlock,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime
             });
 
             if(debug_mode){
@@ -420,7 +435,12 @@ app.get('/viewforms', async function(req, res){
             }
         } else {
             res.render('error_screen', {
-                title: 'View Forms', userDetails : userDetailsBlock,
+                title: 'View Forms',
+                currentUserDetailsBlock : currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
 
@@ -436,11 +456,18 @@ app.get('/viewforms', async function(req, res){
 
 app.get('/submission', async function(req, res){
     if (req.session.loggedIn) {
-        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+        currentUserFiles = await getFiles(req.session.userEmpID);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
 
         res.render('submissions', {
-            title: 'Submissions', userDetails : userDetailsBlock
+            title: 'Submissions',
+            currentUserDetailsBlock : currentUserDetailsBlock,
+            currentUserFiles: currentUserFiles,
+            currentUserPrivileges: currentUserPrivileges,
+            currentUserNotifications: currentUserNotifications,
+            min_idleTime: min_idleTime
         });
     } else {
         res.redirect('login');
@@ -452,18 +479,30 @@ app.get('/viewreports', async function(req, res){
     var accessGranted = false;
 
     if (req.session.loggedIn) {
-        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+        currentUserFiles = await getFiles(req.session.userEmpID);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
 
-        accessGranted = validateAction(privileges, requiredPrivilege);
+        accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
             res.render('viewreports', {
-                title: 'View Reports', userDetails : userDetailsBlock
+                title: 'View Reports',
+                currentUserDetailsBlock : currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime
             });
         } else {
             res.render('error_screen', {
-                title: 'View Reports', userDetails : userDetailsBlock,
+                title: 'View Reports',
+                currentUserDetailsBlock : currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
         }
@@ -476,10 +515,18 @@ app.get('/viewreports', async function(req, res){
 
 app.get('/managenotifications', async function(req, res){
     if (req.session.loggedIn) {
-        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+        currentUserFiles = await getFiles(req.session.userEmpID);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
+
         res.render('managenotifications', {
-            title: 'Manage Notifications', userDetails : userDetailsBlock
+            title: 'Manage Notifications',
+            currentUserDetailsBlock : currentUserDetailsBlock,
+            currentUserFiles: currentUserFiles,
+            currentUserPrivileges: currentUserPrivileges,
+            currentUserNotifications: currentUserNotifications,
+            min_idleTime: min_idleTime
         });
     } else {
         res.redirect('login');
@@ -488,10 +535,19 @@ app.get('/managenotifications', async function(req, res){
 
 app.get('/managedeadlines', async function(req, res){
     if (req.session.loggedIn) {
-        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+        currentUserFiles = await getFiles(req.session.userEmpID);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
+
+
         res.render('managedeadlines', {
-            title: 'Manage Deadlines', userDetails : userDetailsBlock
+            title: 'Manage Deadlines',
+            currentUserDetailsBlock: currentUserDetailsBlock,
+            currentUserFiles: currentUserFiles,
+            currentUserPrivileges: currentUserPrivileges,
+            currentUserNotifications: currentUserNotifications,
+            min_idleTime: min_idleTime
         });
     } else {
         res.redirect('login');
@@ -503,18 +559,30 @@ app.get('/createusers', async function(req, res){
     var accessGranted = false;
 
     if (req.session.loggedIn) {
-        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+        currentUserFiles = await getFiles(req.session.userEmpID);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
 
-        accessGranted = validateAction(privileges, requiredPrivilege);
+        accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted) {
             res.render('createusers', {
-                title: 'Create Users', userDetails : userDetailsBlock
+                title: 'Create Users',
+                currentUserDetailsBlock: currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime
             });
         } else {
             res.render('error_screen', {
-                title: 'Create Users', userDetails : userDetailsBlock,
+                title: 'Create Users',
+                userDetails: currentUserDetailsBlock,
+                filesData: currentUserFiles,
+                userPrivileges: currentUserPrivileges,
+                userNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
         }
@@ -540,7 +608,6 @@ app.post('/createusers', async function(req, res){
                 if(debug_mode){
                     logStatus("Username already exists!");
                 }
-
             } else {
                 const newUser = {
                     "username": username,
@@ -563,10 +630,19 @@ app.post('/createusers', async function(req, res){
             }
 
         }
-        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+
+        currentUserFiles = await getFiles(req.session.userEmpID);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
+
         res.render('createusers', {
-            title: 'Create Users', userDetails : userDetailsBlock
+            title: 'Create Users',
+            currentUserDetailsBlock: currentUserDetailsBlock,
+            currentUserFiles: currentUserFiles,
+            currentUserPrivileges: currentUserPrivileges,
+            currentUserNotifications: currentUserNotifications,
+            min_idleTime: min_idleTime
         });
     } else {
        res.render('login', {
@@ -580,14 +656,21 @@ app.get('/manageuserroles', async function(req, res){
     var accessGranted = false;
 
     if (req.session.loggedIn) {
-        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+        currentUserFiles = await getFiles(req.session.userEmpID);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
 
-        accessGranted = validateAction(privileges, requiredPrivilege);
+        accessGranted = validateAction(currentUserDetailsBlock, requiredPrivilege);
 
         if(accessGranted){
             res.render('manageuserroles', {
-                title: 'Manage User Roles', userDetails : userDetailsBlock
+                title: 'Manage User Roles',
+                currentUserDetailsBlock: currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime
             });
 
             if(debug_mode){
@@ -596,7 +679,12 @@ app.get('/manageuserroles', async function(req, res){
 
         } else {
             res.render('error_screen', {
-                title: 'Manage User Roles', userDetails : userDetailsBlock,
+                title: 'Manage User Roles',
+                currentUserDetailsBlock: currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
 
@@ -615,14 +703,21 @@ app.get('/manageusersettings', async function(req, res){
     var accessGranted = false;
 
     if (req.session.loggedIn) {
-        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+        currentUserFiles = await getFiles(req.session.userEmpID);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
 
-        accessGranted = validateAction(privileges, requiredPrivilege);
+        accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
             res.render('manageusersettings', {
-                title: 'Manage User Settings', userDetails : userDetailsBlock
+                title: 'Manage User Settings',
+                currentUserDetailsBlock: currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime
             });
 
             if(debug_mode){
@@ -631,7 +726,12 @@ app.get('/manageusersettings', async function(req, res){
 
         } else {
             res.render('error_screen', {
-                title: 'Manage User Settings', userDetails : userDetailsBlock,
+                title: 'Manage User Settings',
+                currentUserDetailsBlock: currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
 
@@ -656,17 +756,24 @@ app.get('/viewusers', async function(req, res) {
             res.redirect('login');
             return;
         }
-        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        const documents = await getUserAccounts();
-        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
 
-        accessGranted = validateAction(privileges, requiredPrivilege);
+        users = await getUserAccounts();
+        currentUserFiles = await getFiles(req.session.userEmpID);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
+
+        accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
             res.render('viewusers', {
                 title: 'View Users',
-                userDetails: userDetailsBlock,
-                users: documents
+                currentUserDetailsBlock: currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime,
+                users: users
             });
 
             if(debug_mode){
@@ -675,7 +782,12 @@ app.get('/viewusers', async function(req, res) {
 
         } else {
             res.render('error_screen', {
-                title: 'View Users', userDetails : userDetailsBlock,
+                title: 'View Users',
+                currentUserDetailsBlock: currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
 
