@@ -11,14 +11,19 @@ head
     link(rel='stylesheet' href='https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css')
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css')
 
+    Link(rel='stylesheet' href='css/clienthandling/loader.css')
     script(src='https://code.jquery.com/jquery-3.7.0.js')
     script(src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js')
 
 .w3-top
     #pageStatusBar.w3-row
-        .w3-bar.w3-amber.w3-left-align.w3-small
-            p#currentStatusHolder
-                center DISCONNECTED FROM SERVER - ATTEMPTING TO RECONNECT
+        .w3-bar.w3-amber.w3-small
+            #myProgress
+                #myBar
+                    DISCONNECTED - ATTEMPTING TO RECONNECT
+
+
+
     .w3-row
         .w3-bar.w3-theme.w3-left-align.w3-large
             a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(onclick='openNavigation()')
@@ -160,6 +165,7 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
                 .row
                 div(style='text-align:right; padding-bottom: 20px;')
                           a(href='#') view all
+
 
         .w3-half.w3-container
             .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
@@ -364,6 +370,8 @@ script.
 
     socket.on('connect', () => {
         console.log('Connected to WebSocket server');
+        initiateLoader(false);
+        initiateReconnect(false);
         hideStatusBar();
 
         var manualPingData = !{JSON.stringify(currentUserDetailsBlock)};
@@ -378,12 +386,53 @@ script.
     var receivedUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
     var reconID = receivedUserDetailsBlock.empID;
 
+    var loaderInterval = 0;
+    function move() {
+        var elem = document.getElementById("myBar");
+        var width = 1;
+
+        if (loaderInterval == 0) {
+            loaderInterval = 1;
+            var id = setInterval(frame, 20);
+
+            function frame() {
+                if (width >= 100) {
+                    clearInterval(id);
+                    loaderInterval = 0;
+                } else {
+                    width++;
+                    elem.style.width = width + "%";
+                }
+            }
+        }
+    }
+
+
+
+    function initiateLoader(toStart){
+        var loaderIntervalHolder = setInterval(move,30);
+
+        if(!toStart){
+            clearInterval(loaderIntervalHolder);
+        }
+    }
+
+    function initiateReconnect(toStart){
+        var reconnectIntervalHolder = setInterval(attemptReconnect(reconID),30);
+
+        if(!toStart){
+            clearInterval(reconnectIntervalHolder);
+        }
+    }
+
     socket.on('disconnect', () => {
         console.log('Disconnected from WebSocket server');
         showStatusBar();
         setTimeout(() => {
             socket.connect();
-            attemptReconnect(reconID);
+            initiateLoader(true);
+            initiateReconnect(true);
+            //attemptReconnect(reconID);
         }, 3000);
     });
 
