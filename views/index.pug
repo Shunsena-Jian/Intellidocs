@@ -214,21 +214,47 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
     #dialogoverlay
     #dialogbox.slit-in-vertical
         #randomDiv
-            #dialogboxhead.i.fa.fa-exclamation-circle Something
+            #dialogboxhead
+                .i.fa.fa-exclamation-circle Something
             #dialogboxbody
-                p For your security, we will automatically log you out in 120 seconds.
+                p#countDownPlaceholder
                 p Are you still there?
-            #dialogboxfoot
-                button.pure-material-button-contained.active(onclick=`hideIdleModal()`) Keep me logged in
-            #dialogboxfoot2
-                button.pure-material-button-contained.active(onclick=`hideIdleModal()`) Log me out
+        #dialogboxfoot
+            button.pure-material-button-contained.active(onclick=`hideIdleModal()`) Keep me logged in
+        #dialogboxfoot2
+            button.pure-material-button-contained.active(onclick=`logUserOff()`) Log me out
 
         script(src='js/sidebar.js')
 
         script.
             hideIdleModal();
 
+            function logUserOff(){
+                window.location.replace("/logout");
+            }
+
+            var initialTimeOut = 60;
+
+            function updateCountDownElement(){
+                var countDownPlaceholder = document.getElementById('countDownPlaceholder');
+                console.log("logging off in: " + initialTimeOut);
+                initialTimeOut = initialTimeOut - 1;
+                countDownPlaceholder.innerHTML = 'For your security, we will automatically log you out in ' + initialTimeOut + ' seconds.';
+                if(initialTimeOut == 0){
+                    window.location.replace("/logout");
+                }
+            }
+
+            function countDown(toStart){
+                console.log("current to start value: " + toStart);
+                var countDownIntervalHolder = setInterval(updateCountDownElement, 1000);
+                if(!toStart){
+                    clearInterval(countDownIntervalHolder);
+                }
+            }
+
             function hideIdleModal(){
+                countDown(false);
                 var idleModal = document.getElementById('idleModal');
                 idleModal.style.display = 'none';
 
@@ -255,6 +281,7 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
                 dialogoverlay.style.display = "block";
                 dialogbox.style.display = "block";
                 document.getElementById('dialogboxhead').style.display = 'block';
+                countDown(true);
             }
 
 
