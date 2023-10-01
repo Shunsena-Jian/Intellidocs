@@ -1,391 +1,208 @@
-doctype html
-head
-    title #{title}
-    meta(charset='UTF-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1')
-    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
-    link(rel='stylesheet' href='css/base_style.css')
-    link(rel='stylesheet' href='css/w3css4.css')
-    link(rel='stylesheet' href='css/w3-theme.css')
-    link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
-    link(rel='stylesheet' href='https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css')
-    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css')
+extends layout.pug
 
-    Link(rel='stylesheet' href='css/clienthandling/loader.css')
-    script(src='https://code.jquery.com/jquery-3.7.0.js')
-    script(src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js')
-
-.w3-top
-    #pageStatusBar.w3-row
-        .w3-bar.w3-amber.w3-small
-            #myProgress
-                #myBar
-                    p DISCONNECTED - ATTEMPTING TO RECONNECT
-
-    .w3-row
-        .w3-bar.w3-theme.w3-left-align.w3-large
-            a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(onclick='openNavigation()')
-                i.fa.fa-bars
-            a.w3-bar-item.w3-button.w3-hover-white(href='/')
-                i.fa.fa-home.w3-margin-right
-                |   Home
-            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='')
-                i.fa.fa-user.icon-dark
-                |   Account Settings
-            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='')
-                i.fa.fa-bell.icon-dark
-                span.w3-badge.w3-right.w3-small.w3-green #{userUnseenNotifications}
-                |   Notifications
-            a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='/logout')
-                img.w3-circle(src='../src/avatar3.png' style='height:23px;width:23px' alt='Avatar')
-                |  Logout
-            a#userFirstNameNav.w3-bar-item.w3-hide-small.w3-hide-medium #{currentUserDetailsBlock.firstName}
-
-nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
-  div
-    .w3-container
-      h4#userFirstName.w3-center(style='font-family: Acme, monospace') #{currentUserDetailsBlock.firstName}
-      p.w3-center
-        img.w3-circle(src='../src/avatar3.png' style='height:106px;width:106px' alt='Avatar')
-      hr(style='border-top: 1px dashed black;')
-      h6
-        i.fa.fa-info-circle.fa-fw.w3-margin-right.w3-text-theme
-        myelement #{currentUserDetailsBlock.empID}
-      h6
-        i.fa.fa-user.fa-fw.w3-margin-right.w3-text-theme
-        myelement #{currentUserDetailsBlock.firstName} #{currentUserDetailsBlock.lastName}
-      h6
-        i.fa.fa-briefcase.fa-fw.w3-margin-right.w3-text-theme
-        myelement #{currentUserDetailsBlock.userLevel}
-      hr(style='border-top: 1px dashed black;')
-  div
-    div
-      button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="myFunction('Demo1')")
-        i.fa.fa-circle-o-notch.fa-fw.w3-margin-right
-        |  Form Management
-      #Demo1.w3-hide.w3-container
-        p
-          a(href='/createform')
-            i.fa.fa-plus-circle.w3-margin-right
-            | Create Forms
-        p
-          a(href='/viewforms')
-            i.fa.fa-file-o.w3-margin-right
-            | View Forms
-        p
-          a(href='/submission')
-            i.fa.fa-info.w3-margin-right
-            | Submission
-        p
-          a(href='/viewreports')
-            i.fa.fa-pie-chart.w3-margin-right
-            | View Reports
-      button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="myFunction('Demo2')")
-        i.fa.fa-calendar-check-o.fa-fw.w3-margin-right
-        |  Form Events
-      #Demo2.w3-hide.w3-container
-        p
-          a(href='/managenotifications')
-            i.fa.fa-bell-o.w3-margin-right
-            | Set Form notifications
-        p
-          a(href='/managedeadlines')
-            i.fa.fa-calendar-check-o.w3-margin-right
-            | Set Form due dates
-      button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="myFunction('Demo3')")
-        i.fa.fa-users.fa-fw.w3-margin-right
-        |  User Management
-      #Demo3.w3-hide.w3-container
-        p
-          a(href='/createusers')
-            i.fa.fa-plus-circle.w3-margin-right
-            | Create User
-        p
-          a(href='/viewusers')
-            i.fa.fa-users.w3-margin-right
-            | View Users
-    br
-    a.w3-bar-item.w3-button.edit-name.w3-hover-black(href='#')
-      i.bi.bi-pencil-square
-      |  Edit Project Name
-    a.w3-bar-item.w3-button.w3-hover-black(href='#')
-      i.bi.bi-pencil-square
-      |  Edit Abstract
-    a.w3-bar-item.w3-button.w3-hover-black(href='/uploadfiles')
-      i.bi.bi-file-arrow-up
-      |  Upload Files
-    a.w3-bar-item.w3-button.w3-hover-black(href='#')
-      i.bi.bi-person-plus
-      |  Add Authors
-
-.w3-main#main(style='margin-left:250px')
-    .w3-half.w3-container
-                button#testShow(onclick=`showStatusBar()`) show
-                button#testHide(onclick=`hideStatusBar()`) hide
-    .w3-row.w3-padding-64
-        .w3-quarter.w3-container
-            .grow.shadowEffect.column(style='background-color:#EC844B;')
-                .title
-                    | Created Document
-                .count
-                    | 40
-        .w3-quarter.w3-container
-            .grow.shadowEffect.column(style='background-color:#FDCF6F;')
-                .title
-                    | Deployed
-                .count
+block body
+    .w3-main#main(style='margin-left:250px')
+        .w3-half.w3-container
+                    button#testShow(onclick=`showStatusBar()`) show
+                    button#testHide(onclick=`hideStatusBar()`) hide
+        .w3-row.w3-padding-64
+            .w3-quarter.w3-container
+                .grow.shadowEffect.column(style='background-color:#EC844B;')
+                    .title
+                        | Created Document
+                    .count
                         | 40
-        .w3-quarter.w3-container
-            .grow.shadowEffect.column(style='background-color:#0D4990;')
-                .title
-                    | Approved
-                .count
-                    | 35
-        .w3-quarter.w3-container
-            .grow.shadowEffect.column(style='background-color:#C24040;')
-                .title
-                    | Created Document
-                .count
-                    | 40
-        .w3-half.w3-container
-            .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                br
-                |                     Notifications
+            .w3-quarter.w3-container
+                .grow.shadowEffect.column(style='background-color:#FDCF6F;')
+                    .title
+                        | Deployed
+                    .count
+                            | 40
+            .w3-quarter.w3-container
+                .grow.shadowEffect.column(style='background-color:#0D4990;')
+                    .title
+                        | Approved
+                    .count
+                        | 35
+            .w3-quarter.w3-container
+                .grow.shadowEffect.column(style='background-color:#C24040;')
+                    .title
+                        | Created Document
+                    .count
+                        | 40
+            .w3-half.w3-container
+                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                    br
+                    |                     Notifications
 
-                hr.w3-clear
-                .row
-                    | Machian shared Mia Khalifa&apos;s post
-                .row
-                    | Alyanna commented on Jak Roberto&apos;s Page
-                .row
-                    | Denmark shared Jaoao&apos;s Post
-                hr.w3-clear
-                .row
-                div(style='text-align:right; padding-bottom: 20px;')
-                          a(href='#') view all
+                    hr.w3-clear
+                    .row
+                        | Machian shared Mia Khalifa&apos;s post
+                    .row
+                        | Alyanna commented on Jak Roberto&apos;s Page
+                    .row
+                        | Denmark shared Jaoao&apos;s Post
+                    hr.w3-clear
+                    .row
+                    div(style='text-align:right; padding-bottom: 20px;')
+                              a(href='#') view all
 
 
-        .w3-half.w3-container
-            .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                button(onclick=`showIdleModal()`) show modal
-                button(onclick=`hideIdleModal()`) hide modal
-                br
-                |                    Chart goes here THIS WILL BE MOVED
-                hr.w3-clear
-                form(action="/", method="POST", enctype="multipart/form-data" id="upload-form")
-                    input(type="file", name="file", id="file")
-                    input(type="submit", value="Upload")
-                br
-        .w3-row.w3-container
-            .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                br
-                h4
-                    | Recent Submissions
-                hr
-                table#example.display(width='100%')
-                    thead
-                        tr
-                            th File Name
-                            th File Size
-                            th Uploaded By
-                            th Uploaded At
-                            th File Actions
-                    tbody
-                        each file in currentUserFiles
+            .w3-half.w3-container
+                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                    button(onclick=`showIdleModal()`) show modal
+                    button(onclick=`hideIdleModal()`) hide modal
+                    br
+                    |                    Chart goes here THIS WILL BE MOVED
+                    hr.w3-clear
+                    form(action="/", method="POST", enctype="multipart/form-data" id="upload-form")
+                        input(type="file", name="file", id="file")
+                        input(type="submit", value="Upload")
+                    br
+            .w3-row.w3-container
+                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                    br
+                    h4
+                        | Recent Submissions
+                    hr
+                    table#example.display(width='100%')
+                        thead
                             tr
-                                td #{file.file_name}
-                                td #{file.file_size}
-                                td #{file.uploadedBy}
-                                td #{file.uploadedAt}
-                                td
-                                    a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
-                                        i.fa.fa-pencil.w3-text-theme
-                                    a.w3-half.w3-hover-white(onclick=`showModal("${file.file_name}")`)
-                                        i.fa.fa-times.w3-text-theme
-                #id01.w3-modal
-                    .w3-modal-content
-                        .w3-container
-                            span.w3-button.w3-display-topright(onclick="document.getElementById('id01').style.display='none'") &times;
-                            p Are you sure you want to delete this file?
-                            a(onclick=`middleMan()`) Yes
-                            a(onclick="closeModal()") No
+                                th File Name
+                                th File Size
+                                th Uploaded By
+                                th Uploaded At
+                                th File Actions
+                        tbody
+                            each file in currentUserFiles
+                                tr
+                                    td #{file.file_name}
+                                    td #{file.file_size}
+                                    td #{file.uploadedBy}
+                                    td #{file.uploadedAt}
+                                    td
+                                        a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
+                                            i.fa.fa-pencil.w3-text-theme
+                                        a.w3-half.w3-hover-white(onclick=`showModal("${file.file_name}")`)
+                                            i.fa.fa-times.w3-text-theme
+                    #id01.w3-modal
+                        .w3-modal-content
+                            .w3-container
+                                span.w3-button.w3-display-topright(onclick="document.getElementById('id01').style.display='none'") &times;
+                                p Are you sure you want to delete this file?
+                                a(onclick=`middleMan()`) Yes
+                                a(onclick="closeModal()") No
 
-#idleModal
-    #dialogoverlay
-    #dialogbox.slit-in-vertical
-        #randomDiv
-            #dialogboxhead
-                .i.fa.fa-exclamation-circle Something
-            #dialogboxbody
-                p#countDownPlaceholder
-                p Are you still there?
-        #dialogboxfoot
-            button.pure-material-button-contained.active(onclick=`hideIdleModal()`) Keep me logged in
-        #dialogboxfoot2
-            button.pure-material-button-contained.active(onclick=`logUserOff()`) Log me out
 
-        script(src='js/sidebar.js')
+            script(src='js/sidebar.js')
 
-        script.
-            hideIdleModal();
+            script.
+                hideIdleModal();
 
-            function logUserOff(){
-                window.location.replace("/logout");
-            }
-
-            var initialTimeOut = 60;
-
-            function updateCountDownElement(){
-                var countDownPlaceholder = document.getElementById('countDownPlaceholder');
-                countDownPlaceholder.innerHTML = 'For your security, we will automatically log you out in ' + initialTimeOut + ' seconds.';
-
-                console.log("logging off in: " + initialTimeOut);
-                initialTimeOut = initialTimeOut - 1;
-                if(initialTimeOut == 0){
+                function logUserOff(){
                     window.location.replace("/logout");
                 }
-            }
 
-            var countDownIntervalHolder;
+                var initialTimeOut = 60;
 
-            function countDown(){
-                countDownIntervalHolder = setInterval(updateCountDownElement, 1000);
-            }
+                function updateCountDownElement(){
+                    var countDownPlaceholder = document.getElementById('countDownPlaceholder');
+                    countDownPlaceholder.innerHTML = 'For your security, we will automatically log you out in ' + initialTimeOut + ' seconds.';
 
-            function stopCountDown(){
-                clearInterval(countDownIntervalHolder);
-                initialTimeOut = 60;
-            }
-
-            function hideIdleModal(){
-                stopCountDown();
-                var idleModal = document.getElementById('idleModal');
-                idleModal.style.display = 'none';
-
-
-                let dialogoverlay = document.getElementById('dialogoverlay');
-                let dialogbox = document.getElementById('dialogbox');
-
-
-                dialogoverlay.style.display = "none";
-                dialogbox.style.display = "none";
-                document.getElementById('dialogboxhead').style.display = 'none';
-            }
-
-            function showIdleModal(){
-                var idleModal = document.getElementById('idleModal');
-                idleModal.style.display = 'block';
-
-                let dialogoverlay = document.getElementById('dialogoverlay');
-                let dialogbox = document.getElementById('dialogbox');
-
-                let winH = window.innerHeight;
-                dialogoverlay.style.height = winH+"px";
-                dialogbox.style.top = "100px";
-                dialogoverlay.style.display = "block";
-                dialogbox.style.display = "block";
-                document.getElementById('dialogboxhead').style.display = 'block';
-                countDown();
-            }
-
-
-
-
-
-            hideStatusBar();
-            var selectedFileForDeletion;
-            var currLineFileName;
-
-            function showStatusBar(){
-                var pageStatusBar = document.getElementById('pageStatusBar');
-                pageStatusBar.style.display = 'block';
-
-                var mySidebar = document.getElementById('mySidebar');
-                mySidebar.style.top = '86px';
-            }
-
-            function hideStatusBar(){
-                var pageStatusBar = document.getElementById('pageStatusBar');
-                pageStatusBar.style.display = 'none';
-
-                var mySidebar = document.getElementById('mySidebar');
-                mySidebar.style.top = '43px';
-            }
-
-            function showModal(fileName) {
-                selectedFileForDeletion = fileName;
-                document.getElementById('id01').style.display = 'block';
-            }
-
-            function middleMan(){
-                deleteFile(selectedFileForDeletion);
-            }
-
-            function closeModal(){
-                document.getElementById('id01').style.display = 'none';
-            }
-
-            function deleteFile(fileName) {
-                var table = $('#example').DataTable();
-                // Add your AJAX logic to delete the file by fileName
-                $.ajax({
-                    url: `/ajaxdelete/${fileName}`,
-                    type: 'delete',
-                    success: function(data) {
-                        console.log('File deleted successfully!');
-                        console.log(data.documents);
-
-                            var updatedData = data.documents;
-                            table.clear().draw();
-
-                            for(i=0;i<updatedData.length;i++){
-                                console.log("found an object");
-                                currLineFileName = updatedData[i].file_name;
-                                var curLine = [
-                                    updatedData[i].file_name,
-                                    updatedData[i].file_size,
-                                    updatedData[i].uploadedBy,
-                                    updatedData[i].uploadedAt,
-
-                                    `<a class="w3-half w3-hover-white edit-btn" href="/downloadfile/${updatedData[i].file_name}"><i class="fa fa-pencil w3-text-theme"></i></a>
-                                    <a class="w3-half w3-hover-white" onclick="showModal('${updatedData[i].file_name}')"><i class="fa fa-times w3-text-theme"></i></a>`
-
-                                ];
-                                table.row.add(curLine).draw();
-                            }
-                            closeModal();
-                    },
-                    error: function(err) {
-                        console.error('Error deleting file: ', err.responseText);
+                    console.log("logging off in: " + initialTimeOut);
+                    initialTimeOut = initialTimeOut - 1;
+                    if(initialTimeOut == 0){
+                        window.location.replace("/logout");
                     }
-                });
-            }
-
-            function myFunction(id) {
-                var x = document.getElementById(id);
-
-                if (x.className.indexOf("w3-show") == -1) {
-                    x.className += " w3-show";
-                    x.previousElementSibling.className += " w3-theme-d1";
-                } else {
-                    x.className = x.className.replace("w3-show", "");
-                    //x.previousElementSibling.className =
-                    x.previousElementSibling.className.replace(" w3-theme-d1", "");
                 }
-            }
 
-        script.
-            $(document).ready(function() {
-            var table = $('#example').DataTable();
-                $('#upload-form').on('submit', function(e) {
-                    e.preventDefault();
-                    const formData = new FormData(this);
+                var countDownIntervalHolder;
+
+                function countDown(){
+                    countDownIntervalHolder = setInterval(updateCountDownElement, 1000);
+                }
+
+                function stopCountDown(){
+                    clearInterval(countDownIntervalHolder);
+                    initialTimeOut = 60;
+                }
+
+                function hideIdleModal(){
+                    stopCountDown();
+                    var idleModal = document.getElementById('idleModal');
+                    idleModal.style.display = 'none';
+
+
+                    let dialogoverlay = document.getElementById('dialogoverlay');
+                    let dialogbox = document.getElementById('dialogbox');
+
+
+                    dialogoverlay.style.display = "none";
+                    dialogbox.style.display = "none";
+                    document.getElementById('dialogboxhead').style.display = 'none';
+                }
+
+                function showIdleModal(){
+                    var idleModal = document.getElementById('idleModal');
+                    idleModal.style.display = 'block';
+
+                    let dialogoverlay = document.getElementById('dialogoverlay');
+                    let dialogbox = document.getElementById('dialogbox');
+
+                    let winH = window.innerHeight;
+                    dialogoverlay.style.height = winH+"px";
+                    dialogbox.style.top = "100px";
+                    dialogoverlay.style.display = "block";
+                    dialogbox.style.display = "block";
+                    document.getElementById('dialogboxhead').style.display = 'block';
+                    countDown();
+                }
+
+
+
+
+
+                hideStatusBar();
+                var selectedFileForDeletion;
+                var currLineFileName;
+
+                function showStatusBar(){
+                    var pageStatusBar = document.getElementById('pageStatusBar');
+                    pageStatusBar.style.display = 'block';
+
+                    var mySidebar = document.getElementById('mySidebar');
+                    mySidebar.style.top = '86px';
+                }
+
+                function hideStatusBar(){
+                    var pageStatusBar = document.getElementById('pageStatusBar');
+                    pageStatusBar.style.display = 'none';
+
+                    var mySidebar = document.getElementById('mySidebar');
+                    mySidebar.style.top = '43px';
+                }
+
+                function showModal(fileName) {
+                    selectedFileForDeletion = fileName;
+                    document.getElementById('id01').style.display = 'block';
+                }
+
+                function middleMan(){
+                    deleteFile(selectedFileForDeletion);
+                }
+
+                function closeModal(){
+                    document.getElementById('id01').style.display = 'none';
+                }
+
+                function deleteFile(fileName) {
+                    var table = $('#example').DataTable();
+                    // Add your AJAX logic to delete the file by fileName
                     $.ajax({
-                        url: '/',
-                        type: 'POST',
-                        data: formData,
+                        url: `/ajaxdelete/${fileName}`,
+                        type: 'delete',
                         success: function(data) {
-                            console.log('File uploaded successfully!');
+                            console.log('File deleted successfully!');
                             console.log(data.documents);
 
                                 var updatedData = data.documents;
@@ -393,7 +210,7 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
 
                                 for(i=0;i<updatedData.length;i++){
                                     console.log("found an object");
-
+                                    currLineFileName = updatedData[i].file_name;
                                     var curLine = [
                                         updatedData[i].file_name,
                                         updatedData[i].file_size,
@@ -406,155 +223,208 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
                                     ];
                                     table.row.add(curLine).draw();
                                 }
+                                closeModal();
                         },
                         error: function(err) {
-                            console.error('Error uploading file: ', err.responseText);
-                        },
-                            cache: false,
-                            contentType: false,
-                            processData: false
+                            console.error('Error deleting file: ', err.responseText);
+                        }
+                    });
+                }
+
+                function myFunction(id) {
+                    var x = document.getElementById(id);
+
+                    if (x.className.indexOf("w3-show") == -1) {
+                        x.className += " w3-show";
+                        x.previousElementSibling.className += " w3-theme-d1";
+                    } else {
+                        x.className = x.className.replace("w3-show", "");
+                        //x.previousElementSibling.className =
+                        x.previousElementSibling.className.replace(" w3-theme-d1", "");
+                    }
+                }
+
+            script.
+                $(document).ready(function() {
+                var table = $('#example').DataTable();
+                    $('#upload-form').on('submit', function(e) {
+                        e.preventDefault();
+                        const formData = new FormData(this);
+                        $.ajax({
+                            url: '/',
+                            type: 'POST',
+                            data: formData,
+                            success: function(data) {
+                                console.log('File uploaded successfully!');
+                                console.log(data.documents);
+
+                                    var updatedData = data.documents;
+                                    table.clear().draw();
+
+                                    for(i=0;i<updatedData.length;i++){
+                                        console.log("found an object");
+
+                                        var curLine = [
+                                            updatedData[i].file_name,
+                                            updatedData[i].file_size,
+                                            updatedData[i].uploadedBy,
+                                            updatedData[i].uploadedAt,
+
+                                            `<a class="w3-half w3-hover-white edit-btn" href="/downloadfile/${updatedData[i].file_name}"><i class="fa fa-pencil w3-text-theme"></i></a>
+                                            <a class="w3-half w3-hover-white" onclick="showModal('${updatedData[i].file_name}')"><i class="fa fa-times w3-text-theme"></i></a>`
+
+                                        ];
+                                        table.row.add(curLine).draw();
+                                    }
+                            },
+                            error: function(err) {
+                                console.error('Error uploading file: ', err.responseText);
+                            },
+                                cache: false,
+                                contentType: false,
+                                processData: false
+                        });
                     });
                 });
-            });
 
 
 
 
-footer#myFooter.w3-bottom
-  .w3-container.w3-theme-l1
-    h5(style='text-align:center; font-family: Acme; font-weight:lighter;') SLU IT Project Catalogues
-    h6(style='text-align:center; font-family: Acme, monospace; font-weight:lighter;') &copy; 2023 All Rights Reserved
-script(src="/js/socket.io/socket.io.js")
+    footer#myFooter.w3-bottom
+      .w3-container.w3-theme-l1
+        h5(style='text-align:center; font-family: Acme; font-weight:lighter;') SLU IT Project Catalogues
+        h6(style='text-align:center; font-family: Acme, monospace; font-weight:lighter;') &copy; 2023 All Rights Reserved
+    script(src="/js/socket.io/socket.io.js")
 
-script.
-    /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
-    function openNavigation() {
-        // Get the element by its ID
-        const sidebar = document.getElementById("mySidebar");
-        const main = document.getElementById("main");
-        // Toggle the classes for showing/hiding the sidebar
-        sidebar.classList.toggle("w3-show");
-        // Toggle the margin of the main content
-        main.style.marginLeft = "250px";
-    }
+    script.
+        /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+        function openNavigation() {
+            // Get the element by its ID
+            const sidebar = document.getElementById("mySidebar");
+            const main = document.getElementById("main");
+            // Toggle the classes for showing/hiding the sidebar
+            sidebar.classList.toggle("w3-show");
+            // Toggle the margin of the main content
+            main.style.marginLeft = "250px";
+        }
 
-    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
-    function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        document.getElementById("main").style.marginLeft = "0";
-    }
+        /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
 
-    //---socket handling
-    const socket = io();
+        //---socket handling
+        const socket = io();
 
-    socket.on('connect', () => {
-        console.log('Connected to WebSocket server');
-        initiateLoader(false);
-        initiateReconnect(false);
-        hideStatusBar();
+        socket.on('connect', () => {
+            console.log('Connected to WebSocket server');
+            initiateLoader(false);
+            initiateReconnect(false);
+            hideStatusBar();
 
-        var manualPingData = !{JSON.stringify(currentUserDetailsBlock)};
+            var manualPingData = !{JSON.stringify(currentUserDetailsBlock)};
 
-        socket.emit('manualPing', manualPingData);
-    });
+            socket.emit('manualPing', manualPingData);
+        });
 
-    socket.on('manualPong',(response) =>{
-        console.log('Received server response:', response);
-    });
+        socket.on('manualPong',(response) =>{
+            console.log('Received server response:', response);
+        });
 
-    var receivedUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
-    var reconID = receivedUserDetailsBlock.empID;
+        var receivedUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
+        var reconID = receivedUserDetailsBlock.empID;
 
-    var loaderInterval = 0;
-    function move() {
-        var elem = document.getElementById("myBar");
-        var width = 15;
+        var loaderInterval = 0;
+        function move() {
+            var elem = document.getElementById("myBar");
+            var width = 15;
 
-        if (loaderInterval == 0) {
-            loaderInterval = 1;
-            var id = setInterval(frame, 20);
+            if (loaderInterval == 0) {
+                loaderInterval = 1;
+                var id = setInterval(frame, 20);
 
-            function frame() {
-                if (width >= 100) {
-                    clearInterval(id);
-                    loaderInterval = 0;
-                } else {
-                    width++;
-                    elem.style.width = width + "%";
+                function frame() {
+                    if (width >= 100) {
+                        clearInterval(id);
+                        loaderInterval = 0;
+                    } else {
+                        width++;
+                        elem.style.width = width + "%";
+                    }
                 }
             }
         }
-    }
 
 
 
-    function initiateLoader(toStart){
-        var loaderIntervalHolder = setInterval(move,30);
+        function initiateLoader(toStart){
+            var loaderIntervalHolder = setInterval(move,30);
 
-        if(!toStart){
-            clearInterval(loaderIntervalHolder);
-        }
-    }
-
-    function initiateReconnect(toStart){
-        var reconnectIntervalHolder = setInterval(attemptReconnect(reconID),30);
-
-        if(!toStart){
-            clearInterval(reconnectIntervalHolder);
-        }
-    }
-
-    socket.on('disconnect', () => {
-        console.log('Disconnected from WebSocket server');
-        showStatusBar();
-        setTimeout(() => {
-            socket.connect();
-            initiateLoader(true);
-            initiateReconnect(true);
-            //attemptReconnect(reconID);
-        }, 3000);
-    });
-
-
-
-    function attemptReconnect(reconID) {
-        $.ajax({
-            url: `/reseat/${reconID}`,
-            type: 'put',
-            success: function(data) {
-                console.log('Reseated session successfully!' + data);
-            },
-            error: function(err) {
-                console.error('Error reconnecting: ', err.responseText);
-                //window.location.replace("https://yourdomain.com/success");
+            if(!toStart){
+                clearInterval(loaderIntervalHolder);
             }
+        }
+
+        function initiateReconnect(toStart){
+            var reconnectIntervalHolder = setInterval(attemptReconnect(reconID),30);
+
+            if(!toStart){
+                clearInterval(reconnectIntervalHolder);
+            }
+        }
+
+        socket.on('disconnect', () => {
+            console.log('Disconnected from WebSocket server');
+            showStatusBar();
+            setTimeout(() => {
+                socket.connect();
+                initiateLoader(true);
+                initiateReconnect(true);
+                //attemptReconnect(reconID);
+            }, 3000);
         });
-    }
 
 
-    //---idle user handling
-    var idleTimeOut;
-    var min_handlingTime = #{min_idleTime};
-    console.log(min_handlingTime);
 
-    function resetIdleTimeOut(){
-        //prep to receive argument from config init - we define this every req res
-        clearTimeout(idleTimeOut);
-        idleTimeOut = setTimeout(alertIdle, min_handlingTime);
-    }
+        function attemptReconnect(reconID) {
+            $.ajax({
+                url: `/reseat/${reconID}`,
+                type: 'put',
+                success: function(data) {
+                    console.log('Reseated session successfully!' + data);
+                },
+                error: function(err) {
+                    console.error('Error reconnecting: ', err.responseText);
+                    //window.location.replace("https://yourdomain.com/success");
+                }
+            });
+        }
 
-    function alertIdle(){
 
-        showIdleModal();
-        //mag lalagay tayo nang function to call logout req res
-        //papalitan natin to nang modal
-        //modal will contain yes no i dont care
-    }
+        //---idle user handling
+        var idleTimeOut;
+        var min_handlingTime = #{min_idleTime};
+        console.log(min_handlingTime);
 
-    document.addEventListener("mousemove", resetIdleTimeOut);
-    document.addEventListener("keydown", resetIdleTimeOut);
+        function resetIdleTimeOut(){
+            //prep to receive argument from config init - we define this every req res
+            clearTimeout(idleTimeOut);
+            idleTimeOut = setTimeout(alertIdle, min_handlingTime);
+        }
 
-    resetIdleTimeOut();
+        function alertIdle(){
+
+            showIdleModal();
+            //mag lalagay tayo nang function to call logout req res
+            //papalitan natin to nang modal
+            //modal will contain yes no i dont care
+        }
+
+        document.addEventListener("mousemove", resetIdleTimeOut);
+        document.addEventListener("keydown", resetIdleTimeOut);
+
+        resetIdleTimeOut();
 
 
 
