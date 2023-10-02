@@ -303,16 +303,9 @@ block body
         //socket script
         const socket = io();
 
-        var reconnecting = false;
-
         socket.on('connect', () => {
             console.log('Connected to WebSocket server');
             stopLoaderBar();
-
-            if(reconnecting){
-                initiateReconnect();
-            }
-
             stopReconnect();
             hideStatusBar();
             var manualPingData = !{JSON.stringify(currentUserDetailsBlock)};
@@ -330,7 +323,11 @@ block body
         var reconnectIntervalHolder;
 
         function initiateReconnect(){
-            var reconnectIntervalHolder = setInterval(attemptReconnect(reconID),3000);
+            reconnectIntervalHolder = setInterval(attemptReconnectWrapper,3000);
+        }
+
+        function attemptReconnectWrapper(){
+            attemptReconnect(reconID);
         }
 
         function stopReconnect(){
@@ -338,7 +335,7 @@ block body
         }
 
         socket.on('disconnect', () => {
-            reconnecting = true;
+            //reconnecting = true;
             console.log('Disconnected from WebSocket server');
             showStatusBar();
 
