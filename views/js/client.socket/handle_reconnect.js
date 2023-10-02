@@ -30,5 +30,57 @@ function stopLoaderBar(){
     clearInterval(loaderBarIntervalHolder);
 }
 
+//socket script
+const socket = io();
+
+socket.on('connect', () => {
+    console.log('Connected to WebSocket server');
+    stopLoaderBar();
+    stopReconnect();
+    hideStatusBar();
+});
+
+socket.on('manualPong',(response) =>{
+    console.log('Received server response:', response);
+});
+
+var reconnectIntervalHolder;
+
+function initiateReconnect(){
+    reconnectIntervalHolder = setInterval(attemptReconnectWrapper,3000);
+}
+
+function attemptReconnectWrapper(){
+    attemptReconnect(reconID);
+}
+
+function stopReconnect(){
+    clearInterval(reconnectIntervalHolder);
+}
+
+socket.on('disconnect', () => {
+    console.log('Disconnected from WebSocket server');
+    showStatusBar();
+    setTimeout(() => {
+        initiateReconnect();
+        socket.connect();
+        initiateLoaderBar();
+    }, 3000);
+});
+
+function attemptReconnect(reconID) {
+    console.log("attempting to reconnect " + reconID);
+    $.ajax({
+        url: `/reseat/${reconID}`,
+        type: 'put',
+        success: function(data) {
+            console.log('Reseated session successfully!' + data);
+        },
+        error: function(error) {
+            console.error('Error reconnecting: ' + error);
+        }
+    });
+}
+
 
 
