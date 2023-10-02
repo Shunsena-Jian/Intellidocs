@@ -45,13 +45,16 @@ socket.on('manualPong',(response) =>{
 });
 
 var reconnectIntervalHolder;
+var clientReseated;
 
 function initiateReconnect(){
     reconnectIntervalHolder = setInterval(attemptReconnectWrapper,3000);
 }
 
 function attemptReconnectWrapper(){
-    attemptReconnect(reconID);
+    if(!clientReseated){
+        attemptReconnect(reconID);
+    }
 }
 
 function stopReconnect(){
@@ -75,9 +78,11 @@ function attemptReconnect(reconID) {
         type: 'put',
         success: function(data) {
             console.log('Reseated session successfully!' + data);
+            clientReseated = true;
         },
         error: function(error) {
             console.error('Error reconnecting: ' + error);
+            clientReseated = false;
         }
     });
 }
