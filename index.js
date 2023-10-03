@@ -312,7 +312,6 @@ app.get('/login', async function(req, res){
         if(debug_mode){
             logStatus(error);
         }
-
     }
 });
 
@@ -373,7 +372,7 @@ app.get('/createform', async function(req, res){
 
     if (req.session.loggedIn) {
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        currentUserPrivileges = await getUserPrivileges(userDetailsBlock.userLevel);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
@@ -808,10 +807,10 @@ app.get('/viewusers', async function(req, res) {
 
 app.get('/uploadfiles', async function(req, res){
     if (req.session.loggedIn) {
-        userDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(userDetailsBlock.userLevel);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        privileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         res.render('uploadfiles', {
-            title: 'Upload File Page', userDetails: userDetailsBlock
+            title: 'Upload File Page', userDetails: currentUserDetailsBlock
         });
     } else {
         res.redirect('login');
