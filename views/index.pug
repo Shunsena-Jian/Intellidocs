@@ -66,7 +66,7 @@ block body
                     h4
                         | Recent Submissions
                     hr
-                    table#example.display(width='100%')
+                    table#filesTable.display(width='100%')
                         thead
                             tr
                                 th File Name
@@ -84,27 +84,26 @@ block body
                                     td
                                         a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
                                             i.fa.fa-pencil.w3-text-theme
-                                        a.w3-half.w3-hover-white(onclick=`showModal("${file.file_name}")`)
+                                        a.w3-half.w3-hover-white(onclick=`showDeleteModal("${file.file_name}")`)
                                             i.fa.fa-times.w3-text-theme
                     #id01.w3-modal
                         .w3-modal-content
                             .w3-container
                                 span.w3-button.w3-display-topright(onclick="document.getElementById('id01').style.display='none'") &times;
                                 p Are you sure you want to delete this file?
-                                a(onclick=`middleMan()`) Yes
+                                p#selectedFileForDeletionPlaceholder
+                                a(onclick=`deleteSelectedFile()`) Yes
                                 a(onclick="closeModal()") No
-
 
             script.
                 var selectedFileForDeletion;
-                var currLineFileName;
 
-                function showModal(fileName) {
+                function showDeleteModal(fileName) {
                     selectedFileForDeletion = fileName;
                     document.getElementById('id01').style.display = 'block';
                 }
 
-                function middleMan(){
+                function deleteSelectedFile(){
                     deleteFile(selectedFileForDeletion);
                 }
 
@@ -113,7 +112,7 @@ block body
                 }
 
                 function deleteFile(fileName) {
-                    var table = $('#example').DataTable();
+                    var table = $('#filesTable').DataTable();
                     $.ajax({
                         url: `/ajaxdelete/${fileName}`,
                         type: 'delete',
@@ -126,16 +125,13 @@ block body
 
                                 for(i=0;i<updatedData.length;i++){
                                     console.log("found an object");
-                                    currLineFileName = updatedData[i].file_name;
                                     var curLine = [
                                         updatedData[i].file_name,
                                         updatedData[i].file_size,
                                         updatedData[i].uploadedBy,
                                         updatedData[i].uploadedAt,
-
                                         `<a class="w3-half w3-hover-white edit-btn" href="/downloadfile/${updatedData[i].file_name}"><i class="fa fa-pencil w3-text-theme"></i></a>
-                                        <a class="w3-half w3-hover-white" onclick="showModal('${updatedData[i].file_name}')"><i class="fa fa-times w3-text-theme"></i></a>`
-
+                                        <a class="w3-half w3-hover-white" onclick="showDeleteModal('${updatedData[i].file_name}')"><i class="fa fa-times w3-text-theme"></i></a>`
                                     ];
                                     table.row.add(curLine).draw();
                                 }
@@ -161,47 +157,7 @@ block body
                 }
 
             script.
-                $(document).ready(function() {
-                var table = $('#example').DataTable();
-                    $('#upload-form').on('submit', function(e) {
-                        e.preventDefault();
-                        const formData = new FormData(this);
-                        $.ajax({
-                            url: '/',
-                            type: 'POST',
-                            data: formData,
-                            success: function(data) {
-                                console.log('File uploaded successfully!');
-                                console.log(data.documents);
 
-                                    var updatedData = data.documents;
-                                    table.clear().draw();
-
-                                    for(i=0;i<updatedData.length;i++){
-                                        console.log("found an object");
-
-                                        var curLine = [
-                                            updatedData[i].file_name,
-                                            updatedData[i].file_size,
-                                            updatedData[i].uploadedBy,
-                                            updatedData[i].uploadedAt,
-
-                                            `<a class="w3-half w3-hover-white edit-btn" href="/downloadfile/${updatedData[i].file_name}"><i class="fa fa-pencil w3-text-theme"></i></a>
-                                            <a class="w3-half w3-hover-white" onclick="showModal('${updatedData[i].file_name}')"><i class="fa fa-times w3-text-theme"></i></a>`
-
-                                        ];
-                                        table.row.add(curLine).draw();
-                                    }
-                            },
-                            error: function(err) {
-                                console.error('Error uploading file: ', err.responseText);
-                            },
-                                cache: false,
-                                contentType: false,
-                                processData: false
-                        });
-                    });
-                });
 
 
     script.
@@ -219,6 +175,7 @@ block body
     script(src="/js/socket.io/socket.io.js")
     script(src="/js/client.socket/handle_reconnect.js")
     script(src="/js/client.navigation/handle_idle.js")
+    script(src="js/client.functions/handle_ajax_upload.js")
 
     script.
         /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
