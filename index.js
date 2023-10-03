@@ -756,7 +756,7 @@ app.get('/viewusers', async function(req, res) {
             return;
         }
 
-        users = await getUserAccounts();
+        userAccounts = await getUserAccounts();
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
@@ -772,7 +772,7 @@ app.get('/viewusers', async function(req, res) {
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
                 min_idleTime: min_idleTime,
-                users: users
+                userAccounts: userAccounts
             });
 
             if(debug_mode){
