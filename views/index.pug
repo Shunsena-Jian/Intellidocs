@@ -95,76 +95,9 @@ block body
                                 a(onclick="closeModal()") No
 
 
-            script(src='js/sidebar.js')
-            script(src="/js/socket.io/socket.io.js")
-            script(src="/js/client.socket/handle_reconnect.js")
-
             script.
-                hideIdleModal();
-
-                function logUserOff(){
-                    window.location.replace("/logout");
-                }
-
-                var initialTimeOut = 60;
-
-                function updateCountDownElement(){
-                    var countDownPlaceholder = document.getElementById('countDownPlaceholder');
-                    countDownPlaceholder.innerHTML = 'For your security, we will automatically log you out in ' + initialTimeOut + ' seconds.';
-
-                    console.log("logging off in: " + initialTimeOut);
-                    initialTimeOut = initialTimeOut - 1;
-                    if(initialTimeOut == 0){
-                        window.location.replace("/logout");
-                    }
-                }
-
-                var countDownIntervalHolder;
-
-                function countDown(){
-                    countDownIntervalHolder = setInterval(updateCountDownElement, 1000);
-                }
-
-                function stopCountDown(){
-                    clearInterval(countDownIntervalHolder);
-                    initialTimeOut = 60;
-                }
-
-                function hideIdleModal(){
-                    stopCountDown();
-                    var idleModal = document.getElementById('idleModal');
-                    idleModal.style.display = 'none';
-
-
-                    let dialogoverlay = document.getElementById('dialogoverlay');
-                    let dialogbox = document.getElementById('dialogbox');
-
-
-                    dialogoverlay.style.display = "none";
-                    dialogbox.style.display = "none";
-                    document.getElementById('dialogboxhead').style.display = 'none';
-                }
-
-                function showIdleModal(){
-                    var idleModal = document.getElementById('idleModal');
-                    idleModal.style.display = 'block';
-
-                    let dialogoverlay = document.getElementById('dialogoverlay');
-                    let dialogbox = document.getElementById('dialogbox');
-
-                    let winH = window.innerHeight;
-                    dialogoverlay.style.height = winH+"px";
-                    dialogbox.style.top = "100px";
-                    dialogoverlay.style.display = "block";
-                    dialogbox.style.display = "block";
-                    document.getElementById('dialogboxhead').style.display = 'block';
-                    countDown();
-                }
-
                 var selectedFileForDeletion;
                 var currLineFileName;
-
-
 
                 function showModal(fileName) {
                     selectedFileForDeletion = fileName;
@@ -181,7 +114,6 @@ block body
 
                 function deleteFile(fileName) {
                     var table = $('#example').DataTable();
-                    // Add your AJAX logic to delete the file by fileName
                     $.ajax({
                         url: `/ajaxdelete/${fileName}`,
                         type: 'delete',
@@ -275,10 +207,20 @@ block body
     script.
         //------------------------------------------------------------------------
         //this block needs to be deployed everywhere
+        //USED FOR RESEAT LOGIC
         var receivedUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
         var reconID = receivedUserDetailsBlock.empID;
+        //USED FOR IDLE LOGIC
+        var min_handlingTime = #{min_idleTime};
+        //console.log(min_handlingTime);
         //------------------------------------------------------------------------
 
+    script(src="js/sidebar.js")
+    script(src="/js/socket.io/socket.io.js")
+    script(src="/js/client.socket/handle_reconnect.js")
+    script(src="/js/client.navigation/handle_idle.js")
+
+    script.
         /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
         function openNavigation() {
             // Get the element by its ID
@@ -295,36 +237,4 @@ block body
             document.getElementById("mySidebar").style.width = "0";
             document.getElementById("main").style.marginLeft = "0";
         }
-
-
-
-
-        //---idle user handling
-        var idleTimeOut;
-        var min_handlingTime = #{min_idleTime};
-        console.log(min_handlingTime);
-
-        function resetIdleTimeOut(){
-            //prep to receive argument from config init - we define this every req res
-            clearTimeout(idleTimeOut);
-            idleTimeOut = setTimeout(alertIdle, min_handlingTime);
-
-        }
-
-        function alertIdle(){
-            if(clientConnectionStatus == false){
-                resetIdleTimeOut();
-            }else{
-                showIdleModal();
-            }
-        }
-
-        document.addEventListener("mousemove", resetIdleTimeOut);
-        document.addEventListener("keydown", resetIdleTimeOut);
-
-        resetIdleTimeOut();
-
-
-
-
 
