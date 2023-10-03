@@ -3,8 +3,6 @@ extends layout.pug
 block body
     .w3-main#main(style='margin-left:250px')
         .w3-half.w3-container
-                    button#testShow(onclick=`showStatusBar()`) show
-                    button#testHide(onclick=`hideStatusBar()`) hide
         .w3-row.w3-padding-64
             .w3-quarter.w3-container
                 .grow.shadowEffect.column(style='background-color:#EC844B;')
@@ -31,6 +29,9 @@ block body
                     .count
                         | 40
             .w3-half.w3-container
+                button#testShow(onclick=`showStatusBar()`) show
+                button#testHide(onclick=`hideStatusBar()`) hide
+                p this row will be removed once size transition is fixed
                 .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
                     br
                     |                     Notifications
@@ -95,6 +96,8 @@ block body
 
 
             script(src='js/sidebar.js')
+            script(src="/js/socket.io/socket.io.js")
+            script(src="/js/client.socket/handle_reconnect.js")
 
             script.
                 hideIdleModal();
@@ -158,29 +161,10 @@ block body
                     countDown();
                 }
 
-
-
-
-
-                hideStatusBar();
                 var selectedFileForDeletion;
                 var currLineFileName;
 
-                function showStatusBar(){
-                    var pageStatusBar = document.getElementById('pageStatusBar');
-                    pageStatusBar.style.display = 'block';
 
-                    var mySidebar = document.getElementById('mySidebar');
-                    mySidebar.style.top = '86px';
-                }
-
-                function hideStatusBar(){
-                    var pageStatusBar = document.getElementById('pageStatusBar');
-                    pageStatusBar.style.display = 'none';
-
-                    var mySidebar = document.getElementById('mySidebar');
-                    mySidebar.style.top = '43px';
-                }
 
                 function showModal(fileName) {
                     selectedFileForDeletion = fileName;
@@ -288,19 +272,12 @@ block body
                 });
 
 
-
-
-
-
-    script(src="/js/socket.io/socket.io.js")
-    script(src="/js/client.socket/handle_reconnect.js")
-
-
     script.
-
-
+        //------------------------------------------------------------------------
+        //this block needs to be deployed everywhere
         var receivedUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
         var reconID = receivedUserDetailsBlock.empID;
+        //------------------------------------------------------------------------
 
         /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
         function openNavigation() {
@@ -331,14 +308,15 @@ block body
             //prep to receive argument from config init - we define this every req res
             clearTimeout(idleTimeOut);
             idleTimeOut = setTimeout(alertIdle, min_handlingTime);
+
         }
 
         function alertIdle(){
-
-            showIdleModal();
-            //mag lalagay tayo nang function to call logout req res
-            //papalitan natin to nang modal
-            //modal will contain yes no i dont care
+            if(clientConnectionStatus == false){
+                resetIdleTimeOut();
+            }else{
+                showIdleModal();
+            }
         }
 
         document.addEventListener("mousemove", resetIdleTimeOut);

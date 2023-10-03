@@ -32,12 +32,14 @@ function stopLoaderBar(){
 
 //socket script
 const socket = io();
+var clientConnectionStatus;
 
 socket.on('connect', () => {
     console.log('Connected to WebSocket server');
     stopLoaderBar();
     stopReconnect();
     hideStatusBar();
+    clientConnectionStatus = true;
 });
 
 socket.on('manualPong',(response) =>{
@@ -64,6 +66,9 @@ function stopReconnect(){
 socket.on('disconnect', () => {
     console.log('Disconnected from WebSocket server');
     showStatusBar();
+    clientConnectionStatus = false;
+    clientReseated = false;
+
     setTimeout(() => {
         initiateReconnect();
         socket.connect();
@@ -87,5 +92,21 @@ function attemptReconnect(reconID) {
     });
 }
 
+function showStatusBar(){
+    var pageStatusBar = document.getElementById('pageStatusBar');
+    var mySidebar = document.getElementById('mySidebar');
 
+    pageStatusBar.style.display = 'block';
+    mySidebar.style.top = '86px';
+}
+
+function hideStatusBar(){
+    var pageStatusBar = document.getElementById('pageStatusBar');
+    var mySidebar = document.getElementById('mySidebar');
+
+    pageStatusBar.style.display = 'none';
+    mySidebar.style.top = '43px';
+}
+
+//hideStatusBar();
 
