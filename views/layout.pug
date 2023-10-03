@@ -61,7 +61,7 @@ body
 
         div
             div
-                button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="myFunction('Demo1')")
+                button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo1')")
                     i.fa.fa-circle-o-notch.fa-fw.w3-margin-right
                     |  Form Management
                 #Demo1.w3-hide.w3-container
@@ -81,7 +81,7 @@ body
                         a(href='/viewreports')
                             i.fa.fa-pie-chart.w3-margin-right
                             | View Reports
-                button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="myFunction('Demo2')")
+                button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo2')")
                     i.fa.fa-calendar-check-o.fa-fw.w3-margin-right
                     |  Form Events
                 #Demo2.w3-hide.w3-container
@@ -93,7 +93,7 @@ body
                         a(href='/managedeadlines')
                             i.fa.fa-calendar-check-o.w3-margin-right
                             | Set Form due dates
-                button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="myFunction('Demo3')")
+                button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo3')")
                     i.fa.fa-users.fa-fw.w3-margin-right
                     |  User Management
                 #Demo3.w3-hide.w3-container

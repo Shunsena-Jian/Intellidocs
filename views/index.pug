@@ -95,22 +95,6 @@ block body
                                 a(onclick=`deleteSelectedFile()`) Yes
                                 a(onclick="closeModal()") No
 
-            script.
-
-
-                function myFunction(id) {
-                    var x = document.getElementById(id);
-
-                    if (x.className.indexOf("w3-show") == -1) {
-                        x.className += " w3-show";
-                        x.previousElementSibling.className += " w3-theme-d1";
-                    } else {
-                        x.className = x.className.replace("w3-show", "");
-                        //x.previousElementSibling.className =
-                        x.previousElementSibling.className.replace(" w3-theme-d1", "");
-                    }
-                }
-
     script.
         //------------------------------------------------------------------------
         //this block needs to be deployed everywhere
@@ -121,29 +105,13 @@ block body
         var min_handlingTime = #{min_idleTime};
         //console.log(min_handlingTime);
         //------------------------------------------------------------------------
-
-    script(src="js/sidebar.js")
     script(src="js/socket.io/socket.io.js")
     script(src="js/client.socket/handle_reconnect.js")
     script(src="js/client.navigation/handle_idle.js")
+    script(src="js/client.navigation/handle_side_bar.js")
     script(src="js/client.functions/handle_ajax_upload.js")
     script(src="js/client.functions/handle_ajax_delete.js")
 
-    script.
-        /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
-        function openNavigation() {
-            // Get the element by its ID
-            const sidebar = document.getElementById("mySidebar");
-            const main = document.getElementById("main");
-            // Toggle the classes for showing/hiding the sidebar
-            sidebar.classList.toggle("w3-show");
-            // Toggle the margin of the main content
-            main.style.marginLeft = "250px";
-        }
 
-        /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
-        function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-            document.getElementById("main").style.marginLeft = "0";
-        }
+
 
