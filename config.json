@@ -7,5 +7,5 @@
   },
   "debug_mode": true,
   "maintenance_mode": false,
-  "min_idleTime": 10000
+  "min_idleTime": 60000
 }
