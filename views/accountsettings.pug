@@ -1,0 +1,65 @@
+extends layout.pug
+
+block body
+    #main.w3-main(style='margin-left:250px')
+        .w3-row.w3-padding-64
+            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                .form_container
+                    h2.heading Account Details
+                    .form_wrap.fullname
+                        .form_item
+                            label(style='font-family: Courier New, monospace; font-weight:normal;') First Name
+                            input(type='text', readonly, value = `${currentUserDetailsBlock.firstName}`)
+                        .form_item
+                            label(style='font-family:Courier New, monospace;; font-weight:normal;') Last Name
+                            input(type='text', readonly, value = `${currentUserDetailsBlock.lastName}`)
+                    .form_wrap.fullname
+                        .form_item
+                            label(style='font-family: Courier New, monospace; font-weight:normal;') User ID
+                            input(type='text', readonly, value = `${currentUserDetailsBlock.empID}`)
+                        .form_item
+                            label(style='font-family:Courier New, monospace;; font-weight:normal;') User Level
+                            input(type='text', readonly, value = `${currentUserDetailsBlock.userLevel}`)
+                    .btnPosition
+                          button.btn(onclick="showChangePasswordModal()") Update Password
+        #changePasswordModal.w3-modal
+            .w3-modal-content.round
+                .w3-container.w3-round.w3-margin
+                    .w3-bar
+                        span.w3-button.w3-display-topright(onclick="document.getElementById('changePasswordModal').style.display='none'") &times;
+
+
+                    label(style='font-family: Courier New, monospace; font-weight:normal;') Current Password
+                    input(type='password')
+                    label(style='font-family: Courier New, monospace; font-weight:normal;') New Password
+                    input(type='password')
+                    label(style='font-family: Courier New, monospace; font-weight:normal;') Confirm Password
+                    input(type='password')
+                    p#selectedFileForDeletionPlaceholder
+                    button.btn(onclick=`deleteSelectedFile()`) Reset Password
+                    br
+                    button.btn.w3-amber(onclick="hideChangePasswordModal()") Cancel
+
+    script.
+        var changePasswordModal = document.getElementById('changePasswordModal');
+
+        function showChangePasswordModal(){
+            changePasswordModal.style.display = 'block';
+        }
+        function hideChangePasswordModal(){
+            changePasswordModal.style.display = 'none';
+        }
+        //------------------------------------------------------------------------
+        //this block needs to be deployed everywhere
+        //USED FOR RESEAT LOGIC
+        var receivedUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
+        var reconID = receivedUserDetailsBlock.empID;
+        //USED FOR IDLE LOGIC
+        var min_handlingTime = #{min_idleTime};
+        //console.log(min_handlingTime);
+        //------------------------------------------------------------------------
+    script(src="js/socket.io/socket.io.js")
+    script(src="js/client.socket/handle_reconnect.js")
+    script(src="js/client.navigation/handle_idle.js")
+    script(src="js/client.navigation/handle_side_bar.js")
+

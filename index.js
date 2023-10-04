@@ -181,6 +181,32 @@ app.get('/', async function (req, res) {
     }
 });
 
+app.get('/accountsettings', async function (req, res) {
+    try {
+        if (!req.session.loggedIn) {
+            res.redirect('login');
+            return;
+        }else{
+            currentUserFiles = await getFiles(req.session.userEmpID);
+            currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+            currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+            currentUserNotifications = await getNotifications(req.session.userEmpID);
+
+            res.render('accountsettings', {
+                title: 'Account Settings',
+                currentUserDetailsBlock: currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 app.post('/', upload.single('file'), async function (req, res) {
     const uploadedFile = req.file;
 
