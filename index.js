@@ -19,14 +19,15 @@ const { MongoClient,
         initializePrivilegesCollectionConnection,
         initializeFilesCollectionConnection,
         initializeNotificationsCollectionConnection,
-        initializeDatabaseConnection } = require('./dbinit.js');
+        initializeDatabaseConnection,
+        initializeFormsCollectionConnection} = require('./dbinit.js');
 
 const db = initializeDatabaseConnection(url,dbName);
 const users = initializeUsersCollectionConnection(db);
 const files = initializeFilesCollectionConnection(db);
 const privileges = initializePrivilegesCollectionConnection(db);
 const notifications = initializeNotificationsCollectionConnection(db);
-
+const forms = initializeFormsCollectionConnection(db);
 
 const port = config.port;
 const debug_mode = config.debug_mode;
@@ -152,6 +153,33 @@ app.get('/downloadfile/:file_name', function(req, res){
     }
 
     res.download("./uploads/" + req.session.userEmpID + "/" + selectedFileForDownload);
+
+});
+
+app.get('/requestforms', async function(req, res) {
+
+
+});
+
+app.post('/requestforms/:ajaxforms', async function(req, res){
+    try {
+
+        uploadForms = {
+            "form_id": "",
+            "form_name": "",
+            "form_content": "",
+        };
+
+        final = await forms.insertOne(uploadForms);
+
+        if(debug_mode){
+            logStatus("Inserted: " + uploadForms);
+        }
+
+        res.json({final})
+    } else (error) {
+        logStatus("Failed to i dont know: " + error);
+    }
 
 });
 
@@ -940,6 +968,22 @@ async function getNotifications(empID){
     }
 
     return userNotifications;
+}
+
+async function getForms(empID){
+    try {
+        const formsCollections = await forms.find().toArray();
+
+        if(debug_mode){
+            logStatus("The array forms at function getForms() : " + JSON.stringify(filesDocuments));
+        }
+
+        return formsCollections;
+    } catch (error) {
+        if(debug_mode){
+            logStatus("Failed to retrieve forms: " + error);
+        }
+    }
 }
 
 async function getFiles(empID) {

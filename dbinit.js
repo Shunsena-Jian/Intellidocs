@@ -16,6 +16,17 @@ function initializeDatabaseConnection(url,dbName){
     }
 }
 
+function initializeFormsCollectionConnection(db){
+    var forms;
+    try{
+        forms = db.collection('forms');
+        console.log("Connected to the Database Forms Collection.");
+        return forms;
+    } catch(error){
+        console.log(error);
+    }
+}
+
 // Users collection initialization
 function initializeUsersCollectionConnection(db){
     var users;
@@ -70,5 +81,6 @@ module.exports = {
     initializeFilesCollectionConnection,
     initializePrivilegesCollectionConnection,
     initializeUsersCollectionConnection,
-    initializeNotificationsCollectionConnection
+    initializeNotificationsCollectionConnection,
+    initializeFormsCollectionConnection
 };
