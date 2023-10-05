@@ -5,32 +5,32 @@ block body
         .w3-half.w3-container
         .w3-row.w3-padding-64
             .w3-quarter.w3-container
-                .grow.shadowEffect.column(style='background-color:#EC844B;')
+                .grow.shadowEffect.column(style='background-color:#65647C;')
                     .title
                         | Created Document
                     .count
                         | 40
             .w3-quarter.w3-container
-                .grow.shadowEffect.column(style='background-color:#FDCF6F;')
+                .grow.shadowEffect.column(style='background-color:#65647C;')
                     .title
                         | Deployed
                     .count
                             | 40
             .w3-quarter.w3-container
-                .grow.shadowEffect.column(style='background-color:#0D4990;')
+                .grow.shadowEffect.column(style='background-color:#65647C;')
                     .title
                         | Approved
                     .count
                         | 35
             .w3-quarter.w3-container
-                .grow.shadowEffect.column(style='background-color:#C24040;')
+                .grow.shadowEffect.column(style='background-color:#65647C;')
                     .title
                         | Created Document
                     .count
                         | 40
             .w3-half.w3-container
-                button#testShow(onclick=`showStatusBar()`) show
-                button#testHide(onclick=`hideStatusBar()`) hide
+                button#testShow.bottone5(onclick=`showStatusBar()`) show
+                button#testHide.bottone5(onclick=`hideStatusBar()`) hide
                 p this row will be removed once size transition is fixed
                 .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
                     br
@@ -51,14 +51,14 @@ block body
 
             .w3-half.w3-container
                 .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                    button(onclick=`showIdleModal()`) show modal
-                    button(onclick=`hideIdleModal()`) hide modal
+                    button.bottone5(onclick=`showIdleModal()`) show modal
+                    button.bottone5(onclick=`hideIdleModal()`) hide modal
                     br
                     |                    Chart goes here THIS WILL BE MOVED
                     hr.w3-clear
                     form(action="/", method="POST", enctype="multipart/form-data" id="upload-form")
                         input(type="file", name="file", id="file")
-                        input(type="submit", value="Upload")
+                        input.bottone5(type="submit", value="Upload")
                     br
             .w3-row.w3-container
                 .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
