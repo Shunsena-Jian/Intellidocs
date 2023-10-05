@@ -1,260 +1,99 @@
-doctype html
-head
-    title #{title}
-    meta(charset='UTF-8')
-    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
-    link(rel='stylesheet' href='css/base_style.css')
-    link(rel='stylesheet' href='css/w3css4.css')
-    link(rel='stylesheet' href='css/w3-theme.css')
-    link(rel='stylesheet' href='css/text_editor.css')
-    link(rel='stylesheet' href='css/create_form_style.css')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js')
-    link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
-    link(rel='stylesheet' href='https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css')
-    script(src='js/jquery-3.2.1.min.js')
-    script(src='js/bootstrap.js')
-    script(src='js/jquery.dataTables.js')
-    script(src='js/sidebar.js')
+extends layout.pug
 
-.w3-top
-    #myHeadBar.w3-bar.w3-theme.w3-top.w3-left-align.w3-large
-        a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(onclick='openNavigation()')            i.fa.fa-bars
-            i.fa.fa-bars
-        a.w3-bar-item.w3-button.w3-hover-white(href='/')
-            i.fa.fa-home.w3-margin-right
-            |   Home
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='')
-            i.fa.fa-user.icon-dark
-            |   Account Settings
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick="myNotifications()")
-            i.fa.fa-bell.icon-dark
-            |   Notifications
-
-        a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='/logout')
-            img.w3-circle(src='src/avatar2.png' style='height:23px;width:23px' alt='Avatar')
-            |  Logout
-        a#userFirstNameNav.w3-bar-item.w3-hide-small.w3-hide-medium #{userDetailsBlock.firstName}
-
-
-
-
-
-nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-left
-    .w3-card.w3-round.w3-white
-        .w3-container
-            h4.w3-center #{userDetailsBlock.firstName}
+block body
+    .w3-main#main(style='margin-left:250px')
+        .w3-row.w3-padding-64
+            h4 Create Form
+            hr.w3-clear
             p.w3-center
-                img.w3-circle(src='src/avatar3.png' style='height:106px;width:106px' alt='Avatar')
-            hr
-            h6
-                i.fa.fa-info-circle.fa-fw.w3-margin-right.w3-text-theme
-                |
-                myElement #{userDetailsBlock.empID}
-            h6
-                i.fa.fa-user.fa-fw.w3-margin-right.w3-text-theme
-                |
-                myElement #{userDetailsBlock.firstName} #{userDetailsBlock.lastName}
-            h6
-                i.fa.fa-briefcase.fa-fw.w3-margin-right.w3-text-theme
-                |
-                myElement #{userDetailsBlock.userLevel}
+            .w3-row.w3-container
+                .grid-container.w3-white
+                    //-.grid-item
+                    //-  label(for='textBoxSelect') Text Box:
+                    //-   select#textBoxSelect(onchange='createTextBox()')
+                    //-       option(value='no-function') Click to Select
+                    //-       option(value='normal-text') Normal Text
+                    //-       option(value='title') Title
+                     //-      option(value='paragraph') Subtitle
+                    .grid-item
+                        label(for='createPageMargin') Page Margin:
+                        select#createPageMargin(onchange='createPageMargin()')
+                            option(value='narrow') Narrow
+                            option(value='normal') Normal
+                            option(value='moderate') Moderate
+                    .grid-item
+                        label(for='modifyOrientation') Orientation:
+                        select#modifyOrientation(onchange='modifyOrientation()')
+                            option(value='portrait') Portrait
+                            option(value='landscape') Landscape
 
-    .w3-card.w3-round
-        .w3-white
-            button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo1')")
-                i.fa.fa-circle-o-notch.fa-fw.w3-margin-right
-                |  Form Management
-            #Demo1.w3-hide.w3-container
-                p
-                    a(href='/createform')
-                        i.fa.fa-plus-circle.w3-margin-right
-                        | Create Forms
-                p
-                    a(href='/viewforms')
-                        i.fa.fa-file-o.w3-margin-right
-                        | View Forms
-                p
-                    a(href='/submission')
-                        i.fa.fa-info.w3-margin-right
-                        | Submission
-                p
-                    a(href='/viewreports')
-                        i.fa.fa-pie-chart.w3-margin-right
-                        | View Reports
-            button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo2')")
-                i.fa.fa-calendar-check-o.fa-fw.w3-margin-right
-                |  Form Events
-            #Demo2.w3-hide.w3-container
-                p
-                    a(href='/managenotifications')
-                        i.fa.fa-bell-o.w3-margin-right
-                        | Set Form notifications
-                p
-                    a(href='/managedeadlines')
-                        i.fa.fa-calendar-check-o.w3-margin-right
-                        | Set Form due dates
-            button.w3-button.w3-block.light-mode.w3-left-align(onclick="myFunction('Demo3')")
-                i.fa.fa-users.fa-fw.w3-margin-right
-                |  User Management
-            #Demo3.w3-hide.w3-container
-                p
-                    a(href='/createusers')
-                        i.fa.fa-plus-circle.w3-margin-right
-                        | Create User
-                p
-                    a(href='/viewusers')
-                        i.fa.fa-users.w3-margin-right
-                        | View Users
+                    .grid-item
+                        label(for='fontSizeSelect') Font Size:
+                        select#fontSizeSelect(onchange='changeFontSize()')
+                            // Generate font size options using JavaScript
+                            script.
+                                for (let i = 1; i <= 100; i++) {
+                                    document.write(`<option value="${i}">${i}</option>`);
+                                }
+                    .grid-item.borderless
+                    .grid-item
+                        label(for='colorSelect') Select Text Color:
+                        select#colorSelect(onchange='changeTextColor()')
+                            option(value='black') Black
+                            option(value='white') White
+                            option(value='red') Red
+                            option(value='blue') Blue
+                            option(value='grey') Grey
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeBold()')
+                            i.fa.fa-bold.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeItalic()')
+                            i.fa.fa-italic.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeUnderline()')
+                            i.fa.fa-underline.icon-light
+                    .grid-item.borderless
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignLeft()')
+                            i.fa.fa-align-left.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignRight()')
+                            i.fa.fa-align-right.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignCenter()')
+                            i.fa.fa-align-center.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignJustify()')
+                            i.fa.fa-align-justify.icon-light
+                    .grid-item.borderless
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onClick='makeUnorderedList()')
+                            i.fa.fa-list-ul.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onClick='makeOrderedList()')
+                            i.fa.fa-list-ol.icon-light
+                    .grid-item.borderless
+                    .grid-item
+                        button.w3-button.w3-bold.w3-grey(onclick='getPDF("drop-container")')
+                            | Export
+                    .grid-item.borderless
 
-        a.w3-bar-item.w3-button.edit-name.w3-hover-black(href='#')
-                i.bi.bi-pencil-square
-                |  Edit Project Name
-        a.w3-bar-item.w3-button.w3-hover-black(href='#')
-                i.bi.bi-pencil-square
-                |  Edit Abstract
-        a.w3-bar-item.w3-button.w3-hover-black(href='/uploadfiles')
-                i.bi.bi-file-arrow-up
-                |  Upload Files
-        a.w3-bar-item.w3-button.w3-hover-black(href='#')
-                i.bi.bi-person-plus
-                |  Add Authors
+            .w3-row.w3-container
+                .w3-twothird.w3-container
+                    #form-content.pages
+                        #page-1.drop-container
 
-.w3-main(style='margin-left:250px')
-    .w3-row.w3-padding-64
-        h4 Create Form
-        hr.w3-clear
-        p.w3-center
-        .w3-row.w3-container
-            .grid-container.w3-white
-                .grid-item
-                    label(for='textBoxSelect') Text Box:
-                    select#textBoxSelect(onchange='createTextBox()')
-                        option(value='no-function') Click to Select
-                        option(value='normal-text') Normal Text
-                        option(value='title') Title
-                        option(value='subtitle') Subtitle
-                        option(value='heading-1') Heading 1
-                        option(value='heading-2') Heading 2
-                        option(value='heading-3') Heading 3
-                .grid-item
-                    label(for='createPageMargin') Page Margin:
-                    select#createPageMargin(onchange='createPageMargin()')
-                        option(value='narrow') Narrow
-                        option(value='normal') Normal
-                        option(value='moderate') Moderate
-                .grid-item
-                    label(for='modifyOrientation') Orientation:
-                    select#modifyOrientation(onchange='modifyOrientation()')
-                        option(value='portrait') Portrait
-                        option(value='landscape') Landscape
+                .w3-third
+                    .page-container.w3-container.w3-white
+                        .draggable-content
+                            .w3-row.w3-padding-16
+                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Header Fields
 
-                .grid-item
-                    label(for='fontSizeSelect') Font Size:
-                    select#fontSizeSelect(onchange='changeFontSize()')
-                        // Generate font size options using JavaScript
-                        script.
-                            for (let i = 1; i <= 100; i++) {
-                                document.write(`<option value="${i}">${i}</option>`);
-                            }
-                .grid-item.borderless
-                .grid-item
-                    label(for='colorSelect') Select Text Color:
-                    select#colorSelect(onchange='changeTextColor()')
-                        option(value='black') Black
-                        option(value='white') White
-                        option(value='red') Red
-                        option(value='blue') Blue
-                        option(value='grey') Grey
-                .grid-item
-                    a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeBold()')
-                        i.fa.fa-bold.icon-light
-                .grid-item
-                    a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeItalic()')
-                        i.fa.fa-italic.icon-light
-                .grid-item
-                    a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeUnderline()')
-                        i.fa.fa-underline.icon-light
-                .grid-item.borderless
-                .grid-item
-                    a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignLeft()')
-                        i.fa.fa-align-left.icon-light
-                .grid-item
-                    a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignRight()')
-                        i.fa.fa-align-right.icon-light
-                .grid-item
-                    a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignCenter()')
-                        i.fa.fa-align-center.icon-light
-                .grid-item
-                    a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignJustify()')
-                        i.fa.fa-align-justify.icon-light
-                .grid-item.borderless
-                .grid-item
-                    a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onClick='makeUnorderedList()')
-                        i.fa.fa-list-ul.icon-light
-                .grid-item
-                    a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onClick='makeOrderedList()')
-                        i.fa.fa-list-ol.icon-light
-                .grid-item.borderless
-                .grid-item
-                    button.w3-button.w3-bold.w3-grey(onclick='getPDF("drop-container")')
-                        | Export
-                .grid-item.borderless
+                                hr.w3-clear.w3-black
 
-        .w3-row.w3-container
-            .w3-twothird.w3-container
-                #form-content.pages
-                    #page-1.drop-container
-
-            .w3-third
-                .page-container.w3-container.w3-white
-                    .draggable-content
-                        .w3-row.w3-padding-16
-                            h4.w3-bold.w3-khaki.w3-padding-16.w3-center Header Fields
-
-                            hr.w3-clear.w3-black
-
-                            .header.w3-row.w3-container.draggable.table(draggable='true')
-                                table.right.draggable.table.w3-bold.w3-hover-light-grey
-                                    tbody
-                                        tr
-                                            th Document Code
-                                            th FMI-SMI-###
-                                        tr
-                                            th Revision No.
-                                            th ##
-                                        tr
-                                            th Effectivity
-                                            th [Date]
-                                        tr
-                                            th Page
-                                            th 1 of 7
-
-                            hr.w3-clear
-
-                            .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.table.draggable.w3-hover-light-grey(draggable='true')
-                                | Saint Louis University, Baguio City
-                                hr.w3-newline
-                                .w3-underline.w3-center.w3-margin-left.w3-margin-right
-                                    | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
-                                hr.w3-newline
-                                textarea.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
-
-                            hr.w3-clear
-
-                            .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.table.draggable.w3-hover-light-grey(draggable='true')
-                                .w3-col.s3
-                                    img.w3-image(src='../src/slu_logo.png')
-
-                                .w3-col.s6.w3-bold.w3-center
-                                    | Saint Louis University, Baguio City
-                                    hr.w3-newline
-                                    .w3-underline.w3-center.w3-margin-left.w3-margin-right
-                                        | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
-                                    hr.w3-newline
-                                    textarea.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
-
-                                .w3-col.s3
-                                    table.draggable.table.w3-bold.w3-padding-64.w3-hover-light-grey
+                                .header.w3-row.draggable.table.w3-hover-light-grey(draggable='true')
+                                    table.right.w3-bold.table
                                         tbody
                                             tr
                                                 th Document Code
@@ -269,342 +108,469 @@ nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme.w3-animate-l
                                                 th Page
                                                 th 1 of 7
 
-                            hr.w3-clear
+                                hr.w3-clear
 
-                            .header.w3-row-center.w3-container.table.draggable.w3-hover-light-grey(draggable='true')
-                                .w3-col-center.s3
-                                .w3-col-center.s6.w3-bold
-                                    textarea.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+                                .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.table.draggable.w3-hover-light-grey(draggable='true')
+                                    | Saint Louis University, Baguio City
                                     hr.w3-newline
-                                    input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='SCHOOL YEAR [EX: AY 2022-2023]')
+                                    .w3-underline.w3-center.w3-margin-left.w3-margin-right
+                                        | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
                                     hr.w3-newline
-                                    input.w3-input.w3-center.w3-row(type='date' placeholder='set deadline')
+                                    input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
 
-                                .w3-col.s3
-                                    .w3-all-center.w3-container
-                                        a.w3-button.w3-hide-small.signature.w3-hover-white(href='')
-                                            i.fa.fa-pencil-square.icon-light
-                                            hr.w3-newline
-                                            |             Upload 2x2 picture
+                                hr.w3-clear
 
-                        hr.w3-newline-2
+                                .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.table.draggable.w3-hover-light-grey(draggable='true')
+                                    .w3-col.s3
+                                        img.w3-image(src='../src/slu_logo.png')
 
-                        .w3-row.w3-padding-16
-                            h4.w3-bold.w3-khaki.w3-padding-16.w3-center Information Input Fields
-                            .w3-row.table.draggable.w3-margin-left.w3-margin-right.w3-hover-light-grey(draggable='true')
-                                .w3-row
-                                    p.w3-col.s2.w3-left-align.w3-label SLU ID NO:
-                                    input.w3-input.w3-col.s10(type='text' maxlength='7' size='7' placeholder='ID NUMBER')
+                                    .w3-col.s6.w3-bold.w3-center
+                                        | Saint Louis University, Baguio City
+                                        hr.w3-newline
+                                        .w3-underline.w3-center.w3-margin-left.w3-margin-right
+                                            | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
+                                        hr.w3-newline
+                                        input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
 
-                                .w3-row.w3-all-center
-                                    p.s1.w3-left-align.w3-label NAME
-                                    input.w3-input.w3-col.s3(type='text' maxlength='100' minlength='10' placeholder='FAMILY NAME')
-                                    input.w3-input.w3-col.s3(type='text' maxlength='100' minlength='10' placeholder='FIRST NAME')
-                                    input.w3-input.w3-col.s3(type='text' size='2' placeholder='MI')
+                                    .w3-col.s3
+                                        table.table.w3-bold.w3-padding-64.w3-hover-light-grey
+                                            tbody
+                                                tr
+                                                    th Document Code
+                                                    th FMI-SMI-###
+                                                tr
+                                                    th Revision No.
+                                                    th ##
+                                                tr
+                                                    th Effectivity
+                                                    th [Date]
+                                                tr
+                                                    th Page
+                                                    th 1 of 7
 
-                                hr.w3-newline.w3-margin-top
+                                hr.w3-clear
 
-                                .w3-row.w3-all-center
-                                    p.w3-col.s4.w3-left-align.w3-label Academic Status/Classification: According to Tenure:
-                                    label.checkbox-label.w3-col.s5
-                                        input#probationary(type='checkbox' name='option3' value='probationary')
-                                        |                         Probationary
+                                .header.w3-row-center.w3-container.table.draggable.w3-hover-light-grey(draggable='true')
+                                    .w3-col-center.s2
+                                    .w3-col.s5.w3-bold
+                                        input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+                                        hr.w3-newline
+                                        input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='SCHOOL YEAR [EX: AY 2022-2023]')
+                                        hr.w3-newline
+                                        input.w3-input.w3-center.w3-row(type='date' placeholder='set deadline')
+
+                                    .w3-col-center.s3
+                                        .w3-all-center.w3-container
+                                            a.w3-button.w3-hide-small.signature.w3-hover-white(href='')
+                                                i.fa.fa-pencil-square.icon-light
+                                                hr.w3-newline
+                                                |             Upload 2x2 picture
+
+                            hr.w3-newline-2
+
+                            .w3-row.w3-padding-16
+                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Information Input Fields
+                                .w3-row.table.draggable.w3-margin-left.w3-margin-right.w3-hover-light-grey(draggable='true')
+                                    .w3-row
+                                        p.w3-col.s2.w3-left-align.w3-label SLU ID NO:
+                                        input.w3-input.w3-col.s9(type='text' maxlength='7' size='7' placeholder='ID NUMBER')
+
+                                    .w3-row
+                                        p.w3-col.s2.w3-left-align.w3-label NAME
+                                        input.w3-input.w3-col.s3(type='text' maxlength='50' minlength='3' placeholder='FAMILY NAME')
+                                        input.w3-input.w3-col.s3(type='text' maxlength='50' minlength='3' placeholder='FIRST NAME')
+                                        input.w3-input.w3-col.s3(type='text' maxlength='2' placeholder='MI')
+
                                     hr.w3-newline.w3-margin-top
-                                    label.checkbox-label.w3-col.s5
-                                        input#permanent(type='checkbox' name='option2' value='permanent')
-                                        |                         Permanent
-                                    hr.w3-newline.w3-margin-top
-                                    label.checkbox-label.w3-col.s5
-                                        input#contractual(type='checkbox' name='option3' value='contractual')
-                                        |                         Contractual
-                                .w3-row.w3-all-center
-                                    p.w3-col.s4.w3-left-align.w3-label Subject Load:
-                                    label.checkbox-label.w3-col.s5
-                                        input#full-time(type='checkbox' name='option1' value='full-time')
-                                        |                         Full-Time
-                                    hr.w3-newline.w3-margin-top
-                                    label.checkbox-label.w3-col.s5
-                                        input#part-time(type='checkbox' name='option2' value='part-time')
-                                        |                         Part Time
-                                    hr.w3-newline.w3-margin-top
-                                    label.checkbox-label.w3-col.s5
 
-                        hr.w3-newline-2
+                                    .w3-row.w3-all-center
+                                        p.w3-col.s4.w3-left-align.w3-label Academic Status/Classification: According to Tenure:
+                                        label.checkbox-label.w3-col.s5
+                                            input(type='checkbox' value='probationary' name="academicStatus")
+                                            |                         Probationary
+                                        hr.w3-newline.w3-margin-top
+                                        label.checkbox-label.w3-col.s5
+                                            input(type='checkbox' value='permanent' name="academicStatus")
+                                            |                         Permanent
+                                        hr.w3-newline.w3-margin-top
+                                        label.checkbox-label.w3-col.s5
+                                            input(type='checkbox' name="academicStatus" value='contractual')
+                                            |                         Contractual
+                                    .w3-row.w3-all-center
+                                        p.w3-col.s4.w3-left-align.w3-label Subject Load:
+                                        label.checkbox-label.w3-col.s5
+                                            input#full-time(type='checkbox' name='subject_load' value='full-time')
+                                            |                         Full-Time
+                                        hr.w3-newline.w3-margin-top
+                                        label.checkbox-label.w3-col.s5
+                                            input#part-time(type='checkbox' name='subject_load' value='part-time')
+                                            |                         Part Time
+                                        hr.w3-newline.w3-margin-top
+                                        label.checkbox-label.w3-col.s5
 
-                        .w3-row.w3-padding-16
-                            h4.w3-bold.w3-khaki.w3-padding-16.w3-center Signature Fields
+                            hr.w3-newline-2
+
+                            .w3-row.w3-padding-16
+                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Grouped Fields
+                                .w3-row-center.w3-container.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
+                                    textarea.w3-input.w3-row.w3-bold(type='text' placeholder='Table Title')
+                                    textarea.w3-input.w3-row(type='text' placeholder='Table Description')
+                                    hr.newline
+                                    table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
+                                        thead
+                                            tr
+                                                th Header 1
+                                                th Header 2
+                                                th Header 3
+                                                th Header 4
+                                        tbody
+                                            tr
+                                                td
+                                                td
+                                                td
+                                                td
+                                            tr
+                                                td
+                                                td
+                                                td
+                                                td
+
                             .w3-row-center.w3-container.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
-                                .w3-col.s3.w3-padding-16.w3-margin.w3-left
-                                    h6 Reviewed by
-                                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
-                                        i.fa.fa-pencil-square.icon-light
-                                        |                         Upload Signature [PNG|JPG]
-                                    input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
-                                    |                     Department Head
-                                .w3-col.s3.w3-padding-16.w3-margin.w3-left
-                                        h6 Noted by
+                                    textarea.w3-input.w3-row.w3-bold(type='text' placeholder='Table Title')
+                                    hr.newline
+                                    table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
+                                        thead
+                                            tr
+                                                th Header 1
+                                                th Header 2
+                                                th Header 3
+                                                th Header 4
+                                        tbody
+                                            tr
+                                                td
+                                                td
+                                                td
+                                                td
+                                            tr
+                                                td
+                                                td
+                                                td
+                                                td
+
+                            .w3-row-center.w3-container.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
+                                    textarea.w3-input.w3-row.w3-bold(type='text' placeholder='Table Title')
+                                    hr.newline
+                                    table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
+                                        thead
+                                            tr
+                                                th Header 1
+                                                th Header 2
+                                                th Header 3
+                                                th Header 4
+                                        tbody
+                                            tr
+                                                td
+                                                td
+                                                td
+                                                td
+                                            tr
+                                                td
+                                                td
+                                                td
+                                                td
+                                    textarea.w3-input.w3-row(type='text' placeholder='Table Description')            td
+
+                            hr.w3-newline-2
+
+
+                            .w3-row.w3-padding-16
+                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Text Fields
+                                h3.textbox.w3-row.w3-container.table.draggable.w3-hover-light-grey(contenteditable="true", draggable="true")
+                                    |                         This is a sample title
+                                hr.w3-clear
+                                h5.textbox.w3-row.w3-container.table.draggable.w3-hover-light-grey(contenteditable="true", draggable="true")
+                                    |                         This is a sample normal text
+                                hr.w3-clear
+                                p.textbox.w3-container.table.draggable.w3-hover-light-grey(contenteditable="true", draggable="true")
+                                    |                         This is a sample subtitle
+
+                            hr.w3-newline-2
+
+
+                            .w3-row.w3-padding-16
+                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Signature Fields
+
+                                .w3-row-center.w3-container.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
+                                    .w3-col.s3.w3-padding-16.w3-margin.w3-left
+                                    .w3-col.s3.w3-padding-16.w3-margin.w3-left
+                                    .w3-col.s4.w3-padding-16.w3-margin.w3-left
+                                        p Certified true and correct
+                                        a.w3-col.w3-hide-small.w3-hover-white.w3-center.signature(href='')
+                                            i.fa.fa-pencil-square.icon-light
+                                            |                         Upload Signature [PNG|JPG]
+                                        input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                        p (SIGNATURE OVER PRINTED NAME)
+                                        input.w3-input.w3-font-size-12(type='date' placeholder='Date')
+
+                                hr.w3-clear
+                                .w3-row-center.w3-container.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
+                                    .w3-col.s3.w3-padding-16.w3-margin.w3-left
+                                        h6 Reviewed by
                                         a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                                             i.fa.fa-pencil-square.icon-light
                                             |                         Upload Signature [PNG|JPG]
                                         input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
-                                        |                     Director of Libraries
-                                .w3-col.s3.w3-padding-16.w3-margin.w3-left
-                                        h6 Approved by
-                                        a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
-                                            i.fa.fa-pencil-square.icon-light
-                                            |                         Upload Signature [PNG|JPG]
-                                        input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
-                                        |                     OIC-Dean
+                                        |                     Department Head
+                                    .w3-col.s3.w3-padding-16.w3-margin.w3-left
+                                            h6 Noted by
+                                            a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
+                                                i.fa.fa-pencil-square.icon-light
+                                                |                         Upload Signature [PNG|JPG]
+                                            input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                            |                     Director of Libraries
+                                    .w3-col.s3.w3-padding-16.w3-margin.w3-left
+                                            h6 Approved by
+                                            a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
+                                                i.fa.fa-pencil-square.icon-light
+                                                |                         Upload Signature [PNG|JPG]
+                                            input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                            |                     OIC-Dean
 
-                            hr.w3-clear
-
-                            .w3-row-center.table.draggable.w3-hover-light-grey(draggable='true')
-                                .w3-col.s3.w3-padding-16.w3-margin.w3-left
-                                    input.w3-input.w3-font-size-14(type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
-                                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-16(href='')
-                                        i.fa.fa-pencil-square.icon-light
-                                        |                         Upload Signature [PNG|JPG]
-                                    input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
-                                    input.w3-input.w3-font-size-14(type='text' placeholder='POSITION')
-
-                                .w3-col.s3.w3-padding-16.w3-margin.w3-left
-                                    input.w3-input.w3-font-size-14(type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
-                                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-16(href='')
-                                        i.fa.fa-pencil-square.icon-light
-                                        |                         Upload Signature [PNG|JPG]
-                                    input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
-                                    input.w3-input.w3-font-size-14(type='text' placeholder='POSITION')
-
-                                .w3-col.s3.w3-padding-16.w3-margin.w3-left
-                                    input.w3-input.w3-font-size-14(type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
-                                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-16(href='')
-                                        i.fa.fa-pencil-square.icon-light
-                                        |                         Upload Signature [PNG|JPG]
-                                    input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
-                                    input.w3-input.w3-font-size-14(type='text' placeholder='POSITION')
                                 hr.w3-clear
 
                                 .w3-row-center.table.draggable.w3-hover-light-grey(draggable='true')
-                                    .w3-row
-                                        .w3-col.s3.w3-padding-16
-                                            p.w3-font-size-14  Endorsed by:
-                                        .w3-col.s4.w3-padding-16.w3-font-size-14
-                                            a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-12(href='')
-                                                i.fa.fa-pencil-square.icon-light
-                                                |                             Upload Signature [PNG|JPG]
-                                            input.w3-input.w3-font-size-12(type='text' placeholder='FULL NAME')
-                                            h6.w3-center.w3-font-size-15 Associate Dean
-                                        .w3-col.s4.w3-margin-left.w3-padding-16
-                                            input.w3-input.w3-font-size-12(type='date' placeholder='Date')
-                                    .w3-row
-                                        .w3-col.s3.w3-padding-16
-                                            p.w3-font-size-14  Approved By:
-                                        .w3-col.s4.w3-padding-16
-                                            a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
-                                                i.fa.fa-pencil-square.icon-light
-                                                |                             Upload Signature [PNG|JPG]
-                                            input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
-                                            h6.w3-center.w3-font-size-15 SAMCIS Dean
-                                        .w3-col.s4.w3-margin-left.w3-padding-16
-                                            input.w3-input.w3-font-size-14(type='date' placeholder='Date')
-                                    .w3-row
-                                        .w3-col.s3.w3-padding-16
-                                            p.w3-font-size-14  Prepared By:
-                                        .w3-col.s4.w3-padding-16
-                                            a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
-                                                i.fa.fa-pencil-square.icon-light
-                                                |                             Upload Signature [PNG|JPG]
+                                    .w3-col.s3.w3-padding-16.w3-margin.w3-left
+                                        input.w3-input.w3-font-size-14(type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
+                                        a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-16(href='')
+                                            i.fa.fa-pencil-square.icon-light
+                                            |                         Upload Signature [PNG|JPG]
+                                        input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                        input.w3-input.w3-font-size-14(type='text' placeholder='POSITION')
+
+                                    .w3-col.s3.w3-padding-16.w3-margin.w3-left
+                                        input.w3-input.w3-font-size-14(type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
+                                        a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-16(href='')
+                                            i.fa.fa-pencil-square.icon-light
+                                            |                         Upload Signature [PNG|JPG]
+                                        input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                        input.w3-input.w3-font-size-14(type='text' placeholder='POSITION')
+
+                                    .w3-col.s3.w3-padding-16.w3-margin.w3-left
+                                        input.w3-input.w3-font-size-14(type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
+                                        a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-16(href='')
+                                            i.fa.fa-pencil-square.icon-light
+                                            |                         Upload Signature [PNG|JPG]
+                                        input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                        input.w3-input.w3-font-size-14(type='text' placeholder='POSITION')
+                                    hr.w3-clear
+
+                                    .w3-row-center.table.draggable.w3-hover-light-grey(draggable='true')
+                                        .w3-row
+                                            .w3-col.s3.w3-padding-16
+                                                p.w3-font-size-14  Endorsed by:
+                                            .w3-col.s4.w3-padding-16.w3-font-size-14
+                                                a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-12(href='')
+                                                    i.fa.fa-pencil-square.icon-light
+                                                    |                             Upload Signature [PNG|JPG]
+                                                input.w3-input.w3-font-size-12(type='text' placeholder='FULL NAME')
+                                                h6.w3-center.w3-font-size-15 Associate Dean
+                                            .w3-col.s4.w3-margin-left.w3-padding-16
+                                                input.w3-input.w3-font-size-12(type='date' placeholder='Date')
+                                        .w3-row
+                                            .w3-col.s3.w3-padding-16
+                                                p.w3-font-size-14  Approved By:
+                                            .w3-col.s4.w3-padding-16
+                                                a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
+                                                    i.fa.fa-pencil-square.icon-light
+                                                    |                             Upload Signature [PNG|JPG]
+                                                input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                                h6.w3-center.w3-font-size-15 SAMCIS Dean
+                                            .w3-col.s4.w3-margin-left.w3-padding-16
+                                                input.w3-input.w3-font-size-14(type='date' placeholder='Date')
+                                        .w3-row
+                                            .w3-col.s3.w3-padding-16
+                                                p.w3-font-size-14  Prepared By:
+                                            .w3-col.s4.w3-padding-16
+                                                a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
+                                                    i.fa.fa-pencil-square.icon-light
+                                                    |                             Upload Signature [PNG|JPG]
+                                                input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                                h6.w3-center.w3-font-size-15 Department Head
+                                            .w3-col.s4.w3-margin-left.w3-padding-16
+                                                input.w3-input.w3-font-size-14(type='date' placeholder='Date')
+                                hr.w3-clear
+
+                                .w3-row.table.draggable.w3-hover-light-grey(draggable='true')
+                                    .w3-col.s3.w3-padding-16
+                                        p.w3-font-size-14  Prepared By:
+                                    .w3-col.s4.w3-padding-16
+                                        a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
+                                            i.fa.fa-pencil-square.icon-light
+                                            |                         Upload Signature [PNG|JPG]
                                             input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
                                             h6.w3-center.w3-font-size-15 Department Head
-                                        .w3-col.s4.w3-margin-left.w3-padding-16
-                                            input.w3-input.w3-font-size-14(type='date' placeholder='Date')
-                            hr.w3-clear
+                                    .w3-col.s4.w3-margin-left.w3-padding-16
+                                        input.w3-input.w3-font-size-14(type='date' placeholder='Date')
 
-                            .w3-row.table.draggable.w3-hover-light-grey(draggable='true')
-                                .w3-col.s3.w3-padding-16
-                                    p.w3-font-size-14  Prepared By:
-                                .w3-col.s4.w3-padding-16
-                                    a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
-                                        i.fa.fa-pencil-square.icon-light
-                                        |                         Upload Signature [PNG|JPG]
+                                hr.w3-clear
+
+                                .w3-row.table.draggable.w3-hover-light-grey(draggable='true')
+                                    .w3-col.s3.w3-padding-16
+                                        p.w3-font-size-14  Approved By:
+                                    .w3-col.s4.w3-padding-16
+                                        a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
+                                            i.fa.fa-pencil-square.icon-light
+                                            |                         Upload Signature [PNG|JPG]
                                         input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
-                                        h6.w3-center.w3-font-size-15 Department Head
-                                .w3-col.s4.w3-margin-left.w3-padding-16
-                                    input.w3-input.w3-font-size-14(type='date' placeholder='Date')
+                                        h6.w3-center.w3-font-size-15 SAMCIS Dean
+                                    .w3-col.s4.w3-margin-left.w3-padding-16
+                                        input.w3-input.w3-font-size-14(type='date' placeholder='Date')
 
-                            hr.w3-clear
+                                hr.w3-clear
 
-                            .w3-row.table.draggable.w3-hover-light-grey(draggable='true')
-                                .w3-col.s3.w3-padding-16
-                                    p.w3-font-size-14  Approved By:
-                                .w3-col.s4.w3-padding-16
-                                    a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
+                                .w3-row.table.draggable.w3-hover-light-grey(draggable='true')
+                                    .w3-col.s3.w3-padding-16
+                                        p.w3-font-size-14  Endorsed by:
+                                    .w3-col.s4.w3-padding-16.w3-font-size-14
+                                        a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-12(href='')
+                                            i.fa.fa-pencil-square.icon-light
+                                            |                         Upload Signature [PNG|JPG]
+                                        input.w3-input.w3-font-size-12(type='text' placeholder='FULL NAME')
+                                        h6.w3-center.w3-font-size-15 Associate Dean
+                                    .w3-col.s4.w3-margin-left.w3-padding-16
+                                        input.w3-input.w3-font-size-12(type='date' placeholder='Date')
+
+                                hr.w3-clear
+
+                                .w3-row-center.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
+                                    h6
+                                        | I attest that all information provided are true and correct and will abide with the policies and procedures of the university
+                                    a.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-32(href='')
                                         i.fa.fa-pencil-square.icon-light
-                                        |                         Upload Signature [PNG|JPG]
-                                    input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
-                                    h6.w3-center.w3-font-size-15 SAMCIS Dean
-                                .w3-col.s4.w3-margin-left.w3-padding-16
-                                    input.w3-input.w3-font-size-14(type='date' placeholder='Date')
+                                        |                         Upload Signature [PNG|JPG] over printed name
 
-                            hr.w3-clear
+                                hr.w3-clear
 
-                            .w3-row.table.draggable.w3-hover-light-grey(draggable='true')
-                                .w3-col.s3.w3-padding-16
-                                    p.w3-font-size-14  Endorsed by:
-                                .w3-col.s4.w3-padding-16.w3-font-size-14
-                                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-12(href='')
-                                        i.fa.fa-pencil-square.icon-light
-                                        |                         Upload Signature [PNG|JPG]
-                                    input.w3-input.w3-font-size-12(type='text' placeholder='FULL NAME')
-                                    h6.w3-center.w3-font-size-15 Associate Dean
-                                .w3-col.s4.w3-margin-left.w3-padding-16
-                                    input.w3-input.w3-font-size-12(type='date' placeholder='Date')
+                                table.draggable.table.w3-bold.w3-padding-64.w3-hover-light-grey(draggable='true')
+                                    tbody
+                                        tr
+                                            td
+                                                | LABEL [NOTED|APPROVED|REVIEWED BY]
+                                            td
+                                        tr
+                                            td   POSITION
+                                            td   FULL NAME
 
-                            hr.w3-clear
+                            hr.w3-newline-2
 
-                            .w3-row-center.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
-                                h6
-                                    | I attest that all information provided are true and correct and will abide with the policies and procedures of the university
-                                a.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-32(href='')
-                                    i.fa.fa-pencil-square.icon-light
-                                    |                         Upload Signature [PNG|JPG] over printed name
+                            .w3-row.w3-padding-16
+                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Table
+                                table.draggable.table.w3-bold.w3-hover-light-grey(draggable='true')
+                                    tbody
+                                        tr
+                                            th Header 1
+                                            th Header 2
+                                        tr
+                                            td
+                                            td
+                                        tr
+                                            td
+                                            td
 
-                            hr.w3-clear
+                                table.draggable.table.w3-bold.w3-hover-light-grey(draggable='true')
+                                    tbody
+                                        tr
+                                            th Header 1
+                                            th Header 2
+                                            th Header 3
+                                            th Header 4
+                                        tr
+                                            td
+                                            td
+                                            td
+                                            td
+                                        tr
+                                            td
+                                            td
+                                            td
+                                            td
 
-                            table.draggable.table.w3-bold.w3-padding-64.w3-hover-light-grey(draggable='true')
-                                tbody
-                                    tr
-                                        td
-                                            | LABEL [NOTED|APPROVED|REVIEWED BY]
-                                        td
-                                    tr
-                                        td   POSITION
-                                        td   FULL NAME
+                                table.draggable.table.w3-bold.w3-hover-light-grey(draggable='true')
+                                    tbody
+                                        tr
+                                            td
+                                            td
+                                        tr
+                                            td
+                                            td
+                                        tr
+                                            td
+                                            td
 
-                        hr.w3-newline-2
+    script.
+        //------------------------------------------------------------------------
+        //this block needs to be deployed everywhere
+        //USED FOR RESEAT LOGIC
+        var receivedUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
+        var reconID = receivedUserDetailsBlock.empID;
+        //USED FOR IDLE LOGIC
+        var min_handlingTime = #{min_idleTime};
+        //console.log(min_handlingTime);
+        //------------------------------------------------------------------------
+    script(src="js/socket.io/socket.io.js")
+    script(src="js/client.socket/handle_reconnect.js")
+    script(src="js/client.navigation/handle_idle.js")
+    script(src="js/client.navigation/handle_side_bar.js")
+    script(src="js/client.functions/handle_ajax_upload.js")
+    script(src="js/client.functions/handle_ajax_delete.js")
 
-                        .w3-row.w3-padding-16
-                            h4.w3-bold.w3-khaki.w3-padding-16.w3-center Table
-                            table.draggable.table.w3-bold.w3-hover-light-grey(draggable='true')
-                                tbody
-                                    tr
-                                        th Header 1
-                                        th Header 2
-                                    tr
-                                        td
-                                        td
-                                    tr
-                                        td
-                                        td
-                            table.draggable.table.w3-bold.w3-hover-light-grey(draggable='true')
-                                tbody
-                                    tr
-                                        td
-                                        td
-                                    tr
-                                        td
-                                        td
-                                    tr
-                                        td
-                                        td
-
-        script(src='js/jquery-3.2.1.min.js')
-        script(src='js/bootstrap.js')
-        script(src='js/jquery.dataTables.js')
-        script(src='js/sidebar.js')
-
-        script.
-            var receivedUserDetailsBlock = !{JSON.stringify(userDetailsBlock)};
-
-            var userFirstName = document.getElementById("userFirstName");
-            var userFirstNameNav = document.getElementById("userFirstNameNav");
-            var empID = document.getElementById("empID");
-            var fullName = document.getElementById("fullName");
-            var userLevel = document.getElementById("userLevel");
-
-            userFirstName.innerHTML = receivedUserDetailsBlock.firstName;
-            userFirstNameNav.innerHTML = receivedUserDetailsBlock.firstName;
-            empID.innerHTML = receivedUserDetailsBlock.empID;
-            fullName.innerHTML = receivedUserDetailsBlock.firstName + " " + receivedUserDetailsBlock.lastName ;
-            userLevel.innerHTML = receivedUserDetailsBlock.userLevel;
-
-
-            function myFunction(id) {
-            var x = document.getElementById(id);
-            if (x.className.indexOf("w3-show") == -1) {
-            x.className += " w3-show";
-            x.previousElementSibling.className += " w3-theme-d1";
-            } else {
-            x.className = x.className.replace("w3-show", "");
-            x.previousElementSibling.className =
-            x.previousElementSibling.className.replace(" w3-theme-d1", "");
-            }
-            }
-
-        script(type='text/javascript').
-            $(document).ready(function() {
-            $('#table').DataTable();
-            } );
-
-        script(type='text/javascript').
-            $(document).ready(function(){
-            //bi-trash
-            //$('.btn_remove').on('click', function(){
-            //delete file modal
-            $('.bi-trash').on('click', function(){
-            var store_id = $(this).attr('id');
-            $("#modal_remove").modal('show');
-            $('#btn_yes').attr('name', store_id);
-            });
-            $('.edit-name').on('click', function(){
-            $("#modal_rename").modal('show');
-            });
-            $('#btn_yes').on('click', function(){
-            var id = $(this).attr('name');
-            $.ajax({
-            type: "POST",
-            url: "deletefile.php",
-            data:{
-            store_id: id
-            },
-            success: function(data){
-            $("#modal_remove").modal('hide');
-            $(".del_file" + id).empty();
-            $(".del_file" + id).html("<td colspan='4'><center class='text-danger'>Deleting...</center></td>");
-            setTimeout(function(){
-            $(".del_file" + id).fadeOut('slow');
-            }, 1000);
-            }
-            });
-            });
-            });
-
-
-footer#myFooter.w3-bottom
-    .w3-container.w3-theme-l1
-        p
-            center SLU IT Projects Catalogue
-
-script.
-    /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
-    function openNavigation() {
-        // Get the element by its ID
-        const sidebar = document.getElementById("mySidebar");
-        const main = document.getElementById("main");
-        // Toggle the classes for showing/hiding the sidebar
-        sidebar.classList.toggle("w3-show");
-        // Toggle the margin of the main content
-        main.style.marginLeft = "250px";
+    script.
+        // Not working, to be debugged
+        function restrictCheckBoxSelection() {
+        const checkboxes = document.querySelectorAll('input[name="academicStatus"]');
+        console.log(checkboxes);
+            console
+          // Add a change event listener to each checkbox
+                    checkboxes.forEach((checkbox) => {
+                        checkbox.addEventListener('change', function () {
+                            // Uncheck all other checkboxes in the group
+                            checkboxes.forEach((otherCheckbox) => {
+                                if (otherCheckbox !== this) {
+                                    otherCheckbox.checked = false;
+                                }
+                            });
+                        });
+                    });
         }
-    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
-    function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        document.getElementById("main").style.marginLeft = "0";
-    }
+
+        restrictCheckBoxSelection();
 
 
+        /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+        function openNavigation() {
+            // Get the element by its ID
+            const sidebar = document.getElementById("mySidebar");
+            const main = document.getElementById("main");
+            // Toggle the classes for showing/hiding the sidebar
+            sidebar.classList.toggle("w3-show");
+            // Toggle the margin of the main content
+            main.style.marginLeft = "250px";
+            }
+        /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
 
-script(src='https://code.jquery.com/jquery-1.12.4.js')
-script(src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js')
-script(src='https://html2canvas.hertzen.com/dist/html2canvas.js')
-script(src='js/create_form_drag_drop.js')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+    link(rel='stylesheet' href='../css/base_style.css')
+    link(rel='stylesheet' href='../css/w3css4.css')
+    link(rel='stylesheet' href='../css/w3-theme.css')
+    link(rel='stylesheet' href='../css/text_editor.css')
+    link(rel='stylesheet' href='../css/create_form_style.css')
+
+    script(src='https://code.jquery.com/jquery-1.12.4.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js')
+    script(src='https://html2canvas.hertzen.com/dist/html2canvas.js')
+    script(src='js/create_form_drag_drop.js')
+
