@@ -78,7 +78,7 @@ block body
                             i.fa.fa-list-ol.icon-light
                     .grid-item.borderless
                     .grid-item
-                        button.w3-button.w3-bold.w3-grey(onclick='saveForm()')
+                        button.w3-button.w3-bold.w3-grey(onclick='getPDF("drop-container")')
                             | Export
                     .grid-item.borderless
 
@@ -215,73 +215,73 @@ block body
 
                             .w3-row.w3-padding-16
                                 h4.w3-bold.w3-khaki.w3-padding-16.w3-center Grouped Fields
+                                .w3-row-center.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
+                                    input.w3-input.w3-bold(type='text' placeholder='Table Title')
+                                    textarea.w3-input(type='text' placeholder='Table Description')
+                                    hr.newline
+                                    table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
+                                        thead
+                                            tr
+                                                th Header 1
+                                                th Header 2
+                                                th Header 3
+                                                th Header 4
+                                        tbody
+                                            tr
+                                                td
+                                                td
+                                                td
+                                                td
+                                            tr
+                                                td
+                                                td
+                                                td
+                                                td
+
+                                .w3-row-center.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
+                                        textarea.w3-input.w3-row.w3-bold(type='text' placeholder='Table Title')
+                                        hr.newline
+                                        table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
+                                            thead
+                                                tr
+                                                    th Header 1
+                                                    th Header 2
+                                                    th Header 3
+                                                    th Header 4
+                                            tbody
+                                                tr
+                                                    td
+                                                    td
+                                                    td
+                                                    td
+                                                tr
+                                                    td
+                                                    td
+                                                    td
+                                                    td
+
                                 .w3-row-center.w3-container.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
-                                    textarea.w3-input.w3-row.w3-bold(type='text' placeholder='Table Title')
-                                    textarea.w3-input.w3-row(type='text' placeholder='Table Description')
-                                    hr.newline
-                                    table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
-                                        thead
-                                            tr
-                                                th Header 1
-                                                th Header 2
-                                                th Header 3
-                                                th Header 4
-                                        tbody
-                                            tr
-                                                td
-                                                td
-                                                td
-                                                td
-                                            tr
-                                                td
-                                                td
-                                                td
-                                                td
-
-                            .w3-row-center.w3-container.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
-                                    textarea.w3-input.w3-row.w3-bold(type='text' placeholder='Table Title')
-                                    hr.newline
-                                    table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
-                                        thead
-                                            tr
-                                                th Header 1
-                                                th Header 2
-                                                th Header 3
-                                                th Header 4
-                                        tbody
-                                            tr
-                                                td
-                                                td
-                                                td
-                                                td
-                                            tr
-                                                td
-                                                td
-                                                td
-                                                td
-
-                            .w3-row-center.w3-container.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
-                                    textarea.w3-input.w3-row.w3-bold(type='text' placeholder='Table Title')
-                                    hr.newline
-                                    table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
-                                        thead
-                                            tr
-                                                th Header 1
-                                                th Header 2
-                                                th Header 3
-                                                th Header 4
-                                        tbody
-                                            tr
-                                                td
-                                                td
-                                                td
-                                                td
-                                            tr
-                                                td
-                                                td
-                                                td
-                                                td
-                                    textarea.w3-input.w3-row(type='text' placeholder='Table Description')            td
+                                        textarea.w3-input.w3-row.w3-bold(type='text' placeholder='Table Title')
+                                        hr.newline
+                                        table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
+                                            thead
+                                                tr
+                                                    th Header 1
+                                                    th Header 2
+                                                    th Header 3
+                                                    th Header 4
+                                            tbody
+                                                tr
+                                                    td
+                                                    td
+                                                    td
+                                                    td
+                                                tr
+                                                    td
+                                                    td
+                                                    td
+                                                    td
+                                        textarea.w3-input.w3-row(type='text' placeholder='Table Description')
 
                             hr.w3-newline-2
 

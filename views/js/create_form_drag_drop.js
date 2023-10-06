@@ -10,6 +10,7 @@ const containerDiv = document.getElementById('outer-container');
 let isSelecting = false;
 let startCell = null;
 padding = 36;
+
 header_height = 0;
 
 const tables = document.querySelectorAll('.table');
@@ -100,47 +101,84 @@ function getPDF(id) {
     }
 }
 
-
 function mergeCells(table) {
-const selectedCells = getSelectedCells(table);
-        if (selectedCells.length < 2) {
-            alert('Select at least two cells to merge.');
-            return;
-        }
+    const selectedCells = getSelectedCells(table);
+    console.log(selectedCells);
+    if (selectedCells.length < 2) {
+        alert('Select at least two cells to merge.');
+        return;
+    }
 
-        const firstCell = selectedCells[0];
-        const mergedContent = selectedCells.map(cell => cell.textContent).join('\n');
+    const firstCell = selectedCells[0];
+    const mergedContent = selectedCells.map(cell => cell.textContent).join('\n');
 
-          // Determine the number of rows and columns to span
+    // Determine the number of rows and columns to span
     let rowspan = 1;
     let colspan = 1;
 
     // Check if selected cells are in the same row
     const sameRow = selectedCells.every(cell => cell.parentElement === firstCell.parentElement);
+    const sameColumn = selectedCells.every(cell => cell.cellIndex === firstCell.cellIndex);
+
+    console.log('Same Row:', sameRow);
+    console.log('Same Column:', sameColumn);
 
     if (sameRow) {
         // If in the same row, set colspan to the number of selected cells
         colspan = selectedCells.length;
-    } else {
+        console.log('Colspan:', colspan);
+    } else if (sameColumn) {
         // If in different rows, set rowspan to the number of selected cells
         rowspan = selectedCells.length;
+        console.log('Rowspan:', rowspan);
+    } else {
+       // Calculate equivalent colspan and rowspan based on the positions of selected cells
+        const firstRowIndex = firstCell.parentElement.rowIndex;
+        const lastRowIndex = selectedCells[selectedCells.length - 1].parentElement.rowIndex;
+        const firstCellIndex = firstCell.cellIndex;
+        const lastCellIndex = selectedCells[selectedCells.length - 1].cellIndex;
+
+        // Calculate colspan and rowspan based on cell positions
+        colspan = lastCellIndex - firstCellIndex + 1;
+        rowspan = lastRowIndex - firstRowIndex + 1;
+        console.log('Colspan:', colspan);
+        console.log('Rowspan:', rowspan);
     }
 
-        // Set rowspan and colspan for the first cell
-        firstCell.textContent = mergedContent;
-        firstCell.setAttribute('rowspan', rowspan);
-        firstCell.setAttribute('colspan', colspan);
+    // Set rowspan and colspan for the first cell
+    firstCell.textContent = mergedContent;
+    firstCell.setAttribute('rowspan', rowspan); // Set rowspan attribute correctly
+    firstCell.setAttribute('colspan', colspan);
 
-        // Replace the rest of the selected cells with empty cells
-        selectedCells.slice(1).forEach(cell => {
-          cell.parentElement.removeChild(cell);
-        });
-
-        clearSelection(table);
+    // Update the row span of the cell when merged horizontally
+    if (!sameRow) {
+        const firstRowIndex = firstCell.parentElement.rowIndex;
+        const lastRowIndex = firstRowIndex + rowspan - 1;
+        for (let i = firstRowIndex + 1; i <= lastRowIndex; i++) {
+            const cellToUpdate = table.rows[i].cells[firstCell.cellIndex];
+            cellToUpdate.style.display = 'none'; // Hide cell
+        }
     }
+
+    // Update the row span of the cell when merged vertically
+    if (sameRow && colspan > 1) {
+        for (let i = 1; i < colspan; i++) {
+            const cellToUpdate = firstCell.parentElement.cells[firstCell.cellIndex + i];
+            cellToUpdate.style.display = 'none'; // Hide cell
+        }
+    }
+
+    // Replace the rest of the selected cells with empty cells
+    selectedCells.slice(1).forEach(cell => {
+        cell.parentElement.removeChild(cell);
+    });
+
+    clearSelection(table);
+}
 
 function unmergeCells(table) {
     const selectedCells = getSelectedCells(table);
+
     if (selectedCells.length === 0) {
         alert('Select a merged cell to unmerge.');
         return;
@@ -151,8 +189,11 @@ function unmergeCells(table) {
     const rowIndex = firstCell.parentElement.rowIndex;
     const cellIndex = firstCell.cellIndex;
 
+    console.log(cellIndex);
+
     const rowspan = parseInt(firstCell.getAttribute('rowspan')) || 1;
     const colspan = parseInt(firstCell.getAttribute('colspan')) || 1;
+
     console.log(rowspan);
     console.log(colspan);
 
@@ -167,49 +208,33 @@ function unmergeCells(table) {
         // Restore content and appearance
         cell.classList.remove('merged');
 
+        var colCount = 0;
         // Iterate to restore original content and appearance for each cell
         for (let i = 0; i < rowspan; i++) {
-            const newRow = table.rows[rowIndex+i];
+            console.log(i);
+            const newRow = table.rows[rowIndex + i];
+            console.log("Row index: " + (rowIndex + i));
+            console.log(newRow);
 
             if (newRow) {
-                 let colOrRow = null;
-                 let newCellCount = newRow.cells.length;
-                if (colspan > 1) {
-                 newCellCount = newRow.cells.length + (colspan-1) ;
-                 colOrRow = 'col';
-                }
 
-                console.log(newCellCount);
-                if (colOrRow === 'col') {
-                    if (newCellCount > newRow.cells.length) {
-                          // Add <td> elements to match the new column count
-                          for (let i = newRow.cells.length; i < newCellCount; i++) {
-                          const cell = document.createElement('td');
-                          newRow.appendChild(cell);
-                          }
-                    }
-                }
+                for (let j = 0; j < colspan; j++) {
+                    const newCell = document.createElement('td');
+                    newCell.textContent = originalContent;
 
-                if (newCellCount > newRow.cells.length) {
-                    // Add <td> elements to match the new column count
-                      for (let i = newRow.cells.length; i < newCellCount; i++) {
-                        const cell = document.createElement('td');
-                        newRow.appendChild(cell);
-                      }
+                console.log(table.rows[0].cells.length);
+                console.log(newRow.cells.length);
+                if (newRow.cells.length == table.rows[0].cells.length) {
+                    continue;
                 }
-                for (let j = 0; j < newCellCount; j++) {
-                    console.log(j);
-                    const existingCell = newRow.cells[cellIndex + j];
-                    if (existingCell) {
-                        existingCell.textContent = originalContent;
-                        existingCell.classList.remove('merged');
-                    }
+                    newRow.insertBefore(newCell, newRow.cells[cellIndex + j]);
                 }
             }
-}
+        }
     });
     clearSelection(table);
 }
+
 
 
     function clearSelection(table) {
@@ -298,12 +323,12 @@ function addTableColumn(table) {
 }
 
 function createContextMenuBox(x,y,element) {
-  const contextMenu = document.createElement('div');
+    const contextMenu = document.createElement('div');
     contextMenu.classList.add('context-menu');
 
     if (element.classList.contains('draggable')) {
             const deleteButton = document.createElement('button');
-            deleteButton.innerText = 'Delete Field';
+            deleteButton.innerText = 'Delete Widget Field';
             deleteButton.addEventListener('click', () => {
                 if (confirm('Are you sure you want to delete this box?')) {
                     element.remove();
@@ -316,7 +341,7 @@ function createContextMenuBox(x,y,element) {
 
         }
 
-   contextMenu.style.position = 'fixed';
+    contextMenu.style.position = 'fixed';
     contextMenu.style.left = x + 'px';
     contextMenu.style.top = y + 'px';
     document.body.appendChild(contextMenu);
@@ -335,10 +360,9 @@ function createContextMenuBox(x,y,element) {
 function createContextMenuTable(x, y, element) {
     const contextMenu = document.createElement('div');
     contextMenu.classList.add('context-menu');
-
     if (element.classList.contains('draggable')) {
             const deleteButton = document.createElement('button');
-            deleteButton.innerText = 'Delete Widget';
+            deleteButton.innerText = 'Delete Widget Table';
             deleteButton.addEventListener('click', () => {
                 if (confirm('Are you sure you want to delete this box?')) {
                     element.remove();
@@ -573,7 +597,8 @@ function addEventListenerToDiv(dropBox) {
 // Handle the drop event
 dropBox.addEventListener('drop', (e) => {
     e.preventDefault();
-
+    setMaxHeight();
+    console.log("New max height is: " + maxHeight);
     dropBox.classList.remove('hover');
 
     if (activeDraggable) {
@@ -593,7 +618,6 @@ dropBox.addEventListener('drop', (e) => {
         }
 
         const data = e.dataTransfer.getData('text/html');
-//        console.log(data);
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = data;
 
@@ -619,6 +643,11 @@ dropBox.addEventListener('drop', (e) => {
                             const tableChild = clonedDiv.querySelector('table');
                             var updatedTableChild = activateTable(tableChild);
 
+                            updatedTableChild.addEventListener('contextmenu', (e) => {
+                                      e.preventDefault();
+                                      createContextMenuTable(e.clientX, e.clientY, updatedTableChild);
+                                  });
+
                             // Update the tableChild in the clonedDiv after
                             const oldTableChild = clonedDiv.querySelector('table');
 
@@ -630,12 +659,14 @@ dropBox.addEventListener('drop', (e) => {
                                 createContextMenuBox(e.clientX, e.clientY, clonedDiv);
                             });
                         } else {
+                            console.log(clonedDiv);
                             clonedDiv.addEventListener('contextmenu', (e) => {
                             e.preventDefault();
                             createContextMenuBox(e.clientX, e.clientY, clonedDiv);
                         });
                         }
 
+            clonedDiv = selectElement(clonedDiv);
             if (currentPageContent) { // Check if currentPageContent is defined
                 currentPageContent.appendChild(clonedDiv); // Append to the current page's content
                 currentHeight += boxHeight; // Update the current height
@@ -698,62 +729,39 @@ function resizeBoxHeight(box, deltaHeight) {
 
 function createTextBox() {
      const select = document.getElementById("textBoxSelect");
+     select.className = "textbox";
      const selectedValue = select.value;
      var selectedTextBoxType = null;
 
      if (selectedValue === "title") {
-       const div = document.createElement("div");
-       div.className = "title";
+       const div = document.createElement("h3");
+       div.className = "textbox";
        div.setAttribute('contenteditable', 'true');
        div.textContent = "This is a title.";
        selectedTextBoxType = div;
 
      } else if (selectedValue === "normal-text") {
+       const heading = document.createElement("h5");
+       heading.className = "textbox";
+       heading.setAttribute('contenteditable', 'true');
+       heading.textContent = "This is a paragraph.";
+       selectedTextBoxType = heading;
+
+     } else if (selectedValue === "paragraph") {
        const p = document.createElement("p");
-       p.className = "paragraph";
+       p.className = "textbox";
        p.setAttribute('contenteditable', 'true');
-       p.textContent = "This is a paragraph.";
+       p.textContent = "This is a subtitle.";
        selectedTextBoxType = p;
 
-     } else if (selectedValue === "subtitle") {
-       const div = document.createElement("div");
-       div.className = "subtitle";
-       div.setAttribute('contenteditable', 'true');
-       div.textContent = "This is a subtitle.";
-       selectedTextBoxType = div;
-
-     } else if (selectedValue === "heading-1") {
-       const heading = document.createElement("h1");
-       heading.className = "heading-1";
-       heading.setAttribute('contenteditable', 'true');
-       heading.textContent = "This is heading 1.";
-       selectedTextBoxType = heading;
-
-     } else if (selectedValue === "heading-2") {
-       const heading = document.createElement("h2");
-       heading.className = "heading-2";
-       heading.setAttribute('contenteditable', 'true');
-       heading.textContent = "This is heading 2.";
-       selectedTextBoxType = heading;
-
-     } else if (selectedValue === "heading-3") {
-       const heading = document.createElement("h3");
-       heading.className = "heading-3";
-       heading.setAttribute('contenteditable', 'true');
-       heading.textContent = "This is heading 3.";
-       selectedTextBoxType = heading;
      }
+
+     console.log(selectedTextBoxType);
 
       selectedTextBoxType.classList.add("element-spacing-5");
 
       // Add click event listener to toggle selection
       selectedTextBoxType = selectElement(selectedTextBoxType);
-
-      // This line is not working
-        selectedTextBoxType.addEventListener('contextmenu', (e) => {
-        console.log("Contextmenu event fired.");
-        createContextMenuBox(e.clientX, e.clientY, selectedTextBoxType);
-    });
 
       currentPageContent.appendChild(selectedTextBoxType);
    }
@@ -800,6 +808,14 @@ function selectElement(element) {
                // Ensure the text box is editable
                element.removeAttribute('readonly'); // Remove readonly attribute
            });
+
+           console.log(element);
+           // Add the context menu event listener to it
+                       element.addEventListener('contextmenu', (e) => {
+                             e.preventDefault();
+                             console.log("Fired!!!!");
+                             createContextMenuBox(e.clientX, e.clientY, element);
+                       });
    return element;
    }
 
@@ -895,11 +911,16 @@ function makeBold() {
             let currentSpan = checkForExistingTextSpan(range);
             console.log(currentSpan);
 
+            // There is no span element
             if (currentSpan == null) {
                         range.deleteContents();
                         range.insertNode(span);
+
+            // The span exists but there is no bold style in the classlist
             } else if (currentSpan != null && !currentSpan.classList.contains("w3-bold")) {
                 currentSpan.classList.add('w3-bold');
+
+            //
             } else {
                 var textContent = removeElementAndReturnText(currentSpan, 'w3-bold');
 
@@ -908,50 +929,53 @@ function makeBold() {
             }
         }
     }
+    repositionBoxes();
 }
 
 function makeUnorderedList() {
-    const list = document.createElement("ul");
+     const orderedList = document.createElement('ul');
+            orderedList.setAttribute("contenteditable", "true");
+            orderedList.setAttribute("id", "selected");
+            orderedList.classList.add("w3-ul")
+            const listItem = document.createElement('li');
 
-    let li_1 = document.createElement("li");
-    li_1.textContent = "text1";
-    li_1 = selectElement(li_1);
-    list.appendChild(li_1);
+            // Copy the content from the original h3 element to the new list item
+            listItem.textContent = selectedTextBox.textContent;
 
-    let li_2 = document.createElement("li");
-    li_2.textContent = "text2";
-    li_2 = selectElement(li_2);
-    list.appendChild(li_2);
+            // Append the list item to the ordered list
+            orderedList.appendChild(listItem);
 
-    let li_3 = document.createElement("li");
-    li_3.textContent = "text3";
-    li_3 = selectElement(li_3);
-    list.appendChild(li_3);
-    list.setAttribute('contenteditable', 'true');
-
-    currentPageContent.appendChild(list);
+            // Replace the original h3 element with the new ordered list
+            if (selectedTextBox && selectedTextBox.parentNode) {
+                selectedTextBox.parentNode.replaceChild(orderedList, selectedTextBox);
+            }
 }
 
 function makeOrderedList() {
-      const list = document.createElement("ol");
+        var orderedList = document.createElement('ol');
+        orderedList.setAttribute("contenteditable", "true");
+        orderedList.setAttribute("id", "selected");
+        orderedList.classList.add("w3-ol")
+        const listItem = document.createElement('li');
 
-      let li_1 = document.createElement("li");
-      li_1.textContent = "text1";
-      li_1 = selectElement(li_1);
-      list.appendChild(li_1);
+        // Copy the content from the original h3 element to the new list item
+        listItem.textContent = selectedTextBox.textContent;
 
-      let li_2 = document.createElement("li");
-      li_2.textContent = "text2";
-      li_2 = selectElement(li_2);
-      list.appendChild(li_2);
+        // Append the list item to the ordered list
+        orderedList.appendChild(listItem);
 
-      let li_3 = document.createElement("li");
-      li_3.textContent = "text3";
-      li_3 = selectElement(li_3);
-      list.appendChild(li_3);
-      list.setAttribute('contenteditable', 'true');
+        // Add a context menu event listener to the list
+        orderedList.addEventListener('contextmenu', function (e) {
+            e.preventDefault(); // Prevent the default context menu from showing
+            createContextMenuBox(e.clientX, e.clientY, orderedList); // Call your context menu function
+        });
 
-      currentPageContent.appendChild(list);
+        orderedList = selectElement(orderedList);
+
+        // Replace the original h3 element with the new ordered list
+        if (selectedTextBox && selectedTextBox.parentNode) {
+            selectedTextBox.parentNode.replaceChild(orderedList, selectedTextBox);
+        }
 }
 
 function modifyOrientation() {
@@ -1078,7 +1102,7 @@ function makeUnderline() {
         const selection = window.getSelection();
         const selectedText = selection.toString().trim();
 
-if (selectedText) {
+    if (selectedText) {
     // Create a new HTML structure with the selected text wrapped in a span
     const span = document.createElement("span");
     span.className = "w3-underline"; // Initialize with the desired class name
@@ -1102,6 +1126,7 @@ if (selectedText) {
 }
 
 }
+repositionBoxes();
 }
 
 function makeItalic() {
@@ -1136,6 +1161,7 @@ function makeItalic() {
 
         }
     }
+    repositionBoxes();
 }
 
 function makeAlignCenter() {
