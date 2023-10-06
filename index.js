@@ -46,11 +46,11 @@ app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 var currentUserFiles;
 var currentUserDetailsBlock;
 var currentUserPrivileges;
 var currentUserNotifications;
+var filesDocuments;
 
 app.use(
     session({
@@ -156,31 +156,65 @@ app.get('/downloadfile/:file_name', function(req, res){
 
 });
 
-app.get('/requestforms', async function(req, res) {
+//app.get('/requestforms/:', async function(req, res) {
+//
+//
+//});
 
-
-});
-
-app.post('/requestforms/:ajaxforms', async function(req, res){
+app.post('/requestforms', async function(req, res){
     try {
+        const formData = req.body;
 
-        uploadForms = {
-            "form_id": "",
-            "form_name": "",
-            "form_content": "",
+        const formDocument = {
+            form_name: formData.name,
+            form_control_number: formData.formControlNumber,
+            form_content: formData.formContent
         };
 
-        final = await forms.insertOne(uploadForms);
+        console.log("This is the Form Document: " + JSON.stringify(formDocument));
+
+        const result = await forms.insertOne(formDocument);
+
+//        final = await forms.insertOne({ "form_id" : "3",
+//                                        "form_name" : "SOMETHIGN 1",
+//                                        "form_content" : "YES"});
 
         if(debug_mode){
-            logStatus("Inserted: " + uploadForms);
+            logStatus("Inserted: " + result);
         }
 
-        res.json({final})
-    } else (error) {
-        logStatus("Failed to i dont know: " + error);
+    } catch (error) {
+        logStatus("Failed: " + error);
     }
+    res.redirect('/');
+});
 
+app.get('/formview', async function (req, res){
+    try{
+        //var selectedFormControlNumberToView = req.params.form_control_number;
+        var selectedFormControlNumberToView = "876543421";
+        var currentForm;
+
+        currentUserFiles = await getFiles(req.session.userEmpID);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
+        currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
+
+//        console.log(currentForm);
+
+        res.render('formview', {
+            title: 'View Forms',
+            currentUserDetailsBlock : currentUserDetailsBlock,
+            currentUserPrivileges: currentUserPrivileges,
+            currentUserNotifications: currentUserNotifications,
+            currentForm: currentForm,
+            min_idleTime: min_idleTime
+        });
+
+    }catch(error){
+        console.log("we found an error");
+    }
 });
 
 app.get('/', async function (req, res) {
@@ -471,6 +505,7 @@ app.get('/viewforms', async function(req, res){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
+        currentForms = await getForms(req.session.userEmpID);
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
@@ -480,6 +515,7 @@ app.get('/viewforms', async function(req, res){
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
+                currentForms: currentForms,
                 min_idleTime: min_idleTime
             });
 
@@ -971,19 +1007,20 @@ async function getNotifications(empID){
 }
 
 async function getForms(empID){
+    var formsCollections;
     try {
-        const formsCollections = await forms.find().toArray();
+        formsCollections = await forms.find().toArray();
 
         if(debug_mode){
-            logStatus("The array forms at function getForms() : " + JSON.stringify(filesDocuments));
+            logStatus("The array forms at function getForms() : " + JSON.stringify(formsCollections));
         }
-
-        return formsCollections;
     } catch (error) {
+        formsCollections = [];
         if(debug_mode){
             logStatus("Failed to retrieve forms: " + error);
         }
     }
+    return formsCollections;
 }
 
 async function getFiles(empID) {

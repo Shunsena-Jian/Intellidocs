@@ -6,21 +6,22 @@ block body
             .w3-container.w3-white.w3-round.w3-margin
                 h4 View Forms
                 hr.w3-clear
-                .w3-third.w3-container
-                    .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
-                        h3  Annual Faculty Activity Report Form (AFAR)
-                        hr.w3-clear
-                        p
-                            b  Status:
-                            |  Deployed
-                        p
-                            b  Date Created:
-                            |  January 12, 2021
-                        p
-                            b  Last Edited:
-                            |  January 12, 2022
-                        button  View Form
-
+                each forms in currentForms
+                    .w3-third.w3-container
+                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
+                            h3  #{forms.form_name}
+                            hr.w3-clear
+                            p
+                                b  Status:
+                                |  None for now
+                            p
+                                b  Date Created:
+                                |  None for now
+                            p
+                                b  Last Edited:
+                                |  None for now
+                            //a(href=`/formview/${forms.form_control_number}`) View Form
+                            a(href=`/formview`) View Form
     script.
         //------------------------------------------------------------------------
         //this block needs to be deployed everywhere
