@@ -189,10 +189,10 @@ app.post('/requestforms', async function(req, res){
     res.redirect('/');
 });
 
-app.get('/formview', async function (req, res){
+app.get('/formview/:form_control_number', async function (req, res){
     try{
-        //var selectedFormControlNumberToView = req.params.form_control_number;
-        var selectedFormControlNumberToView = "876543421";
+        var selectedFormControlNumberToView = req.params.form_control_number;
+        //var selectedFormControlNumberToView = "123";
         var currentForm;
 
         currentUserFiles = await getFiles(req.session.userEmpID);
