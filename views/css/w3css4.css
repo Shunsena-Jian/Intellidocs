@@ -619,7 +619,6 @@ body {
     margin-left: initial;
     width: auto;
   }
-
 /*---------- ABOUT US (cass) ----------*/
 }
 
@@ -903,6 +902,23 @@ color: white;
 .dark-mode {
 background-color: white;
 color: black;
+}
+
+/** ---------- LOGIN PAGE REMEMBER ME CHECKBOX (cass) ---------- **/
+.label1 {
+  display: block;
+  padding-left: 30px;
+  text-indent: -20px;
+}
+.input1 {
+  width: 20px;
+  height: 13px;
+  padding: 0;
+  margin:0;
+  vertical-align: bottom;
+  position: relative;
+  top: -4px;
+  *overflow: hidden;
 }
 
 /* W3.CSS 4.15 December 2020 by Jan Egil and Borge Refsnes */
@@ -1255,3 +1271,4 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .w3-font-size-98{font-size:98px}
 .w3-font-size-99{font-size:99px}
 .w3-font-size-100{font-size:100px}
+
