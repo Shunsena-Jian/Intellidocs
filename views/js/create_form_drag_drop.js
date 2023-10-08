@@ -331,6 +331,7 @@ function createContextMenuBox(x,y,element) {
                 if (confirm('Are you sure you want to delete this box?')) {
                     element.remove();
                     repositionBoxes();
+                    checkCurrentPage();
                 }
                 contextMenu.remove();
             });
@@ -364,9 +365,8 @@ function createContextMenuTable(x, y, element) {
             deleteButton.addEventListener('click', () => {
                 if (confirm('Are you sure you want to delete this box?')) {
                     element.remove();
-                    checkCurrentPage();
                     repositionBoxes();
-//                    checkCurrentPage();
+                    checkCurrentPage();
                 }
                 contextMenu.remove();
             });
@@ -449,22 +449,37 @@ function createContextMenuTable(x, y, element) {
 function checkCurrentPage() {
     var numberOfChildren = currentPageContent.childElementCount;
    console.log(numberOfChildren);
+   console.log(currentPageContent.id);
 
    // Do nothing if current page is the first page
-   if (currentPage != 1) {
+   if (currentPageContent.id != "page-1") {
+        console.log("got in!");
         if (numberOfChildren == 1) {
-            currentPage -= 1;
-            var pageIDString = "page-" + currentPage;
+            console.log("got in!");
+            var prevpage = currentPage - 1;
+            var pageIDString = "page-" + prevpage;
             let dropContainers = document.querySelectorAll('.drop-container');
             let found = false;
+            console.log(dropContainers);
 
             dropContainers.forEach(dropContainer => {
-                if (dropContainer.id === pageIDString) {
-                    currentPageContent = dropContainer;
+                console.log(dropContainer.id);
+                if (dropContainer.id == pageIDString) {
+                    console.log("found it!");
+                     // Get the parent element of currentPageContent
+                        const currentPageParent = currentPageContent.parentElement;
+
+                        // Remove currentPageContent from its parent
+                        currentPageParent.removeChild(currentPageContent);
+
+                        // Set dropContainer as the new currentPageContent
+                        currentPageContent = dropContainer;
+
+
                     return;
                 }
             });
-
+        currentPage -=1;
         }
    }
    console.log(currentPageContent.id);
@@ -570,7 +585,7 @@ function createNewPage() {
 
     // Copy the first 'header' div from the previous page, if it exists
     if (currentPage > 1) {
-        const previousPage = document.querySelector(`#page-${currentPage - 1}`);
+        const previousPage = document.querySelector(`#page-1`);
         const headerDiv = previousPage.querySelector('.header');
         if (headerDiv) {
             const headerClone = headerDiv.cloneNode(true);
@@ -580,7 +595,6 @@ function createNewPage() {
 
     //downloadPDF(newPage);
     addEventListenerToDiv(newPage);
-    currentPage +=1;
     return newPage;
 }
 
@@ -813,17 +827,12 @@ function removeElementAndReturnText(element, classname) {
     return textContent;
 }
 
-
-
-
 function selectElement(element) {
    element.addEventListener('click', function () {
 
                // Unselect the previously selected text box, if any
                if (selectedTextBox) {
                    selectedTextBox.removeAttribute('id'); // Remove the "id" attribute
-
-
                }
                // Select the current text box
                element.setAttribute('contentEditable', 'true');
