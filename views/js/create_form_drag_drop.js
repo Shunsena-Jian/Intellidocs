@@ -35,8 +35,6 @@ dropContainers.forEach(function (dropContainer) {
 setMaxHeight();
 console.log("Max Height is: " + maxHeight);
 
-
-
 tables.forEach((table) => {
     let selectedCells = [];
 
@@ -366,7 +364,9 @@ function createContextMenuTable(x, y, element) {
             deleteButton.addEventListener('click', () => {
                 if (confirm('Are you sure you want to delete this box?')) {
                     element.remove();
+                    checkCurrentPage();
                     repositionBoxes();
+//                    checkCurrentPage();
                 }
                 contextMenu.remove();
             });
@@ -431,25 +431,6 @@ function createContextMenuTable(x, y, element) {
         contextMenu.appendChild(removeColumnButton);
     }
 
-//    if (element.classList.contains('resizable')) {
-//        const increaseHeightButton = document.createElement('button');
-//        increaseHeightButton.innerText = 'Increase Height';
-//        increaseHeightButton.addEventListener('click', () => {
-//            resizeBoxHeight(element, 10); // Increase the height by 10 pixels (adjust as needed)
-//            contextMenu.remove();
-//        });
-//
-//        const decreaseHeightButton = document.createElement('button');
-//        decreaseHeightButton.innerText = 'Decrease Height';
-//        decreaseHeightButton.addEventListener('click', () => {
-//            resizeBoxHeight(element, -10); // Decrease the height by 10 pixels (adjust as needed)
-//            contextMenu.remove();
-//        });
-//
-//        contextMenu.appendChild(increaseHeightButton);
-//        contextMenu.appendChild(decreaseHeightButton);
-//    }
-
     contextMenu.style.position = 'fixed';
     contextMenu.style.left = x + 'px';
     contextMenu.style.top = y + 'px';
@@ -465,6 +446,48 @@ function createContextMenuTable(x, y, element) {
     });
 }
 
+function checkCurrentPage() {
+    var numberOfChildren = currentPageContent.childElementCount;
+   console.log(numberOfChildren);
+
+   // Do nothing if current page is the first page
+   if (currentPage != 1) {
+        if (numberOfChildren == 1) {
+            currentPage -= 1;
+            var pageIDString = "page-" + currentPage;
+            let dropContainers = document.querySelectorAll('.drop-container');
+            let found = false;
+
+            dropContainers.forEach(dropContainer => {
+                if (dropContainer.id === pageIDString) {
+                    currentPageContent = dropContainer;
+                    return;
+                }
+            });
+
+        }
+   }
+   console.log(currentPageContent.id);
+   console.log(currentPage);
+}
+
+function updatePageNumbers() {
+    // Select all drop-container elements
+    const containers = document.querySelectorAll('.drop-container');
+    var totalPages = containers.length; // number of pages
+    var index = 1;
+    containers.forEach(container => {
+        // Inside drop-container, find the div with the class 'header'
+        const headerContainer = container.querySelector('.header');
+
+        // Inside the div with class 'header', find all tables with class name 'header-table'
+        const headerTable = headerContainer.querySelector('.header-table');
+
+        const pageNumberElement = headerTable.querySelector('.page-number');
+        pageNumberElement.textContent = (index) + ' of ' + totalPages;
+        index += 1;
+    });
+}
 
 function repositionBoxes() {
     const boxes = Array.from(dropBox.querySelectorAll('.box'));
@@ -527,6 +550,7 @@ function calculateDivHeight(element) {
 
 
 function createNewPage() {
+    updatePageNumbers();
     console.log("new page tanga!!!");
     currentPage++;
     const newPage = document.createElement('div');
@@ -556,7 +580,7 @@ function createNewPage() {
 
     //downloadPDF(newPage);
     addEventListenerToDiv(newPage);
-
+    currentPage +=1;
     return newPage;
 }
 
@@ -671,11 +695,12 @@ dropBox.addEventListener('drop', (e) => {
                 currentPageContent.appendChild(clonedDiv); // Append to the current page's content
                 currentHeight += boxHeight; // Update the current height
                 console.log(currentHeight);
+                // Update page numbers
+                updatePageNumbers();
             } else {
                 console.error('currentPageContent is undefined.'); // Log an error if currentPageContent is undefined
             }
         }
-
         activeDraggable = null;
     }
 });

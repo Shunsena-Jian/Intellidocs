@@ -3,10 +3,9 @@ extends layout.pug
 block body
     .w3-main#main(style='margin-left:250px')
         .w3-row.w3-padding-64
-            h4 Create Form
-            input#formName
-            br
-            input#formControlNumber
+            h4.w3-bold Create Form
+            input#formName.w3-col.s6.w3-input.w3-margin(placeholder="Type Form Name [Required]" required='')
+            input#formControlNumber.w3-col.s6.w3-input.w3-margin(placeholder="Type Form Control Number [Required]" required='')
             hr.w3-clear
             p.w3-center
             .w3-row.w3-container
@@ -96,20 +95,20 @@ block body
                                 hr.w3-clear.w3-black
 
                                 .header.w3-row.draggable.table.w3-hover-light-grey(draggable='true')
-                                    table.right.w3-bold.table
+                                    table.right.w3-bold.table.w3-font-size-10.header-table
                                         tbody
                                             tr
                                                 th Document Code
-                                                th FMI-SMI-###
+                                                th FM-SMI-027
                                             tr
                                                 th Revision No.
-                                                th ##
+                                                th 01
                                             tr
                                                 th Effectivity
-                                                th [Date]
+                                                th April 01, 2023
                                             tr
                                                 th Page
-                                                th 1 of 7
+                                                th.page-number 1 of 1
 
                                 hr.w3-clear
 
@@ -136,20 +135,20 @@ block body
                                         input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
 
                                     .w3-col.s3
-                                        table.table.w3-bold.w3-padding-64.w3-hover-light-grey
+                                        table.table.w3-bold.w3-padding-64.w3-hover-light-grey.w3-font-size-10.header-table
                                             tbody
                                                 tr
                                                     th Document Code
-                                                    th FMI-SMI-###
+                                                    th FMI-SMI-027
                                                 tr
                                                     th Revision No.
-                                                    th ##
+                                                    th 01
                                                 tr
                                                     th Effectivity
-                                                    th [Date]
+                                                    th April 01, 2023
                                                 tr
                                                     th Page
-                                                    th 1 of 7
+                                                    th.page-number 1 of 1
 
                                 hr.w3-clear
 
@@ -216,8 +215,8 @@ block body
                             .w3-row.w3-padding-16
                                 h4.w3-bold.w3-khaki.w3-padding-16.w3-center Grouped Fields
                                 .w3-row-center.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
-                                    input.w3-input.w3-bold(type='text' placeholder='Table Title')
-                                    textarea.w3-input(type='text' placeholder='Table Description')
+                                    textarea.w3-textarea.w3-bold(type='text' placeholder='Table Title')
+                                    textarea.w3-textarea(type='text' placeholder='Table Description')
                                     hr.newline
                                     table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
                                         thead
@@ -239,7 +238,7 @@ block body
                                                 td
 
                                 .w3-row-center.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
-                                        textarea.w3-input.w3-row.w3-bold(type='text' placeholder='Table Title')
+                                        textarea.w3-textarea.w3-row.w3-bold.textarea(type='text' placeholder='Table Title')
                                         hr.newline
                                         table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
                                             thead
@@ -261,7 +260,7 @@ block body
                                                     td
 
                                 .w3-row-center.w3-container.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
-                                        textarea.w3-input.w3-row.w3-bold(type='text' placeholder='Table Title')
+                                        textarea.w3-textarea.w3-row.w3-bold(type='text' placeholder='Table Title')
                                         hr.newline
                                         table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
                                             thead
@@ -281,7 +280,7 @@ block body
                                                     td
                                                     td
                                                     td
-                                        textarea.w3-input.w3-row(type='text' placeholder='Table Description')
+                                        textarea.w3-textarea.w3-row(type='text' placeholder='Table Description')
 
                             hr.w3-newline-2
 
