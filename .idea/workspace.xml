@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d67d58ce-3a90-4652-a65f-124494e3b219" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/css/loginPages.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/loginPages.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/css/w3css4.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/w3css4.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/login.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/login.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/pugs/loginHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/pugs/loginHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/submissions.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/submissions.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/viewreports.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewreports.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
