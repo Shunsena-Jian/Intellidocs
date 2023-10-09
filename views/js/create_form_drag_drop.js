@@ -10,13 +10,11 @@ const containerDiv = document.getElementById('outer-container');
 let isSelecting = false;
 let startCell = null;
 padding = 36;
-
 header_height = 0;
-
 const tables = document.querySelectorAll('.table');
 
-    // Keep track of the currently hovered text box
-  let selectedTextBox = null;
+// Keep track of the currently hovered text box
+let selectedTextBox = null;
 
 function setMaxHeight() {
   // Get all elements with the class "drop-container"
@@ -336,7 +334,17 @@ function createContextMenuBox(x,y,element) {
                 contextMenu.remove();
             });
 
+            const lockEditOnDeploy = document.createElement('button');
+            lockEditOnDeploy.innerText = "Lock this field on deployment";
+            lockEditOnDeploy.addEventListener('click', () => {
+                if(confirm('Are you sure you want to lock this editable field on deployment?')) {
+                    makeInputUneditableOnDeployment();
+                }
+                contextMenu.remove();
+            })
+
             contextMenu.appendChild(deleteButton);
+            contextMenu.appendChild(lockEditOnDeploy);
 
         }
 
@@ -453,9 +461,7 @@ function checkCurrentPage() {
 
    // Do nothing if current page is the first page
    if (currentPageContent.id != "page-1") {
-        console.log("got in!");
         if (numberOfChildren == 1) {
-            console.log("got in!");
             var prevpage = currentPage - 1;
             var pageIDString = "page-" + prevpage;
             let dropContainers = document.querySelectorAll('.drop-container');
@@ -465,7 +471,6 @@ function checkCurrentPage() {
             dropContainers.forEach(dropContainer => {
                 console.log(dropContainer.id);
                 if (dropContainer.id == pageIDString) {
-                    console.log("found it!");
                      // Get the parent element of currentPageContent
                         const currentPageParent = currentPageContent.parentElement;
 
@@ -484,6 +489,7 @@ function checkCurrentPage() {
    }
    console.log(currentPageContent.id);
    console.log(currentPage);
+   currentHeight = checkCurrentPageHeight();
 }
 
 function updatePageNumbers() {
@@ -535,18 +541,11 @@ function calculateDivHeight(element) {
     const paddingBottom = parseFloat(styles.paddingBottom);
     const borderHeight = parseFloat(styles.borderTopWidth) + parseFloat(styles.borderBottomWidth);
 
-
-
         // Check if the element is a table
             if (element.tagName.toLowerCase() === 'table') {
                 // Calculate the height differently for tables
                 const rows = element.rows;
                 let tableHeight = element.offsetHeight;
-
-//                // Calculate the height by summing the height of each row
-//                for (let i = 0; i < rows.length; i++) {
-//                    tableHeight += rows[i].offsetHeight;
-//                }
 
                 // Add margins, padding, and borders
                 tableHeight = tableHeight + marginBottom + marginTop;
@@ -559,8 +558,6 @@ function calculateDivHeight(element) {
                 console.log("div");
                 return height;
             }
-
-
 }
 
 
@@ -718,6 +715,19 @@ dropBox.addEventListener('drop', (e) => {
         activeDraggable = null;
     }
 });
+}
+
+function checkCurrentPageHeight() {
+    var tempHeight = 0;
+    // Iterate through all child elements of currentPageContent
+    const childElements = currentPageContent.children;
+    for (let i = 0; i < childElements.length; i++) {
+        const childElement = childElements[i];
+        // Calculate the height of the current child element and add it to currentHeight
+        tempHeight += calculateDivHeight(childElement);
+    }
+    console.log("Current Page Height is: " + tempHeight);
+    return tempHeight;
 }
 
 function activateTable(clonedDiv) {
@@ -926,6 +936,13 @@ function selectElement(element) {
     }
 }
 
+function makeInputUneditableOnDeployment() {
+    if(selectedTextBox) {
+        //selectedTextBox.classList.remove('uneditable');
+        selectedTextBox.classList.add('w3-uneditable');
+    }
+}
+
 
 function makeBold() {
     if (selectedTextBox) {
@@ -1014,7 +1031,7 @@ function makeOrderedList() {
 
 function modifyOrientation() {
 
-const orientation = document.getElementById("modifyOrientation");
+     const orientation = document.getElementById("modifyOrientation");
      const selectedValue = orientation.value;
 
       // Get all elements with the class "drop-container"
@@ -1272,5 +1289,5 @@ function checkForExistingTextSpan(range) {
 }
 
 // DO NOT TOUCH THIS, OR EVERYTHING WILL CRUMBLE
-addEventListenerToDiv(dropBox);
+addEventListenerToDiv(currentPageContent);
 
