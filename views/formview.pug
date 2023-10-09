@@ -1,42 +1,55 @@
-extends layout.pug
+extends formviewlayout.pug
 
 block body
     #main.w3-main(style='margin-left:250px')
         .w3-row.w3-padding-64
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                .form_container
-                    #form-content.pages
-                        #theContainerOfTheForm
+                //#form-content.pages
+                #theContainerOfTheForm
 
-    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
-    link(rel='stylesheet' href='../css/w3css4.css')
-    link(rel='stylesheet' href='../css/w3-theme.css')
-    link(rel='stylesheet' href='../css/text_editor.css')
-    link(rel='stylesheet' href='../css/create_form_style.css')
-    link(rel='stylesheet' href='../css/clienthandling/loader.css')
+        .w3-row.w3-padding-64
+            .w3-twothird.w3-container
+                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                    h1 Files
+                    hr
+                    table#filesTable.display(width='100%')
+                        thead
+                            tr
+                                th File Name
+                                th File Size
+                                th Uploaded By
+                                th Uploaded At
+                                th File Actions
+                        tbody
+                            each file in currentUserFiles
+                                tr
+                                    td #{file.file_name}
+                                    td #{file.file_size}
+                                    td #{file.uploadedBy}
+                                    td #{file.uploadedAt}
+                                    td
+                                        a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
+                                            i.fa.fa-pencil.w3-text-theme
+                                        a.w3-half.w3-hover-white(onclick=`showDeleteModal("${file.file_name}")`)
+                                            i.fa.fa-times.w3-text-theme
+                    #id01.w3-modal
+                        .w3-modal-content
+                            .w3-container
+                                span.w3-button.w3-display-topright(onclick="document.getElementById('id01').style.display='none'") &times;
+                                p Are you sure you want to delete this file?
+                                p#selectedFileForDeletionPlaceholder
+                                a(onclick=`deleteSelectedFile()`) Yes
+                                a(onclick="closeModal()") No
 
-    script(src='https://code.jquery.com/jquery-1.12.4.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js')
-    script(src='https://html2canvas.hertzen.com/dist/html2canvas.js')
-    script(src='../js/create_form_drag_drop.js')
+            .w3-quarter.w3-container
+                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                    h1 Upload Files
+                    hr
+                    form(action="/", method="POST", enctype="multipart/form-data" id="upload-form")
+                        input.bottone5(type="file", name="file", id="file")
+                        input.bottone5(type="submit", value="Upload")
 
     script.
-
-
-        // start of playground
-
-
-        var formBlock = !{JSON.stringify(currentForm)};
-        //console.log(formBlock.form_content);
-        var receivedFormContent = formBlock.form_content;
-        var theContainerOfTheForm = document.getElementById('theContainerOfTheForm');
-
-        theContainerOfTheForm.innerHTML = receivedFormContent;
-
-
-        // end of playground
-
-
         //------------------------------------------------------------------------
         //this block needs to be deployed everywhere
         //USED FOR RESEAT LOGIC
@@ -46,7 +59,21 @@ block body
         var min_handlingTime = #{min_idleTime};
         //console.log(min_handlingTime);
         //------------------------------------------------------------------------
+        // start of playground
+        var formBlock = !{JSON.stringify(currentForm)};
+        //console.log(formBlock.form_content);
+        var receivedFormContent = formBlock.form_content;
+        var theContainerOfTheForm = document.getElementById('theContainerOfTheForm');
+        theContainerOfTheForm.innerHTML = receivedFormContent;
+        // end of playground
     script(src="../js/socket.io/socket.io.js")
     script(src="../js/client.socket/handle_reconnect.js")
     script(src="../js/client.navigation/handle_idle.js")
     script(src="../js/client.navigation/handle_side_bar.js")
+    script(src="../js/client.functions/handle_ajax_upload.js")
+    script(src="../js/client.functions/handle_ajax_delete.js")
+
+    //script(src='https://code.jquery.com/jquery-1.12.4.js') -- CONFLICT WITH OUR DATA TABLE
+    //script(src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js') -- CONFLICT WITH OUR DATA TABLE
+    //script(src='https://html2canvas.hertzen.com/dist/html2canvas.js') -- CONFLICT WITH OUR DATA TABLE
+    //script(src='../js/create_form_drag_drop.js') -- CONFLICT WITH OUR DATA TABLE

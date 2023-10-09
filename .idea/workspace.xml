@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="d67d58ce-3a90-4652-a65f-124494e3b219" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="+accountsettings.pug&#10;//Added initial account settings as placeholder&#10;*index.js&#10;//Added request and response for accountsettings.pug&#10;*layout&#10;//no idea what i did here">
+      <change afterPath="$PROJECT_DIR$/views/formviewlayout.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/submissions.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/submissions.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewreports.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewreports.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/layout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,35 +19,46 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 2
-}</component>
-  <component name="ProjectId" id="2WRO88YnKFOLC173hkkpYTXYhDZ" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2WILMosCqF7RSTraY5bRuQcCOMT" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Cassandra/Desktop/New folder&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Admin\Desktop\the thesis container\views" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d67d58ce-3a90-4652-a65f-124494e3b219" name="Changes" comment="" />
-      <created>1696691764790</created>
+      <changelist id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="" />
+      <created>1696415109496</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1696691764790</updated>
+      <updated>1696415109496</updated>
     </task>
+    <task id="LOCAL-00001" summary="*layout.pug&#10;//fixed css call for navbar icons">
+      <created>1696420683777</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1696420683777</updated>
+    </task>
+    <task id="LOCAL-00002" summary="+accountsettings.pug&#10;//Added initial account settings as placeholder&#10;*index.js&#10;//Added request and response for accountsettings.pug&#10;*layout&#10;//no idea what i did here">
+      <created>1696446371063</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1696446371064</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -62,5 +71,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="*layout.pug&#10;//fixed css call for navbar icons" />
+    <MESSAGE value="+accountsettings.pug&#10;//Added initial account settings as placeholder&#10;*index.js&#10;//Added request and response for accountsettings.pug&#10;*layout&#10;//no idea what i did here" />
+    <option name="LAST_COMMIT_MESSAGE" value="+accountsettings.pug&#10;//Added initial account settings as placeholder&#10;*index.js&#10;//Added request and response for accountsettings.pug&#10;*layout&#10;//no idea what i did here" />
   </component>
 </project>

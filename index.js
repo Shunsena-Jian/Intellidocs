@@ -156,11 +156,6 @@ app.get('/downloadfile/:file_name', function(req, res){
 
 });
 
-//app.get('/requestforms/:', async function(req, res) {
-//
-//
-//});
-
 app.post('/requestforms', async function(req, res){
     try {
         const formData = req.body;
@@ -174,10 +169,6 @@ app.post('/requestforms', async function(req, res){
         console.log("This is the Form Document: " + JSON.stringify(formDocument));
 
         const result = await forms.insertOne(formDocument);
-
-//        final = await forms.insertOne({ "form_id" : "3",
-//                                        "form_name" : "SOMETHIGN 1",
-//                                        "form_content" : "YES"});
 
         if(debug_mode){
             logStatus("Inserted: " + result);
@@ -206,6 +197,7 @@ app.get('/formview/:form_control_number', async function (req, res){
         res.render('formview', {
             title: 'View Forms',
             currentUserDetailsBlock : currentUserDetailsBlock,
+            currentUserFiles: currentUserFiles,
             currentUserPrivileges: currentUserPrivileges,
             currentUserNotifications: currentUserNotifications,
             currentForm: currentForm,
