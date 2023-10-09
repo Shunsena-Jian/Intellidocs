@@ -65,10 +65,11 @@ body
                     i.fa.fa-circle-o-notch.fa-fw.w3-margin-right
                     |  Form Management
                 #Demo1.w3-hide.w3-container
-                    p
-                        a(href='/createform')
-                            i.fa.fa-plus-circle.w3-margin-right
-                            | Create Forms
+                    #createTemplateElement
+                        p
+                            a(href='/createform')
+                                i.fa.fa-plus-circle.w3-margin-right
+                                | Create Forms
                     p
                         a(href='/viewforms')
                             i.fa.fa-file.w3-margin-right
@@ -77,10 +78,11 @@ body
                         a(href='/submission')
                             i.fa.fa-info.w3-margin-right
                             | Submission
-                    p
-                        a(href='/viewreports')
-                            i.fa.fa-pie-chart.w3-margin-right
-                            | View Reports
+                    #viewReportElement
+                        p
+                            a(href='/viewreports')
+                                i.fa.fa-pie-chart.w3-margin-right
+                                | View Reports
                 button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo2')")
                     i.fa.fa-calendar-check-o.fa-fw.w3-margin-right
                     |  Form Events
@@ -93,18 +95,21 @@ body
                         a(href='/managedeadlines')
                             i.fa.fa-calendar-check-o.w3-margin-right
                             | Set Form due dates
-                button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo3')")
-                    i.fa.fa-users.fa-fw.w3-margin-right
-                    |  User Management
-                #Demo3.w3-hide.w3-container
-                    p
-                        a(href='/createusers')
-                            i.fa.fa-plus-circle.w3-margin-right
-                            | Create User
-                    p
-                        a(href='/viewusers')
-                            i.fa.fa-users.w3-margin-right
-                            | View Users
+                #userManagementElement
+                    button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo3')")
+                        i.fa.fa-users.fa-fw.w3-margin-right
+                        |  User Management
+                    #Demo3.w3-hide.w3-container
+                        #addUserElement
+                            p
+                                a(href='/createusers')
+                                    i.fa.fa-plus-circle.w3-margin-right
+                                    | Create User
+                        #editUserElement
+                            p
+                                a(href='/viewusers')
+                                    i.fa.fa-users.w3-margin-right
+                                    | View Users
             br
             a.w3-bar-item.w3-button.edit-name.w3-hover-black(href='#')
                 i.bi.bi-pencil-square
@@ -138,3 +143,7 @@ footer#myFooter.w3-bottom
     .w3-container.w3-theme-l1
         h5(style='text-align:center; font-family: Acme; font-weight:lighter;') SLU IT Project Catalogues
         h6(style='text-align:center; font-family: Acme, monospace; font-weight:lighter;') &copy; 2023 All Rights Reserved
+
+script.
+    var receivedUserPrivileges = !{JSON.stringify(currentUserPrivileges)};
+script(src="js/client.navigation/set_features.js")

@@ -29,9 +29,11 @@ block body
                     .count
                         | 40
             .w3-half.w3-container
-                button#testShow.bottone5(onclick=`showStatusBar()`) show
-                button#testHide.bottone5(onclick=`hideStatusBar()`) hide
-                p this row will be removed once size transition is fixed
+                //------------------------------------------------------
+                //UNCOMMENT THIS BLOCK WHEN DEBUGGING CONNECTION STATUS
+                //button#testShow.bottone5(onclick=`showStatusBar()`) show
+                //button#testHide.bottone5(onclick=`hideStatusBar()`) hide
+                //------------------------------------------------------
                 .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
                     br
                     |                     Notifications
@@ -51,15 +53,11 @@ block body
 
             .w3-half.w3-container
                 .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                    button.bottone5(onclick=`showIdleModal()`) show modal
-                    button.bottone5(onclick=`hideIdleModal()`) hide modal
                     br
-                    |                    Chart goes here THIS WILL BE MOVED
+                    |                    Chart goes here
                     hr.w3-clear
-                    form(action="/", method="POST", enctype="multipart/form-data" id="upload-form")
-                        input(type="file", name="file", id="file")
-                        input.bottone5(type="submit", value="Upload")
                     br
+
             .w3-row.w3-container
                 .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
                     br
