@@ -531,6 +531,53 @@ app.get('/viewforms', async function(req, res){
     }
 });
 
+
+app.get('/viewformtemplates', async function(req, res){
+    var requiredPrivilege = 'View Documents';
+    var accessGranted = false;
+
+    if (req.session.loggedIn) {
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
+        currentForms = await getForms(req.session.userEmpID);
+
+        accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
+
+        if(accessGranted){
+            res.render('viewforms', {
+                title: 'View Form Templates',
+                currentUserDetailsBlock : currentUserDetailsBlock,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                currentForms: currentForms,
+                min_idleTime: min_idleTime
+            });
+
+            if(debug_mode){
+                logStatus("Access Granted!");
+            }
+        } else {
+            res.render('error_screen', {
+                title: 'View Forms',
+                currentUserDetailsBlock : currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime,
+                errorMSG : "Access Denied"
+            });
+
+            if(debug_mode){
+                logStatus("User Denied");
+            }
+        }
+
+    } else {
+        res.redirect('login');
+    }
+});
+
 app.get('/submission', async function(req, res){
     if (req.session.loggedIn) {
         currentUserFiles = await getFiles(req.session.userEmpID);
