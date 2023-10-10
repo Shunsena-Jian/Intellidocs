@@ -82,8 +82,9 @@ body
                                     strong Kasima Mendoza
                                     |  | October 8,2023
                                     a.w3-bar-item.w3-button View
-                        #notifItem
-                            a.w3-bar-item.w3-button View All
+                        hr
+                        div(style='text-align:right; padding-bottom: 20px;')
+                            a.w3-bar-item.w3-button(href='#') view all
                 a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='/logout')
                     img.w3-circle(src='../src/avatar3.png' style='height:23px;width:23px' alt='Avatar')
                     |  Logout
@@ -118,6 +119,14 @@ body
                             a(href='/createform')
                                 i.fa.fa-plus-circle.w3-margin-right
                                 | Create Forms
+                        p
+                            a(href='/createform')
+                                i.fa.fa-plus-circle.w3-margin-right
+                                | View Form Templates
+                        p
+                            a(href='/createform')
+                                i.fa.fa-plus-circle.w3-margin-right
+                                | View Active Forms
                     p
                         a(href='/viewforms')
                             i.fa.fa-file.w3-margin-right
