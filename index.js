@@ -205,6 +205,32 @@ app.get('/formview/:form_control_number', async function (req, res){
     }
 });
 
+app.get('/viewformtemplate/:form_control_number', async function (req, res){
+    try{
+        var selectedFormControlNumberToView = req.params.form_control_number;
+        var currentForm;
+
+        currentUserFiles = await getFiles(req.session.userEmpID);
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
+        currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
+
+        res.render('viewformtemplate', {
+            title: 'View Forms',
+            currentUserDetailsBlock : currentUserDetailsBlock,
+            currentUserFiles: currentUserFiles,
+            currentUserPrivileges: currentUserPrivileges,
+            currentUserNotifications: currentUserNotifications,
+            currentForm: currentForm,
+            min_idleTime: min_idleTime
+        });
+
+    }catch(error){
+        console.log("we found an error");
+    }
+});
+
 app.get('/', async function (req, res) {
     try {
         if (!req.session.loggedIn) {
@@ -545,7 +571,7 @@ app.get('/viewformtemplates', async function(req, res){
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
-            res.render('viewforms', {
+            res.render('viewformtemplates', {
                 title: 'View Form Templates',
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserPrivileges: currentUserPrivileges,

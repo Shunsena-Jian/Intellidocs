@@ -1,4 +1,4 @@
-extends layout.pug
+extends viewformtemplatelayout.pug
 
 block body
     .w3-main#main(style='margin-left:250px')
@@ -548,10 +548,10 @@ block body
         //end of play playground
 
 
-    script(src="js/socket.io/socket.io.js")
-    script(src="js/client.socket/handle_reconnect.js")
-    script(src="js/client.navigation/handle_idle.js")
-    script(src="js/client.navigation/handle_side_bar.js")
+    script(src="../js/socket.io/socket.io.js")
+    script(src="../js/client.socket/handle_reconnect.js")
+    script(src="../js/client.navigation/handle_idle.js")
+    script(src="../js/client.navigation/handle_side_bar.js")
 
     script.
         // Not working, to be debugged
@@ -600,5 +600,5 @@ block body
     script(src='https://code.jquery.com/jquery-1.12.4.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js')
     script(src='https://html2canvas.hertzen.com/dist/html2canvas.js')
-    script(src='js/create_form_drag_drop.js')
+    script(src='../js/create_form_drag_drop.js')
 
