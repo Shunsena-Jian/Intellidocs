@@ -156,7 +156,7 @@ app.get('/downloadfile/:file_name', function(req, res){
 
 });
 
-app.post('/requestforms', async function(req, res){
+app.post('/savecreatedform', async function(req, res){
     try {
         const formData = req.body;
 
@@ -167,7 +167,6 @@ app.post('/requestforms', async function(req, res){
         };
 
         console.log("This is the Form Document: " + JSON.stringify(formDocument));
-
         const result = await forms.insertOne(formDocument);
 
         if(debug_mode){
@@ -177,13 +176,12 @@ app.post('/requestforms', async function(req, res){
     } catch (error) {
         logStatus("Failed: " + error);
     }
-    res.redirect('/');
+    res.json({ success: true });
 });
 
 app.get('/formview/:form_control_number', async function (req, res){
     try{
         var selectedFormControlNumberToView = req.params.form_control_number;
-        //var selectedFormControlNumberToView = "123";
         var currentForm;
 
         currentUserFiles = await getFiles(req.session.userEmpID);
@@ -191,8 +189,6 @@ app.get('/formview/:form_control_number', async function (req, res){
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
-
-//        console.log(currentForm);
 
         res.render('formview', {
             title: 'View Forms',

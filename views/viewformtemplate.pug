@@ -533,27 +533,16 @@ block body
                 formContent: formBody
             };
 
-            fetch('/savecreatedform', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Network response was not ok');
-                }
-            }).then(data => {
-                const success = data.success; // Assuming the response contains a 'success' property
-                if (success) {
-                    window.location.href = '/';
-                } else {
-                }
-            }).catch(error => {
-                console.error('Fetch error:', error);
-            });
+            fetch('/requestforms', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            })
+            //.then(response => response.json())
+            //.then(result => console.log('Server response:', result))
+            //.catch(error => console.error('Error:', error));
         }
 
         //end of play playground

@@ -1,0 +1,37 @@
+extends layout.pug
+
+block body
+    .w3-main(style='margin-left:250px')
+        .w3-row.w3-padding-64
+            .w3-container.w3-white.w3-round.w3-margin
+                h4 View Forms
+                hr.w3-clear
+                each forms in currentForms
+                    .w3-third.w3-container
+                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
+                            h3  #{forms.form_name}
+                            hr.w3-clear
+                            p
+                                b  Status:
+                                |  None for now
+                            p
+                                b  Date Created:
+                                |  None for now
+                            p
+                                b  Last Edited:
+                                |  None for now
+                            a(href=`/formview/${forms.form_control_number}`) View Form
+    script.
+        //------------------------------------------------------------------------
+        //this block needs to be deployed everywhere
+        //USED FOR RESEAT LOGIC
+        var receivedUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
+        var reconID = receivedUserDetailsBlock.empID;
+        //USED FOR IDLE LOGIC
+        var min_handlingTime = #{min_idleTime};
+        //console.log(min_handlingTime);
+        //------------------------------------------------------------------------
+    script(src="js/socket.io/socket.io.js")
+    script(src="js/client.socket/handle_reconnect.js")
+    script(src="js/client.navigation/handle_idle.js")
+    script(src="js/client.navigation/handle_side_bar.js")
