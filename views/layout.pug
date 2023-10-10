@@ -16,44 +16,6 @@ head
     script(src='https://code.jquery.com/jquery-3.7.0.js')
     script(src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js')
 body
-    .modal-container
-        input#modal-toggle(type='checkbox')
-        label.modal-backdrop(for='modal-toggle')
-        .modal-content.content(style='overflow-y:scroll;')
-            .alert.alert-success.alert-white.rounded
-                .icon
-                    i.fa.fa-check
-                p(style='margin-left:50px;')
-                    | This is a success notification...
-                p(style='margin-left:50px;')
-                    strong Kasima Mendoza
-                    |  | October 8,2023
-            .alert.alert-info.alert-white.rounded
-                .icon
-                    i.fa.fa-info-circle
-                p(style='margin-left:50px;')
-                    | This is an info notification...
-                p(style='margin-left:50px;')
-                    strong Kasima Mendoza
-                    |  | October 8,2023
-            .alert.alert-warning.alert-white.rounded
-                .icon
-                    i.fa.fa-warning
-                p(style='margin-left:50px;')
-                    | This is a warning notification...
-                p(style='margin-left:50px;')
-                    strong Kasima Mendoza
-                    |  | October 8,2023
-            .alert.alert-danger.alert-white.rounded
-                .icon
-                    i.fa.fa-times-circle
-                p(style='margin-left:50px;')
-                    | This is an error notification...
-                p(style='margin-left:50px;')
-                    strong Kasima Mendoza
-                    |  | October 8,2023
-        label.modal-content-btn(for='modal-toggle') OK
-        div(syle='height: 500px; width: 200px;')
     .w3-top
         #pageStatusBar.w3-row
             .w3-bar.w3-amber.w3-small
@@ -71,11 +33,57 @@ body
                 a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='/accountsettings')
                     i.fa.fa-user.w3-margin-right
                     |   Account Settings
-                //a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='')
-                label.w3-bar-item.w3-button(for='modal-toggle')
-                    i.fa.fa-bell.w3-margin-right
-                    span.w3-badge.w3-right.w3-small.w3-green #{userUnseenNotifications}
-                    |   Notifications
+                .w3-dropdown-hover.w3-hide-small
+                    button.w3-button Notifications
+                        i.fa.fa-caret-down
+                    .w3-dropdown-content.w3-card-4.w3-bar-block
+                        //vvv this gets populated by notifications block
+                        #notifItem
+                            .alert.alert-success.alert-white.rounded
+                                .icon
+                                    i.fa.fa-check
+                                p(style='margin-left:50px;')
+                                    | This is a success notification...
+                                    | Delete this Notification
+                                p(style='margin-left:50px;')
+                                    strong Kasima Mendoza
+                                    |  | October 8,2023
+                                    a.w3-bar-item.w3-button View
+                        #notifItem
+                            .alert.alert-info.alert-white.rounded
+                                .icon
+                                    i.fa.fa-info-circle
+                                p(style='margin-left:50px;')
+                                    | This is an info notification...
+                                    | Delete this Notification
+                                p(style='margin-left:50px;')
+                                    strong Kasima Mendoza
+                                    |  | October 8,2023
+                                    a.w3-bar-item.w3-button View
+                        #notifItem
+                            .alert.alert-warning.alert-white.rounded
+                                .icon
+                                    i.fa.fa-warning
+                                p(style='margin-left:50px;')
+                                    | This is a warning notification...
+                                    | Delete this Notification
+                                p(style='margin-left:50px;')
+                                    strong Kasima Mendoza
+                                    |  | October 8,2023
+                                    a.w3-bar-item.w3-button View
+                        #notifItem
+                            .alert.alert-danger.alert-white.rounded
+                                .icon
+                                    i.fa.fa-times-circle
+                                p(style='margin-left:50px;')
+                                    | This is an error notification...
+                                    | Delete this Notification
+                                p(style='margin-left:50px;')
+                                    strong Kasima Mendoza
+                                    |  | October 8,2023
+                                    a.w3-bar-item.w3-button View
+                        #notifItem
+                            a.w3-bar-item.w3-button View All
                 a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='/logout')
                     img.w3-circle(src='../src/avatar3.png' style='height:23px;width:23px' alt='Avatar')
                     |  Logout
