@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="+formviewlayout.pug&#10;//Replicated layout.pub imports for use on formview.pug to avoid redundant imports when formview.pug extends layout.pug&#10;*index.js&#10;//Added user files on form view request response&#10;layout.pug&#10;//resolved icon bugs">
-      <change afterPath="$PROJECT_DIR$/views/js/client.navigation/set_features.js" afterDir="false" />
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*formviewlayout.pug&#10;//Added set_features.js functionalities&#10;*layout.pug&#10;//Added set_features.js functionalities&#10;+set_features.js&#10;//Created function to receive privileges and remove unnecessary features from sidebar">
+      <change afterPath="$PROJECT_DIR$/views/css/clienthandling/notifications.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/formviewlayout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formviewlayout.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/css/w3css4.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/w3css4.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/layout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,7 +64,14 @@
       <option name="project" value="LOCAL" />
       <updated>1696811465494</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="*formviewlayout.pug&#10;//Added set_features.js functionalities&#10;*layout.pug&#10;//Added set_features.js functionalities&#10;+set_features.js&#10;//Created function to receive privileges and remove unnecessary features from sidebar">
+      <created>1696816184249</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1696816184249</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -83,6 +89,7 @@
     <MESSAGE value="*layout.pug&#10;//fixed css call for navbar icons" />
     <MESSAGE value="+accountsettings.pug&#10;//Added initial account settings as placeholder&#10;*index.js&#10;//Added request and response for accountsettings.pug&#10;*layout&#10;//no idea what i did here" />
     <MESSAGE value="+formviewlayout.pug&#10;//Replicated layout.pub imports for use on formview.pug to avoid redundant imports when formview.pug extends layout.pug&#10;*index.js&#10;//Added user files on form view request response&#10;layout.pug&#10;//resolved icon bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="+formviewlayout.pug&#10;//Replicated layout.pub imports for use on formview.pug to avoid redundant imports when formview.pug extends layout.pug&#10;*index.js&#10;//Added user files on form view request response&#10;layout.pug&#10;//resolved icon bugs" />
+    <MESSAGE value="*formviewlayout.pug&#10;//Added set_features.js functionalities&#10;*layout.pug&#10;//Added set_features.js functionalities&#10;+set_features.js&#10;//Created function to receive privileges and remove unnecessary features from sidebar" />
+    <option name="LAST_COMMIT_MESSAGE" value="*formviewlayout.pug&#10;//Added set_features.js functionalities&#10;*layout.pug&#10;//Added set_features.js functionalities&#10;+set_features.js&#10;//Created function to receive privileges and remove unnecessary features from sidebar" />
   </component>
 </project>

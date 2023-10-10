@@ -75,6 +75,24 @@ body {
   }
 }
 
+/** ---------- LOGIN PAGE REMEMBER ME CHECKBOX (cass) ---------- **/
+.label1 {
+  display: block;
+  padding-left: 30px;
+  text-indent: -20px;
+}
+.input1 {
+  width: 20px;
+  height: 13px;
+  padding: 0;
+  margin:0;
+  vertical-align: bottom;
+  position: relative;
+  top: -4px;
+  *overflow: hidden;
+}
+
+
 /* --------------- alert box (cass) ---------------- */
 
 #dialogoverlay{

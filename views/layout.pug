@@ -12,9 +12,48 @@ head
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css')
 
     link(rel='stylesheet' href='css/clienthandling/loader.css')
+    link(rel='stylesheet' href='css/clienthandling/notifications.css')
     script(src='https://code.jquery.com/jquery-3.7.0.js')
     script(src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js')
 body
+    .modal-container
+        input#modal-toggle(type='checkbox')
+        label.modal-backdrop(for='modal-toggle')
+        .modal-content.content(style='overflow-y:scroll;')
+            .alert.alert-success.alert-white.rounded
+                .icon
+                    i.fa.fa-check
+                p(style='margin-left:50px;')
+                    | This is a success notification...
+                p(style='margin-left:50px;')
+                    strong Kasima Mendoza
+                    |  | October 8,2023
+            .alert.alert-info.alert-white.rounded
+                .icon
+                    i.fa.fa-info-circle
+                p(style='margin-left:50px;')
+                    | This is an info notification...
+                p(style='margin-left:50px;')
+                    strong Kasima Mendoza
+                    |  | October 8,2023
+            .alert.alert-warning.alert-white.rounded
+                .icon
+                    i.fa.fa-warning
+                p(style='margin-left:50px;')
+                    | This is a warning notification...
+                p(style='margin-left:50px;')
+                    strong Kasima Mendoza
+                    |  | October 8,2023
+            .alert.alert-danger.alert-white.rounded
+                .icon
+                    i.fa.fa-times-circle
+                p(style='margin-left:50px;')
+                    | This is an error notification...
+                p(style='margin-left:50px;')
+                    strong Kasima Mendoza
+                    |  | October 8,2023
+        label.modal-content-btn(for='modal-toggle') OK
+        div(syle='height: 500px; width: 200px;')
     .w3-top
         #pageStatusBar.w3-row
             .w3-bar.w3-amber.w3-small
@@ -32,7 +71,8 @@ body
                 a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='/accountsettings')
                     i.fa.fa-user.w3-margin-right
                     |   Account Settings
-                a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='')
+                //a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='')
+                label.w3-bar-item.w3-button(for='modal-toggle')
                     i.fa.fa-bell.w3-margin-right
                     span.w3-badge.w3-right.w3-small.w3-green #{userUnseenNotifications}
                     |   Notifications
