@@ -301,3 +301,79 @@ function checkForExistingTextSpan(range) {
 
     return null;
 }
+
+
+// Backup
+function createTextBox() {
+     const select = document.getElementById("textBoxSelect");
+     select.className = "textbox";
+     const selectedValue = select.value;
+     var selectedTextBoxType = null;
+
+     if (selectedValue === "title") {
+       const div = document.createElement("h3");
+       div.className = "textbox";
+       div.setAttribute('contenteditable', 'true');
+       div.textContent = "This is a title.";
+       selectedTextBoxType = div;
+
+     } else if (selectedValue === "normal-text") {
+       const heading = document.createElement("h5");
+       heading.className = "textbox";
+       heading.setAttribute('contenteditable', 'true');
+       heading.textContent = "This is a paragraph.";
+       selectedTextBoxType = heading;
+
+     } else if (selectedValue === "paragraph") {
+       const p = document.createElement("p");
+       p.className = "textbox";
+       p.setAttribute('contenteditable', 'true');
+       p.textContent = "This is a subtitle.";
+       selectedTextBoxType = p;
+
+     }
+
+     console.log(selectedTextBoxType);
+
+      selectedTextBoxType.classList.add("element-spacing-5");
+
+      // Add click event listener to toggle selection
+      selectedTextBoxType = selectElement(selectedTextBoxType);
+
+      currentPageContent.appendChild(selectedTextBoxType);
+   }
+
+
+       function createTable() {
+         const table = document.createElement("table");
+         const tableBody = document.createElement("tbody");
+
+         // Create table header row
+         const headerRow = document.createElement("tr");
+         const headerCell1 = document.createElement("th");
+         headerCell1.textContent = "Header 1";
+         const headerCell2 = document.createElement("th");
+         headerCell2.textContent = "Header 2";
+         headerRow.appendChild(headerCell1);
+         headerRow.appendChild(headerCell2);
+
+         // Create table data rows
+         for (let i = 1; i <= 3; i++) {
+           const row = document.createElement("tr");
+           let cell1 = document.createElement("td");
+           cell1 = selectElement(cell1);
+           cell1.setAttribute('contenteditable', 'true');
+           let cell2 = document.createElement("td");
+           cell2 = selectElement(cell2);
+
+           row.appendChild(cell1);
+           row.appendChild(cell2);
+           tableBody.appendChild(row);
+         }
+
+         table.classList.add("table");
+         table.setAttribute('contenteditable', 'true');
+         table.appendChild(headerRow);
+         table.appendChild(tableBody);
+         currentPageContent.appendChild(table);
+       }

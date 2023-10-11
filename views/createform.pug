@@ -118,7 +118,7 @@ block body
                                     .w3-underline.w3-center.w3-margin-left.w3-margin-right
                                         | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
                                     hr.w3-newline
-                                    input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+                                    input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
 
                                 hr.w3-clear
 
@@ -132,7 +132,7 @@ block body
                                         .w3-underline.w3-center.w3-margin-left.w3-margin-right
                                             | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
                                         hr.w3-newline
-                                        input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+                                        input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
 
                                     .w3-col.s3
                                         table.table.w3-bold.w3-padding-64.w3-hover-light-grey.w3-font-size-10.header-table
@@ -155,11 +155,11 @@ block body
                                 .header.w3-row-center.w3-container.table.draggable.w3-hover-light-grey(draggable='true')
                                     .w3-col-center.s2
                                     .w3-col.s5.w3-bold
-                                        input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+                                        input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
                                         hr.w3-newline
-                                        input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='SCHOOL YEAR [EX: AY 2022-2023]')
+                                        input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='SCHOOL YEAR [EX: AY 2022-2023]')
                                         hr.w3-newline
-                                        input.w3-input.w3-center.w3-row(type='date' placeholder='set deadline')
+                                        input.w3-input.w3-center.w3-row(readonly type='date' placeholder='set deadline')
 
                                     .w3-col-center.s3
                                         .w3-all-center.w3-container
@@ -175,37 +175,35 @@ block body
                                 .w3-row.table.draggable.w3-margin-left.w3-margin-right.w3-hover-light-grey(draggable='true')
                                     .w3-row
                                         p.w3-col.s2.w3-left-align.w3-label SLU ID NO:
-                                        input.w3-input.w3-col.s9(type='text' maxlength='7' size='7' placeholder='ID NUMBER')
+                                        input.w3-input.w3-col.s9(readonly type='text' maxlength='7' size='7' placeholder='ID NUMBER')
 
                                     .w3-row
                                         p.w3-col.s2.w3-left-align.w3-label NAME
-                                        input.w3-input.w3-col.s3(type='text' maxlength='50' minlength='3' placeholder='FAMILY NAME')
-                                        input.w3-input.w3-col.s3(type='text' maxlength='50' minlength='3' placeholder='FIRST NAME')
-                                        input.w3-input.w3-col.s3(type='text' maxlength='2' placeholder='MI')
-
-                                    hr.w3-newline.w3-margin-top
+                                        input.w3-input.w3-col.s3(readonly type='text' maxlength='50' minlength='3' placeholder='FAMILY NAME')
+                                        input.w3-input.w3-col.s3(readonly type='text' maxlength='50' minlength='3' placeholder='FIRST NAME')
+                                        input.w3-input.w3-col.s3(readonly type='text' maxlength='2' placeholder='MI')
 
                                     .w3-row.w3-all-center
                                         p.w3-col.s4.w3-left-align.w3-label Academic Status/Classification: According to Tenure:
-                                        label.checkbox-label.w3-col.s5
-                                            input(type='checkbox' value='probationary' name="academicStatus")
+                                        label.checkbox-label.w3-col.s6
+                                            input(readonly type='checkbox' value='probationary' name="academicStatus")
                                             |                         Probationary
                                         hr.w3-newline.w3-margin-top
                                         label.checkbox-label.w3-col.s5
-                                            input(type='checkbox' value='permanent' name="academicStatus")
+                                            input(readonly type='checkbox' value='permanent' name="academicStatus")
                                             |                         Permanent
                                         hr.w3-newline.w3-margin-top
                                         label.checkbox-label.w3-col.s5
-                                            input(type='checkbox' name="academicStatus" value='contractual')
+                                            input(readonly type='checkbox' name="academicStatus" value='contractual')
                                             |                         Contractual
                                     .w3-row.w3-all-center
                                         p.w3-col.s4.w3-left-align.w3-label Subject Load:
                                         label.checkbox-label.w3-col.s5
-                                            input#full-time(type='checkbox' name='subject_load' value='full-time')
+                                            input#full-time(readonly type='checkbox' name='subject_load' value='full-time')
                                             |                         Full-Time
                                         hr.w3-newline.w3-margin-top
                                         label.checkbox-label.w3-col.s5
-                                            input#part-time(type='checkbox' name='subject_load' value='part-time')
+                                            input#part-time(readonly type='checkbox' name='subject_load' value='part-time')
                                             |                         Part Time
                                         hr.w3-newline.w3-margin-top
                                         label.checkbox-label.w3-col.s5
@@ -215,8 +213,8 @@ block body
                             .w3-row.w3-padding-16
                                 h4.w3-bold.w3-khaki.w3-padding-16.w3-center Grouped Fields
                                 .w3-row-center.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
-                                    textarea.w3-textarea.w3-bold(type='text' placeholder='Table Title')
-                                    textarea.w3-textarea(type='text' placeholder='Table Description')
+                                    textarea.w3-textarea(readonly type='text' placeholder='Table Title')
+                                    textarea.w3-textarea(readonly type='text' placeholder='Table Description')
                                     hr.newline
                                     table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
                                         thead
@@ -238,7 +236,7 @@ block body
                                                 td
 
                                 .w3-row-center.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
-                                        textarea.w3-textarea.w3-row.w3-bold.textarea(type='text' placeholder='Table Title')
+                                        textarea.w3-textarea.w3-row.textarea(readonly type='text' placeholder='Table Title')
                                         hr.newline
                                         table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
                                             thead
@@ -260,7 +258,7 @@ block body
                                                     td
 
                                 .w3-row-center.w3-container.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
-                                        textarea.w3-textarea.w3-row.w3-bold(type='text' placeholder='Table Title')
+                                        textarea.w3-textarea.w3-row(readonly type='text' placeholder='Table Title')
                                         hr.newline
                                         table.table.w3-margin-top.w3-bold.w3-hover-light-grey.draggable
                                             thead
@@ -287,13 +285,13 @@ block body
 
                             .w3-row.w3-padding-16
                                 h4.w3-bold.w3-khaki.w3-padding-16.w3-center Text Fields
-                                h3.textbox.w3-row.w3-container.table.draggable.w3-hover-light-grey(contenteditable="true", draggable="true")
+                                h3.textbox.w3-row.w3-container.table.draggable.w3-hover-light-grey(draggable="true")
                                     |                         This is a sample title
                                 hr.w3-clear
-                                h5.textbox.w3-row.w3-container.table.draggable.w3-hover-light-grey(contenteditable="true", draggable="true")
+                                h5.textbox.w3-row.w3-container.table.draggable.w3-hover-light-grey(draggable="true")
                                     |                         This is a sample normal text
                                 hr.w3-clear
-                                p.textbox.w3-container.table.draggable.w3-hover-light-grey(contenteditable="true", draggable="true")
+                                p.textbox.w3-container.table.draggable.w3-hover-light-grey(draggable="true")
                                     |                         This is a sample subtitle
 
                             hr.w3-newline-2
@@ -310,9 +308,9 @@ block body
                                         a.w3-col.w3-hide-small.w3-hover-white.w3-center.signature(href='')
                                             i.fa.fa-pencil-square.icon-light
                                             |                         Upload Signature [PNG|JPG]
-                                        input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                        input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                                         p (SIGNATURE OVER PRINTED NAME)
-                                        input.w3-input.w3-font-size-12(type='date' placeholder='Date')
+                                        input.w3-input.w3-font-size-12(readonly type='date' placeholder='Date')
 
                                 hr.w3-clear
                                 .w3-row-center.w3-container.w3-bold.table.draggable.w3-hover-light-grey(draggable='true')
@@ -321,49 +319,49 @@ block body
                                         a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                                             i.fa.fa-pencil-square.icon-light
                                             |                         Upload Signature [PNG|JPG]
-                                        input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                        input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                                         |                     Department Head
                                     .w3-col.s3.w3-padding-16.w3-margin.w3-left
                                             h6 Noted by
                                             a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                                                 i.fa.fa-pencil-square.icon-light
                                                 |                         Upload Signature [PNG|JPG]
-                                            input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                            input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                                             |                     Director of Libraries
                                     .w3-col.s3.w3-padding-16.w3-margin.w3-left
                                             h6 Approved by
                                             a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                                                 i.fa.fa-pencil-square.icon-light
                                                 |                         Upload Signature [PNG|JPG]
-                                            input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                            input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                                             |                     OIC-Dean
 
                                 hr.w3-clear
 
                                 .w3-row-center.table.draggable.w3-hover-light-grey(draggable='true')
                                     .w3-col.s3.w3-padding-16.w3-margin.w3-left
-                                        input.w3-input.w3-font-size-14(type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
+                                        input.w3-input.w3-font-size-14(readonly type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
                                         a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-16(href='')
                                             i.fa.fa-pencil-square.icon-light
                                             |                         Upload Signature [PNG|JPG]
-                                        input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
-                                        input.w3-input.w3-font-size-14(type='text' placeholder='POSITION')
+                                        input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
+                                        input.w3-input.w3-font-size-14(readonly type='text' placeholder='POSITION')
 
                                     .w3-col.s3.w3-padding-16.w3-margin.w3-left
-                                        input.w3-input.w3-font-size-14(type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
+                                        input.w3-input.w3-font-size-14(readonly type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
                                         a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-16(href='')
                                             i.fa.fa-pencil-square.icon-light
                                             |                         Upload Signature [PNG|JPG]
-                                        input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
-                                        input.w3-input.w3-font-size-14(type='text' placeholder='POSITION')
+                                        input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
+                                        input.w3-input.w3-font-size-14(readonly type='text' placeholder='POSITION')
 
                                     .w3-col.s3.w3-padding-16.w3-margin.w3-left
-                                        input.w3-input.w3-font-size-14(type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
+                                        input.w3-input.w3-font-size-14(readonly type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
                                         a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-16(href='')
                                             i.fa.fa-pencil-square.icon-light
                                             |                         Upload Signature [PNG|JPG]
-                                        input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
-                                        input.w3-input.w3-font-size-14(type='text' placeholder='POSITION')
+                                        input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
+                                        input.w3-input.w3-font-size-14(readonly type='text' placeholder='POSITION')
                                     hr.w3-clear
 
                                     .w3-row-center.table.draggable.w3-hover-light-grey(draggable='true')
@@ -374,10 +372,10 @@ block body
                                                 a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-12(href='')
                                                     i.fa.fa-pencil-square.icon-light
                                                     |                             Upload Signature [PNG|JPG]
-                                                input.w3-input.w3-font-size-12(type='text' placeholder='FULL NAME')
+                                                input.w3-input.w3-font-size-12(readonly type='text' placeholder='FULL NAME')
                                                 h6.w3-center.w3-font-size-15 Associate Dean
                                             .w3-col.s4.w3-margin-left.w3-padding-16
-                                                input.w3-input.w3-font-size-12(type='date' placeholder='Date')
+                                                input.w3-input.w3-font-size-12(readonly type='date' placeholder='Date')
                                         .w3-row
                                             .w3-col.s3.w3-padding-16
                                                 p.w3-font-size-14  Approved By:
@@ -385,10 +383,10 @@ block body
                                                 a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
                                                     i.fa.fa-pencil-square.icon-light
                                                     |                             Upload Signature [PNG|JPG]
-                                                input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                                input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                                                 h6.w3-center.w3-font-size-15 SAMCIS Dean
                                             .w3-col.s4.w3-margin-left.w3-padding-16
-                                                input.w3-input.w3-font-size-14(type='date' placeholder='Date')
+                                                input.w3-input.w3-font-size-14(readonly type='date' placeholder='Date')
                                         .w3-row
                                             .w3-col.s3.w3-padding-16
                                                 p.w3-font-size-14  Prepared By:
@@ -396,10 +394,10 @@ block body
                                                 a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
                                                     i.fa.fa-pencil-square.icon-light
                                                     |                             Upload Signature [PNG|JPG]
-                                                input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                                input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                                                 h6.w3-center.w3-font-size-15 Department Head
                                             .w3-col.s4.w3-margin-left.w3-padding-16
-                                                input.w3-input.w3-font-size-14(type='date' placeholder='Date')
+                                                input.w3-input.w3-font-size-14(readonly type='date' placeholder='Date')
                                 hr.w3-clear
 
                                 .w3-row.table.draggable.w3-hover-light-grey(draggable='true')
@@ -409,10 +407,10 @@ block body
                                         a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
                                             i.fa.fa-pencil-square.icon-light
                                             |                         Upload Signature [PNG|JPG]
-                                            input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                            input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                                             h6.w3-center.w3-font-size-15 Department Head
                                     .w3-col.s4.w3-margin-left.w3-padding-16
-                                        input.w3-input.w3-font-size-14(type='date' placeholder='Date')
+                                        input.w3-input.w3-font-size-14(readonly type='date' placeholder='Date')
 
                                 hr.w3-clear
 
@@ -423,10 +421,10 @@ block body
                                         a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
                                             i.fa.fa-pencil-square.icon-light
                                             |                         Upload Signature [PNG|JPG]
-                                        input.w3-input.w3-font-size-14(type='text' placeholder='FULL NAME')
+                                        input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                                         h6.w3-center.w3-font-size-15 SAMCIS Dean
                                     .w3-col.s4.w3-margin-left.w3-padding-16
-                                        input.w3-input.w3-font-size-14(type='date' placeholder='Date')
+                                        input.w3-input.w3-font-size-14(readonly type='date' placeholder='Date')
 
                                 hr.w3-clear
 
@@ -437,10 +435,10 @@ block body
                                         a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-12(href='')
                                             i.fa.fa-pencil-square.icon-light
                                             |                         Upload Signature [PNG|JPG]
-                                        input.w3-input.w3-font-size-12(type='text' placeholder='FULL NAME')
+                                        input.w3-input.w3-font-size-12(readonly type='text' placeholder='FULL NAME')
                                         h6.w3-center.w3-font-size-15 Associate Dean
                                     .w3-col.s4.w3-margin-left.w3-padding-16
-                                        input.w3-input.w3-font-size-12(type='date' placeholder='Date')
+                                        input.w3-input.w3-font-size-12(readonly type='date' placeholder='Date')
 
                                 hr.w3-clear
 
@@ -473,10 +471,10 @@ block body
                                             th Header 1
                                             th Header 2
                                         tr
-                                            td
+                                            td Text 1
                                             td
                                         tr
-                                            td
+                                            td Text 2
                                             td
 
                                 table.draggable.table.w3-bold.w3-hover-light-grey(draggable='true')
@@ -487,12 +485,12 @@ block body
                                             th Header 3
                                             th Header 4
                                         tr
-                                            td
+                                            td Text 1
                                             td
                                             td
                                             td
                                         tr
-                                            td
+                                            td Text 2
                                             td
                                             td
                                             td
@@ -500,13 +498,13 @@ block body
                                 table.draggable.table.w3-bold.w3-hover-light-grey(draggable='true')
                                     tbody
                                         tr
-                                            td
-                                            td
-                                        tr
-                                            td
+                                            td Row 1
                                             td
                                         tr
+                                            td Row 2
                                             td
+                                        tr
+                                            td Row 3
                                             td
 
     script.
