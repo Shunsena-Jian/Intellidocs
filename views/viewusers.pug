@@ -28,19 +28,7 @@ block body
                                         i.fa.fa-times.w3-text-theme
 
     script.
-        //------------------------------------------------------------------------
-        //this block needs to be deployed everywhere
-        //USED FOR RESEAT LOGIC
-        var receivedUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
-        var reconID = receivedUserDetailsBlock.empID;
-        //USED FOR IDLE LOGIC
-        var min_handlingTime = #{min_idleTime};
-        //console.log(min_handlingTime);
         //USED FOR TABLE ON THIS PAGE
         var table = $('#usersTable').DataTable();
-        //------------------------------------------------------------------------
-    script(src="js/socket.io/socket.io.js")
-    script(src="js/client.socket/handle_reconnect.js")
-    script(src="js/client.navigation/handle_idle.js")
-    script(src="js/client.navigation/handle_side_bar.js")
+
 

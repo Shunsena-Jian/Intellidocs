@@ -21,17 +21,3 @@ block body
                                 b  Last Edited:
                                 |  None for now
                             a(href=`/formview/${forms.form_control_number}`) View Form
-    script.
-        //------------------------------------------------------------------------
-        //this block needs to be deployed everywhere
-        //USED FOR RESEAT LOGIC
-        var receivedUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
-        var reconID = receivedUserDetailsBlock.empID;
-        //USED FOR IDLE LOGIC
-        var min_handlingTime = #{min_idleTime};
-        //console.log(min_handlingTime);
-        //------------------------------------------------------------------------
-    script(src="js/socket.io/socket.io.js")
-    script(src="js/client.socket/handle_reconnect.js")
-    script(src="js/client.navigation/handle_idle.js")
-    script(src="js/client.navigation/handle_side_bar.js")
