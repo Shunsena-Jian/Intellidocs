@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*index.js&#10;//Completed template request response cycle&#10;*viewformtemplate.pug&#10;//Prepared to receive template object&#10;+viewformtemplatelayout.pug&#10;//replicated layout to avoid redundant imports">
-      <change afterPath="$PROJECT_DIR$/views/sidebar.pug" afterDir="false" />
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*views.*&#10;//Improved pug layout and inclusion">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/accountsettings.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/accountsettings.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/createusers.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createusers.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/formviewlayout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formviewlayout.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/layout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/managedeadlines.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/managedeadlines.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/managenotifications.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/managenotifications.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/submissions.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/submissions.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/uploadfiles.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/uploadfiles.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewforms.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewforms.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/viewformtemplate.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewformtemplate.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/viewformtemplatelayout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewformtemplatelayout.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewformtemplates.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewformtemplates.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewreports.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewreports.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewusers.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewusers.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +114,14 @@
       <option name="project" value="LOCAL" />
       <updated>1696980102623</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="*views.*&#10;//Improved pug layout and inclusion">
+      <created>1696985258082</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1696985258082</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -150,6 +146,7 @@
     <MESSAGE value="*createforms.pug&#10;//Fixed rerouting when successful from saving&#10;*index.js&#10;//renamed saveform request response&#10;*layout.pug&#10;//Prepared form flow structure&#10;+viewformtemplate.pug&#10;//Prepared to receive templates&#10;+viewformtemplates.put&#10;//Prepared to receive templates" />
     <MESSAGE value="*index.js&#10;//Added view form templates reqeust response&#10;*viewformtemplates.pug&#10;//Prepared to call view form template request response" />
     <MESSAGE value="*index.js&#10;//Completed template request response cycle&#10;*viewformtemplate.pug&#10;//Prepared to receive template object&#10;+viewformtemplatelayout.pug&#10;//replicated layout to avoid redundant imports" />
-    <option name="LAST_COMMIT_MESSAGE" value="*index.js&#10;//Completed template request response cycle&#10;*viewformtemplate.pug&#10;//Prepared to receive template object&#10;+viewformtemplatelayout.pug&#10;//replicated layout to avoid redundant imports" />
+    <MESSAGE value="*views.*&#10;//Improved pug layout and inclusion" />
+    <option name="LAST_COMMIT_MESSAGE" value="*views.*&#10;//Improved pug layout and inclusion" />
   </component>
 </project>

@@ -510,18 +510,6 @@ block body
                                             td
 
     script.
-        //------------------------------------------------------------------------
-        //this block needs to be deployed everywhere
-        //USED FOR RESEAT LOGIC
-        var receivedUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
-        var reconID = receivedUserDetailsBlock.empID;
-        //USED FOR IDLE LOGIC
-        var min_handlingTime = #{min_idleTime};
-        //console.log(min_handlingTime);
-        //------------------------------------------------------------------------
-        //playground
-
-
         function saveForm(){
             var formBody = document.getElementById('form-content').innerHTML;
             var formName = document.getElementById('formName').value;
@@ -547,12 +535,6 @@ block body
 
         //end of play playground
 
-
-    script(src="../js/socket.io/socket.io.js")
-    script(src="../js/client.socket/handle_reconnect.js")
-    script(src="../js/client.navigation/handle_idle.js")
-    script(src="../js/client.navigation/handle_side_bar.js")
-
     script.
         // Not working, to be debugged
         function restrictCheckBoxSelection() {
@@ -573,7 +555,6 @@ block body
         }
 
         restrictCheckBoxSelection();
-
 
         /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
         function openNavigation() {

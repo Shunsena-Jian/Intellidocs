@@ -50,30 +50,7 @@ block body
                         input.bottone5(type="submit", value="Upload")
 
     script.
-        //------------------------------------------------------------------------
-        //this block needs to be deployed everywhere
-        //USED FOR RESEAT LOGIC
-        var receivedUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
-        var reconID = receivedUserDetailsBlock.empID;
-        //USED FOR IDLE LOGIC
-        var min_handlingTime = #{min_idleTime};
-        //console.log(min_handlingTime);
-        //------------------------------------------------------------------------
-        // start of playground
         var formBlock = !{JSON.stringify(currentForm)};
-        //console.log(formBlock.form_content);
         var receivedFormContent = formBlock.form_content;
         var theContainerOfTheForm = document.getElementById('theContainerOfTheForm');
         theContainerOfTheForm.innerHTML = receivedFormContent;
-        // end of playground
-    script(src="../js/socket.io/socket.io.js")
-    script(src="../js/client.socket/handle_reconnect.js")
-    script(src="../js/client.navigation/handle_idle.js")
-    script(src="../js/client.navigation/handle_side_bar.js")
-    script(src="../js/client.functions/handle_ajax_upload.js")
-    script(src="../js/client.functions/handle_ajax_delete.js")
-
-    //script(src='https://code.jquery.com/jquery-1.12.4.js') -- CONFLICT WITH OUR DATA TABLE
-    //script(src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js') -- CONFLICT WITH OUR DATA TABLE
-    //script(src='https://html2canvas.hertzen.com/dist/html2canvas.js') -- CONFLICT WITH OUR DATA TABLE
-    //script(src='../js/create_form_drag_drop.js') -- CONFLICT WITH OUR DATA TABLE
