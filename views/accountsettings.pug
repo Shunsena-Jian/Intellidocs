@@ -20,6 +20,12 @@ block body
                         .form_item
                             label(style='font-family:Courier New, monospace;; font-weight:normal;') User Level
                             input(type='text', readonly, value = `${currentUserDetailsBlock.userLevel}`)
+                    .form_wrap.fullname
+                        .form_item
+                            label(style='font-family:Courier New, monospace;; font-weight:normal;') Upload Picture
+                            form(enctype="multipart/form-data" id="upload-picture")
+                                input.bottone5(type="file", name="file", id="file")
+                                input.bottone5(type="submit", value="Upload")
                     .btnPosition
                           button.btn(onclick="showChangePasswordModal()") Update Password
         #changePasswordModal.w3-modal
@@ -49,5 +55,5 @@ block body
         function hideChangePasswordModal(){
             changePasswordModal.style.display = 'none';
         }
-
+    script(src="/js/client.functions/handle_ajax_upload_pictures.js")
 

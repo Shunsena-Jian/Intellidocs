@@ -20,7 +20,8 @@ const { MongoClient,
         initializeFilesCollectionConnection,
         initializeNotificationsCollectionConnection,
         initializeDatabaseConnection,
-        initializeFormsCollectionConnection} = require('./dbinit.js');
+        initializeFormsCollectionConnection,
+        initializePicturesCollectionConnection } = require('./dbinit.js');
 
 const db = initializeDatabaseConnection(url,dbName);
 const users = initializeUsersCollectionConnection(db);
@@ -28,6 +29,7 @@ const files = initializeFilesCollectionConnection(db);
 const privileges = initializePrivilegesCollectionConnection(db);
 const notifications = initializeNotificationsCollectionConnection(db);
 const forms = initializeFormsCollectionConnection(db);
+const pictures = initializePicturesCollectionConnection(db);
 
 const port = config.port;
 const debug_mode = config.debug_mode;
@@ -97,6 +99,19 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+const pictureStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const uploadDirectory = 'views/profile_pictures/' + req.session.userEmpID;
+        fs.mkdirSync(uploadDirectory, { recursive: true });
+        cb(null, uploadDirectory);
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+
+const pictureUpload = multer({ storage: pictureStorage });
 
 app.get('/deletefile/:file_name', function(req, res){
     var selectedFileForDeletion = req.params.file_name;
@@ -189,6 +204,7 @@ app.get('/formview/:form_control_number', async function (req, res){
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         res.render('formview', {
             title: 'View Forms',
@@ -197,6 +213,7 @@ app.get('/formview/:form_control_number', async function (req, res){
             currentUserPrivileges: currentUserPrivileges,
             currentUserNotifications: currentUserNotifications,
             currentForm: currentForm,
+            currentUserPicture: currentUserPicture,
             min_idleTime: min_idleTime
         });
 
@@ -215,6 +232,7 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         res.render('viewformtemplate', {
             title: 'View Forms',
@@ -223,6 +241,7 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
             currentUserPrivileges: currentUserPrivileges,
             currentUserNotifications: currentUserNotifications,
             currentForm: currentForm,
+            currentUserPicture: currentUserPicture,
             min_idleTime: min_idleTime
         });
 
@@ -241,6 +260,7 @@ app.get('/', async function (req, res) {
             currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
             currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
             currentUserNotifications = await getNotifications(req.session.userEmpID);
+            currentUserPicture = await getUserPicture(req.session.userEmpID);
 
             res.render('index', {
                 title: 'Home Page',
@@ -248,6 +268,7 @@ app.get('/', async function (req, res) {
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
+                currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
         }
@@ -267,6 +288,7 @@ app.get('/accountsettings', async function (req, res) {
             currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
             currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
             currentUserNotifications = await getNotifications(req.session.userEmpID);
+            currentUserPicture = await getUserPicture(req.session.userEmpID);
 
             res.render('accountsettings', {
                 title: 'Account Settings',
@@ -274,6 +296,7 @@ app.get('/accountsettings', async function (req, res) {
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
+                currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
         }
@@ -441,6 +464,7 @@ app.post('/login', async function (req, res) {
                 currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
                 currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
                 currentUserNotifications = await getNotifications(req.session.userEmpID);
+                currentUserPicture = await getUserPicture(req.session.userEmpID);
 
                 res.render('index', {
                     title: 'Home Page',
@@ -448,6 +472,7 @@ app.post('/login', async function (req, res) {
                     currentUserFiles: currentUserFiles,
                     currentUserPrivileges: currentUserPrivileges,
                     currentUserNotifications: currentUserNotifications,
+                    currentUserPicture: currentUserPicture,
                     min_idleTime: min_idleTime
                 });
 
@@ -469,14 +494,14 @@ app.post('/login', async function (req, res) {
 });
 
 app.get('/createform', async function(req, res){
-    var requiredPrivilege = 'Create Templates';
+    var requiredPrivilege = 'Manage Templates';
     var accessGranted = false;
 
     if (req.session.loggedIn) {
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
-
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
@@ -485,6 +510,7 @@ app.get('/createform', async function(req, res){
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
+                currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
 
@@ -512,7 +538,7 @@ app.get('/createform', async function(req, res){
 });
 
 app.get('/viewforms', async function(req, res){
-    var requiredPrivilege = 'View Documents';
+    var requiredPrivilege = 'View Forms Only';
     var accessGranted = false;
 
     if (req.session.loggedIn) {
@@ -520,6 +546,7 @@ app.get('/viewforms', async function(req, res){
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentForms = await getForms(req.session.userEmpID);
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
@@ -530,6 +557,7 @@ app.get('/viewforms', async function(req, res){
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
                 currentForms: currentForms,
+                currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
 
@@ -557,9 +585,8 @@ app.get('/viewforms', async function(req, res){
     }
 });
 
-
 app.get('/viewformtemplates', async function(req, res){
-    var requiredPrivilege = 'View Documents';
+    var requiredPrivilege = 'Manage Templates';
     var accessGranted = false;
 
     if (req.session.loggedIn) {
@@ -567,6 +594,7 @@ app.get('/viewformtemplates', async function(req, res){
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentForms = await getForms(req.session.userEmpID);
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
@@ -577,6 +605,7 @@ app.get('/viewformtemplates', async function(req, res){
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
                 currentForms: currentForms,
+                currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
 
@@ -610,6 +639,7 @@ app.get('/submission', async function(req, res){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         res.render('submissions', {
             title: 'Submissions',
@@ -617,6 +647,7 @@ app.get('/submission', async function(req, res){
             currentUserFiles: currentUserFiles,
             currentUserPrivileges: currentUserPrivileges,
             currentUserNotifications: currentUserNotifications,
+            currentUserPicture: currentUserPicture,
             min_idleTime: min_idleTime
         });
     } else {
@@ -633,6 +664,7 @@ app.get('/viewreports', async function(req, res){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
@@ -643,6 +675,7 @@ app.get('/viewreports', async function(req, res){
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
+                currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
         } else {
@@ -669,6 +702,7 @@ app.get('/managenotifications', async function(req, res){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         res.render('managenotifications', {
             title: 'Manage Notifications',
@@ -676,6 +710,7 @@ app.get('/managenotifications', async function(req, res){
             currentUserFiles: currentUserFiles,
             currentUserPrivileges: currentUserPrivileges,
             currentUserNotifications: currentUserNotifications,
+            currentUserPicture: currentUserPicture,
             min_idleTime: min_idleTime
         });
     } else {
@@ -689,7 +724,7 @@ app.get('/managedeadlines', async function(req, res){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
-
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         res.render('managedeadlines', {
             title: 'Manage Deadlines',
@@ -697,6 +732,7 @@ app.get('/managedeadlines', async function(req, res){
             currentUserFiles: currentUserFiles,
             currentUserPrivileges: currentUserPrivileges,
             currentUserNotifications: currentUserNotifications,
+            currentUserPicture: currentUserPicture,
             min_idleTime: min_idleTime
         });
     } else {
@@ -705,7 +741,7 @@ app.get('/managedeadlines', async function(req, res){
 });
 
 app.get('/createusers', async function(req, res){
-    var requiredPrivilege = 'Add User';
+    var requiredPrivilege = 'User Management';
     var accessGranted = false;
 
     if (req.session.loggedIn) {
@@ -713,6 +749,7 @@ app.get('/createusers', async function(req, res){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
@@ -723,6 +760,7 @@ app.get('/createusers', async function(req, res){
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
+                currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
         } else {
@@ -802,7 +840,7 @@ app.post('/createusers', async function(req, res){
 });
 
 app.get('/manageuserroles', async function(req, res){
-    var requiredPrivilege = 'Edit User';
+    var requiredPrivilege = 'User Management';
     var accessGranted = false;
 
     if (req.session.loggedIn) {
@@ -810,6 +848,7 @@ app.get('/manageuserroles', async function(req, res){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         accessGranted = validateAction(currentUserDetailsBlock, requiredPrivilege);
 
@@ -820,6 +859,7 @@ app.get('/manageuserroles', async function(req, res){
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
+                currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
 
@@ -849,7 +889,7 @@ app.get('/manageuserroles', async function(req, res){
 });
 
 app.get('/manageusersettings', async function(req, res){
-    var requiredPrivilege = 'Edit User';
+    var requiredPrivilege = 'User Management';
     var accessGranted = false;
 
     if (req.session.loggedIn) {
@@ -857,6 +897,7 @@ app.get('/manageusersettings', async function(req, res){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
@@ -867,6 +908,7 @@ app.get('/manageusersettings', async function(req, res){
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
+                currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
 
@@ -898,7 +940,7 @@ app.get('/manageusersettings', async function(req, res){
 });
 
 app.get('/viewusers', async function(req, res) {
-    var requiredPrivilege = 'Edit User';
+    var requiredPrivilege = 'View Users';
     var accessGranted = false;
 
     try {
@@ -912,6 +954,7 @@ app.get('/viewusers', async function(req, res) {
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
@@ -923,6 +966,7 @@ app.get('/viewusers', async function(req, res) {
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
                 min_idleTime: min_idleTime,
+                currentUserPicture: currentUserPicture,
                 userAccounts: userAccounts
             });
 
@@ -956,15 +1000,54 @@ app.get('/viewusers', async function(req, res) {
     }
 });
 
-app.get('/uploadfiles', async function(req, res){
-    if (req.session.loggedIn) {
-        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        privileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        res.render('uploadfiles', {
-            title: 'Upload File Page', userDetails: currentUserDetailsBlock
-        });
-    } else {
-        res.redirect('login');
+//app.get('/uploadfiles', async function(req, res){
+//    if (req.session.loggedIn) {
+//        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+//        privileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+//        res.render('uploadfiles', {
+//            title: 'Upload File Page', userDetails: currentUserDetailsBlock
+//        });
+//    } else {
+//        res.redirect('login');
+//    }
+//});
+
+app.post('/accountsettings', pictureUpload.single('file'), async function (req, res) {
+    const uploadedPicture = req.file;
+
+    if(debug_mode){
+        logStatus("logging received file count " + req.file);
+    }
+
+    if (!uploadedPicture) {
+
+        if(debug_mode){
+            logStatus("No file Uploaded");
+        }
+
+    }else{
+        const {originalname} = uploadedPicture;
+        var uploadedPictureDirectory = "";
+        if(debug_mode){
+            logStatus("File Uploaded Successfully in " + `/views/profile_pictures/${currentUserDetailsBlock.firstName}/${originalname}`);
+        }
+
+        try{
+            uploadInfo = {
+                "emp_id": currentUserDetailsBlock.empID,
+                "path_file": "../profile_pictures/" + req.session.userEmpID + "/" + originalname
+            };
+
+            result = await pictures.insertOne(uploadInfo);
+            uploadedPictureDirectory = "../profile_pictures/" + req.session.userEmpID + "/" + originalname;
+            if(debug_mode){
+                logStatus("Inserted : " + uploadInfo.path_file);
+            }
+
+            res.json({uploadedPictureDirectory});
+        } catch(error){
+            console.log(error);
+        }
     }
 });
 
@@ -1004,6 +1087,24 @@ app.post('/upload', upload.single('file'), async function (req, res) {
         }
     }
 });
+
+async function getUserPicture(empID){
+    var userPicture;
+
+    try{
+        userPicture = await pictures.findOne({ emp_id: empID });
+
+        if(debug_mode){
+            logStatus("The picture is this: " + JSON.stringify(userPicture));
+        }
+    } catch (error){
+        if(debug_mode){
+            logStatus("Failed to retrieve user picture " + error);
+        }
+        throw error;
+    }
+    return userPicture;
+}
 
 async function getUserDetailsBlock(empID){
     var userDetailsBlock;

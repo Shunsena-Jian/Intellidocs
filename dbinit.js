@@ -16,6 +16,17 @@ function initializeDatabaseConnection(url,dbName){
     }
 }
 
+function initializePicturesCollectionConnection(db){
+    var pictures;
+    try{
+        pictures = db.collection('pictures');
+        console.log("Connected to the Database Pictures Collection.");
+        return pictures;
+    } catch(error){
+        console.log(error);
+    }
+}
+
 function initializeFormsCollectionConnection(db){
     var forms;
     try{
@@ -82,5 +93,6 @@ module.exports = {
     initializePrivilegesCollectionConnection,
     initializeUsersCollectionConnection,
     initializeNotificationsCollectionConnection,
-    initializeFormsCollectionConnection
+    initializeFormsCollectionConnection,
+    initializePicturesCollectionConnection
 };

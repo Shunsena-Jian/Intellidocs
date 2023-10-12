@@ -13,16 +13,16 @@ function setUpFeatures(privileges){
     for(i=0;i<privileges.length;i++){
         var currentPrivilege = privileges[i];
 
-        if(currentPrivilege == "Create Templates"){
+        if(currentPrivilege == "Manage Templates"){
             setUpCreateTemplateElement = true;
             console.log("THIS USER CAN CREATE TEMPLATES");
-        }else if(currentPrivilege == "View Reports"){
+        }else if(currentPrivilege == "Manage Reports"){
             setUpViewReportElement = true;
             console.log("THIS USER CAN VIEW REPORT");
-        }else if(currentPrivilege == "Add User"){
+        }else if(currentPrivilege == "User Management"){
             setUpAddUserElement = true;
             console.log("THIS USER CAN ADD USERS");
-        }else if(currentPrivilege == "Edit User"){
+        }else if(currentPrivilege == "View Users"){
             setUpEditUserElement = true;
             console.log("THIS USER CAN EDIT USERS");
         }
