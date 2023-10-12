@@ -90,6 +90,10 @@ block body
                     .page-container.w3-container.w3-white
                         .draggable-content
                             .w3-row.w3-padding-16
+                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Custom Fields
+                                button.w3-row
+                                    | Create Widget
+                            .w3-row.w3-padding-16
                                 h4.w3-bold.w3-khaki.w3-padding-16.w3-center Header Fields
 
                                 hr.w3-clear.w3-black
@@ -118,7 +122,7 @@ block body
                                     .w3-underline.w3-center.w3-margin-left.w3-margin-right
                                         | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
                                     hr.w3-newline
-                                    input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+                                    input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
 
                                 hr.w3-clear
 
@@ -132,7 +136,7 @@ block body
                                         .w3-underline.w3-center.w3-margin-left.w3-margin-right
                                             | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
                                         hr.w3-newline
-                                        input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+                                        input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
 
                                     .w3-col.s3
                                         table.table.w3-bold.w3-padding-64.w3-hover-light-grey.w3-font-size-10.header-table
@@ -155,11 +159,11 @@ block body
                                 .header.w3-row-center.w3-container.table.draggable.w3-hover-light-grey(draggable='true')
                                     .w3-col-center.s2
                                     .w3-col.s5.w3-bold
-                                        input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+                                        input.w3-input.w3-center.w3-row(re type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
                                         hr.w3-newline
-                                        input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='SCHOOL YEAR [EX: AY 2022-2023]')
+                                        input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='SCHOOL YEAR [EX: AY 2022-2023]')
                                         hr.w3-newline
-                                        input.w3-input.w3-center.w3-row(readonly type='date' placeholder='set deadline')
+                                        input.w3-input.w3-center.w3-row(type='date' placeholder='set deadline')
 
                                     .w3-col-center.s3
                                         .w3-all-center.w3-container
@@ -175,35 +179,35 @@ block body
                                 .w3-row.table.draggable.w3-margin-left.w3-margin-right.w3-hover-light-grey(draggable='true')
                                     .w3-row
                                         p.w3-col.s2.w3-left-align.w3-label SLU ID NO:
-                                        input.w3-input.w3-col.s9(readonly type='text' maxlength='7' size='7' placeholder='ID NUMBER')
+                                        input.w3-input.w3-col.s9(type='text' maxlength='7' size='7' placeholder='ID NUMBER')
 
                                     .w3-row
                                         p.w3-col.s2.w3-left-align.w3-label NAME
-                                        input.w3-input.w3-col.s3(readonly type='text' maxlength='50' minlength='3' placeholder='FAMILY NAME')
-                                        input.w3-input.w3-col.s3(readonly type='text' maxlength='50' minlength='3' placeholder='FIRST NAME')
-                                        input.w3-input.w3-col.s3(readonly type='text' maxlength='2' placeholder='MI')
+                                        input.w3-input.w3-col.s3(type='text' maxlength='50' minlength='3' placeholder='FAMILY NAME')
+                                        input.w3-input.w3-col.s3(type='text' maxlength='50' minlength='3' placeholder='FIRST NAME')
+                                        input.w3-input.w3-col.s3(type='text' maxlength='2' placeholder='MI')
 
                                     .w3-row.w3-all-center
                                         p.w3-col.s4.w3-left-align.w3-label Academic Status/Classification: According to Tenure:
                                         label.checkbox-label.w3-col.s6
-                                            input(readonly type='checkbox' value='probationary' name="academicStatus")
+                                            input(type='checkbox' value='probationary' name="academicStatus")
                                             |                         Probationary
                                         hr.w3-newline.w3-margin-top
                                         label.checkbox-label.w3-col.s5
-                                            input(readonly type='checkbox' value='permanent' name="academicStatus")
+                                            input(type='checkbox' value='permanent' name="academicStatus")
                                             |                         Permanent
                                         hr.w3-newline.w3-margin-top
                                         label.checkbox-label.w3-col.s5
-                                            input(readonly type='checkbox' name="academicStatus" value='contractual')
+                                            input(type='checkbox' name="academicStatus" value='contractual')
                                             |                         Contractual
                                     .w3-row.w3-all-center
                                         p.w3-col.s4.w3-left-align.w3-label Subject Load:
                                         label.checkbox-label.w3-col.s5
-                                            input#full-time(readonly type='checkbox' name='subject_load' value='full-time')
+                                            input#full-time(type='checkbox' name='subject_load' value='full-time')
                                             |                         Full-Time
                                         hr.w3-newline.w3-margin-top
                                         label.checkbox-label.w3-col.s5
-                                            input#part-time(readonly type='checkbox' name='subject_load' value='part-time')
+                                            input#part-time(type='checkbox' name='subject_load' value='part-time')
                                             |                         Part Time
                                         hr.w3-newline.w3-margin-top
                                         label.checkbox-label.w3-col.s5
@@ -364,40 +368,41 @@ block body
                                         input.w3-input.w3-font-size-14(readonly type='text' placeholder='POSITION')
                                     hr.w3-clear
 
-                                    .w3-row-center.table.draggable.w3-hover-light-grey(draggable='true')
-                                        .w3-row
-                                            .w3-col.s3.w3-padding-16
-                                                p.w3-font-size-14  Endorsed by:
-                                            .w3-col.s4.w3-padding-16.w3-font-size-14
-                                                a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-12(href='')
-                                                    i.fa.fa-pencil-square.icon-light
-                                                    |                             Upload Signature [PNG|JPG]
-                                                input.w3-input.w3-font-size-12(readonly type='text' placeholder='FULL NAME')
-                                                h6.w3-center.w3-font-size-15 Associate Dean
-                                            .w3-col.s4.w3-margin-left.w3-padding-16
-                                                input.w3-input.w3-font-size-12(readonly type='date' placeholder='Date')
-                                        .w3-row
-                                            .w3-col.s3.w3-padding-16
-                                                p.w3-font-size-14  Approved By:
-                                            .w3-col.s4.w3-padding-16
-                                                a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
-                                                    i.fa.fa-pencil-square.icon-light
-                                                    |                             Upload Signature [PNG|JPG]
-                                                input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
-                                                h6.w3-center.w3-font-size-15 SAMCIS Dean
-                                            .w3-col.s4.w3-margin-left.w3-padding-16
-                                                input.w3-input.w3-font-size-14(readonly type='date' placeholder='Date')
-                                        .w3-row
-                                            .w3-col.s3.w3-padding-16
-                                                p.w3-font-size-14  Prepared By:
-                                            .w3-col.s4.w3-padding-16
-                                                a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
-                                                    i.fa.fa-pencil-square.icon-light
-                                                    |                             Upload Signature [PNG|JPG]
-                                                input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
-                                                h6.w3-center.w3-font-size-15 Department Head
-                                            .w3-col.s4.w3-margin-left.w3-padding-16
-                                                input.w3-input.w3-font-size-14(readonly type='date' placeholder='Date')
+                                .w3-row-center.table.draggable.w3-hover-light-grey(draggable='true')
+                                    .w3-row
+                                        .w3-col.s3.w3-padding-16
+                                            p.w3-font-size-14  Endorsed by:
+                                        .w3-col.s4.w3-padding-16.w3-font-size-14
+                                            a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-12(href='')
+                                                i.fa.fa-pencil-square.icon-light
+                                                |                             Upload Signature [PNG|JPG]
+                                            input.w3-input.w3-font-size-12(readonly type='text' placeholder='FULL NAME')
+                                            h6.w3-center.w3-font-size-15 Associate Dean
+                                        .w3-col.s4.w3-margin-left.w3-padding-16
+                                            input.w3-input.w3-font-size-12(readonly type='date' placeholder='Date')
+                                    .w3-row
+                                        .w3-col.s3.w3-padding-16
+                                            p.w3-font-size-14  Approved By:
+                                        .w3-col.s4.w3-padding-16
+                                            a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
+                                                i.fa.fa-pencil-square.icon-light
+                                                |                         Upload Signature [PNG|JPG]
+                                            input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
+                                            h6.w3-center.w3-font-size-15 SAMCIS Dean
+                                        .w3-col.s4.w3-margin-left.w3-padding-16
+                                            input.w3-input.w3-font-size-14(readonly type='date' placeholder='Date')
+                                    .w3-row
+                                        .w3-col.s3.w3-padding-16
+                                            p.w3-font-size-14  Endorsed by:
+                                        .w3-col.s4.w3-padding-16.w3-font-size-14
+                                            a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-12(href='')
+                                                i.fa.fa-pencil-square.icon-light
+                                                |                         Upload Signature [PNG|JPG]
+                                            input.w3-input.w3-font-size-12(readonly type='text' placeholder='FULL NAME')
+                                            h6.w3-center.w3-font-size-15 Associate Dean
+                                        .w3-col.s4.w3-margin-left.w3-padding-16
+                                            input.w3-input.w3-font-size-12(readonly type='date' placeholder='Date')
+             
                                 hr.w3-clear
 
                                 .w3-row.table.draggable.w3-hover-light-grey(draggable='true')
@@ -582,7 +587,7 @@ block body
             document.getElementById("main").style.marginLeft = "0";
         }
 
-    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+    link(rel='stylesheet' href='hnodettps://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
     link(rel='stylesheet' href='../css/w3css4.css')
     link(rel='stylesheet' href='../css/w3-theme.css')
     link(rel='stylesheet' href='../css/text_editor.css')

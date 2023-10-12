@@ -27,6 +27,17 @@
   min-width:20px; /* Set a minimum width for each column */
 }
 
+.grid-container-vertical {
+  align-items:center;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: #ccc;
+  display: block;
+  border: 1px solid #ccc;
+  overflow-x: hidden;
+}
+
 
 .grid-item:hover {
   background: #808080;

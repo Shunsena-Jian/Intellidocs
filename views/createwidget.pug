@@ -1,0 +1,291 @@
+extends layout.pug
+
+block body
+    .w3-main#main(style='margin-left:250px')
+        .w3-row.w3-padding-64
+            h4.w3-bold Create Widget
+            input#formName.w3-col.s6.w3-input.w3-margin.w3-padding-16.w3-text-size-30(placeholder="Type Widget Name [Required]" required='')
+            button.w3-col.s2.w3-right.w3-input.w3-margin.w3-padding-16.w3-text-size-30
+                | Create Widget
+            hr.w3-clear
+            p.w3-center
+            .w3-row.w3-container
+                .grid-container.w3-white
+                    .grid-item
+                        label(for='modifyOrientation') Orientation:
+                        select#modifyOrientation(onchange='modifyOrientation()')
+                            option(value='square') Square
+                            option(value='landscape-rectangle') Landscape Rectangle
+                            option(value='portrait-rectangle') Portrait Rectangle
+
+                    .grid-item
+                        label(for='fontSizeSelect') Font Size:
+                        select#fontSizeSelect(onchange='changeFontSize()')
+                            // Generate font size options using JavaScript
+                            script.
+                                for (let i = 1; i <= 100; i++) {
+                                    document.write(`<option value="${i}">${i}</option>`);
+                                }
+                    .grid-item.borderless
+                    .grid-item
+                        label(for='colorSelect') Select Text Color:
+                        select#colorSelect(onchange='changeTextColor()')
+                            option(value='black') Black
+                            option(value='white') White
+                            option(value='red') Red
+                            option(value='blue') Blue
+                            option(value='grey') Grey
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeBold()')
+                            i.fa.fa-bold.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeItalic()')
+                            i.fa.fa-italic.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeUnderline()')
+                            i.fa.fa-underline.icon-light
+                    .grid-item.borderless
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignLeft()')
+                            i.fa.fa-align-left.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignRight()')
+                            i.fa.fa-align-right.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignCenter()')
+                            i.fa.fa-align-center.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignJustify()')
+                            i.fa.fa-align-justify.icon-light
+                    .grid-item.borderless
+                    .grid-item
+                        button.w3-button.w3-bold.w3-grey(onclick='saveForm()')
+                            | Export
+                    .grid-item.borderless
+
+            .w3-row.w3-container
+                .w3-twothird.w3-container
+                    #widget-content.pages
+                        #widget-canvas.w3-box
+
+
+                .w3-third
+                    .page-container.w3-container.w3-white
+                        .draggable-content
+                            .w3-row.w3-padding-16
+                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Sections
+                                .grid-container-vertical.w3-white.w3-container.draggable.table.w3-hover-light-grey.w3-ol(draggable='true')
+                                    .grid-item.w3-row.w3-border.w3-padding-16.container
+                                    .grid-item.w3-row.w3-border.w3-padding-16.container
+                                hr.w3-clear
+                                .grid-container.w3-white.w3-container.draggable.table.w3-hover-light-grey.w3-ol(draggable='true')
+                                    .grid-item.w3-col.s6.w3-border.w3-padding-16.container
+                                    .grid-item.w3-col.s6.w3-border.w3-padding-16.container
+                                hr.w3-clear
+                                .grid-container.w3-white.w3-container.draggable.table.w3-hover-light-grey.w3-ol(draggable='true')
+                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
+                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
+                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
+                                hr.w3-clear
+                                .grid-container.w3-white.w3-container.draggable.table.w3-hover-light-grey.w3-ol(draggable='true')
+                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
+                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
+                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
+                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
+                            .w3-row.w3-padding-16
+                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Text Fields
+                                h3.textbox.w3-row.w3-container.table.draggable.w3-hover-light-grey(draggable="true")
+                                    |                         This is a sample title
+                                hr.w3-clear
+                                h5.textbox.w3-row.w3-container.table.draggable.w3-hover-light-grey(draggable="true")
+                                    |                         This is a sample normal text
+                                hr.w3-clear
+                                textarea.w3-textarea.w3-row.w3-container.table.draggable.w3-hover-light-grey(draggable="true" readonly type='text' placeholder='This is a sample of a paragraph')
+                                h3.w3-clear
+                                input.draggable.table.w3-input.w3-center.w3-row(readonly draggable="true" type='date' placeholder='set deadline')
+
+                            hr.w3-newline-2
+
+                            .w3-row.w3-padding-16
+                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Image
+                                .w3-all-center.w3-container
+                                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.signature.w3-hover-light-grey(draggable='true')
+                                        i.fa.fa-pencil-square.icon-light
+                                        |                         Upload Signature [PNG|JPG]
+
+                                hr.w3-clear
+
+                                .w3-container
+                                    a.w3-button.w3-hide-small.signature.w3-hover-white.w3-hover-light-grey(draggable='true')
+                                        i.fa.fa-pencil-square.icon-light
+                                        hr.w3-newline
+                                        |             Upload 2x2 picture
+                            hr.w3-newline-2
+
+                            .w3-row.w3-padding-16
+                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Checkbox
+
+                                .grid-container.w3-white.w3-container.draggable.table.w3-ol.w3-hover-light-grey(draggable='true')
+                                    .grid-item
+                                        label.checkbox-label.w3-col.s6(for='text-1')
+                                            input#apple(type='radio' name='checkbox-1' value='text1' disabled)
+                                            |  Lorem Ipsum
+                                    .grid-item
+                                        label.checkbox-label.w3-col.s6(for='text2')
+                                            input#banana(type='radio' name='checkbox-1' value='text2' disabled)
+                                            |  Lorem Ipsum
+                                    .grid-item
+                                        label.checkbox-label.w3-col.s6(for='text2')
+                                            input#banana(type='radio' name='checkbox-1' value='text2' disabled)
+                                            |  Lorem Ipsum
+                                    .grid-item
+                                        label.checkbox-label.w3-col.s6(for='text2')
+                                            input#banana(type='radio' name='checkbox-1' value='text2' disabled)
+                                            |  Lorem Ipsum
+                            hr.w3-newline-2
+
+                            .w3-row.w3-padding-16
+                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Lists
+
+                                ol.w3-margin.w3-padding-16.w3-container.draggable.table.w3-hover-light-grey.w3-ol(draggable='true')
+                                    li item 1
+                                    li item 2
+                                    li item 3
+                                hr.w3-clear
+                                ul.w3-margin.w3-padding-16.w3-container.draggable.table.w3-hover-light-grey.w3-ul(draggable='true')
+                                    li item 1
+                                    li item 2
+                                    li item 3
+
+                            hr.w3-newline-2
+
+                            .w3-row.w3-padding-16
+                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Table
+                                table.draggable.table.w3-bold.w3-hover-light-grey(draggable='true')
+                                    tbody
+                                        tr
+                                            th Header 1
+                                            th Header 2
+                                        tr
+                                            td Text 1
+                                            td
+                                        tr
+                                            td Text 2
+                                            td
+
+                                table.draggable.table.w3-bold.w3-hover-light-grey(draggable='true')
+                                    tbody
+                                        tr
+                                            th Header 1
+                                            th Header 2
+                                            th Header 3
+                                            th Header 4
+                                        tr
+                                            td Text 1
+                                            td
+                                            td
+                                            td
+                                        tr
+                                            td Text 2
+                                            td
+                                            td
+                                            td
+
+                                table.draggable.table.w3-bold.w3-hover-light-grey(draggable='true')
+                                    tbody
+                                        tr
+                                            td Row 1
+                                            td
+                                        tr
+                                            td Row 2
+                                            td
+                                        tr
+                                            td Row 3
+                                            td
+
+    script.
+        function saveForm(){
+            var formBody = document.getElementById('form-content').innerHTML;
+            var formName = document.getElementById('formName').value;
+            var formControlNumber = document.getElementById('formControlNumber').value;
+
+            const data = {
+                name: formName,
+                formControlNumber: formControlNumber,
+                formContent: formBody
+            };
+
+            fetch('/savecreatedform', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            }).then(data => {
+                const success = data.success; // Assuming the response contains a 'success' property
+                if (success) {
+                    window.location.href = '/';
+                } else {
+                }
+            }).catch(error => {
+                console.error('Fetch error:', error);
+            });
+        }
+
+        //end of play playground
+
+    script.
+        // Not working, to be debugged
+        function restrictCheckBoxSelection() {
+        const checkboxes = document.querySelectorAll('input[name="academicStatus"]');
+        console.log(checkboxes);
+            console
+          // Add a change event listener to each checkbox
+                    checkboxes.forEach((checkbox) => {
+                        checkbox.addEventListener('change', function () {
+                            // Uncheck all other checkboxes in the group
+                            checkboxes.forEach((otherCheckbox) => {
+                                if (otherCheckbox !== this) {
+                                    otherCheckbox.checked = false;
+                                }
+                            });
+                        });
+                    });
+        }
+
+        restrictCheckBoxSelection();
+
+
+        /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+        function openNavigation() {
+            // Get the element by its ID
+            const sidebar = document.getElementById("mySidebar");
+            const main = document.getElementById("main");
+            // Toggle the classes for showing/hiding the sidebar
+            sidebar.classList.toggle("w3-show");
+            // Toggle the margin of the main content
+            main.style.marginLeft = "250px";
+            }
+        /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+
+    link(rel='stylesheet' href='hnodettps://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+    link(rel='stylesheet' href='../css/w3css4.css')
+    link(rel='stylesheet' href='../css/w3-theme.css')
+    link(rel='stylesheet' href='../css/text_editor.css')
+    link(rel='stylesheet' href='../css/create_form_style.css')
+
+    script(src='https://code.jquery.com/jquery-1.12.4.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js')
+    script(src='https://html2canvas.hertzen.com/dist/html2canvas.js')
+    script(src='js/create_widget.js')
+

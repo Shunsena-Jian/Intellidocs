@@ -1,7 +1,6 @@
 p {
     font-size:1.2rem;
     color: black;
-    text-align:center;
 }
 
 
@@ -53,7 +52,34 @@ p {
 .drop-container.landscape {
 height: 210mm;
 width: 297mm;
+}
 
+.w3-box{
+    height:200mm;
+    width: 200mm;
+    background: #FFFFFF;
+      margin: 10px auto; /* Center horizontally with margin:auto */
+      padding: 36px;
+      border: 1px solid #000000;
+      page-break-after: always;
+}
+.w3-portrait-rectangle{
+    height:250mm;
+    width: 200mm;
+    background: #FFFFFF;
+    margin: 10px auto; /* Center horizontally with margin:auto */
+    padding: 36px;
+    border: 1px solid #000000;
+    page-break-after: always;
+}
+.w3-landscape-rectangle{
+    height:200mm;
+    width: 250mm;
+    background: #FFFFFF;
+      margin: 10px auto; /* Center horizontally with margin:auto */
+      padding: 36px;
+      border: 1px solid #000000;
+      page-break-after: always;
 }
 
 
