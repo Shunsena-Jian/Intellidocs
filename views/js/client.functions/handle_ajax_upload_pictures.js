@@ -13,9 +13,8 @@ $(document).ready(function() {
             type: 'POST',
             data: formData,
             success: function(data) {
-                console.log('Picture uploaded successfully!');
-                console.log(data.uploadedPictureDirectory);
-                imageElement.src = data;
+                alert('Picture uploaded successfully!\n You must refresh to view changes.');
+
             },
             error: function(err) {
                 console.error('Error uploading file: ', err.responseText);

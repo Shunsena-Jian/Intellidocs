@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*viewtformtemplate.pug&#10;//now receives created form elements&#10;//BUGGED - TO BE FIXED BY FRONT END">
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*sidebar.pug&#10;//Added Create widget acnhor&#10;*index.js&#10;//Added createwidget request response&#10;*viewforms.pug&#10;//Added section for &quot;shared with you&quot;&#10;//Split to forms assigned and shared forms">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/sidebar.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/sidebar.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewforms.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewforms.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_upload_pictures.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_upload_pictures.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +132,14 @@
       <option name="project" value="LOCAL" />
       <updated>1696987104525</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="*sidebar.pug&#10;//Added Create widget acnhor&#10;*index.js&#10;//Added createwidget request response&#10;*viewforms.pug&#10;//Added section for &quot;shared with you&quot;&#10;//Split to forms assigned and shared forms">
+      <created>1697401573177</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1697401573177</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -162,6 +167,7 @@
     <MESSAGE value="*views.*&#10;//Improved pug layout and inclusion" />
     <MESSAGE value="*layout.*&#10;//Cascaded all extensions&#10;*views.*&#10;//Removed all KNOWN rotting blocks and lines" />
     <MESSAGE value="*viewtformtemplate.pug&#10;//now receives created form elements&#10;//BUGGED - TO BE FIXED BY FRONT END" />
-    <option name="LAST_COMMIT_MESSAGE" value="*viewtformtemplate.pug&#10;//now receives created form elements&#10;//BUGGED - TO BE FIXED BY FRONT END" />
+    <MESSAGE value="*sidebar.pug&#10;//Added Create widget acnhor&#10;*index.js&#10;//Added createwidget request response&#10;*viewforms.pug&#10;//Added section for &quot;shared with you&quot;&#10;//Split to forms assigned and shared forms" />
+    <option name="LAST_COMMIT_MESSAGE" value="*sidebar.pug&#10;//Added Create widget acnhor&#10;*index.js&#10;//Added createwidget request response&#10;*viewforms.pug&#10;//Added section for &quot;shared with you&quot;&#10;//Split to forms assigned and shared forms" />
   </component>
 </project>
