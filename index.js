@@ -537,6 +537,50 @@ app.get('/createform', async function(req, res){
     }
 });
 
+app.get('/createwidget', async function(req, res){
+    var requiredPrivilege = 'Manage Templates';
+    var accessGranted = false;
+
+    if (req.session.loggedIn) {
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
+        accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
+
+        if(accessGranted){
+            res.render('createform', {
+                title: 'Create Form',
+                currentUserDetailsBlock : currentUserDetailsBlock,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                currentUserPicture: currentUserPicture,
+                min_idleTime: min_idleTime
+            });
+
+            if(debug_mode){
+                logStatus("Access Granted!");
+            }
+        } else {
+            res.render('error_screen', {
+                title: 'Create Form',
+                currentUserDetailsBlock : currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentUserNotifications: currentUserNotifications,
+                min_idleTime: min_idleTime,
+                errorMSG : "Access Denied"
+            });
+
+            if(debug_mode){
+                logStatus("User Denied");
+            }
+        }
+    } else {
+        res.redirect('login');
+    }
+});
+
 app.get('/viewforms', async function(req, res){
     var requiredPrivilege = 'View Forms Only';
     var accessGranted = false;

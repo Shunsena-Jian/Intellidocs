@@ -2,22 +2,46 @@ extends layout.pug
 
 block body
     .w3-main(style='margin-left:250px')
-        .w3-row.w3-padding-64
-            .w3-container.w3-white.w3-round.w3-margin
-                h4 View Forms
-                hr.w3-clear
-                each forms in currentForms
-                    .w3-third.w3-container
-                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
-                            h3  #{forms.form_name}
-                            hr.w3-clear
-                            p
-                                b  Status:
-                                |  None for now
-                            p
-                                b  Date Created:
-                                |  None for now
-                            p
-                                b  Last Edited:
-                                |  None for now
-                            a(href=`/formview/${forms.form_control_number}`) View Form
+        .w3-row.w3-padding-32
+            .shadowEffect.w3-container2.w3-card.w3-white.w3-round.w3-margin
+                h1.w3-center View Forms
+
+        .w3-row
+            .w3-half
+                .shadowEffect.w3-container.w3-white.w3-round.w3-margin
+                    h3 To Do
+                    hr.w3-clear
+                    each forms in currentForms
+                        .w3-third.w3-container
+                            .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
+                                h3  #{forms.form_name}
+                                hr.w3-clear
+                                p
+                                    b  Status:
+                                    |  None for now
+                                p
+                                    b  Date Created:
+                                    |  None for now
+                                p
+                                    b  Last Edited:
+                                    |  None for now
+                                a(href=`/formview/${forms.form_control_number}`) View Form
+            .w3-half
+                .shadowEffect.w3-container.w3-white.w3-round.w3-margin
+                    h3 Forms shared with you
+                    hr.w3-clear
+                    each forms in currentForms
+                        .w3-third.w3-container
+                            .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
+                                h3  #{forms.form_name}
+                                hr.w3-clear
+                                p
+                                    b  Status:
+                                    |  None for now
+                                p
+                                    b  Date Created:
+                                    |  None for now
+                                p
+                                    b  Last Edited:
+                                    |  None for now
+                                a(href=`/formview/${forms.form_control_number}`) View Form
