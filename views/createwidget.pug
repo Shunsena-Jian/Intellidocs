@@ -65,67 +65,76 @@ block body
 
             .w3-row.w3-container
                 .w3-twothird.w3-container
-                    #widget-content.pages
-                        #widget-canvas.w3-box
+                    h6.w3-text-red.w3-bold.w3-italic Click on specific text fields to make them editable
+                .w3-twothird.w3-container
+                    #widget-canvas.w3-box
 
 
                 .w3-third
-                    .page-container.w3-container.w3-white
+                    .widget-container.w3-container.w3-white
                         .draggable-content
                             .w3-row.w3-padding-16
                                 h4.w3-bold.w3-khaki.w3-padding-16.w3-center Sections
-                                .grid-container-vertical.w3-white.w3-container.draggable.table.w3-hover-light-grey.w3-ol(draggable='true')
+                                .grid-container-vertical.w3-white.w3-container.draggable.box.w3-hover-light-grey.w3-ol(draggable='true')
                                     .grid-item.w3-row.w3-border.w3-padding-16.container
                                     .grid-item.w3-row.w3-border.w3-padding-16.container
                                 hr.w3-clear
-                                .grid-container.w3-white.w3-container.draggable.table.w3-hover-light-grey.w3-ol(draggable='true')
+                                .grid-container.w3-white.w3-container.draggable.box.w3-hover-light-grey.w3-ol(draggable='true')
                                     .grid-item.w3-col.s6.w3-border.w3-padding-16.container
                                     .grid-item.w3-col.s6.w3-border.w3-padding-16.container
                                 hr.w3-clear
-                                .grid-container.w3-white.w3-container.draggable.table.w3-hover-light-grey.w3-ol(draggable='true')
+                                .grid-container.w3-white.w3-container.draggable.box.w3-hover-light-grey.w3-ol(draggable='true')
                                     .grid-item.w3-col.s4.w3-border.w3-padding-16.container
                                     .grid-item.w3-col.s4.w3-border.w3-padding-16.container
                                     .grid-item.w3-col.s4.w3-border.w3-padding-16.container
                                 hr.w3-clear
-                                .grid-container.w3-white.w3-container.draggable.table.w3-hover-light-grey.w3-ol(draggable='true')
+                                .grid-container.w3-white.w3-container.draggable.box.w3-hover-light-grey.w3-ol(draggable='true')
                                     .grid-item.w3-col.s4.w3-border.w3-padding-16.container
                                     .grid-item.w3-col.s4.w3-border.w3-padding-16.container
                                     .grid-item.w3-col.s4.w3-border.w3-padding-16.container
                                     .grid-item.w3-col.s4.w3-border.w3-padding-16.container
                             .w3-row.w3-padding-16
                                 h4.w3-bold.w3-khaki.w3-padding-16.w3-center Text Fields
-                                h3.textbox.w3-row.w3-container.table.draggable.w3-hover-light-grey(draggable="true")
+                                h3.textbox.w3-row.w3-container.box.draggable.w3-hover-light-grey(draggable="true")
                                     |                         This is a sample title
                                 hr.w3-clear
-                                h5.textbox.w3-row.w3-container.table.draggable.w3-hover-light-grey(draggable="true")
+                                h5.textbox.w3-row.w3-container.box.draggable.w3-hover-light-grey(draggable="true")
                                     |                         This is a sample normal text
                                 hr.w3-clear
-                                textarea.w3-textarea.w3-row.w3-container.table.draggable.w3-hover-light-grey(draggable="true" readonly type='text' placeholder='This is a sample of a paragraph')
+                                textarea.w3-textarea.w3-row.w3-container.box.draggable.w3-hover-light-grey(draggable="true" readonly type='text' placeholder='This is a sample of a paragraph')
                                 h3.w3-clear
-                                input.draggable.table.w3-input.w3-center.w3-row(readonly draggable="true" type='date' placeholder='set deadline')
+                                input.draggable.box.w3-input(readonly draggable="true" type='date' placeholder='set deadline')
 
                             hr.w3-newline-2
 
                             .w3-row.w3-padding-16
                                 h4.w3-bold.w3-khaki.w3-padding-16.w3-center Image
-                                .w3-all-center.w3-container
-                                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.signature.w3-hover-light-grey(draggable='true')
+                                .w3-all-center.w3-container.box.draggable.w3-hover-light-grey(draggable="true")
+                                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.signature
                                         i.fa.fa-pencil-square.icon-light
                                         |                         Upload Signature [PNG|JPG]
 
                                 hr.w3-clear
 
-                                .w3-container
-                                    a.w3-button.w3-hide-small.signature.w3-hover-white.w3-hover-light-grey(draggable='true')
+                                .w3-container.w3-hover-white.box.draggable.w3-hover-light-grey(draggable='true')
+                                    a#empImg.w3-button.w3-hide-small.signature
                                         i.fa.fa-pencil-square.icon-light
                                         hr.w3-newline
                                         |             Upload 2x2 picture
+                                hr.w3-clear
+
+                                .w3-container.w3-hover-white.box.draggable.w3-hover-light-grey(draggable='true')
+                                    a#sluLogo.w3-button.w3-hide-small
+                                        i.fa.fa-pencil-square.icon-light
+                                        hr.w3-newline
+                                        |             Upload Logo picture
+
                             hr.w3-newline-2
 
                             .w3-row.w3-padding-16
                                 h4.w3-bold.w3-khaki.w3-padding-16.w3-center Checkbox
 
-                                .grid-container.w3-white.w3-container.draggable.table.w3-ol.w3-hover-light-grey(draggable='true')
+                                .grid-container.w3-white.w3-container.draggable.box.w3-ol.w3-hover-light-grey(draggable='true')
                                     .grid-item
                                         label.checkbox-label.w3-col.s6(for='text-1')
                                             input#apple(type='radio' name='checkbox-1' value='text1' disabled)
@@ -147,12 +156,12 @@ block body
                             .w3-row.w3-padding-16
                                 h4.w3-bold.w3-khaki.w3-padding-16.w3-center Lists
 
-                                ol.w3-margin.w3-padding-16.w3-container.draggable.table.w3-hover-light-grey.w3-ol(draggable='true')
+                                ol.w3-margin.w3-padding-16.w3-container.draggable.box.w3-hover-light-grey.w3-ol(draggable='true')
                                     li item 1
                                     li item 2
                                     li item 3
                                 hr.w3-clear
-                                ul.w3-margin.w3-padding-16.w3-container.draggable.table.w3-hover-light-grey.w3-ul(draggable='true')
+                                ul.w3-margin.w3-padding-16.w3-container.draggable.box.w3-hover-light-grey.w3-ul(draggable='true')
                                     li item 1
                                     li item 2
                                     li item 3

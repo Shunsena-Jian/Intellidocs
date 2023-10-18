@@ -549,8 +549,8 @@ app.get('/createwidget', async function(req, res){
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
-            res.render('createform', {
-                title: 'Create Form',
+            res.render('createwidget', {
+                title: 'Create Widget',
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,

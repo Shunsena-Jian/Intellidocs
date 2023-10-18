@@ -10,8 +10,10 @@ const containerDiv = document.getElementById('outer-container');
 let isSelecting = false;
 let startCell = null;
 const tables = document.querySelectorAll('.table');
+const boxes = document.querySelectorAll('.box');
 const contextMenu = document.createElement('div');
 var rightClickWidgetActive = false;
+var innerContainer = null;
 
 // Keep track of the currently hovered text box
 let selectedTextBox = null;
@@ -26,6 +28,14 @@ tables.forEach((table) => {
 			});
 	});
 
+boxes.forEach((box) => {
+	let selectedCells = [];
+
+	box.addEventListener('dragstart', (e) => {
+				e.dataTransfer.setData('text/html', box.outerHTML);
+				activeDraggable = box;
+			});
+	});
 // Page Settings
 function setMaxHeight() {
   // Get all elements with the class "drop-container"
@@ -78,42 +88,38 @@ function changeTextColor() {
 
 
 function makeBold() {
-    if (selectedTextBox) {
-        const selectedTextDisplay = document.getElementById("selectedTextDisplay");
+ if (selectedTextBox) {
+		const selectedTextDisplay = document.getElementById("selectedTextDisplay");
 
-        const selection = window.getSelection();
-        const selectedText = selection.toString().trim();
+		const selection = window.getSelection();
+		const selectedText = selection.toString().trim();
 
-        if (selectedText) {
-            // Create a new HTML structure with the selected text wrapped in a span
-            const span = document.createElement("span");
-            span.className = "w3-bold";
-            span.textContent = selectedText;
+		if (selectedText) {
+			// Create a new HTML structure with the selected text wrapped in a span
+			const span = document.createElement("span");
+			span.className = "w3-bold";
+			span.textContent = selectedText;
 
-            // Replace the selected text with the span
-            const range = selection.getRangeAt(0);
-            let currentSpan = checkForExistingTextSpan(range);
-            console.log(currentSpan);
+			// Replace the selected text with the span
+			const range = selection.getRangeAt(0);
+			let currentSpan = checkForExistingTextSpan(range);
+			console.log(currentSpan);
 
-            // There is no span element
-            if (currentSpan == null) {
-                        range.deleteContents();
-                        range.insertNode(span);
+			if (currentSpan == null) {
+						range.deleteContents();
+						range.insertNode(span);
+			} else if (currentSpan != null && !currentSpan.classList.contains("w3-underline")) {
+				currentSpan.classList.add('w3-bold');
+			} else {
+				var textContent = removeElementAndReturnText(currentSpan, 'bold');
 
-            // The span exists but there is no bold style in the classlist
-            } else if (currentSpan != null && !currentSpan.classList.contains("w3-bold")) {
-                currentSpan.classList.add('w3-bold');
+				// Append the textContent in the current span
+				currentSpan.appendChild(document.createTextNode(textContent));
+			}
 
-            //
-            } else {
-                var textContent = removeElementAndReturnText(currentSpan, 'w3-bold');
-
-                // Append the textContent in the current span
-                currentSpan.appendChild(document.createTextNode(textContent));
-            }
-        }
-    }
-    repositionBoxes();
+		}
+	}
+	repositionBoxes();
 }
 
 
@@ -226,37 +232,38 @@ function changeFontSize() {
 }
 
 function makeUnderline() {
-	if (selectedTextBox) {
+ if (selectedTextBox) {
 		const selectedTextDisplay = document.getElementById("selectedTextDisplay");
 
 		const selection = window.getSelection();
 		const selectedText = selection.toString().trim();
 
-	if (selectedText) {
-	// Create a new HTML structure with the selected text wrapped in a span
-	const span = document.createElement("span");
-	span.className = "w3-underline"; // Initialize with the desired class name
+		if (selectedText) {
+			// Create a new HTML structure with the selected text wrapped in a span
+			const span = document.createElement("span");
+			span.className = "w3-underline";
+			span.textContent = selectedText;
 
-	// Replace the selected text with the span
-	const range = selection.getRangeAt(0);
-	let currentSpan = checkForExistingTextSpan(range);
-	console.log(currentSpan);
+			// Replace the selected text with the span
+			const range = selection.getRangeAt(0);
+			let currentSpan = checkForExistingTextSpan(range);
+			console.log(currentSpan);
 
-	if (currentSpan == null) {
-						  range.deleteContents();
-						  range.insertNode(span);
-			  } else if (currentSpan != null && !currentSpan.classList.contains("w3-underline")) {
-				  currentSpan.classList.add('w3-underline');
-			  } else {
-				  var textContent = removeElementAndReturnText(currentSpan, 'w3-underline');
+			if (currentSpan == null) {
+						range.deleteContents();
+						range.insertNode(span);
+			} else if (currentSpan != null && !currentSpan.classList.contains("w3-underline")) {
+				currentSpan.classList.add('w3-underline');
+			} else {
+				var textContent = removeElementAndReturnText(currentSpan, 'w3-underline');
 
-				  // Append the textContent in the current span
-				  currentSpan.appendChild(document.createTextNode(textContent));
-			  }
-}
+				// Append the textContent in the current span
+				currentSpan.appendChild(document.createTextNode(textContent));
+			}
 
-}
-repositionBoxes();
+		}
+	}
+	repositionBoxes();
 }
 
 function makeItalic() {
@@ -740,7 +747,6 @@ function addEventListenerToDiv(dropBox) {
 		dropBox.classList.remove('hover');
 	});
 
-// Handle the drop event
 dropBox.addEventListener('drop', (e) => {
   e.preventDefault();
   setMaxHeight();
@@ -758,9 +764,9 @@ dropBox.addEventListener('drop', (e) => {
     console.log(currentHeight + " is the current height");
     console.log(boxHeight + " is the new element height");
     console.log(currentHeight + boxHeight + "px");
-    if (currentHeight + boxHeight > (maxHeight)) {
-      widgetCanvas.style.pageBreakAfter = 'always'; // Add page break after the current page
-      currentHeight = 0 + header_height; // Reset current height for the new page
+    if (currentHeight + boxHeight > maxHeight) {
+      widgetCanvas.style.pageBreakAfter = 'always';
+      currentHeight = 0 + header_height;
     }
     sectionCount += 1;
     const data = e.dataTransfer.getData('text/html');
@@ -784,10 +790,19 @@ dropBox.addEventListener('drop', (e) => {
       if (clonedDiv.nodeName.toLowerCase() === 'table') {
         clonedDiv.addEventListener('contextmenu', (e) => {
           e.preventDefault();
-          createContextMenuTable(e.clientX, e.clientY, clonedDiv);
+          createContextMenu(e.clientX, e.clientY, clonedDiv, clonedDiv);
         });
         clonedDiv = activateTable(clonedDiv);
       } else {
+        // Is a container
+        innerContainer = clonedDiv.querySelectorAll('.container');
+        console.log(clonedDiv);
+        console.log(innerContainer);
+
+        innerContainer.forEach(container => {
+          addEventListenerToDiv(container);
+        });
+
         console.log(clonedDiv);
         clonedDiv.addEventListener('contextmenu', (e) => {
           e.preventDefault();
@@ -796,34 +811,50 @@ dropBox.addEventListener('drop', (e) => {
       }
 
       clonedDiv = selectElement(clonedDiv);
-
       if (widgetCanvas) { // Check if widgetCanvas is defined
+        console.log("got here---");
+
         sectionDiv.appendChild(clonedDiv);
-        widgetCanvas.appendChild(sectionDiv); // Append to the current page's content
-        currentHeight += boxHeight; // Update the current height
+        currentHeight += boxHeight;
         console.log(currentHeight);
       } else {
-        console.error('widgetCanvas is undefined.'); // Log an error if widgetCanvas is undefined
+        console.error('widgetCanvas is undefined.');
       }
+      widgetCanvas.appendChild(sectionDiv);
+      activeDraggable = null;
     }
-
-    activeDraggable = null;
   } else {
+
+    console.log("container");
     // Handle the drop action for the "container" elements
+
+    // Check if the drop event occurred within any of the containers
     const containers = document.querySelectorAll('.container');
+    let droppedInsideContainer = false;
 
     containers.forEach(container => {
       if (container.contains(e.target)) {
         const data = e.dataTransfer.getData('text/html');
-        const widget = document.createElement('div');
-        widget.innerHTML = data;
+        console.log(data);
+        // Create a temporary container to parse and append the data
+        const tempContainer = document.createElement('div');
+        tempContainer.innerHTML = data;
 
-        // Add the widget to the container
-        container.appendChild(widget);
+        // Append the content from 'data' directly into the container
+        while (tempContainer.firstChild) {
+          tempContainer.firstChild.removeAttribute("draggable");
+          container.appendChild(tempContainer.firstChild);
+        }
+
+        // Remove the 'draggable' attribute
+        container.removeAttribute("draggable");
+        droppedInsideContainer = true;
       }
     });
+    widgetCanvas.removeChild(widgetCanvas.lastChild);
   }
 });
+
 }
 
 function checkCurrentPageHeight() {
