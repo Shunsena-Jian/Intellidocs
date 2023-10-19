@@ -13,7 +13,7 @@ block sidebar
                 a.w3-bar-item.w3-button.w3-hover-white(href='/')
                     i.fa.fa-home.w3-margin-right
                     |   Home
-                a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='/accountsettings')
+                a.w3-bar-item.w3-button.w3-hover-white(href='/accountsettings')
                     i.fa.fa-user.w3-margin-right
                     |   Account Settings
                 .w3-dropdown-hover.w3-hide-small
@@ -69,8 +69,8 @@ block sidebar
                         div(style='text-align:right; padding-bottom: 20px;')
                             a.w3-bar-item.w3-button(href='#') view all
                 a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='/logout')
-                    if (currentUserPicture && currentUserPicture.path_file)
-                        img.w3-circle(src=`${currentUserPicture.path_file}` style='height:23px;width:23px' alt='Avatar')
+                    if (currentUserPicture && currentUserPicture.user_picture)
+                        img.w3-circle(src=`${currentUserPicture.user_picture}` style='height:23px;width:23px' alt='Avatar')
                     else
                         img.w3-circle#sideBarImage(src='../src/avatar3.png' style='height:23px;width:23px' alt='Avatar')
                     |  Logout
@@ -81,8 +81,8 @@ block sidebar
             .w3-container
                 h4#userFirstName.w3-center(style='font-family: Acme, monospace') #{currentUserDetailsBlock.firstName}
                 p.w3-center
-                    if (currentUserPicture && currentUserPicture.path_file)
-                        img.w3-circle#sideBarImage(src=`${currentUserPicture.path_file}` style='height:106px;width:106px' alt='Avatar')
+                    if (currentUserPicture && currentUserPicture.user_picture)
+                        img.w3-circle#sideBarImage(src=`${currentUserPicture.user_picture}` style='height:106px;width:106px' alt='Avatar')
                     else
                         img.w3-circle#sideBarImage(src='../src/avatar3.png' style='height:106px;width:106px' alt='Avatar')
                 hr(style='border-top: 1px dashed black;')

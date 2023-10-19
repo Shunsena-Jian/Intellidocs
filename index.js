@@ -20,8 +20,7 @@ const { MongoClient,
         initializeFilesCollectionConnection,
         initializeNotificationsCollectionConnection,
         initializeDatabaseConnection,
-        initializeFormsCollectionConnection,
-        initializePicturesCollectionConnection } = require('./dbinit.js');
+        initializeFormsCollectionConnection } = require('./dbinit.js');
 
 const db = initializeDatabaseConnection(url,dbName);
 const users = initializeUsersCollectionConnection(db);
@@ -29,7 +28,6 @@ const files = initializeFilesCollectionConnection(db);
 const privileges = initializePrivilegesCollectionConnection(db);
 const notifications = initializeNotificationsCollectionConnection(db);
 const forms = initializeFormsCollectionConnection(db);
-const pictures = initializePicturesCollectionConnection(db);
 
 const port = config.port;
 const debug_mode = config.debug_mode;
@@ -1108,38 +1106,51 @@ app.get('/viewusers', async function(req, res) {
 app.post('/accountsettings', pictureUpload.single('file'), async function (req, res) {
     const uploadedPicture = req.file;
 
-    if(debug_mode){
+    if (debug_mode) {
         logStatus("logging received file count " + req.file);
     }
 
     if (!uploadedPicture) {
-
         if(debug_mode){
             logStatus("No file Uploaded");
         }
 
-    }else{
-        const {originalname} = uploadedPicture;
+    } else {
+        const { originalname } = uploadedPicture;
         var uploadedPictureDirectory = "";
         if(debug_mode){
             logStatus("File Uploaded Successfully in " + `/views/profile_pictures/${currentUserDetailsBlock.firstName}/${originalname}`);
         }
 
         try{
-            uploadInfo = {
-                "emp_id": currentUserDetailsBlock.empID,
-                "path_file": "../profile_pictures/" + req.session.userEmpID + "/" + originalname
-            };
+            var picture = await users.findOne({ emp_id: req.session.userEmpID });
+            if (picture.user_picture == '' || picture.user_picture == null || picture.user_picture == undefined){
+                userPicture = users.findOneAndUpdate(
+                    { "emp_id": currentUserDetailsBlock.empID },
+                    { $set: { "user_picture": "/profile_pictures/" + req.session.userEmpID + "/" + originalname } },
+                    { returnNewDocument: true }
+                )
+            } else {
+                fs.unlink("./views/" + picture.user_picture, function (error){
+                    if (debug_mode) {
+                       logStatus("Failed to Remove Previous Profile Picture " + error);
+                    }
+                });
+                userPicture = users.findOneAndUpdate(
+                    { "emp_id": currentUserDetailsBlock.empID },
+                    { $set: { "user_picture": "/profile_pictures/" + req.session.userEmpID + "/" + originalname } },
+                    { returnNewDocument: true }
+                )
+            }
 
-            result = await pictures.insertOne(uploadInfo);
-            uploadedPictureDirectory = "../profile_pictures/" + req.session.userEmpID + "/" + originalname;
+            uploadedPictureDirectory = users.user_picture;
             if(debug_mode){
-                logStatus("Inserted : " + uploadInfo.path_file);
+                logStatus("Inserted : " + uploadedPictureDirectory);
             }
 
             res.json({uploadedPictureDirectory});
         } catch(error){
-            console.log(error);
+            logStatus(error);
         }
     }
 });
@@ -1185,7 +1196,7 @@ async function getUserPicture(empID){
     var userPicture;
 
     try{
-        userPicture = await pictures.findOne({ emp_id: empID });
+        userPicture = await users.findOne({ emp_id: empID });
 
         if(debug_mode){
             logStatus("The picture is this: " + JSON.stringify(userPicture));
