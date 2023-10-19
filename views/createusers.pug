@@ -5,40 +5,30 @@ block body
         .w3-row.w3-padding-64
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 .form_container
-                    form(name='form')
+                    form(name='form' role='form' method='POST')
                         h2.heading CREATE A USER
                         .form_wrap.fullname
                             .form_item
                                 label(style='font-family: Courier New, monospace; font-weight:normal;') Email
-                                input(type='text')
-                                #email.error
+                                input#eMail.error(type='text' name='eMail' required='')
                             .form_item
                                 label(style='font-family:Courier New, monospace;; font-weight:normal;') ID Number
-                                input(type='text')
-                                #empID.error
+                                input#empId.error(type='text' name='empId' required='')
                         .form_wrap.fullname
                             .form_item
                                 label(style='font-family: Courier New, monospace; font-weight:normal;') Username
-                                input(type='text')
-                                #username.error
+                                input#userName.error(type='text' name='userName' required='')
                             .form_item
                                 label(style='font-family:Courier New, monospace;; font-weight:normal;') Password
-                                input(type='text')
-                                #password.error
+                                input#passWord.error(type='text' name='passWord' required='')
                         .form_wrap.fullname
                             .form_item
                                 label(style='font-family: Courier New, monospace;; font-weight:normal;') First Name
-                                input(type='text')
-                                #firstName.error
+                                input#firstName.error(type='text' name='firstName' required='')
                             .form_item
-                                label(style='font-family: Courier New, monospace;; font-weight:normal;') LastName
-                                input(type='text')
-                                #lastName.error
+                                label(style='font-family: Courier New, monospace;; font-weight:normal;') Last Name
+                                input#lastName.error(type='text' name='lastName' required='')
                         .form_wrap.fullname
-                            .form_item
-                                label(style='font-family: Courier New, monospace;; font-weight:normal;') Middle Name
-                                input(type='text')
-                                #middleName.error
                             .form_item
                                 label(for='userLevel' style='font-family: Courier New, monospace;; font-weight:normal;') User Level:
                                 select#userLevel(name='userLevel')
@@ -50,4 +40,4 @@ block body
                                     option(value='Admin') Admin
                                     option(value='Secretary') Secretary
                         .btnPosition
-                              button.btn Register
+                              button(class='btn' type='submit') Register

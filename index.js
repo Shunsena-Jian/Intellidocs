@@ -879,8 +879,8 @@ app.post('/createusers', async function(req, res){
         var firstname = req.body.firstName;
         var lastname = req.body.lastName;
         var userlevel = req.body.userLevel;
+        var email = req.body.eMail;
 
-        console.log(username + password + emp_id + firstname + lastname + userlevel);
         try {
             const existingUser = await db.collection('users').findOne({ username: username });
             if(existingUser) {
@@ -889,6 +889,7 @@ app.post('/createusers', async function(req, res){
                 }
             } else {
                 const newUser = {
+                    "email": email,
                     "username": username,
                     "password": password,
                     "emp_id": emp_id,

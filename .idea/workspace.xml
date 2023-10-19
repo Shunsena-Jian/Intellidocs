@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*handle_ajax_upload_pictures.js&#10;//changed status log to alert, notifying user to refresh page to view changes">
-      <change afterPath="$PROJECT_DIR$/views/createform_draggable_content.pug" afterDir="false" />
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="* dbinit.js&#10;// Removed initialization of pictures collection&#10;// Embedded user_picture to users collection&#10;&#10;* index.js&#10;// Update for better uploading profile picture handling&#10;// Removes previous profile picture when changing profile picture&#10;&#10;* sidebar.pug&#10;// Updated calling of user picture">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/createform.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createform.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/createusers.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createusers.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,16 +21,18 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2WILMosCqF7RSTraY5bRuQcCOMT" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "main"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\Desktop\the thesis container\views" />
@@ -147,7 +152,15 @@
       <option name="project" value="LOCAL" />
       <updated>1697402015037</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="* dbinit.js&#10;// Removed initialization of pictures collection&#10;// Embedded user_picture to users collection&#10;&#10;* index.js&#10;// Update for better uploading profile picture handling&#10;// Removes previous profile picture when changing profile picture&#10;&#10;* sidebar.pug&#10;// Updated calling of user picture">
+      <option name="closed" value="true" />
+      <created>1697730685850</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1697730685850</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -177,6 +190,7 @@
     <MESSAGE value="*viewtformtemplate.pug&#10;//now receives created form elements&#10;//BUGGED - TO BE FIXED BY FRONT END" />
     <MESSAGE value="*sidebar.pug&#10;//Added Create widget acnhor&#10;*index.js&#10;//Added createwidget request response&#10;*viewforms.pug&#10;//Added section for &quot;shared with you&quot;&#10;//Split to forms assigned and shared forms" />
     <MESSAGE value="*handle_ajax_upload_pictures.js&#10;//changed status log to alert, notifying user to refresh page to view changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="*handle_ajax_upload_pictures.js&#10;//changed status log to alert, notifying user to refresh page to view changes" />
+    <MESSAGE value="* dbinit.js&#10;// Removed initialization of pictures collection&#10;// Embedded user_picture to users collection&#10;&#10;* index.js&#10;// Update for better uploading profile picture handling&#10;// Removes previous profile picture when changing profile picture&#10;&#10;* sidebar.pug&#10;// Updated calling of user picture" />
+    <option name="LAST_COMMIT_MESSAGE" value="* dbinit.js&#10;// Removed initialization of pictures collection&#10;// Embedded user_picture to users collection&#10;&#10;* index.js&#10;// Update for better uploading profile picture handling&#10;// Removes previous profile picture when changing profile picture&#10;&#10;* sidebar.pug&#10;// Updated calling of user picture" />
   </component>
 </project>
