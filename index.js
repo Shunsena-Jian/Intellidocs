@@ -440,6 +440,55 @@ app.get('/login', async function(req, res){
     }
 });
 
+app.get('/aboutUs', async function(req, res){
+    try {
+        if (req.session.loggedIn) {
+            res.redirect('/');
+        } else {
+            res.render('aboutUs', {
+                title: 'About Us'
+            });
+        }
+    } catch (error){
+        if(debug_mode){
+            logStatus(error);
+        }
+    }
+});
+
+app.get('/techSupport', async function(req, res){
+    try {
+        if (req.session.loggedIn) {
+            res.redirect('/');
+        } else {
+            res.render('techSupport', {
+                title: 'Tech Support'
+            });
+        }
+    } catch (error){
+        if(debug_mode){
+            logStatus(error);
+        }
+    }
+});
+
+app.get('/ourTeam', async function(req, res){
+    try {
+        if (req.session.loggedIn) {
+            res.redirect('/');
+        } else {
+            res.render('ourTeam', {
+                title: 'Our Team'
+            });
+        }
+    } catch (error){
+        if(debug_mode){
+            logStatus(error);
+        }
+    }
+});
+
+
 app.post('/login', async function (req, res) {
     if (req.session.loggedIn) {
         res.redirect('/');

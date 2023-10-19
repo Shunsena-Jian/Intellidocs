@@ -94,6 +94,7 @@ width: 297mm;
     padding: 0;
     cursor: grab;
     flex: 1 0 auto; /* Allow flex items to grow and shrink */
+
 }
 
 
