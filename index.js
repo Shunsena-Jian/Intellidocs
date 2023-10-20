@@ -12,7 +12,9 @@ const config = require('./configinit.js');
 
 const url = `mongodb://${config.database.host}:${config.database.port}`;
 const dbName = config.database.name;
-
+//engine
+const { JSDOM } = require('jsdom');
+//end of engine
 
 const { MongoClient,
         initializeUsersCollectionConnection,
@@ -69,7 +71,7 @@ server.listen(port, () => {
 
 // WebSocket logic
 io.on('connection', (socket) => {
-    console.log('A user connected');
+    //console.log('A user connected');
 
     //const sessionData = socket.handshake.session;
     //console.log('Session data:', sessionData);
@@ -80,7 +82,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
-        console.log('A user disconnected');
+        //console.log('A user disconnected');
     });
 });
 
@@ -169,9 +171,100 @@ app.get('/downloadfile/:file_name', function(req, res){
 
 });
 
+//ENGINE
+//-------------------------HTML TO JSON
+async function htmlToJson(element) {
+    const jsonElementFormat = {
+        ele_type: element.nodeName ? element.nodeName.toLowerCase() : 'unknown',
+        ele_attributes: {
+            key: null,
+        },
+        ele_contents: [],
+    };
+
+    if (element.attributes) {
+        for (let i = 0; i < element.attributes.length; i++) {
+            const attr = element.attributes.item(i);
+            jsonElementFormat.ele_attributes[attr.name] = attr.value;
+        }
+    }
+
+    if (element.childNodes) {
+        for (let i = 0; i < element.childNodes.length; i++) {
+            const childNode = element.childNodes[i];
+            if (childNode.nodeType === 1) {
+                const childJson = await htmlToJson(childNode);
+                jsonElementFormat.ele_contents.push(childJson);
+            } else if (childNode.nodeType === 3) {
+                const trimmedText = childNode.textContent.trim();
+                if (trimmedText !== '') {
+                    jsonElementFormat.ele_contents.push(trimmedText);
+                }
+            }
+        }
+    }
+
+    return jsonElementFormat;
+}
+//-------------------------JSON TO HTML
+
+async function jsonToHTML(jsonDataArray,indentLevel = 0) {
+
+        const selfClosingTags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
+        const indent = '    '.repeat(indentLevel); // Four spaces per level
+
+        let html = '';
+
+        for (const jsonData of jsonDataArray) {
+          html += `${indent}<${jsonData.ele_type}`;
+
+          // Add attributes
+          for (const [attributeName, attributeValue] of Object.entries(jsonData.ele_attributes)) {
+            html += ` ${attributeName}="${attributeValue}"`;
+          }
+
+          // Check if the element is a self-closing tag
+          const isSelfClosing = selfClosingTags.includes(jsonData.ele_type);
+
+          if (isSelfClosing) {
+            html += '>\n'; // Add a self-closing slash and newline
+          } else {
+            html += '>\n'; // Add a newline after the opening tag
+
+            // Add child elements with increased indentation
+            for (const child of jsonData.ele_contents) {
+              if (typeof child === 'object') {
+                html += jsonToHTML([child], indentLevel + 1);
+              } else {
+                html += `${'    '.repeat(indentLevel + 1)}${child}\n`;
+              }
+            }
+
+            html += `${indent}</${jsonData.ele_type}>\n`; // Add a newline after the closing tag
+          }
+        }
+
+        return html;
+      }
+
+
+//END OF ENGINE
 app.post('/savecreatedform', async function(req, res){
     try {
-        const formData = req.body;
+        var formData = req.body;
+        //------------------ENGINE PLAYGROUND
+        var x = new JSDOM(formData.formContent);
+        var rootElement = x.window.document.querySelector('.drop-container');
+
+        var w = JSON.stringify(await htmlToJson(rootElement),null,2); // goods
+        var y = await htmlToJson(rootElement);
+        var denv = "[\n" + w + "\n]"
+
+        console.log(w); // goods
+//        console.log(y);
+        var z = await jsonToHTML(w);
+        console.log(z);
+        //------------------END OF PLAYGROUND
 
         const formDocument = {
             form_name: formData.name,
@@ -179,7 +272,7 @@ app.post('/savecreatedform', async function(req, res){
             form_content: formData.formContent
         };
 
-        console.log("This is the Form Document: " + JSON.stringify(formDocument));
+        //console.log("This is the Form Document: " + JSON.stringify(formDocument));
         const result = await forms.insertOne(formDocument);
 
         if(debug_mode){
