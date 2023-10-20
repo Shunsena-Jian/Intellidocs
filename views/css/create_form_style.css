@@ -149,6 +149,10 @@ float: right;
   background-color: #FFFF99;
 }
 
+.selectedCells {
+  background-color: gray;
+}
+
 .merged {
  background-color: #FFFFCC;
 }

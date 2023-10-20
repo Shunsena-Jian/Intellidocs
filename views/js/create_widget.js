@@ -1,46 +1,61 @@
-const draggable = document.querySelectorAll('.draggable');
-let activeDraggable = null;
-var sectionCount = 0;
-var isFirstElement = true;
-let currentHeight = 0;
-var maxHeight = 1020; // A4 height in pixels
-//var dropContainer = document.getElementById('widget-canvas');
-let widgetCanvas = document.getElementById('widget-canvas'); // Reference to the current page's content
-const containerDiv = document.getElementById('outer-container');
-let isSelecting = false;
-let startCell = null;
-const tables = document.querySelectorAll('.table');
-const boxes = document.querySelectorAll('.box');
-const contextMenu = document.createElement('div');
-var rightClickWidgetActive = false;
-var innerContainer = null;
+// Global Variables
+var activeDraggable;
+var currentHeight;
+var maxHeight;
+var rightClickWidgetActive;
+var innerContainer;
+var widgetCanvas;
+var tables;
+var boxes;
+var contextMenu;
+var selectedTextBox;
 
-// Keep track of the currently hovered text box
-let selectedTextBox = null;
+// Initialize variables
+window.onload = function(){
+    console.log("entered initialize");
+    tables = document.querySelectorAll('.table');
+    boxes = document.querySelectorAll('.box');
+    contextMenu = document.createElement('div');
+    widgetCanvas = document.getElementById('widget-canvas');
+    selectedTextBox = null;
+    padding = 36;
+    activeDraggable = null;
+    innerContainer = null;
+    currentHeight = checkCurrentPageHeight();
+    rightClickWidgetActive = false;
 
-// Element Initialization
-tables.forEach((table) => {
-	let selectedCells = [];
 
-	table.addEventListener('dragstart', (e) => {
-				e.dataTransfer.setData('text/html', table.outerHTML);
-				activeDraggable = table;
-			});
-	});
+    tables.forEach((table) => {
 
-boxes.forEach((box) => {
-	let selectedCells = [];
+    	table.addEventListener('dragstart', (e) => {
+    				e.dataTransfer.setData('text/html', table.outerHTML);
+    				activeDraggable = table;
+    			});
+    	});
 
-	box.addEventListener('dragstart', (e) => {
-				e.dataTransfer.setData('text/html', box.outerHTML);
-				activeDraggable = box;
-			});
-	});
+    	widgetCanvas.addEventListener('dragstart', (e) => {
+    				e.dataTransfer.setData('text/html', widgetCanvas.outerHTML);
+    				activeDraggable = widgetCanvas;
+    	});
+
+    boxes.forEach((box) => {
+
+    	box.addEventListener('dragstart', (e) => {
+    				e.dataTransfer.setData('text/html', box.outerHTML);
+    				activeDraggable = box;
+    			});
+    	});
+
+    setMaxHeight(); // set new max height
+    console.log(maxHeight);
+    console.log(currentHeight);
+    addEventListenerToDiv(widgetCanvas);
+ };
+
 // Page Settings
 function setMaxHeight() {
   // Get all elements with the class "drop-container"
-	  var dropContainers = document.querySelectorAll('.drop-container');
-dropContainers.forEach(function (dropContainer) {
+	  var dropContainer = document.getElementById('widget-canvas');
 			const computedStyle = getComputedStyle(dropContainer);
 			// Extract the padding value
 			const paddingValue = computedStyle.getPropertyValue('padding');
@@ -48,11 +63,7 @@ dropContainers.forEach(function (dropContainer) {
 			// Extract the numeric part of the padding value (removing 'px' or other units)
 			padding = parseFloat(paddingValue);
 			maxHeight = dropContainer.offsetHeight - padding;
-		});
 }
-setMaxHeight();
-console.log("Max Height is: " + maxHeight);
-
 
 // Text Editing
 function changeTextColor() {
@@ -188,7 +199,17 @@ function modifyOrientation() {
         } else if (selectedValue === "landscape-rectangle") {
 			// Remove the 'landscape' class from all drop containers
 	            dropContainer.classList.add("w3-landscape-rectangle");
+
 		}
+		dropContainer.classList.add("w3-box");
+		const computedStyle = getComputedStyle(dropContainer);
+        // Extract the padding value
+        const paddingValue = computedStyle.getPropertyValue('padding');
+
+        // Extract the numeric part of the padding value (removing 'px' or other units)
+        padding = parseFloat(paddingValue);
+        maxHeight = dropContainer.offsetHeight - padding;
+		console.log(maxHeight);
 }
 
 function changeFontSize() {
@@ -649,13 +670,7 @@ function createContextMenu(x,y,element, table) {
                 			deleteButton.innerText = 'Delete Widget Field';
                 			deleteButton.addEventListener('click', () => {
                 				if (confirm('Are you sure you want to delete this box?')) {
-                					const parentContainer = element.parentElement;
-                					if (parentContainer) {
-                						parentContainer.remove(); // Remove the parent container
-                						sectionCount -= 1;
-                						reassignSectionID();
-                					}
-                //                    element.remove();
+                                    element.remove();
                 					repositionBoxes();
                 					checkCurrentPage();
                 				}
@@ -748,6 +763,7 @@ function addEventListenerToDiv(dropBox) {
 	});
 
 dropBox.addEventListener('drop', (e) => {
+  var isContainer = false;
   e.preventDefault();
   setMaxHeight();
   console.log("New max height is: " + maxHeight);
@@ -755,31 +771,21 @@ dropBox.addEventListener('drop', (e) => {
 
   if (activeDraggable) {
     const boxHeight = calculateDivHeight(activeDraggable);
-    if (isFirstElement == true) {
-      header_height = boxHeight;
-      isFirstElement = false;
-      console.log(header_height);
-    }
-    console.log(header_height);
     console.log(currentHeight + " is the current height");
     console.log(boxHeight + " is the new element height");
     console.log(currentHeight + boxHeight + "px");
     if (currentHeight + boxHeight > maxHeight) {
-      widgetCanvas.style.pageBreakAfter = 'always';
-      currentHeight = 0 + header_height;
-    }
-    sectionCount += 1;
-    const data = e.dataTransfer.getData('text/html');
-    const sectionDiv = document.createElement('div');
-    sectionDiv.id = "section-" + sectionCount;
-    sectionDiv.classList.add("table");
+      console.log("already full");
+      return;
+  }
 
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = data;
+  const data = e.dataTransfer.getData('text/html');
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = data;
 
-    const newDiv = tempDiv.querySelector('.draggable');
+  const newDiv = tempDiv.querySelector('.draggable');
 
-    if (newDiv) {
+  if (newDiv) {
       var clonedDiv = newDiv.cloneNode(true);
       clonedDiv.removeAttribute("draggable");
 
@@ -793,66 +799,65 @@ dropBox.addEventListener('drop', (e) => {
           createContextMenu(e.clientX, e.clientY, clonedDiv, clonedDiv);
         });
         clonedDiv = activateTable(clonedDiv);
+
       } else {
         // Is a container
+        console.log("section is a container");
         innerContainer = clonedDiv.querySelectorAll('.container');
-        console.log(clonedDiv);
-        console.log(innerContainer);
 
         innerContainer.forEach(container => {
           addEventListenerToDiv(container);
         });
 
-        console.log(clonedDiv);
         clonedDiv.addEventListener('contextmenu', (e) => {
           e.preventDefault();
           createContextMenu(e.clientX, e.clientY, clonedDiv);
         });
+
+        console.log("container");
+          // Handle the drop action for the "container" elements
+
+          // Check if the drop event occurred within any of the containers
+          const containers = document.querySelectorAll('.container');
+          let droppedInsideContainer = false;
+
+          containers.forEach(container => {
+            if (container.contains(e.target)) {
+              isContainer = true;
+              const data = e.dataTransfer.getData('text/html');
+              // Create a temporary container to parse and append the data
+              const tempContainer = document.createElement('div');
+              tempContainer.innerHTML = data;
+
+              // Append the content from 'data' directly into the container
+              while (tempContainer.firstChild) {
+                tempContainer.firstChild.removeAttribute("draggable");
+                container.appendChild(tempContainer.firstChild);
+              }
+
+              // Remove the 'draggable' attribute
+              container.removeAttribute("draggable");
+              droppedInsideContainer = true;
+            }
+          });
+
       }
 
       clonedDiv = selectElement(clonedDiv);
-      if (widgetCanvas) { // Check if widgetCanvas is defined
-        console.log("got here---");
-
-        sectionDiv.appendChild(clonedDiv);
+      if (isContainer) {
+        isContainer = false;
+        currentHeight = checkCurrentPageHeight;
+        return;
+      } else if (widgetCanvas) { // Check if widgetCanvas is defined
+        widgetCanvas.appendChild(clonedDiv);
         currentHeight += boxHeight;
-        console.log(currentHeight);
       } else {
         console.error('widgetCanvas is undefined.');
       }
-      widgetCanvas.appendChild(sectionDiv);
       activeDraggable = null;
     }
-  } else {
-
-    console.log("container");
-    // Handle the drop action for the "container" elements
-
-    // Check if the drop event occurred within any of the containers
-    const containers = document.querySelectorAll('.container');
-    let droppedInsideContainer = false;
-
-    containers.forEach(container => {
-      if (container.contains(e.target)) {
-        const data = e.dataTransfer.getData('text/html');
-        console.log(data);
-        // Create a temporary container to parse and append the data
-        const tempContainer = document.createElement('div');
-        tempContainer.innerHTML = data;
-
-        // Append the content from 'data' directly into the container
-        while (tempContainer.firstChild) {
-          tempContainer.firstChild.removeAttribute("draggable");
-          container.appendChild(tempContainer.firstChild);
-        }
-
-        // Remove the 'draggable' attribute
-        container.removeAttribute("draggable");
-        droppedInsideContainer = true;
-      }
-    });
-    widgetCanvas.removeChild(widgetCanvas.lastChild);
   }
+
 });
 
 }
@@ -942,14 +947,7 @@ function selectElement(element) {
 	   });
 
 		   console.log(element);
-//		   // Add the context menu event listener to it
-//					   element.addEventListener('contextmenu', (e) => {
-//							 e.preventDefault();
-//							 console.log("Fired!!!!");
-//							 createContextMenuBox(e.clientX, e.clientY, element);
-//					   });
    return element;
    }
 
-addEventListenerToDiv(widgetCanvas);
 

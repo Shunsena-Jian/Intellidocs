@@ -1,4 +1,3 @@
-const draggable = document.querySelectorAll('.draggable');
 const dropBox = document.querySelector('.drop-container');
 let activeDraggable = null;
 var sectionCount = 0;
@@ -8,8 +7,6 @@ let currentHeight = 0;
 var maxHeight = 1020; // A4 height in pixels
 let currentPageContent = document.querySelector('.drop-container'); // Reference to the current page's content
 const containerDiv = document.getElementById('outer-container');
-let isSelecting = false;
-let startCell = null;
 padding = 36;
 header_height = 0;
 const tables = document.querySelectorAll('.table');
@@ -26,6 +23,7 @@ tables.forEach((table) => {
 	table.addEventListener('dragstart', (e) => {
 				e.dataTransfer.setData('text/html', table.outerHTML);
 				activeDraggable = table;
+
 			});
 	});
 
@@ -43,6 +41,7 @@ dropContainers.forEach(function (dropContainer) {
 			maxHeight = dropContainer.offsetHeight - padding;
 		});
 }
+
 setMaxHeight();
 console.log("Max Height is: " + maxHeight);
 
@@ -757,7 +756,6 @@ function getPDF(id) {
 
 
 // Context Menus
-
 function createContextMenu(x,y,element, table) {
     if (rightClickWidgetActive) {
             while (contextMenu.firstChild) {
@@ -1108,8 +1106,8 @@ function createContextMenuTable(x, y, element) {
 
 // Calculations
 function calculateDivHeight(element) {
-return element.getBoundingClientRect().height + 20;
-}
+ return element.getBoundingClientRect().height + 20;
+ }
 
 function resizeBoxHeight(box, deltaHeight) {
 	const currentHeight = calculateDivHeight(box);
@@ -1130,13 +1128,13 @@ function resizeBoxHeight(box, deltaHeight) {
 
 	function clearSelection(table) {
 		selectedCells = [];
-		const selected = table.querySelectorAll('.selected');
-		selected.forEach(cell => cell.classList.remove('selected'));
+		const selected = table.querySelectorAll('.selectedCells');
+		selected.forEach(cell => cell.classList.remove('selectedCells'));
 	}
 
 	function getSelectedCells(table) {
 		const selectedCells = [];
-		const cells = table.querySelectorAll('.selected');
+		const cells = table.querySelectorAll('.selectedCells');
 
 		cells.forEach(cell => {
 			selectedCells.push(cell);
@@ -1294,12 +1292,13 @@ dropBox.addEventListener('drop', (e) => {
 //								createContextMenuTable(e.clientX, e.clientY, clonedDiv);
 								createContextMenu(e.clientX, e.clientY, clonedDiv, clonedDiv);
 							  });
-							  clonedDiv = activateTable(clonedDiv);
+							  clonedDiv = activateElement(clonedDiv, "div");
 
 						} else if (clonedDiv.nodeName.toLowerCase() === 'div' && clonedDiv.querySelector('table')) {
 							// Check if it is a div and has a table child element. If yes, apply
 							const tableChild = clonedDiv.querySelector('table');
-							var updatedTableChild = activateTable(tableChild);
+							console.log(tableChild);
+							var updatedTableChild = activateElement(tableChild, "table");
 
 							updatedTableChild.addEventListener('contextmenu', (e) => {
 							    e.preventDefault();
@@ -1319,9 +1318,10 @@ dropBox.addEventListener('drop', (e) => {
 							});
 						} else {
 							console.log(clonedDiv);
+							clonedDiv = selectElement(clonedDiv, "div");
 							clonedDiv.addEventListener('contextmenu', (e) => {
 							e.preventDefault();
-								createContextMenuBox(e.clientX, e.clientY, clonedDiv);						});
+							createContextMenuBox(e.clientX, e.clientY, clonedDiv);						});
 						}
 
 			clonedDiv = selectElement(clonedDiv);
@@ -1354,36 +1354,52 @@ function checkCurrentPageHeight() {
 	return tempHeight + padding;
 }
 
-function activateTable(clonedDiv) {
+function activateElement(clonedDiv, elementType) {
+    if (elementType === "div") {
+        // Make all children of the div editable
+        const children = clonedDiv.children;
+        for (let i = 0; i < children.length; i++) {
+            const child = children[i];
+            child.addEventListener('click', () => {
+                if (child.classList.contains('selected')) {
+                    child.classList.remove('selected');
+                } else {
+                    child.classList.add('selected');
+                    child.id = 'selected';
+                    child.setAttribute('contenteditable', 'true');
+                }
+            });
+        }
+    } else if (elementType === "table") {
+        let selectedCells = [];
+        clonedDiv.addEventListener('click', (e) => {
+            const cell = e.target;
 
-							let selectedCells = [];
-							clonedDiv.addEventListener('click', (e) => {
-										const cell = e.target;
-
-										if (cell.tagName === 'TD' && !cell.classList.contains('merged') || cell.tagName === 'TH' && !cell.classList.contains('merged')) {
-											if (cell.classList.contains('selected')) {
-												// Deselect the cell
-												cell.classList.remove('selected');
-												selectedCells = selectedCells.filter(selectedCell => selectedCell !== cell);
-											} else {
-												// Select the cell
-												cell.classList.add('selected');
-												selectedCells.push(cell);
-											}
-										}
-									});
-
-							// Make all cells in the table editable
-							const cells = clonedDiv.querySelectorAll('td');
-							cells.forEach((cell) => {
-								cell.setAttribute('contenteditable', 'true');
-							});
-							const cells_head = clonedDiv.querySelectorAll('th');
-							cells_head.forEach((cell) => {
-								cell.setAttribute('contenteditable', 'true');
-							});
- return clonedDiv;
+            if ((cell.tagName === 'TD' || cell.tagName === 'TH') && !cell.classList.contains('merged')) {
+                if (cell.classList.contains('selectedCells')) {
+                    // Deselect the cell
+                    cell.classList.remove('selectedCells');
+                    selectedCells = selectedCells.filter(selectedCell => selectedCell !== cell);
+                } else {
+                    // Select the cell
+                    cell.classList.add('selectedCells');
+                    selectedCells.push(cell);
+                }
+            }
+        });
+          // Make all cells in the table editable
+          const cells = clonedDiv.querySelectorAll('td');
+          cells.forEach((cell) => {
+                    cell.setAttribute('contenteditable', 'true');
+                });
+                const cells_head = clonedDiv.querySelectorAll('th');
+                cells_head.forEach((cell) => {
+                    cell.setAttribute('contenteditable', 'true');
+                });
+    }
+    return clonedDiv;
 }
+
 
 function removeElementAndReturnText(element, classname) {
 	let textContent = '';
@@ -1410,10 +1426,14 @@ function removeElementAndReturnText(element, classname) {
 function selectElement(element) {
    element.addEventListener('click', function (event) {
 		   const clickedElement = event.target;
+           const elementType = clickedElement.tagName;
 
 		   // Unselect the previously selected text box, if any
-		   if (selectedTextBox) {
+		   if (selectedTextBox && (elementType != "TD" || elementType != "TH")) {
 			   selectedTextBox.removeAttribute('id');
+			   selectedTextBox.removeAttribute('contenteditable');
+		   } else if (selectedTextBox.id) {
+		   		selectedTextBox.removeAttribute('id');
 		   }
 
 		   // Select the clicked element
@@ -1426,12 +1446,6 @@ function selectElement(element) {
 	   });
 
 		   console.log(element);
-//		   // Add the context menu event listener to it
-//					   element.addEventListener('contextmenu', (e) => {
-//							 e.preventDefault();
-//							 console.log("Fired!!!!");
-//							 createContextMenuBox(e.clientX, e.clientY, element);
-//					   });
    return element;
    }
 
