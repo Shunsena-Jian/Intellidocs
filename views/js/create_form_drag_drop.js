@@ -13,6 +13,27 @@ const tables = document.querySelectorAll('.table');
 const contextMenu = document.createElement('div');
 var rightClickWidgetActive = false;
 
+//jao's playgorund
+var pagesParent = document.getElementById("form-content");
+var pagesChildren = pagesParent.children;
+var countOfPages = 0;
+for (var i = 0; i < pagesChildren.length; i++) {
+    countOfPages = countOfPages + 1;
+}
+console.log("number of pages: " + countOfPages);
+
+
+var parentElement = document.getElementById("page-1");
+var children = parentElement.children;
+var countOfChildren = 0;
+for (var i = 0; i < children.length; i++) {
+    countOfChildren = countOfChildren + 1;
+}
+console.log("number of children: " + countOfChildren);
+//end of jao's playgorund
+
+
+
 // Keep track of the currently hovered text box
 let selectedTextBox = null;
 

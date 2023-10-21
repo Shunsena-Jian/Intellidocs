@@ -576,14 +576,17 @@ block body
     link(rel='stylesheet' href='../css/text_editor.css')
     link(rel='stylesheet' href='../css/create_form_style.css')
 
-    script(src='https://code.jquery.com/jquery-1.12.4.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js')
-    script(src='https://html2canvas.hertzen.com/dist/html2canvas.js')
-    script(src='../js/viewform.js')
-
     script.
         //THE ONLY REASON THIS IS HERE IS BECAUSE WEDNESDAY COMES AFTER TUESDAY
         var formBlock = !{JSON.stringify(currentForm)};
         var receivedFormContent = formBlock.form_content;
         var theContainerOfTheForm = document.getElementById('form-content');
         theContainerOfTheForm.innerHTML = receivedFormContent;
+
+    script(src='https://code.jquery.com/jquery-1.12.4.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js')
+    script(src='https://html2canvas.hertzen.com/dist/html2canvas.js')
+    //script(src='../js/viewform.js')
+    script(src='../js/create_form_drag_drop.js')
+
+
