@@ -260,7 +260,6 @@ function changeFontSize() {
     }
 }
 
-
 function createPageMargin() {
 	const select = document.getElementById("createPageMargin");
 	const selectedValue = select.value;
@@ -314,7 +313,6 @@ function createPageMargin() {
 	console.log(padding);
 	console.log(maxHeight);
 }
-
 
 function makeUnderline() {
 	if (selectedTextBox) {
@@ -664,7 +662,6 @@ function addTableRow(table) {
 	}
 }
 
-
 function addTableColumn(table) {
 	const numRows = table.rows.length;
 
@@ -675,7 +672,6 @@ function addTableColumn(table) {
 		cell.textContent = '';
 	}
 }
-
 
 // Export Functions
 function getPDF(id) {
@@ -752,8 +748,6 @@ function downloadPDF(divToPrint) {
         link.click();
 	});
 }
-
-
 
 // Context Menus
 function createContextMenu(x,y,element, table) {
@@ -1014,7 +1008,6 @@ function createContextMenuBox(x,y,element) {
     });
 }
 
-
 function createContextMenuTable(x, y, element) {
     //const contextMenu = document.createElement('div');
 	if(rightClickWidgetActive){
@@ -1165,9 +1158,6 @@ function getSelectedCells(table) {
 	return selectedCells;
 }
 
-
-
-
 function reassignSectionID() {
 	// Update the IDs of the remaining sections
 	const sections = currentPageContent.querySelectorAll('div[id^="section-"]');
@@ -1175,8 +1165,6 @@ function reassignSectionID() {
 		section.id = `section-${index + 1}`;
 	});
 }
-
-
 
 function checkCurrentPage() {
     var numberOfChildren = currentPageContent.childElementCount;
@@ -1301,7 +1289,52 @@ function addEventListenerToDiv(dropBox) {
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = data;
 
+            //jaos playground
+            tempDiv.classList.add('hover');
+
+            //end of playground
+
+            /*Look, I was gonna go easy on you and not to hurt your feelings
+              But I'm only going to get this one chance (six minutes, six minutes)
+              Something's wrong, I can feel it (six minutes, six minutes, Slim Shady, you're on)
+              Just a feeling I've got, like something's about to happen, but I don't know what
+              If that means what I think it means, we're in trouble, big trouble
+              And if he is as bananas as you say, I'm not taking any chances
+              You are just what the doctor ordered
+              I'm beginning to feel like a Rap God, Rap God
+              All my people from the front to the back nod, back nod
+              Now who thinks their arms are long enough to slap box, slap box?
+              They said I rap like a robot, so call me Rapbot
+              But for me to rap like a computer must be in my genes
+              I got a laptop in my back pocket
+              My pen'll go off when I half-cock it
+              Got a fat knot from that rap profit
+              Made a livin' and a killin' off it
+              Ever since Bill Clinton was still in office
+              With Monica Lewinsky feelin' on his nutsack
+              I'm an MC still as honest
+              But as rude and indecent as all hell syllables, killaholic (kill 'em all with)
+              This flippity dippity-hippity hip-hop
+              You don't really wanna get into a pissing match with this rappidy brat
+              Packin' a MAC in the back of the Ac', backpack rap crap, yap-yap, yackity-yack
+              And at the exact same time, I attempt these lyrical acrobat stunts while I'm practicin' that
+              I'll still be able to break a motherfuckin' table
+              Over the back of a couple of faggots and crack it in half
+              Only realized it was ironic I was signed to Aftermath after the fact
+              How could I not blow? All I do is drop F-bombs, feel my wrath of attack
+              Rappers are having a rough time period, here's a Maxipad
+              It's actually disastrously bad
+              For the wack, while I'm masterfully constructing this masterpièce
+              'Cause I'm beginning to feel like a Rap God, Rap God
+              All my people from the front to the back nod, back nod
+              Now who thinks their arms are long enough to slap box, slap box?
+              Let me show you maintaining this shit ain't that hard, that hard
+              Everybody want the key and the secret to rap immortality like I have got
+            */
+
             const newDiv = tempDiv.querySelector('.draggable');
+
+
 
             if (newDiv) {
                 var clonedDiv = newDiv.cloneNode(true);
@@ -1428,7 +1461,6 @@ function activateElement(clonedDiv, elementType) {
     return clonedDiv;
 }
 
-
 function removeElementAndReturnText(element, classname) {
 	let textContent = '';
 
@@ -1478,4 +1510,21 @@ function selectElement(element) {
 }
 
 addEventListenerToDiv(currentPageContent);
-
+/*
+His palms are sweaty, knees weak, arms are heavy
+There's vomit on his sweater already, mom's spaghetti
+He's nervous, but on the surface, he looks calm and ready
+To drop bombs, but he keeps on forgetting
+What he wrote down, the whole crowd goes so loud
+He opens his mouth, but the words won't come out
+He's chokin', how? Everybody's jokin' now
+The clock's run out, time's up, over, blaow
+Snap back to reality, ope, there goes gravity
+Ope, there goes Rabbit, he choked, he's so mad
+But he won't give up that easy, no, he won't have it
+He knows his whole back's to these ropes, it don't matter
+He's dope, he knows that, but he's broke, he's so stagnant
+He knows when he goes back to this mobile home, that's when it's
+Back to the lab again, yo, this old rhapsody
+Better go capture this moment and hope it don't pass him
+*/
