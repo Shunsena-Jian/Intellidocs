@@ -127,24 +127,24 @@ width: 297mm;
     /*background: #FFFFFF;*/
 
     /*animate */
-    color: #69D2E7;
-    outline: 3px dotted #ffffff;
-    box-shadow: 0 0 0 3px #69D2E7;
-    animation: .5s blink linear infinite;
+    /*color: #69D2E7;*/
+    outline: 4px dotted #ffffff;
+    box-shadow: 0 0 0 4px #69D2E7;
+    animation: 1s blink linear infinite;
 }
 
 @keyframes blink{
 	35%{
-    	background: yellow;
+    	background: rgba(204, 255 , 255 , 0.1);
     	opacity: .9;
         outline-color: #69D2E7;
-        box-shadow: 0 0 0 3px #ffffff;
+        box-shadow: 0 0 0 4px #ffffff;
     }
     70%{
-    	background: red;
+    	background: rgba(204, 255 , 255 , 0.5);
 		opacity: .8;
 		outline-color: #ffffff;
-        box-shadow: 0 0 0 3px #69D2E7;
+        box-shadow: 0 0 0 4px #69D2E7;
     }
 
 }
