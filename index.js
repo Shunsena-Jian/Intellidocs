@@ -208,44 +208,40 @@ async function htmlToJson(element) {
 }
 //-------------------------JSON TO HTML
 
-async function jsonToHTML(jsonDataArray,indentLevel = 0) {
+async function jsonToHTML(jsonDataArray, indentLevel = 0) {
+    const selfClosingTags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
+    const indent = '    '.repeat(indentLevel);
 
-        const selfClosingTags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
-        const indent = '    '.repeat(indentLevel); // Four spaces per level
+    let html = '';
 
-        let html = '';
+    for (const jsonData of jsonDataArray) {
+        html += `${indent}<${jsonData.ele_type}`;
 
-        for (const jsonData of jsonDataArray) {
-          html += `${indent}<${jsonData.ele_type}`;
-
-          // Add attributes
-          for (const [attributeName, attributeValue] of Object.entries(jsonData.ele_attributes)) {
+        for (const [attributeName, attributeValue] of Object.entries(jsonData.ele_attributes)) {
             html += ` ${attributeName}="${attributeValue}"`;
-          }
-
-          // Check if the element is a self-closing tag
-          const isSelfClosing = selfClosingTags.includes(jsonData.ele_type);
-
-          if (isSelfClosing) {
-            html += '>\n'; // Add a self-closing slash and newline
-          } else {
-            html += '>\n'; // Add a newline after the opening tag
-
-            // Add child elements with increased indentation
-            for (const child of jsonData.ele_contents) {
-              if (typeof child === 'object') {
-                html += jsonToHTML([child], indentLevel + 1);
-              } else {
-                html += `${'    '.repeat(indentLevel + 1)}${child}\n`;
-              }
-            }
-
-            html += `${indent}</${jsonData.ele_type}>\n`; // Add a newline after the closing tag
-          }
         }
 
-        return html;
-      }
+        const isSelfClosing = selfClosingTags.includes(jsonData.ele_type);
+
+        if (isSelfClosing) {
+            html += '>\n';
+        } else {
+            html += '>\n';
+
+            for (const child of jsonData.ele_contents) {
+                if (typeof child === 'object') {
+                    html += await jsonToHTML([child], indentLevel + 1);
+                } else {
+                    html += `${'    '.repeat(indentLevel + 1)}${child}\n`;
+                }
+            }
+
+            html += `${indent}</${jsonData.ele_type}>\n`;
+        }
+    }
+
+    return html;
+}
 
 
 //END OF ENGINE
@@ -253,16 +249,14 @@ app.post('/savecreatedform', async function(req, res){
     try {
         var formData = req.body;
         //------------------ENGINE PLAYGROUND
-        var x = new JSDOM(formData.formContent);
-        var rootElement = x.window.document.querySelector('.drop-container');
+        var v = new JSDOM(formData.formContent);
+        var rootElement = v.window.document.querySelector('.drop-container');
+        var w = await htmlToJson(rootElement);
+        var x = JSON.stringify([w],null,2); // goods
+        console.log(x); // goods
 
-        var w = JSON.stringify(await htmlToJson(rootElement),null,2); // goods
-        var y = await htmlToJson(rootElement);
-        var denv = "[\n" + w + "\n]"
-
-        console.log(w); // goods
-//        console.log(y);
-        var z = await jsonToHTML(w);
+        var y = JSON.parse(x);
+        var z = await jsonToHTML(y);
         console.log(z);
         //------------------END OF PLAYGROUND
 
