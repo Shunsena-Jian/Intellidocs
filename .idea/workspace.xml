@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*htmlToJson.js&#10;*jsonToHtml.js&#10;*merger.js&#10;//added these three in client.engine under js dir">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*htmlToJson.js&#10;//edited ele key counter to start from 1" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,9 +22,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2WILMosCqF7RSTraY5bRuQcCOMT" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -37,7 +35,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "git-widget-placeholder": "main"
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/mista/OneDrive/Desktop/Gitlab Projects/intellidocs"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -203,7 +202,15 @@
       <option name="project" value="LOCAL" />
       <updated>1697953434720</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="*htmlToJson.js&#10;//edited ele key counter to start from 1">
+      <option name="closed" value="true" />
+      <created>1697957591631</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1697957591631</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -240,6 +247,7 @@
     <MESSAGE value="*create_form_drag_drop.js&#10;//Added code block to count number of pages and children in preparation for viewformtemplate.pug&#10;*viewformtemplate.pug&#10;//Referenced to create_form_drag_drop.js to test page and child counting" />
     <MESSAGE value="*create_form_drag_drop.js&#10;//updated breath&#10;*viewformtemplate.pug&#10;//Now references createform_draggable_content.pug" />
     <MESSAGE value="*htmlToJson.js&#10;*jsonToHtml.js&#10;*merger.js&#10;//added these three in client.engine under js dir" />
-    <option name="LAST_COMMIT_MESSAGE" value="*htmlToJson.js&#10;*jsonToHtml.js&#10;*merger.js&#10;//added these three in client.engine under js dir" />
+    <MESSAGE value="*htmlToJson.js&#10;//edited ele key counter to start from 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="*htmlToJson.js&#10;//edited ele key counter to start from 1" />
   </component>
 </project>

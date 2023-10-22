@@ -9,7 +9,7 @@ function getNewKeyID(element) {
     if (!isNaN(currentKey) && currentKey >= ele_key) {
       const serializedHTML = document.documentElement.outerHTML;
       const largestKey = detectLargestKeyInHtml(serializedHTML);
-      ele_key = largestKey ;
+      ele_key = largestKey + 1;
     }
   } else {
     const counter = ele_key;
