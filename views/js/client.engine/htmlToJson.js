@@ -12,8 +12,9 @@ function getNewKeyID(element) {
       ele_key = largestKey ;
     }
   } else {
+    const counter = ele_key;
     ele_key++;
-    element.ele_attributes.key = ele_key.toString();
+    element.ele_attributes.key = counter.toString();
   }
 
   for (const childElement of element.ele_contents) {

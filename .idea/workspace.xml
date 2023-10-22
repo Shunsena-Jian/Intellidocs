@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*create_form_drag_drop.js&#10;//updated breath&#10;*viewformtemplate.pug&#10;//Now references createform_draggable_content.pug">
-      <change afterPath="$PROJECT_DIR$/views/js/client.engine/htmlToJson.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/js/client.engine/jsonToHtml.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/js/client.engine/merger.js" afterDir="false" />
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*htmlToJson.js&#10;*jsonToHtml.js&#10;*merger.js&#10;//added these three in client.engine under js dir">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,7 +195,15 @@
       <option name="project" value="LOCAL" />
       <updated>1697941728257</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="*htmlToJson.js&#10;*jsonToHtml.js&#10;*merger.js&#10;//added these three in client.engine under js dir">
+      <option name="closed" value="true" />
+      <created>1697953434720</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1697953434720</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -235,6 +239,7 @@
     <MESSAGE value="*create_form_drag_drop.js&#10;//Modified hover effects to breath&#10;*createform_draggable_content.pug&#10;//Removed w3-hover-lightgrey style conflict" />
     <MESSAGE value="*create_form_drag_drop.js&#10;//Added code block to count number of pages and children in preparation for viewformtemplate.pug&#10;*viewformtemplate.pug&#10;//Referenced to create_form_drag_drop.js to test page and child counting" />
     <MESSAGE value="*create_form_drag_drop.js&#10;//updated breath&#10;*viewformtemplate.pug&#10;//Now references createform_draggable_content.pug" />
-    <option name="LAST_COMMIT_MESSAGE" value="*create_form_drag_drop.js&#10;//updated breath&#10;*viewformtemplate.pug&#10;//Now references createform_draggable_content.pug" />
+    <MESSAGE value="*htmlToJson.js&#10;*jsonToHtml.js&#10;*merger.js&#10;//added these three in client.engine under js dir" />
+    <option name="LAST_COMMIT_MESSAGE" value="*htmlToJson.js&#10;*jsonToHtml.js&#10;*merger.js&#10;//added these three in client.engine under js dir" />
   </component>
 </project>
