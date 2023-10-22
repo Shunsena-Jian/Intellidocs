@@ -2,8 +2,8 @@ const dropBox = document.querySelector('.drop-container');
 let activeDraggable = null;
 var sectionCount = 0;
 var isFirstElement = true;
-let currentPage = 1;
-let currentHeight = 0;
+let currentPage;
+let currentHeight;
 var maxHeight = 1020; // A4 height in pixels
 let currentPageContent = document.querySelector('.drop-container'); // Reference to the current page's content
 const containerDiv = document.getElementById('outer-container');
@@ -14,22 +14,44 @@ const contextMenu = document.createElement('div');
 var rightClickWidgetActive = false;
 
 //jao's playgorund
-var pagesParent = document.getElementById("form-content");
-var pagesChildren = pagesParent.children;
-var countOfPages = 0;
-for (var i = 0; i < pagesChildren.length; i++) {
-    countOfPages = countOfPages + 1;
+
+function initializeHeightOfCurrentPage(currentPageValue){
+    var receivedCurrentPage = "page-" + currentPageValue;
+    var parentElement = document.getElementById(receivedCurrentPage);
+    var children = parentElement.children;
+
+    var currentPageHeight = 0;
+    var countOfChildren = 0;
+    for (var i = 0; i < children.length; i++) {
+        countOfChildren = countOfChildren + 1;
+        currentPageHeight = currentPageHeight + calculateDivHeight(children[i]);
+    }
+
+    currentHeight = currentPageHeight;
+    console.log("Heigt of page: " + currentPageValue + " has a height of: " + currentPageHeight);
+    console.log("Page: " + currentPageValue + " has " + countOfChildren + " children");
 }
-console.log("number of pages: " + countOfPages);
 
 
-var parentElement = document.getElementById("page-1");
-var children = parentElement.children;
-var countOfChildren = 0;
-for (var i = 0; i < children.length; i++) {
-    countOfChildren = countOfChildren + 1;
+
+function initializeCurrentPage(){
+    var pagesParent = document.getElementById("form-content");
+    var pagesChildren = pagesParent.children;
+    var countOfPages = 0;
+
+    for (var i = 0; i < pagesChildren.length; i++) {
+        countOfPages = countOfPages + 1;
+    }
+
+    currentPage = countOfPages;
+
+    initializeHeightOfCurrentPage(currentPage);
+    console.log("number of pages: " + countOfPages);
 }
-console.log("number of children: " + countOfChildren);
+
+initializeCurrentPage();
+
+
 //end of jao's playgorund
 
 
