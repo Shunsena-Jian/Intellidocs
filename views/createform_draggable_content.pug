@@ -32,7 +32,7 @@
             .w3-underline.w3-center.w3-margin-left.w3-margin-right
                 | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
             hr.w3-newline
-            input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+            input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
 
         hr.w3-clear
 
@@ -46,7 +46,7 @@
                 .w3-underline.w3-center.w3-margin-left.w3-margin-right
                     | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
                 hr.w3-newline
-                input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+                input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
 
             .w3-col.s3
                 table.table.w3-bold.w3-padding-64.w3-font-size-10.header-table
@@ -69,11 +69,11 @@
         .header.w3-row-center.w3-container.table.draggable(draggable='true')
             .w3-col-center.s2
             .w3-col.s5.w3-bold
-                input.w3-input.w3-center.w3-row(re type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+                input.w3-input.w3-center.w3-row(readonly  type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
                 hr.w3-newline
-                input.w3-input.w3-center.w3-row(type='text' maxlength='50' size='50' placeholder='SCHOOL YEAR [EX: AY 2022-2023]')
+                input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='SCHOOL YEAR [EX: AY 2022-2023]')
                 hr.w3-newline
-                input.w3-input.w3-center.w3-row(type='date' placeholder='set deadline')
+                input.w3-input.w3-center.w3-row(readonly type='date' placeholder='set deadline')
 
             .w3-col-center.s3
                 .w3-all-center.w3-container
@@ -89,35 +89,35 @@
         .w3-row.table.draggable.w3-margin-left.w3-margin-right(draggable='true')
             .w3-row
                 p.w3-col.s2.w3-left-align.w3-label SLU ID NO:
-                input.w3-input.w3-col.s9(type='text' maxlength='7' size='7' placeholder='ID NUMBER')
+                input.w3-input.w3-col.s9(readonly type='text' maxlength='7' size='7' placeholder='ID NUMBER')
 
             .w3-row
                 p.w3-col.s2.w3-left-align.w3-label NAME
-                input.w3-input.w3-col.s3(type='text' maxlength='50' minlength='3' placeholder='FAMILY NAME')
-                input.w3-input.w3-col.s3(type='text' maxlength='50' minlength='3' placeholder='FIRST NAME')
-                input.w3-input.w3-col.s3(type='text' maxlength='2' placeholder='MI')
+                input.w3-input.w3-col.s3(readonly type='text' maxlength='50' minlength='3' placeholder='FAMILY NAME')
+                input.w3-input.w3-col.s3(readonly type='text' maxlength='50' minlength='3' placeholder='FIRST NAME')
+                input.w3-input.w3-col.s3(readonly type='text' maxlength='2' placeholder='MI')
 
             .w3-row.w3-all-center
                 p.w3-col.s4.w3-left-align.w3-label Academic Status/Classification: According to Tenure:
                 label.checkbox-label.w3-col.s6
-                    input(type='checkbox' value='probationary' name="academicStatus")
+                    input(readonly type='checkbox' value='probationary' name="academicStatus")
                     |                         Probationary
                 hr.w3-newline.w3-margin-top
                 label.checkbox-label.w3-col.s5
-                    input(type='checkbox' value='permanent' name="academicStatus")
+                    input(readonly type='checkbox' value='permanent' name="academicStatus")
                     |                         Permanent
                 hr.w3-newline.w3-margin-top
                 label.checkbox-label.w3-col.s5
-                    input(type='checkbox' name="academicStatus" value='contractual')
+                    input(readonly type='checkbox' name="academicStatus" value='contractual')
                     |                         Contractual
             .w3-row.w3-all-center
                 p.w3-col.s4.w3-left-align.w3-label Subject Load:
                 label.checkbox-label.w3-col.s5
-                    input#full-time(type='checkbox' name='subject_load' value='full-time')
+                    input#full-time(readonly type='checkbox' name='subject_load' value='full-time')
                     |                         Full-Time
                 hr.w3-newline.w3-margin-top
                 label.checkbox-label.w3-col.s5
-                    input#part-time(type='checkbox' name='subject_load' value='part-time')
+                    input#part-time(readonly type='checkbox' name='subject_load' value='part-time')
                     |                         Part Time
                 hr.w3-newline.w3-margin-top
                 label.checkbox-label.w3-col.s5

@@ -1,10 +1,10 @@
-let currentPage;
-let currentHeight;
+var currentPage;
+var currentHeight;
 var maxHeight;
 var header_height;
 var rightClickWidgetActive;
 var dropBox;
-let dropContainers;
+var dropContainers;
 var containerDiv;
 var contextMenu;
 
