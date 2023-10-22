@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*htmlToJson.js&#10;//edited ele key counter to start from 1" />
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*create_form_drag_drop.js&#10;//Removed draggable class from create new page&#10;//Added iteration for creating context menus for all children of all pages -- BUGGED" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,14 +17,10 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 6
-}</component>
   <component name="ProjectId" id="2WILMosCqF7RSTraY5bRuQcCOMT" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -33,12 +29,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/mista/OneDrive/Desktop/Gitlab Projects/intellidocs"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\Desktop\the thesis container\views" />
@@ -194,21 +189,19 @@
       <option name="project" value="LOCAL" />
       <updated>1697941728257</updated>
     </task>
-    <task id="LOCAL-00021" summary="*htmlToJson.js&#10;*jsonToHtml.js&#10;*merger.js&#10;//added these three in client.engine under js dir">
-      <option name="closed" value="true" />
-      <created>1697953434720</created>
+    <task id="LOCAL-00021" summary="*create_form_drag_drop.js&#10;//Now identifies current page and calculates current height of current page &#10;//Now sets current height after initialization">
+      <created>1697945050806</created>
       <option name="number" value="00021" />
       <option name="presentableId" value="LOCAL-00021" />
       <option name="project" value="LOCAL" />
-      <updated>1697953434720</updated>
+      <updated>1697945050806</updated>
     </task>
-    <task id="LOCAL-00022" summary="*htmlToJson.js&#10;//edited ele key counter to start from 1">
-      <option name="closed" value="true" />
-      <created>1697957591631</created>
+    <task id="LOCAL-00022" summary="*create_form_drag_drop.js&#10;//Removed draggable class from create new page&#10;//Added iteration for creating context menus for all children of all pages -- BUGGED">
+      <created>1697987346528</created>
       <option name="number" value="00022" />
       <option name="presentableId" value="LOCAL-00022" />
       <option name="project" value="LOCAL" />
-      <updated>1697957591631</updated>
+      <updated>1697987346529</updated>
     </task>
     <option name="localTasksCounter" value="23" />
     <servers />
@@ -246,8 +239,8 @@
     <MESSAGE value="*create_form_drag_drop.js&#10;//Modified hover effects to breath&#10;*createform_draggable_content.pug&#10;//Removed w3-hover-lightgrey style conflict" />
     <MESSAGE value="*create_form_drag_drop.js&#10;//Added code block to count number of pages and children in preparation for viewformtemplate.pug&#10;*viewformtemplate.pug&#10;//Referenced to create_form_drag_drop.js to test page and child counting" />
     <MESSAGE value="*create_form_drag_drop.js&#10;//updated breath&#10;*viewformtemplate.pug&#10;//Now references createform_draggable_content.pug" />
-    <MESSAGE value="*htmlToJson.js&#10;*jsonToHtml.js&#10;*merger.js&#10;//added these three in client.engine under js dir" />
-    <MESSAGE value="*htmlToJson.js&#10;//edited ele key counter to start from 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="*htmlToJson.js&#10;//edited ele key counter to start from 1" />
+    <MESSAGE value="*create_form_drag_drop.js&#10;//Now identifies current page and calculates current height of current page &#10;//Now sets current height after initialization" />
+    <MESSAGE value="*create_form_drag_drop.js&#10;//Removed draggable class from create new page&#10;//Added iteration for creating context menus for all children of all pages -- BUGGED" />
+    <option name="LAST_COMMIT_MESSAGE" value="*create_form_drag_drop.js&#10;//Removed draggable class from create new page&#10;//Added iteration for creating context menus for all children of all pages -- BUGGED" />
   </component>
 </project>

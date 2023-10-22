@@ -32,6 +32,67 @@ function initializeHeightOfCurrentPage(currentPageValue){
     console.log("Page: " + currentPageValue + " has " + countOfChildren + " children");
 }
 
+function initializeContextMenuForChildren(pageCount){
+    var receivedCurrentPage = "";
+    var parentElement;
+    var children;
+
+    for(i = 1; i <= pageCount; i++){
+        console.log("initializing for page " + i);
+        receivedCurrentPage = "page-" + i;
+        parentElement = document.getElementById(receivedCurrentPage);
+        children = parentElement.children;
+
+        for(j = 0; j < children.length; j++){
+            console.log("logging " + children[j]);
+            initializeContextMenuForChild(children[j]);
+        }
+    }
+
+
+}
+
+function initializeContextMenuForChild(clonedDiv){
+    console.log("logging node name " + clonedDiv.nodeName);
+    if (clonedDiv.nodeName.toLowerCase() === 'table') {
+        clonedDiv.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            createContextMenuTable(e.clientX, e.clientY, clonedDiv);
+            createContextMenu(e.clientX, e.clientY, clonedDiv, clonedDiv);
+        });
+        clonedDiv = activateElement(clonedDiv, "div");
+
+    } else if (clonedDiv.nodeName.toLowerCase() === 'div' && clonedDiv.querySelector('table')) {
+        // Check if it is a div and has a table child element. If yes, apply
+        const tableChild = clonedDiv.querySelector('table');
+        console.log(tableChild);
+        var updatedTableChild = activateElement(tableChild, "table");
+
+        updatedTableChild.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            createContextMenuTable(e.clientX, e.clientY, updatedTableChild);
+            rightClickWidgetActive = false;
+        });
+
+        // Update the tableChild in the clonedDiv after
+        const oldTableChild = clonedDiv.querySelector('table');
+
+        const parentDiv = oldTableChild.parentNode;
+        parentDiv.replaceChild(updatedTableChild, oldTableChild);
+
+        clonedDiv.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            createContextMenuBox(e.clientX, e.clientY, clonedDiv);
+        });
+    } else {
+        console.log(clonedDiv);
+        clonedDiv = selectElement(clonedDiv, "div");
+        clonedDiv.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        createContextMenuBox(e.clientX, e.clientY, clonedDiv);						});
+    }
+}
+
 
 
 function initializeCurrentPage(){
@@ -46,6 +107,7 @@ function initializeCurrentPage(){
     currentPage = countOfPages;
 
     initializeHeightOfCurrentPage(currentPage);
+    initializeContextMenuForChildren(currentPage);
     console.log("number of pages: " + countOfPages);
 }
 
@@ -94,7 +156,8 @@ function createNewPage() {
 	console.log("new page tanga!!!");
 	currentPage++;
 	const newPage = document.createElement('div');
-	newPage.classList.add('drop-container', 'draggable'); // Add custom class names including 'draggable'
+	//newPage.classList.add('drop-container', 'draggable'); // original line
+	newPage.classList.add('drop-container'); // Add custom class names including 'draggable'
 	newPage.setAttribute('id', `page-${currentPage}`); // Give the page a unique ID
 
 	var dropContainers = document.querySelectorAll('.drop-container');
