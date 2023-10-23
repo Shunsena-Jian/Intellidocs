@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*create_form_drag_drop.js&#10;//Removed draggable class from create new page&#10;//Added iteration for creating context menus for all children of all pages -- BUGGED" />
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="// scroll bars new design">
+      <change afterPath="$PROJECT_DIR$/views/js/UploadProfilePic.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/pugs/uploadImage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/accountsettings.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/accountsettings.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/css/w3css4.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/w3css4.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,11 +35,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "last_opened_file_path": "C:/Users/Cassandra/Desktop/playground"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\Desktop\the thesis container\views" />
@@ -203,7 +209,14 @@
       <option name="project" value="LOCAL" />
       <updated>1697987346529</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="// scroll bars new design">
+      <created>1698031357326</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1698031357326</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -241,6 +254,7 @@
     <MESSAGE value="*create_form_drag_drop.js&#10;//updated breath&#10;*viewformtemplate.pug&#10;//Now references createform_draggable_content.pug" />
     <MESSAGE value="*create_form_drag_drop.js&#10;//Now identifies current page and calculates current height of current page &#10;//Now sets current height after initialization" />
     <MESSAGE value="*create_form_drag_drop.js&#10;//Removed draggable class from create new page&#10;//Added iteration for creating context menus for all children of all pages -- BUGGED" />
-    <option name="LAST_COMMIT_MESSAGE" value="*create_form_drag_drop.js&#10;//Removed draggable class from create new page&#10;//Added iteration for creating context menus for all children of all pages -- BUGGED" />
+    <MESSAGE value="// scroll bars new design" />
+    <option name="LAST_COMMIT_MESSAGE" value="// scroll bars new design" />
   </component>
 </project>

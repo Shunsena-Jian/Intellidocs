@@ -6,6 +6,11 @@ block body
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 .form_container
                     h2.heading Account Details
+                    .picture-container
+                      .picture
+                        img#profilePic.picture-src(src='../src/avatar3.png' title='')
+                        input#wizard-picture(type='file')
+                      h6 click image to upload
                     .form_wrap.fullname
                         .form_item
                             label(style='font-family: Courier New, monospace; font-weight:normal;') First Name
@@ -56,4 +61,6 @@ block body
             changePasswordModal.style.display = 'none';
         }
     script(src="/js/client.functions/handle_ajax_upload_pictures.js")
+    script(src="js/UploadProfilePic.js")
+
 
