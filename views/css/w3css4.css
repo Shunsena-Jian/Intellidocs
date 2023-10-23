@@ -5,7 +5,27 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'century gothic';
+}
 
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: blue orange;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background-color:#65647C;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 20px;
+  border: 3px solid #65647C;
 }
 
 body {
@@ -15,6 +35,7 @@ body {
      background-position: center;
      background-attachment: fixed;
      zoom: 80%;
+
 }
 
     style.
@@ -636,14 +657,16 @@ body {
     margin-left: initial;
     width: auto;
   }
-/*---------- ABOUT US (cass) ----------*/
+
 }
 
+/*---------- ABOUT US (cass) ----------*/
 .aboutUs .aboutUsCenterHead {
   min-height: 617px;
 }
 
 .aboutUs .aboutUsTextGroup {
+  background-color: #323232;
   width: 539px;
   min-height: 424px;
   height: auto;
@@ -666,9 +689,10 @@ text-shadow: 2px 1px 2px rgba(0, 0, 0, 1);
 }
 
 .aboutUs .aboutUsShapeDesign {
-  height: 405px;
+background: transparent;
+border: 5px solid black;
+  height: 400px;
   width: 516px;
-  background-image: none;
   box-shadow: 5px 5px 20px 0 rgba(0,0,0,0.4);
   margin: -358px auto 0 25px;
 }
