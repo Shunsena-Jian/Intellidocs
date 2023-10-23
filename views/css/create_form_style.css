@@ -122,8 +122,34 @@ width: 297mm;
 }
 
 .draggable:hover {
-    background: #FFFFFF;
+
+    /*lei's code*/
+    /*background: #FFFFFF;*/
+
+    /*animate */
+    /*color: #69D2E7;*/
+    outline: 4px dotted #ffffff;
+    box-shadow: 0 0 0 4px #69D2E7;
+    animation: 1s blink linear infinite;
 }
+
+@keyframes blink{
+	35%{
+    	background: rgba(204, 255 , 255 , 0.1);
+    	color: #69D2E7;
+    	opacity: .9;
+        outline-color: #69D2E7;
+        box-shadow: 0 0 0 4px #ffffff;
+    }
+    70%{
+    	background: rgba(204, 255 , 255 , 0.5);
+		opacity: .8;
+		outline-color: #ffffff;
+        box-shadow: 0 0 0 4px #69D2E7;
+    }
+
+}
+/*end of animate*/
 
 .box.dragging {
     opacity: 0.5;
@@ -147,6 +173,10 @@ float: right;
 
 .selected {
   background-color: #FFFF99;
+}
+
+.selectedCells {
+  background-color: gray;
 }
 
 .merged {

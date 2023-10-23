@@ -12,7 +12,9 @@ const config = require('./configinit.js');
 
 const url = `mongodb://${config.database.host}:${config.database.port}`;
 const dbName = config.database.name;
-
+//engine
+const { JSDOM } = require('jsdom');
+//end of engine
 
 const { MongoClient,
         initializeUsersCollectionConnection,
@@ -20,8 +22,7 @@ const { MongoClient,
         initializeFilesCollectionConnection,
         initializeNotificationsCollectionConnection,
         initializeDatabaseConnection,
-        initializeFormsCollectionConnection,
-        initializePicturesCollectionConnection } = require('./dbinit.js');
+        initializeFormsCollectionConnection } = require('./dbinit.js');
 
 const db = initializeDatabaseConnection(url,dbName);
 const users = initializeUsersCollectionConnection(db);
@@ -29,7 +30,6 @@ const files = initializeFilesCollectionConnection(db);
 const privileges = initializePrivilegesCollectionConnection(db);
 const notifications = initializeNotificationsCollectionConnection(db);
 const forms = initializeFormsCollectionConnection(db);
-const pictures = initializePicturesCollectionConnection(db);
 
 const port = config.port;
 const debug_mode = config.debug_mode;
@@ -71,7 +71,7 @@ server.listen(port, () => {
 
 // WebSocket logic
 io.on('connection', (socket) => {
-    console.log('A user connected');
+    //console.log('A user connected');
 
     //const sessionData = socket.handshake.session;
     //console.log('Session data:', sessionData);
@@ -82,7 +82,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
-        console.log('A user disconnected');
+        //console.log('A user disconnected');
     });
 });
 
@@ -171,9 +171,98 @@ app.get('/downloadfile/:file_name', function(req, res){
 
 });
 
+//ENGINE
+//-------------------------HTML TO JSON
+
+async function addKeyId(){
+
+}
+async function htmlToJson(element) {
+    const jsonElementFormat = {
+        ele_type: element.nodeName ? element.nodeName.toLowerCase() : 'unknown',
+        ele_attributes: {
+            key: null,
+        },
+        ele_contents: [],
+    };
+
+    if (element.attributes) {
+        for (let i = 0; i < element.attributes.length; i++) {
+            const attr = element.attributes.item(i);
+            jsonElementFormat.ele_attributes[attr.name] = attr.value;
+        }
+    }
+
+    if (element.childNodes) {
+        for (let i = 0; i < element.childNodes.length; i++) {
+            const childNode = element.childNodes[i];
+            if (childNode.nodeType === 1) {
+                const childJson = await htmlToJson(childNode);
+                jsonElementFormat.ele_contents.push(childJson);
+            } else if (childNode.nodeType === 3) {
+                const trimmedText = childNode.textContent.trim();
+                if (trimmedText !== '') {
+                    jsonElementFormat.ele_contents.push(trimmedText);
+                }
+            }
+        }
+    }
+
+    return jsonElementFormat;
+}
+//-------------------------JSON TO HTML
+
+async function jsonToHTML(jsonDataArray, indentLevel = 0) {
+    const selfClosingTags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
+    const indent = '    '.repeat(indentLevel);
+
+    let html = '';
+
+    for (const jsonData of jsonDataArray) {
+        html += `${indent}<${jsonData.ele_type}`;
+
+        for (const [attributeName, attributeValue] of Object.entries(jsonData.ele_attributes)) {
+            html += ` ${attributeName}="${attributeValue}"`;
+        }
+
+        const isSelfClosing = selfClosingTags.includes(jsonData.ele_type);
+
+        if (isSelfClosing) {
+            html += '>\n';
+        } else {
+            html += '>\n';
+
+            for (const child of jsonData.ele_contents) {
+                if (typeof child === 'object') {
+                    html += await jsonToHTML([child], indentLevel + 1);
+                } else {
+                    html += `${'    '.repeat(indentLevel + 1)}${child}\n`;
+                }
+            }
+
+            html += `${indent}</${jsonData.ele_type}>\n`;
+        }
+    }
+
+    return html;
+}
+
+
+//END OF ENGINE
 app.post('/savecreatedform', async function(req, res){
     try {
-        const formData = req.body;
+        var formData = req.body;
+        //------------------ENGINE PLAYGROUND
+        var v = new JSDOM(formData.formContent);
+        var rootElement = v.window.document.querySelector('.drop-container');
+        var w = await htmlToJson(rootElement);
+        var x = JSON.stringify([w],null,2); // goods
+        console.log(x); // goods
+
+        var y = JSON.parse(x);
+        var z = await jsonToHTML(y);
+        console.log(z);
+        //------------------END OF PLAYGROUND
 
         const formDocument = {
             form_name: formData.name,
@@ -181,7 +270,7 @@ app.post('/savecreatedform', async function(req, res){
             form_content: formData.formContent
         };
 
-        console.log("This is the Form Document: " + JSON.stringify(formDocument));
+        //console.log("This is the Form Document: " + JSON.stringify(formDocument));
         const result = await forms.insertOne(formDocument);
 
         if(debug_mode){
@@ -881,8 +970,8 @@ app.post('/createusers', async function(req, res){
         var firstname = req.body.firstName;
         var lastname = req.body.lastName;
         var userlevel = req.body.userLevel;
+        var email = req.body.eMail;
 
-        console.log(username + password + emp_id + firstname + lastname + userlevel);
         try {
             const existingUser = await db.collection('users').findOne({ username: username });
             if(existingUser) {
@@ -891,6 +980,7 @@ app.post('/createusers', async function(req, res){
                 }
             } else {
                 const newUser = {
+                    "email": email,
                     "username": username,
                     "password": password,
                     "emp_id": emp_id,
@@ -1108,38 +1198,51 @@ app.get('/viewusers', async function(req, res) {
 app.post('/accountsettings', pictureUpload.single('file'), async function (req, res) {
     const uploadedPicture = req.file;
 
-    if(debug_mode){
+    if (debug_mode) {
         logStatus("logging received file count " + req.file);
     }
 
     if (!uploadedPicture) {
-
         if(debug_mode){
             logStatus("No file Uploaded");
         }
 
-    }else{
-        const {originalname} = uploadedPicture;
+    } else {
+        const { originalname } = uploadedPicture;
         var uploadedPictureDirectory = "";
         if(debug_mode){
             logStatus("File Uploaded Successfully in " + `/views/profile_pictures/${currentUserDetailsBlock.firstName}/${originalname}`);
         }
 
         try{
-            uploadInfo = {
-                "emp_id": currentUserDetailsBlock.empID,
-                "path_file": "../profile_pictures/" + req.session.userEmpID + "/" + originalname
-            };
+            var picture = await users.findOne({ emp_id: req.session.userEmpID });
+            if (picture.user_picture == '' || picture.user_picture == null || picture.user_picture == undefined){
+                userPicture = users.findOneAndUpdate(
+                    { "emp_id": currentUserDetailsBlock.empID },
+                    { $set: { "user_picture": "/profile_pictures/" + req.session.userEmpID + "/" + originalname } },
+                    { returnNewDocument: true }
+                )
+            } else {
+                fs.unlink("./views/" + picture.user_picture, function (error){
+                    if (debug_mode) {
+                       logStatus("Failed to Remove Previous Profile Picture " + error);
+                    }
+                });
+                userPicture = users.findOneAndUpdate(
+                    { "emp_id": currentUserDetailsBlock.empID },
+                    { $set: { "user_picture": "/profile_pictures/" + req.session.userEmpID + "/" + originalname } },
+                    { returnNewDocument: true }
+                )
+            }
 
-            result = await pictures.insertOne(uploadInfo);
-            uploadedPictureDirectory = "../profile_pictures/" + req.session.userEmpID + "/" + originalname;
+            uploadedPictureDirectory = users.user_picture;
             if(debug_mode){
-                logStatus("Inserted : " + uploadInfo.path_file);
+                logStatus("Inserted : " + uploadedPictureDirectory);
             }
 
             res.json({uploadedPictureDirectory});
         } catch(error){
-            console.log(error);
+            logStatus(error);
         }
     }
 });
@@ -1185,7 +1288,7 @@ async function getUserPicture(empID){
     var userPicture;
 
     try{
-        userPicture = await pictures.findOne({ emp_id: empID });
+        userPicture = await users.findOne({ emp_id: empID });
 
         if(debug_mode){
             logStatus("The picture is this: " + JSON.stringify(userPicture));
