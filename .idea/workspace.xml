@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*createform_draggable_content.pug&#10;//Mounted create widget anchor to sidebar shortcut">
-      <change afterPath="$PROJECT_DIR$/views/profile_pictures/22222222/www.YTS.MX.jpg" afterDir="false" />
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*dbinit.js&#10;//Added widgets collection connection initialization&#10;index.js&#10;//Added widgets collection connection initialization">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dbinit.js" beforeDir="false" afterPath="$PROJECT_DIR$/dbinit.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/createwidget.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createwidget.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,7 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698154880065</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="*dbinit.js&#10;//Added widgets collection connection initialization&#10;index.js&#10;//Added widgets collection connection initialization">
+      <created>1698155175370</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1698155175370</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -261,6 +267,7 @@
     <MESSAGE value="*create_form_drag_drop.js&#10;//Removed draggable class from create new page&#10;//Added iteration for creating context menus for all children of all pages -- BUGGED" />
     <MESSAGE value="// scroll bars new design" />
     <MESSAGE value="*createform_draggable_content.pug&#10;//Mounted create widget anchor to sidebar shortcut" />
-    <option name="LAST_COMMIT_MESSAGE" value="*createform_draggable_content.pug&#10;//Mounted create widget anchor to sidebar shortcut" />
+    <MESSAGE value="*dbinit.js&#10;//Added widgets collection connection initialization&#10;index.js&#10;//Added widgets collection connection initialization" />
+    <option name="LAST_COMMIT_MESSAGE" value="*dbinit.js&#10;//Added widgets collection connection initialization&#10;index.js&#10;//Added widgets collection connection initialization" />
   </component>
 </project>

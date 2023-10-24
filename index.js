@@ -285,6 +285,39 @@ app.post('/savecreatedform', async function(req, res){
     res.json({ success: true });
 });
 
+app.post('/savecreatedwidget', async function(req, res){
+    try {
+        var widgetData = req.body;
+        //------------------ENGINE PLAYGROUND ---- WILL CONVERT WIDGET TO JSON WHEN ENGINE READY
+        //var v = new JSDOM(formData.formContent);
+        //var rootElement = v.window.document.querySelector('.drop-container');
+        //var w = await htmlToJson(rootElement);
+        //var x = JSON.stringify([w],null,2); // goods
+        //console.log(x); // goods
+
+        //var y = JSON.parse(x);
+        //var z = await jsonToHTML(y);
+        //console.log(z);
+        //------------------END OF PLAYGROUND
+
+        const widgetDocument = {
+            widget_name: widgetData.name,
+            widget_content: widgetData.widgetContent
+        };
+
+        //console.log("This is the Form Document: " + JSON.stringify(formDocument));
+        const result = await widgets.insertOne(widgetDocument);
+
+        if(debug_mode){
+            logStatus("Inserted: " + result);
+        }
+
+    } catch (error) {
+        logStatus("Failed: " + error);
+    }
+    res.json({ success: true });
+});
+
 app.get('/formview/:form_control_number', async function (req, res){
     try{
         var selectedFormControlNumberToView = req.params.form_control_number;

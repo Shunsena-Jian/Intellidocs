@@ -4,8 +4,8 @@ block body
     .w3-main#main(style='margin-left:250px')
         .w3-row.w3-padding-64
             h4.w3-bold Create Widget
-            input#formName.w3-col.s6.w3-input.w3-margin.w3-padding-16.w3-text-size-30(placeholder="Type Widget Name [Required]" required='')
-            button.w3-col.s2.w3-right.w3-input.w3-margin.w3-padding-16.w3-text-size-30
+            input#widgetName.w3-col.s6.w3-input.w3-margin.w3-padding-16.w3-text-size-30(placeholder="Type Widget Name [Required]" required='')
+            //button.w3-col.s2.w3-right.w3-input.w3-margin.w3-padding-16.w3-text-size-30
                 | Create Widget
             hr.w3-clear
             p.w3-center
@@ -59,8 +59,8 @@ block body
                             i.fa.fa-align-justify.icon-light
                     .grid-item.borderless
                     .grid-item
-                        button.w3-button.w3-bold.w3-grey(onclick='saveForm()')
-                            | Export
+                        button.w3-button.w3-bold.w3-grey(onclick='saveWidget()')
+                            | Save Widget
                     .grid-item.borderless
 
             .w3-row.w3-container
@@ -213,18 +213,16 @@ block body
                                             td
 
     script.
-        function saveForm(){
-            var formBody = document.getElementById('form-content').innerHTML;
-            var formName = document.getElementById('formName').value;
-            var formControlNumber = document.getElementById('formControlNumber').value;
+        function saveWidget(){
+            var widgetCanvas = document.getElementById('widget-canvas').innerHTML;
+            var widgetName = document.getElementById('widgetName').value;
 
             const data = {
-                name: formName,
-                formControlNumber: formControlNumber,
-                formContent: formBody
+                name: widgetName,
+                widgetContent: widgetCanvas
             };
 
-            fetch('/savecreatedform', {
+            fetch('/savecreatedwidget', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -239,6 +237,7 @@ block body
             }).then(data => {
                 const success = data.success; // Assuming the response contains a 'success' property
                 if (success) {
+                    alert("Widget Created!")
                     window.location.href = '/';
                 } else {
                 }
