@@ -613,7 +613,6 @@ app.get('/ourTeam', async function(req, res){
     }
 });
 
-
 app.post('/login', async function (req, res) {
     if (req.session.loggedIn) {
         res.redirect('/');
@@ -676,6 +675,7 @@ app.get('/createform', async function(req, res){
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
+        currentUserWidgets = await getWidgets(req.session.userEmpID);
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
@@ -1415,6 +1415,23 @@ async function getForms(empID){
         }
     }
     return formsCollections;
+}
+
+async function getWidgets(empID){
+    var widgetsCollections;
+    try {
+        widgetsCollections = await widgets.find().toArray();
+
+        if(debug_mode){
+            logStatus("The array forms at function getWidgets() : " + JSON.stringify(widgetsCollections));
+        }
+    } catch (error) {
+        widgetsCollections = [];
+        if(debug_mode){
+            logStatus("Failed to retrieve forms: " + error);
+        }
+    }
+    return widgetsCollections;
 }
 
 async function getFiles(empID) {

@@ -1,8 +1,11 @@
 .draggable-content
     .w3-row.w3-padding-16
-        h4.w3-bold.w3-khaki.w3-padding-16.w3-center Custom Fields
+        h4.w3-bold.w3-khaki.w3-padding-16.w3-center Personalized Widgets
         button.w3-row(onclick='goToCreateWidget()')
             | Create Widget
+        h4.w3-bold.w3-padding-16.w3-center Created Widgets
+        hr
+
     .w3-row.w3-padding-16
         h4.w3-bold.w3-khaki.w3-padding-16.w3-center Header Fields
 
@@ -422,6 +425,12 @@
                     td Row 3
                     td
 script.
+    var widgets = !{JSON.stringify(currentUserWidgets)};
+    console.log(widgets);
+    //var receivedFormContent = formBlock.form_content;
+    //var theContainerOfTheForm = document.getElementById('theContainerOfTheForm');
+    //theContainerOfTheForm.innerHTML = receivedFormContent;
+
     function goToCreateWidget(){
         window.location.href = 'createwidget';
     }

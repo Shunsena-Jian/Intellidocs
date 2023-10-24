@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*createwidget.pug&#10;//Added ajax function for saving widget&#10;index.js&#10;//Added save created widget post request">
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="index.js&#10;//Added owner to save widget post request">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/createform.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createform.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/createform_draggable_content.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createform_draggable_content.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -232,7 +235,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698156084606</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="index.js&#10;//Added owner to save widget post request">
+      <created>1698156411335</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1698156411335</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -248,7 +258,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="+accountsettings.pug&#10;//Added initial account settings as placeholder&#10;*index.js&#10;//Added request and response for accountsettings.pug&#10;*layout&#10;//no idea what i did here" />
     <MESSAGE value="+formviewlayout.pug&#10;//Replicated layout.pub imports for use on formview.pug to avoid redundant imports when formview.pug extends layout.pug&#10;*index.js&#10;//Added user files on form view request response&#10;layout.pug&#10;//resolved icon bugs" />
     <MESSAGE value="*formviewlayout.pug&#10;//Added set_features.js functionalities&#10;*layout.pug&#10;//Added set_features.js functionalities&#10;+set_features.js&#10;//Created function to receive privileges and remove unnecessary features from sidebar" />
     <MESSAGE value="+notifications.css&#10;//Added and segregated notifications.css © Cass&#10;*layout.pug&#10;//Added notifications elements © Cass&#10;+w3css4.css&#10;//Added checkbox css © Cass" />
@@ -273,6 +282,7 @@
     <MESSAGE value="*createform_draggable_content.pug&#10;//Mounted create widget anchor to sidebar shortcut" />
     <MESSAGE value="*dbinit.js&#10;//Added widgets collection connection initialization&#10;index.js&#10;//Added widgets collection connection initialization" />
     <MESSAGE value="*createwidget.pug&#10;//Added ajax function for saving widget&#10;index.js&#10;//Added save created widget post request" />
-    <option name="LAST_COMMIT_MESSAGE" value="*createwidget.pug&#10;//Added ajax function for saving widget&#10;index.js&#10;//Added save created widget post request" />
+    <MESSAGE value="index.js&#10;//Added owner to save widget post request" />
+    <option name="LAST_COMMIT_MESSAGE" value="index.js&#10;//Added owner to save widget post request" />
   </component>
 </project>
