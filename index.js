@@ -22,7 +22,8 @@ const { MongoClient,
         initializeFilesCollectionConnection,
         initializeNotificationsCollectionConnection,
         initializeDatabaseConnection,
-        initializeFormsCollectionConnection } = require('./dbinit.js');
+        initializeFormsCollectionConnection,
+        initializeWidgetsCollectionConnection} = require('./dbinit.js');
 
 const db = initializeDatabaseConnection(url,dbName);
 const users = initializeUsersCollectionConnection(db);
@@ -30,6 +31,7 @@ const files = initializeFilesCollectionConnection(db);
 const privileges = initializePrivilegesCollectionConnection(db);
 const notifications = initializeNotificationsCollectionConnection(db);
 const forms = initializeFormsCollectionConnection(db);
+const widgets = initializeWidgetsCollectionConnection(db);
 
 const port = config.port;
 const debug_mode = config.debug_mode;

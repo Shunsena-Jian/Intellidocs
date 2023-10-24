@@ -16,6 +16,7 @@ function initializeDatabaseConnection(url,dbName){
     }
 }
 
+// Forms collection initialization
 function initializeFormsCollectionConnection(db){
     var forms;
     try{
@@ -75,6 +76,18 @@ function initializePrivilegesCollectionConnection(db){
     }
 }
 
+// Widgets collection initialization
+function initializeWidgetsCollectionConnection(db){
+    var widgets;
+    try{
+        widgets = db.collection('widgets');
+        console.log("Connected to the Database Wdigets Collection.");
+        return widgets;
+    }catch(error){
+        console.log(error);
+    }
+}
+
 module.exports = {
     MongoClient,
     initializeDatabaseConnection,
@@ -82,5 +95,6 @@ module.exports = {
     initializePrivilegesCollectionConnection,
     initializeUsersCollectionConnection,
     initializeNotificationsCollectionConnection,
-    initializeFormsCollectionConnection
+    initializeFormsCollectionConnection,
+    initializeWidgetsCollectionConnection
 };
