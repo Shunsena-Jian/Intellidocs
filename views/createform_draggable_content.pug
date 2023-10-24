@@ -5,6 +5,10 @@
             | Create Widget
         h4.w3-bold.w3-padding-16.w3-center Created Widgets
         hr
+        #widgetDragBarContainer
+
+
+
 
     .w3-row.w3-padding-16
         h4.w3-bold.w3-khaki.w3-padding-16.w3-center Header Fields
@@ -425,11 +429,21 @@
                     td Row 3
                     td
 script.
+
     var widgets = !{JSON.stringify(currentUserWidgets)};
-    console.log(widgets);
-    //var receivedFormContent = formBlock.form_content;
-    //var theContainerOfTheForm = document.getElementById('theContainerOfTheForm');
-    //theContainerOfTheForm.innerHTML = receivedFormContent;
+    var widgetDragBarContainer = document.getElementById('widgetDragBarContainer');
+
+    var widgetChild = "";
+
+
+    for(i = 0; i < widgets.length; i++){
+        var tempElement = document.createElement('div');
+        widgetChild = `<h4 class="w3-bold w3-padding-16 w3-center">` + widgets[i].widget_name + `</h4>` +
+         `<div class="header w3-row draggable table" draggable="true">` + widgets[i].widget_content + `</div>`;
+        tempElement.innerHTML = widgetChild;
+        widgetDragBarContainer.appendChild(tempElement);
+    }
+
 
     function goToCreateWidget(){
         window.location.href = 'createwidget';
