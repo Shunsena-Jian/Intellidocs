@@ -302,7 +302,8 @@ app.post('/savecreatedwidget', async function(req, res){
 
         const widgetDocument = {
             widget_name: widgetData.name,
-            widget_content: widgetData.widgetContent
+            widget_content: widgetData.widgetContent,
+            widget_owner: req.session.userEmpID
         };
 
         //console.log("This is the Form Document: " + JSON.stringify(formDocument));
