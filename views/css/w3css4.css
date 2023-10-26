@@ -29,8 +29,7 @@
 }
 
 body {
- background-image:
-     url("../src/samcis_bg.jpg");
+     background-image:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("../src/bg original.jpg");
      background-size: cover;
      background-repeat: no-repeat;
      background-position: center;
@@ -122,7 +121,7 @@ body {
   position: fixed;
   top: 0px;
   left: 0px;
-  background: #2E2E2E;
+  background: #121B3B;
   width: 100%;
   z-index: 10;
 }
@@ -164,7 +163,7 @@ body {
   text-overflow: ellipsis;
   text-transform: uppercase;
   color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
-  background-color: #2E2E2E;
+  background-color: #121B3B;
   /* background-color: rgb(1, 47, 61) */
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   font-family: var(--pure-material-font, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);
@@ -259,7 +258,7 @@ body {
 }
 
 #dialogbox > div > #dialogboxhead{
-  background: #2E2E2E;
+  background: #121B3B;
   font-size:19px;
   padding:10px;
   color:rgb(255, 255, 255);
@@ -356,7 +355,7 @@ margin-bottom: 15px;
 }
 
 .btn {
-  background:#2E2E2E;
+  background:#121B3B;
   padding: 10px;
   width: 100%;
   font-family: 'Aoboshi One';
@@ -376,7 +375,7 @@ margin-bottom: 15px;
 }
 
 .heading{
-  background: #2E2E2E;
+  background: #121B3B;
   margin: 0px;
   text-align: center;
   color: white;
@@ -392,8 +391,7 @@ margin-bottom: 15px;
 
 /*---------- LOGIN HOME (cass) ----------*/
 body {
-    /*background: linear-gradient(to right, #EEB76B, #E1D89F);*/
-    background-image: url("../src/bg.jpg");
+    background-image:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("../src/bg original.jpg");
     background-size: cover;
     background-repeat no-repeat;
     background-attachment-fixed;
@@ -667,7 +665,7 @@ body {
 }
 
 .aboutUs .aboutUsTextGroup {
-  background-color: #323232;
+  background-color: #121B3B;
   width: 539px;
   min-height: 424px;
   height: auto;
@@ -2626,7 +2624,7 @@ border: 5px solid black;
 }
 /*Profile Pic End*/
 
-
+/*button effect (cass)*/
 .bottone5 {
  align-items: center;
  background-color: #F9F9F9;
@@ -2717,7 +2715,7 @@ border: 5px solid black;
 }
 
 .light-mode {
-background-color: #2E2E2E;
+background-color: #FFFFFF;
 color: white;
 }
 
