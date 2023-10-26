@@ -2701,6 +2701,7 @@ border: 5px solid black;
 
 .column .count {
     font-size: 2vw;
+    color: white;
 }
 
 .chart {
