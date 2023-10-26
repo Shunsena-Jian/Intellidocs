@@ -39,28 +39,24 @@ block body
                     .w3-bar
                         span.w3-button.w3-display-topright(onclick="document.getElementById('changePasswordModal').style.display='none'") &times;
 
-
                     label(style='font-family: Courier New, monospace; font-weight:normal;') Current Password
-                    input(type='password')
+                    input(id='currentPassword' name='currentPassword' type='password')
                     label(style='font-family: Courier New, monospace; font-weight:normal;') New Password
-                    input(type='password')
+                    input(id='newPassword' name='newPassword' type='password')
                     label(style='font-family: Courier New, monospace; font-weight:normal;') Confirm Password
-                    input(type='password')
+                    input(id='confirmPassword' name='confirmPassword' type='password')
                     p#selectedFileForDeletionPlaceholder
-                    button.btn(onclick=`deleteSelectedFile()`) Reset Password
+                    br
+                    p.error-message
+                    br
+                    button(class='btn' onclick="updatePassword()") Reset Password
                     br
                     button.btn.w3-amber(onclick="hideChangePasswordModal()") Cancel
 
     script.
-        var changePasswordModal = document.getElementById('changePasswordModal');
 
-        function showChangePasswordModal(){
-            changePasswordModal.style.display = 'block';
-        }
-        function hideChangePasswordModal(){
-            changePasswordModal.style.display = 'none';
-        }
     script(src="/js/client.functions/handle_ajax_upload_pictures.js")
+    script(src="/js/client.functions/handle_ajax_update_password.js")
     script(src="js/UploadProfilePic.js")
 
 
