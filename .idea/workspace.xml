@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*index.js&#10;//Added get widgets function&#10;//Added get current widgets to create form reqeust&#10;*createform_draggable_content.pug&#10;//Added personal widget section to drag bar&#10;//Now receives widgets json block">
+      <change afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_update_password.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/css/create_form_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/create_form_style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/css/loginPages.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/loginPages.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/css/w3-theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/w3-theme.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/css/w3css4.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/w3css4.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/accountsettings.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/accountsettings.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,9 +27,6 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 0
-}</component>
   <component name="ProjectId" id="2WILMosCqF7RSTraY5bRuQcCOMT" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -39,11 +35,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "main"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\Desktop\the thesis container\views" />
