@@ -1320,6 +1320,42 @@ app.post('/upload', upload.single('file'), async function (req, res) {
     }
 });
 
+app.post('/update-Password', async function(req, res){
+    if(req.session.loggedIn) {
+
+        const currentUserPassword = req.body.currentPassword;
+        const newUserPassword = req.body.newPassword;
+
+
+        try{
+            var currentUser = await users.findOne({ emp_id: req.session.userEmpID });
+
+            if(currentUserPassword === currentUser.password){
+                    const updatedPassword = await users.findOneAndUpdate(
+                        { emp_id : currentUser.emp_id },
+                        { $set: { password: newUserPassword } },
+                        { returnNewDocument: false }
+                        );
+                    if(debug_mode){
+                        logStatus("Password of " + currentUser.emp_id + " was updated.");
+                    }
+                    res.send({status_code: 0});
+            } else {
+                if(debug_mode){
+                    logStatus("Current password is incorrect.");
+                }
+                res.send({status_code: 1});
+            }
+        } catch(error){
+            logStatus("Failed updating password " + error);
+        }
+    } else {
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
 async function getUserPicture(empID){
     var userPicture;
 
