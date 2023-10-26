@@ -1,15 +1,15 @@
 extends layout.pug
 
 block body
-    .w3-main#main(style='margin-left:250px')
-        .w3-row.w3-padding-64
+    .w3-main#main(style='margin-left:250px; margin-top:100px;')
+        .w3-row.w3-card.w3-container.w3-white.w3-margin
             h4.w3-bold Create Form
             input#formName.w3-col.s6.w3-input.w3-margin(placeholder="Type Form Name [Required]" required='')
             input#formControlNumber.w3-col.s6.w3-input.w3-margin(placeholder="Type Form Control Number [Required]" required='')
             hr.w3-clear
             p.w3-center
             .w3-row.w3-container
-                .grid-container.w3-white
+                .grid-container.w3-light-grey
                     //-.grid-item
                     //-  label(for='textBoxSelect') Text Box:
                     //-   select#textBoxSelect(onchange='createTextBox()')
@@ -82,12 +82,13 @@ block body
                     .grid-item.borderless
 
             .w3-row.w3-container
-                .w3-twothird.w3-container
-                    #form-content.pages
-                        #page-1.drop-container
+                .w3-twothird.w3-container3
+                    .paperContainer
+                        #form-content.pages
+                            #page-1.drop-container
 
                 .w3-third
-                    .page-container.w3-container.w3-white
+                    .page-container.w3-container.w3-light-grey
                         //LEI -- REFER TO createform_draggable_content FOR FUTURE REVISIONS
                         include createform_draggable_content
 
