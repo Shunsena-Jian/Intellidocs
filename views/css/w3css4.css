@@ -29,7 +29,8 @@
 }
 
 body {
- background-image: url("../src/bg.jpg");
+ background-image:
+     url("../src/samcis_bg.jpg");
      background-size: cover;
      background-repeat: no-repeat;
      background-position: center;
@@ -2746,6 +2747,7 @@ color: black;
 html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}
 /* Extract from normalize.css by Nicolas Gallagher and Jonathan Neal git.io/normalize */
 html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}
+opacity-50{opacity: 0.5;}
 article,aside,details,figcaption,figure,footer,header,main,menu,nav,section{display:block}summary{display:list-item}
 audio,canvas,progress,video{display:inline-block}progress{vertical-align:baseline}
 audio:not([controls]){display:none;height:0}[hidden],template{display:none}
