@@ -78,5 +78,6 @@ block body
     script.
         var formBlock = !{JSON.stringify(currentForm)};
         var receivedFormContent = formBlock.form_content;
+        console.log("This is the receivedFormContent ", receivedFormContent);
         var theContainerOfTheForm = document.getElementById('theContainerOfTheForm');
         theContainerOfTheForm.innerHTML = receivedFormContent;

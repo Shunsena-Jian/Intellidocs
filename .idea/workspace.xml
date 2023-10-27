@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*index.js&#10;//Added get widgets function&#10;//Added get current widgets to create form reqeust&#10;*createform_draggable_content.pug&#10;//Added personal widget section to drag bar&#10;//Now receives widgets json block">
-      <change afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_update_password.js" afterDir="false" />
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="* accountsettings.pug&#10;// change button for updating password to onclick function for calling ajax update password&#10;&#10;+ handle_ajax_update_password.js&#10;// Created ajax for updating password&#10;&#10;* index.js&#10;// Created post for updating password">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/accountsettings.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/accountsettings.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -251,7 +249,23 @@
       <option name="project" value="LOCAL" />
       <updated>1698158076488</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="* accountsettings.pug&#10;// change button for updating password to onclick function for calling ajax update password&#10;&#10;+ handle_ajax_update_password.js&#10;// Created ajax for updating password&#10;&#10;* index.js&#10;// Created post for updating password">
+      <option name="closed" value="true" />
+      <created>1698337764110</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1698337764110</updated>
+    </task>
+    <task id="LOCAL-00030" summary="* accountsettings.pug&#10;// change button for updating password to onclick function for calling ajax update password&#10;&#10;+ handle_ajax_update_password.js&#10;// Created ajax for updating password&#10;&#10;* index.js&#10;// Created post for updating password">
+      <option name="closed" value="true" />
+      <created>1698337770879</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1698337770879</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -267,7 +281,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="*formviewlayout.pug&#10;//Added set_features.js functionalities&#10;*layout.pug&#10;//Added set_features.js functionalities&#10;+set_features.js&#10;//Created function to receive privileges and remove unnecessary features from sidebar" />
     <MESSAGE value="+notifications.css&#10;//Added and segregated notifications.css © Cass&#10;*layout.pug&#10;//Added notifications elements © Cass&#10;+w3css4.css&#10;//Added checkbox css © Cass" />
     <MESSAGE value="*layout.pug&#10;//Remodeled notifications design&#10;*notifications.css&#10;//Remodeled notifications design" />
     <MESSAGE value="*layout.pug&#10;//Improved notifications design&#10;*index.pug&#10;//Remodeled notifications design&#10;//Prepared form flow structure" />
@@ -292,6 +305,7 @@
     <MESSAGE value="*createwidget.pug&#10;//Added ajax function for saving widget&#10;index.js&#10;//Added save created widget post request" />
     <MESSAGE value="index.js&#10;//Added owner to save widget post request" />
     <MESSAGE value="*index.js&#10;//Added get widgets function&#10;//Added get current widgets to create form reqeust&#10;*createform_draggable_content.pug&#10;//Added personal widget section to drag bar&#10;//Now receives widgets json block" />
-    <option name="LAST_COMMIT_MESSAGE" value="*index.js&#10;//Added get widgets function&#10;//Added get current widgets to create form reqeust&#10;*createform_draggable_content.pug&#10;//Added personal widget section to drag bar&#10;//Now receives widgets json block" />
+    <MESSAGE value="* accountsettings.pug&#10;// change button for updating password to onclick function for calling ajax update password&#10;&#10;+ handle_ajax_update_password.js&#10;// Created ajax for updating password&#10;&#10;* index.js&#10;// Created post for updating password" />
+    <option name="LAST_COMMIT_MESSAGE" value="* accountsettings.pug&#10;// change button for updating password to onclick function for calling ajax update password&#10;&#10;+ handle_ajax_update_password.js&#10;// Created ajax for updating password&#10;&#10;* index.js&#10;// Created post for updating password" />
   </component>
 </project>

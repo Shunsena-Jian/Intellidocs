@@ -179,6 +179,7 @@ app.get('/downloadfile/:file_name', function(req, res){
 async function addKeyId(){
 
 }
+
 async function htmlToJson(element) {
     const jsonElementFormat = {
         ele_type: element.nodeName ? element.nodeName.toLowerCase() : 'unknown',
@@ -257,19 +258,22 @@ app.post('/savecreatedform', async function(req, res){
         //------------------ENGINE PLAYGROUND
         var v = new JSDOM(formData.formContent);
         var rootElement = v.window.document.querySelector('.drop-container');
+        var jsonArray = [];
         var w = await htmlToJson(rootElement);
-        var x = JSON.stringify([w],null,2); // goods
-        console.log(x); // goods
+        jsonArray.push(w);
+        // var x = JSON.stringify([w],null,2); // goods
+        // console.log(x); // goods
 
-        var y = JSON.parse(x);
-        var z = await jsonToHTML(y);
-        console.log(z);
+        // var y = JSON.parse(x);
+        // var z = await jsonToHTML(y);
+        // console.log(z);
         //------------------END OF PLAYGROUND
 
         const formDocument = {
             form_name: formData.name,
             form_control_number: formData.formControlNumber,
-            form_content: formData.formContent
+            //form_content: formData.formContent
+            form_content: jsonArray
         };
 
         //console.log("This is the Form Document: " + JSON.stringify(formDocument));
@@ -329,6 +333,40 @@ app.get('/formview/:form_control_number', async function (req, res){
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
+        //--
+        //let jsonObject = JSON.parse(currentForm);
+        let jsonObject = currentForm;
+        let updatedJsonString;
+        var e = jsonObject.form_content;
+        var f = JSON.stringify(e); // nag hahang or load
+        var g = await jsonToHTML(e);
+        try{
+            console.log("hindi nag error yata");
+            console.log(g);
+            //console.log(jsonObject.form_content );
+            jsonObject.form_content = g;
+
+
+            //updatedJsonString = JSON.stringify(jsonObject);
+        }catch{
+            console.log('NAG ERROR NA NANG SOBRA')
+        }
+
+
+
+
+        //--
+
+        // var halaka = await jsonToHTML(currentForm.form_content);
+
+        //console.log(halaka);
+
+        //--
+//        var y = JSON.parse(currentForm);
+//        console.log("This is the y ", y);
+//        var z = await jsonToHTML(y);
+
+        //--
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         res.render('formview', {
@@ -337,13 +375,14 @@ app.get('/formview/:form_control_number', async function (req, res){
             currentUserFiles: currentUserFiles,
             currentUserPrivileges: currentUserPrivileges,
             currentUserNotifications: currentUserNotifications,
-            currentForm: currentForm,
+            // currentForm: currentForm,
+            currentForm: jsonObject,
             currentUserPicture: currentUserPicture,
             min_idleTime: min_idleTime
         });
 
-    }catch(error){
-        console.log("we found an error");
+    } catch(error) {
+        console.log("we found an error " + error);
     }
 });
 
