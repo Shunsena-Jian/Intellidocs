@@ -8,9 +8,9 @@ block body
                     h2.heading Account Details
                     .picture-container
                       .picture
-                        img#profilePic.picture-src(src='../src/avatar3.png' title='')
+                        img#profilePic.picture-src(src=`${currentUserPicture.user_picture}` title='')
                         input#wizard-picture(type='file')
-                      h6 click image to upload
+                      h6 Click the Image to update your Profile Picture
                     .form_wrap.fullname
                         .form_item
                             label(style='font-family: Courier New, monospace; font-weight:normal;') First Name
@@ -46,9 +46,7 @@ block body
                     label(style='font-family: Courier New, monospace; font-weight:normal;') Confirm Password
                     input(id='confirmPassword' name='confirmPassword' type='password')
                     p#selectedFileForDeletionPlaceholder
-                    br
-                    p.error-message
-                    br
+                    p#error-message(style='font-family: Courier New, monospace; font-weight:normal; text-align: center; color: red;')
                     button(class='btn' onclick="updatePassword()") Reset Password
                     br
                     button.btn.w3-amber(onclick="hideChangePasswordModal()") Cancel

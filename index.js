@@ -327,12 +327,14 @@ app.get('/formview/:form_control_number', async function (req, res){
     try{
         var selectedFormControlNumberToView = req.params.form_control_number;
         var currentForm;
+        var retrievedUserEmails;
 
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
+        retrievedUserEmails = await getUsersEmails();
         //--
         //let jsonObject = JSON.parse(currentForm);
         let jsonObject = currentForm;
@@ -371,6 +373,7 @@ app.get('/formview/:form_control_number', async function (req, res){
 
         res.render('formview', {
             title: 'View Forms',
+            retrievedUserEmails : retrievedUserEmails,
             currentUserDetailsBlock : currentUserDetailsBlock,
             currentUserFiles: currentUserFiles,
             currentUserPrivileges: currentUserPrivileges,
@@ -1365,11 +1368,11 @@ app.post('/update-Password', async function(req, res){
         const currentUserPassword = req.body.currentPassword;
         const newUserPassword = req.body.newPassword;
 
-
         try{
             var currentUser = await users.findOne({ emp_id: req.session.userEmpID });
 
             if(currentUserPassword === currentUser.password){
+                if(newUserPassword !== currentUser.password){
                     const updatedPassword = await users.findOneAndUpdate(
                         { emp_id : currentUser.emp_id },
                         { $set: { password: newUserPassword } },
@@ -1379,11 +1382,17 @@ app.post('/update-Password', async function(req, res){
                         logStatus("Password of " + currentUser.emp_id + " was updated.");
                     }
                     res.send({status_code: 0});
+                } else {
+                    if(debug_mode){
+                        logStatus("New password should not be the same as your current password.");
+                    }
+                    res.send({status_code: 1})
+                }
             } else {
                 if(debug_mode){
                     logStatus("Current password is incorrect.");
                 }
-                res.send({status_code: 1});
+                res.send({status_code: 2});
             }
         } catch(error){
             logStatus("Failed updating password " + error);
@@ -1541,6 +1550,23 @@ async function getUserAccounts() {
             logStatus("Failed to retrieve documents: " + error);
         }
 
+    }
+}
+
+async function getUsersEmails() {
+    var userName;
+    var empIDs = [];
+    try{
+        userName = await users.find({}).toArray();
+
+        for (const user of userName) {
+            empIDs.push(user.last_name);
+        }
+
+        console.log("This are the userNames: " + JSON.stringify(empIDs));
+        return empIDs;
+    } catch(error) {
+        logStatus("There is an error retrieving the user names: " + error);
     }
 }
 

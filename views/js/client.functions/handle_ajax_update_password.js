@@ -20,10 +20,11 @@
         const confirmPassword = document.getElementById('confirmPassword').value;
 
         if(newPassword != confirmPassword){
-            alert("New password does not match!");
-            hideChangePasswordModal();
+            // alert("New password does not match!");
+            document.getElementById("error-message").innerHTML = "New password does not match.";
         }else if(!newPassword || !currentPassword || !confirmPassword){
-            alert("MUST FILL OUT ALL FIELDS!");
+            // alert("MUST FILL OUT ALL FIELDS!");
+            document.getElementById("error-message").innerHTML = "Fill out all fields.";
         }else{
             const data = {
                 currentPassword: currentPassword,
@@ -36,9 +37,17 @@
                 data: data,
                 success: function(response) {
                     if (response.status_code === 0) {
-                        window.location.href = '/logout';
+                        // alert("Password has been updated!");
+                        document.getElementById("error-message").innerHTML = "Password has been updated, you will be logged out in 2 seconds.";
+                        setTimeout(function(){
+                            window.location.href = '/logout';
+                        }, 2000);
                     } else if (response.status_code === 1) {
-                        alert("Incorrect Current Password");
+                        // alert("New password and current password should not match.");
+                        document.getElementById("error-message").innerHTML = "New password and current password should not match.";
+                    } else if (response.status_code === 2){
+                        // alert("Incorrect Current Password");
+                        document.getElementById("error-message").innerHTML = "Incorrect Current Password.";
                     } else {
                         $('.error-message').text(response.error);
                     }
