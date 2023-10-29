@@ -1555,16 +1555,16 @@ async function getUserAccounts() {
 
 async function getUsersEmails() {
     var userName;
-    var empIDs = [];
+    var empEmails = [];
     try{
         userName = await users.find({}).toArray();
 
         for (const user of userName) {
-            empIDs.push(user.last_name);
+            empEmails.push(user.last_name);
         }
 
-        console.log("This are the userNames: " + JSON.stringify(empIDs));
-        return empIDs;
+        console.log("This are the userNames: " + JSON.stringify(empEmails));
+        return empEmails;
     } catch(error) {
         logStatus("There is an error retrieving the user names: " + error);
     }

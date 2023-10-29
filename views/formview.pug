@@ -78,7 +78,7 @@ block body
 
     script.
         var formBlock = !{JSON.stringify(currentForm)};
-        var userEmails = !{JSON.stringify(retrievedUserEmails)}
+        var empEmails = !{JSON.stringify(retrievedUserEmails)}
         var receivedFormContent = formBlock.form_content;
         console.log("This is the receivedFormContent ", receivedFormContent);
         var theContainerOfTheForm = document.getElementById('theContainerOfTheForm');
@@ -88,7 +88,7 @@ block body
 
     script.
         $( function() {
-            var allEmails = userEmails;
+            var allEmails = empEmails;
             $( "#employee_id" ).autocomplete({
                 source: allEmails
             });
