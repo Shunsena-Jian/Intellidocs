@@ -1,8 +1,10 @@
 extends layout.pug
 
 block body
-    .w3-main#main(style='margin-left:250px')
-        .w3-row.w3-padding-64
+    //.w3-main#main(style='margin-left:250px')
+    .w3-main#main(style='margin-left:250px; margin-top:100px;')
+        //.w3-row.w3-padding-64
+        .w3-row.w3-card.w3-container.w3-white.w3-margin
             h4.w3-bold Create Widget
             input#widgetName.w3-col.s6.w3-input.w3-margin.w3-padding-16.w3-text-size-30(placeholder="Type Widget Name [Required]" required='')
             //button.w3-col.s2.w3-right.w3-input.w3-margin.w3-padding-16.w3-text-size-30
@@ -10,7 +12,8 @@ block body
             hr.w3-clear
             p.w3-center
             .w3-row.w3-container
-                .grid-container.w3-white
+                //.grid-container.w3-white
+                .grid-container.w3-light-grey
                     .grid-item
                         label(for='modifyOrientation') Orientation:
                         select#modifyOrientation(onchange='modifyOrientation()')
@@ -71,146 +74,11 @@ block body
 
 
                 .w3-third
-                    .widget-container.w3-container.w3-white
-                        .draggable-content
-                            .w3-row.w3-padding-16
-                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Sections
-                                .grid-container-vertical.w3-white.w3-container.draggable.box.w3-hover-light-grey.w3-ol(draggable='true')
-                                    .grid-item.w3-row.w3-border.w3-padding-16.container
-                                    .grid-item.w3-row.w3-border.w3-padding-16.container
-                                hr.w3-clear
-                                .grid-container.w3-white.w3-container.draggable.box.w3-hover-light-grey.w3-ol(draggable='true')
-                                    .grid-item.w3-col.s6.w3-border.w3-padding-16.container
-                                    .grid-item.w3-col.s6.w3-border.w3-padding-16.container
-                                hr.w3-clear
-                                .grid-container.w3-white.w3-container.draggable.box.w3-hover-light-grey.w3-ol(draggable='true')
-                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
-                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
-                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
-                                hr.w3-clear
-                                .grid-container.w3-white.w3-container.draggable.box.w3-hover-light-grey.w3-ol(draggable='true')
-                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
-                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
-                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
-                                    .grid-item.w3-col.s4.w3-border.w3-padding-16.container
-                            .w3-row.w3-padding-16
-                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Text Fields
-                                h3.textbox.w3-row.w3-container.box.draggable.w3-hover-light-grey(draggable="true")
-                                    |                         This is a sample title
-                                hr.w3-clear
-                                h5.textbox.w3-row.w3-container.box.draggable.w3-hover-light-grey(draggable="true")
-                                    |                         This is a sample normal text
-                                hr.w3-clear
-                                textarea.w3-textarea.w3-row.w3-container.box.draggable.w3-hover-light-grey(draggable="true" readonly type='text' placeholder='This is a sample of a paragraph')
-                                h3.w3-clear
-                                input.draggable.box.w3-input(readonly draggable="true" type='date' placeholder='set deadline')
+                    //.widget-container.w3-container.w3-white
+                    .widget-container.w3-container.w3-light-grey
+                        //LEI -- REFER TO widgetdragbar FOR FUTURE REVISIONS
+                        include widgetdragbar
 
-                            hr.w3-newline-2
-
-                            .w3-row.w3-padding-16
-                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Image
-                                .w3-all-center.w3-container.box.draggable.w3-hover-light-grey(draggable="true")
-                                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.signature
-                                        i.fa.fa-pencil-square.icon-light
-                                        |                         Upload Signature [PNG|JPG]
-
-                                hr.w3-clear
-
-                                .w3-container.w3-hover-white.box.draggable.w3-hover-light-grey(draggable='true')
-                                    a#empImg.w3-button.w3-hide-small.signature
-                                        i.fa.fa-pencil-square.icon-light
-                                        hr.w3-newline
-                                        |             Upload 2x2 picture
-                                hr.w3-clear
-
-                                .w3-container.w3-hover-white.box.draggable.w3-hover-light-grey(draggable='true')
-                                    a#sluLogo.w3-button.w3-hide-small
-                                        i.fa.fa-pencil-square.icon-light
-                                        hr.w3-newline
-                                        |             Upload Logo picture
-
-                            hr.w3-newline-2
-
-                            .w3-row.w3-padding-16
-                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Checkbox
-
-                                .grid-container.w3-white.w3-container.draggable.box.w3-ol.w3-hover-light-grey(draggable='true')
-                                    .grid-item
-                                        label.checkbox-label.w3-col.s6(for='text-1')
-                                            input#apple(type='radio' name='checkbox-1' value='text1' disabled)
-                                            |  Lorem Ipsum
-                                    .grid-item
-                                        label.checkbox-label.w3-col.s6(for='text2')
-                                            input#banana(type='radio' name='checkbox-1' value='text2' disabled)
-                                            |  Lorem Ipsum
-                                    .grid-item
-                                        label.checkbox-label.w3-col.s6(for='text2')
-                                            input#banana(type='radio' name='checkbox-1' value='text2' disabled)
-                                            |  Lorem Ipsum
-                                    .grid-item
-                                        label.checkbox-label.w3-col.s6(for='text2')
-                                            input#banana(type='radio' name='checkbox-1' value='text2' disabled)
-                                            |  Lorem Ipsum
-                            hr.w3-newline-2
-
-                            .w3-row.w3-padding-16
-                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Lists
-
-                                ol.w3-margin.w3-padding-16.w3-container.draggable.box.w3-hover-light-grey.w3-ol(draggable='true')
-                                    li item 1
-                                    li item 2
-                                    li item 3
-                                hr.w3-clear
-                                ul.w3-margin.w3-padding-16.w3-container.draggable.box.w3-hover-light-grey.w3-ul(draggable='true')
-                                    li item 1
-                                    li item 2
-                                    li item 3
-
-                            hr.w3-newline-2
-
-                            .w3-row.w3-padding-16
-                                h4.w3-bold.w3-khaki.w3-padding-16.w3-center Table
-                                table.draggable.table.w3-bold.w3-hover-light-grey(draggable='true')
-                                    tbody
-                                        tr
-                                            th Header 1
-                                            th Header 2
-                                        tr
-                                            td Text 1
-                                            td
-                                        tr
-                                            td Text 2
-                                            td
-
-                                table.draggable.table.w3-bold.w3-hover-light-grey(draggable='true')
-                                    tbody
-                                        tr
-                                            th Header 1
-                                            th Header 2
-                                            th Header 3
-                                            th Header 4
-                                        tr
-                                            td Text 1
-                                            td
-                                            td
-                                            td
-                                        tr
-                                            td Text 2
-                                            td
-                                            td
-                                            td
-
-                                table.draggable.table.w3-bold.w3-hover-light-grey(draggable='true')
-                                    tbody
-                                        tr
-                                            td Row 1
-                                            td
-                                        tr
-                                            td Row 2
-                                            td
-                                        tr
-                                            td Row 3
-                                            td
 
     script.
         function saveWidget(){
