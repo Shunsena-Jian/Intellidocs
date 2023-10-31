@@ -20,6 +20,7 @@ window.onload = function(){
     dropContainers = document.querySelectorAll('.drop-container');
     currentPageContent = document.querySelector('.drop-container');
     currentPage = dropContainers.length;
+    currentHeight = 0;
     tables = document.querySelectorAll('.table');
     activeDraggable = null;
     sectionCount = 0;
@@ -33,7 +34,13 @@ window.onload = function(){
     selectedTextBox = null;
 
     initializeDraggables();
-    initializeCurrentPage();
+    if (currentPageContent.childElementCount > 0) {
+        console.log("currentPageContent has content:", currentPageContent);
+        initializeCurrentPage();
+    } else {
+        console.log("currentPageContent is empty or falsy:", currentPageContent);
+    }
+
 
     console.log(currentPage);
 //    console.log(dropContainers);
@@ -106,41 +113,31 @@ function initializeContextMenuForChildren(pageCount){
 
 }
 
-function initializeContextMenuForChild(clonedDiv){
-    if (clonedDiv.nodeName.toLowerCase() === 'table') {
-        clonedDiv.addEventListener('contextmenu', (e) => {
+function initializeContextMenuForChild(clonedDiv) {
+    function addContextMenuListenerToElement(element) {
+        element.addEventListener('contextmenu', (e) => {
             e.preventDefault();
-            createContextMenu(e.clientX, e.clientY, clonedDiv, null);
-        });
-        clonedDiv = activateElement(clonedDiv, "div");
-
-    } else if (clonedDiv.nodeName.toLowerCase() === 'div' && clonedDiv.querySelector('table')) {
-        // Check if it is a div and has a table child element. If yes, apply
-        const tableChild = clonedDiv.querySelector('table');
-//        console.log(tableChild);
-        var updatedTableChild = activateElement(tableChild, "table");
-
-        updatedTableChild.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            createContextMenu(e.clientX, e.clientY, clonedDiv, updatedTableChild);
-//            rightClickWidgetActive = false;
-        });
-
-        // Update the tableChild in the clonedDiv after
-        const oldTableChild = clonedDiv.querySelector('table');
-
-        const parentDiv = oldTableChild.parentNode;
-        parentDiv.replaceChild(updatedTableChild, oldTableChild);
-
-    } else {
-//        console.log(clonedDiv);
-        clonedDiv = selectElement(clonedDiv, "div");
-        clonedDiv.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            createContextMenu(e.clientX, e.clientY, clonedDiv, null);
+            createContextMenu(e.clientX, e.clientY, clonedDiv, element);
         });
     }
+
+    function processChildElements(element) {
+        addContextMenuListenerToElement(element);
+
+        for (const child of element.children) {
+            processChildElements(child);
+        }
+    }
+
+    // Add the listener to the clonedDiv itself
+    addContextMenuListenerToElement(clonedDiv);
+
+    // Process child elements recursively
+    for (const child of clonedDiv.children) {
+        processChildElements(child);
+    }
 }
+
 
 
 
@@ -892,30 +889,10 @@ function createContextMenu(x,y,element, table) {
         while (contextMenu.firstChild) {
             contextMenu.removeChild(contextMenu.firstChild);
         }
-
         rightClickWidgetActive = false;
-
     } else {
-
         contextMenu.classList.add('context-menu');
         if (table) {
-            console.log("pakyu");
-
-            if (element.classList.contains('draggable')) {
-                const deleteButton = document.createElement('button');
-                deleteButton.classList.add("button-table");
-                deleteButton.innerText = 'Delete Widget Table';
-
-                deleteButton.addEventListener('click', () => {
-                    if (confirm('Are you sure you want to delete this box?')) {
-                        element.remove();
-                        repositionBoxes();
-                        checkCurrentPage();
-                    }
-                    contextMenu.remove();
-                });
-                contextMenu.appendChild(deleteButton);
-            }
 
             if (element.classList.contains('table')) {
                 const addRowButton = document.createElement('button');
@@ -1196,7 +1173,7 @@ function addEventListenerToDiv(dropBox) {
         console.log(currentPageContent.id);
         e.preventDefault();
         setMaxHeight();
-//        console.log("New max height is: " + maxHeight);
+        console.log("New max height is: " + maxHeight);
         dropBox.classList.remove('hover');
 
         if (activeDraggable) {
@@ -1204,16 +1181,15 @@ function addEventListenerToDiv(dropBox) {
             if (isFirstElement == true) {
                 header_height = boxHeight;
                 isFirstElement = false;
-//                console.log(header_height);
-            }
+        }
 
-//            console.log(header_height);
-//            console.log(currentHeight + " is the current height");
-//            console.log(boxHeight + " is the new element height");
+            console.log(header_height);
+            console.log(currentHeight + " is the current height");
+            console.log(boxHeight + " is the new element height");
             console.log(currentHeight + boxHeight + "px");
 
             if (currentHeight + boxHeight > (maxHeight + padding)) {
-//                currentPageContent.style.pageBreakAfter = 'always'; // Add page break after the current page
+                currentPageContent.style.pageBreakAfter = 'always'; // Add page break after the current page
                 currentPageContent = createNewPage(); // Create a new page
                 currentHeight = 0 + header_height + padding; // Reset current height for the new page
             }
@@ -1229,46 +1205,7 @@ function addEventListenerToDiv(dropBox) {
 
             //jaos playground
             tempDiv.classList.add('hover');
-
             //end of playground
-
-            /*Look, I was gonna go easy on you and not to hurt your feelings
-              But I'm only going to get this one chance (six minutes, six minutes)
-              Something's wrong, I can feel it (six minutes, six minutes, Slim Shady, you're on)
-              Just a feeling I've got, like something's about to happen, but I don't know what
-              If that means what I think it means, we're in trouble, big trouble
-              And if he is as bananas as you say, I'm not taking any chances
-              You are just what the doctor ordered
-              I'm beginning to feel like a Rap God, Rap God
-              All my people from the front to the back nod, back nod
-              Now who thinks their arms are long enough to slap box, slap box?
-              They said I rap like a robot, so call me Rapbot
-              But for me to rap like a computer must be in my genes
-              I got a laptop in my back pocket
-              My pen'll go off when I half-cock it
-              Got a fat knot from that rap profit
-              Made a livin' and a killin' off it
-              Ever since Bill Clinton was still in office
-              With Monica Lewinsky feelin' on his nutsack
-              I'm an MC still as honest
-              But as rude and indecent as all hell syllables, killaholic (kill 'em all with)
-              This flippity dippity-hippity hip-hop
-              You don't really wanna get into a pissing match with this rappidy brat
-              Packin' a MAC in the back of the Ac', backpack rap crap, yap-yap, yackity-yack
-              And at the exact same time, I attempt these lyrical acrobat stunts while I'm practicin' that
-              I'll still be able to break a motherfuckin' table
-              Over the back of a couple of faggots and crack it in half
-              Only realized it was ironic I was signed to Aftermath after the fact
-              How could I not blow? All I do is drop F-bombs, feel my wrath of attack
-              Rappers are having a rough time period, here's a Maxipad
-              It's actually disastrously bad
-              For the wack, while I'm masterfully constructing this masterpièce
-              'Cause I'm beginning to feel like a Rap God, Rap God
-              All my people from the front to the back nod, back nod
-              Now who thinks their arms are long enough to slap box, slap box?
-              Let me show you maintaining this shit ain't that hard, that hard
-              Everybody want the key and the secret to rap immortality like I have got
-            */
 
             const newDiv = tempDiv.querySelector('.draggable');
 
@@ -1282,10 +1219,14 @@ function addEventListenerToDiv(dropBox) {
                 if (currentPageContent) { // Check if currentPageContent is defined
                     sectionDiv.appendChild(clonedDiv);
                     currentPageContent.appendChild(sectionDiv); // Append to the current page's content
+                    console.log(currentPageContent.childElementCount);
                     currentHeight += boxHeight; // Update the current height
-//                    console.log(currentHeight);
+                    console.log("current height: " + currentHeight);
+
                     // Update page numbers
-                    updatePageNumbers();
+                    if (currentPageContent.querySelector("header-table")) {
+                        updatePageNumbers();
+                    }
                 } else {
                     console.error('currentPageContent is undefined.'); // Log an error if currentPageContent is undefined
                 }

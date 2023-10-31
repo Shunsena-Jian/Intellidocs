@@ -75,13 +75,16 @@ block body
 
                 .w3-third
                     //.widget-container.w3-container.w3-white
-                    .widget-container.w3-container.w3-light-grey
+
+                    #widget-canvas.widget-container.w3-container.w3-light-grey
                         //LEI -- REFER TO widgetdragbar FOR FUTURE REVISIONS
                         include widgetdragbar
 
 
+
     script.
         function saveWidget(){
+            addReadOnlyAttributesRecursive();
             var widgetCanvas = document.getElementById('widget-canvas').innerHTML;
             var widgetName = document.getElementById('widgetName').value;
 
