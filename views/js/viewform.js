@@ -28,17 +28,17 @@ window.onload = function(){
 
 // Page Settings
 function setMaxHeight() {
-  // Get all elements with the class "drop-container"
-	  var dropContainers = document.querySelectorAll('.drop-container');
-dropContainers.forEach(function (dropContainer) {
-			const computedStyle = getComputedStyle(dropContainer);
-			// Extract the padding value
-			const paddingValue = computedStyle.getPropertyValue('padding');
-			console.log("padding value is: " + paddingValue);
-			// Extract the numeric part of the padding value (removing 'px' or other units)
-			padding = parseFloat(paddingValue);
-			maxHeight = dropContainer.offsetHeight - padding;
-		});
+    // Get all elements with the class "drop-container"
+	var dropContainers = document.querySelectorAll('.drop-container');
+    dropContainers.forEach(function (dropContainer) {
+	    const computedStyle = getComputedStyle(dropContainer);
+	    // Extract the padding value
+	    const paddingValue = computedStyle.getPropertyValue('padding');
+	    console.log("padding value is: " + paddingValue);
+	    // Extract the numeric part of the padding value (removing 'px' or other units)
+	    padding = parseFloat(paddingValue);
+	    maxHeight = dropContainer.offsetHeight - padding;
+	});
 }
 
 
@@ -100,17 +100,17 @@ function addTableRow(table) {
 
 	// Iterate through the cells in the first row
 	for (let j = 0; j < firstRow.cells.length; j++) {
-	  const cell = firstRow.cells[j];
-
-	  // Check if the cell has a colspan attribute greater than 1
-	  if (cell.colSpan > 1) {
-		sumColSpan += cell.colSpan;
-	  }
+	    const cell = firstRow.cells[j];
+	    // Check if the cell has a colspan attribute greater than 1
+	    if (cell.colSpan > 1) {
+	        sumColSpan += cell.colSpan;
+	    }
 	}
 
 	if (sumColSpan == -1) {
 		sumColSpan = 0;
 	}
+
 	let rowColCount = sumColSpan + table.rows[0].cells.length;
 
 	for (let i = 0; i < rowColCount; i++) {
@@ -122,7 +122,6 @@ function addTableRow(table) {
 
 // Export Functions
 function getPDF(id) {
-
 	var top_left_margin = 15;
 	var PDF_Width = 210; // A4 width in mm
 	var PDF_Height = 297; // A4 height in mm
@@ -175,9 +174,8 @@ function getPDF(id) {
 	}
 }
 
-  function downloadPDF(divToPrint) {
-
-	// Configuration options for html2pdf
+function downloadPDF(divToPrint) {
+    // Configuration options for html2pdf
 	const options = {
 	  margin: 10,
 	  filename: 'document.pdf', // Change the filename as needed
@@ -195,13 +193,11 @@ function getPDF(id) {
 	  link.download = options.filename;
 	  link.click();
 	});
-  }
-
+}
 
 
 // Context Menu
 function createContextMenuTable(x, y, element) {
-    //const contextMenu = document.createElement('div');
 	if(rightClickWidgetActive){
         // Get all button elements with the class "box" within the contextMenu div
         const buttonsWithBoxClass = contextMenu.querySelectorAll('button.button-table');
@@ -256,7 +252,7 @@ function createContextMenuTable(x, y, element) {
 
 // Calculations
 function calculateDivHeight(element) {
-return element.getBoundingClientRect().height + 20;
+    return element.getBoundingClientRect().height + 20;
 }
 
 function resizeBoxHeight(box, deltaHeight) {
@@ -275,26 +271,20 @@ function resizeBoxHeight(box, deltaHeight) {
 }
 
 // Miscellaneous
+function clearSelection(table) {
+	selectedCells = [];
+	const selected = table.querySelectorAll('.selectedTable');
+	selected.forEach(cell => cell.classList.remove('selectedTable'));
+}
 
-	function clearSelection(table) {
-		selectedCells = [];
-		const selected = table.querySelectorAll('.selectedTable');
-		selected.forEach(cell => cell.classList.remove('selectedTable'));
-	}
-
-	function getSelectedCells(table) {
-		const selectedCells = [];
-		const cells = table.querySelectorAll('.selectedCells');
-
-		cells.forEach(cell => {
-			selectedCells.push(cell);
-		});
-
-		return selectedCells;
-	}
-
-
-
+function getSelectedCells(table) {
+	const selectedCells = [];
+	const cells = table.querySelectorAll('.selectedCells');
+	cells.forEach(cell => {
+		selectedCells.push(cell);
+	});
+	return selectedCells;
+}
 
 function reassignSectionID() {
 	// Update the IDs of the remaining sections
@@ -305,9 +295,9 @@ function reassignSectionID() {
 }
 
 function checkCurrentPage() {
-	var numberOfChildren = currentPageContent.childElementCount;
-   console.log(numberOfChildren);
-   console.log(currentPageContent.id);
+    var numberOfChildren = currentPageContent.childElementCount;
+    console.log(numberOfChildren);
+    console.log(currentPageContent.id);
 
    // Do nothing if current page is the first page
    if (currentPageContent.id != "page-1") {
@@ -330,8 +320,7 @@ function checkCurrentPage() {
 						// Set dropContainer as the new currentPageContent
 						currentPageContent = dropContainer;
 
-
-					return;
+				return;
 				}
 			});
 		currentPage -=1;
@@ -362,9 +351,7 @@ function updatePageNumbers() {
 
 function repositionBoxes() {
 	const boxes = Array.from(dropBox.querySelectorAll('.box'));
-
 	boxes.forEach((box) => {
-
 		box.addEventListener('drop', (e) => {
 			e.preventDefault();
 			const boxes = Array.from(dropBox.querySelectorAll('.box'));
