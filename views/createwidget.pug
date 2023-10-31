@@ -5,82 +5,89 @@ block body
     .w3-main#main(style='margin-left:250px; margin-top:100px;')
         //.w3-row.w3-padding-64
         .w3-row.w3-card.w3-container.w3-white.w3-margin
-            h4.w3-bold Create Widget
-            input#widgetName.w3-col.s6.w3-input.w3-margin.w3-padding-16.w3-text-size-30(placeholder="Type Widget Name [Required]" required='')
-            //button.w3-col.s2.w3-right.w3-input.w3-margin.w3-padding-16.w3-text-size-30
-                | Create Widget
-            hr.w3-clear
-            p.w3-center
-            .w3-row.w3-container
-                //.grid-container.w3-white
-                .grid-container.w3-light-grey
-                    .grid-item
-                        label(for='modifyOrientation') Orientation:
-                        select#modifyOrientation(onchange='modifyOrientation()')
-                            option(value='square') Square
-                            option(value='landscape-rectangle') Landscape Rectangle
-                            option(value='portrait-rectangle') Portrait Rectangle
+            form(action='/index' method='POST' class='form')
+                h4.w3-bold Create Widget
+                input#widgetName.w3-col.s6.w3-input.w3-margin.w3-padding-16.w3-text-size-30(placeholder="Type Widget Name [Required]" required='')
+                //button.w3-col.s2.w3-right.w3-input.w3-margin.w3-padding-16.w3-text-size-30
+                    | Create Widget
+                hr.w3-clear
+                p.w3-center
+                .w3-row.w3-container
+                    //.grid-container.w3-white
+                    .grid-container.w3-light-grey
+                        .grid-item
+                            label(for='modifyOrientation') Orientation:
+                            select#modifyOrientation(onchange='modifyOrientation()')
+                                option(value='square') Square
+                                option(value='landscape-rectangle') Landscape Rectangle
+                                option(value='portrait-rectangle') Portrait Rectangle
 
-                    .grid-item
-                        label(for='fontSizeSelect') Font Size:
-                        select#fontSizeSelect(onchange='changeFontSize()')
-                            // Generate font size options using JavaScript
-                            script.
-                                for (let i = 1; i <= 100; i++) {
-                                    document.write(`<option value="${i}">${i}</option>`);
-                                }
-                    .grid-item.borderless
-                    .grid-item
-                        label(for='colorSelect') Select Text Color:
-                        select#colorSelect(onchange='changeTextColor()')
-                            option(value='black') Black
-                            option(value='white') White
-                            option(value='red') Red
-                            option(value='blue') Blue
-                            option(value='grey') Grey
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeBold()')
-                            i.fa.fa-bold.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeItalic()')
-                            i.fa.fa-italic.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeUnderline()')
-                            i.fa.fa-underline.icon-light
-                    .grid-item.borderless
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignLeft()')
-                            i.fa.fa-align-left.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignRight()')
-                            i.fa.fa-align-right.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignCenter()')
-                            i.fa.fa-align-center.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignJustify()')
-                            i.fa.fa-align-justify.icon-light
-                    .grid-item.borderless
-                    .grid-item
-                        button.w3-button.w3-bold.w3-grey(onclick='saveWidget()')
-                            | Save Widget
-                    .grid-item.borderless
+                        .grid-item
+                            label(for='fontSizeSelect') Font Size:
+                            select#fontSizeSelect(onchange='changeFontSize()')
+                                // Generate font size options using JavaScript
+                                script.
+                                    for (let i = 1; i <= 100; i++) {
+                                        document.write(`<option value="${i}">${i}</option>`);
+                                    }
+                        .grid-item.borderless
+                        .grid-item
+                            label(for='colorSelect') Select Text Color:
+                            select#colorSelect(onchange='changeTextColor()')
+                                option(value='black') Black
+                                option(value='white') White
+                                option(value='red') Red
+                                option(value='blue') Blue
+                                option(value='grey') Grey
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeBold()')
+                                i.fa.fa-bold.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeItalic()')
+                                i.fa.fa-italic.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeUnderline()')
+                                i.fa.fa-underline.icon-light
+                        .grid-item.borderless
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignLeft()')
+                                i.fa.fa-align-left.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignRight()')
+                                i.fa.fa-align-right.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignCenter()')
+                                i.fa.fa-align-center.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignJustify()')
+                                i.fa.fa-align-justify.icon-light
+                        .grid-item.borderless
+                        .grid-item
+                            button.w3-button.w3-bold.w3-grey(type='submit')
+                                | Save Widget
+                        .grid-item.borderless
 
-            .w3-row.w3-container
-                .w3-twothird.w3-container
-                    h6.w3-text-red.w3-bold.w3-italic Click on specific text fields to make them editable
-                .w3-twothird.w3-container
-                    #widget-canvas.w3-box
+                .w3-row.w3-container
+                    .w3-twothird.w3-container
+                        h6.w3-text-red.w3-bold.w3-italic Click on specific text fields to make them editable
+                    .w3-twothird.w3-container
+                        #widget-canvas.w3-box
 
 
-                .w3-third
-                    //.widget-container.w3-container.w3-white
-                    .widget-container.w3-container.w3-light-grey
-                        //LEI -- REFER TO widgetdragbar FOR FUTURE REVISIONS
-                        include widgetdragbar
+                    .w3-third
+                        //.widget-container.w3-container.w3-white
+                        .widget-container.w3-container.w3-light-grey
+                            //LEI -- REFER TO widgetdragbar FOR FUTURE REVISIONS
+                            include widgetdragbar
 
 
     script.
+        $(document).ready(function(){
+           $('.form').on('submit', function(){
+                alert('Widget Created!');
+           });
+        });
+
         function saveWidget(){
             const data = {
                 name: widgetName,
