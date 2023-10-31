@@ -580,6 +580,7 @@ app.put('/reseat/:empID', async function (req, res) {
 
 });
 
+
 app.get('/logout', async function(req, res){
     req.session.loggedIn = false;
     req.session.destroy();
@@ -654,6 +655,23 @@ app.get('/ourTeam', async function(req, res){
         }
     }
 });
+
+app.get('/index', async function(req, res){
+    try {
+        if (req.session.loggedIn) {
+            res.redirect('/');
+        } else {
+            res.render('index', {
+                title: 'Dashboard'
+            });
+        }
+    } catch (error){
+        if(debug_mode){
+            logStatus(error);
+        }
+    }
+});
+
 
 app.post('/login', async function (req, res) {
     if (req.session.loggedIn) {
