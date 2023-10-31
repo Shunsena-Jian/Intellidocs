@@ -62,7 +62,7 @@ window.onload = function(){
 
 // Page Settings
 function addReadOnlyAttributesRecursive() {
-    var element = document.getElementById("widgetCanvas");
+    var element = document.getElementById("widget-canvas");
 
     // Inner function to handle each element
     function processElement(element) {
@@ -217,7 +217,7 @@ function makeUnorderedList() {
 	const orderedList = document.createElement('ul');
 	orderedList.setAttribute("contenteditable", "true");
 	orderedList.setAttribute("id", "selected");
-	orderedList.classList.add("w3-ul")l;
+	orderedList.classList.add("w3-ul");
 	const listItem = document.createElement('li');
 	// Copy the content from the original h3 element to the new list item
 	listItem.textContent = selectedTextBox.textContent;
