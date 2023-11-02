@@ -18,13 +18,22 @@ block body
                                 hr.w3-clear
                                 p
                                     b  Status:
-                                    |  None for now
+                                    if (!forms.form_status)
+                                        |  N/A
+                                    else
+                                        |  #{forms.form_status}
                                 p
                                     b  Date Created:
-                                    |  None for now
+                                    if (!forms.form_status)
+                                        |  N/A
+                                    else
+                                        |  #{forms.date_created}
                                 p
                                     b  Last Edited:
-                                    |  None for now
+                                    if (!forms.last_edited)
+                                        |  N/A
+                                    else
+                                        |  #{forms.last_edited}
                                 a(href=`/formview/${forms.form_control_number}`) View Form
             .w3-half
                 .shadowEffect.w3-container.w3-white.w3-round.w3-margin
@@ -37,11 +46,20 @@ block body
                                 hr.w3-clear
                                 p
                                     b  Status:
-                                    |  None for now
+                                    if (!forms.form_status)
+                                        |  N/A
+                                    else
+                                        |  #{forms.form_status}
                                 p
                                     b  Date Created:
-                                    |  None for now
+                                    if (!forms.form_status)
+                                        |  N/A
+                                    else
+                                        |  #{forms.date_created}
                                 p
                                     b  Last Edited:
-                                    |  None for now
+                                    if (!forms.last_edited)
+                                        |  N/A
+                                    else
+                                        |  #{forms.last_edited}
                                 a(href=`/formview/${forms.form_control_number}`) View Form

@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;views/createwidget.pug">
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="* formview.pug&#10;// For viewing forms&#10;&#10;* index.js&#10;// embedded intellijent engine in the backend">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/createwidget.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createwidget.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/css/w3css4.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/w3css4.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -277,21 +277,7 @@
       <option name="project" value="LOCAL" />
       <updated>1698380999583</updated>
     </task>
-    <task id="LOCAL-00032" summary="+ createform.pug&#10;// made the fields required &#10;&#10;+ createwidget.pug&#10;// made the fields required&#10;&#10;* index.js&#10;// added redirection for the post action of createform and create widget fields, but it's not WORKING YET HUHU">
-      <created>1698754044058</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1698754044058</updated>
-    </task>
-    <task id="LOCAL-00033" summary="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;views/createwidget.pug">
-      <created>1698754161032</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1698754161032</updated>
-    </task>
-    <option name="localTasksCounter" value="34" />
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -307,6 +293,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="*layout.pug&#10;//Remodeled notifications design&#10;*notifications.css&#10;//Remodeled notifications design" />
+    <MESSAGE value="*layout.pug&#10;//Improved notifications design&#10;*index.pug&#10;//Remodeled notifications design&#10;//Prepared form flow structure" />
     <MESSAGE value="*createforms.pug&#10;//Fixed rerouting when successful from saving&#10;*index.js&#10;//renamed saveform request response&#10;*layout.pug&#10;//Prepared form flow structure&#10;+viewformtemplate.pug&#10;//Prepared to receive templates&#10;+viewformtemplates.put&#10;//Prepared to receive templates" />
     <MESSAGE value="*index.js&#10;//Added view form templates reqeust response&#10;*viewformtemplates.pug&#10;//Prepared to call view form template request response" />
     <MESSAGE value="*index.js&#10;//Completed template request response cycle&#10;*viewformtemplate.pug&#10;//Prepared to receive template object&#10;+viewformtemplatelayout.pug&#10;//replicated layout to avoid redundant imports" />
@@ -330,8 +318,6 @@
     <MESSAGE value="*index.js&#10;//Added get widgets function&#10;//Added get current widgets to create form reqeust&#10;*createform_draggable_content.pug&#10;//Added personal widget section to drag bar&#10;//Now receives widgets json block" />
     <MESSAGE value="* accountsettings.pug&#10;// change button for updating password to onclick function for calling ajax update password&#10;&#10;+ handle_ajax_update_password.js&#10;// Created ajax for updating password&#10;&#10;* index.js&#10;// Created post for updating password" />
     <MESSAGE value="* formview.pug&#10;// For viewing forms&#10;&#10;* index.js&#10;// embedded intellijent engine in the backend" />
-    <MESSAGE value="+ createform.pug&#10;// made the fields required &#10;&#10;+ createwidget.pug&#10;// made the fields required&#10;&#10;* index.js&#10;// added redirection for the post action of createform and create widget fields, but it's not WORKING YET HUHU" />
-    <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;views/createwidget.pug" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;views/createwidget.pug" />
+    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug&#10;// For viewing forms&#10;&#10;* index.js&#10;// embedded intellijent engine in the backend" />
   </component>
 </project>

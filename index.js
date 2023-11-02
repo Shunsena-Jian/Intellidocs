@@ -23,7 +23,8 @@ const { MongoClient,
         initializeNotificationsCollectionConnection,
         initializeDatabaseConnection,
         initializeFormsCollectionConnection,
-        initializeWidgetsCollectionConnection} = require('./dbinit.js');
+        initializeWidgetsCollectionConnection,
+        initializeFilledOutFormCollectionConnection } = require('./dbinit.js');
 
 const db = initializeDatabaseConnection(url,dbName);
 const users = initializeUsersCollectionConnection(db);
@@ -32,13 +33,13 @@ const privileges = initializePrivilegesCollectionConnection(db);
 const notifications = initializeNotificationsCollectionConnection(db);
 const forms = initializeFormsCollectionConnection(db);
 const widgets = initializeWidgetsCollectionConnection(db);
+const filledoutforms = initializeFilledOutFormCollectionConnection(db);
 
 const port = config.port;
 const debug_mode = config.debug_mode;
 const min_idleTime = config.min_idleTime;
 const server = http.createServer(app);
 const io = socketIo(server);
-
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -250,10 +251,13 @@ async function jsonToHTML(jsonDataArray, indentLevel = 0) {
     return html;
 }
 
-
 //END OF ENGINE
 app.post('/savecreatedform', async function(req, res){
     try {
+        var latestForm;
+        var currentDate = new Date();
+        var date = currentDate.toDateString();
+        var time = currentDate.toTimeString().split(' ')[0];
         var formData = req.body;
         //------------------ENGINE PLAYGROUND
         var v = new JSDOM(formData.formContent);
@@ -269,11 +273,68 @@ app.post('/savecreatedform', async function(req, res){
         // console.log(z);
         //------------------END OF PLAYGROUND
 
+        // PLAYGROUND NI JIAN
+        latestForm = await forms.findOne({ form_name : formData.name });
+
+        if(latestForm && formData.name === latestForm.form_name){
+            res.json({ status_code : 1 });// Form Name already exists
+        } else {
+            const formDocument = {
+                form_name: formData.name,
+                form_control_number: formData.formControlNumber,
+                //form_content: formData.formContent,
+                form_content: jsonArray,
+                form_version: formData.formVersion,
+                form_status: formData.formStatus,
+                date_created: `${date} ${time}`
+            };
+
+            //console.log("This is the Form Document: " + JSON.stringify(formDocument));
+            const result = await forms.insertOne(formDocument);
+
+            if(debug_mode){
+                logStatus("Inserted: " + result);
+            }
+
+            res.json({ success: true });
+        }
+    } catch (error) {
+        logStatus("Failed: " + error);
+    }
+});
+
+app.post('/saveformversion', async function(req, res){
+    var formData = req.body;
+    var latestVersion = 0;
+    formHistory = await forms.find({ form_control_number : formData.formControlNumber }).toArray();
+
+    for(i=0; i < formHistory.length; i++) {
+        if(formHistory[i].form_version >= latestVersion) {
+            latestVersion = formHistory[i].form_version;
+        }
+    }
+    latestVersion = latestVersion + 1;
+
+    try {
+        var latestForm;
+        var currentDate = new Date();
+        var date = currentDate.toDateString();
+        var time = currentDate.toTimeString().split(' ')[0];
+        var formData = req.body;
+        var v = new JSDOM(formData.formContent);
+        var rootElement = v.window.document.querySelector('.drop-container');
+        var jsonArray = [];
+        var w = await htmlToJson(rootElement);
+        jsonArray.push(w);
+
         const formDocument = {
             form_name: formData.name,
             form_control_number: formData.formControlNumber,
-            //form_content: formData.formContent
-            form_content: jsonArray
+            //form_content: formData.formContent,
+            form_content: jsonArray,
+            form_version: latestVersion,
+            form_status: formData.formStatus,
+            date_created: `${date} ${time}`
         };
 
         //console.log("This is the Form Document: " + JSON.stringify(formDocument));
@@ -283,10 +344,11 @@ app.post('/savecreatedform', async function(req, res){
             logStatus("Inserted: " + result);
         }
 
+        res.json({ success: true });
+
     } catch (error) {
         logStatus("Failed: " + error);
     }
-    res.json({ success: true });
 });
 
 app.post('/savecreatedwidget', async function(req, res){
@@ -326,7 +388,7 @@ app.post('/savecreatedwidget', async function(req, res){
 app.get('/formview/:form_control_number', async function (req, res){
     try{
         var selectedFormControlNumberToView = req.params.form_control_number;
-        var currentForm;
+        // var currentForm;
         var retrievedUserEmails;
 
         currentUserFiles = await getFiles(req.session.userEmpID);
@@ -338,9 +400,8 @@ app.get('/formview/:form_control_number', async function (req, res){
         //--
         //let jsonObject = JSON.parse(currentForm);
         let jsonObject = currentForm;
-        let updatedJsonString;
         var e = jsonObject.form_content;
-        var f = JSON.stringify(e); // nag hahang or load
+        // var f = JSON.stringify(e); // nag hahang or load
         var g = await jsonToHTML(e);
         try{
             console.log("hindi nag error yata");
@@ -353,22 +414,8 @@ app.get('/formview/:form_control_number', async function (req, res){
         }catch{
             console.log('NAG ERROR NA NANG SOBRA')
         }
-
-
-
-
         //--
 
-        // var halaka = await jsonToHTML(currentForm.form_content);
-
-        //console.log(halaka);
-
-        //--
-//        var y = JSON.parse(currentForm);
-//        console.log("This is the y ", y);
-//        var z = await jsonToHTML(y);
-
-        //--
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         res.render('formview', {
@@ -390,16 +437,47 @@ app.get('/formview/:form_control_number', async function (req, res){
 });
 
 app.get('/viewformtemplate/:form_control_number', async function (req, res){
+    var selectedFormControlNumberToView = req.params.form_control_number;
+    formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+    console.log("THIS IS THE FORM VERSION OF SOMETHING: " + JSON.stringify(formVersions));
+    var latestVersion = 0;
+
+        for(i=0; i < formVersions.length; i++){
+            if(formVersions[i].form_version >= latestVersion){
+                latestVersion = formVersions[i].form_version;
+            }
+        }
+
+
     try{
-        var selectedFormControlNumberToView = req.params.form_control_number;
         var currentForm;
 
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
-        currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
+        currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView }, { form_version: latestVersion });
+        console.log("We are looking for control number " + selectedFormControlNumberToView + "With the version of " + latestVersion);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
+
+        //--
+        //let jsonObject = JSON.parse(currentForm);
+        let jsonObject = currentForm;
+        var e = jsonObject.form_content;
+        // var f = JSON.stringify(e); // nag hahang or load
+        var g = await jsonToHTML(e);
+        try{
+            console.log("hindi nag error yata");
+            console.log(g);
+            //console.log(jsonObject.form_content );
+            jsonObject.form_content = g;
+
+
+            //updatedJsonString = JSON.stringify(jsonObject);
+        }catch{
+            console.log('NAG ERROR NA NANG SOBRA')
+        }
+        //--
 
         res.render('viewformtemplate', {
             title: 'View Forms',
@@ -407,7 +485,7 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
             currentUserFiles: currentUserFiles,
             currentUserPrivileges: currentUserPrivileges,
             currentUserNotifications: currentUserNotifications,
-            currentForm: currentForm,
+            currentForm: jsonObject,
             currentUserPicture: currentUserPicture,
             min_idleTime: min_idleTime
         });
@@ -1578,7 +1656,7 @@ async function getUsersEmails() {
         userName = await users.find({}).toArray();
 
         for (const user of userName) {
-            empEmails.push(user.last_name);
+            empEmails.push(user.email);
         }
 
         console.log("This are the userNames: " + JSON.stringify(empEmails));

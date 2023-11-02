@@ -88,6 +88,17 @@ function initializeWidgetsCollectionConnection(db){
     }
 }
 
+function initializeFilledOutFormCollectionConnection(db){
+    var filledoutforms;
+    try{
+        filledoutforms = db.collection('filledoutforms');
+        console.log("Connected to the Database Filled Out Forms Collection.");
+        return filledoutforms;
+    } catch(error){
+        console.log(error);
+    }
+}
+
 module.exports = {
     MongoClient,
     initializeDatabaseConnection,
@@ -96,5 +107,6 @@ module.exports = {
     initializeUsersCollectionConnection,
     initializeNotificationsCollectionConnection,
     initializeFormsCollectionConnection,
-    initializeWidgetsCollectionConnection
+    initializeWidgetsCollectionConnection,
+    initializeFilledOutFormCollectionConnection
 };

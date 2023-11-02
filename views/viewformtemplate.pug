@@ -2,10 +2,13 @@ extends viewformtemplatelayout.pug
 
 block body
     .w3-main#main(style='margin-left:250px')
-        .w3-row.w3-padding-64
-            h4.w3-bold Create Form
-            input#formName.w3-col.s6.w3-input.w3-margin(placeholder="Type Form Name [Required]" required='')
-            input#formControlNumber.w3-col.s6.w3-input.w3-margin(placeholder="Type Form Control Number [Required]" required='')
+        .w3-row.w3-padding-32
+            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                h1.w3-center Form Name: #{currentForm.form_name}
+        .w3-row
+            h4.w3-bold Edit Form
+            input#formName.w3-col.s6.w3-input.w3-margin(placeholder="Edit Form Name" required='' value=`${currentForm.form_name}`)
+            // input#formControlNumber.w3-col.s6.w3-input.w3-margin(placeholder="Type Form Control Number [Required]" required='')
             hr.w3-clear
             p.w3-center
             .w3-row.w3-container
@@ -89,30 +92,38 @@ block body
                 .w3-third
                     .page-container.w3-container.w3-white
                         //LEI -- REFER TO createform_draggable_content FOR FUTURE REVISIONS
-                        include createform_draggable_content
+                        include dragbar
 
     script.
         function saveForm(){
             var formBody = document.getElementById('form-content').innerHTML;
             var formName = document.getElementById('formName').value;
-            var formControlNumber = document.getElementById('formControlNumber').value;
+            // var formControlNumber = document.getElementById('formControlNumber').value;
 
             const data = {
                 name: formName,
-                formControlNumber: formControlNumber,
+                formControlNumber: #{currentForm.form_control_number},
                 formContent: formBody
             };
 
-            fetch('/requestforms', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(data)
-            })
-            //.then(response => response.json())
-            //.then(result => console.log('Server response:', result))
-            //.catch(error => console.error('Error:', error));
+            $.ajax({
+                type: 'POST',
+                url: '/saveformversion',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.success) {
+                        window.location.href = '/';
+                    } else if (data.status_code === 1) {
+                        alert("Form name already exists. Proceed to view form templates to edit the form instead!");
+                    } else {
+                        alert("Error in AJAX function.");
+                    }
+                },
+                error: function (error) {
+                    console.error('AJAX error:', error);
+                }
+            });
         }
 
         //end of play playground

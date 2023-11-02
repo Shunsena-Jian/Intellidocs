@@ -13,12 +13,12 @@ block body
                         h2 Share Document
                         .w3-row
                             .w3-half
-                                input(id='employee_id' name='employee_id' placeholder="Employee ID")
+                                input(id='employee_email' name='employee_email' placeholder="Employee Email")
                             .w3-half
                                 select#accessLevel(name='accessLevel')
                                     option(value='Viewer') Viewer
                                     option(value='Editor') Editor
-                        button Share
+                        button(onclick='shareForm()') Share
 
             .w3-half
                 .w3-row
@@ -75,6 +75,9 @@ block body
                         input.bottone5(type="file", name="file", id="file")
                         input.bottone5(type="submit", value="Upload")
 
+    script(src='https://code.jquery.com/ui/1.13.2/jquery-ui.js')
+    link(rel='stylesheet' href='//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css')
+    script(src='/js/client.functions/handle_ajax_share_form.js')
 
     script.
         var formBlock = !{JSON.stringify(currentForm)};
@@ -83,16 +86,3 @@ block body
         console.log("This is the receivedFormContent ", receivedFormContent);
         var theContainerOfTheForm = document.getElementById('theContainerOfTheForm');
         theContainerOfTheForm.innerHTML = receivedFormContent;
-
-    script(src='https://code.jquery.com/ui/1.13.2/jquery-ui.js')
-
-    script.
-        $( function() {
-            var allEmails = empEmails;
-            $( "#employee_id" ).autocomplete({
-                source: allEmails
-            });
-        });
-
-    link(rel='stylesheet' href='//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css')
-
