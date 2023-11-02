@@ -3,102 +3,96 @@ extends layout.pug
 block body
     .w3-main#main(style='margin-left:250px; margin-top:100px;')
         .w3-row.w3-card.w3-container.w3-white.w3-margin
-            form(action='/index' method='POST' class='form')
-                h4.w3-bold Create Form
-                input#formName.w3-col.s6.w3-input.w3-margin(placeholder="Type Form Name [Required]" type='text' name='formName' required='')
-                input#formControlNumber.w3-col.s6.w3-input.w3-margin(placeholder="Type Form Control Number [Required]" type='text' name='formControlNumber' required='')
-                hr.w3-clear
-                p.w3-center
-                .w3-row.w3-container
-                    .grid-container.w3-light-grey
-                        //-.grid-item
-                        //-  label(for='textBoxSelect') Text Box:
-                        //-   select#textBoxSelect(onchange='createTextBox()')
-                        //-       option(value='no-function') Click to Select
-                        //-       option(value='normal-text') Normal Text
-                        //-       option(value='title') Title
-                         //-      option(value='paragraph') Subtitle
-                        .grid-item
-                            label(for='createPageMargin') Page Margin:
-                            select#createPageMargin(onchange='createPageMargin()')
-                                option(value='narrow') Narrow
-                                option(value='normal') Normal
-                                option(value='moderate') Moderate
-                        .grid-item
-                            label(for='modifyOrientation') Orientation:
-                            select#modifyOrientation(onchange='modifyOrientation()')
-                                option(value='portrait') Portrait
-                                option(value='landscape') Landscape
+            h4.w3-bold Create Form
+            input#formName.w3-col.s6.w3-input.w3-margin(placeholder="Type Form Name [Required]" type='text' name='formName' required='')
+            input#formControlNumber.w3-col.s6.w3-input.w3-margin(placeholder="Type Form Control Number [Required]" type='text' name='formControlNumber' required='')
+            hr.w3-clear
+            p.w3-center
+            .w3-row.w3-container
+                .grid-container.w3-light-grey
+                    //-.grid-item
+                    //-  label(for='textBoxSelect') Text Box:
+                    //-   select#textBoxSelect(onchange='createTextBox()')
+                    //-       option(value='no-function') Click to Select
+                    //-       option(value='normal-text') Normal Text
+                    //-       option(value='title') Title
+                     //-      option(value='paragraph') Subtitle
+                    .grid-item
+                        label(for='createPageMargin') Page Margin:
+                        select#createPageMargin(onchange='createPageMargin()')
+                            option(value='narrow') Narrow
+                            option(value='normal') Normal
+                            option(value='moderate') Moderate
+                    .grid-item
+                        label(for='modifyOrientation') Orientation:
+                        select#modifyOrientation(onchange='modifyOrientation()')
+                            option(value='portrait') Portrait
+                            option(value='landscape') Landscape
 
-                        .grid-item
-                            label(for='fontSizeSelect') Font Size:
-                            select#fontSizeSelect(onchange='changeFontSize()')
-                                // Generate font size options using JavaScript
-                                script.
-                                    for (let i = 1; i <= 100; i++) {
-                                        document.write(`<option value="${i}">${i}</option>`);
-                                    }
-                        .grid-item.borderless
-                        .grid-item
-                            label(for='colorSelect') Select Text Color:
-                            select#colorSelect(onchange='changeTextColor()')
-                                option(value='black') Black
-                                option(value='white') White
-                                option(value='red') Red
-                                option(value='blue') Blue
-                                option(value='grey') Grey
-                        .grid-item
-                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeBold()')
-                                i.fa.fa-bold.icon-light
-                        .grid-item
-                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeItalic()')
-                                i.fa.fa-italic.icon-light
-                        .grid-item
-                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeUnderline()')
-                                i.fa.fa-underline.icon-light
-                        .grid-item.borderless
-                        .grid-item
-                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignLeft()')
-                                i.fa.fa-align-left.icon-light
-                        .grid-item
-                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignRight()')
-                                i.fa.fa-align-right.icon-light
-                        .grid-item
-                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignCenter()')
-                                i.fa.fa-align-center.icon-light
-                        .grid-item
-                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignJustify()')
-                                i.fa.fa-align-justify.icon-light
-                        .grid-item.borderless
-                        .grid-item
-                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onClick='makeUnorderedList()')
-                                i.fa.fa-list-ul.icon-light
-                        .grid-item
-                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onClick='makeOrderedList()')
-                                i.fa.fa-list-ol.icon-light
-                        .grid-item.borderless
-                        .grid-item
-                            button.w3-button.w3-bold.w3-grey(type='submit')
-                                | Export
-                        .grid-item.borderless
+                    .grid-item
+                        label(for='fontSizeSelect') Font Size:
+                        select#fontSizeSelect(onchange='changeFontSize()')
+                            // Generate font size options using JavaScript
+                            script.
+                                for (let i = 1; i <= 100; i++) {
+                                    document.write(`<option value="${i}">${i}</option>`);
+                                }
+                    .grid-item.borderless
+                    .grid-item
+                        label(for='colorSelect') Select Text Color:
+                        select#colorSelect(onchange='changeTextColor()')
+                            option(value='black') Black
+                            option(value='white') White
+                            option(value='red') Red
+                            option(value='blue') Blue
+                            option(value='grey') Grey
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeBold()')
+                            i.fa.fa-bold.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeItalic()')
+                            i.fa.fa-italic.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeUnderline()')
+                            i.fa.fa-underline.icon-light
+                    .grid-item.borderless
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignLeft()')
+                            i.fa.fa-align-left.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignRight()')
+                            i.fa.fa-align-right.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignCenter()')
+                            i.fa.fa-align-center.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignJustify()')
+                            i.fa.fa-align-justify.icon-light
+                    .grid-item.borderless
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onClick='makeUnorderedList()')
+                            i.fa.fa-list-ul.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onClick='makeOrderedList()')
+                            i.fa.fa-list-ol.icon-light
+                    .grid-item.borderless
+                    .grid-item
+                        button.w3-button.w3-bold.w3-grey(onclick='saveForm()')
+                            | Export
+                    .grid-item.borderless
 
-                .w3-row.w3-container
-                    .w3-twothird.w3-container3
-                        .paperContainer
-                            #form-content.pages
-                                #page-1.drop-container
+            .w3-row.w3-container
+                .w3-twothird.w3-container3
+                    .paperContainer
+                        #form-content.pages
+                            #page-1.drop-container
 
-                    .w3-third
-                        .page-container.w3-container.w3-light-grey
-                            //LEI -- REFER TO dragbar FOR FUTURE REVISIONS
-                            include dragbar
+                .w3-third
+                    .page-container.w3-container.w3-light-grey
+                        //LEI -- REFER TO dragbar FOR FUTURE REVISIONS
+                        include dragbar
 
     script.
-         $(document).ready(function(){
-                      $('.form').on('submit', function(){
-                          alert('Exported!');
-                      });
-                 });
 
         function saveForm() {
             var formBody = document.getElementById('form-content').innerHTML;

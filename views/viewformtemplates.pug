@@ -13,11 +13,26 @@ block body
                             hr.w3-clear
                             p
                                 b  Status:
-                                |  None for now
+                                if (!forms.form_status)
+                                    |  N/A
+                                else
+                                    |  #{forms.form_status}
                             p
                                 b  Date Created:
-                                |  None for now
+                                if (!forms.form_status)
+                                    |  N/A
+                                else
+                                    |  #{forms.date_created}
                             p
                                 b  Last Edited:
-                                |  None for now
+                                if (!forms.last_edited)
+                                    |  N/A
+                                else
+                                    |  #{forms.last_edited}
+                            p
+                                b  Version:
+                                if (!forms.form_version)
+                                    |  N/A
+                                else
+                                    |  #{forms.form_version}
                             a(href=`/viewformtemplate/${forms.form_control_number}`) View Form

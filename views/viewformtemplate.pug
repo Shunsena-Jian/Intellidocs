@@ -103,7 +103,8 @@ block body
             const data = {
                 name: formName,
                 formControlNumber: #{currentForm.form_control_number},
-                formContent: formBody
+                formContent: formBody,
+                formStatus: "Template"
             };
 
             $.ajax({
