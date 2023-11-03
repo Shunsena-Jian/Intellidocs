@@ -5,6 +5,7 @@ block body
         .w3-row.w3-padding-32
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 h1.w3-center Form Name: #{currentForm.form_name}
+                button(onclick='saveFilledOutForm()') Save Form
 
         .w3-row
             .w3-half
@@ -77,7 +78,6 @@ block body
 
     script(src='https://code.jquery.com/ui/1.13.2/jquery-ui.js')
     link(rel='stylesheet' href='//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css')
-    script(src='/js/client.functions/handle_ajax_share_form.js')
 
     script.
         var formBlock = !{JSON.stringify(currentForm)};
@@ -86,3 +86,7 @@ block body
         console.log("This is the receivedFormContent ", receivedFormContent);
         var theContainerOfTheForm = document.getElementById('theContainerOfTheForm');
         theContainerOfTheForm.innerHTML = receivedFormContent;
+        console.log(!{JSON.stringify(currentForm)});
+
+    script(src='/js/client.functions/handle_ajax_share_form.js')
+    script(src='/js/client.functions/handle_ajax_save_filled_out_form.js')

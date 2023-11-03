@@ -250,6 +250,40 @@ async function jsonToHTML(jsonDataArray, indentLevel = 0) {
     return html;
 }
 
+app.post('/savefilledoutform', async function(req, res){
+    try{
+        var saveFilledForm = req.body;
+        var currentDate = new Date();
+        var date = currentDate.toDateString();
+        var time = currentDate.toTimeString().split(' ')[0];
+        var a = new JSDOM(saveFilledForm.formContent);
+        var rootElement = a.window.document.querySelector('.drop-container');
+        var jsonArray = [];
+        var b = await htmlToJson(rootElement);
+        jsonArray.push(b);
+
+        if(!saveFilledForm){
+            res.send({ status_code: 1 });
+        } else {
+            const filledOutDocument = {
+                form_name: saveFilledForm.formName,
+                form_control_number: saveFilledForm.formControlNumber,
+                form_content: jsonArray,
+                form_version: saveFilledForm.formVersion,
+                form_status: saveFilledForm.formStatus,
+                date_created: saveFilledForm.formDateCreation,
+                last_edited: `${date} ${time}`
+            };
+
+            const result = await filledoutforms.insertOne(filledOutDocument);
+
+            res.send({ status_code : 0});
+        }
+    } catch (error) {
+        logStatus("There is an error at save filled out form: " + error);
+    }
+});
+
 //END OF ENGINE
 app.post('/savecreatedform', async function(req, res){
     try {
@@ -388,33 +422,37 @@ app.post('/savecreatedwidget', async function(req, res){
 app.get('/formview/:form_control_number', async function (req, res){
     try{
         var selectedFormControlNumberToView = req.params.form_control_number;
-        // var currentForm;
+        formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+        var latestVersion = 0;
         var retrievedUserEmails;
 
+
+        for(i=0; i < formVersions.length; i++){
+            if(formVersions[i].form_version >= latestVersion){
+                latestVersion = formVersions[i].form_version;
+            }
+        }
+
+        var currentForm;
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
-        currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
+        currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
         retrievedUserEmails = await getUsersEmails();
         //--
         //let jsonObject = JSON.parse(currentForm);
         let jsonObject = currentForm;
+        console.log("This is the json object: " + jsonObject);
         var e = jsonObject.form_content;
-        // var f = JSON.stringify(e); // nag hahang or load
         var g = await jsonToHTML(e);
+        console.log("hindi nag error yata");
+
         try{
-            console.log("hindi nag error yata");
-            // console.log(g);
-            //console.log(jsonObject.form_content );
             jsonObject.form_content = g;
-
-
-            //updatedJsonString = JSON.stringify(jsonObject);
-        }catch{
+        } catch {
             console.log('NAG ERROR NA NANG SOBRA')
         }
-        //--
 
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
@@ -434,6 +472,16 @@ app.get('/formview/:form_control_number', async function (req, res){
     } catch(error) {
         logStatus("Error at form view with control number: " + error);
     }
+});
+
+app.post('/shareForm', async function(req, res){
+    var sharedUser = req.body;
+    if(!sharedUser){
+        res.send({status_code : 1});
+    }
+
+
+
 });
 
 app.get('/viewformtemplate/:form_control_number', async function (req, res){
@@ -457,7 +505,6 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_version: latestVersion });
-        console.log("We are looking for control number " + selectedFormControlNumberToView + "With the version of " + latestVersion);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         //--
