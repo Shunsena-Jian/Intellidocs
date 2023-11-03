@@ -68,7 +68,6 @@ app.use(
 
 server.listen(port, () => {
     console.log("Server started \nPort: " + port + "\nDebug mode: " + debug_mode + "\nMinimum User idle time: " + min_idleTime);
-
 });
 
 
@@ -120,7 +119,7 @@ app.get('/deletefile/:file_name', function(req, res){
     var selectedFileForDeletion = req.params.file_name;
 
     if(debug_mode){
-        logStatus(selectedFileForDeletion);
+        logStatus("No file being deleted get delete file function: " + selectedFileForDeletion);
     }
 
     function deleteFile(filePath, callback) {
@@ -138,11 +137,11 @@ app.get('/deletefile/:file_name', function(req, res){
     deleteFile(filePathToDelete, function (err) {
         if (err) {
             if(debug_mode){
-                logStatus('Error deleting file:' + err);
+                logStatus("Error deleting file:" + err);
             }
         } else {
             if(debug_mode){
-                logStatus('File deleted successfully.');
+                logStatus("File deleted successfully.");
             }
         }
     });
@@ -152,11 +151,11 @@ app.get('/deletefile/:file_name', function(req, res){
     files.deleteOne(deleteCriteria, function (err, result) {
         if (err) {
             if(debug_mode){
-                logStatus('Error deleting document:' + err);
+                logStatus("Error deleting document:" + err);
             }
         } else {
             if(debug_mode){
-                logStatus('Document deleted successfully.')
+                logStatus("Document deleted successfully.")
             }
         }
     });
@@ -167,7 +166,7 @@ app.get('/downloadfile/:file_name', function(req, res){
     var selectedFileForDownload = req.params.file_name;
 
     if(debug_mode){
-        logStatus("user enetered download request" + selectedFileForDownload);
+        logStatus("User entered download request: " + selectedFileForDownload);
     }
 
     res.download("./uploads/" + req.session.userEmpID + "/" + selectedFileForDownload);
@@ -281,10 +280,10 @@ app.post('/savecreatedform', async function(req, res){
         } else {
             const formDocument = {
                 form_name: formData.name,
-                form_control_number: formData.formControlNumber,
+                form_control_number: formData.formControlNumber.toString(),
                 //form_content: formData.formContent,
                 form_content: jsonArray,
-                form_version: formData.formVersion,
+                form_version: formData.formVersion.toString(),
                 form_status: formData.formStatus,
                 date_created: `${date} ${time}`
             };
@@ -293,13 +292,13 @@ app.post('/savecreatedform', async function(req, res){
             const result = await forms.insertOne(formDocument);
 
             if(debug_mode){
-                logStatus("Inserted: " + result);
+                logStatus("Created form saved at database: " + result);
             }
 
             res.json({ success: true });
         }
     } catch (error) {
-        logStatus("Failed: " + error);
+        logStatus("Error at saved created form: " + error);
     }
 });
 
@@ -307,6 +306,7 @@ app.post('/saveformversion', async function(req, res){
     var formData = req.body;
     var latestVersion = 0;
     formHistory = await forms.find({ form_control_number : formData.formControlNumber }).toArray();
+    console.log(JSON.stringify(formHistory));
 
     for(i=0; i < formHistory.length; i++) {
         if(formHistory[i].form_version >= latestVersion) {
@@ -329,10 +329,10 @@ app.post('/saveformversion', async function(req, res){
 
         const formDocument = {
             form_name: formData.name,
-            form_control_number: formData.formControlNumber,
+            form_control_number: formData.formControlNumber.toString(),
             //form_content: formData.formContent,
             form_content: jsonArray,
-            form_version: latestVersion,
+            form_version: latestVersion.toString(),
             form_status: formData.formStatus,
             date_created: `${date} ${time}`
         };
@@ -341,13 +341,13 @@ app.post('/saveformversion', async function(req, res){
         const result = await forms.insertOne(formDocument);
 
         if(debug_mode){
-            logStatus("Inserted: " + result);
+            logStatus("Saved new form version in database: " + result);
         }
 
         res.json({ success: true });
 
     } catch (error) {
-        logStatus("Failed: " + error);
+        logStatus("Error at save form version: " + error);
     }
 });
 
@@ -376,11 +376,11 @@ app.post('/savecreatedwidget', async function(req, res){
         const result = await widgets.insertOne(widgetDocument);
 
         if(debug_mode){
-            logStatus("Inserted: " + result);
+            logStatus("Saved created widget in database: " + result);
         }
 
     } catch (error) {
-        logStatus("Failed: " + error);
+        logStatus("Error at save created widget: " + error);
     }
     res.json({ success: true });
 });
@@ -405,7 +405,7 @@ app.get('/formview/:form_control_number', async function (req, res){
         var g = await jsonToHTML(e);
         try{
             console.log("hindi nag error yata");
-            console.log(g);
+            // console.log(g);
             //console.log(jsonObject.form_content );
             jsonObject.form_content = g;
 
@@ -432,14 +432,14 @@ app.get('/formview/:form_control_number', async function (req, res){
         });
 
     } catch(error) {
-        console.log("we found an error " + error);
+        logStatus("Error at form view with control number: " + error);
     }
 });
 
 app.get('/viewformtemplate/:form_control_number', async function (req, res){
     var selectedFormControlNumberToView = req.params.form_control_number;
     formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
-    console.log("THIS IS THE FORM VERSION OF SOMETHING: " + JSON.stringify(formVersions));
+    // console.log("THIS IS THE FORM VERSION OF SOMETHING: " + JSON.stringify(formVersions));
     var latestVersion = 0;
 
         for(i=0; i < formVersions.length; i++){
@@ -447,7 +447,7 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
                 latestVersion = formVersions[i].form_version;
             }
         }
-
+    console.log("This is the latest version: " + latestVersion);
 
     try{
         var currentForm;
@@ -456,7 +456,7 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
-        currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView }, { form_version: latestVersion });
+        currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_version: latestVersion });
         console.log("We are looking for control number " + selectedFormControlNumberToView + "With the version of " + latestVersion);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
@@ -464,11 +464,10 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
         //let jsonObject = JSON.parse(currentForm);
         let jsonObject = currentForm;
         var e = jsonObject.form_content;
-        // var f = JSON.stringify(e); // nag hahang or load
         var g = await jsonToHTML(e);
         try{
-            console.log("hindi nag error yata");
-            console.log(g);
+            // console.log("hindi nag error");
+            // console.log(g);
             //console.log(jsonObject.form_content );
             jsonObject.form_content = g;
 
@@ -491,7 +490,7 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
         });
 
     }catch(error){
-        console.log("we found an error");
+        logStatus("Error at viewformtemplate with controlnumber: " + error);
     }
 });
 
@@ -519,7 +518,7 @@ app.get('/', async function (req, res) {
         }
 
     } catch (error) {
-        console.log(error);
+        logStatus("Error at index: " + error);
     }
 });
 
@@ -547,7 +546,7 @@ app.get('/accountsettings', async function (req, res) {
         }
 
     } catch (error) {
-        console.log(error);
+        logStatus("Error at account settings: " + error);
     }
 });
 
@@ -555,7 +554,7 @@ app.post('/', upload.single('file'), async function (req, res) {
     const uploadedFile = req.file;
 
     if(debug_mode){
-        logStatus("logging received file count " + req.file);
+        logStatus("Received file: " + req.file);
     }
 
     if (!uploadedFile) {
@@ -581,14 +580,14 @@ app.post('/', upload.single('file'), async function (req, res) {
             result = await files.insertOne(uploadInfo);
 
             if(debug_mode){
-                logStatus("Inserted : " + uploadInfo);
+                logStatus("Saved file in database : " + uploadInfo);
             }
 
             const documents = await getFiles(req.session.userEmpID);
 
             res.json({documents});
         } catch(error){
-            console.log(error);
+            logStatus("Error at index post upload file: " + error);
         }
     }
 });
@@ -598,7 +597,7 @@ app.delete('/ajaxdelete/:file_name', async function (req, res) {
     var selectedFileForDeletion = req.params.file_name;
 
     if(debug_mode){
-        logStatus(selectedFileForDeletion);
+        logStatus("No file being selected to delete: " + selectedFileForDeletion);
     }
 
     function deleteFile(filePath, callback) {
@@ -616,11 +615,11 @@ app.delete('/ajaxdelete/:file_name', async function (req, res) {
     deleteFile(filePathToDelete, function (err) {
         if (err) {
             if(debug_mode){
-                logStatus('Error deleting file:' + err);
+                logStatus("Error deleting file:" + err);
             }
         } else {
             if(debug_mode){
-                logStatus('File deleted successfully.');
+                logStatus("File deleted successfully.");
             }
         }
     });
@@ -630,11 +629,11 @@ app.delete('/ajaxdelete/:file_name', async function (req, res) {
     await files.deleteOne(deleteCriteria, function (err, result) {
         if (err) {
             if(debug_mode){
-                logStatus('Error deleting document:' + err);
+                logStatus("Error deleting file:" + err);
             }
         } else {
             if(debug_mode){
-                logStatus('Document deleted successfully.')
+                logStatus("File deleted successfully.")
             }
         }
     });
@@ -651,6 +650,7 @@ app.put('/reseat/:empID', async function (req, res) {
         req.session.userEmpID = reconnectingEmpID; //possible hacking - TO BE RESOLVED
         req.session.loggedIn = true;
         res.json({dataPlaceholder});
+        logStatus("User Reseated");
         console.log("user reseated!");
     }catch(error){
         res.json({error});
@@ -681,7 +681,7 @@ app.get('/login', async function(req, res){
         }
     } catch (error){
         if(debug_mode){
-            logStatus(error);
+            logStatus("Error at Login: " + error);
         }
     }
 });
@@ -697,7 +697,7 @@ app.get('/aboutUs', async function(req, res){
         }
     } catch (error){
         if(debug_mode){
-            logStatus(error);
+            logStatus("Error at about us: " + error);
         }
     }
 });
@@ -713,7 +713,7 @@ app.get('/techSupport', async function(req, res){
         }
     } catch (error){
         if(debug_mode){
-            logStatus(error);
+            logStatus("Error at tech support: " + error);
         }
     }
 });
@@ -729,7 +729,7 @@ app.get('/ourTeam', async function(req, res){
         }
     } catch (error){
         if(debug_mode){
-            logStatus(error);
+            logStatus("Error at our team: " + error);
         }
     }
 });
@@ -745,7 +745,7 @@ app.post('/login', async function (req, res) {
             const user = await users.findOne({ username: username });
             if (!user) {
                 if(debug_mode){
-                    logStatus("Failed to find User");
+                    logStatus("Cannot find user");
                 }
                 res.render('login', {
                     title: 'Login Page', receivedError: "Incorrect Username or Password!"
@@ -771,7 +771,6 @@ app.post('/login', async function (req, res) {
                 });
 
                 if(debug_mode){
-                    logStatus(currentUserDetailsBlock);
                     logStatus("User " + currentUserDetailsBlock.firstName + currentUserDetailsBlock.lastName + currentUserDetailsBlock.empID + " has logged in with " + currentUserDetailsBlock.userLevel + " privileges!");
                 }
 
@@ -1133,7 +1132,7 @@ app.post('/createusers', async function(req, res){
             const existingUser = await db.collection('users').findOne({ username: username });
             if(existingUser) {
                 if(debug_mode){
-                    logStatus("Username already exists!");
+                    logStatus("User already exists!");
                 }
             } else {
                 const newUser = {
@@ -1333,7 +1332,7 @@ app.get('/viewusers', async function(req, res) {
 
     } catch (error) {
         if(debug_mode){
-            logStatus("Error: " + error);
+            logStatus("Error at viewing users: " + error);
         }
 
         res.status(500).send('Internal Server Error');
@@ -1356,7 +1355,7 @@ app.post('/accountsettings', pictureUpload.single('file'), async function (req, 
     const uploadedPicture = req.file;
 
     if (debug_mode) {
-        logStatus("logging received file count " + req.file);
+        logStatus("Received file: " + req.file);
     }
 
     if (!uploadedPicture) {
@@ -1394,7 +1393,7 @@ app.post('/accountsettings', pictureUpload.single('file'), async function (req, 
 
             uploadedPictureDirectory = users.user_picture;
             if(debug_mode){
-                logStatus("Inserted : " + uploadedPictureDirectory);
+                logStatus("Picture saved in database: " + uploadedPictureDirectory);
             }
 
             res.json({uploadedPictureDirectory});
@@ -1436,7 +1435,7 @@ app.post('/upload', upload.single('file'), async function (req, res) {
 
             res.json({documents});
         } catch(error){
-            console.log(error);
+            logStatus(error);
         }
     }
 });
@@ -1619,14 +1618,14 @@ async function getUserAccounts() {
         const documents = await users.find({}).toArray();
 
         if(debug_mode){
-            logStatus("The array documents at function getUserAccounts() : " + JSON.stringify(documents)); //stringified for logging purposes only
+            logStatus("Found all users: " + JSON.stringify(documents)); //stringified for logging purposes only
         }
 
         return documents;
     } catch (error) {
 
         if(debug_mode){
-            logStatus("Failed to retrieve documents: " + error);
+            logStatus("Error at getting users: " + error);
         }
 
     }
@@ -1642,7 +1641,7 @@ async function getUsersEmails() {
             empEmails.push(user.email);
         }
 
-        console.log("This are the userNames: " + JSON.stringify(empEmails));
+        logStatus("This are the user names: " + JSON.stringify(empEmails));
         return empEmails;
     } catch(error) {
         logStatus("There is an error retrieving the user names: " + error);

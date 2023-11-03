@@ -33,6 +33,8 @@ block body
                                 b  Version:
                                 if (!forms.form_version)
                                     |  N/A
+                                else if (forms.form_status = 0)
+                                    |  0
                                 else
                                     |  #{forms.form_version}
                             a(href=`/viewformtemplate/${forms.form_control_number}`) View Form
