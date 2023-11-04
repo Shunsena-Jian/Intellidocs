@@ -419,13 +419,41 @@ app.post('/savecreatedwidget', async function(req, res){
     res.json({ success: true });
 });
 
+app.post('/formautosave', async function (req, res){
+    try{
+        var formData = req.body;
+        var currentDate = new Date();
+        var date = currentDate.toDateString();
+        var time = currentDate.toTimeString().split(' ')[0];
+        var v = new JSDOM(formData.formContent);
+        var rootElement = v.window.document.querySelector('.drop-container');
+        var jsonArray = [];
+        var w = await htmlToJson(rootElement);
+        jsonArray.push(w);
+
+        const formDocument = {
+            form_name: formData.formName,
+            form_control_number: formData.formControlNumber.toString(),
+            form_content: jsonArray,
+            form_version: formData.formVersion.toString(),
+            form_status: formData.formStatus,
+            last_edited: `${date} ${time}`
+        };
+
+        const result = await filledoutforms.insertOne(formDocument);
+        res.send({ status_code : 0});
+    } catch (error) {
+        logStatus("Error at form view POST: " + error);
+    }
+
+});
+
 app.get('/formview/:form_control_number', async function (req, res){
     try{
         var selectedFormControlNumberToView = req.params.form_control_number;
         formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
         var latestVersion = 0;
         var retrievedUserEmails;
-
 
         for(i=0; i < formVersions.length; i++){
             if(formVersions[i].form_version >= latestVersion){
@@ -474,14 +502,36 @@ app.get('/formview/:form_control_number', async function (req, res){
     }
 });
 
-app.post('/shareForm', async function(req, res){
-    var sharedUser = req.body;
-    if(!sharedUser){
-        res.send({status_code : 1});
+app.post('/shareform', async function(req, res){
+    try {
+        var sharedUser = req.body;
+        var selectedFormControlNumberToView = sharedUser.formControlNumber;
+        var formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+        var latestVersion = 0;
+
+        for(i=0; i < formVersions.length; i++){
+            if(formVersions[i].form_version >= latestVersion){
+                latestVersion = formVersions[i].form_version;
+            }
+        }
+
+        if(!sharedUser){
+            res.send({status_code : 1});
+        } else {
+            const result = await filledoutforms.findOneAndUpdate(
+                { form_control_number : selectedFormControlNumberToView, form_version : latestVersion },
+                { $set: { "shared_user" : sharedUser.shareTo } },
+                { returnNewDocument : true }
+            );
+
+            res.send({ status_code: 0 });
+        }
+
+
+
+    } catch(error) {
+        logStatus("Error at share form POST: " + error);
     }
-
-
-
 });
 
 app.get('/viewformtemplate/:form_control_number', async function (req, res){
@@ -490,11 +540,11 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
     // console.log("THIS IS THE FORM VERSION OF SOMETHING: " + JSON.stringify(formVersions));
     var latestVersion = 0;
 
-        for(i=0; i < formVersions.length; i++){
-            if(formVersions[i].form_version >= latestVersion){
-                latestVersion = formVersions[i].form_version;
-            }
+    for(i=0; i < formVersions.length; i++){
+        if(formVersions[i].form_version >= latestVersion){
+            latestVersion = formVersions[i].form_version;
         }
+    }
     console.log("This is the latest version: " + latestVersion);
 
     try{

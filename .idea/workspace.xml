@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="* index.js&#10;// Changed most console.log to logStatus&#10;// Pushing a string form control number and form version instead of any kind of value type">
-      <change afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_save_filled_out_form.js" afterDir="false" />
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="* formview.pug&#10;// For viewing forms&#10;&#10;* index.js&#10;// embedded intellijent engine in the backend">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_share_form.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_share_form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_save_filled_out_form.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_save_filled_out_form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_share_form.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -279,31 +279,7 @@
       <option name="project" value="LOCAL" />
       <updated>1698380999583</updated>
     </task>
-    <task id="LOCAL-00032" summary="* createform.pug&#10;// Changed coding paradigm for ajax&#10;&#10;* dbinit.js&#10;// Created the initialization for filled out form collection&#10;&#10;* formview.pug&#10;// STILL WORKING ON shareform function&#10;&#10;* handle_ajax_share_form.js&#10;// Moved function for autocomplete&#10;// STILL WORKING ON shareform function&#10;&#10;* handle_ajax_update_password.js&#10;// Fixed indentions&#10;&#10;* index.js&#10;// Posting new JSON Block for creating new forms&#10;// STARTED AND FIXING THE saving of new form version to view&#10;&#10;* viewforms.pug&#10;// Created validations if the form details exist or not&#10;&#10;* viewformtemplate.pug&#10;// Recreated the ajax code paradigm">
-      <option name="closed" value="true" />
-      <created>1698914013006</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1698914013006</updated>
-    </task>
-    <task id="LOCAL-00033" summary="* createform.pug&#10;// Removed form action (No need)&#10;&#10;* index.js&#10;// Removed app.get index - This is not needed as there is already an existing one&#10;&#10;* viewforms.pug&#10;// Added Version of the Forms for easier navigation&#10;&#10;* viewformtemplate.pug&#10;// Added formStatus to be thrown in backend&#10;&#10;* viewformtemplates.pug&#10;// Added Real Statuses of forms">
-      <option name="closed" value="true" />
-      <created>1698936261236</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1698936261236</updated>
-    </task>
-    <task id="LOCAL-00034" summary="* index.js&#10;// Changed most console.log to logStatus&#10;// Pushing a string form control number and form version instead of any kind of value type">
-      <option name="closed" value="true" />
-      <created>1698997297338</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1698997297338</updated>
-    </task>
-    <option name="localTasksCounter" value="35" />
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -319,6 +295,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="*layout.pug&#10;//Remodeled notifications design&#10;*notifications.css&#10;//Remodeled notifications design" />
+    <MESSAGE value="*layout.pug&#10;//Improved notifications design&#10;*index.pug&#10;//Remodeled notifications design&#10;//Prepared form flow structure" />
+    <MESSAGE value="*createforms.pug&#10;//Fixed rerouting when successful from saving&#10;*index.js&#10;//renamed saveform request response&#10;*layout.pug&#10;//Prepared form flow structure&#10;+viewformtemplate.pug&#10;//Prepared to receive templates&#10;+viewformtemplates.put&#10;//Prepared to receive templates" />
     <MESSAGE value="*index.js&#10;//Added view form templates reqeust response&#10;*viewformtemplates.pug&#10;//Prepared to call view form template request response" />
     <MESSAGE value="*index.js&#10;//Completed template request response cycle&#10;*viewformtemplate.pug&#10;//Prepared to receive template object&#10;+viewformtemplatelayout.pug&#10;//replicated layout to avoid redundant imports" />
     <MESSAGE value="*views.*&#10;//Improved pug layout and inclusion" />
@@ -341,9 +320,6 @@
     <MESSAGE value="*index.js&#10;//Added get widgets function&#10;//Added get current widgets to create form reqeust&#10;*createform_draggable_content.pug&#10;//Added personal widget section to drag bar&#10;//Now receives widgets json block" />
     <MESSAGE value="* accountsettings.pug&#10;// change button for updating password to onclick function for calling ajax update password&#10;&#10;+ handle_ajax_update_password.js&#10;// Created ajax for updating password&#10;&#10;* index.js&#10;// Created post for updating password" />
     <MESSAGE value="* formview.pug&#10;// For viewing forms&#10;&#10;* index.js&#10;// embedded intellijent engine in the backend" />
-    <MESSAGE value="* createform.pug&#10;// Changed coding paradigm for ajax&#10;&#10;* dbinit.js&#10;// Created the initialization for filled out form collection&#10;&#10;* formview.pug&#10;// STILL WORKING ON shareform function&#10;&#10;* handle_ajax_share_form.js&#10;// Moved function for autocomplete&#10;// STILL WORKING ON shareform function&#10;&#10;* handle_ajax_update_password.js&#10;// Fixed indentions&#10;&#10;* index.js&#10;// Posting new JSON Block for creating new forms&#10;// STARTED AND FIXING THE saving of new form version to view&#10;&#10;* viewforms.pug&#10;// Created validations if the form details exist or not&#10;&#10;* viewformtemplate.pug&#10;// Recreated the ajax code paradigm" />
-    <MESSAGE value="* createform.pug&#10;// Removed form action (No need)&#10;&#10;* index.js&#10;// Removed app.get index - This is not needed as there is already an existing one&#10;&#10;* viewforms.pug&#10;// Added Version of the Forms for easier navigation&#10;&#10;* viewformtemplate.pug&#10;// Added formStatus to be thrown in backend&#10;&#10;* viewformtemplates.pug&#10;// Added Real Statuses of forms" />
-    <MESSAGE value="* index.js&#10;// Changed most console.log to logStatus&#10;// Pushing a string form control number and form version instead of any kind of value type" />
-    <option name="LAST_COMMIT_MESSAGE" value="* index.js&#10;// Changed most console.log to logStatus&#10;// Pushing a string form control number and form version instead of any kind of value type" />
+    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug&#10;// For viewing forms&#10;&#10;* index.js&#10;// embedded intellijent engine in the backend" />
   </component>
 </project>

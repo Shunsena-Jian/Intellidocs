@@ -80,6 +80,39 @@ block body
     link(rel='stylesheet' href='//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css')
 
     script.
+        function shareForm(){
+            const shareTo = document.getElementById('employee_email').value;
+            var formBlock = !{JSON.stringify(currentForm)};
+
+            if(!shareTo){
+                alert("Please enter an email to share the form to!");
+            } else {
+                const data = {
+                    shareTo: shareTo,
+                    formControlNumber: formBlock.form_control_number
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/shareform',
+                    data: data,
+                    success: function(response) {
+                        if (response.status_code === 1) {
+                            alert("No user was selected to share the form.");
+                        } else if (response.status_code === 0) {
+                            alert("You shared the file to " + shareTo);
+                        } else {
+                            alert("AJAX error: ", error);
+                        }
+                    },
+                    error: function(error) {
+                        console.error('AJAX error:', error);
+                    }
+                });
+            }
+        }
+
+    script.
         var formBlock = !{JSON.stringify(currentForm)};
         var empEmails = !{JSON.stringify(retrievedUserEmails)}
         var receivedFormContent = formBlock.form_content;
@@ -88,5 +121,47 @@ block body
         theContainerOfTheForm.innerHTML = receivedFormContent;
         console.log(!{JSON.stringify(currentForm)});
 
-    script(src='/js/client.functions/handle_ajax_share_form.js')
+        // STARTING PLAYGROUND OF JIAN
+
+
+
+        $(function() {
+            var allEmails = empEmails;
+            $( "#employee_email" ).autocomplete({
+                source: allEmails
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function(){
+
+            const data = {
+                formName: formBlock.form_name,
+                formControlNumber: formBlock.form_control_number,
+                formContent: receivedFormContent,
+                formVersion: 0,
+                formStatus: "On-going",
+                formDateCreation: formBlock.date_created
+            };
+
+            $.ajax({
+                type: 'POST',
+                url:'/formautosave',
+                data: data,
+                success: function(response) {
+                    if (response.status_code === 0){
+                        alert("Form auto-saved.");
+                    } else {
+                        alert("AJAX function error.");
+                    }
+                },
+                error: function(error){
+                    console.log('AJAX Error: ' + error);
+                    alert("AJAX function error!");
+                }
+            });
+        });
+
+        // ENDING PLAYGROUND OF JIAN
+
+
     script(src='/js/client.functions/handle_ajax_save_filled_out_form.js')
