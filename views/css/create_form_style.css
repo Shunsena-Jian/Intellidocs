@@ -135,7 +135,7 @@ width: 297mm;
     /*color: #69D2E7;*/
     outline: 4px dotted #ffffff;
     box-shadow: 0 0 0 4px #69D2E7;
-    animation: 1s blink linear infinite;
+    animation: 3s blink linear 3s;
 }
 
 @keyframes blink{

@@ -37,7 +37,7 @@
             hr.w3-clear
             textarea.w3-textarea.w3-row.w3-container.box.draggable.w3-hover-light-grey(draggable="true" readonly type='text' placeholder='This is a sample of a paragraph')
             h3.w3-clear
-            input.draggable.box.w3-input(readonly draggable="true" type='date' placeholder='set deadline')
+            input.textbox.draggable.box.w3-input.w3-hover-light-grey(readonly draggable="true" type='date' placeholder='set deadline')
 
             hr.w3-newline-2
 
@@ -77,42 +77,41 @@
         #widgetCheckBoxContainer.w3-hide.w3-container
             .grid-container.w3-white.w3-container.draggable.box.w3-ol.w3-hover-light-grey(draggable='true')
                 .grid-item
-                    label.checkbox-label.w3-col.s6(for='text-1')
+                    label.checkbox-label.w3-row(for='text-1')
                         input#apple(type='radio' name='checkbox-1' value='text1' disabled)
                         |  Lorem Ipsum
                 .grid-item
-                    label.checkbox-label.w3-col.s6(for='text2')
+                    label.checkbox-label.w3-row(for='text2')
                         input#banana(type='radio' name='checkbox-1' value='text2' disabled)
                         |  Lorem Ipsum
                 .grid-item
-                    label.checkbox-label.w3-col.s6(for='text2')
+                    label.checkbox-label.w3-row(for='text2')
                         input#banana(type='radio' name='checkbox-1' value='text2' disabled)
                         |  Lorem Ipsum
                 .grid-item
-                    label.checkbox-label.w3-col.s6(for='text2')
+                    label.checkbox-label.w3-row(for='text2')
                         input#banana(type='radio' name='checkbox-1' value='text2' disabled)
                         |  Lorem Ipsum
             br
             .grid-container.w3-white.w3-container.draggable.box.w3-ol.w3-hover-light-grey(draggable='true')
                 .grid-item
-                    label.checkbox-label.w3-col.s6(for='text-1')
+                    label.checkbox-label.w3-row(for='text-1')
                         input#apple(type='checkbox' name='checkbox-1' value='text1' disabled)
                         |  Lorem Ipsum
                 .grid-item
-                    label.checkbox-label.w3-col.s6(for='text2')
+                    label.checkbox-label.w3-row(for='text2')
                         input#banana(type='checkbox' name='checkbox-1' value='text2' disabled)
                         |  Lorem Ipsum
                 .grid-item
-                    label.checkbox-label.w3-col.s6(for='text2')
+                    label.checkbox-label.w3-row(for='text2')
                         input#banana(type='checkbox' name='checkbox-1' value='text2' disabled)
                         |  Lorem Ipsum
                 .grid-item
-                    label.checkbox-label.w3-col.s6(for='text2')
+                    label.checkbox-label.w3-row(for='text2')
                         input#banana(type='checkbox' name='checkbox-1' value='text2' disabled)
                         |  Lorem Ipsum
             hr.w3-newline-2
 
-    //.w3-row.w3-padding-16
     .w3-row
         button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('widgetListsContainer')")
             i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right

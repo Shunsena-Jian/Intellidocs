@@ -20,7 +20,7 @@ window.onload = function(){
     tables = document.querySelectorAll('.table');
     boxes = document.querySelectorAll('.box');
     contextMenu = document.createElement('div');
-    widgetCanvas = document.getElementById('widget-canvas');
+    widgetCanvas = document.getElementById('widgetCanvas');
     selectedSectionContainer = document.getElementById('selectedElement');
     selectedTextBox = null;
     containerSize = 0;
@@ -62,7 +62,7 @@ window.onload = function(){
 
 // Page Settings
 function addReadOnlyAttributesRecursive() {
-    var element = document.getElementById("widget-canvas");
+    var element = document.getElementById("widgetCanvas");
 
     // Inner function to handle each element
     function processElement(element) {
@@ -93,7 +93,7 @@ function addReadOnlyAttributesRecursive() {
 
 function setMaxHeight() {
     // Get all elements with the class "drop-container"
-	var dropContainer = document.getElementById('widget-canvas');
+	var dropContainer = document.getElementById('widgetCanvas');
 	const computedStyle = getComputedStyle(dropContainer);
 	// Extract the padding value
 	const paddingValue = computedStyle.getPropertyValue('padding');
@@ -260,7 +260,7 @@ function modifyOrientation() {
 	console.log(selectedValue);
 
 	// Get all elements with the class "drop-container"
-	var dropContainer = document.getElementById('widget-canvas');
+	var dropContainer = document.getElementById('widgetCanvas');
 	dropContainer.classList.remove("w3-box");
 	dropContainer.classList.remove("w3-portrait-rectangle");
 	dropContainer.classList.remove("w3-landscape-rectangle");
@@ -934,24 +934,6 @@ function repositionBoxes() {
 	});
 }
 
-
-function addNewGridItem(gridContainer) {
-    // Replicate the first child of the provided grid container
-    var firstChild = gridContainer.querySelector('.grid-item').cloneNode(true);
-
-    // Change the ID, value, and text for the replicated input element and label
-    var newId = 'item-' + Date.now();
-
-    firstChild.querySelector('input').id = newId;
-    firstChild.querySelector('input').value = 'new-item';
-    firstChild.querySelector('label').htmlFor = newId;
-    firstChild.querySelector('label').textContent = 'New Grid Item';
-
-    // Append the replicated item to the grid container
-    gridContainer.appendChild(firstChild);
-
-    return gridContainer;
-}
 
 function addEventListenerToDiv(dropBox) {
 	dropBox.addEventListener('dragover', (e) => {

@@ -1,10 +1,8 @@
 .draggable-content
-    //.w3-row.w3-padding-16
     .w3-row
         button.w3-row(onclick='goToCreateWidget()')
             | Create Widget
         hr
-        //h4.w3-bold.w3-khaki.w3-padding-16.w3-center Personalized Widgets
         button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('personalizedFieldsContainer')")
             i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
             |  Personalized Widgets
@@ -13,16 +11,14 @@
             #widgetDragBarContainer
 
 
-    //.w3-row.w3-padding-16
     .w3-row
-        //h4.w3-bold.w3-khaki.w3-padding-16.w3-center Header Fields
         button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('headerFieldsContainer')")
             i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
             |  Header Fields
         #headerFieldsContainer.w3-hide.w3-container
             hr.w3-clear.w3-black
 
-            .header.w3-row.draggable.table(draggable='true')
+            .header.w3-row.draggable.box(draggable='true')
                 table.right.w3-bold.table.w3-font-size-10.header-table
                     tbody
                         tr
@@ -40,7 +36,7 @@
 
             hr.w3-clear
 
-            .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.table.draggable(draggable='true')
+            .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.box.draggable(draggable='true')
                 | Saint Louis University, Baguio City
                 hr.w3-newline
                 .w3-underline.w3-center.w3-margin-left.w3-margin-right
@@ -50,7 +46,7 @@
 
             hr.w3-clear
 
-            .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.table.draggable(draggable='true')
+            .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.box.draggable(draggable='true')
                 .w3-col.s3
                     img.w3-image(src='../src/slu_logo.png')
 
@@ -63,7 +59,7 @@
                     input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
 
                 .w3-col.s3
-                    table.table.w3-bold.w3-padding-64.w3-font-size-10.header-table
+                    table.table.w3-bold.w3-font-size-10.header-table
                         tbody
                             tr
                                 th Document Code
@@ -80,7 +76,7 @@
 
             hr.w3-clear
 
-            .header.w3-row-center.w3-container.table.draggable(draggable='true')
+            .header.w3-row-center.w3-container.box.draggable(draggable='true')
                 .w3-col-center.s2
                 .w3-col.s5.w3-bold
                     input.w3-input.w3-center.w3-row(readonly  type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
@@ -98,15 +94,13 @@
 
             hr.w3-newline-2
 
-    //.w3-row.w3-padding-16
     .w3-row
-        //h4.w3-bold.w3-khaki.w3-padding-16.w3-center Information Input Fields
         button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('infoInputFieldsContainer')")
             i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
             |  Information Input Fields
         #infoInputFieldsContainer.w3-hide.w3-container
 
-            .w3-row.table.draggable.w3-margin-left.w3-margin-right(draggable='true')
+            .w3-row.box.draggable.w3-margin-left.w3-margin-right(draggable='true')
                 .w3-row
                     p.w3-col.s2.w3-left-align.w3-label SLU ID NO:
                     input.w3-input.w3-col.s9(readonly type='text' maxlength='7' size='7' placeholder='ID NUMBER')
@@ -144,14 +138,12 @@
 
             hr.w3-newline-2
 
-    //.w3-row.w3-padding-16
     .w3-row
-        //h4.w3-bold.w3-khaki.w3-padding-16.w3-center Grouped Fields
         button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('groupedFieldsContainer')")
             i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
             |  Grouped Fields
         #groupedFieldsContainer.w3-hide.w3-container
-            .w3-row-center.w3-bold.table.draggable(draggable='true')
+            .w3-row-center.w3-bold.box.draggable(draggable='true')
                 textarea.w3-textarea(readonly type='text' placeholder='Table Title')
                 textarea.w3-textarea(readonly type='text' placeholder='Table Description')
                 hr.newline
@@ -174,7 +166,7 @@
                             td
                             td
 
-            .w3-row-center.w3-bold.table.draggable(draggable='true')
+            .w3-row-center.w3-bold.box.draggable(draggable='true')
                     textarea.w3-textarea.w3-row.textarea(readonly type='text' placeholder='Table Title')
                     hr.newline
                     table.table.w3-margin-top.w3-bold.draggable
@@ -196,7 +188,7 @@
                                 td
                                 td
 
-            .w3-row-center.w3-container.w3-bold.table.draggable(draggable='true')
+            .w3-row-center.w3-container.w3-bold.box.draggable(draggable='true')
                     textarea.w3-textarea.w3-row(readonly type='text' placeholder='Table Title')
                     hr.newline
                     table.table.w3-margin-top.w3-bold.draggable
@@ -222,37 +214,42 @@
             hr.w3-newline-2
 
 
-    //.w3-row.w3-padding-16
     .w3-row
-        //h4.w3-bold.w3-khaki.w3-padding-16.w3-center Text Fields
         button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('textFieldsContainer')")
             i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
             |  Text Fields
         #textFieldsContainer.w3-hide.w3-container
-            h3.textbox.w3-row.w3-container.table.draggable(draggable="true")
+            h3.textbox.w3-row.w3-container.box.draggable(draggable="true")
                 |                         This is a sample title
             hr.w3-clear
-            h5.textbox.w3-row.w3-container.table.draggable(draggable="true")
+            h5.textbox.w3-row.w3-container.box.draggable(draggable="true")
                 |                         This is a sample normal text
             hr.w3-clear
-            p.textbox.w3-container.table.draggable(draggable="true")
+            p.textbox.w3-container.box.draggable(draggable="true")
                 |                         This is a sample subtitle
-
+            hr.w3-clear
+            ol.w3-margin.w3-container.draggable.box.w3-hover-light-grey.w3-ol(draggable='true')
+                li item 1
+                li item 2
+                li item 3
+            hr.w3-clear
+            ul.w3-margin.w3-container.draggable.box.w3-hover-light-grey.w3-ul(draggable='true')
+                li item 1
+                li item 2
+                li item 3
             hr.w3-newline-2
 
 
-    //.w3-row.w3-padding-16
     .w3-row
-        //h4.w3-bold.w3-khaki.w3-padding-16.w3-center Signature Fields
         button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('signatureFieldsContainer')")
             i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
             |  Signature Fields
         #signatureFieldsContainer.w3-hide.w3-container
 
-            .w3-row-center.w3-container.w3-bold.table.draggable(draggable='true')
-                .w3-col.s3.w3-padding-16.w3-margin.w3-left
-                .w3-col.s3.w3-padding-16.w3-margin.w3-left
-                .w3-col.s4.w3-padding-16.w3-margin.w3-left
+            .w3-row-center.w3-bold.box.draggable(draggable='true')
+                .w3-col.s3.w3-left
+                .w3-col.s3.w3-left
+                .w3-col.s4.w3-left
                     p Certified true and correct
                     a.w3-col.w3-hide-small.w3-hover-white.w3-center.signature(href='')
                         i.fa.fa-pencil-square.icon-light
@@ -262,22 +259,22 @@
                     input.w3-input.w3-font-size-12(readonly type='date' placeholder='Date')
 
             hr.w3-clear
-            .w3-row-center.w3-container.w3-bold.table.draggable(draggable='true')
-                .w3-col.s3.w3-padding-16.w3-margin.w3-left
+            .w3-row-center.w3-container.w3-bold.box.draggable(draggable='true')
+                .w3-col.s3.w3-margin.w3-left
                     h6 Reviewed by
                     a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                         i.fa.fa-pencil-square.icon-light
                         |                         Upload Signature [PNG|JPG]
                     input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                     |                     Department Head
-                .w3-col.s3.w3-padding-16.w3-margin.w3-left
+                .w3-col.s3.w3-margin.w3-left
                         h6 Noted by
                         a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                             i.fa.fa-pencil-square.icon-light
                             |                         Upload Signature [PNG|JPG]
                         input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                         |                     Director of Libraries
-                .w3-col.s3.w3-padding-16.w3-margin.w3-left
+                .w3-col.s3.w3-margin.w3-left
                         h6 Approved by
                         a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                             i.fa.fa-pencil-square.icon-light
@@ -287,121 +284,121 @@
 
             hr.w3-clear
 
-            .w3-row-center.table.draggable(draggable='true')
-                .w3-col.s3.w3-padding-16.w3-margin.w3-left
+            .w3-row-center.draggable(draggable='true')
+                .w3-col.s3.w3-margin.w3-left
                     input.w3-input.w3-font-size-14(readonly type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
-                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-16(href='')
+                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                         i.fa.fa-pencil-square.icon-light
                         |                         Upload Signature [PNG|JPG]
                     input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                     input.w3-input.w3-font-size-14(readonly type='text' placeholder='POSITION')
 
-                .w3-col.s3.w3-padding-16.w3-margin.w3-left
+                .w3-col.s3.w3-margin.w3-left
                     input.w3-input.w3-font-size-14(readonly type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
-                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-16(href='')
+                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                         i.fa.fa-pencil-square.icon-light
                         |                         Upload Signature [PNG|JPG]
                     input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                     input.w3-input.w3-font-size-14(readonly type='text' placeholder='POSITION')
 
-                .w3-col.s3.w3-padding-16.w3-margin.w3-left
+                .w3-col.s3.w3-margin.w3-left
                     input.w3-input.w3-font-size-14(readonly type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
-                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-16(href='')
+                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                         i.fa.fa-pencil-square.icon-light
                         |                         Upload Signature [PNG|JPG]
                     input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                     input.w3-input.w3-font-size-14(readonly type='text' placeholder='POSITION')
                 hr.w3-clear
 
-            .w3-row-center.table.draggable(draggable='true')
+            .w3-row-center.box.draggable(draggable='true')
                 .w3-row
-                    .w3-col.s3.w3-padding-16
+                    .w3-col.s3
                         p.w3-font-size-14  Endorsed by:
-                    .w3-col.s4.w3-padding-16.w3-font-size-14
-                        a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-12(href='')
+                    .w3-col.s4.w3-font-size-14
+                        a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                             i.fa.fa-pencil-square.icon-light
                             |                             Upload Signature [PNG|JPG]
                         input.w3-input.w3-font-size-12(readonly type='text' placeholder='FULL NAME')
                         h6.w3-center.w3-font-size-15 Associate Dean
-                    .w3-col.s4.w3-margin-left.w3-padding-16
+                    .w3-col.s4.w3-margin-left
                         input.w3-input.w3-font-size-12(readonly type='date' placeholder='Date')
                 .w3-row
-                    .w3-col.s3.w3-padding-16
+                    .w3-col.s3
                         p.w3-font-size-14  Approved By:
-                    .w3-col.s4.w3-padding-16
-                        a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
+                    .w3-col.s4
+                        a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle(href='')
                             i.fa.fa-pencil-square.icon-light
                             |                         Upload Signature [PNG|JPG]
                         input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                         h6.w3-center.w3-font-size-15 SAMCIS Dean
-                    .w3-col.s4.w3-margin-left.w3-padding-16
+                    .w3-col.s4.w3-margin-left
                         input.w3-input.w3-font-size-14(readonly type='date' placeholder='Date')
                 .w3-row
-                    .w3-col.s3.w3-padding-16
+                    .w3-col.s3
                         p.w3-font-size-14  Endorsed by:
-                    .w3-col.s4.w3-padding-16.w3-font-size-14
-                        a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-12(href='')
+                    .w3-col.s4.w3-font-size-14
+                        a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                             i.fa.fa-pencil-square.icon-light
                             |                         Upload Signature [PNG|JPG]
                         input.w3-input.w3-font-size-12(readonly type='text' placeholder='FULL NAME')
                         h6.w3-center.w3-font-size-15 Associate Dean
-                    .w3-col.s4.w3-margin-left.w3-padding-16
+                    .w3-col.s4.w3-margin-left
                         input.w3-input.w3-font-size-12(readonly type='date' placeholder='Date')
 
             hr.w3-clear
 
-            .w3-row.table.draggable(draggable='true')
-                .w3-col.s3.w3-padding-16
+            .w3-row.box.draggable(draggable='true')
+                .w3-col.s3
                     p.w3-font-size-14  Prepared By:
-                .w3-col.s4.w3-padding-16
-                    a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
+                .w3-col.s4
+                    a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle(href='')
                         i.fa.fa-pencil-square.icon-light
                         |                         Upload Signature [PNG|JPG]
                         input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                         h6.w3-center.w3-font-size-15 Department Head
-                .w3-col.s4.w3-margin-left.w3-padding-16
+                .w3-col.s4.w3-margin-left
                     input.w3-input.w3-font-size-14(readonly type='date' placeholder='Date')
 
             hr.w3-clear
 
-            .w3-row.table.draggable(draggable='true')
-                .w3-col.s3.w3-padding-16
+            .w3-row.box.draggable(draggable='true')
+                .w3-col.s3
                     p.w3-font-size-14  Approved By:
-                .w3-col.s4.w3-padding-16
-                    a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle.w3-padding-12(href='')
+                .w3-col.s4
+                    a.w3-col.w3-hide-small.w3-hover-white.w3-font-size-14.w3-center.rectangle(href='')
                         i.fa.fa-pencil-square.icon-light
                         |                         Upload Signature [PNG|JPG]
                     input.w3-input.w3-font-size-14(readonly type='text' placeholder='FULL NAME')
                     h6.w3-center.w3-font-size-15 SAMCIS Dean
-                .w3-col.s4.w3-margin-left.w3-padding-16
+                .w3-col.s4.w3-margin-left
                     input.w3-input.w3-font-size-14(readonly type='date' placeholder='Date')
 
             hr.w3-clear
 
-            .w3-row.table.draggable(draggable='true')
-                .w3-col.s3.w3-padding-16
+            .w3-row.box.draggable(draggable='true')
+                .w3-col.s3
                     p.w3-font-size-14  Endorsed by:
-                .w3-col.s4.w3-padding-16.w3-font-size-14
-                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-12(href='')
+                .w3-col.s4.w3-font-size-14
+                    a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                         i.fa.fa-pencil-square.icon-light
                         |                         Upload Signature [PNG|JPG]
                     input.w3-input.w3-font-size-12(readonly type='text' placeholder='FULL NAME')
                     h6.w3-center.w3-font-size-15 Associate Dean
-                .w3-col.s4.w3-margin-left.w3-padding-16
+                .w3-col.s4.w3-margin-left
                     input.w3-input.w3-font-size-12(readonly type='date' placeholder='Date')
 
             hr.w3-clear
 
-            .w3-row-center.w3-bold.table.draggable(draggable='true')
+            .w3-row-center.w3-bold.box.draggable(draggable='true')
                 h6
                     | I attest that all information provided are true and correct and will abide with the policies and procedures of the university
-                a.w3-hide-small.w3-hover-white.w3-center.rectangle.w3-padding-32(href='')
+                a.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
                     i.fa.fa-pencil-square.icon-light
                     |                         Upload Signature [PNG|JPG] over printed name
 
             hr.w3-clear
 
-            table.draggable.table.w3-bold.w3-padding-64(draggable='true')
+            table.draggable.box.w3-bold(draggable='true')
                 tbody
                     tr
                         td
@@ -413,9 +410,7 @@
 
             hr.w3-newline-2
 
-    //.w3-row.w3-padding-16
     .w3-row
-        //h4.w3-bold.w3-khaki.w3-padding-16.w3-center Table
         button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('tableFieldsContainer')")
             i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
             |  Table Fields
@@ -473,7 +468,7 @@ script.
     for(i = 0; i < widgets.length; i++){
         var tempElement = document.createElement('div');
         widgetChild = `<h4 class="w3-bold w3-padding-16 w3-center">` + widgets[i].widget_name + `</h4>` +
-         `<div class="header w3-row draggable table" draggable="true">` + widgets[i].widget_content + `</div>`;
+         `<div class="header w3-row draggable" draggable="true">` + widgets[i].widget_content + `</div>`;
         tempElement.innerHTML = widgetChild;
         widgetDragBarContainer.appendChild(tempElement);
     }
