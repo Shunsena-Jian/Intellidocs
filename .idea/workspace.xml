@@ -7,9 +7,12 @@
     <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="* formview.pug&#10;// For viewing forms&#10;&#10;* index.js&#10;// embedded intellijent engine in the backend">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/createform.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createform.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_save_filled_out_form.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_save_filled_out_form.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_share_form.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/viewforms.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewforms.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/viewformtemplate.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewformtemplate.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/viewformtemplates.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewformtemplates.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -2,16 +2,11 @@ function saveFilledOutForm(){
     var formBody = document.getElementById('theContainerOfTheForm').innerHTML;
 
     const data = {
-        formName: formBlock.form_name,
-        formControlNumber: formBlock.form_control_number,
-        formContent: formBody,
-        formVersion: formBlock.form_version,
-        formStatus: "On-going",
-        formDateCreation: formBlock.date_created
+        formContent: formBody
     };
 
     $.ajax({
-        type: 'POST',
+        type: 'PUT',
         url: '/savefilledoutform',
         data: data,
         success: function(response) {

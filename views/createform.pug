@@ -83,7 +83,6 @@ block body
                     name: formName,
                     formControlNumber: formControlNumber,
                     formContent: formBody,
-                    formVersion: 0,
                     formStatus: "Template"
                 };
 
@@ -134,6 +133,7 @@ block body
         /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
         function openNavigation() {
             // Get the element by its ID
+            const sidebar = document.getElementById("mySidebar");
             const sidebar = document.getElementById("mySidebar");
             const main = document.getElementById("main");
             // Toggle the classes for showing/hiding the sidebar

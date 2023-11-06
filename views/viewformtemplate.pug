@@ -99,10 +99,11 @@ block body
             var formBody = document.getElementById('form-content').innerHTML;
             var formName = document.getElementById('formName').value;
             // var formControlNumber = document.getElementById('formControlNumber').value;
+            var formControlNumber = `#{currentForm.form_control_number}`;
 
             const data = {
                 name: formName,
-                formControlNumber: #{currentForm.form_control_number},
+                formControlNumber: formControlNumber,
                 formContent: formBody,
                 formStatus: "Template"
             };

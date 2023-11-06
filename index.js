@@ -250,39 +250,28 @@ async function jsonToHTML(jsonDataArray, indentLevel = 0) {
     return html;
 }
 
-app.post('/savefilledoutform', async function(req, res){
-    try{
-        var saveFilledForm = req.body;
-        var currentDate = new Date();
-        var date = currentDate.toDateString();
-        var time = currentDate.toTimeString().split(' ')[0];
-        var a = new JSDOM(saveFilledForm.formContent);
-        var rootElement = a.window.document.querySelector('.drop-container');
-        var jsonArray = [];
-        var b = await htmlToJson(rootElement);
-        jsonArray.push(b);
+/*async function getLatestuserVersion(owner, controlNumber){
+    console.log("looking for " + owner + " of " + controlNumber);
+    var versionList = await filledoutforms.find({ form_control_number : controlNumber, form_owner : owner }).toArray();
+    console.log("logging version list var" + JSON.stringify(versionList));
+    var versionCount = 0;
+    var latestUserVersion = 0;
 
-        if(!saveFilledForm){
-            res.send({ status_code: 1 });
-        } else {
-            const filledOutDocument = {
-                form_name: saveFilledForm.formName,
-                form_control_number: saveFilledForm.formControlNumber,
-                form_content: jsonArray,
-                form_version: saveFilledForm.formVersion,
-                form_status: saveFilledForm.formStatus,
-                date_created: saveFilledForm.formDateCreation,
-                last_edited: `${date} ${time}`
-            };
 
-            const result = await filledoutforms.insertOne(filledOutDocument);
-
-            res.send({ status_code : 0});
+    for(i=0; i < versionList.length; i++){
+        if(versionList[i].form_version >= latestUserVersion){
+            latestUserVersion = versionList[i].form_version;
         }
-    } catch (error) {
-        logStatus("There is an error at save filled out form: " + error);
+        versionCount = versionCount + 1;
+        console.log("logging version" + versionList[i].form_version + " of " + controlNumber);
     }
-});
+
+
+    console.log(versionCount);
+    console.log(latestUserVersion + "is the latest version");
+}
+*/
+
 
 //END OF ENGINE
 app.post('/savecreatedform', async function(req, res){
@@ -317,7 +306,7 @@ app.post('/savecreatedform', async function(req, res){
                 form_control_number: formData.formControlNumber.toString(),
                 //form_content: formData.formContent,
                 form_content: jsonArray,
-                form_version: formData.formVersion.toString(),
+                form_version: 0,
                 form_status: formData.formStatus,
                 date_created: `${date} ${time}`
             };
@@ -339,15 +328,19 @@ app.post('/savecreatedform', async function(req, res){
 app.post('/saveformversion', async function(req, res){
     var formData = req.body;
     var latestVersion = 0;
-    formHistory = await forms.find({ form_control_number : formData.formControlNumber }).toArray();
-    console.log(JSON.stringify(formHistory));
-
+    var newVersionNumber = 0;
+    var formHistory = await forms.find({ form_control_number : formData.formControlNumber }).toArray();
+    console.log("THE LENGTH IS" + formHistory.length);
+    console.log("WE ARE LOOKING FOR THIS CONTROL NUMBER " + formData.formControlNumber);
     for(i=0; i < formHistory.length; i++) {
+        console.log("Entered 334 iteration");
         if(formHistory[i].form_version >= latestVersion) {
             latestVersion = formHistory[i].form_version;
+            console.log("block 333 iterated versioning" + formHistory[i]);
         }
     }
-    latestVersion = latestVersion + 1;
+    newVersionNumber = latestVersion + 1;
+    console.log("This is the quack: " + newVersionNumber);
 
     try {
         var latestForm;
@@ -366,7 +359,7 @@ app.post('/saveformversion', async function(req, res){
             form_control_number: formData.formControlNumber.toString(),
             //form_content: formData.formContent,
             form_content: jsonArray,
-            form_version: latestVersion.toString(),
+            form_version: newVersionNumber,
             form_status: formData.formStatus,
             date_created: `${date} ${time}`
         };
@@ -435,7 +428,7 @@ app.post('/formautosave', async function (req, res){
             form_name: formData.formName,
             form_control_number: formData.formControlNumber.toString(),
             form_content: jsonArray,
-            form_version: formData.formVersion.toString(),
+            form_version: formData.formVersion + 1,
             form_status: formData.formStatus,
             last_edited: `${date} ${time}`
         };
@@ -448,12 +441,85 @@ app.post('/formautosave', async function (req, res){
 
 });
 
+function getDateNow(){
+    var currentDate = new Date();
+    var date = currentDate.toDateString();
+
+    return date;
+}
+
+function getTimeNow(){
+    var currentDate = new Date();
+    var time = currentDate.toTimeString().split(' ')[0];
+
+    return time;
+}
+
+app.put('/savefilledoutform', async function(req, res){
+
+    var selectedFormControlNumberToView = req.session.form_control_number;
+    formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+    var latestVersion = 0;
+    var latestUserVersion = 0;
+
+    for(i=0; i < formVersions.length; i++){
+        if(formVersions[i].form_version >= latestVersion){
+            latestVersion = formVersions[i].form_version;
+        }
+    }
+
+    var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
+    var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
+
+    for(i=0; i < userFormVersions.length; i++){
+        if(userFormVersions[i].user_version >= latestUserVersion){
+            latestUserVersion = userFormVersions[i].user_version;
+            console.log("The latest versions is: " + userFormVersions[i].user_version);
+        }
+    }
+    console.log("The final latest version is: " + latestUserVersion);
+
+    try{
+        var formToSave = req.body;
+
+        var a = new JSDOM(formToSave.formContent);
+        var rootElement = a.window.document.querySelector('.drop-container');
+        var jsonArray = [];
+        var b = await htmlToJson(rootElement);
+        jsonArray.push(b);
+
+        if(!formToSave){
+            res.send({ status_code: 1 });
+        } else {
+            const filledOutDocument = {
+                form_name: currentForm.form_name,
+                form_control_number: currentForm.form_control_number,
+                form_content: jsonArray,
+                form_version: currentForm.form_version,
+                form_status: currentForm.form_status,// add function to identify form type from ongoing to submitted
+                date_saved: getDateNow(),
+                time_saved: getTimeNow(),
+                user_version: latestUserVersion + 1,
+                form_owner: req.session.userEmpID
+            };
+
+            const result = await filledoutforms.insertOne(filledOutDocument);
+
+            res.send({ status_code : 0});
+        }
+    } catch (error) {
+        logStatus("There is an error at save filled out form: " + error);
+    }
+});
+
 app.get('/formview/:form_control_number', async function (req, res){
+    req.session.form_control_number = req.params.form_control_number;
     try{
         var selectedFormControlNumberToView = req.params.form_control_number;
         formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
         var latestVersion = 0;
         var retrievedUserEmails;
+        var latestUserVersion = 0;
 
         for(i=0; i < formVersions.length; i++){
             if(formVersions[i].form_version >= latestVersion){
@@ -461,28 +527,56 @@ app.get('/formview/:form_control_number', async function (req, res){
             }
         }
 
-        var currentForm;
+        var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
+        var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
+        var latestUserForm;
+        let jsonObject;
+        if(userFormVersions == 0){
+            //save latest verion as user version0 to filled out forms
+            jsonObject = currentForm;
+            const filledOutDocument = {
+                form_name: currentForm.form_name,
+                form_control_number: currentForm.form_control_number,
+                form_content: currentForm.form_content,
+                form_version: currentForm.form_version,
+                form_status: "On-going",
+                date_saved: getDateNow(),
+                time_saved: getTimeNow(),
+                user_version: 0,
+                form_owner: req.session.userEmpID
+            };
+
+            const result = await filledoutforms.insertOne(filledOutDocument);
+        }else{
+            for(i = 0; i < userFormVersions.length; i++){
+                if(userFormVersions[i].user_version >= latestUserVersion){
+                    latestUserVersion = userFormVersions[i].user_version;
+                }
+            }
+            console.log("The latest USER version is " + latestUserVersion);
+
+            latestUserFilledVersion = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, user_version: latestUserVersion });
+            jsonObject = latestUserFilledVersion;
+
+            console.log("-------------------------------");
+            console.log(JSON.stringify(latestUserFilledVersion));
+            console.log("-------------------------------");
+        }
+
+
+        console.log("This is the json object: " + jsonObject);
+        var e = jsonObject.form_content;
+        var g = await jsonToHTML(e);
+        jsonObject.form_content = g;
+
+
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
-        currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
-        retrievedUserEmails = await getUsersEmails();
-        //--
-        //let jsonObject = JSON.parse(currentForm);
-        let jsonObject = currentForm;
-        console.log("This is the json object: " + jsonObject);
-        var e = jsonObject.form_content;
-        var g = await jsonToHTML(e);
-        console.log("hindi nag error yata");
-
-        try{
-            jsonObject.form_content = g;
-        } catch {
-            console.log('NAG ERROR NA NANG SOBRA')
-        }
-
         currentUserPicture = await getUserPicture(req.session.userEmpID);
+        retrievedUserEmails = await getUsersEmails();
+
 
         res.render('formview', {
             title: 'View Forms',
@@ -491,7 +585,6 @@ app.get('/formview/:form_control_number', async function (req, res){
             currentUserFiles: currentUserFiles,
             currentUserPrivileges: currentUserPrivileges,
             currentUserNotifications: currentUserNotifications,
-            // currentForm: currentForm,
             currentForm: jsonObject,
             currentUserPicture: currentUserPicture,
             min_idleTime: min_idleTime
@@ -545,7 +638,6 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
             latestVersion = formVersions[i].form_version;
         }
     }
-    console.log("This is the latest version: " + latestVersion);
 
     try{
         var currentForm;
@@ -980,7 +1072,24 @@ app.get('/viewforms', async function(req, res){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
-        currentForms = await getForms(req.session.userEmpID);
+        allForms = await getForms(req.session.userEmpID);
+        sharedReadForms = await filledoutforms.find({ "read" : req.session.userEmpID});
+        sharedWriteForms = await filledoutforms.find({ "write" : req.session.userEmpID});
+
+        var a = [];
+        var seenControlNumber = {};
+
+        for (const obj of allForms) {
+          if (!seenControlNumber[obj.form_control_number]) {
+            seenControlNumber[obj.form_control_number] = true;
+            a.push(obj);
+          }
+        }
+
+        console.log("the unique forms " + a);
+        currentForms = a;
+
+        currentUserForms = await getUserForms(req.session.userEmpID);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
@@ -992,6 +1101,7 @@ app.get('/viewforms', async function(req, res){
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
                 currentForms: currentForms,
+                currentUserForms: currentUserForms,
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
@@ -1657,6 +1767,23 @@ async function getNotifications(empID){
     }
 
     return userNotifications;
+}
+
+async function getUserForms(empID){
+    var userFormsCollections;
+    try {
+        userFormsCollections = await filledoutforms.find().toArray();
+
+        if(debug_mode){
+            logStatus("The array forms at function getForms() : " + JSON.stringify(userFormsCollections));
+        }
+    } catch (error) {
+        userFormsCollections = [];
+        if(debug_mode){
+            logStatus("Failed to retrieve forms: " + error);
+        }
+    }
+    return userFormsCollections;
 }
 
 async function getForms(empID){

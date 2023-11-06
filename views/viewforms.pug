@@ -7,65 +7,56 @@ block body
                 h1.w3-center View Forms
 
         .w3-row
-            .w3-half
+            .w3-half.w3-padding
                 .shadowEffect.w3-container.w3-white.w3-round.w3-margin
                     h3 To Do
                     hr.w3-clear
-                    each forms in currentForms
-                        .w3-third.w3-container
+                    each userforms in currentForms
+                        .w3-half.w3-container
                             .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
-                                h3  #{forms.form_name}
+                                h3  #{userforms.form_name}
                                 hr.w3-clear
                                 p
                                     b  Status:
-                                    if (!forms.form_status)
+                                    if (!userforms.form_status)
                                         |  N/A
                                     else
-                                        |  #{forms.form_status}
+                                        |  #{userforms.form_status}
                                 p
                                     b  Date Created:
-                                    if (!forms.form_status)
+                                    if (!userforms.date_created)
                                         |  N/A
                                     else
-                                        |  #{forms.date_created}
-                                p
-                                    b  Last Edited:
-                                    if (!forms.last_edited)
-                                        |  N/A
-                                    else
-                                        |  #{forms.last_edited}
+                                        |  #{userforms.date_created}
                                 p
                                     b  Version:
-                                    if (!forms.form_version)
-                                        |  N/A
-                                    else
-                                        |  #{forms.form_version}
-                                a(href=`/formview/${forms.form_control_number}`) View Form
-            .w3-half
+                                    |  #{userforms.form_version}
+                                a(href=`/formview/${userforms.form_control_number}`) View Form
+            .w3-half.w3-padding
                 .shadowEffect.w3-container.w3-white.w3-round.w3-margin
                     h3 Forms shared with you
                     hr.w3-clear
-                    each forms in currentForms
+                    each userforms in currentForms
                         .w3-third.w3-container
                             .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
-                                h3  #{forms.form_name}
+                                h3  #{userforms.form_name}
                                 hr.w3-clear
                                 p
                                     b  Status:
-                                    if (!forms.form_status)
+                                    if (!userforms.form_status)
                                         |  N/A
                                     else
-                                        |  #{forms.form_status}
+                                        |  #{userforms.form_status}
                                 p
                                     b  Date Created:
-                                    if (!forms.form_status)
+                                    if (!userforms.date_created)
                                         |  N/A
                                     else
-                                        |  #{forms.date_created}
+                                        |  #{userforms.date_created}
                                 p
                                     b  Last Edited:
-                                    if (!forms.last_edited)
+                                    if (!userforms.last_edited)
                                         |  N/A
                                     else
-                                        |  #{forms.last_edited}
-                                a(href=`/formview/${forms.form_control_number}`) View Form
+                                        |  #{userforms.last_edited}
+                                a(href=`/formview/${userforms.form_control_number}`) View Form
