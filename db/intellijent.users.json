@@ -2,17 +2,20 @@
   "_id": {
     "$oid": "64e83ea15fab0463809af93e"
   },
+  "email": "2212288@slu.edu.ph",
   "username": "jian",
   "password": "123",
   "emp_id": "11111111",
   "first_name": "Jian Raphael",
   "last_name": "Cudiamat",
-  "user_level": "Super Admin"
+  "user_level": "Super Admin",
+  "user_picture": "/profile_pictures/11111111/CudiamatJian.png"
 },
 {
   "_id": {
     "$oid": "64e83ea15fab0463809af93f"
   },
+  "email": "2143007@slu.edu.ph",
   "username": "jao",
   "password": "123",
   "emp_id": "22222222",
@@ -24,6 +27,7 @@
   "_id": {
     "$oid": "64ec006308ac5dd60d32e852"
   },
+  "email": "2212502@slu.edu.ph",
   "username": "cass",
   "password": "123",
   "emp_id": "33333333",
@@ -35,6 +39,7 @@
   "_id": {
     "$oid": "64ec00b208ac5dd60d32e853"
   },
+  "email": "2212577@slu.edu.ph",
   "username": "denmark",
   "password": "123",
   "emp_id": "44444444",
@@ -46,6 +51,7 @@
   "_id": {
     "$oid": "64ec00d108ac5dd60d32e854"
   },
+  "email": "2213275@slu.edu.ph",
   "username": "lei",
   "password": "123",
   "emp_id": "55555555",
@@ -57,6 +63,7 @@
   "_id": {
     "$oid": "64ec011508ac5dd60d32e855"
   },
+  "email": "2212378@slu.edu.ph",
   "username": "alyanna",
   "password": "123",
   "emp_id": "66666666",
@@ -68,6 +75,7 @@
   "_id": {
     "$oid": "64ec012e08ac5dd60d32e856"
   },
+  "email": "2192198@slu.edu.ph",
   "username": "lywe",
   "password": "123",
   "emp_id": "77777777",
@@ -79,6 +87,7 @@
   "_id": {
     "$oid": "64ec015408ac5dd60d32e858"
   },
+  "email": "2216168@slu.edu.ph",
   "username": "machian",
   "password": "123",
   "emp_id": "88888888",
