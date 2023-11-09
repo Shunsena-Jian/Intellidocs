@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="523211e3-c7e2-4cd0-be26-0ff06d8fe0b2" name="Changes" comment="">
+    <list default="true" id="523211e3-c7e2-4cd0-be26-0ff06d8fe0b2" name="Changes" comment="*formview.pug&#10;//Updated form view design">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/viewformtemplate.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewformtemplate.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +36,29 @@
       <option name="presentableId" value="Default" />
       <updated>1699498087657</updated>
     </task>
+    <task id="LOCAL-00001" summary="*formview.pug&#10;//Updated form view design">
+      <created>1699502225729</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1699502225729</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="*formview.pug&#10;//Updated form view design" />
+    <option name="LAST_COMMIT_MESSAGE" value="*formview.pug&#10;//Updated form view design" />
   </component>
 </project>

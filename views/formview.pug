@@ -19,7 +19,10 @@ block body
                                         option(value='1') Version 1
                                         option(value='2') Version 2
                                 .w3-row
-                                    button(onclick='dropDownUpdateCanvas()') Load Form
+                                    br
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='dropDownUpdateCanvas()')
+                                        i.fa.fa-refresh.fa-fw.w3-margin-right
+                                        |   Load Form
                         .w3-third
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h2 Share Document
@@ -30,70 +33,94 @@ block body
                                         option(value='Viewer') Viewer
                                         option(value='Editor') Editor
                                 .w3-row
-                                    button(onclick='shareForm()') Share
+                                    br
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='shareForm()')
+                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                        |   Share
 
                         .w3-third
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h2 Shared with
-                                h4 denmark - View Only
-                                h4 jao - View Only
-                                h4 jian - View and Edit
+                                h4
+                                    i.fa.fa-eye.fa-fw.w3-margin-right
+                                    |   denmark - View Only
+                                h4
+                                    i.fa.fa-eye.fa-fw.w3-margin-right
+                                    |   jao - View Only
+                                h4
+                                    i.fa.fa-eye.fa-fw.w3-margin-right
+                                    i.fa.fa-pencil-square-o.fa-fw.w3-margin-right
+                                    |   jian - View and Edit
 
                     .w3-third.w3-container2
                         h2 Form Settings
                         hr
                         .w3-row
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                button(onclick='saveFilledOutForm()') Save Form
-                                button(onclick='downloadAsPDF()') Download as PDF
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='saveFilledOutForm()')
+                                        i.fa.fa-floppy-o.fa-fw.w3-margin-right
+                                        |   Save Form
+                                    br
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='downloadAsPDF()')
+                                        i.fa.fa-download.fa-fw.w3-margin-right
+                                        |   Download as PDF
 
 
         .w3-row
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                //#form-content.pages
                 #theContainerOfTheForm
 
-        .w3-row.w3-padding-64
-            .w3-twothird.w3-container
-                .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                    h1 Files
-                    hr
-                    table#filesTable.display(width='100%')
-                        thead
-                            tr
-                                th File Name
-                                th File Size
-                                th Uploaded By
-                                th Uploaded At
-                                th File Actions
-                        tbody
-                            each file in currentUserFiles
-                                tr
-                                    td #{file.file_name}
-                                    td #{file.file_size}
-                                    td #{file.uploadedBy}
-                                    td #{file.uploadedAt}
-                                    td
-                                        a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
-                                            i.fa.fa-pencil.w3-text-theme
-                                        a.w3-half.w3-hover-white(onclick=`showDeleteModal("${file.file_name}")`)
-                                            i.fa.fa-times.w3-text-theme
-                    #id01.w3-modal
-                        .w3-modal-content
-                            .w3-container
-                                span.w3-button.w3-display-topright(onclick="document.getElementById('id01').style.display='none'") &times;
-                                p Are you sure you want to delete this file?
-                                p#selectedFileForDeletionPlaceholder
-                                a(onclick=`deleteSelectedFile()`) Yes
-                                a(onclick="closeModal()") No
+        #id01.w3-modal
+            .w3-modal-content
+                .w3-container
+                    span.w3-button.w3-display-topright(onclick="document.getElementById('id01').style.display='none'") &times;
+                    p Are you sure you want to delete this file?
+                    p#selectedFileForDeletionPlaceholder
+                    a(onclick=`deleteSelectedFile()`) Yes
+                    a(onclick="closeModal()") No
 
-            .w3-quarter.w3-container
-                .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                    h1 Upload Files
+        .w3-row.w3-padding-32
+            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                .w3-row
+                    h1 File Management
                     hr
-                    form(action="/", method="POST", enctype="multipart/form-data" id="upload-form")
-                        input.bottone5(type="file", name="file", id="file")
-                        input.bottone5(type="submit", value="Upload")
+                    .w3-twothird.w3-container
+                        .w3-container2.w3-card.w3-white.w3-round.w3-margin
+
+                            table#filesTable.display(width='100%')
+                                thead
+                                    tr
+                                        th File Name
+                                        th File Size
+                                        th Uploaded By
+                                        th Uploaded At
+                                        th File Actions
+                                tbody
+                                    each file in currentUserFiles
+                                        tr
+                                            td #{file.file_name}
+                                            td #{file.file_size}
+                                            td #{file.uploadedBy}
+                                            td #{file.uploadedAt}
+                                            td
+                                                a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
+                                                    i.fa.fa-pencil.w3-text-theme
+                                                a.w3-half.w3-hover-white(onclick=`showDeleteModal("${file.file_name}")`)
+                                                    i.fa.fa-times.w3-text-theme
+
+
+                    .w3-third.w3-container
+                        .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                            h1
+                                i.fa.fa-upload.w3-text-theme
+                                |   Upload Files
+                            hr
+                            form(action="/", method="POST", enctype="multipart/form-data" id="upload-form")
+                                .w3-row
+                                    input.bottone5(type="file", name="file", id="file")
+                                    br
+                                    input.bottone5(type="submit", value="Upload")
 
     script(src='https://code.jquery.com/ui/1.13.2/jquery-ui.js')
     link(rel='stylesheet' href='//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css')

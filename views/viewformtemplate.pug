@@ -4,8 +4,81 @@ block body
     .w3-main#main(style='margin-left:250px')
         .w3-row.w3-padding-32
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                h1.w3-center Form Name: #{currentForm.form_name}
-        .w3-row
+                .w3-row
+                    h1.w3-center Form Name: #{currentForm.form_name}
+
+                .w3-row
+                    .w3-twothird.w3-container2
+                        h2 Form Details
+                        hr
+                        .w3-half
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Version History
+                                .w3-row
+                                    select#versionDropDown(name='versionDropDown')
+                                        option(value='1') Version 1
+                                        option(value='2') Version 2
+                                .w3-row
+                                    br
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='dropDownUpdateCanvas()')
+                                        i.fa.fa-refresh.fa-fw.w3-margin-right
+                                        |   Load Form
+
+                        .w3-half
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h3 Form Settings
+                                h4 Sharing : Enabled
+
+                            script.
+                                function toggleSharing(){
+                                    var toggleSharingButton = document.getElementById("toggleSharingButton");
+                                    var toggleSharingButtonValue = document.getElementById("toggleSharingButton").innerHTML;
+                                    var sharingConfirmationMessage;
+
+                                    if(toggleSharingButtonValue == "Allow Sharing"){
+                                        sharingConfirmationMessage = "Form currently allows sharing, are you sure you want to disable it?";
+                                    }else{
+                                        sharingConfirmationMessage = "Form currently declines sharing, are you sure you want to enable it?";
+                                    }
+
+                                    var result = window.confirm(sharingConfirmationMessage);
+
+                                    if(result){
+                                        if(toggleSharingButtonValue == "Allow Sharing"){
+                                            toggleSharingButton.innerHTML = "Disable Sharing";
+                                        }else{
+                                            toggleSharingButton.innerHTML = "Allow Sharing";
+                                        }
+                                    }
+                                }
+
+
+                    .w3-third.w3-container2
+                        h2 Form Actions
+                        hr
+                        .w3-row
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='saveForm()')
+                                        i.fa.fa-floppy-o.fa-fw.w3-margin-right
+                                        |   Save Form
+                                    br
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='downloadAsPDF()')
+                                        i.fa.fa-download.fa-fw.w3-margin-right
+                                        |   Download as PDF
+                                    br
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='publishForm()')
+                                        i.fa.fa-check.fa-fw.w3-margin-right
+                                        |   Publish Form
+                                    br
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='publishForm()')
+                                        i.fa.fa-ban.fa-fw.w3-margin-right
+                                        |   Un-publish Form
+                                    br
+                                    button#toggleSharingButton.w3-button.w3-block.w3-theme-dark(onclick='toggleSharing()') Allow Sharing
+
+
+        .w3-row.w3-container2.w3-white.w3-round.w3-margin
             h4.w3-bold Edit Form
             input#formName.w3-col.s6.w3-input.w3-margin(placeholder="Edit Form Name" required='' value=`${currentForm.form_name}`)
             // input#formControlNumber.w3-col.s6.w3-input.w3-margin(placeholder="Type Form Control Number [Required]" required='')
@@ -78,11 +151,7 @@ block body
                     .grid-item
                         a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onClick='makeOrderedList()')
                             i.fa.fa-list-ol.icon-light
-                    .grid-item.borderless
-                    .grid-item
-                        button.w3-button.w3-bold.w3-grey(onclick='saveForm()')
-                            | Export
-                    .grid-item.borderless
+
 
             .w3-row.w3-container
                 .w3-twothird.w3-container
