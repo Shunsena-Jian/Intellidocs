@@ -4,30 +4,49 @@ block body
     #main.w3-main(style='margin-left:250px')
         .w3-row.w3-padding-32
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                h1.w3-center Form Name: #{currentForm.form_name}
-                button(onclick='saveFilledOutForm()') Save Form
-
-        .w3-row
-            .w3-half
                 .w3-row
-                    .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                        h2 Share Document
+                    h1.w3-center Form Name: #{currentForm.form_name}
+
+                .w3-row
+                    .w3-twothird.w3-container2
+                        h2 Form Details
+                        hr
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Version History
+                                .w3-row
+                                    select#versionDropDown(name='versionDropDown')
+                                        option(value='1') Version 1
+                                        option(value='2') Version 2
+                                .w3-row
+                                    button(onclick='dropDownUpdateCanvas()') Load Form
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Share Document
+                                .w3-row
+                                    input(id='employee_email' name='employee_email' placeholder="Employee Email")
+                                .w3-row
+                                    select#accessLevel(name='accessLevel')
+                                        option(value='Viewer') Viewer
+                                        option(value='Editor') Editor
+                                .w3-row
+                                    button(onclick='shareForm()') Share
+
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Shared with
+                                h4 denmark - View Only
+                                h4 jao - View Only
+                                h4 jian - View and Edit
+
+                    .w3-third.w3-container2
+                        h2 Form Settings
+                        hr
                         .w3-row
-                            .w3-half
-                                input(id='employee_email' name='employee_email' placeholder="Employee Email")
-                            .w3-half
-                                select#accessLevel(name='accessLevel')
-                                    option(value='Viewer') Viewer
-                                    option(value='Editor') Editor
-                        button(onclick='shareForm()') Share
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                button(onclick='saveFilledOutForm()') Save Form
+                                button(onclick='downloadAsPDF()') Download as PDF
 
-            .w3-half
-                .w3-row
-                    .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                        h2 Shared with
-                        h4 denmark - View Only
-                        h4 jao - View Only
-                        h4 jian - View and Edit
 
         .w3-row
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
