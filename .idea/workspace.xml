@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="523211e3-c7e2-4cd0-be26-0ff06d8fe0b2" name="Changes" comment="*formview.pug&#10;//Updated form view design">
+    <list default="true" id="523211e3-c7e2-4cd0-be26-0ff06d8fe0b2" name="Changes" comment="*formview.pug&#10;//Updated form view design&#10;*viewformtemplate.pug&#10;//Updated form view design">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/viewformtemplate.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewformtemplate.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +42,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699502225729</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="*formview.pug&#10;//Updated form view design&#10;*viewformtemplate.pug&#10;//Updated form view design">
+      <created>1699507820000</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1699507820000</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -59,6 +65,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="*formview.pug&#10;//Updated form view design" />
-    <option name="LAST_COMMIT_MESSAGE" value="*formview.pug&#10;//Updated form view design" />
+    <MESSAGE value="*formview.pug&#10;//Updated form view design&#10;*viewformtemplate.pug&#10;//Updated form view design" />
+    <option name="LAST_COMMIT_MESSAGE" value="*formview.pug&#10;//Updated form view design&#10;*viewformtemplate.pug&#10;//Updated form view design" />
   </component>
 </project>

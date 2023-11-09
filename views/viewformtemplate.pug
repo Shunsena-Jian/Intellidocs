@@ -14,10 +14,12 @@ block body
                         .w3-half
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h2 Version History
+                                hr
                                 .w3-row
                                     select#versionDropDown(name='versionDropDown')
                                         option(value='1') Version 1
                                         option(value='2') Version 2
+                                    hr
                                 .w3-row
                                     br
                                     button.w3-button.w3-block.w3-theme-dark(onclick='dropDownUpdateCanvas()')
@@ -27,27 +29,59 @@ block body
                         .w3-half
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h3 Form Settings
-                                h4 Sharing : Enabled
-
+                                hr
+                                h4#formDetailsSharingSetting Sharing : Enabled
+                                hr
+                                h4#formDetailsStatusSetting Status : Published
+                            //WHOEVER IS READING THIS -- THIS SECTION IS CURRENTLY UNDER DEVELOPMENT WHICH IS WHY IT IS HERE ATM. MOVE IT AND FACE THE WRATH OF DENMARK
                             script.
                                 function toggleSharing(){
                                     var toggleSharingButton = document.getElementById("toggleSharingButton");
+                                    var formDetailsSharingSetting = document.getElementById("formDetailsSharingSetting");
                                     var toggleSharingButtonValue = document.getElementById("toggleSharingButton").innerHTML;
-                                    var sharingConfirmationMessage;
+                                    var confirmationMessage;
 
                                     if(toggleSharingButtonValue == "Allow Sharing"){
-                                        sharingConfirmationMessage = "Form currently allows sharing, are you sure you want to disable it?";
+                                        confirmationMessage = "Form currently allows sharing, are you sure you want to disable it?";
                                     }else{
-                                        sharingConfirmationMessage = "Form currently declines sharing, are you sure you want to enable it?";
+                                        confirmationMessage = "Form currently declines sharing, are you sure you want to enable it?";
                                     }
 
-                                    var result = window.confirm(sharingConfirmationMessage);
+                                    var result = window.confirm(confirmationMessage);
 
                                     if(result){
                                         if(toggleSharingButtonValue == "Allow Sharing"){
                                             toggleSharingButton.innerHTML = "Disable Sharing";
+                                            formDetailsSharingSetting.innerHTML = "Sharing : Disabled";
                                         }else{
                                             toggleSharingButton.innerHTML = "Allow Sharing";
+                                            formDetailsSharingSetting.innerHTML = "Sharing : Enabled";
+                                        }
+                                    }
+                                }
+
+                                function togglePublish(){
+                                    var togglePublishButton = document.getElementById("togglePublishButton");
+                                    var formDetailsStatusSetting = document.getElementById("formDetailsStatusSetting");
+                                    var togglePublishButtonValue = document.getElementById("togglePublishButton").innerHTML;
+                                    var confirmationMessage;
+
+                                    if(togglePublishButtonValue == "Publish Form"){
+                                        confirmationMessage = "Are you sure you want to un-publish this form?";
+
+                                    }else{
+                                        confirmationMessage = "Are you sure you want to publish this form?";
+                                    }
+
+                                    var result = window.confirm(confirmationMessage);
+
+                                    if(result){
+                                        if(togglePublishButtonValue == "Publish Form"){
+                                            togglePublishButton.innerHTML = "Un-publish Form";
+                                            formDetailsStatusSetting.innerHTML = "Status : Un-published";
+                                        }else{
+                                            togglePublishButton.innerHTML = "Publish Form";
+                                            formDetailsStatusSetting.innerHTML = "Status : Published";
                                         }
                                     }
                                 }
@@ -59,23 +93,20 @@ block body
                         .w3-row
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 .w3-row
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='saveForm()')
-                                        i.fa.fa-floppy-o.fa-fw.w3-margin-right
-                                        |   Save Form
-                                    br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='downloadAsPDF()')
-                                        i.fa.fa-download.fa-fw.w3-margin-right
-                                        |   Download as PDF
-                                    br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='publishForm()')
-                                        i.fa.fa-check.fa-fw.w3-margin-right
-                                        |   Publish Form
-                                    br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='publishForm()')
-                                        i.fa.fa-ban.fa-fw.w3-margin-right
-                                        |   Un-publish Form
+                                    .w3-half
+                                        button.w3-button.w3-block.w3-theme-dark(onclick='saveForm()')
+                                            i.fa.fa-floppy-o.fa-fw.w3-margin-right
+                                            |   Save Form
+                                    .w3-half
+                                        button.w3-button.w3-block.w3-theme-dark(onclick='downloadAsPDF()')
+                                            i.fa.fa-download.fa-fw.w3-margin-right
+                                            |   Download as PDF
+                                .w3-row
                                     br
                                     button#toggleSharingButton.w3-button.w3-block.w3-theme-dark(onclick='toggleSharing()') Allow Sharing
+
+                                    br
+                                    button#togglePublishButton.w3-button.w3-block.w3-theme-dark(onclick='togglePublish()') Publish Form
 
 
         .w3-row.w3-container2.w3-white.w3-round.w3-margin
