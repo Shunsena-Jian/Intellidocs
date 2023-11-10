@@ -21,25 +21,17 @@ function showIdleModal(){
     var idleModal = document.getElementById('idleModal');
     idleModal.style.display = 'block';
 
-    //let dialogoverlay = document.getElementById('dialogoverlay');
-    var dialogoverlay = document.getElementsByClassName('dialogoverlay');
+    let idleOverLay = document.getElementById('idleOverLay');
     let dialogbox = document.getElementById('dialogbox');
 
-
-
     let winH = window.innerHeight;
-    //dialogoverlay.style.height = winH+"px";
+    //idleOverLay.style.height = winH+"px";
+    idleOverLay.style.height = 2000+"px";
     dialogbox.style.top = "100px";
-
-    for (var i = 0; i < dialogoverlay.length; i++) {
-        // Do something with each element, for example, log its text content
-        dialogoverlay[i].style.height = 1063+"px";
-    }
-
 
     dialogbox.style.display = "block";
     document.getElementById('dialogboxhead').style.display = 'block';
-
+    document.getElementById('idleOverLay').style.display = 'block';
 
     countDown();
 }
@@ -79,10 +71,10 @@ function hideIdleModal(){
     var idleModal = document.getElementById('idleModal');
     idleModal.style.display = 'none';
 
-    //let dialogoverlay = document.getElementById('dialogoverlay');
+    let idleOverLay = document.getElementById('idleOverLay');
     let dialogbox = document.getElementById('dialogbox');
 
-    //dialogoverlay.style.display = "none";
+    idleOverLay.style.display = "none";
     dialogbox.style.display = "none";
     document.getElementById('dialogboxhead').style.display = 'none';
 }
