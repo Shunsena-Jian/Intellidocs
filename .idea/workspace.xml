@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*repo.*&#10;//fixed idle modal from pug to css -- PREPPED FOR RECYCLING">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="* index.js&#10;// viewformtemplate/formcontrolnumber - created new variable to retrieve all form versions to be rendered to front end&#10;// app.put AJAX_togglePublish&#10;// app.put AJAX_toggleSharing&#10;// app.put AJAX_viewFormVersion&#10;&#10;*viewformtemplate.pug&#10;// Created 3 functions for AJAXs Toggling Publishing Form and Un-publishing, Toggle Sharing, Viewing different Versions of the Form">
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewformtemplate.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewformtemplate.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,9 +23,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2WILMosCqF7RSTraY5bRuQcCOMT" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -37,15 +34,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\Desktop\the thesis container\views" />
@@ -288,7 +285,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699602286701</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="* index.js&#10;// viewformtemplate/formcontrolnumber - created new variable to retrieve all form versions to be rendered to front end&#10;// app.put AJAX_togglePublish&#10;// app.put AJAX_toggleSharing&#10;// app.put AJAX_viewFormVersion&#10;&#10;*viewformtemplate.pug&#10;// Created 3 functions for AJAXs Toggling Publishing Form and Un-publishing, Toggle Sharing, Viewing different Versions of the Form">
+      <option name="closed" value="true" />
+      <created>1699636120118</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1699636120118</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -304,7 +309,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="*layout.pug&#10;//Improved notifications design&#10;*index.pug&#10;//Remodeled notifications design&#10;//Prepared form flow structure" />
     <MESSAGE value="*createforms.pug&#10;//Fixed rerouting when successful from saving&#10;*index.js&#10;//renamed saveform request response&#10;*layout.pug&#10;//Prepared form flow structure&#10;+viewformtemplate.pug&#10;//Prepared to receive templates&#10;+viewformtemplates.put&#10;//Prepared to receive templates" />
     <MESSAGE value="*index.js&#10;//Added view form templates reqeust response&#10;*viewformtemplates.pug&#10;//Prepared to call view form template request response" />
     <MESSAGE value="*index.js&#10;//Completed template request response cycle&#10;*viewformtemplate.pug&#10;//Prepared to receive template object&#10;+viewformtemplatelayout.pug&#10;//replicated layout to avoid redundant imports" />
@@ -329,6 +333,7 @@
     <MESSAGE value="* accountsettings.pug&#10;// change button for updating password to onclick function for calling ajax update password&#10;&#10;+ handle_ajax_update_password.js&#10;// Created ajax for updating password&#10;&#10;* index.js&#10;// Created post for updating password" />
     <MESSAGE value="* formview.pug&#10;// For viewing forms&#10;&#10;* index.js&#10;// embedded intellijent engine in the backend" />
     <MESSAGE value="*repo.*&#10;//fixed idle modal from pug to css -- PREPPED FOR RECYCLING" />
-    <option name="LAST_COMMIT_MESSAGE" value="*repo.*&#10;//fixed idle modal from pug to css -- PREPPED FOR RECYCLING" />
+    <MESSAGE value="* index.js&#10;// viewformtemplate/formcontrolnumber - created new variable to retrieve all form versions to be rendered to front end&#10;// app.put AJAX_togglePublish&#10;// app.put AJAX_toggleSharing&#10;// app.put AJAX_viewFormVersion&#10;&#10;*viewformtemplate.pug&#10;// Created 3 functions for AJAXs Toggling Publishing Form and Un-publishing, Toggle Sharing, Viewing different Versions of the Form" />
+    <option name="LAST_COMMIT_MESSAGE" value="* index.js&#10;// viewformtemplate/formcontrolnumber - created new variable to retrieve all form versions to be rendered to front end&#10;// app.put AJAX_togglePublish&#10;// app.put AJAX_toggleSharing&#10;// app.put AJAX_viewFormVersion&#10;&#10;*viewformtemplate.pug&#10;// Created 3 functions for AJAXs Toggling Publishing Form and Un-publishing, Toggle Sharing, Viewing different Versions of the Form" />
   </component>
 </project>

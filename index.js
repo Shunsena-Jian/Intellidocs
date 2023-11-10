@@ -308,6 +308,7 @@ app.post('/savecreatedform', async function(req, res){
                 form_content: jsonArray,
                 form_version: 0,
                 form_status: formData.formStatus,
+                shared_status: false,
                 date_created: `${date} ${time}`
             };
 
