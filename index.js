@@ -630,7 +630,7 @@ app.post('/shareform', async function(req, res){
 app.get('/viewformtemplate/:form_control_number', async function (req, res){
     var selectedFormControlNumberToView = req.params.form_control_number;
     formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
-    // console.log("THIS IS THE FORM VERSION OF SOMETHING: " + JSON.stringify(formVersions));
+    var allVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
     var latestVersion = 0;
 
     for(i=0; i < formVersions.length; i++){
@@ -675,6 +675,7 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
             currentUserNotifications: currentUserNotifications,
             currentForm: jsonObject,
             currentUserPicture: currentUserPicture,
+            allVersions: allVersions,
             min_idleTime: min_idleTime
         });
 
@@ -1682,6 +1683,126 @@ app.post('/update-Password', async function(req, res){
         } catch(error){
             logStatus("Failed updating password " + error);
         }
+    } else {
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_togglePublish', async function(req, res) {
+    if(req.session.loggedIn) {
+        var formData = req.body;
+        var selectedFormControlNumberToView = formData.formControlNumber;
+        formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+        var latestVersion = 0;
+        for(i=0; i < formVersions.length; i++){
+            if(formVersions[i].form_version >= latestVersion){
+                latestVersion = formVersions[i].form_version;
+            }
+        }
+
+        var currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_version: latestVersion });
+
+        try{
+            if(!currentForm){
+                if(debug_mode){
+                    logStatus('There was an error in AJAX Toggle Publish: ' + error);
+                }
+                res.send({ status_code : 1 });
+            } else {
+                const updateDocument = await forms.findOneAndUpdate(
+                    { form_control_number : currentForm.form_control_number, form_version : currentForm.form_version },
+                    { $set: { form_status: formData.formStatus } }
+                );
+
+                if(debug_mode){
+                    logStatus('Successfully updated form status');
+                }
+                res.send({ status_code : 0 });
+            }
+        } catch(error) {
+            if(debug_mode){
+                logStatus('There was an error in AJAX Toggle Publish: ' + error);
+            }
+        }
+
+    } else {
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_toggleSharing', async function(req, res) {
+    if(req.session.loggedIn) {
+        var formData = req.body;
+        var selectedFormControlNumberToView = formData.formControlNumber;
+        formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+        var latestVersion = 0;
+        for(i=0; i < formVersions.length; i++){
+            if(formVersions[i].form_version >= latestVersion){
+                latestVersion = formVersions[i].form_version;
+            }
+        }
+
+        var currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_version: latestVersion });
+
+        try{
+            if(!currentForm){
+                if(debug_mode){
+                    logStatus('There was an error in AJAX Toggle Sharing: ' + error);
+                }
+                res.send({ status_code : 1 });
+            } else {
+                const updateDocument = await forms.findOneAndUpdate(
+                    { form_control_number : currentForm.form_control_number, form_version : currentForm.form_version },
+                    { $set: { shared_status: Boolean(formData.sharingStatus) } }
+                );
+
+                if(debug_mode){
+                    logStatus('Successfully updated sharing status');
+                }
+                res.send({ status_code : 0 });
+            }
+        } catch(error) {
+            if(debug_mode){
+                logStatus('There was an error in AJAX Toggle Sharing: ' + error);
+            }
+        }
+
+    } else {
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_viewFormVersion', async function(req, res) {
+    if(req.session.loggedIn){
+        var formData = req.body;
+        var currentForm = await forms.findOne({ form_control_number: formData.formControlNumber, form_version: parseInt(formData.versionChoice, 10) });
+        console.log("This is the current form: " + currentForm);
+        if(!currentForm){
+            if(debug_mode){
+                logStatus("Could not find the form.");
+            }
+            res.send({ status_code : 1 });
+        } else {
+            let jsonObject = currentForm;
+            var e = jsonObject.form_content;
+            var g = await jsonToHTML(e);
+
+            try{
+                jsonObject.form_content = g;
+                res.send({ status_code : 0, formContent : jsonObject.form_content });
+            } catch(error) {
+                if(debug_mode){
+                    logStatus("Error at view form version for front end: " + error);
+                }
+            }
+        }
+
     } else {
         res.render('login', {
             title: 'Login Page'

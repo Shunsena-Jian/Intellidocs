@@ -17,12 +17,12 @@ block body
                                 hr
                                 .w3-row
                                     select#versionDropDown(name='versionDropDown')
-                                        option(value='1') Version 1
-                                        option(value='2') Version 2
+                                        each version in allVersions
+                                            option #{version.form_version}
                                     hr
                                 .w3-row
                                     br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='dropDownUpdateCanvas()')
+                                    button.w3-button.w3-block.w3-theme-dark(onclick=`dropDownUpdateCanvas('${currentForm.form_control_number}')`)
                                         i.fa.fa-refresh.fa-fw.w3-margin-right
                                         |   Load Form
 
@@ -30,21 +30,56 @@ block body
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h3 Form Settings
                                 hr
-                                h4#formDetailsSharingSetting Sharing : Enabled
+                                if currentForm.shared_status === true
+                                    h4#formDetailsSharingSetting Sharing : Allowed
+                                else
+                                    h4#formDetailsSharingSetting Sharing : Not Allowed
                                 hr
-                                h4#formDetailsStatusSetting Status : Published
+                                h4#formDetailsStatusSetting Status : #{currentForm.form_status}
                             //WHOEVER IS READING THIS -- THIS SECTION IS CURRENTLY UNDER DEVELOPMENT WHICH IS WHY IT IS HERE ATM. MOVE IT AND FACE THE WRATH OF DENMARK
                             script.
+                                function dropDownUpdateCanvas(formControlNumber){
+                                    var versionChoice = document.getElementById("versionDropDown").value;
+
+                                    const data = {
+                                        formControlNumber: formControlNumber,
+                                        versionChoice: versionChoice
+                                    };
+
+                                    $.ajax({
+                                        type: 'PUT',
+                                        url: '/AJAX_viewFormVersion',
+                                        data: data,
+                                        success: function(response) {
+                                            if (response.status_code === 0) {
+                                                // modal success
+                                                alert("Rendering the Chosen Version");
+                                                document.getElementById("form-content").innerHTML = response.formContent;
+                                            } else if (response.status_code === 1){
+                                                // modal error
+                                                alert("Error in Viewing Chosen Version");
+                                            } else {
+                                                // modal error
+                                                alert("AJAX Error");
+                                            }
+                                        },
+                                        error: function(error){
+                                            console.error('AJAX Error: ', error);
+                                        }
+                                    });
+                                }
+
                                 function toggleSharing(){
                                     var toggleSharingButton = document.getElementById("toggleSharingButton");
                                     var formDetailsSharingSetting = document.getElementById("formDetailsSharingSetting");
                                     var toggleSharingButtonValue = document.getElementById("toggleSharingButton").innerHTML;
                                     var confirmationMessage;
+                                    var updatedSharingStatus;
 
                                     if(toggleSharingButtonValue == "Allow Sharing"){
-                                        confirmationMessage = "Form currently allows sharing, are you sure you want to disable it?";
-                                    }else{
                                         confirmationMessage = "Form currently declines sharing, are you sure you want to enable it?";
+                                    }else{
+                                        confirmationMessage = "Form currently allows sharing, are you sure you want to disable it?";
                                     }
 
                                     var result = window.confirm(confirmationMessage);
@@ -52,12 +87,41 @@ block body
                                     if(result){
                                         if(toggleSharingButtonValue == "Allow Sharing"){
                                             toggleSharingButton.innerHTML = "Disable Sharing";
-                                            formDetailsSharingSetting.innerHTML = "Sharing : Disabled";
+                                            formDetailsSharingSetting.innerHTML = "Sharing : Allowed";
+                                            updatedSharingStatus = true;
                                         }else{
                                             toggleSharingButton.innerHTML = "Allow Sharing";
-                                            formDetailsSharingSetting.innerHTML = "Sharing : Enabled";
+                                            formDetailsSharingSetting.innerHTML = "Sharing : Not Allowed";
+                                            updatedSharingStatus = false;
                                         }
                                     }
+
+                                    var data = {
+                                        formControlNumber: formBlock.form_control_number,
+                                        sharingStatus: updatedSharingStatus
+                                    };
+
+                                    $.ajax({
+                                        type: 'PUT',
+                                        url: '/AJAX_toggleSharing',
+                                        data: data,
+                                        success: function(response){
+                                            if(response.status_code === 0) {
+                                                // modal success
+                                                alert("Sharing Status Changed.");
+                                            } else if (response.status_code === 1) {
+                                                // modal error
+                                                alert("Sharing Status Error.")
+                                            } else {
+                                                alwer(response.error);
+                                            }
+                                        },
+
+                                        error: function(error){
+                                            alert(response.error);
+                                        }
+                                    });
+
                                 }
 
                                 function togglePublish(){
@@ -65,12 +129,12 @@ block body
                                     var formDetailsStatusSetting = document.getElementById("formDetailsStatusSetting");
                                     var togglePublishButtonValue = document.getElementById("togglePublishButton").innerHTML;
                                     var confirmationMessage;
+                                    var updatedStatus;
 
                                     if(togglePublishButtonValue == "Publish Form"){
-                                        confirmationMessage = "Are you sure you want to un-publish this form?";
-
-                                    }else{
                                         confirmationMessage = "Are you sure you want to publish this form?";
+                                    }else{
+                                        confirmationMessage = "Are you sure you want to un-publish this form?";
                                     }
 
                                     var result = window.confirm(confirmationMessage);
@@ -78,12 +142,39 @@ block body
                                     if(result){
                                         if(togglePublishButtonValue == "Publish Form"){
                                             togglePublishButton.innerHTML = "Un-publish Form";
-                                            formDetailsStatusSetting.innerHTML = "Status : Un-published";
+                                            formDetailsStatusSetting.innerHTML = "Status : Published";
+                                            updatedStatus = "Published";
                                         }else{
                                             togglePublishButton.innerHTML = "Publish Form";
-                                            formDetailsStatusSetting.innerHTML = "Status : Published";
+                                            formDetailsStatusSetting.innerHTML = "Status : Template";
+                                            updatedStatus = "Template";
                                         }
                                     }
+
+                                    var data = {
+                                        formControlNumber: formBlock.form_control_number,
+                                        formStatus: updatedStatus
+                                    };
+
+                                    $.ajax({
+                                        type:'PUT',
+                                        url: '/AJAX_togglePublish',
+                                        data: data,
+                                        success: function(response) {
+                                            if(response.status_code === 0) {
+                                                // modal success
+                                                alert("Form status changed");
+                                            } else if(response.status_code === 1) {
+                                                // modal error
+                                                alert("There was an error updating the status");
+                                            } else {
+                                                alert(response.error);
+                                            }
+                                        },
+                                        error: function(error){
+                                            console.error('AJAX Error: ' + error);
+                                        }
+                                    });
                                 }
 
 
@@ -103,10 +194,16 @@ block body
                                             |   Download as PDF
                                 .w3-row
                                     br
-                                    button#toggleSharingButton.w3-button.w3-block.w3-theme-dark(onclick='toggleSharing()') Allow Sharing
+                                    if currentForm.shared_status === true
+                                        button#toggleSharingButton.w3-button.w3-block.w3-theme-dark(onclick='toggleSharing()') Un-allow Sharing
+                                    else
+                                        button#toggleSharingButton.w3-button.w3-block.w3-theme-dark(onclick='toggleSharing()') Allow Sharing
 
                                     br
-                                    button#togglePublishButton.w3-button.w3-block.w3-theme-dark(onclick='togglePublish()') Publish Form
+                                    if currentForm.form_status === "Template"
+                                        button#togglePublishButton.w3-button.w3-block.w3-theme-dark(onclick='togglePublish()') Publish Form
+                                    else
+                                        button#togglePublishButton.w3-button.w3-block.w3-theme-dark(onclick='togglePublish()') Un-publish Form
 
 
         .w3-row.w3-container2.w3-white.w3-round.w3-margin
