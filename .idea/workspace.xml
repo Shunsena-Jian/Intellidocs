@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="* formview.pug&#10;// For viewing forms&#10;&#10;* index.js&#10;// embedded intellijent engine in the backend">
-      <change afterPath="$PROJECT_DIR$/db/intellijent.pictures.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/intellijent.privileges.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/intellijent.privileges.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/intellijent.users.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/intellijent.users.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/createform.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createform.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/css/w3css4.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/w3css4.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/js/client.navigation/handle_idle.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.navigation/handle_idle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/js/client.socket/handle_reconnect.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.socket/handle_reconnect.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/sidebar.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/sidebar.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,9 +29,6 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 3
-}</component>
   <component name="ProjectId" id="2WILMosCqF7RSTraY5bRuQcCOMT" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -37,12 +37,6 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;
-  }
-}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\Desktop\the thesis container\views" />

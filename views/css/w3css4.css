@@ -55,13 +55,13 @@ body {
 
 
 /* --------------- animation for alert box (cass) ---------------- */
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+/*@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");*/
 
 .slit-in-vertical {
 	-webkit-animation: slit-in-vertical 0.45s ease-out both;
 	        animation: slit-in-vertical 0.45s ease-out both;
-	        opacity:0;
-	        pointer-events: none;
+	        /*opacity:0;
+	        pointer-events: none;*/
 }
 
 @-webkit-keyframes slit-in-vertical {
@@ -117,8 +117,8 @@ body {
 
 /* --------------- alert box (cass) ---------------- */
 
-#dialogoverlay{
-  display: none;
+.dialogoverlay{
+  /*display: none;*/
   opacity: .8;
   position: fixed;
   top: 0px;

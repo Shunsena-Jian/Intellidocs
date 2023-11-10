@@ -1,3 +1,4 @@
+hideStatusBar();
 var loaderInterval = 0;
 
 function updateReconnectBar() {
