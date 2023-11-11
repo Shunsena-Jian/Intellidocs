@@ -41,7 +41,7 @@ function shareForm(){
     } else {
         const data = {
             shareTo: selectedEmailToShareTo,
-            formControlNumber: formBlock.form_control_number
+            formControlNumber: formControlNumber
         };
 
         $.ajax({

@@ -20,7 +20,7 @@ block body
                                             option #{version.user_version}
                                 .w3-row
                                     br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick=`dropDownUserFormVersion('${currentForm.form_control_number}')`)
+                                    button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
                                         i.fa.fa-refresh.fa-fw.w3-margin-right
                                         |   Load Form
                         .w3-third
@@ -96,6 +96,19 @@ block body
                 .dialogboxfoot2
                     button.pure-material-button-contained.active(onclick=`hideShareFormModal()`) No
 
+        #loadVersionModal
+            #loadVersionOverLay.dialogoverlay
+            #loadVersionDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm Form Rendering
+                    .dialogboxbody
+                        p#formRenderingMessage
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`renderSelectedVersion()`) Yes
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideLoadVersionModal()`) No
+
         #deleteFileModal
             #deleteFileOverLay.dialogoverlay
             #deleteFileDialogbox.dialogbox.slit-in-vertical
@@ -158,45 +171,12 @@ block body
     link(rel='stylesheet' href='//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css')
 
     script.
-        function dropDownUserFormVersion(formControlNumber){
-            var userVersionChoice = document.getElementById("versionDropDown").value;
-
-            const data = {
-                formControlNumber: formControlNumber,
-                userVersionChoice: userVersionChoice
-            };
-
-            $.ajax({
-                type: 'PUT',
-                url: '/AJAX_formUserViewVersion',
-                data: data,
-                success: function(response) {
-                    if (response.status_code === 0) {
-                        // modal success
-                        alert("Rendering the Chosen Version");
-                        document.getElementById("theContainerOfTheForm").innerHTML = response.formContent;
-                    } else if (response.status_code === 1){
-                        // modal error
-                        alert("Error in Viewing Chosen Version");
-                    } else {
-                        // modal error
-                        alert("AJAX Error");
-                    }
-                },
-                error: function(error){
-                    console.error('AJAX Error: ', error);
-                }
-            });
-        }
-
-
-
-    script.
         var formBlock = !{JSON.stringify(currentForm)};
         var empEmails = !{JSON.stringify(retrievedUserEmails)}
         var receivedFormContent = formBlock.form_content;
         console.log("This is the receivedFormContent ", receivedFormContent);
         var theContainerOfTheForm = document.getElementById('theContainerOfTheForm');
+        var formControlNumber = formBlock.form_control_number;
         theContainerOfTheForm.innerHTML = receivedFormContent;
         console.log(!{JSON.stringify(currentForm)});
 
@@ -209,3 +189,4 @@ block body
 
     script(src='/js/client.functions/handle_ajax_save_filled_out_form.js')
     script(src='/js/client.functions/handle_ajax_share_form.js')
+    script(src='/js/client.functions/handle_ajax_load_version.js')
