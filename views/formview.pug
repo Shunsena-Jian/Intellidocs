@@ -34,7 +34,7 @@ block body
                                         option(value='Editor') Editor
                                 .w3-row
                                     br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='showShareFormModal()')
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
                                         i.fa.fa-share-alt.fa-fw.w3-margin-right
                                         |   Share
 
@@ -70,6 +70,18 @@ block body
         .w3-row
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 #theContainerOfTheForm
+
+        #shareFormAlertModal
+            #shareFormAlertOverLay.dialogoverlay
+            #shareFormAlertDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle
+                        |   Alert
+                    .dialogboxbody
+                        p Please make sure to put a valid Employee Email Address
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`hideShareFormAlertModal()`) Okay
 
         #shareFormModal
             #shareFormOverLay.dialogoverlay

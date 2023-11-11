@@ -2,9 +2,14 @@ var selectedEmailToShareTo;
 var accessLevel;
 
 var sharingMessage = document.getElementById('sharingMessage');
+
 var shareFormModal = document.getElementById('shareFormModal');
 var shareFormOverLay = document.getElementById('shareFormOverLay');
 var shareFormDialogbox = document.getElementById('shareFormDialogbox');
+
+var shareFormAlertModal = document.getElementById('shareFormAlertModal');
+var shareFormAlertOverLay = document.getElementById('shareFormAlertOverLay');
+var shareFormAlertDialogbox = document.getElementById('shareFormAlertDialogbox');
 
 
 function showShareFormModal() {
@@ -14,7 +19,7 @@ function showShareFormModal() {
     sharingMessage.innerHTML = "Are you sure you want to share this form to " + selectedEmailToShareTo + " with " + accessLevel + " privileges?";
     shareFormModal.style.display = 'block';
 
-    document.getElementById('shareFormOverLay').style.display = 'block';
+    shareFormOverLay.style.display = 'block';
     shareFormOverLay.style.height = 2000+"px";
 
     shareFormDialogbox.style.top = "100px";
@@ -58,4 +63,31 @@ function shareForm(){
             }
         });
     }
+}
+
+function validateShareForm(){
+    selectedEmailToShareTo = document.getElementById('employee_email').value;
+
+    if(selectedEmailToShareTo.length <= 0){
+        showShareFormAlertModal();
+    }else{
+        showShareFormModal();
+    }
+}
+
+function showShareFormAlertModal() {
+    shareFormAlertModal.style.display = 'block';
+
+    shareFormAlertOverLay.style.display = 'block';
+    shareFormAlertOverLay.style.height = 2000+"px";
+
+    shareFormAlertDialogbox.style.top = "100px";
+    shareFormAlertDialogbox.style.display = "block";
+    shareFormAlertDialogbox.style.position = "fixed";
+}
+
+function hideShareFormAlertModal(){
+    shareFormAlertModal.style.display = 'none';
+    shareFormAlertOverLay.style.display = "none";
+    shareFormAlertDialogbox.style.display = "none";
 }
