@@ -28,7 +28,7 @@ function showIdleModal(){
     var idleDialogbox = document.getElementById('idleDialogbox');
     idleDialogbox.style.top = "100px";
     idleDialogbox.style.display = "block";
-    deleteFileDialogbox.style.position = "fixed";
+    idleDialogbox.style.position = "fixed";
 
     countDown();
 }
