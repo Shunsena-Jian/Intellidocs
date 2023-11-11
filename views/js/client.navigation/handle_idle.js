@@ -1,4 +1,8 @@
 var idleTimeOut;
+var idleModal = document.getElementById('idleModal');
+var idleOverLay = document.getElementById('idleOverLay');
+var idleDialogbox = document.getElementById('idleDialogbox');
+var countDownPlaceholder = document.getElementById('countDownPlaceholder');
 
 function resetIdleTimeOut(){
     clearTimeout(idleTimeOut);
@@ -18,19 +22,24 @@ function alertIdle(){
 }
 
 function showIdleModal(){
-    var idleModal = document.getElementById('idleModal');
     idleModal.style.display = 'block';
-
-    var idleOverLay = document.getElementById('idleOverLay');
     idleOverLay.style.height = 2000+"px";
+
     document.getElementById('idleOverLay').style.display = 'block';
 
-    var idleDialogbox = document.getElementById('idleDialogbox');
     idleDialogbox.style.top = "100px";
     idleDialogbox.style.display = "block";
     idleDialogbox.style.position = "fixed";
 
     countDown();
+}
+
+function hideIdleModal(){
+    stopCountDown();
+
+    idleModal.style.display = 'none';
+    idleOverLay.style.display = "none";
+    idleDialogbox.style.display = "none";
 }
 
 var countDownIntervalHolder;
@@ -42,7 +51,6 @@ function countDown(){
 var initialTimeOut = 60;
 
 function updateCountDownElement(){
-    var countDownPlaceholder = document.getElementById('countDownPlaceholder');
     countDownPlaceholder.innerHTML = 'For your security, we will automatically log you out in ' + initialTimeOut + ' seconds.';
 
     console.log("logging off in: " + initialTimeOut);
@@ -63,18 +71,7 @@ function stopCountDown(){
     initialTimeOut = 60;
 }
 
-function hideIdleModal(){
-    stopCountDown();
 
-    var idleModal = document.getElementById('idleModal');
-    idleModal.style.display = 'none';
-
-    var idleOverLay = document.getElementById('idleOverLay');
-    idleOverLay.style.display = "none";
-
-    var idleDialogbox = document.getElementById('idleDialogbox');
-    idleDialogbox.style.display = "none";
-}
 
 
 

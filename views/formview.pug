@@ -34,7 +34,7 @@ block body
                                         option(value='Editor') Editor
                                 .w3-row
                                     br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='shareForm()')
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='showShareFormModal()')
                                         i.fa.fa-share-alt.fa-fw.w3-margin-right
                                         |   Share
 
@@ -70,6 +70,19 @@ block body
         .w3-row
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 #theContainerOfTheForm
+
+        #shareFormModal
+            #shareFormOverLay.dialogoverlay
+            #shareFormDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm Form Sharing Details
+                    .dialogboxbody
+                        p#sharingMessage
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`shareForm()`) Yes
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideShareFormModal()`) No
 
         #deleteFileModal
             #deleteFileOverLay.dialogoverlay
@@ -164,37 +177,7 @@ block body
             });
         }
 
-        function shareForm(){
-            const shareTo = document.getElementById('employee_email').value;
-            var formBlock = !{JSON.stringify(currentForm)};
 
-            if(!shareTo){
-                alert("Please enter an email to share the form to!");
-            } else {
-                const data = {
-                    shareTo: shareTo,
-                    formControlNumber: formBlock.form_control_number
-                };
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/shareform',
-                    data: data,
-                    success: function(response) {
-                        if (response.status_code === 1) {
-                            alert("No user was selected to share the form.");
-                        } else if (response.status_code === 0) {
-                            alert("You shared the file to " + shareTo);
-                        } else {
-                            alert("AJAX error: ", error);
-                        }
-                    },
-                    error: function(error) {
-                        console.error('AJAX error:', error);
-                    }
-                });
-            }
-        }
 
     script.
         var formBlock = !{JSON.stringify(currentForm)};
@@ -205,10 +188,6 @@ block body
         theContainerOfTheForm.innerHTML = receivedFormContent;
         console.log(!{JSON.stringify(currentForm)});
 
-        // STARTING PLAYGROUND OF JIAN
-
-
-
         $(function() {
             var allEmails = empEmails;
             $( "#employee_email" ).autocomplete({
@@ -216,7 +195,5 @@ block body
             });
         });
 
-
-
-
     script(src='/js/client.functions/handle_ajax_save_filled_out_form.js')
+    script(src='/js/client.functions/handle_ajax_share_form.js')
