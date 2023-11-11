@@ -16,11 +16,11 @@ block body
                                 h2 Version History
                                 .w3-row
                                     select#versionDropDown(name='versionDropDown')
-                                        option(value='1') Version 1
-                                        option(value='2') Version 2
+                                        each version in allVersions
+                                            option #{version.user_version}
                                 .w3-row
                                     br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='dropDownUpdateCanvas()')
+                                    button.w3-button.w3-block.w3-theme-dark(onclick=`dropDownUserFormVersion('${currentForm.form_control_number}')`)
                                         i.fa.fa-refresh.fa-fw.w3-margin-right
                                         |   Load Form
                         .w3-third
@@ -133,6 +133,37 @@ block body
     link(rel='stylesheet' href='//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css')
 
     script.
+        function dropDownUserFormVersion(formControlNumber){
+            var userVersionChoice = document.getElementById("versionDropDown").value;
+
+            const data = {
+                formControlNumber: formControlNumber,
+                userVersionChoice: userVersionChoice
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: '/AJAX_formUserViewVersion',
+                data: data,
+                success: function(response) {
+                    if (response.status_code === 0) {
+                        // modal success
+                        alert("Rendering the Chosen Version");
+                        document.getElementById("theContainerOfTheForm").innerHTML = response.formContent;
+                    } else if (response.status_code === 1){
+                        // modal error
+                        alert("Error in Viewing Chosen Version");
+                    } else {
+                        // modal error
+                        alert("AJAX Error");
+                    }
+                },
+                error: function(error){
+                    console.error('AJAX Error: ', error);
+                }
+            });
+        }
+
         function shareForm(){
             const shareTo = document.getElementById('employee_email').value;
             var formBlock = !{JSON.stringify(currentForm)};

@@ -362,6 +362,7 @@ app.post('/saveformversion', async function(req, res){
             form_content: jsonArray,
             form_version: newVersionNumber,
             form_status: formData.formStatus,
+            shared_status: Boolean(formData.sharedStatus),
             date_created: `${date} ${time}`
         };
 
@@ -518,6 +519,7 @@ app.get('/formview/:form_control_number', async function (req, res){
     try{
         var selectedFormControlNumberToView = req.params.form_control_number;
         formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+        var allVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
         var latestVersion = 0;
         var retrievedUserEmails;
         var latestUserVersion = 0;
@@ -588,6 +590,7 @@ app.get('/formview/:form_control_number', async function (req, res){
             currentUserNotifications: currentUserNotifications,
             currentForm: jsonObject,
             currentUserPicture: currentUserPicture,
+            allVersions: allVersions,
             min_idleTime: min_idleTime
         });
 
@@ -1791,6 +1794,38 @@ app.put('/AJAX_viewFormVersion', async function(req, res) {
             res.send({ status_code : 1 });
         } else {
             let jsonObject = currentForm;
+            var e = jsonObject.form_content;
+            var g = await jsonToHTML(e);
+
+            try{
+                jsonObject.form_content = g;
+                res.send({ status_code : 0, formContent : jsonObject.form_content });
+            } catch(error) {
+                if(debug_mode){
+                    logStatus("Error at view form version for front end: " + error);
+                }
+            }
+        }
+
+    } else {
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_formUserViewVersion', async function(req, res) {
+    if(req.session.loggedIn){
+        var formData = req.body;
+        var currentUserForm = await filledoutforms.findOne({ form_control_number: formData.formControlNumber, user_version: parseInt(formData.userVersionChoice, 10) });
+        console.log("This is the current form: " + currentUserForm);
+        if(!currentUserForm){
+            if(debug_mode){
+                logStatus("Could not find the form.");
+            }
+            res.send({ status_code : 1 });
+        } else {
+            let jsonObject = currentUserForm;
             var e = jsonObject.form_content;
             var g = await jsonToHTML(e);
 

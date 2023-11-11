@@ -297,12 +297,19 @@ block body
             var formName = document.getElementById('formName').value;
             // var formControlNumber = document.getElementById('formControlNumber').value;
             var formControlNumber = `#{currentForm.form_control_number}`;
+            var sharedStatus = document.getElementById('formDetailsSharingSetting').innerHTML;
+            if(sharedStatus == 'Sharing : Not Allowed'){
+                sharedStatus = false;
+            } else {
+                sharedStatus = true;
+            }
 
             const data = {
                 name: formName,
                 formControlNumber: formControlNumber,
                 formContent: formBody,
-                formStatus: "Template"
+                formStatus: "Template",
+                sharedStatus: sharedStatus
             };
 
             $.ajax({
