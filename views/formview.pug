@@ -80,6 +80,21 @@ block body
                     a(onclick=`deleteSelectedFile()`) Yes
                     a(onclick="closeModal()") No
 
+
+
+        #deleteFileModal
+            #deleteFileOverLay.dialogoverlay
+            #dialogbox.slit-in-vertical
+                #randomDiv
+                    #dialogboxhead
+                        .i.fa.fa-exclamation-circle Something
+                    #dialogboxbody
+                        p#countDownPlaceholder
+                        p Are you still there?
+                #dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`hideIdleModal()`) Keep me logged in
+                #dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`logUserOff()`) Log me out
         .w3-row.w3-padding-32
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
@@ -178,38 +193,7 @@ block body
             });
         });
 
-        /*
-        document.addEventListener("DOMContentLoaded", function(){
 
-            const data = {
-                formName: formBlock.form_name,
-                formControlNumber: formBlock.form_control_number,
-                formContent: receivedFormContent,
-                formVersion: formBlock.form_version,
-                formStatus: "On-going",
-                formDateCreation: formBlock.date_created
-            };
-
-            $.ajax({
-                type: 'POST',
-                url:'/formautosave',
-                data: data,
-                success: function(response) {
-                    if (response.status_code === 0){
-                        alert("Form auto-saved.");
-                    } else {
-                        alert("AJAX function error.");
-                    }
-                },
-                error: function(error){
-                    console.log('AJAX Error: ' + error);
-                    alert("AJAX function error!");
-                }
-            });
-        });
-        */
-
-        // ENDING PLAYGROUND OF JIAN
 
 
     script(src='/js/client.functions/handle_ajax_save_filled_out_form.js')

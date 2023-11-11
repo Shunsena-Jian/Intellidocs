@@ -175,16 +175,16 @@ block sidebar
                 |  Add Authors
     #idleModal
         #idleOverLay.dialogoverlay
-        #dialogbox.slit-in-vertical
+        #idleDialogbox.dialogbox.slit-in-vertical
             #randomDiv
-                #dialogboxhead
+                .dialogboxhead
                     .i.fa.fa-exclamation-circle Something
-                #dialogboxbody
+                .dialogboxbody
                     p#countDownPlaceholder
                     p Are you still there?
-            #dialogboxfoot
+            .dialogboxfoot
                 button.pure-material-button-contained.active(onclick=`hideIdleModal()`) Keep me logged in
-            #dialogboxfoot2
+            .dialogboxfoot2
                 button.pure-material-button-contained.active(onclick=`logUserOff()`) Log me out
 
     footer#myFooter.w3-bottom.w3-container.w3-theme-l1

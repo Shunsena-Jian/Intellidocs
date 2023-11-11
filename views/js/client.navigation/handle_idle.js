@@ -22,15 +22,15 @@ function showIdleModal(){
     idleModal.style.display = 'block';
 
     let idleOverLay = document.getElementById('idleOverLay');
-    let dialogbox = document.getElementById('dialogbox');
+    let idleDialogbox = document.getElementById('idleDialogbox');
 
     let winH = window.innerHeight;
     //idleOverLay.style.height = winH+"px";
     idleOverLay.style.height = 2000+"px";
-    dialogbox.style.top = "100px";
+    idleDialogbox.style.top = "100px";
 
-    dialogbox.style.display = "block";
-    document.getElementById('dialogboxhead').style.display = 'block';
+    idleDialogbox.style.display = "block";
+    //document.getElementById('dialogboxhead').style.display = 'block';
     document.getElementById('idleOverLay').style.display = 'block';
 
     countDown();
@@ -72,11 +72,11 @@ function hideIdleModal(){
     idleModal.style.display = 'none';
 
     let idleOverLay = document.getElementById('idleOverLay');
-    let dialogbox = document.getElementById('dialogbox');
+    let idleDialogbox = document.getElementById('idleDialogbox');
 
     idleOverLay.style.display = "none";
-    dialogbox.style.display = "none";
-    document.getElementById('dialogboxhead').style.display = 'none';
+    idleDialogbox.style.display = "none";
+    //document.getElementById('dialogboxhead').style.display = 'none';
 }
 
 
