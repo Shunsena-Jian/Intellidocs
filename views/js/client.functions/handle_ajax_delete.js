@@ -2,15 +2,32 @@ var selectedFileForDeletion;
 
 function showDeleteModal(fileName) {
     selectedFileForDeletion = fileName;
-    document.getElementById('id01').style.display = 'block';
+
+    var deleteFileModal = document.getElementById('deleteFileModal');
+    deleteFileModal.style.display = 'block';
+
+    var deleteFileOverLay = document.getElementById('deleteFileOverLay');
+    deleteFileOverLay.style.height = 2000+"px";
+    document.getElementById('deleteFileOverLay').style.display = 'block';
+
+    var deleteFileDialogbox = document.getElementById('deleteFileDialogbox');
+    deleteFileDialogbox.style.top = "100px";
+    deleteFileDialogbox.style.display = "block";
 }
 
 function deleteSelectedFile(){
     deleteFile(selectedFileForDeletion);
 }
 
-function closeModal(){
-    document.getElementById('id01').style.display = 'none';
+function hideDeleteModal(){
+    var deleteFileModal = document.getElementById('deleteFileModal');
+    deleteFileModal.style.display = 'none';
+
+    var deleteFileOverLay = document.getElementById('deleteFileOverLay');
+    deleteFileOverLay.style.display = "none";
+
+    var deleteFileDialogbox = document.getElementById('deleteFileDialogbox');
+    deleteFileDialogbox.style.display = "none";
 }
 
 function deleteFile(fileName) {
@@ -40,7 +57,7 @@ function deleteFile(fileName) {
                 table.row.add(curLine).draw();
             }
 
-            closeModal();
+            hideDeleteModal();
         },
         error: function(err) {
         console.error('Error deleting file: ', err.responseText);

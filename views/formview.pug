@@ -71,30 +71,22 @@ block body
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 #theContainerOfTheForm
 
-        #id01.w3-modal
-            .w3-modal-content
-                .w3-container
-                    span.w3-button.w3-display-topright(onclick="document.getElementById('id01').style.display='none'") &times;
-                    p Are you sure you want to delete this file?
-                    p#selectedFileForDeletionPlaceholder
-                    a(onclick=`deleteSelectedFile()`) Yes
-                    a(onclick="closeModal()") No
-
-
-
         #deleteFileModal
             #deleteFileOverLay.dialogoverlay
-            #dialogbox.slit-in-vertical
+            #deleteFileDialogbox.dialogbox.slit-in-vertical
                 #randomDiv
-                    #dialogboxhead
-                        .i.fa.fa-exclamation-circle Something
-                    #dialogboxbody
-                        p#countDownPlaceholder
-                        p Are you still there?
-                #dialogboxfoot
-                    button.pure-material-button-contained.active(onclick=`hideIdleModal()`) Keep me logged in
-                #dialogboxfoot2
-                    button.pure-material-button-contained.active(onclick=`logUserOff()`) Log me out
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm File Deletion
+                    .dialogboxbody
+                        p Are you sure you want to delete this file?
+                        h2#selectedFileForDeletionPlaceholder
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`deleteSelectedFile()`) Yes
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideDeleteModal()`) No
+
+
+
         .w3-row.w3-padding-32
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 .w3-row

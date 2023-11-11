@@ -21,17 +21,13 @@ function showIdleModal(){
     var idleModal = document.getElementById('idleModal');
     idleModal.style.display = 'block';
 
-    let idleOverLay = document.getElementById('idleOverLay');
-    let idleDialogbox = document.getElementById('idleDialogbox');
-
-    let winH = window.innerHeight;
-    //idleOverLay.style.height = winH+"px";
+    var idleOverLay = document.getElementById('idleOverLay');
     idleOverLay.style.height = 2000+"px";
-    idleDialogbox.style.top = "100px";
-
-    idleDialogbox.style.display = "block";
-    //document.getElementById('dialogboxhead').style.display = 'block';
     document.getElementById('idleOverLay').style.display = 'block';
+
+    var idleDialogbox = document.getElementById('idleDialogbox');
+    idleDialogbox.style.top = "100px";
+    idleDialogbox.style.display = "block";
 
     countDown();
 }
@@ -68,15 +64,15 @@ function stopCountDown(){
 
 function hideIdleModal(){
     stopCountDown();
+
     var idleModal = document.getElementById('idleModal');
     idleModal.style.display = 'none';
 
-    let idleOverLay = document.getElementById('idleOverLay');
-    let idleDialogbox = document.getElementById('idleDialogbox');
-
+    var idleOverLay = document.getElementById('idleOverLay');
     idleOverLay.style.display = "none";
+
+    var idleDialogbox = document.getElementById('idleDialogbox');
     idleDialogbox.style.display = "none";
-    //document.getElementById('dialogboxhead').style.display = 'none';
 }
 
 

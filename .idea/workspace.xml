@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*repo.*&#10;//fixed idle modal overlay-- PREPPED FOR RECYCLING">
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*sidebar.pug&#10;//fixed bugs on modal template -- switched element ids to class for recyling&#10;*handleidle.js&#10;//fixed bugs on modal template&#10;*w3css4.css&#10;//switched id identifiers to class for recycling">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/css/w3css4.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/w3css4.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_delete.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_delete.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/js/client.navigation/handle_idle.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.navigation/handle_idle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/sidebar.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/sidebar.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,7 +288,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699617156400</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="*sidebar.pug&#10;//fixed bugs on modal template -- switched element ids to class for recyling&#10;*handleidle.js&#10;//fixed bugs on modal template&#10;*w3css4.css&#10;//switched id identifiers to class for recycling">
+      <created>1699702241072</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1699702241072</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -305,7 +311,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="*createforms.pug&#10;//Fixed rerouting when successful from saving&#10;*index.js&#10;//renamed saveform request response&#10;*layout.pug&#10;//Prepared form flow structure&#10;+viewformtemplate.pug&#10;//Prepared to receive templates&#10;+viewformtemplates.put&#10;//Prepared to receive templates" />
     <MESSAGE value="*index.js&#10;//Added view form templates reqeust response&#10;*viewformtemplates.pug&#10;//Prepared to call view form template request response" />
     <MESSAGE value="*index.js&#10;//Completed template request response cycle&#10;*viewformtemplate.pug&#10;//Prepared to receive template object&#10;+viewformtemplatelayout.pug&#10;//replicated layout to avoid redundant imports" />
     <MESSAGE value="*views.*&#10;//Improved pug layout and inclusion" />
@@ -330,6 +335,7 @@
     <MESSAGE value="* formview.pug&#10;// For viewing forms&#10;&#10;* index.js&#10;// embedded intellijent engine in the backend" />
     <MESSAGE value="*repo.*&#10;//fixed idle modal from pug to css -- PREPPED FOR RECYCLING" />
     <MESSAGE value="*repo.*&#10;//fixed idle modal overlay-- PREPPED FOR RECYCLING" />
-    <option name="LAST_COMMIT_MESSAGE" value="*repo.*&#10;//fixed idle modal overlay-- PREPPED FOR RECYCLING" />
+    <MESSAGE value="*sidebar.pug&#10;//fixed bugs on modal template -- switched element ids to class for recyling&#10;*handleidle.js&#10;//fixed bugs on modal template&#10;*w3css4.css&#10;//switched id identifiers to class for recycling" />
+    <option name="LAST_COMMIT_MESSAGE" value="*sidebar.pug&#10;//fixed bugs on modal template -- switched element ids to class for recyling&#10;*handleidle.js&#10;//fixed bugs on modal template&#10;*w3css4.css&#10;//switched id identifiers to class for recycling" />
   </component>
 </project>
