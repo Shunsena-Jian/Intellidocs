@@ -13,6 +13,7 @@ function showDeleteModal(fileName) {
     var deleteFileDialogbox = document.getElementById('deleteFileDialogbox');
     deleteFileDialogbox.style.top = "100px";
     deleteFileDialogbox.style.display = "block";
+    deleteFileDialogbox.style.position = "fixed";
 }
 
 function deleteSelectedFile(){

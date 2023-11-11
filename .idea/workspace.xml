@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*sidebar.pug&#10;//fixed bugs on modal template -- switched element ids to class for recyling&#10;*handleidle.js&#10;//fixed bugs on modal template&#10;*w3css4.css&#10;//switched id identifiers to class for recycling">
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*formview.pug&#10;//implemented delete file modal&#10;*handle_ajax_delete.js&#10;//improved modal for deletion&#10;*handle_idle.js&#10;//improved script">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_delete.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_delete.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/js/client.navigation/handle_idle.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.navigation/handle_idle.js" afterDir="false" />
     </list>
@@ -295,7 +294,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699702241072</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="*formview.pug&#10;//implemented delete file modal&#10;*handle_ajax_delete.js&#10;//improved modal for deletion&#10;*handle_idle.js&#10;//improved script">
+      <created>1699703544598</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1699703544598</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -311,7 +317,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="*index.js&#10;//Added view form templates reqeust response&#10;*viewformtemplates.pug&#10;//Prepared to call view form template request response" />
     <MESSAGE value="*index.js&#10;//Completed template request response cycle&#10;*viewformtemplate.pug&#10;//Prepared to receive template object&#10;+viewformtemplatelayout.pug&#10;//replicated layout to avoid redundant imports" />
     <MESSAGE value="*views.*&#10;//Improved pug layout and inclusion" />
     <MESSAGE value="*layout.*&#10;//Cascaded all extensions&#10;*views.*&#10;//Removed all KNOWN rotting blocks and lines" />
@@ -336,6 +341,7 @@
     <MESSAGE value="*repo.*&#10;//fixed idle modal from pug to css -- PREPPED FOR RECYCLING" />
     <MESSAGE value="*repo.*&#10;//fixed idle modal overlay-- PREPPED FOR RECYCLING" />
     <MESSAGE value="*sidebar.pug&#10;//fixed bugs on modal template -- switched element ids to class for recyling&#10;*handleidle.js&#10;//fixed bugs on modal template&#10;*w3css4.css&#10;//switched id identifiers to class for recycling" />
-    <option name="LAST_COMMIT_MESSAGE" value="*sidebar.pug&#10;//fixed bugs on modal template -- switched element ids to class for recyling&#10;*handleidle.js&#10;//fixed bugs on modal template&#10;*w3css4.css&#10;//switched id identifiers to class for recycling" />
+    <MESSAGE value="*formview.pug&#10;//implemented delete file modal&#10;*handle_ajax_delete.js&#10;//improved modal for deletion&#10;*handle_idle.js&#10;//improved script" />
+    <option name="LAST_COMMIT_MESSAGE" value="*formview.pug&#10;//implemented delete file modal&#10;*handle_ajax_delete.js&#10;//improved modal for deletion&#10;*handle_idle.js&#10;//improved script" />
   </component>
 </project>
