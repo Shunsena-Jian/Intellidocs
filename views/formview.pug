@@ -58,7 +58,7 @@ block body
                         .w3-row
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 .w3-row
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='saveFilledOutForm()')
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='showSaveFormModal()')
                                         i.fa.fa-floppy-o.fa-fw.w3-margin-right
                                         |   Save Form
                                     br
@@ -70,6 +70,21 @@ block body
         .w3-row
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 #theContainerOfTheForm
+
+
+        #saveFormModal
+            #saveFormModalOverLay.dialogoverlay
+            #saveFormModalDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm Saving
+                    .dialogboxbody
+                        p Are you sure you want to save this Form?
+                        p Saved changes will be accessible through loading previous versions
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`saveFilledOutForm()`) Yes
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideSaveFormModal()`) No
 
         #shareFormAlertModal
             #shareFormAlertOverLay.dialogoverlay
