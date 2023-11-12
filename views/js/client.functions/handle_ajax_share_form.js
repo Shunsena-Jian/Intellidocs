@@ -35,25 +35,30 @@ function hideShareFormModal(){
 
 function shareForm(){
     selectedEmailToShareTo = document.getElementById('employee_email').value;
+    selectedSharedUserPrivilege = document.getElementById('accessLevel').value
 
-    if(!shareTo){
+    if(!selectedEmailToShareTo){
         alert("Please enter an email to share the form to!");
     } else {
+
         const data = {
             shareTo: selectedEmailToShareTo,
-            formControlNumber: formControlNumber
+            formControlNumber: formControlNumber,
+            sharedUserPrivileges: selectedSharedUserPrivilege
         };
 
         $.ajax({
-            type: 'POST',
+            type: 'PUT',
             url: '/shareform',
             data: data,
             success: function(response) {
                 if (response.status_code === 1) {
                     alert("No user was selected to share the form.");
                 } else if (response.status_code === 0) {
+                    alert("You shared the file to " + selectedEmailToShareTo);
                     hideShareFormModal();
-                    alert("You shared the file to " + shareTo);
+                } else if (response.status_code === 2){
+                    alert("Could not insert shared user.");
                 } else {
                     alert("AJAX error: ", error);
                 }

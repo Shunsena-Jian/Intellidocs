@@ -599,10 +599,10 @@ app.get('/formview/:form_control_number', async function (req, res){
     }
 });
 
-app.post('/shareform', async function(req, res){
+app.put('/shareform', async function(req, res){
     try {
-        var sharedUser = req.body;
-        var selectedFormControlNumberToView = sharedUser.formControlNumber;
+        var formData = req.body;
+        var selectedFormControlNumberToView = formData.formControlNumber;
         var formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
         var latestVersion = 0;
 
@@ -612,20 +612,32 @@ app.post('/shareform', async function(req, res){
             }
         }
 
-        if(!sharedUser){
+        if(!formData.shareTo){
             res.send({status_code : 1});
         } else {
-            const result = await filledoutforms.findOneAndUpdate(
-                { form_control_number : selectedFormControlNumberToView, form_version : latestVersion },
-                { $set: { "shared_user" : sharedUser.shareTo } },
-                { returnNewDocument : true }
-            );
+            if(formData.sharedUserPrivileges == 'Viewer'){
+                const result = await filledoutforms.findOneAndUpdate(
+                    { form_control_number : selectedFormControlNumberToView, form_version : latestVersion },
+                    { $addToSet: { "read" : formData.shareTo } },
+                    { returnNewDocument : true }
+                );
 
-            res.send({ status_code: 0 });
+                res.send({ status_code: 0 });
+            } else if (formData.sharedUserPrivileges == 'Editor') {
+                const result = await filledoutforms.findOneAndUpdate(
+                    { form_control_number : selectedFormControlNumberToView, form_version : latestVersion },
+                    { $addToSet: { "write" : formData.shareTo } },
+                    { returnNewDocument : true }
+                );
+
+                res.send({ status_code: 0 });
+            } else {
+                if(debug_mode){
+                    logStatus("Could not insert shared user.");
+                }
+                res.send({ status_code: 2 });
+            }
         }
-
-
-
     } catch(error) {
         logStatus("Error at share form POST: " + error);
     }

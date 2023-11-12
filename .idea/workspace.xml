@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="*formview.pug&#10;//Added load version modal&#10;+handle_ajax_load_version.js&#10;//Added load form script&#10;+handle_ajax_share_form.js&#10;//Changed formsontrolnumber to access global variable instead">
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="* index.js&#10;// initialize false shared status when creating forms">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_save_filled_out_form.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_save_filled_out_form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_share_form.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_share_form.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +25,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2WILMosCqF7RSTraY5bRuQcCOMT" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -33,10 +36,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\Desktop\the thesis container\views" />
@@ -300,21 +305,7 @@
       <option name="project" value="LOCAL" />
       <updated>1699703544598</updated>
     </task>
-    <task id="LOCAL-00036" summary="*formview.pug&#10;//Added share form alert modal&#10;*handle_ajax_share_form.js&#10;//Added share form validation alert script">
-      <created>1699725978068</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1699725978068</updated>
-    </task>
-    <task id="LOCAL-00037" summary="*formview.pug&#10;//Added load version modal&#10;+handle_ajax_load_version.js&#10;//Added load form script&#10;+handle_ajax_share_form.js&#10;//Changed formsontrolnumber to access global variable instead">
-      <created>1699727528745</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1699727528745</updated>
-    </task>
-    <option name="localTasksCounter" value="38" />
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -330,6 +321,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="*index.js&#10;//Completed template request response cycle&#10;*viewformtemplate.pug&#10;//Prepared to receive template object&#10;+viewformtemplatelayout.pug&#10;//replicated layout to avoid redundant imports" />
+    <MESSAGE value="*views.*&#10;//Improved pug layout and inclusion" />
     <MESSAGE value="*layout.*&#10;//Cascaded all extensions&#10;*views.*&#10;//Removed all KNOWN rotting blocks and lines" />
     <MESSAGE value="*viewtformtemplate.pug&#10;//now receives created form elements&#10;//BUGGED - TO BE FIXED BY FRONT END" />
     <MESSAGE value="*sidebar.pug&#10;//Added Create widget acnhor&#10;*index.js&#10;//Added createwidget request response&#10;*viewforms.pug&#10;//Added section for &quot;shared with you&quot;&#10;//Split to forms assigned and shared forms" />
@@ -353,8 +346,6 @@
     <MESSAGE value="*repo.*&#10;//fixed idle modal overlay-- PREPPED FOR RECYCLING" />
     <MESSAGE value="*sidebar.pug&#10;//fixed bugs on modal template -- switched element ids to class for recyling&#10;*handleidle.js&#10;//fixed bugs on modal template&#10;*w3css4.css&#10;//switched id identifiers to class for recycling" />
     <MESSAGE value="*formview.pug&#10;//implemented delete file modal&#10;*handle_ajax_delete.js&#10;//improved modal for deletion&#10;*handle_idle.js&#10;//improved script" />
-    <MESSAGE value="*formview.pug&#10;//Added share form alert modal&#10;*handle_ajax_share_form.js&#10;//Added share form validation alert script" />
-    <MESSAGE value="*formview.pug&#10;//Added load version modal&#10;+handle_ajax_load_version.js&#10;//Added load form script&#10;+handle_ajax_share_form.js&#10;//Changed formsontrolnumber to access global variable instead" />
-    <option name="LAST_COMMIT_MESSAGE" value="*formview.pug&#10;//Added load version modal&#10;+handle_ajax_load_version.js&#10;//Added load form script&#10;+handle_ajax_share_form.js&#10;//Changed formsontrolnumber to access global variable instead" />
+    <option name="LAST_COMMIT_MESSAGE" value="*formview.pug&#10;//implemented delete file modal&#10;*handle_ajax_delete.js&#10;//improved modal for deletion&#10;*handle_idle.js&#10;//improved script" />
   </component>
 </project>
