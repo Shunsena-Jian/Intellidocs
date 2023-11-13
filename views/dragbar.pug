@@ -19,7 +19,7 @@
             hr.w3-clear.w3-black
 
             .header.w3-row.draggable.box(draggable='true')
-                table.right.w3-bold.table.w3-font-size-10.header-table
+                table.right.w3-bold.table.w3-font-size-10.header-table.hori-col
                     tbody
                         tr
                             th Document Code
@@ -36,27 +36,16 @@
 
             hr.w3-clear
 
-            .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.box.draggable(draggable='true')
-                .w3-center
-                    | Saint Louis University, Baguio City
-                hr.w3-newline
-                .w3-underline.w3-center.w3-margin-left.w3-margin-right
-                    | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
-                hr.w3-newline
-                input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
 
-            hr.w3-clear
-
-            .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.box.draggable(draggable='true')
+            .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.box.draggable.hori-col(draggable='true')
                 .w3-col.s3
                     img.w3-image(src='../src/slu_logo.png')
 
                 .w3-col.s6.w3-bold.w3-center
-                    | Saint Louis University, Baguio City
-                    hr.w3-newline
+                    .w3-center
+                        | Saint Louis University
                     .w3-underline.w3-center.w3-margin-left.w3-margin-right
                         | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
-                    hr.w3-newline
                     input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
 
                 .w3-col.s3
@@ -75,24 +64,6 @@
                                 th Page
                                 th.page-number 1 of 1
 
-            hr.w3-clear
-
-            .header.w3-row-center.w3-container.box.draggable(draggable='true')
-                .w3-col-center.s2
-                .w3-col.s5.w3-bold
-                    input.w3-input.w3-center.w3-row(readonly  type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
-                    hr.w3-newline
-                    input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='SCHOOL YEAR [EX: AY 2022-2023]')
-                    hr.w3-newline
-                    input.w3-input.w3-center.w3-row(readonly type='date' placeholder='set deadline')
-
-                .w3-col-center.s3
-                    .w3-all-center
-                        a.w3-button.w3-hide-small.signature.w3-hover-white(href='')
-                            i.fa.fa-pencil-square.icon-light
-                            hr.w3-newline
-                            |             Upload 2x2 picture
-
             hr.w3-newline-2
 
     .w3-row
@@ -101,27 +72,34 @@
             |  Information Input Fields
         #infoInputFieldsContainer.w3-hide.w3-container
 
-            .w3-row.box.draggable.w3-margin-left.w3-margin-right(draggable='true')
+            .w3-row.box.draggable.w3-margin-left.w3-margin-right.hori-col(draggable='true')
                 .w3-row
-                    p.w3-col.s2.w3-left-align.w3-label SLU ID NO:
-                    input.w3-input.w3-col.s9(readonly type='text' maxlength='7' size='7' placeholder='ID NUMBER')
-
+                    p.w3-col.s2.w3-left-align.w3-label SLU ID NO
+                    label.w3-col.s9
+                        input.w3-input(readonly type='text' maxlength='7' size='7' placeholder='ID NUMBER')
+                        |   ID NUMBER
                 .w3-row
                     p.w3-col.s2.w3-left-align.w3-label NAME
-                    input.w3-input.w3-col.s3(readonly type='text' maxlength='50' minlength='3' placeholder='FAMILY NAME')
-                    input.w3-input.w3-col.s3(readonly type='text' maxlength='50' minlength='3' placeholder='FIRST NAME')
-                    input.w3-input.w3-col.s3(readonly type='text' maxlength='2' placeholder='MI')
+                    label.checkbox-label.w3-col.s3
+                        input.w3-input(readonly type='text' maxlength='50' minlength='3' placeholder='FAMILY NAME')
+                        |   FAMILY NAME
+                    label.checkbox-label.w3-col.s3
+                        input.w3-input(readonly type='text' maxlength='50' minlength='3' placeholder='FIRST NAME')
+                        |   FIRST NAME
+                    label.checkbox-label.w3-col.s3
+                        input.w3-input(readonly type='text' maxlength='2' placeholder='MI')
+                        |   MI NAME
 
                 .w3-row.w3-all-center
-                    p.w3-col.s4.w3-left-align.w3-label Academic Status/Classification: According to Tenure:
+                    p.w3-col.s4.w3-left-align.w3-label Academic Status/Classification: According to Tenure
                     label.checkbox-label.w3-col.s6
                         input(readonly type='checkbox' value='probationary' name="academicStatus")
-                        |                         Probationary
-                    hr.w3-newline.w3-margin-top
+                        |                         Academic Status
+
                     label.checkbox-label.w3-col.s5
                         input(readonly type='checkbox' value='permanent' name="academicStatus")
                         |                         Permanent
-                    hr.w3-newline.w3-margin-top
+
                     label.checkbox-label.w3-col.s5
                         input(readonly type='checkbox' name="academicStatus" value='contractual')
                         |                         Contractual
@@ -131,11 +109,9 @@
                     label.checkbox-label.w3-col.s5
                         input#full-time(readonly type='checkbox' name='subject_load' value='full-time')
                         |                         Full-Time
-                    hr.w3-newline.w3-margin-top
                     label.checkbox-label.w3-col.s5
                         input#part-time(readonly type='checkbox' name='subject_load' value='part-time')
                         |                         Part Time
-                    hr.w3-newline.w3-margin-top
                     label.checkbox-label.w3-col.s5
 
             hr.w3-newline-2
@@ -145,33 +121,55 @@
             i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
             |  Grouped Fields
         #groupedFieldsContainer.w3-hide.w3-container
-            .w3-row-center.w3-bold.box.draggable(draggable='true')
-                textarea.w3-textarea(readonly type='text' placeholder='Table Title')
-                textarea.w3-textarea(readonly type='text' placeholder='Table Description')
-                hr.newline
-                table.table.w3-margin-top.w3-bold.draggable
-                    thead
-                        tr
-                            th Header 1
-                            th Header 2
-                            th Header 3
-                            th Header 4
-                    tbody
-                        tr
-                            td
-                            td
-                            td
-                            td
-                        tr
-                            td
-                            td
-                            td
-                            td
+
+            .w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.box.draggable.hori-col(draggable='true')
+                .w3-center
+                    | Saint Louis University, Baguio City
+                .w3-underline.w3-center.w3-margin-left.w3-margin-right
+                    | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
+                input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+            hr.w3-clear
+
+            .w3-row-center.w3-container.box.draggable.hori-col(draggable='true')
+                .w3-col-center.s2
+                .w3-col.s5.w3-bold
+                    input.w3-input.w3-center.w3-row(readonly  type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+                    input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='SCHOOL YEAR [EX: AY 2022-2023]')
+                    input.w3-input.w3-center.w3-row(readonly type='date' placeholder='set deadline')
+
+                .w3-col-center.s3
+                    .w3-all-center
+                        a.w3-button.w3-hide-small.signature.w3-hover-white(href='')
+                            i.fa.fa-pencil-square.icon-light
+                            |             Upload 2x2 picture
+            hr.w3-clear
 
             .w3-row-center.w3-bold.box.draggable(draggable='true')
-                    textarea.w3-textarea.w3-row.textarea(readonly type='text' placeholder='Table Title')
-                    hr.newline
-                    table.table.w3-margin-top.w3-bold.draggable
+                input.w3-input.w3-row(readonly type='text' placeholder='Table Title')
+                textarea.w3-textarea(readonly type='text' placeholder='Table Description' rows="3")
+                .cld.table
+                    table.table.w3-margin-top.w3-bold
+                        thead
+                            tr
+                                th Header 1
+                                th Header 2
+                                th Header 3
+                                th Header 4
+                        tbody
+                            tr
+                                td
+                                td
+                                td
+                                td
+                            tr
+                                td
+                                td
+                                td
+                                td
+
+            .w3-row-center.w3-bold.box.draggable(draggable='true')
+                    input.w3-input.w3-row(readonly type='text' placeholder='Table Title')
+                    table.table.w3-margin-top.w3-bold
                         thead
                             tr
                                 th Header 1
@@ -191,9 +189,8 @@
                                 td
 
             .w3-row-center.w3-container.w3-bold.box.draggable(draggable='true')
-                    textarea.w3-textarea.w3-row(readonly type='text' placeholder='Table Title')
-                    hr.newline
-                    table.table.w3-margin-top.w3-bold.draggable
+                    input.w3-input.w3-row(readonly type='text' placeholder='Table Title')
+                    table.table.w3-margin-top.w3-bold
                         thead
                             tr
                                 th Header 1
@@ -230,12 +227,12 @@
             p.textbox.w3-container.box.draggable(draggable="true")
                 |                         This is a sample subtitle
             hr.w3-clear
-            ol.w3-margin.w3-container.draggable.box.w3-hover-light-grey.w3-ol(draggable='true')
+            ol.w3-margin.w3-container.draggable.box.w3-hover-light-grey.w3-ol.list(draggable='true')
                 li item 1
                 li item 2
                 li item 3
             hr.w3-clear
-            ul.w3-margin.w3-container.draggable.box.w3-hover-light-grey.w3-ul(draggable='true')
+            ul.w3-margin.w3-container.draggable.box.w3-hover-light-grey.w3-ul.list(draggable='true')
                 li item 1
                 li item 2
                 li item 3
@@ -248,7 +245,7 @@
             |  Signature Fields
         #signatureFieldsContainer.w3-hide.w3-container
 
-            .w3-row-center.w3-bold.box.draggable(draggable='true')
+            .w3-row-center.w3-bold.box.draggable.hori-col(draggable='true')
                 .w3-col.s3.w3-left
                 .w3-col.s3.w3-left
                 .w3-col.s4.w3-left
@@ -261,7 +258,7 @@
                     input.w3-input.w3-font-size-12(readonly type='date' placeholder='Date')
 
             hr.w3-clear
-            .w3-row-center.w3-container.w3-bold.box.draggable(draggable='true')
+            .w3-row-center.w3-container.w3-bold.box.draggable.hori-col(draggable='true')
                 .w3-col.s3.w3-margin.w3-left
                     h6 Reviewed by
                     a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
@@ -286,7 +283,7 @@
 
             hr.w3-clear
 
-            .w3-row-center.draggable(draggable='true')
+            .w3-row-center.draggable.hori-col(draggable='true')
                 .w3-col.s3.w3-margin.w3-left
                     input.w3-input.w3-font-size-14(readonly type='text' placeholder='LABEL [NOTED|APPROVED|REVIEWED BY]')
                     a.w3-col.w3-hide-small.w3-hover-white.w3-center.rectangle(href='')
@@ -312,7 +309,7 @@
                     input.w3-input.w3-font-size-14(readonly type='text' placeholder='POSITION')
                 hr.w3-clear
 
-            .w3-row-center.box.draggable(draggable='true')
+            .w3-row-center.box.draggable.hori-col(draggable='true')
                 .w3-row
                     .w3-col.s3
                         p.w3-font-size-14  Endorsed by:
@@ -349,7 +346,7 @@
 
             hr.w3-clear
 
-            .w3-row.box.draggable(draggable='true')
+            .w3-row.box.draggable.hori-col(draggable='true')
                 .w3-col.s3
                     p.w3-font-size-14  Prepared By:
                 .w3-col.s4
@@ -363,7 +360,7 @@
 
             hr.w3-clear
 
-            .w3-row.box.draggable(draggable='true')
+            .w3-row.box.draggable.hori-col(draggable='true')
                 .w3-col.s3
                     p.w3-font-size-14  Approved By:
                 .w3-col.s4
@@ -377,7 +374,7 @@
 
             hr.w3-clear
 
-            .w3-row.box.draggable(draggable='true')
+            .w3-row.box.draggable.hori-col(draggable='true')
                 .w3-col.s3
                     p.w3-font-size-14  Endorsed by:
                 .w3-col.s4.w3-font-size-14
@@ -447,17 +444,18 @@
                         td
                         td
 
-            table.draggable.table.w3-bold(draggable='true')
-                tbody
-                    tr
-                        td Row 1
-                        td
-                    tr
-                        td Row 2
-                        td
-                    tr
-                        td Row 3
-                        td
+            .cld.table
+                table.draggable.table.w3-bold(draggable='true')
+                    tbody
+                        tr
+                            td Row 1
+                            td
+                        tr
+                            td Row 2
+                            td
+                        tr
+                            td Row 3
+                            td
     hr.w3-newline-2
 script.
 

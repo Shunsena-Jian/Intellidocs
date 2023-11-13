@@ -20,7 +20,6 @@ window.onload = function(){
     dropContainers = document.querySelectorAll('.drop-container');
     currentPageContent = document.querySelector('.drop-container');
     currentPage = dropContainers.length;
-    currentHeight = 0;
     tables = document.querySelectorAll('.table');
     activeDraggable = null;
     sectionCount = 0;
@@ -28,6 +27,7 @@ window.onload = function(){
     setMaxHeight(); // set new max height
     header_height = 0; // calculate header height
     padding = 36;
+    currentHeight = 0 + padding;
     rightClickWidgetActive = false;
 
     // Keep track of the currently hovered text box
@@ -40,6 +40,12 @@ window.onload = function(){
     } else {
         console.log("currentPageContent is empty or falsy:", currentPageContent);
     }
+
+    currentPageContent.addEventListener('click', (e) => {
+        console.log("added listener to " + currentPageContent.id);
+    	selectElement(currentPageContent);
+    });
+
 
 
 //    console.log("" + currentPage);
@@ -76,11 +82,12 @@ function initializeDraggables() {
     });
 
     currentPageContent.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('text/html', currentPageContent.outerHTML);
-        activeDraggable = currentPageContent;
-    });
+            e.dataTransfer.setData('text/html', currentPageContent.outerHTML);
+            activeDraggable = currentPageContent;
+        });
 
     currentPageContent.addEventListener('click', (e) => {
+        console.log("added listener to " + currentPageContent.id);
     	selectElement(currentPageContent);
     });
 
@@ -111,7 +118,8 @@ function initializeHeightOfCurrentPage(currentPageValue){
     console.log("Page: " + currentPageValue + " has " + countOfChildren + " children");
 }
 
-function initializeContextMenuForChildren(pageCount){ var receivedCurrentPage = "";
+function initializeContextMenuForChildren(pageCount){
+    var receivedCurrentPage = "";
     var parentElement;
     var children;
 
@@ -126,8 +134,6 @@ function initializeContextMenuForChildren(pageCount){ var receivedCurrentPage = 
             initializeContextMenuForChild(children[j].firstElementChild);
         }
     }
-
-
 }
 
 function initializeContextMenuForChild(clonedDiv) {
@@ -210,11 +216,12 @@ setMaxHeight();
 //console.log("Max Height is: " + maxHeight);
 
 function createNewPage() {
-    if (currentPageContent.querySelector("header-table")) {
-        updatePageNumbers();
-    }
+//    if (currentPageContent.querySelector("header-table")) {
+//        updatePageNumbers();
+//    }
 	console.log("Successfully Created a New Page");
 	currentPage++;
+	console.log(currentPage);
 	const newPage = document.createElement('div');
 	//newPage.classList.add('drop-container', 'draggable'); // original line
 	newPage.classList.add('drop-container'); // Add custom class names including 'draggable'
@@ -236,14 +243,15 @@ function createNewPage() {
 		const previousPage = document.querySelector(`#page-1`);
 		const headerDiv = previousPage.querySelector('.header');
 		if (headerDiv) {
+		    sectionCount += 1;
+            const sectionDiv = document.createElement('div');
+            sectionDiv.id = "section-" + currentPage + "-" + sectionCount;
 			const headerClone = headerDiv.cloneNode(true);
+			sectionDiv.appendChild(headerClone);
 			// Remove the click listener
 			headerClone.removeEventListener('click', createContextMenu);
-			newPage.appendChild(headerClone);
-
-			currentPageContent.style.pageBreakAfter = 'always'; // Add page break after the current page
-            currentPageContent = newPage; // Create a new page
-            currentHeight = 0 + header_height + padding; // Reset current height for the new page
+			newPage.appendChild(sectionDiv);
+            updatePageNumbers();
 		}
 	}
 
@@ -252,13 +260,16 @@ function createNewPage() {
 
     newPage.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/html', newPage.outerHTML);
-        activeDraggable = widgetCanvas;
+        activeDraggable = newPage;
     });
 
     newPage.addEventListener('click', (e) => {
     	selectElement(newPage);
     });
 
+    currentPageContent.style.pageBreakAfter = 'always'; // Add page break after the current page
+    currentPageContent = newPage; // Create a new page
+    currentHeight = 0 + header_height + padding; // Reset current height for the new page
 
 }
 
@@ -281,13 +292,15 @@ function changeTextColor() {
 			} else {
 				// Create a new HTML structure with the selected text wrapped in a span with the new color class
 				const span = document.createElement("span");
+				var textColor = "w3-text-" + selectedColor;
 				span.className = "w3-text-" + selectedColor;
 				span.textContent = selectedText;
 
 				// Replace the selected text with the span
 				const range = selection.getRangeAt(0);
-				range.deleteContents();
-				range.insertNode(span);
+//				range.deleteContents();
+				range.classList.toggle(textColor);
+//				range.insertNode(span);
 				selection.removeAllRanges(); // Clear the selection
 			}
 		}
@@ -391,11 +404,14 @@ function modifyOrientation() {
         // Add the 'landscape' class to all drop containers
         dropContainers.forEach(function (dropContainer) {
             dropContainer.classList.add("landscape");
+            setMaxHeight();
+            console.log(maxHeight);
         });
     } else if (selectedValue === "portrait") {
         // Remove the 'landscape' class from all drop containers
         dropContainers.forEach(function (dropContainer) {
         dropContainer.classList.remove("landscape");
+        setMaxHeight();
         });
     }
 }
@@ -932,8 +948,6 @@ function downloadPDF(divToPrint) {
 
 // Context Menus
 function createContextMenu(x,y,element, table) {
-//    console.log();
-//    console.log(element);
     var isChild = false;
     var deleteButtonSelected;
     var parentContainer = selectedTextBox.parentElement;
@@ -958,49 +972,45 @@ function createContextMenu(x,y,element, table) {
         }
         contextMenuButtonsForContainer(element);
 
-//        if (parentContainer.classList != null && parentContainer.tagName != "TR") {
-//            isChild = true;
-//            deleteButtonSelected = document.createElement('button');
-//            deleteButtonSelected.classList.add("button-box");
-//            deleteButtonSelected.innerText = 'Delete Inner Widget';
-//
-//            deleteButtonSelected.addEventListener('click', () => {
-//                if (confirm('Are you sure you want to delete selected widget?')) {
-//                    var parent = element.parentElement;
-//                    if (element.tagName == "th" || element.tagName == "tr") {
-//                        parent.remove();
-//                    } else {
-//                        selectedTextBox.remove();
-//                    }
-//                    updatePageHeight();
-////                    console.log("Page Height: " + currentHeight);
-//                    repositionBoxes();
-//                }
-//            });
-//        }
         const deleteButton = document.createElement('button');
+        deleteButton.classList.add("button-box");
+        deleteButton.innerText = 'Delete Widget Field';
+        deleteButton.addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete this box?')) {
+                console.log(selectedTextBox);
+                if (selectedTextBox.parentElement != null) {
 
+                    if (selectedTextBox.nodeName === "TD" || selectedTextBox.nodeName === "TR") {
+                        var parentNode = selectedTextBox.parentNode;
+                        var tableContainer = parentNode.parentNode;
 
-            deleteButton.classList.add("button-box");
-            deleteButton.innerText = 'Delete Widget Field';
-
-            deleteButton.addEventListener('click', () => {
-
-                if (confirm('Are you sure you want to delete this box?')) {
-                    const parentContainer = element.parentElement;
-
-                    if (parentContainer) {
+                        if (tableContainer.nodeName === "TBODY") {
+                            var tableContainerOuter = tableContainer.parentNode;
+                            tableContainerOuter.remove();
+                            console.log(tableContainerOuter);
+                        } else {
+                            console.log(tableContainer);
+                            tableContainer.remove();
+                        }
+                    } else {
+                        const parentContainer = element.parentElement;
                         parentContainer.remove(); // Remove the parent container
-                        sectionCount -= 1;
-                        reassignSectionID();
-                    }
-                    // element.remove();
-                    repositionBoxes();
-                    checkCurrentPage();
-                }
-            });
 
-                 contextMenu.appendChild(deleteButton);
+                    }
+                    checkCurrentPage();
+                    console.log(currentHeight);
+                    sectionCount -= 1;
+                    reassignSectionID();
+                    updatePageHeight();
+                    repositionBoxes();
+                }
+                // element.remove();
+
+
+            }
+        });
+
+         contextMenu.appendChild(deleteButton);
                  if (isChild) {
                     contextMenu.appendChild(deleteButtonSelected);
                  isChild = false;
@@ -1057,7 +1067,7 @@ function contextMenuButtonsForContainer(element) {
     var addCheckBoxItem;
     var removeSectionColumn;
     // Add right click functions for grid container
-    if (element.classList != null && element.classList.contains('grid-container') && !element.classList.contains('checkbox')) {
+    if (element && element.classList.contains('grid-container') && !element.classList.contains('checkbox')) {
 
         // Add Section column
         appendSectionColumn = document.createElement('button');
@@ -1084,7 +1094,7 @@ function contextMenuButtonsForContainer(element) {
         })
          contextMenu.appendChild(removeSectionColumn);
 
-    } if (element.classList.contains('grid-container') && element.classList.contains('checkbox')) {
+    } if (element && element.classList.contains('grid-container') && element.classList.contains('checkbox')) {
         addCheckBoxItem = document.createElement('button');
         addCheckBoxItem.classList.add("button-checkbox");
         addCheckBoxItem.innerText = "Add Checkbox Item";
@@ -1174,11 +1184,13 @@ function contextMenuButtonsForTable(table) {
     contextMenu.appendChild(addColumnButton);
     contextMenu.appendChild(removeRowButton);
     contextMenu.appendChild(removeColumnButton);
+
+    return contextMenu;
 }
 
 function restrictCheckBoxSelection() {
     const checkboxes = currentPageContent.querySelectorAll('input[name="academicStatus"]');
-    console.log(checkboxes);
+//    console.log(checkboxes);
         console
       // Add a change event listener to each checkbox
                 checkboxes.forEach((checkbox) => {
@@ -1193,114 +1205,127 @@ function restrictCheckBoxSelection() {
                 });
 }
 
-restrictCheckBoxSelection();
+//restrictCheckBoxSelection();
 
 function dropContent(boxHeight, data) {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = data;
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = data;
 
-                //jaos playground
-                tempDiv.classList.add('hover');
-                //end of playground
+    //jaos playground
+    tempDiv.classList.add('hover');
+    //end of playground
 
-                const newDiv = tempDiv.querySelector('.draggable');
+    const newDiv = tempDiv.querySelector('.draggable');
 
-                if (newDiv) {
-                    var clonedDiv = newDiv.cloneNode(true);
-                    clonedDiv.removeAttribute("draggable");
+    if (newDiv) {
+        var clonedDiv = newDiv.cloneNode(true);
+        clonedDiv.removeAttribute("draggable");
 
-                    initializeContextMenuForChild(clonedDiv);
-                    clonedDiv = selectElement(clonedDiv);
-                    clonedDiv = removeReadOnlyAttributesRecursive(clonedDiv);
+        initializeContextMenuForChild(clonedDiv);
+        clonedDiv = selectElement(clonedDiv);
+        clonedDiv = removeReadOnlyAttributesRecursive(clonedDiv);
 
+        if (currentPageContent) { // Check if currentPageContent is defined
+            console.log(clonedDiv.classList);
+            const childNodes = clonedDiv.childNodes;
+            console.log("Child Count: " + childNodes.length);
 
+            if (clonedDiv.classList.contains("hori-col") ||
+                clonedDiv.classList.contains("table") ||
+                clonedDiv.classList.contains("textbox") ||
+                clonedDiv.classList.contains("list")) {
+                console.log("a hori-col");
+                sectionCount += 1;
+                const sectionDiv = document.createElement('div');
+                sectionDiv.id = "section-" + currentPage + "-" + sectionCount;
+                sectionDiv.appendChild(clonedDiv);
 
-                    if (currentPageContent) { // Check if currentPageContent is defined
-
-
-                const childNodes = clonedDiv.childNodes;
-                                    console.log("Child Count: " + childNodes.length);
-
+                if ((currentHeight + boxHeight) > (maxHeight+padding)) {
+                    createNewPage();
+                }
+                currentPageContent.appendChild(sectionDiv); // Append to the current page's content
+                currentHeight += calculateDivHeight(clonedDiv);
+            } else {
                 // Iterate through the child nodes
                 for (let i = 0; i < childNodes.length; i++) {
+
+                    console.log(childNodes[i]);
                     sectionCount += 1;
                     const sectionDiv = document.createElement('div');
-                    sectionDiv.id = "section-" + sectionCount;
+                    sectionDiv.id = "section-" + currentPage + "-" + sectionCount;
 
                     console.log(childNodes[i]);
 
                     if (childNodes[i].nodeType == 1) {
-                        // Check if it's an element (nodeType 1)
+                        //Check if it's an element (nodeType 1)
                         console.log(childNodes[i].nodeType);
                         console.log(calculateDivHeight(childNodes[i]));
                         var addedHeight = currentHeight + calculateDivHeight(childNodes[i]);
                         console.log(childNodes[i]);
 
+                        //  if ((currentHeight + boxHeight) < (maxHeight+padding)) {
                         if (addedHeight < (maxHeight+padding)) {
-                            if (childNodes[i].classList.contains("w3-col") ||
-                                childNodes[i].classList.contains("w3-col-center") ||
-                                childNodes[i].classList.contains("w3-ul") ||
-                                childNodes[i].classList.contains("w3-ol") ||
-                                childNodes[i].classList.contains("table")) {
-                                sectionDiv.appendChild(clonedDiv);
-                            } else {
-                                sectionDiv.appendChild(childNodes[i]);
-                            }
+                            sectionDiv.appendChild(childNodes[i]);
                             currentPageContent.appendChild(sectionDiv); // Append to the current page's content
                             console.log(currentPageContent);
-                            console.log("Max Height: " + (maxHeight + padding));
+                            console.log( i + "-th sub element can still fit the current page");
+                            currentHeight += calculateDivHeight(childNodes[i]);
                             console.log("Current Height: " + currentHeight);
                             console.log("Added Height: " + addedHeight);
-                            console.log( i + "-th sub element can still fit the current page");
                         } else {
+                            sectionDiv.appendChild(childNodes[i]);
+                            createNewPage();
 
-                            if (childNodes[i].classList.contains("w3-col") ||
-                                childNodes[i].classList.contains("w3-col-center") ||
-                                childNodes[i].classList.contains("w3-ul") ||
-                                childNodes[i].classList.contains("w3-ol") ||
-                                childNodes[i].classList.contains("table")) {
-                                sectionDiv.appendChild(clonedDiv);
-                            } else {
-                                sectionDiv.appendChild(childNodes[i]);
-                                createNewPage();
-                            }
-
-//                            sectionDiv.appendChild(childNodes[i]);
+                            sectionDiv.appendChild(childNodes[i]);
                             currentPageContent.appendChild(sectionDiv); // Append to the current page's content
                             console.log( i + "-th sub element cannot fit the current page");
+                            currentHeight += calculateDivHeight(childNodes[i]);
+                            console.log("Added Height: " + addedHeight);
+
                         }
                     }
                 }
+            }
 
-//                        sectionDiv.appendChild(clonedDiv);
-//                        currentPageContent.appendChild(sectionDiv); // Append to the current page's content
-                        console.log(currentPageContent.childElementCount);
+            //sectionDiv.appendChild(clonedDiv);
+            //currentPageContent.appendChild(sectionDiv); // Append to the current page's content
+            console.log(currentPageContent.childElementCount);
 
-                        currentHeight += boxHeight; // Update the current height
-                        console.log("current height: " + currentHeight);
+            //currentHeight += boxHeight; // Update the current height
+            console.log("current height: " + currentHeight);
+            // Update page numbers
+            if (currentPageContent.querySelector("header-table")) {
+                updatePageNumbers();
+            }
 
-                        // Update page numbers
-                        if (currentPageContent.querySelector("header-table")) {
-                            updatePageNumbers();
-                        }
-
-                    } else {
-                        console.error('currentPageContent is undefined.'); // Log an error if currentPageContent is undefined
-                    }
-                }
+        } else {
+            console.error('currentPageContent is undefined.'); // Log an error if currentPageContent is undefined
+        }
+    }
 
 //    console.log("entered drop content function");
 //    const sectionDiv = document.createElement('div');
 //    sectionDiv.id = "section-" + sectionCount;
 //    sectionDiv.appendChild(myDiv);
 //    currentPageContent.appendChild(sectionDiv); // Append to the current page's content
-
 }
+//}
 
 // Calculations
 function calculateDivHeight(element) {
-//    return element.getBoundingClientRect().height + 20;
+    console.log(element);
     return element.getBoundingClientRect().height;
+//    if (element && element.nodeName === "TABLE") {
+//        var computedStyle = window.getComputedStyle(element);
+//        var marginTop = parseInt(computedStyle.marginTop, 10);
+//        var marginBottom = parseInt(computedStyle.marginBottom, 10);
+//        var totalHeight = element.offsetHeight + marginTop + marginBottom;
+//        var totalHeight = element.scrollHeight;
+//        console.log("Table total height is: " + totalHeight);
+//        return totalHeight;
+//    }
+//    return element.getBoundingClientRect().height + 20;
+//    return element.scrollHeight;
 }
 
 function updatePageHeight() {
@@ -1352,21 +1377,28 @@ function getSelectedCells(table) {
 }
 
 function reassignSectionID() {
-	// Update the IDs of the remaining sections
-	const sections = currentPageContent.querySelectorAll('div[id^="section-"]');
-	sections.forEach((section, index) => {
-		section.id = `section-${index + 1}`;
-	});
+  // Get all pages
+  const pages = document.querySelectorAll('.drop-container');
+
+  // Loop through each page
+  pages.forEach((page, pageIndex) => {
+    // Update the IDs of the sections within the current page
+    const sections = page.querySelectorAll('div[id^="section-"]');
+    sections.forEach((section, sectionIndex) => {
+      section.id = `section-${pageIndex + 1}-${sectionIndex + 1}`;
+    });
+  });
 }
+
 
 function checkCurrentPage() {
     var numberOfChildren = currentPageContent.childElementCount;
-//    console.log(numberOfChildren);
+    console.log(numberOfChildren);
 //    console.log(currentPageContent.id);
 
     // Do nothing if current page is the first page
     if (currentPageContent.id != "page-1") {
-        if (numberOfChildren == 1) {
+        if (numberOfChildren === 0) {
 			var prevpage = currentPage - 1;
 			var pageIDString = "page-" + prevpage;
 			let dropContainers = document.querySelectorAll('.drop-container');
@@ -1384,6 +1416,7 @@ function checkCurrentPage() {
 
 						// Set dropContainer as the new currentPageContent
 						currentPageContent = dropContainer;
+						updatePageHeight();
 
 
 					return;
@@ -1630,11 +1663,17 @@ function selectElement(element) {
             // Check if the "id" attribute matches the selectedElement
 	        selectedTextBox.removeAttribute('contentEditable');
         } else if (selectedTextBox && element.classList.contains("drop-container")) {
-        selectedTextBox.removeAttribute('contentEditable');
+          selectedTextBox.removeAttribute('contentEditable');
            var pageID = 'page-' + currentPage;
            selectedTextBox.setAttribute('id', pageID);
         } else if (selectedTextBox) {
             selectedTextBox.removeAttribute('contentEditable');
+        }
+
+        if (clickedElement.classList.contains("drop-container")) {
+            console.log("changed current page");
+            console.log(element);
+            currentPageContent = element;
         }
 
 		// Select the clicked element

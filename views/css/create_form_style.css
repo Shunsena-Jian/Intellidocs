@@ -1,6 +1,4 @@
 p {
-    font-size:1.2rem;
-    color: black;
 }
 
 .page-container,
@@ -72,9 +70,9 @@ width: 297mm;
     height:110mm;
     width: 60%;
     background: #FFFFFF;
-      margin: 10px auto; /* Center horizontally with margin:auto */
-      padding: 36px;
-      border: 1px solid #000000;
+    margin: 10px auto; /* Center horizontally with margin:auto */
+    padding: 36px;
+    border: 1px solid #000000;
 
 }
 .w3-portrait-rectangle{
@@ -104,7 +102,7 @@ width: 297mm;
 
 
 .signature {
-    padding: 40px 20px;
+    padding: 4% 2%;
     border: 1px solid #ccc;
     cursor: grab;
     min-width: 100%; /* Minimum width for each child */
