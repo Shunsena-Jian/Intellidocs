@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="* index.js&#10;// initialize false shared status when creating forms">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="c3dbf595-75f2-40e6-8ef5-6192d9335e8c" name="Changes" comment="* index.js&#10;//Updated merger script">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_save_filled_out_form.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_save_filled_out_form.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,13 +35,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\Desktop\the thesis container\views" />
@@ -307,7 +305,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699703544598</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="* index.js&#10;//Updated merger script">
+      <option name="closed" value="true" />
+      <created>1699980072797</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1699980072797</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -323,7 +329,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="*index.js&#10;//Completed template request response cycle&#10;*viewformtemplate.pug&#10;//Prepared to receive template object&#10;+viewformtemplatelayout.pug&#10;//replicated layout to avoid redundant imports" />
     <MESSAGE value="*views.*&#10;//Improved pug layout and inclusion" />
     <MESSAGE value="*layout.*&#10;//Cascaded all extensions&#10;*views.*&#10;//Removed all KNOWN rotting blocks and lines" />
     <MESSAGE value="*viewtformtemplate.pug&#10;//now receives created form elements&#10;//BUGGED - TO BE FIXED BY FRONT END" />
@@ -348,6 +353,7 @@
     <MESSAGE value="*repo.*&#10;//fixed idle modal overlay-- PREPPED FOR RECYCLING" />
     <MESSAGE value="*sidebar.pug&#10;//fixed bugs on modal template -- switched element ids to class for recyling&#10;*handleidle.js&#10;//fixed bugs on modal template&#10;*w3css4.css&#10;//switched id identifiers to class for recycling" />
     <MESSAGE value="*formview.pug&#10;//implemented delete file modal&#10;*handle_ajax_delete.js&#10;//improved modal for deletion&#10;*handle_idle.js&#10;//improved script" />
-    <option name="LAST_COMMIT_MESSAGE" value="*formview.pug&#10;//implemented delete file modal&#10;*handle_ajax_delete.js&#10;//improved modal for deletion&#10;*handle_idle.js&#10;//improved script" />
+    <MESSAGE value="* index.js&#10;//Updated merger script" />
+    <option name="LAST_COMMIT_MESSAGE" value="* index.js&#10;//Updated merger script" />
   </component>
 </project>

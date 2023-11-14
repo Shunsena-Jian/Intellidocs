@@ -553,7 +553,7 @@ app.get('/formview/:form_control_number', async function (req, res){
         var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
         var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
         var latestUserForm;
-        let jsonObject;
+        var jsonObject;
         if(userFormVersions == 0){
             //save latest verion as user version0 to filled out forms
             jsonObject = currentForm;
@@ -580,10 +580,17 @@ app.get('/formview/:form_control_number', async function (req, res){
             console.log("The latest USER version is " + latestUserVersion);
 
             latestUserFilledVersion = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, user_version: latestUserVersion });
+
             jsonObject = latestUserFilledVersion;
 
+            if(currentForm.form_version != latestUserFilledVersion.form_version){
+                jsonObject.form_content = await updateToLatestVersion(currentForm.form_content, latestUserFilledVersion.form_content);
+            }
+
+
+
             console.log("-------------------------------");
-            console.log(JSON.stringify(latestUserFilledVersion));
+            console.log(JSON.stringify(jsonObject));
             console.log("-------------------------------");
         }
 
