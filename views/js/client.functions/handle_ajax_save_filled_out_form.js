@@ -35,6 +35,7 @@ function saveFilledOutForm(){
             if (response.status_code === 1) {
                 alert("Error in saving the form.");
             } else if (response.status_code === 0) {
+                updateDropdownOptions(response.allUserFormVersions);
                 alert("Successfully saved the form.");
                 hideSaveFormModal();
             } else {
@@ -44,6 +45,21 @@ function saveFilledOutForm(){
         error: function(error) {
             console.error('AJAX error:', error);
         }
+    });
+}
+
+function updateDropdownOptions(versions) {
+    var dropdown = document.getElementById('versionDropDown');
+
+    // Clear existing options
+    dropdown.innerHTML = '';
+
+    // Add new options based on the received versions
+    versions.forEach(function(version) {
+        var option = document.createElement('option');
+        option.value = version;
+        option.text = version;
+        dropdown.add(option);
     });
 }
 

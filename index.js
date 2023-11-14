@@ -309,7 +309,8 @@ app.post('/savecreatedform', async function(req, res){
                 form_version: 0,
                 form_status: formData.formStatus,
                 shared_status: false,
-                date_created: `${date} ${time}`
+                date_saved: getDateNow(),
+                time_saved: getTimeNow()
             };
 
             //console.log("This is the Form Document: " + JSON.stringify(formDocument));
@@ -458,11 +459,17 @@ function getTimeNow(){
 }
 
 app.put('/savefilledoutform', async function(req, res){
-
     var selectedFormControlNumberToView = req.session.form_control_number;
     formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
     var latestVersion = 0;
     var latestUserVersion = 0;
+    var initialUserVersion = 0;
+    var latestSharedStatus;
+    var latestWriteUsers = [];
+    var latestReadUsers = [];
+    var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
+    var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
+    var allUserFormVersions = [];
 
     for(i=0; i < formVersions.length; i++){
         if(formVersions[i].form_version >= latestVersion){
@@ -470,20 +477,23 @@ app.put('/savefilledoutform', async function(req, res){
         }
     }
 
-    var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
-    var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
-
     for(i=0; i < userFormVersions.length; i++){
         if(userFormVersions[i].user_version >= latestUserVersion){
             latestUserVersion = userFormVersions[i].user_version;
-            console.log("The latest versions is: " + userFormVersions[i].user_version);
+            latestSharedStatus = userFormVersions[i].shared_status;
+            if(userFormVersions[i].read_users){
+                let uniqueReadUsers = new Set([...latestReadUsers, ...userFormVersions[i].read_users]);
+                latestReadUsers = Array.from(uniqueReadUsers);
+            }
+            if(userFormVersions[i].write_users){
+                let uniqueWriteUsers = new Set([...latestWriteUsers, ...userFormVersions[i].write_users]);
+                latestWriteUsers = Array.from(uniqueWriteUsers);
+            }
         }
     }
-    console.log("The final latest version is: " + latestUserVersion);
 
     try{
         var formToSave = req.body;
-
         var a = new JSDOM(formToSave.formContent);
         var rootElement = a.window.document.querySelector('.drop-container');
         var jsonArray = [];
@@ -499,15 +509,25 @@ app.put('/savefilledoutform', async function(req, res){
                 form_content: jsonArray,
                 form_version: currentForm.form_version,
                 form_status: currentForm.form_status,// add function to identify form type from ongoing to submitted
+                shared_status: latestSharedStatus,
                 date_saved: getDateNow(),
                 time_saved: getTimeNow(),
                 user_version: latestUserVersion + 1,
-                form_owner: req.session.userEmpID
+                form_owner: req.session.userEmpID,
+                read_users: latestReadUsers,
+                write_users: latestWriteUsers
             };
 
             const result = await filledoutforms.insertOne(filledOutDocument);
 
-            res.send({ status_code : 0});
+            userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
+
+            for(i=0; i < userFormVersions.length; i++){
+                if(userFormVersions[i].user_version >= initialUserVersion){
+                    allUserFormVersions.push(userFormVersions[i].user_version);
+                }
+            }
+            res.send({ status_code : 0, allUserFormVersions : allUserFormVersions });
         }
     } catch (error) {
         logStatus("There is an error at save filled out form: " + error);
@@ -543,6 +563,7 @@ app.get('/formview/:form_control_number', async function (req, res){
                 form_content: currentForm.form_content,
                 form_version: currentForm.form_version,
                 form_status: "On-going",
+                shared_status: Boolean(currentForm.shared_status),
                 date_saved: getDateNow(),
                 time_saved: getTimeNow(),
                 user_version: 0,
@@ -618,17 +639,35 @@ app.put('/shareform', async function(req, res){
             if(formData.sharedUserPrivileges == 'Viewer'){
                 const result = await filledoutforms.findOneAndUpdate(
                     { form_control_number : selectedFormControlNumberToView, form_version : latestVersion },
-                    { $addToSet: { "read" : formData.shareTo } },
+                    { $addToSet: { "read_users" : formData.shareTo } },
                     { returnNewDocument : true }
                 );
+
+                const secondresult = await notifications.insertOne({
+                    sender: req.session.userEmpID,
+                    receiver: formData.shareTo,
+                    time_sent: getTimeNow(),
+                    date_sent: getDateNow(),
+                    status: "Unseen",
+                    link: "Sample Link"
+                });
 
                 res.send({ status_code: 0 });
             } else if (formData.sharedUserPrivileges == 'Editor') {
                 const result = await filledoutforms.findOneAndUpdate(
                     { form_control_number : selectedFormControlNumberToView, form_version : latestVersion },
-                    { $addToSet: { "write" : formData.shareTo } },
+                    { $addToSet: { "write_users" : formData.shareTo } },
                     { returnNewDocument : true }
                 );
+
+                const secondresult = await notifications.insertOne({
+                    sender: req.session.userEmpID,
+                    receiver: formData.shareTo,
+                    time_sent: getTimeNow(),
+                    date_sent: getDateNow(),
+                    status: "Unseen",
+                    link: "Sample Link"
+                });
 
                 res.send({ status_code: 0 });
             } else {
@@ -1090,8 +1129,8 @@ app.get('/viewforms', async function(req, res){
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
         allForms = await getForms(req.session.userEmpID);
-        sharedReadForms = await filledoutforms.find({ "read" : req.session.userEmpID});
-        sharedWriteForms = await filledoutforms.find({ "write" : req.session.userEmpID});
+        sharedReadForms = await filledoutforms.find({ "read_users" : req.session.userEmpID});
+        sharedWriteForms = await filledoutforms.find({ "write_users" : req.session.userEmpID});
 
         var a = [];
         var seenControlNumber = {};
