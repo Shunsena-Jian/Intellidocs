@@ -2143,19 +2143,20 @@ function logStatus(statusLog){
     console.log(statusLog);
 }
 
-async function merger(Obj1, Obj2) {
-for (const key in obj2) {
-    if (obj2.hasOwnProperty(key)) {
-      if (typeof obj2[key] === 'object') {
-        if (obj1[key]) {
-          obj1[key] = await mergeObjects(obj1[key], obj2[key]);
+async function updateToLatestVersion(latestFormTemplate, latestFilledOutForm) {
+    for(const key in latestFilledOutForm){
+        if(latestFilledOutForm.hasOwnProperty(key)){
+            if(typeof latestFilledOutForm[key] === 'object') {
+                if(latestFormTemplate[key]){
+                    latestFormTemplate[key] = await updateToLatestVersion(latestFormTemplate[key], latestFilledOutForm[key]);
+                }
+            }else{
+                if(latestFormTemplate[key] === undefined || latestFormTemplate[key] === null || latestFormTemplate[key] === ""){
+                    latestFormTemplate[key] = latestFilledOutForm[key];
+                }
+            }
         }
-      } else {
-        if (obj1[key] === undefined || obj1[key] === null || obj1[key] === "") {
-          obj1[key] = obj2[key];
-        }
-      }
     }
-  }
-  return obj1;
+
+    return latestFormTemplate;
 }
