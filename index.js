@@ -2142,3 +2142,20 @@ function validateAction(privileges,requestedAction ){
 function logStatus(statusLog){
     console.log(statusLog);
 }
+
+async function merger(Obj1, Obj2) {
+for (const key in obj2) {
+    if (obj2.hasOwnProperty(key)) {
+      if (typeof obj2[key] === 'object') {
+        if (obj1[key]) {
+          obj1[key] = await mergeObjects(obj1[key], obj2[key]);
+        }
+      } else {
+        if (obj1[key] === undefined || obj1[key] === null || obj1[key] === "") {
+          obj1[key] = obj2[key];
+        }
+      }
+    }
+  }
+  return obj1;
+}
