@@ -3,101 +3,117 @@ extends layout.pug
 block body
     .w3-main#main(style='margin-left:250px')
         .w3-half.w3-container
-        .w3-row.w3-padding-64
-            .w3-quarter.w3-container
-                .grow.shadowEffect.column(style='background-color:#121B3B;')
-                    .title
-                        | Created Document
-                    .count
-                        | 40
-            .w3-quarter.w3-container
-                .grow.shadowEffect.column(style='background-color:#121B3B;')
-                    .title
-                        | Deployed
-                    .count
+        //ADMIN SUPER ADMIN DASHBOARD
+        if(currentUserDetailsBlock.userLevel === "Super Admin")
+            .w3-row.w3-padding-64
+                .w3-quarter.w3-container
+                    .grow.shadowEffect.column(style='background-color:#121B3B;')
+                        .title
+                            | Created Document
+                        .count
                             | 40
-            .w3-quarter.w3-container
-                .grow.shadowEffect.column(style='background-color:#121B3B;')
-                    .title
-                        | Approved
-                    .count
-                        | 35
-            .w3-quarter.w3-container
-                .grow.shadowEffect.column(style='background-color:#121B3B;')
-                    .title
-                        | Created Document
-                    .count
-                        | 40
-            .w3-half.w3-container
-                //------------------------------------------------------
-                //UNCOMMENT THIS BLOCK WHEN DEBUGGING CONNECTION STATUS
-                //button#testShow.bottone5(onclick=`showStatusBar()`) show
-                //button#testHide.bottone5(onclick=`hideStatusBar()`) hide
-                //------------------------------------------------------
-                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                    br
-                    |   Main Chart goes here
-                    hr.w3-clear
-                    .row
-                        | Text Placeholder
-                    hr.w3-clear
-                    .row
-                    div(style='text-align:right; padding-bottom: 20px;')
-                        a(href='#') view all
+                .w3-quarter.w3-container
+                    .grow.shadowEffect.column(style='background-color:#121B3B;')
+                        .title
+                            | Deployed
+                        .count
+                                | 40
+                .w3-quarter.w3-container
+                    .grow.shadowEffect.column(style='background-color:#121B3B;')
+                        .title
+                            | Approved
+                        .count
+                            | 35
+                .w3-quarter.w3-container
+                    .grow.shadowEffect.column(style='background-color:#121B3B;')
+                        .title
+                            | Created Document
+                        .count
+                            | 40
+                .w3-half.w3-container
+                    .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                        br
+                        |   Main Chart goes here
+                        hr.w3-clear
+                        .row
+                            | Text Placeholder
+                        hr.w3-clear
+                        .row
+                        div(style='text-align:right; padding-bottom: 20px;')
+                            a(href='#') view all
 
 
-            .w3-half.w3-container
-                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                    br
-                    |   Second Chart goes here
-                    hr.w3-clear
-                    .row
-                        | Text Placeholder
-                    hr.w3-clear
-                    .row
-                    div(style='text-align:right; padding-bottom: 20px;')
-                        a(href='#') view all
+                .w3-half.w3-container
+                    .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                        br
+                        |   Second Chart goes here
+                        hr.w3-clear
+                        .row
+                            | Text Placeholder
+                        hr.w3-clear
+                        .row
+                        div(style='text-align:right; padding-bottom: 20px;')
+                            a(href='#') view all
 
-            .w3-row.w3-container
-                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                    br
-                    h4
-                        | Recent Submissions
-                    hr
-                    table#filesTable.display(width='100%')
-                        thead
-                            tr
-                                th File Name
-                                th File Size
-                                th Uploaded By
-                                th Uploaded At
-                                th File Actions
-                        tbody
-                            each file in currentUserFiles
+                .w3-row.w3-container
+                    .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                        br
+                        h4
+                            | Recent Submissions
+                        hr
+                        table#filesTable.display(width='100%')
+                            thead
                                 tr
-                                    td #{file.file_name}
-                                    td #{file.file_size}
-                                    td #{file.uploadedBy}
-                                    td #{file.uploadedAt}
-                                    td
-                                        a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
-                                            i.fa.fa-pencil.w3-text-theme
-                                        a.w3-half.w3-hover-white(onclick=`showDeleteModal("${file.file_name}")`)
-                                            i.fa.fa-times.w3-text-theme
-                    #id01.w3-modal
-                        .w3-modal-content
-                            .w3-container
-                                span.w3-button.w3-display-topright(onclick="document.getElementById('id01').style.display='none'") &times;
-                                p Are you sure you want to delete this file?
-                                p#selectedFileForDeletionPlaceholder
-                                a(onclick=`deleteSelectedFile()`) Yes
-                                a(onclick="closeModal()") No
+                                    th File Name
+                                    th File Size
+                                    th Uploaded By
+                                    th Uploaded At
+                                    th File Actions
+                            tbody
+                                each file in currentUserFiles
+                                    tr
+                                        td #{file.file_name}
+                                        td #{file.file_size}
+                                        td #{file.uploadedBy}
+                                        td #{file.uploadedAt}
+                                        td
+                                            a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
+                                                i.fa.fa-pencil.w3-text-theme
+                                            a.w3-half.w3-hover-white(onclick=`showDeleteModal("${file.file_name}")`)
+                                                i.fa.fa-times.w3-text-theme
+                        #id01.w3-modal
+                            .w3-modal-content
+                                .w3-container
+                                    span.w3-button.w3-display-topright(onclick="document.getElementById('id01').style.display='none'") &times;
+                                    p Are you sure you want to delete this file?
+                                    p#selectedFileForDeletionPlaceholder
+                                    a(onclick=`deleteSelectedFile()`) Yes
+                                    a(onclick="closeModal()") No
+            //THE ONLY REASON THESE ARE STILL HERE IS BECASUE FILES ARE VIEWED ON THIS PAGE
+            script(src="js/client.functions/handle_ajax_upload.js")
+            script(src="js/client.functions/handle_ajax_delete.js")
+        else if(currentUserDetailsBlock.userLevel === "Admin")
+            .w3-row.w3-padding-64
+                h1 admin dashboard
+        else if(currentUserDetailsBlock.userLevel === "Document Controller")
+            .w3-row.w3-padding-64
+                h1 Document Controller dashboard
+        else if(currentUserDetailsBlock.userLevel === "Secretary")
+            .w3-row.w3-padding-64
+                h1 Secretary dashboard
+        else if(currentUserDetailsBlock.userLevel === "Dean")
+            .w3-row.w3-padding-64
+                h1 Dean dashboard
+        else if(currentUserDetailsBlock.userLevel === "Department Head")
+            .w3-row.w3-padding-64
+                h1 Department Head dashboard
+        else if(currentUserDetailsBlock.userLevel === "Faculty")
+            .w3-row.w3-padding-64
+                h1 Faculty dashboard
 
 
 
-    //THE ONLY REASON THESE ARE STILL HERE IS BECASUE FILES ARE VIEWED ON THIS PAGE
-    script(src="js/client.functions/handle_ajax_upload.js")
-    script(src="js/client.functions/handle_ajax_delete.js")
+
 
 
 

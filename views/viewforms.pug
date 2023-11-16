@@ -6,57 +6,96 @@ block body
             .shadowEffect.w3-container2.w3-card.w3-white.w3-round.w3-margin
                 h1.w3-center View Forms
 
-        .w3-row
-            .w3-half.w3-padding
-                .shadowEffect.w3-container.w3-white.w3-round.w3-margin
-                    h3 To Do
-                    hr.w3-clear
-                    each userforms in currentForms
-                        .w3-half.w3-container
-                            .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
-                                h3  #{userforms.form_name}
-                                hr.w3-clear
-                                p
-                                    b  Status:
-                                    if (!userforms.form_status)
-                                        |  N/A
-                                    else
-                                        |  #{userforms.form_status}
-                                p
-                                    b  Date Created:
-                                    if (!userforms.date_created)
-                                        |  N/A
-                                    else
-                                        |  #{userforms.date_created}
-                                p
-                                    b  Version:
-                                    |  #{userforms.form_version}
-                                a(href=`/formview/${userforms.form_control_number}`) View Form
-            .w3-half.w3-padding
-                .shadowEffect.w3-container.w3-white.w3-round.w3-margin
-                    h3 Forms shared with you
-                    hr.w3-clear
-                    each userforms in currentForms
-                        .w3-third.w3-container
-                            .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
-                                h3  #{userforms.form_name}
-                                hr.w3-clear
-                                p
-                                    b  Status:
-                                    if (!userforms.form_status)
-                                        |  N/A
-                                    else
-                                        |  #{userforms.form_status}
-                                p
-                                    b  Date Created:
-                                    if (!userforms.date_created)
-                                        |  N/A
-                                    else
-                                        |  #{userforms.date_created}
-                                p
-                                    b  Last Edited:
-                                    if (!userforms.last_edited)
-                                        |  N/A
-                                    else
-                                        |  #{userforms.last_edited}
-                                a(href=`/formview/${userforms.form_control_number}`) View Form
+        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Admin")
+            .w3-row
+                .w3-padding
+                    .shadowEffect.w3-container.w3-white.w3-round.w3-margin
+                        h3 Published Forms
+                        hr.w3-clear
+                        each publishedForm in publishedForms
+                            .w3-half.w3-container
+                                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
+                                    h3  #{publishedForm.form_name}
+                                    hr.w3-clear
+                                    p
+                                        b  Status:
+                                        if (!publishedForm.form_status)
+                                            |  N/A
+                                        else
+                                            |  #{publishedForm.form_status}
+                                    p
+                                        b  Date Created:
+                                        if (!publishedForm.date_saved)
+                                            |  N/A
+                                        else
+                                            |  #{publishedForm.date_saved}
+                                    p
+                                        b  Time Created:
+                                        if (!publishedForm.time_saved)
+                                            |  N/A
+                                        else
+                                            |  #{publishedForm.time_saved}
+                                    p
+                                        b  Version:
+                                        |  #{publishedForm.form_version}
+                                    a(href=`/formview/${publishedForm.form_control_number}`) View Form
+
+        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Document Controller")
+        else
+            .w3-row
+                .w3-half.w3-padding
+                    .shadowEffect.w3-container.w3-white.w3-round.w3-margin
+                        h3 To Do
+                        hr.w3-clear
+                        each assignedForm in assignedForms
+                            .w3-half.w3-container
+                                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
+                                    h3  #{assignedForm.form_name}
+                                    hr.w3-clear
+                                    p
+                                        b  Status:
+                                        if (!assignedForm.form_status)
+                                            |  N/A
+                                        else
+                                            |  #{assignedForm.form_status}
+                                    p
+                                        b  Date Created:
+                                        if (!assignedForm.date_created)
+                                            |  N/A
+                                        else
+                                            |  #{assignedForm.date_created}
+                                    p
+                                        b  Version:
+                                        |  #{assignedForm.form_version}
+                                    a(href=`/formview/${assignedForm.form_control_number}`) View Form
+                .w3-half.w3-padding
+                    .shadowEffect.w3-container.w3-white.w3-round.w3-margin
+                        h3 Forms shared with you
+                        hr.w3-clear
+                        each sharedForm in sharedForms
+                            .w3-third.w3-container
+                                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
+                                    h3  #{sharedForm.form_name}
+                                    hr.w3-clear
+                                    p
+                                        b  Status:
+                                        if (!sharedForm.form_status)
+                                            |  N/A
+                                        else
+                                            |  #{sharedForm.form_status}
+                                    p
+                                        b  Date Created:
+                                        if (!sharedForm.date_created)
+                                            |  N/A
+                                        else
+                                            |  #{sharedForm.date_created}
+                                    p
+                                        b  Last Edited:
+                                        if (!sharedForm.last_edited)
+                                            |  N/A
+                                        else
+                                            |  #{sharedForm.last_edited}
+                                    a(href=`/formview/${sharedForm.form_control_number}`) View Form
+            br
+            br
+            br

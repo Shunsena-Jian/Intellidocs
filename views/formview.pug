@@ -3,6 +3,8 @@ extends formviewlayout.pug
 block body
     #main.w3-main(style='margin-left:250px')
         .w3-row.w3-padding-32
+        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Document Controller")
+        else
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
                     h1.w3-center Form Name: #{currentForm.form_name}
@@ -14,6 +16,7 @@ block body
                         .w3-third
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h2 Version History
+                                hr
                                 .w3-row
                                     select#versionDropDown(name='versionDropDown')
                                         each version in allVersions
@@ -26,6 +29,7 @@ block body
                         .w3-third
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h2 Share Document
+                                hr
                                 .w3-row
                                     input(id='employee_email' name='employee_email' placeholder="Employee Email")
                                 .w3-row
@@ -41,6 +45,7 @@ block body
                         .w3-third
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h2 Shared with
+                                hr
                                 h4
                                     i.fa.fa-eye.fa-fw.w3-margin-right
                                     |   denmark - View Only
@@ -65,6 +70,79 @@ block body
                                     button.w3-button.w3-block.w3-theme-dark(onclick='downloadAsPDF()')
                                         i.fa.fa-download.fa-fw.w3-margin-right
                                         |   Download as PDF
+
+        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Admin")
+            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                .w3-row
+                    .w3-half.w3-container2
+                        h1 User Form Settings
+                        hr
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Details
+                                hr
+                                .w3-row
+                                    h4 Status: Active
+                                    h4 Due Date: 11/18/2023
+
+
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Settings
+                                hr
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
+                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                        |   Activate
+                                br
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
+                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                        |   Set Due Date
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Assign User
+                                hr
+                                .w3-row
+                                    input(id='assign_user' name='employee_email' placeholder="Employee Email")
+                                br
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateAssignUsers()')
+                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                        |   Assign Selected User
+
+                    .w3-half.w3-container2
+                        h1 Submitted Forms
+                        hr
+                        .w3-twothird
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                table#submittedFormsTable.display(width='100%')
+                                    thead
+                                        tr
+                                            th Employee Name
+                                            th Date Submitted
+                                            th Actions
+                                    tbody
+
+
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Current Form Details
+                                hr
+                                .w3-row
+                                    p Owner: 22222222@slu.edu.ph
+                                    p Date Submitted: 11/16/2023
+                                    p Status: Pending
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
+                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                        |   Approve
+                                br
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
+                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                        |   Return
+
 
 
         .w3-row
@@ -202,6 +280,71 @@ block body
             });
         });
 
+        $(function() {
+            var allEmails = empEmails;
+            $( "#assign_user" ).autocomplete({
+                source: allEmails
+            });
+        });
+
     script(src='/js/client.functions/handle_ajax_save_filled_out_form.js')
     script(src='/js/client.functions/handle_ajax_share_form.js')
     script(src='/js/client.functions/handle_ajax_load_version.js')
+
+
+    script.
+        var table2 = $('#submittedFormsTable').DataTable();
+
+    script.
+        function validateAssignUsers(){
+            selectedUserToAssign = document.getElementById('assign_user').value;
+
+            if(!selectedUserToAssign){
+                alert("Please enter an email to share the form to.");
+            } else {
+                const data = {
+                    assignedUser: selectedUserToAssign,
+                    formControlNumber: formControlNumber
+                };
+
+                $.ajax({
+                    type: 'PUT',
+                    url: '/AJAX_assignUsers',
+                    data: data,
+                    success: function(response) {
+                        if (response.status_code === 1) {
+                            alert("No user was assigned to the form");
+                        } else if (response.status_code === 0) {
+                            alert(selectedUserToAssign + " was assigned to the form.");
+                        } else {
+                            alert("Error at AJAX function in assigning users.");
+                        }
+                    },
+                    error: function(error){
+                        console.log("AJAX Error: " + error);
+                    }
+                });
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

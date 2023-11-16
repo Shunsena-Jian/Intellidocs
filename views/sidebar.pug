@@ -97,6 +97,7 @@ block sidebar
                     myelement #{currentUserDetailsBlock.userLevel}
                 hr(style='border-top: 1px dashed black;')
 
+
         div
             div
                 button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo1')")
@@ -133,6 +134,11 @@ block sidebar
                             a(href='/viewreports')
                                 i.fa.fa-pie-chart.w3-margin-right
                                 | View Reports
+                        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Admin")
+                            p
+                                a(href='/createform')
+                                    i.fa.fa-eye.w3-margin-right
+                                    | Set Form Due Dates
                 button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo2')")
                     i.fa.fa-calendar-check-o.fa-fw.w3-margin-right
                     |  Form Events
@@ -160,19 +166,7 @@ block sidebar
                                 a(href='/viewusers')
                                     i.fa.fa-users.w3-margin-right
                                     | View Users
-            br
-            a.w3-bar-item.w3-button.edit-name.w3-hover-black(href='#')
-                i.bi.bi-pencil-square
-                |  Edit Project Name
-            a.w3-bar-item.w3-button.w3-hover-black(href='#')
-                i.bi.bi-pencil-square
-                |  Edit Abstract
-            a.w3-bar-item.w3-button.w3-hover-black(href='/uploadfiles')
-                i.bi.bi-file-arrow-up
-                |  Upload Files
-            a.w3-bar-item.w3-button.w3-hover-black(href='#')
-                i.bi.bi-person-plus
-                |  Add Authors
+
     #idleModal
         #idleOverLay.dialogoverlay
         #idleDialogbox.dialogbox.slit-in-vertical

@@ -309,6 +309,7 @@ app.post('/savecreatedform', async function(req, res){
                 form_version: 0,
                 form_status: formData.formStatus,
                 shared_status: false,
+                allow_file_upload: false,
                 date_saved: getDateNow(),
                 time_saved: getTimeNow()
             };
@@ -338,6 +339,7 @@ app.post('/saveformversion', async function(req, res){
         console.log("Entered 334 iteration");
         if(formHistory[i].form_version >= latestVersion) {
             latestVersion = formHistory[i].form_version;
+            fileUploadStatus = formHistory[i].allow_file_upload;
             console.log("block 333 iterated versioning" + formHistory[i]);
         }
     }
@@ -364,7 +366,9 @@ app.post('/saveformversion', async function(req, res){
             form_version: newVersionNumber,
             form_status: formData.formStatus,
             shared_status: Boolean(formData.sharedStatus),
-            date_created: `${date} ${time}`
+            allow_file_upload: fileUploadStatus,
+            date_saved: getDateNow(),
+            time_saved: getTimeNow()
         };
 
         //console.log("This is the Form Document: " + JSON.stringify(formDocument));
@@ -536,24 +540,37 @@ app.put('/savefilledoutform', async function(req, res){
 
 app.get('/formview/:form_control_number', async function (req, res){
     req.session.form_control_number = req.params.form_control_number;
-    try{
-        var selectedFormControlNumberToView = req.params.form_control_number;
-        formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
-        var allVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
-        var latestVersion = 0;
-        var retrievedUserEmails;
-        var latestUserVersion = 0;
 
-        for(i=0; i < formVersions.length; i++){
-            if(formVersions[i].form_version >= latestVersion){
-                latestVersion = formVersions[i].form_version;
-            }
+    currentUserFiles = await getFiles(req.session.userEmpID);
+    currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+    currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+    currentUserNotifications = await getNotifications(req.session.userEmpID);
+    currentUserPicture = await getUserPicture(req.session.userEmpID);
+    retrievedUserEmails = await getUsersEmails();
+
+    var retrievedUserEmails;
+    var selectedFormControlNumberToView = req.params.form_control_number;
+    formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+    var allVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+    var latestVersion = 0;
+    var latestUserVersion = 0;
+
+    for(i=0; i < formVersions.length; i++){
+        if(formVersions[i].form_version >= latestVersion){
+            latestVersion = formVersions[i].form_version;
         }
+    }
 
-        var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
-        var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
-        var latestUserForm;
-        var jsonObject;
+    var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
+    var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
+    var latestUserForm;
+    var jsonObject;
+
+    if(currentUserDetailsBlock.userLevel == "Secretary"){
+        jsonObject = currentForm;
+    }else if(currentUserDetailsBlock.userLevel == "Department Head"){
+        jsonObject = currentForm;
+    }else{
         if(userFormVersions == 0){
             //save latest verion as user version0 to filled out forms
             jsonObject = currentForm;
@@ -577,8 +594,6 @@ app.get('/formview/:form_control_number', async function (req, res){
                     latestUserVersion = userFormVersions[i].user_version;
                 }
             }
-            console.log("The latest USER version is " + latestUserVersion);
-
             latestUserFilledVersion = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, user_version: latestUserVersion });
 
             jsonObject = latestUserFilledVersion;
@@ -586,45 +601,27 @@ app.get('/formview/:form_control_number', async function (req, res){
             if(currentForm.form_version != latestUserFilledVersion.form_version){
                 jsonObject.form_content = await updateToLatestVersion(currentForm.form_content, latestUserFilledVersion.form_content);
             }
-
-
-
-            console.log("-------------------------------");
-            console.log(JSON.stringify(jsonObject));
-            console.log("-------------------------------");
         }
-
-
-        console.log("This is the json object: " + jsonObject);
-        var e = jsonObject.form_content;
-        var g = await jsonToHTML(e);
-        jsonObject.form_content = g;
-
-
-        currentUserFiles = await getFiles(req.session.userEmpID);
-        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        currentUserNotifications = await getNotifications(req.session.userEmpID);
-        currentUserPicture = await getUserPicture(req.session.userEmpID);
-        retrievedUserEmails = await getUsersEmails();
-
-
-        res.render('formview', {
-            title: 'View Forms',
-            retrievedUserEmails : retrievedUserEmails,
-            currentUserDetailsBlock : currentUserDetailsBlock,
-            currentUserFiles: currentUserFiles,
-            currentUserPrivileges: currentUserPrivileges,
-            currentUserNotifications: currentUserNotifications,
-            currentForm: jsonObject,
-            currentUserPicture: currentUserPicture,
-            allVersions: allVersions,
-            min_idleTime: min_idleTime
-        });
-
-    } catch(error) {
-        logStatus("Error at form view with control number: " + error);
     }
+
+
+    console.log("This is the json object: " + jsonObject);
+    var e = jsonObject.form_content;
+    var g = await jsonToHTML(e);
+    jsonObject.form_content = g;
+
+    res.render('formview', {
+        title: 'View Forms',
+        retrievedUserEmails : retrievedUserEmails,
+        currentUserDetailsBlock : currentUserDetailsBlock,
+        currentUserFiles: currentUserFiles,
+        currentUserPrivileges: currentUserPrivileges,
+        currentUserNotifications: currentUserNotifications,
+        currentForm: jsonObject,
+        currentUserPicture: currentUserPicture,
+        allVersions: allVersions,
+        min_idleTime: min_idleTime
+    });
 });
 
 app.put('/shareform', async function(req, res){
@@ -1127,6 +1124,19 @@ app.get('/createwidget', async function(req, res){
     }
 });
 
+function getUniqueForms(formsGroup){
+    var uniqueForms = [];
+    var seenControlNumber = {};
+
+    for (const obj of formsGroup) {
+        if (!seenControlNumber[obj.form_control_number]) {
+            seenControlNumber[obj.form_control_number] = true;
+            uniqueForms.push(obj);
+        }
+    }
+    return uniqueForms;
+}
+
 app.get('/viewforms', async function(req, res){
     var requiredPrivilege = 'View Forms Only';
     var accessGranted = false;
@@ -1135,36 +1145,36 @@ app.get('/viewforms', async function(req, res){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
-        allForms = await getForms(req.session.userEmpID);
-        sharedReadForms = await filledoutforms.find({ "read_users" : req.session.userEmpID});
-        sharedWriteForms = await filledoutforms.find({ "write_users" : req.session.userEmpID});
-
-        var a = [];
-        var seenControlNumber = {};
-
-        for (const obj of allForms) {
-          if (!seenControlNumber[obj.form_control_number]) {
-            seenControlNumber[obj.form_control_number] = true;
-            a.push(obj);
-          }
-        }
-
-        console.log("the unique forms " + a);
-        currentForms = a;
-
         currentUserForms = await getUserForms(req.session.userEmpID);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
+            var allPublishedForms = await forms.find({ form_status : "Published" }).toArray();
+            console.log("This are all the published forms: " + JSON.stringify(allPublishedForms));
+            var allAssignedForms = await forms.find({ assigned_users : req.session.userEmpID }).toArray();
+            console.log("This are all the assigned forms: " + JSON.stringify(allAssignedForms));
+            var allSharedForms = await forms.find({
+                $or: [
+                    { read_users : req.session.userEmpID },
+                    { write_users : req.session.userEmpID }
+                ]
+            }).toArray();
+            console.log("This are all the shared forms: " + JSON.stringify(allSharedForms));
+
+            var publishedForms = getUniqueForms(allPublishedForms);
+            var assignedForms = getUniqueForms(allAssignedForms);
+            var sharedForms = getUniqueForms(allSharedForms);
+
             res.render('viewforms', {
                 title: 'View Forms',
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
-                currentForms: currentForms,
-                currentUserForms: currentUserForms,
+                publishedForms: publishedForms,
+                assignedForms: assignedForms,
+                sharedForms: sharedForms,
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
@@ -1192,6 +1202,7 @@ app.get('/viewforms', async function(req, res){
         res.redirect('login');
     }
 });
+
 
 app.get('/viewformtemplates', async function(req, res){
     var requiredPrivilege = 'Manage Templates';
@@ -1425,7 +1436,6 @@ app.post('/createusers', async function(req, res){
             if(debug_mode){
                 logStatus("Error creating the user: " + error);
             }
-
         }
 
         currentUserFiles = await getFiles(req.session.userEmpID);
@@ -1597,7 +1607,6 @@ app.get('/viewusers', async function(req, res) {
             if(debug_mode){
                 logStatus("User Denied");
             }
-
         }
 
     } catch (error) {
@@ -1608,18 +1617,6 @@ app.get('/viewusers', async function(req, res) {
         res.status(500).send('Internal Server Error');
     }
 });
-
-//app.get('/uploadfiles', async function(req, res){
-//    if (req.session.loggedIn) {
-//        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-//        privileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-//        res.render('uploadfiles', {
-//            title: 'Upload File Page', userDetails: currentUserDetailsBlock
-//        });
-//    } else {
-//        res.redirect('login');
-//    }
-//});
 
 app.post('/accountsettings', pictureUpload.single('file'), async function (req, res) {
     const uploadedPicture = req.file;
@@ -1752,36 +1749,170 @@ app.post('/update-Password', async function(req, res){
     }
 });
 
+app.put('/AJAX_assignUsers', async function(req, res){
+    if(req.session.loggedIn){
+        var formData = req.body;
+        var selectedFormControlNumberToView = formData.formControlNumber;
+        allForms = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+
+        try {
+            for( i = 0; i < allForms.length; i++) {
+                if(allForms[i].form_control_number == selectedFormControlNumberToView) {
+                    updateDocument = await forms.updateMany(
+                        { form_control_number : selectedFormControlNumberToView },
+                        { $addToSet: { "assigned_users" : formData.assignedUser } }
+                    );
+                    res.send({ status_code : 0 });
+                } else {
+                    res.send({ status_code : 1 });
+                }
+            }
+        } catch(error) {
+            if(debug_mode) {
+                logStatus('There was an error at AJAX function in assigning users.');
+            }
+            res.send({ status_code : 2 });
+        }
+
+    } else {
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
 app.put('/AJAX_togglePublish', async function(req, res) {
     if(req.session.loggedIn) {
         var formData = req.body;
         var selectedFormControlNumberToView = formData.formControlNumber;
         formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
-        var latestVersion = 0;
-        for(i=0; i < formVersions.length; i++){
-            if(formVersions[i].form_version >= latestVersion){
-                latestVersion = formVersions[i].form_version;
+        var targetedVersion = parseInt(formData.targetedVersion, 10);
+
+        var currentStatus;
+        var updateDocument;
+        var updatedStatus;
+        var successfulWow = false;
+        try{
+            for(i=0; i < formVersions.length; i++){
+                if(formVersions[i].form_version == targetedVersion){
+                    currentStatus = formVersions[i].form_status;
+                    console.log("the found status of : " + targetedVersion + "is : " + currentStatus);
+
+                    if(currentStatus == "Template"){
+                        try {
+                            console.log("Entering the setting of Status");
+                            updateDocument = await forms.findOneAndUpdate(
+                                { form_control_number : selectedFormControlNumberToView, form_version : targetedVersion },
+                                { $set: { form_status: "Published" } }
+                            );
+                            updatedStatus = "Published";
+                            console.log("Finished the setting of Status");
+                        } catch(error) {
+                            console.log("May error : " + error);
+                        }
+
+                        console.log("Setting control number : " + selectedFormControlNumberToView + " with version " + targetedVersion + " to Published");
+                    }else{
+                        updateDocument = await forms.findOneAndUpdate(
+                            { form_control_number : selectedFormControlNumberToView, form_version : targetedVersion },
+                            { $set: { form_status: "Template" } }
+                        );
+                        updatedStatus = "Template";
+                        console.log("Setting control number : " + selectedFormControlNumberToView + " with version " + targetedVersion + " to Template");
+                    }
+                }
             }
+
+            if(currentStatus == "Template"){
+                for(i=0; i < formVersions.length; i++){
+                    if(formVersions[i].form_version != targetedVersion){
+                        updateDocument = await forms.findOneAndUpdate(
+                            { form_control_number : selectedFormControlNumberToView, form_version : formVersions[i].form_version },
+                            { $set: { form_status: "Template" } }
+                        );
+                    }
+                }
+            }
+
+            successfulWow = true;
+        }catch(error){
+            successfulWow = false;
         }
 
-        var currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_version: latestVersion });
 
         try{
-            if(!currentForm){
+            if(!successfulWow){
                 if(debug_mode){
                     logStatus('There was an error in AJAX Toggle Publish: ' + error);
                 }
                 res.send({ status_code : 1 });
             } else {
-                const updateDocument = await forms.findOneAndUpdate(
-                    { form_control_number : currentForm.form_control_number, form_version : currentForm.form_version },
-                    { $set: { form_status: formData.formStatus } }
-                );
+                res.send({ status_code : 0 , updatedStatus : updatedStatus});
+            }
+        } catch(error) {
+            if(debug_mode){
+                logStatus('There was an error in AJAX Toggle Publish: ' + error);
+            }
+        }
 
-                if(debug_mode){
-                    logStatus('Successfully updated form status');
+    } else {
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_toggleAllowFileUpload', async function(req, res) {
+    if(req.session.loggedIn) {
+        var formData = req.body;
+        var selectedFormControlNumberToView = formData.formControlNumber;
+        formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+
+        var currentStatus;
+        var updateDocument;
+        var updatedStatus;
+        var successfulWow = false;
+        try{
+            for(i=0; i < formVersions.length; i++){
+                currentStatus = formVersions[i].allow_file_upload;
+
+                if(currentStatus == false){
+                    try {
+                        console.log("Entering the setting of Status");
+                        updateDocument = await forms.updateMany(
+                            { form_control_number : selectedFormControlNumberToView },
+                            { $set: { allow_file_upload: true } }
+                        );
+                        updatedStatus = "Allowed";
+                        console.log("Finished the setting of Status");
+                    } catch(error) {
+                        console.log("May error : " + error);
+                    }
+
+                }else{
+                    updateDocument = await forms.updateMany(
+                        { form_control_number : selectedFormControlNumberToView },
+                        { $set: { allow_file_upload: false } }
+                    );
+                    updatedStatus = "Not Allowed";
                 }
-                res.send({ status_code : 0 });
+
+            }
+
+            successfulWow = true;
+        }catch(error){
+            successfulWow = false;
+        }
+
+
+        try{
+            if(!successfulWow){
+                if(debug_mode){
+                    logStatus('There was an error in AJAX Toggle Publish: ' + error);
+                }
+                res.send({ status_code : 1 });
+            } else {
+                res.send({ status_code : 0 , updatedStatus : updatedStatus});
             }
         } catch(error) {
             if(debug_mode){
@@ -1801,35 +1932,52 @@ app.put('/AJAX_toggleSharing', async function(req, res) {
         var formData = req.body;
         var selectedFormControlNumberToView = formData.formControlNumber;
         formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
-        var latestVersion = 0;
-        for(i=0; i < formVersions.length; i++){
-            if(formVersions[i].form_version >= latestVersion){
-                latestVersion = formVersions[i].form_version;
-            }
-        }
 
-        var currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_version: latestVersion });
+        var currentStatus;
+        var updateDocument;
+        var updatedStatus;
+        var successfulWow = false;
 
         try{
-            if(!currentForm){
+            for(i = 0; i < formVersions.length; i++){
+                currentStatus = formVersions[i].shared_status;
+
+                if(currentStatus == false){
+                    try{
+                        updateDocument = await forms.updateMany(
+                            { form_control_number : selectedFormControlNumberToView },
+                            { $set: { shared_status: true } }
+                        );
+                        updatedStatus = "Allowed";
+                    } catch(error) {
+                        console.log("May error : " + error);
+                    }
+                } else {
+                    updateDocument = await forms.updateMany(
+                        { form_control_number : selectedFormControlNumberToView },
+                        { $set: { shared_status: false } }
+                    );
+                    updatedStatus = "Not Allowed";
+                }
+            }
+
+            successfulWow = true;
+        } catch(error) {
+            successfulWow = false;
+        }
+
+        try{
+            if(!successfulWow){
                 if(debug_mode){
-                    logStatus('There was an error in AJAX Toggle Sharing: ' + error);
+                    logStatus('There was an error in AJAX Toggle Publish: ' + error);
                 }
                 res.send({ status_code : 1 });
             } else {
-                const updateDocument = await forms.findOneAndUpdate(
-                    { form_control_number : currentForm.form_control_number, form_version : currentForm.form_version },
-                    { $set: { shared_status: Boolean(formData.sharingStatus) } }
-                );
-
-                if(debug_mode){
-                    logStatus('Successfully updated sharing status');
-                }
-                res.send({ status_code : 0 });
+                res.send({ status_code : 0 , updatedStatus : updatedStatus});
             }
         } catch(error) {
             if(debug_mode){
-                logStatus('There was an error in AJAX Toggle Sharing: ' + error);
+                logStatus('There was an error in AJAX Toggle Publish: ' + error);
             }
         }
 
@@ -1857,7 +2005,7 @@ app.put('/AJAX_viewFormVersion', async function(req, res) {
 
             try{
                 jsonObject.form_content = g;
-                res.send({ status_code : 0, formContent : jsonObject.form_content });
+                res.send({ status_code : 0, formContent : jsonObject.form_content, formStatus : currentForm.form_status, sharedStatus : currentForm.shared_status, formVersion : currentForm.form_version });
             } catch(error) {
                 if(debug_mode){
                     logStatus("Error at view form version for front end: " + error);
@@ -2077,7 +2225,7 @@ async function getUsersEmails() {
         userName = await users.find({}).toArray();
 
         for (const user of userName) {
-            empEmails.push(user.email);
+            empEmails.push(user.emp_id);
         }
 
         logStatus("This are the user names: " + JSON.stringify(empEmails));
