@@ -332,19 +332,26 @@ app.post('/saveformversion', async function(req, res){
     var formData = req.body;
     var latestVersion = 0;
     var newVersionNumber = 0;
+    var latestAssignedUsers = [];
     var formHistory = await forms.find({ form_control_number : formData.formControlNumber }).toArray();
+
     console.log("THE LENGTH IS" + formHistory.length);
     console.log("WE ARE LOOKING FOR THIS CONTROL NUMBER " + formData.formControlNumber);
+
     for(i=0; i < formHistory.length; i++) {
         console.log("Entered 334 iteration");
         if(formHistory[i].form_version >= latestVersion) {
             latestVersion = formHistory[i].form_version;
             fileUploadStatus = formHistory[i].allow_file_upload;
-            console.log("block 333 iterated versioning" + formHistory[i]);
+
+            latestAssignedUsers = formHistory[i].assigned_users;
+            if(formHistory[i].read_users){
+                let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...formHistory[i].assigned_users]);
+                latestAssignedUsers = Array.from(uniqueAssignedUsers);
+            }
         }
     }
     newVersionNumber = latestVersion + 1;
-    console.log("This is the quack: " + newVersionNumber);
 
     try {
         var latestForm;
@@ -368,7 +375,8 @@ app.post('/saveformversion', async function(req, res){
             shared_status: Boolean(formData.sharedStatus),
             allow_file_upload: fileUploadStatus,
             date_saved: getDateNow(),
-            time_saved: getTimeNow()
+            time_saved: getTimeNow(),
+            assigned_users: latestAssignedUsers
         };
 
         //console.log("This is the Form Document: " + JSON.stringify(formDocument));
@@ -471,7 +479,6 @@ app.put('/savefilledoutform', async function(req, res){
     var latestSharedStatus;
     var latestWriteUsers = [];
     var latestReadUsers = [];
-    var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
     var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
     var allUserFormVersions = [];
 
@@ -480,6 +487,8 @@ app.put('/savefilledoutform', async function(req, res){
             latestVersion = formVersions[i].form_version;
         }
     }
+
+    var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
 
     for(i=0; i < userFormVersions.length; i++){
         if(userFormVersions[i].user_version >= latestUserVersion){
