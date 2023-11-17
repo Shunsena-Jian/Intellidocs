@@ -39,7 +39,6 @@ p {
   width: 100%;
   box-sizing: border-box;
   padding: 10px;
-
 }
 
 .drop-container {
@@ -51,22 +50,22 @@ p {
   padding: 36px;
   border: 1px solid #000000;
   page-break-after: always;
-   box-shadow: rgba(0, 0, 0, 0.05) 3px 3px 3px 3px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.05) 3px 3px 3px 3px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 
 .paperContainer {
  max-width: 90%;
-   max-height: 950px;
-    overflow-y:auto;
+ max-height: 950px;
+ overflow-y:auto;
 }
 
 
 .drop-container.landscape {
-height: 210mm;
-width: 297mm;
+    height: 210mm;
+    width: 297mm;
 }
 
-.w3-box{
+.w3-box {
     height:110mm;
     width: 60%;
     background: #FFFFFF;
@@ -87,9 +86,9 @@ width: 297mm;
     height:100mm;
     width: 80%;
     background: #FFFFFF;
-      margin: 10px auto; /* Center horizontally with margin:auto */
-      padding: 36px;
-      border: 1px solid #000000;
+    margin: 10px auto; /* Center horizontally with margin:auto */
+    padding: 36px;
+    border: 1px solid #000000;
 }
 
 
@@ -118,7 +117,14 @@ width: 297mm;
     flex: 1 0 auto; /* Allow flex items to grow and shrink */
 }
 
-
+.rectangle.long {
+    padding: 15px 5px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    cursor: grab;
+    min-width: 25%; /* Minimum width for each child */
+    flex: 1 0 auto; /* Allow flex items to grow and shrink */
+}
 
 .draggable {
     cursor: grab;
