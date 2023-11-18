@@ -13,8 +13,8 @@ var rightClickWidgetActive;
 var selectedTextBox;
 var userType;
 
+// On load of page, initialize global variables
 window.onload = function() {
-    console.log("initializing page");
     contextMenu = document.createElement('div');
     containerDiv = document.getElementById('outer-container');
     dropBox = document.querySelector('.drop-container');
@@ -30,23 +30,18 @@ window.onload = function() {
     padding = 36;
     currentHeight = 0 + padding;
     rightClickWidgetActive = false;
-
     userType = window.userLevel;
-    console.log("This is the user details block: " + window.userLevel);
-
     // Keep track of the currently hovered text box
     selectedTextBox = null;
 
     initializeDraggables();
     if (currentPageContent.childElementCount > 0) {
-        console.log("currentPageContent has content:", currentPageContent);
         initializeCurrentPage();
     } else {
-        console.log("currentPageContent is empty or falsy:", currentPageContent);
+        //console.log("currentPageContent is empty or falsy:", currentPageContent);
     }
 
     currentPageContent.addEventListener('click', (e) => {
-        console.log("added listener to " + currentPageContent.id);
     	selectElement(currentPageContent);
     });
 
@@ -193,7 +188,6 @@ function initializeDraggables() {
         });
 
     currentPageContent.addEventListener('click', (e) => {
-        console.log("added listener to " + currentPageContent.id);
     	selectElement(currentPageContent);
     });
 
@@ -219,9 +213,6 @@ function initializeHeightOfCurrentPage(currentPageValue){
     currentHeight = currentPageHeight;
     currentPageContent = parentElement; // update pointer
     addEventListenerToDiv(currentPageContent);
-    console.log(currentPageContent.id);
-    console.log("Heigt of page: " + currentPageValue + " has a height of: " + currentPageHeight);
-    console.log("Page: " + currentPageValue + " has " + countOfChildren + " children");
 }
 
 function initializeContextMenuForChildren(pageCount){
@@ -230,32 +221,25 @@ function initializeContextMenuForChildren(pageCount){
     var children;
 
     for(i = 1; i <= pageCount; i++){
-//        console.log("initializing for page " + i);
         receivedCurrentPage = "page-" + i;
         parentElement = document.getElementById(receivedCurrentPage);
         children = parentElement.children;
 
         for(j = 0; j < children.length; j++){
-//            console.log(children[j]);
             initializeContextMenuForChild(children[j].firstElementChild);
         }
     }
 }
 
 function initializeContextMenuForChild(clonedDiv) {
-//    console.log(clonedDiv);
-//    console.log(clonedDiv.classList);
-
     function addContextMenuListenerToElement(clonedDiv) {
         clonedDiv.addEventListener('contextmenu', (e) => {
             e.preventDefault();
-            if (clonedDiv.classList.contains("table")) {
+            if (clonedDiv.classList.contains("form-table")) {
                 activateElement(clonedDiv, "table");
-                console.log("there is a fucking table");
                 createContextMenu(e.clientX, e.clientY, null, clonedDiv);
             } else {
                 activateElement(clonedDiv, "div");
-//                console.log(rightClickWidgetActive);
                 createContextMenu(e.clientX, e.clientY, clonedDiv, null);
             }
         });
@@ -284,7 +268,7 @@ function initializeContextMenuForChild(clonedDiv) {
 
 
 function initializeCurrentPage(){
-    var pagesParent = document.getElementById("theContainerOfTheForm");
+    var pagesParent = document.getElementById("form-content");
     var pagesChildren = pagesParent.children;
     var countOfPages = 0;
 
@@ -296,7 +280,6 @@ function initializeCurrentPage(){
 
     initializeHeightOfCurrentPage(currentPage);
     initializeContextMenuForChildren(currentPage);
-//    console.log("number of pages: " + currentPage);
 }
 
 
@@ -312,23 +295,14 @@ function setMaxHeight() {
         const computedStyle = getComputedStyle(dropContainer);
         // Extract the padding value
         const paddingValue = computedStyle.getPropertyValue('padding');
-//        console.log("padding value is: " + paddingValue);
         // Extract the numeric part of the padding value (removing 'px' or other units)
         padding = parseFloat(paddingValue);
         maxHeight = dropContainer.offsetHeight - padding;
     });
 }
 
-setMaxHeight();
-//console.log("Max Height is: " + maxHeight);
-
 function createNewPage() {
-//    if (currentPageContent.querySelector("header-table")) {
-//        updatePageNumbers();
-//    }
-	console.log("Successfully Created a New Page");
 	currentPage++;
-	console.log(currentPage);
 	const newPage = document.createElement('div');
 	//newPage.classList.add('drop-container', 'draggable'); // original line
 	newPage.classList.add('drop-container'); // Add custom class names including 'draggable'
@@ -406,7 +380,6 @@ function changeTextColor() {
 				// Replace the selected text with the span
 				const range = selection.getRangeAt(0);
 				range.classList.toggle(textColor);
-//				range.insertNode(span);
 				selection.removeAllRanges(); // Clear the selection
 			}
 		}
@@ -426,7 +399,6 @@ function modifyOrientation() {
         dropContainers.forEach(function (dropContainer) {
             dropContainer.classList.add("landscape");
             setMaxHeight();
-            console.log(maxHeight);
         });
     } else if (selectedValue === "portrait") {
         // Remove the 'landscape' class from all drop containers
@@ -482,7 +454,6 @@ function makeInputEditableOnDeployment() {
 // Table Functions
 function mergeCells(table) {
 	const selectedCells = getSelectedCells(table);
-//	console.log(selectedCells);
 	if (selectedCells.length < 2) {
 		alert('Select at least two cells to merge.'); // REQUIRED MODAL HERE
 		return;
@@ -499,17 +470,13 @@ function mergeCells(table) {
 	const sameRow = selectedCells.every(cell => cell.parentElement === firstCell.parentElement);
 	const sameColumn = selectedCells.every(cell => cell.cellIndex === firstCell.cellIndex);
 
-//	console.log('Same Row:', sameRow);
-//	console.log('Same Column:', sameColumn);
 
 	if (sameRow) {
 		// If in the same row, set colspan to the number of selected cells
 		colspan = selectedCells.length;
-//		console.log('Colspan:', colspan);
 	} else if (sameColumn) {
 		// If in different rows, set rowspan to the number of selected cells
 		rowspan = selectedCells.length;
-//		console.log('Rowspan:', rowspan);
 	} else {
 	   // Calculate equivalent colspan and rowspan based on the positions of selected cells
 		const firstRowIndex = firstCell.parentElement.rowIndex;
@@ -520,8 +487,6 @@ function mergeCells(table) {
 		// Calculate colspan and rowspan based on cell positions
 		colspan = lastCellIndex - firstCellIndex + 1;
 		rowspan = lastRowIndex - firstRowIndex + 1;
-//		console.log('Colspan:', colspan);
-//		console.log('Rowspan:', rowspan);
 	}
 
 	// Set rowspan and colspan for the first cell
@@ -568,13 +533,8 @@ function unmergeCells(table) {
 	const rowIndex = firstCell.parentElement.rowIndex;
 	const cellIndex = firstCell.cellIndex;
 
-//	console.log(cellIndex);
-
 	const rowspan = parseInt(firstCell.getAttribute('rowspan')) || 1;
 	const colspan = parseInt(firstCell.getAttribute('colspan')) || 1;
-
-//	console.log(rowspan);
-//	console.log(colspan);
 
 	const originalContent = firstCell.textContent;
 
@@ -590,19 +550,13 @@ function unmergeCells(table) {
 		var colCount = 0;
 		// Iterate to restore original content and appearance for each cell
 		for (let i = 0; i < rowspan; i++) {
-//			console.log(i);
 			const newRow = table.rows[rowIndex + i];
-//			console.log("Row index: " + (rowIndex + i));
-//			console.log(newRow);
 
 			if (newRow) {
 
 				for (let j = 0; j < colspan; j++) {
 					const newCell = document.createElement('td');
 					newCell.textContent = originalContent;
-
-//				    console.log(table.rows[0].cells.length);
-//				    console.log(newRow.cells.length);
 
 				    if (newRow.cells.length == table.rows[0].cells.length) {
 					    continue;
@@ -641,7 +595,6 @@ function removeTableColumn(table, columnIndex) {
 }
 
 function adaptSucceedingContent(startingPoint, maxHeight) {
-    console.log("entered store to array");
     var allPages = document.querySelectorAll(".drop-container"); // Query all pages
 
     var sectionID = startingPoint.id; // Step 1
@@ -708,24 +661,9 @@ function adaptSucceedingContent(startingPoint, maxHeight) {
 }
 
 
-
-//    /**
-//    Algorithm:
-//    Step 1. Get the section ID of starting point element
-//    Step 2. Get the page container or page ID of the starting point element
-//    Step 3. Iterate through all the section in the extracted page ID div and push the sections after the section ID of starting point in an array (i.e. startingPointPageSuccChildren)
-//    Step 4. Set the initial height of current page to sum the previous sections of the current page including the section at step 1.
-//    Step 5. When initial page height plus the div height of any of the succeeding section children elements exceed maxHeight, push them as the first child of the next page
-//    Step 6. Consequently, the section children of the succeeding pages will be updated accordingly.
-//    */
-
-
 function addTableRow(table) {
     var parentContainer = table.parentElement;
     var pageContainer = parentContainer.parentElement;
-
-    console.log(pageContainer);
-
     var pageHeight = 0 + padding;
 
     // Iterate through all child elements of currentPageContent
@@ -735,8 +673,6 @@ function addTableRow(table) {
     	// Calculate the height of the current child element and add it to currentHeight
     	pageHeight += calculateDivHeight(childElement) + 10;
     }
-
-    console.log("Table Parent Page Height: " + pageHeight);
 
     if ((pageHeight + 40) > (maxHeight+padding)) {
         alert("Cannot add any more row."); // REQUIRED MODAL HERE
@@ -781,11 +717,7 @@ function addTableRow(table) {
 			cell.textContent = '';
 		}
 	}
-
-	console.log(calculateDivHeight(newRow));
-
     currentHeight += 40;
-	console.log("Updated Height: " + currentHeight);
 }
 
 function addTableColumn(table) {
@@ -880,11 +812,8 @@ function createContextMenu(x,y,element, table) {
     var isChild = false;
     var deleteButtonSelected;
     var parentContainer = selectedTextBox.parentElement;
-//    console.log("Parent Container ClassList: ");
-//    console.log(parentContainer);
 
     if (rightClickWidgetActive) {
-//        console.log("removed context listener");
         while (contextMenu.firstChild) {
             contextMenu.removeChild(contextMenu.firstChild);
         }
@@ -907,10 +836,9 @@ function createContextMenu(x,y,element, table) {
 
             const deleteButton = document.createElement('button');
             deleteButton.classList.add("button-box");
-            deleteButton.innerText = 'Delete Widget Field';
+            deleteButton.innerText = 'Delete Widget';
             deleteButton.addEventListener('click', () => {
                 if (confirm('Are you sure you want to delete this box?')) {
-                    console.log(selectedTextBox);
                     if (selectedTextBox.parentElement != null) {
 
                         if (selectedTextBox.nodeName === "TD" || selectedTextBox.nodeName === "TR") {
@@ -922,10 +850,7 @@ function createContextMenu(x,y,element, table) {
                                 tableContainerOuter.remove();
                                 reassignSectionID();
                                 var tableContainerSectionCover = tableContainerOuter;
-                                console.log(tableContainerSectionCover);
-                                console.log(tableContainerOuter.parentElement);
                             } else {
-                                console.log(tableContainer);
                                 tableContainer.remove();
                                 reassignSectionID();
                                 checkCurrentPage();
@@ -939,7 +864,6 @@ function createContextMenu(x,y,element, table) {
                             checkCurrentPage();
                         }
                         dynamicFillEmptySpace(null);
-                        console.log(currentHeight);
                         sectionCount -= 1;
                         currentHeight = updatePageHeight();
                         repositionBoxes();
@@ -982,7 +906,6 @@ function createContextMenu(x,y,element, table) {
             contextMenu.appendChild(unlockEditOnDeploy);
 
         } else if (userType === "Faculty") {
-            console.log("Faculty");
             // Functions for fillup only
             if (table) {
                 contextMenuButtonsForTable(table);
@@ -1021,7 +944,6 @@ function contextMenuButtonsForContainer(element) {
         appendSectionColumn.addEventListener('click', () => {
             if(confirm('Add another section?')) {
                 element = appendGridItem(element);
-//                console.log(element);
             }
             contextMenu.remove();
         })
@@ -1142,7 +1064,6 @@ function contextMenuButtonsForTable(table) {
 
 function restrictCheckBoxSelection() {
     const checkboxes = currentPageContent.querySelectorAll('input[name="academicStatus"]');
-//    console.log(checkboxes);
         console
       // Add a change event listener to each checkbox
                 checkboxes.forEach((checkbox) => {
@@ -1157,7 +1078,6 @@ function restrictCheckBoxSelection() {
                 });
 }
 
-//restrictCheckBoxSelection();
 
 function dropContent(boxHeight, data) {
     const tempDiv = document.createElement('div');
@@ -1203,7 +1123,6 @@ function dropContent(boxHeight, data) {
             currentPageContent.appendChild(sectionDiv); // Append to the current page's content
 
             currentHeight += calculateDivHeight(clonedDiv);
-            console.log("Updated Height: " + currentHeight);
 
 
         }
@@ -1216,15 +1135,8 @@ function dropContent(boxHeight, data) {
     } else {
         console.error('currentPageContent is undefined.'); // Log an error if currentPageContent is undefined
     }
-
-
-//    console.log("entered drop content function");
-//    const sectionDiv = document.createElement('div');
-//    sectionDiv.id = "section-" + sectionCount;
-//    sectionDiv.appendChild(myDiv);
-//    currentPageContent.appendChild(sectionDiv); // Append to the current page's content
 }
-//}
+
 
 function getCurrentHeight() {
 return currentHeight;
@@ -1232,9 +1144,6 @@ return currentHeight;
 
 function saveIntoPages() {
     var longDivContent = currentPageContent;
-
-
-
 }
 
 // Calculations
@@ -1259,7 +1168,6 @@ function updatePageHeight() {
 		// Calculate the height of the current child element and add it to currentHeight
 		tempHeight += calculateDivHeight(childElement);
 	}
-//	console.log("Current Page Height is: " + tempHeight);
 	return tempHeight;
 }
 
@@ -1316,8 +1224,6 @@ function reassignSectionID() {
 
 function checkCurrentPage() {
     var numberOfChildren = currentPageContent.childElementCount;
-    console.log(numberOfChildren);
-//    console.log(currentPageContent.id);
 
     // Do nothing if current page is the first page
     if (currentPageContent.id != "page-1") {
@@ -1326,10 +1232,8 @@ function checkCurrentPage() {
 			var pageIDString = "page-" + prevpage;
 			let dropContainers = document.querySelectorAll('.drop-container');
 			let found = false;
-//			console.log(dropContainers);
 
 			dropContainers.forEach(dropContainer => {
-//				console.log(dropContainer.id);
 				if (dropContainer.id == pageIDString) {
 				    // Get the parent element of currentPageContent
 				    const currentPageParent = currentPageContent.parentElement;
@@ -1344,8 +1248,6 @@ function checkCurrentPage() {
 		currentPage -=1;
 		}
    }
-//   console.log(currentPageContent.id);
-//   console.log(currentPage);
    currentHeight = updatePageHeight;
 }
 
@@ -1401,23 +1303,15 @@ function addEventListenerToDiv(dropBox) {
 
     // Handle the drop event
     dropBox.addEventListener('drop', (e) => {
-        console.log(currentPageContent.id);
         e.preventDefault();
         setMaxHeight();
-        console.log("New max height is: " + maxHeight);
         dropBox.classList.remove('hover');
-        console.log(activeDraggable);
         if (activeDraggable) {
             const boxHeight = calculateDivHeight(activeDraggable);
             if (isFirstElement == true) {
                 header_height = boxHeight;
                 isFirstElement = false;
             }
-
-            console.log(header_height);
-            console.log(currentHeight + " is the current height");
-            console.log(boxHeight + " is the new element height");
-            console.log(currentHeight + boxHeight + "px");
 
             const data = e.dataTransfer.getData('text/html');
             dropContent(boxHeight, data);
@@ -1540,25 +1434,5 @@ function selectElement(element) {
         selectedTextBox = clickedElement;
 
 	});
-//    console.log(element);
     return element;
 }
-
-/*
-His palms are sweaty, knees weak, arms are heavy
-There's vomit on his sweater already, mom's spaghetti
-He's nervous, but on the surface, he looks calm and ready
-To drop bombs, but he keeps on forgetting
-What he wrote down, the whole crowd goes so loud
-He opens his mouth, but the words won't come out
-He's chokin', how? Everybody's jokin' now
-The clock's run out, time's up, over, blaow
-Snap back to reality, ope, there goes gravity
-Ope, there goes Rabbit, he choked, he's so mad
-But he won't give up that easy, no, he won't have it
-He knows his whole back's to these ropes, it don't matter
-He's dope, he knows that, but he's broke, he's so stagnant
-He knows when he goes back to this mobile home, that's when it's
-Back to the lab again, yo, this old rhapsody
-Better go capture this moment and hope it don't pass him
-*/

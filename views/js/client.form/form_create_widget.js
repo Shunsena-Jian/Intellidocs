@@ -16,7 +16,6 @@ var selectedSectionContainer;
 
 // Initialize variables
 window.onload = function(){
-    console.log("entered initialize");
     tables = document.querySelectorAll('.table');
     boxes = document.querySelectorAll('.box');
     contextMenu = document.createElement('div');
@@ -55,8 +54,6 @@ window.onload = function(){
     });
 
     setMaxHeight(); // set new max height
-    console.log(maxHeight);
-    console.log(currentHeight);
     addEventListenerToDiv(widgetCanvas);
  };
 
@@ -97,7 +94,6 @@ function setMaxHeight() {
 	const computedStyle = getComputedStyle(dropContainer);
 	// Extract the padding value
 	const paddingValue = computedStyle.getPropertyValue('padding');
-	console.log("padding value is: " + paddingValue);
 	// Extract the numeric part of the padding value (removing 'px' or other units)
 	padding = parseFloat(paddingValue);
 	maxHeight = dropContainer.offsetHeight - padding;
@@ -138,7 +134,6 @@ function changeTextColor() {
 function appendCheckBoxItem(container) {
     // Get the first child element within the grid container
     var existingGridItem = container.querySelector('.grid-item');
-    console.log(existingGridItem);
     if (existingGridItem) {
         // Clone the existing child element
         var newGridItem = existingGridItem.cloneNode(true);
@@ -146,7 +141,6 @@ function appendCheckBoxItem(container) {
         // Append the cloned element to the grid container
         container.appendChild(newGridItem);
     }
-    console.log(container);
 }
 
 
@@ -154,7 +148,6 @@ function appendGridItem(container) {
     // Clone one of the existing grid items
     var childToClone = container.querySelector(".grid-item"); // Select the first child as an example
     var newGridItem = childToClone.cloneNode(true);
-    console.log(newGridItem);
 
     // Clear the content of the new grid item
     newGridItem.innerHTML = "";
@@ -191,22 +184,17 @@ function makeBold() {
   			// Replace the selected text with the span
   			const range = selection.getRangeAt(0);
   			let currentSpan = checkForExistingTextSpan(range);
-  			console.log(currentSpan);
 
   			if (currentSpan == null) {
   				range.deleteContents();
   				range.insertNode(span);
   			} else if (currentSpan != null && !currentSpan.classList.contains("w3-bold")) {
   				currentSpan.classList.add('w3-bold');
-  				console.log(currentSpan.classList);
   			} else {
-  			    console.log("removing bold style");
   				var textContent = removeElementAndReturnText(currentSpan, 'bold');
-  				console.log(textContent);
 
   				// Append the textContent in the current span
   				currentSpan.appendChild(document.createTextNode(textContent));
-  				console.log(currentSpan.classList);
   			}
   		}
   	}
@@ -257,7 +245,6 @@ function makeOrderedList() {
 function modifyOrientation() {
 	const orientation = document.getElementById("modifyOrientation");
 	const selectedValue = orientation.value;
-	console.log(selectedValue);
 
 	// Get all elements with the class "drop-container"
 	var dropContainer = document.getElementById('widgetCanvas');
@@ -284,7 +271,6 @@ function modifyOrientation() {
     // Extract the numeric part of the padding value (removing 'px' or other units)
     padding = parseFloat(paddingValue);
     maxHeight = dropContainer.offsetHeight - padding;
-	console.log(maxHeight);
 }
 
 function changeFontSize() {
@@ -296,7 +282,6 @@ function changeFontSize() {
 			// Get the selected color from the dropdown
 			const fontSizeSelect = document.getElementById("fontSizeSelect");
 			const selectedFontSize = fontSizeSelect.value;
-			console.log(selectedFontSize);
 			// Create a new HTML structure with the selected text wrapped in a span with the new color class
 			const span = document.createElement("span");
 			span.className = "w3-font-size-" + selectedFontSize;
@@ -338,7 +323,6 @@ function makeUnderline() {
 			// Replace the selected text with the span
 			const range = selection.getRangeAt(0);
 			let currentSpan = checkForExistingTextSpan(range);
-			console.log(currentSpan);
 
 			if (currentSpan == null) {
 			    range.deleteContents();
@@ -370,7 +354,6 @@ function makeItalic() {
 			// Replace the selected text with the span
 			const range = selection.getRangeAt(0);
 			let currentSpan = checkForExistingTextSpan(range);
-			console.log(currentSpan);
 
 			if (currentSpan == null) {
 				range.deleteContents();
@@ -448,7 +431,6 @@ function checkForExistingTextSpan(range) {
 
 	// Traverse the DOM tree upwards from the selection container
 	let currentNode = range.startContainer;
-	console.log(currentNode);
 	while (currentNode) {
 		if (currentNode.nodeType === Node.ELEMENT_NODE && hasAnyClass(currentNode)) {
 			return currentNode;
@@ -461,7 +443,6 @@ function checkForExistingTextSpan(range) {
 // Table Functions
 function mergeCells(table) {
 	const selectedCells = getSelectedCells(table);
-	console.log(selectedCells);
 	if (selectedCells.length < 2) {
 		alert('Select at least two cells to merge.');
 		return;
@@ -478,17 +459,13 @@ function mergeCells(table) {
 	const sameRow = selectedCells.every(cell => cell.parentElement === firstCell.parentElement);
 	const sameColumn = selectedCells.every(cell => cell.cellIndex === firstCell.cellIndex);
 
-	console.log('Same Row:', sameRow);
-	console.log('Same Column:', sameColumn);
 
 	if (sameRow) {
 		// If in the same row, set colspan to the number of selected cells
 		colspan = selectedCells.length;
-		console.log('Colspan:', colspan);
 	} else if (sameColumn) {
 		// If in different rows, set rowspan to the number of selected cells
 		rowspan = selectedCells.length;
-		console.log('Rowspan:', rowspan);
 	} else {
 	   // Calculate equivalent colspan and rowspan based on the positions of selected cells
 		const firstRowIndex = firstCell.parentElement.rowIndex;
@@ -499,8 +476,6 @@ function mergeCells(table) {
 		// Calculate colspan and rowspan based on cell positions
 		colspan = lastCellIndex - firstCellIndex + 1;
 		rowspan = lastRowIndex - firstRowIndex + 1;
-		console.log('Colspan:', colspan);
-		console.log('Rowspan:', rowspan);
 	}
 
 	// Set rowspan and colspan for the first cell
@@ -547,13 +522,9 @@ function unmergeCells(table) {
 	const rowIndex = firstCell.parentElement.rowIndex;
 	const cellIndex = firstCell.cellIndex;
 
-	console.log(cellIndex);
 
 	const rowspan = parseInt(firstCell.getAttribute('rowspan')) || 1;
 	const colspan = parseInt(firstCell.getAttribute('colspan')) || 1;
-
-	console.log(rowspan);
-	console.log(colspan);
 
 	const originalContent = firstCell.textContent;
 
@@ -569,10 +540,7 @@ function unmergeCells(table) {
 		var colCount = 0;
 		// Iterate to restore original content and appearance for each cell
 		for (let i = 0; i < rowspan; i++) {
-			console.log(i);
 			const newRow = table.rows[rowIndex + i];
-			console.log("Row index: " + (rowIndex + i));
-			console.log(newRow);
 
 			if (newRow) {
 
@@ -580,8 +548,6 @@ function unmergeCells(table) {
 					const newCell = document.createElement('td');
 					newCell.textContent = originalContent;
 
-				console.log(table.rows[0].cells.length);
-				console.log(newRow.cells.length);
 				if (newRow.cells.length == table.rows[0].cells.length) {
 					continue;
 				}
@@ -658,7 +624,6 @@ function addTableColumn(table) {
 
 // Context Menus
 function createContextMenu(x,y,element, table) {
-    console.log(element.classList);
     if (rightClickWidgetActive) {
         while (contextMenu.firstChild) {
             contextMenu.removeChild(contextMenu.firstChild);
@@ -678,7 +643,6 @@ function createContextMenu(x,y,element, table) {
         var isChild = false;
         var deleteButtonSelected;
         var parentContainer = selectedTextBox.parentElement;
-        console.log(parentContainer);
 
         if (parentContainer.classList.contains("container")) {
             isChild = true;
@@ -713,11 +677,9 @@ function createContextMenu(x,y,element, table) {
             isChild = false;
         }
 
-        console.log("got here");
-
         const lockEditOnDeploy = document.createElement('button');
         lockEditOnDeploy.classList.add("button-box");
-        lockEditOnDeploy.innerText = "Lock this field on deployment";
+        lockEditOnDeploy.innerText = "Lock Field";
         lockEditOnDeploy.addEventListener('click', () => {
             if(confirm('Are you sure you want to lock this editable field on deployment?')) {
                 makeInputUneditableOnDeployment();
@@ -728,7 +690,7 @@ function createContextMenu(x,y,element, table) {
 
         const unlockEditOnDeploy = document.createElement('button');
         unlockEditOnDeploy.classList.add("button-box");
-        unlockEditOnDeploy.innerText = "Unlock this field on deployment";
+        unlockEditOnDeploy.innerText = "Unlock Field";
         unlockEditOnDeploy.addEventListener('click', () => {
             if(confirm('Are you sure you want to unlock this editable field on deployment?')) {
                 makeInputEditableOnDeployment();
@@ -769,7 +731,6 @@ function contextMenuButtonsForContainer(element, contextMenu) {
         appendSectionColumn.addEventListener('click', () => {
             if(confirm('Add another section?')) {
                 element = appendGridItem(element);
-                console.log(element);
             }
             contextMenu.remove();
         })
@@ -948,14 +909,10 @@ function addEventListenerToDiv(dropBox) {
     dropBox.addEventListener('drop', (e) => {
         var isContainer = false;
         e.preventDefault();
-        console.log("New max height is: " + maxHeight);
         dropBox.classList.remove('hover');
 
         if (activeDraggable) {
             const boxHeight = calculateDivHeight(activeDraggable);
-            console.log(currentHeight + " is the current height");
-            console.log(boxHeight + " is the new element height");
-            console.log(currentHeight + boxHeight + "px");
 
             if (currentHeight + boxHeight > maxHeight) {
               alert("The page is already full. Delete content to drag more elements.");
@@ -970,9 +927,6 @@ function addEventListenerToDiv(dropBox) {
 
             if (newDiv) {
                 var clonedDiv = newDiv.cloneNode(true);
-                console.log(clonedDiv.classList);
-                // Check if the clonedDiv is a table
-                console.log(clonedDiv.classList);
 
                 // Check if the clonedDiv is a table or contains tables within divs
                 if (clonedDiv.nodeName.toLowerCase() === 'table') {
@@ -983,12 +937,9 @@ function addEventListenerToDiv(dropBox) {
                   clonedDiv = activateTable(clonedDiv);
 
                 } else if (selectedTextBox != null) {
-                    console.log("hi");
                     if (selectedTextBox.classList.contains("grid-item")) {
-                        console.log("section is a container");
                         addEventListenerToDiv(selectedTextBox);
                         containerSize = boxHeight;
-                        console.log("marker--");
                         isContainer = true;
                         const data = e.dataTransfer.getData('text/html');
                         // Create a temporary container to parse and append the data
@@ -1045,7 +996,6 @@ function updatePageHeight() {
 		tempHeight += calculateDivHeight(childElement);
 	}
 	currentHeight = tempHeight;
-	console.log("Current Page Height is: " + tempHeight);
 	return tempHeight;
 }
 
@@ -1107,7 +1057,6 @@ function selectElement(element) {
 	    const clickedElement = event.target;
 	    // Unselect the previously selected text box, if any
 	    if (selectedTextBox && selectedTextBox.getAttribute('id') === "selectedElement") {
-	        console.log("sel check");
             // Check if the "id" attribute matches the selectedElement
 	        selectedTextBox.removeAttribute('contentEditable');
         } else if (selectedTextBox) {
@@ -1121,7 +1070,6 @@ function selectElement(element) {
 		clickedElement.id = 'selectedElement';
 		selectedTextBox = clickedElement;
 
-        console.log(selectedTextBox.classList);
 		selectedTextBox.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             if (selectedTextBox.classList.contains("selected")) {
@@ -1136,6 +1084,5 @@ function selectElement(element) {
 		// Ensure the clicked element is editable
 		clickedElement.removeAttribute('readonly');
 	});
-    console.log(element);
     return element;
 }
