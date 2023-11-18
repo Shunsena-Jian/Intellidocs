@@ -42,7 +42,7 @@ function renderSelectedVersion(){
         success: function(response) {
             if (response.status_code === 0) {
                 // modal success
-                document.getElementById("theContainerOfTheForm").innerHTML = response.formContent;
+                document.getElementById("enginePlaceHolder").innerHTML = response.formContent;
                 hideLoadVersionModal();
             } else if (response.status_code === 1){
                 // modal error
