@@ -958,7 +958,7 @@ function createContextMenu(x,y,element, table) {
 
               const lockEditOnDeploy = document.createElement('button');
                         lockEditOnDeploy.classList.add("button-box");
-                        lockEditOnDeploy.innerText = "Lock this field on deployment";
+                        lockEditOnDeploy.innerText = "Lock field";
 
                         lockEditOnDeploy.addEventListener('click', () => {
                             if(confirm('Are you sure you want to lock this editable field on deployment?')) {
@@ -969,7 +969,7 @@ function createContextMenu(x,y,element, table) {
 
                         const unlockEditOnDeploy = document.createElement('button');
                         unlockEditOnDeploy.classList.add("button-box");
-                        unlockEditOnDeploy.innerText = "Unlock this field on deployment";
+                        unlockEditOnDeploy.innerText = "Unlock field";
 
                         unlockEditOnDeploy.addEventListener('click', () => {
                             if(confirm('Are you sure you want to unlock this editable field on deployment?')) {
@@ -1331,18 +1331,14 @@ function checkCurrentPage() {
 			dropContainers.forEach(dropContainer => {
 //				console.log(dropContainer.id);
 				if (dropContainer.id == pageIDString) {
-					 // Get the parent element of currentPageContent
-						const currentPageParent = currentPageContent.parentElement;
-
-						// Remove currentPageContent from its parent
-						currentPageParent.removeChild(currentPageContent);
-
-						// Set dropContainer as the new currentPageContent
-						currentPageContent = dropContainer;
-						currentHeight = updatePageHeight();
-
-
-					return;
+				    // Get the parent element of currentPageContent
+				    const currentPageParent = currentPageContent.parentElement;
+				    // Remove currentPageContent from its parent
+				    currentPageParent.removeChild(currentPageContent);
+				    // Set dropContainer as the new currentPageContent
+				    currentPageContent = dropContainer;
+				    currentHeight = updatePageHeight();
+				    return;
 				}
 			});
 		currentPage -=1;
@@ -1431,23 +1427,24 @@ function addEventListenerToDiv(dropBox) {
 }
 
 function removeReadOnlyAttributesRecursive(element) {
-  if (element instanceof HTMLElement) {
-    // Check if the element has a readonly attribute
-    if (element.hasAttribute('readonly')) {
-      element.removeAttribute('readonly');
+    if (!element.classList.contains("w3-uneditable")) {
+        if (element instanceof HTMLElement) {
+            // Check if the element has a readonly attribute
+            if (element.hasAttribute('readonly')) {
+              element.removeAttribute('readonly');
+            }
+
+            // Set contentEditable attribute to true
+            element.setAttribute('contentEditable', 'false');
+
+            // Iterate through child elements
+            const childElements = element.children;
+            for (let i = 0; i < childElements.length; i++) {
+                removeReadOnlyAttributesRecursive(childElements[i]);
+            }
+        }
     }
-
-     // Set contentEditable attribute to true
-     element.setAttribute('contentEditable', 'true');
-
-    // Iterate through child elements
-    const childElements = element.children;
-    for (let i = 0; i < childElements.length; i++) {
-      removeReadOnlyAttributesRecursive(childElements[i]);
-
-    }
-  }
-  return element;
+    return element;
 }
 
 function activateElement(clonedDiv, elementType) {
@@ -1477,11 +1474,16 @@ function activateElement(clonedDiv, elementType) {
         // Make all cells in the table editable
         const cells = clonedDiv.querySelectorAll('td');
         cells.forEach((cell) => {
-            cell.setAttribute('contenteditable', 'true');
+            if (!cell.classList.contains("w3-uneditable")) {
+                cell.setAttribute('contenteditable', 'true');
+
+            }
         });
         const cells_head = clonedDiv.querySelectorAll('th');
         cells_head.forEach((cell) => {
-            cell.setAttribute('contenteditable', 'true');
+            if (!cell.classList.contains("w3-uneditable")) {
+                cell.setAttribute('contenteditable', 'true');
+            }
         });
     }
     return clonedDiv;
@@ -1514,33 +1516,29 @@ function selectElement(element) {
 	    const clickedElement = event.target;
 	    // Unselect the previously selected text box, if any
 	    if (selectedTextBox && selectedTextBox.getAttribute('id') === "selected") {
-//	        console.log("sel check");
             // Check if the "id" attribute matches the selectedElement
 	        selectedTextBox.removeAttribute('contentEditable');
         } else if (selectedTextBox && element.classList.contains("drop-container")) {
-          selectedTextBox.removeAttribute('contentEditable');
+           selectedTextBox.removeAttribute('contentEditable');
            var pageID = 'page-' + currentPage;
            selectedTextBox.setAttribute('id', pageID);
         } else if (selectedTextBox) {
             selectedTextBox.removeAttribute('contentEditable');
         }
 
-        if (clickedElement.classList.contains("drop-container")) {
-            console.log("changed current page");
-            console.log(element);
-            currentPageContent = element;
+        if (clickedElement.classList.contains("w3-uneditable")) {
+            clickedElement.setAttribute('contentEditable', 'false');
+            clickedElement.setAttribute('readOnly', 'true');
+        } else {
+            // Select the clicked element
+            clickedElement.setAttribute('contentEditable', 'true');
+            // Ensure the clicked element is editable
+            clickedElement.removeAttribute('readonly');
         }
 
-		// Select the clicked element
-		clickedElement.setAttribute('contentEditable', 'true');
-		clickedElement.id = 'selectedElement';
-		selectedTextBox = clickedElement;
+        clickedElement.id = 'selectedElement';
+        selectedTextBox = clickedElement;
 
-//        console.log(selectedTextBox);
-
-
-		// Ensure the clicked element is editable
-		clickedElement.removeAttribute('readonly');
 	});
 //    console.log(element);
     return element;
