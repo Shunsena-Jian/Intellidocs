@@ -14,7 +14,7 @@ var containerSize;
 var parentContainerSize;
 var selectedSectionContainer;
 
-// Initialize variables
+// On load of page, initialize global variables
 window.onload = function(){
     tables = document.querySelectorAll('.table');
     boxes = document.querySelectorAll('.box');
