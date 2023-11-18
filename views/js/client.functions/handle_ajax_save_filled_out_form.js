@@ -21,7 +21,13 @@ function hideSaveFormModal(){
 
 
 function saveFilledOutForm(){
-    var formBody = document.getElementById('theContainerOfTheForm').innerHTML;
+    var inputFieldValuesJSON = iterateAndGetData();
+    //var formBody = document.getElementById('theContainerOfTheForm').innerHTML;
+    var formBody = document.getElementById('form-content');
+
+    formBody = elementToJson(formBody,inputFieldValuesJSON);
+    getNewKeyID(formBody);
+
 
     const data = {
         formContent: formBody

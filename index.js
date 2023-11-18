@@ -175,11 +175,6 @@ app.get('/downloadfile/:file_name', function(req, res){
 
 //ENGINE
 //-------------------------HTML TO JSON
-
-async function addKeyId(){
-
-}
-
 async function htmlToJson(element) {
     const jsonElementFormat = {
         ele_type: element.nodeName ? element.nodeName.toLowerCase() : 'unknown',
@@ -235,6 +230,7 @@ async function jsonToHTML(jsonDataArray, indentLevel = 0) {
         } else {
             html += '>\n';
 
+        if(jsonData.ele_contents){
             for (const child of jsonData.ele_contents) {
                 if (typeof child === 'object') {
                     html += await jsonToHTML([child], indentLevel + 1);
@@ -242,6 +238,7 @@ async function jsonToHTML(jsonDataArray, indentLevel = 0) {
                     html += `${'    '.repeat(indentLevel + 1)}${child}\n`;
                 }
             }
+        }
 
             html += `${indent}</${jsonData.ele_type}>\n`;
         }
@@ -250,27 +247,7 @@ async function jsonToHTML(jsonDataArray, indentLevel = 0) {
     return html;
 }
 
-/*async function getLatestuserVersion(owner, controlNumber){
-    console.log("looking for " + owner + " of " + controlNumber);
-    var versionList = await filledoutforms.find({ form_control_number : controlNumber, form_owner : owner }).toArray();
-    console.log("logging version list var" + JSON.stringify(versionList));
-    var versionCount = 0;
-    var latestUserVersion = 0;
 
-
-    for(i=0; i < versionList.length; i++){
-        if(versionList[i].form_version >= latestUserVersion){
-            latestUserVersion = versionList[i].form_version;
-        }
-        versionCount = versionCount + 1;
-        console.log("logging version" + versionList[i].form_version + " of " + controlNumber);
-    }
-
-
-    console.log(versionCount);
-    console.log(latestUserVersion + "is the latest version");
-}
-*/
 
 
 //END OF ENGINE
@@ -282,11 +259,11 @@ app.post('/savecreatedform', async function(req, res){
         var time = currentDate.toTimeString().split(' ')[0];
         var formData = req.body;
         //------------------ENGINE PLAYGROUND
-        var v = new JSDOM(formData.formContent);
-        var rootElement = v.window.document.querySelector('.drop-container');
+        //var v = new JSDOM(formData.formContent);
+        //var rootElement = v.window.document.querySelector('.drop-container');
         var jsonArray = [];
-        var w = await htmlToJson(rootElement);
-        jsonArray.push(w);
+        //var w = await htmlToJson(rootElement);
+        jsonArray.push(formData.formContent);
         // var x = JSON.stringify([w],null,2); // goods
         // console.log(x); // goods
 
@@ -323,7 +300,7 @@ app.post('/savecreatedform', async function(req, res){
 
             res.json({ success: true });
         }
-    } catch (error) {
+    }catch (error){
         logStatus("Error at saved created form: " + error);
     }
 });
@@ -335,12 +312,8 @@ app.post('/saveformversion', async function(req, res){
     var latestAssignedUsers = [];
     var formHistory = await forms.find({ form_control_number : formData.formControlNumber }).toArray();
 
-    console.log("THE LENGTH IS" + formHistory.length);
-    console.log("WE ARE LOOKING FOR THIS CONTROL NUMBER " + formData.formControlNumber);
-
-    for(i=0; i < formHistory.length; i++) {
-        console.log("Entered 334 iteration");
-        if(formHistory[i].form_version >= latestVersion) {
+    for(i=0; i < formHistory.length; i++){
+        if(formHistory[i].form_version >= latestVersion){
             latestVersion = formHistory[i].form_version;
             fileUploadStatus = formHistory[i].allow_file_upload;
 
@@ -354,21 +327,15 @@ app.post('/saveformversion', async function(req, res){
     newVersionNumber = latestVersion + 1;
 
     try {
-        var latestForm;
         var currentDate = new Date();
         var date = currentDate.toDateString();
         var time = currentDate.toTimeString().split(' ')[0];
-        var formData = req.body;
-        var v = new JSDOM(formData.formContent);
-        var rootElement = v.window.document.querySelector('.drop-container');
         var jsonArray = [];
-        var w = await htmlToJson(rootElement);
-        jsonArray.push(w);
+        jsonArray.push(formData.formContent);
 
         const formDocument = {
             form_name: formData.name,
             form_control_number: formData.formControlNumber.toString(),
-            //form_content: formData.formContent,
             form_content: jsonArray,
             form_version: newVersionNumber,
             form_status: formData.formStatus,
@@ -379,7 +346,6 @@ app.post('/saveformversion', async function(req, res){
             assigned_users: latestAssignedUsers
         };
 
-        //console.log("This is the Form Document: " + JSON.stringify(formDocument));
         const result = await forms.insertOne(formDocument);
 
         if(debug_mode){
@@ -414,7 +380,6 @@ app.post('/savecreatedwidget', async function(req, res){
             widget_owner: req.session.userEmpID
         };
 
-        //console.log("This is the Form Document: " + JSON.stringify(formDocument));
         const result = await widgets.insertOne(widgetDocument);
 
         if(debug_mode){
@@ -506,14 +471,14 @@ app.put('/savefilledoutform', async function(req, res){
     }
 
     try{
-        var formToSave = req.body;
-        var a = new JSDOM(formToSave.formContent);
-        var rootElement = a.window.document.querySelector('.drop-container');
+        var formData = req.body;
+        //var a = new JSDOM(formToSave.formContent);
+        //var rootElement = a.window.document.querySelector('.drop-container');
         var jsonArray = [];
-        var b = await htmlToJson(rootElement);
-        jsonArray.push(b);
+        //var b = await htmlToJson(rootElement);
+        jsonArray.push(formData.formContent);
 
-        if(!formToSave){
+        if(!formData){
             res.send({ status_code: 1 });
         } else {
             const filledOutDocument = {
@@ -581,7 +546,10 @@ app.get('/formview/:form_control_number', async function (req, res){
         jsonObject = currentForm;
     }else{
         if(userFormVersions == 0){
-            //save latest verion as user version0 to filled out forms
+
+            var latestWriteUsers = [];
+            var latestReadUsers = [];
+
             jsonObject = currentForm;
             const filledOutDocument = {
                 form_name: currentForm.form_name,
@@ -593,7 +561,9 @@ app.get('/formview/:form_control_number', async function (req, res){
                 date_saved: getDateNow(),
                 time_saved: getTimeNow(),
                 user_version: 0,
-                form_owner: req.session.userEmpID
+                form_owner: req.session.userEmpID,
+                read_users: latestReadUsers,
+                write_users: latestWriteUsers
             };
 
             const result = await filledoutforms.insertOne(filledOutDocument);
@@ -2041,8 +2011,18 @@ app.put('/AJAX_formUserViewVersion', async function(req, res) {
             res.send({ status_code : 1 });
         } else {
             let jsonObject = currentUserForm;
-            var e = jsonObject.form_content;
-            var g = await jsonToHTML(e);
+
+            try{
+                var e = jsonObject.form_content;
+            }catch(error){
+                console.log("ERROR AT ECHO " + error);
+            }
+
+            try{
+                var g = await jsonToHTML(e);
+            }catch(error){
+                console.log("ERROR AT golf " + error);
+            }
 
             try{
                 jsonObject.form_content = g;
