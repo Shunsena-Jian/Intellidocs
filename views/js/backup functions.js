@@ -377,3 +377,129 @@ function createTextBox() {
          table.appendChild(tableBody);
          currentPageContent.appendChild(table);
        }
+
+
+function createPageMargin() {
+	const select = document.getElementById("createPageMargin");
+	const selectedValue = select.value;
+
+	// Get all elements with the class "drop-container"
+	var dropContainers = document.querySelectorAll('.drop-container');
+
+	// Remove any existing margin class from all dropContainers
+	dropContainers.forEach(function (dropContainer) {
+		dropContainer.classList.remove('margin-whole-inch', 'margin-half-inch', 'margin-moderate');
+	});
+
+
+	if (selectedValue === "normal") {
+		// Add the new margin class
+		dropContainers.forEach(function (dropContainer) {
+			dropContainer.classList.add('margin-whole-inch');
+			const computedStyle = getComputedStyle(dropContainer);
+			// Extract the padding value
+			const paddingValue = computedStyle.getPropertyValue('padding');
+
+			// Extract the numeric part of the padding value (removing 'px' or other units)
+			padding = parseFloat(paddingValue);
+			maxHeight = dropContainer.offsetHeight - padding;
+		});
+	} else if (selectedValue === "narrow") {
+		// Add the new margin class
+		dropContainers.forEach(function (dropContainer) {
+            dropContainer.classList.add('margin-half-inch');
+
+            const computedStyle = getComputedStyle(dropContainer);
+            // Extract the padding value
+            const paddingValue = computedStyle.getPropertyValue('padding');
+
+            // Extract the numeric part of the padding value (removing 'px' or other units)
+            padding = parseFloat(paddingValue) * 2;
+            maxHeight = dropContainer.offsetHeight - padding;
+		});
+	} else if (selectedValue === "moderate") {
+	    // Add the new margin class
+        dropContainers.forEach(function (dropContainer) {
+            dropContainer.classList.add('margin-moderate');
+            const computedStyle = getComputedStyle(dropContainer);
+            // Extract the padding value
+            const paddingValue = computedStyle.getPropertyValue('padding');
+            // Extract the numeric part of the padding value (removing 'px' or other units)
+            padding = parseFloat(paddingValue);
+            maxHeight = dropContainer.offsetHeight - padding;
+        });
+	}
+//	console.log(padding);
+//	console.log(maxHeight);
+}
+
+
+function makeUnderline() {
+	if (selectedTextBox) {
+            const selectedTextDisplay = document.getElementById("selectedTextDisplay");
+
+            const selection = window.getSelection();
+            const selectedText = selection.toString().trim();
+
+            if (selectedText) {
+                // Create a new HTML structure with the selected text wrapped in a span
+                const span = document.createElement("span");
+                span.className = "w3-underline";
+                span.textContent = selectedText;
+
+                // Replace the selected text with the span
+                const range = selection.getRangeAt(0);
+                let currentSpan = checkForExistingTextSpan(range);
+    //            console.log(currentSpan);
+
+                // There is no span element
+                if (currentSpan == null) {
+                    range.deleteContents();
+                    range.insertNode(span);
+                // The span exists but there is no bold style in the classlist
+                } else if (currentSpan != null && !currentSpan.classList.contains("w3-underline")) {
+                    currentSpan.classList.add('w3-underline');
+                //
+                } else {
+                    var textContent = removeElementAndReturnText(currentSpan, 'w3-underline');
+
+                    // Append the textContent in the current span
+                    currentSpan.appendChild(document.createTextNode(textContent));
+                }
+            }
+        }
+        repositionBoxes();
+}
+
+function makeItalic() {
+    if (selectedTextBox) {
+        const selectedTextDisplay = document.getElementById("selectedTextDisplay");
+		const selection = window.getSelection();
+		const selectedText = selection.toString().trim();
+//        console.log(selectedText);
+        if (selectedText) {
+			// Create a new HTML structure with the selected text wrapped in a span
+			const span = document.createElement("span");
+			span.className = "w3-italic";
+			span.textContent = selectedText;
+
+			// Replace the selected text with the span
+			const range = selection.getRangeAt(0);
+			let currentSpan = checkForExistingTextSpan(range);
+//			console.log(currentSpan);
+
+			if (currentSpan == null) {
+                range.deleteContents();
+                range.insertNode(span);
+			} else if (currentSpan != null && !currentSpan.classList.contains("w3-italic")) {
+				currentSpan.classList.add('w3-italic');
+			} else {
+				var textContent = removeElementAndReturnText(currentSpan, 'w3-italic');
+
+				// Append the textContent in the current span
+				currentSpan.appendChild(document.createTextNode(textContent));
+			}
+		}
+	}
+	repositionBoxes();
+}

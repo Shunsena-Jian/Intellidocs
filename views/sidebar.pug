@@ -184,3 +184,7 @@ block sidebar
     footer#myFooter.w3-bottom.w3-container.w3-theme-l1
         h5(style='text-align:center; font-family: Acme; font-weight:lighter;') SLU IT Project Catalogues
         h6(style='text-align:center; font-family: Acme, monospace; font-weight:lighter;') &copy; 2023 All Rights Reserved
+
+    script.
+        window.userLevel = !{JSON.stringify(currentUserDetailsBlock.userLevel)};
+        console.log("This is the user details block: " + userLevel);
