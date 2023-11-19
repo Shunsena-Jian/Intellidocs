@@ -6,18 +6,17 @@
 }
 
 .page-container {
-  margin: 10px auto;
-  width: 100%; /* Adjust the width as needed */
-  height:  297mm; /* A4 height in pixels */
-  box-sizing: border-box; /* Include padding and border in the width */
-  padding: 10px; /* Add some padding for spacing */
-  overflow-y: auto; /* Make the container scrollable vertically */
-       box-shadow: rgba(0, 0, 0, 0.05) 5px 5px 5px 5px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-  border: 1px solid #ccc;
-
-   max-width: 1000px;
-     max-height: 1000px;
-      overflow-y:auto;
+    margin: 10px auto;
+    width: 100%; /* Adjust the width as needed */
+    height:  300mm; /* A4 height in pixels */
+    box-sizing: border-box; /* Include padding and border in the width */
+    padding: 10px; /* Add some padding for spacing */
+    overflow-y: auto; /* Make the container scrollable vertically */
+    box-shadow: rgba(0, 0, 0, 0.05) 5px 5px 5px 5px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    border: 1px solid #ccc;
+    max-width: 1000px;
+    max-height: 1000px;
+    overflow-y:auto;
 }
 
 
@@ -58,8 +57,8 @@
 
 
 .drop-container.landscape {
-    height: 210mm;
-    width: 297mm;
+    height: 100mm;
+    width: 300mm;
 }
 
 .w3-box {
