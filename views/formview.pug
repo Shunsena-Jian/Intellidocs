@@ -82,8 +82,12 @@ block body
                                 h2 Details
                                 hr
                                 .w3-row
-                                    h4 Status: Active
-                                    h4 Due Date: 11/18/2023
+                                    h4#formDetailsActivateSetting Status: #{form_template.form_status}
+                                    if (!form_template.due_date)
+                                        h4 Due Date : None
+                                    else
+                                        h4#formDueDate Due Date : #{form_template.due_date}
+
 
 
                         .w3-third
@@ -91,14 +95,17 @@ block body
                                 h2 Settings
                                 hr
                                 .w3-row
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
-                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
-                                        |   Activate
+                                    button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
                                 br
                                 .w3-row
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
+                                    label(for="dueDateInput") Due Date
+                                    input(type="date" id="dueDateInput" name="birthday")
+                                br
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='setDueDate()')
                                         i.fa.fa-share-alt.fa-fw.w3-margin-right
                                         |   Set Due Date
+
                         .w3-third
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h2 Assign User
@@ -299,12 +306,116 @@ block body
         var table2 = $('#submittedFormsTable').DataTable();
 
     script.
+        function setDueDate(){
+            var dueDateInput = document.getElementById("dueDateInput").value;
+
+            if(dueDateInput == '' || dueDateInput == undefined || dueDateInput == null){
+                alert("You did not set a due date.");
+            }else{
+
+                var data = {
+                    dueDateInput: dueDateInput,
+                    formControlNumber: form_template.form_control_number
+                }
+
+                $.ajax({
+                    type: 'PUT',
+                    url: '/AJAX_setDueDate',
+                    data: data,
+                    success: function(response){
+                        if(response.status_code === 0){
+                            alert("Due date has been set.");
+                            formDueDate.innerHTML = "Due Date : " + response.dueDate;
+                        }else if(response.status_code === 1){
+                            alert("Error in setting a due date.");
+                        }else if(response.status_code === 2){
+                            alert("Error in setting a due date.");
+                        }
+                    }
+                });
+            }
+        }
+
+
+
+    script.
+        var form_template = !{JSON.stringify(form_template)};
+        var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting");
+        var toggleActivateFormButton = document.getElementById("toggleActivateFormButton");
+
+        formDetailsActivateSetting.innerHTML = "Status : " + form_template.form_status;
+
+        if(form_template.form_status == "Published"){
+            toggleActivateFormButton.innerHTML = "Activate";
+        }else if(form_template.form_status == "In-active"){
+            toggleActivateFormButton.innerHTML = "Activate";
+        }else if(form_template.form_status == "Template"){
+            toggleActivateFormButton.innerHTML = "Activate";
+        }
+
+        function toggleActivateForm(){
+            var confirmationMessage;
+
+            if(form_template.form_status == "Published"){
+                confirmationMessage = "Are you sure you want to ACTIVATE the form?";
+            }else if(form_template.form_status == "Active"){
+                confirmationMessage = "Are you sure you want to DE-ACTIVATE the form?";
+            }else{
+                confirmationMessage = "Are you sure you want to ACTIVATE the form?";
+            }
+
+            var result = window.confirm(confirmationMessage);
+
+            if(result){
+                if(toggleActivateFormButton.innerHTML == "Activate"){
+                    toggleActivateFormButton.innerHTML = "De-activate";
+                }else{
+                    toggleActivateFormButton.innerHTML = "Activate";
+                }
+                AJAX_toggleActivate();
+            }
+
+
+        }
+
+        function AJAX_toggleActivate(){
+            var toggleActivateFormButton = document.getElementById("toggleActivateFormButton");
+            var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting");
+
+            var data = {
+                formControlNumber: form_template.form_control_number,
+                targetedVersion: form_template.form_version
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: '/AJAX_toggleActivate',
+                data: data,
+                success: function(response){
+                    if(response.status_code === 0){
+                        if(formDetailsActivateSetting.innerHTML == "Status : Published"){
+                            formDetailsActivateSetting.innerHTML = "Status : Active";
+                        }else if(formDetailsActivateSetting.innerHTML == "Status : Active"){
+                            formDetailsActivateSetting.innerHTML = "Status : In-active";
+                        }else{
+                            formDetailsActivateSetting.innerHTML = "Status : Active";
+                        }
+                    }else if(response.status_code === 1){
+                        alert("Failure did not GRADUATE");
+                    }else if(response.status_code === 2){
+                        alert("Server Failed");
+                    }
+                }
+            });
+        }
+
         function validateAssignUsers(){
             selectedUserToAssign = document.getElementById('assign_user').value;
 
             if(!selectedUserToAssign){
-                alert("Please enter an email to share the form to.");
+                alert("Please enter an email to assign the form to.");
             } else {
+                alert("the control number is " + formControlNumber);
                 const data = {
                     assignedUser: selectedUserToAssign,
                     formControlNumber: formControlNumber

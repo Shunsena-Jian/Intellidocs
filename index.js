@@ -259,7 +259,9 @@ app.post('/savecreatedform', async function(req, res){
                 shared_status: false,
                 allow_file_upload: false,
                 date_saved: getDateNow(),
-                time_saved: getTimeNow()
+                time_saved: getTimeNow(),
+                assigned_users: [],
+                due_date: null
             };
 
             const result = await forms.insertOne(formDocument);
@@ -309,7 +311,8 @@ app.post('/saveformversion', async function(req, res){
             allow_file_upload: fileUploadStatus,
             date_saved: getDateNow(),
             time_saved: getTimeNow(),
-            assigned_users: latestAssignedUsers
+            assigned_users: latestAssignedUsers,
+            due_date: null
         };
 
         const result = await forms.insertOne(formDocument);
@@ -433,6 +436,7 @@ app.put('/savefilledoutform', async function(req, res){
                 form_version: currentForm.form_version,
                 form_status: currentForm.form_status,
                 shared_status: latestSharedStatus,
+                allow_file_upload: Boolean(currentForm.form_version),
                 date_saved: getDateNow(),
                 time_saved: getTimeNow(),
                 user_version: latestUserVersion + 1,
@@ -469,7 +473,7 @@ app.get('/formview/:form_control_number', async function (req, res){
     var retrievedUserEmails;
     var selectedFormControlNumberToView = req.params.form_control_number;
     formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
-    var allVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+    var allVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID }).toArray();
     var latestVersion = 0;
     var latestUserVersion = 0;
 
@@ -480,6 +484,7 @@ app.get('/formview/:form_control_number', async function (req, res){
     }
 
     var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
+    var formTemplate = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
     var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
     var latestUserForm;
     var jsonObject;
@@ -502,6 +507,7 @@ app.get('/formview/:form_control_number', async function (req, res){
                 form_version: currentForm.form_version,
                 form_status: "On-going",
                 shared_status: Boolean(currentForm.shared_status),
+                allow_file_upload : Boolean(currentForm.allow_file_upload),
                 date_saved: getDateNow(),
                 time_saved: getTimeNow(),
                 user_version: 0,
@@ -542,7 +548,8 @@ app.get('/formview/:form_control_number', async function (req, res){
         currentForm: jsonObject,
         currentUserPicture: currentUserPicture,
         allVersions: allVersions,
-        min_idleTime: min_idleTime
+        min_idleTime: min_idleTime,
+        form_template : formTemplate
     });
 });
 
@@ -551,20 +558,20 @@ app.put('/shareform', async function(req, res){
         var formData = req.body;
         var selectedFormControlNumberToView = formData.formControlNumber;
         var formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
-        var latestVersion = 0;
-
-        for(i=0; i < formVersions.length; i++){
-            if(formVersions[i].form_version >= latestVersion){
-                latestVersion = formVersions[i].form_version;
-            }
-        }
+//        var latestVersion = 0;
+//
+//        for(i=0; i < formVersions.length; i++){
+//            if(formVersions[i].form_version >= latestVersion){
+//                latestVersion = formVersions[i].form_version;
+//            }
+//        }
 
         if(!formData.shareTo){
             res.send({status_code : 1});
         }else{
             if(formData.sharedUserPrivileges == 'Viewer'){
-                const result = await filledoutforms.findOneAndUpdate(
-                    { form_control_number : selectedFormControlNumberToView, form_version : latestVersion },
+                const result = await filledoutforms.updateMany(
+                    { form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID },
                     { $addToSet: { "read_users" : formData.shareTo } },
                     { returnNewDocument : true }
                 );
@@ -580,8 +587,8 @@ app.put('/shareform', async function(req, res){
 
                 res.send({ status_code: 0 });
             }else if (formData.sharedUserPrivileges == 'Editor'){
-                const result = await filledoutforms.findOneAndUpdate(
-                    { form_control_number : selectedFormControlNumberToView, form_version : latestVersion },
+                const result = await filledoutforms.updateMany(
+                    { form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID },
                     { $addToSet: { "write_users" : formData.shareTo } },
                     { returnNewDocument : true }
                 );
@@ -1015,12 +1022,14 @@ app.get('/viewforms', async function(req, res){
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
-            var allPublishedForms = await forms.find({ form_status : "Published" }).toArray();
-            var allAssignedForms = await forms.find({ assigned_users : req.session.userEmpID }).toArray();
+//            var allPublishedForms = await forms.find({ form_status : "Published" }).toArray();
+            var allPublishedForms = await forms.find({ form_status: { $in: ["Published", "Active"] } }).toArray();
+            var allAssignedForms = await forms.find({ assigned_users : req.session.userEmpID, form_status : { $in: ["Active", "Submitted"] } }).toArray();
             var allSharedForms = await forms.find({
                 $or: [
                     { read_users : req.session.userEmpID },
-                    { write_users : req.session.userEmpID }
+                    { write_users : req.session.userEmpID },
+                    { form_owner : req.session.userEmpID }
                 ]
             }).toArray();
 
@@ -1072,6 +1081,7 @@ app.get('/viewformtemplates', async function(req, res){
         currentForms = await getForms(req.session.userEmpID);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
+        currentForms = getUniqueForms(currentForms);
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
@@ -1560,26 +1570,102 @@ app.post('/update-Password', async function(req, res){
 app.put('/AJAX_assignUsers', async function(req, res){
     if(req.session.loggedIn){
         var formData = req.body;
-        var selectedFormControlNumberToView = formData.formControlNumber;
-        allForms = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+        var formControlNumber = formData.formControlNumber;
+
+        allForms = await forms.find({ form_control_number : formControlNumber }).toArray();
 
         try{
-            for( i = 0; i < allForms.length; i++){
-                if(allForms[i].form_control_number == selectedFormControlNumberToView){
-                    updateDocument = await forms.updateMany(
-                        { form_control_number : selectedFormControlNumberToView },
-                        { $addToSet: { "assigned_users" : formData.assignedUser } }
+            updateDocument = await forms.updateMany(
+                { form_control_number : formControlNumber },
+                { $addToSet: { "assigned_users" : formData.assignedUser } }
+                );
+
+            res.send({ status_code : 0 });
+        }catch(error){
+            logError('There was an error at AJAX function in assigning users: ' + error);
+            res.send({ status_code : 2 });
+        }
+
+    }else{
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_setDueDate', async function(req, res){
+    if(req.session.loggedIn){
+        var formData = req.body;
+        var selectedFormControlNumberToView = formData.formControlNumber;
+//        var formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+        var updateDocument;
+
+        try{
+            updateDocument = await forms.updateMany(
+                { form_control_number : selectedFormControlNumberToView },
+                { $set: { due_date: formData.dueDateInput } }
+            );
+            res.send({ status_code : 0, dueDate : formData.dueDateInput });
+
+
+        }catch(error){
+            logError("There was an error at ajax function setting due date: " + error);
+            res.send({ status_code : 1 });
+        }
+    }else{
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_toggleActivate', async function(req, res){
+    if(req.session.loggedIn){
+        var formData = req.body;
+        var selectedFormControlNumberToView = formData.formControlNumber;
+        var targetedVersion = parseInt(formData.targetedVersion, 10);
+        targetedForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version : targetedVersion });
+        var updateDocument;
+
+        try{
+            if(targetedForm.form_status == "Published"){
+                try{
+                    updateDocument = await forms.findOneAndUpdate(
+                        { form_control_number : selectedFormControlNumberToView, form_version : targetedVersion },
+                        { $set: { form_status: "Active" } }
                     );
                     res.send({ status_code : 0 });
-                }else{
+                }catch(error){
+                    logError("There was an error at activating form: " + error);
+                    res.send({ status_code : 1 });
+                }
+            }else if(targetedForm.form_status == "Active"){
+                try{
+                    updateDocument = await forms.findOneAndUpdate(
+                        { form_control_number : selectedFormControlNumberToView, form_version : targetedVersion },
+                        { $set: { form_status: "In-active" } }
+                    );
+                    res.send({ status_code : 0 });
+                }catch(error){
+                    logError("There was an error at de-activating form: " + error);
+                    res.send({ status_code : 1 });
+                }
+            }else{
+                try{
+                    updateDocument = await forms.findOneAndUpdate(
+                        { form_control_number : selectedFormControlNumberToView, form_version : targetedVersion },
+                        { $set: { form_status: "Active" } }
+                    );
+                    res.send({ status_code : 0 });
+                }catch(error){
+                    logError("There was an error at de-activating form: " + error);
                     res.send({ status_code : 1 });
                 }
             }
         }catch(error){
-            logError('There was an error at AJAX function in assigning users.');
+            logError("There was an error at ajax function toggle activate form: " + error);
             res.send({ status_code : 2 });
         }
-
     }else{
         res.render('login', {
             title: 'Login Page'
@@ -1811,7 +1897,7 @@ app.put('/AJAX_viewFormVersion', async function(req, res) {
 app.put('/AJAX_formUserViewVersion', async function(req, res) {
     if(req.session.loggedIn){
         var formData = req.body;
-        var currentUserForm = await filledoutforms.findOne({ form_control_number: formData.formControlNumber, user_version: parseInt(formData.userVersionChoice, 10) });
+        var currentUserForm = await filledoutforms.findOne({ form_control_number: formData.formControlNumber, user_version: parseInt(formData.userVersionChoice, 10), form_owner : req.session.userEmpID });
 
         if(!currentUserForm){
             logStatus("Could not find the form.");
