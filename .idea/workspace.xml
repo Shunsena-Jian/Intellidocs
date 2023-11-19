@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/IntelliDocs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FINAL BRANCH.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_11_2023_5_38_am__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_11_2023_5_38_am__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dbinit.js" beforeDir="false" afterPath="$PROJECT_DIR$/dbinit.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/whatwg-encoding/node_modules/iconv-lite/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/whatwg-encoding/node_modules/iconv-lite/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/whatwg-encoding/node_modules/iconv-lite/.idea/iconv-lite.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/whatwg-encoding/node_modules/iconv-lite/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/whatwg-encoding/node_modules/iconv-lite/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/whatwg-encoding/node_modules/iconv-lite/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/views/createform.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createform.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/js/client.engine/htmlToJson.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.engine/htmlToJson.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_load_version.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_load_version.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_save_filled_out_form.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_save_filled_out_form.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewformtemplate.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewformtemplate.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,24 +23,25 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2YMlDyWTuW2a3Tes9eOK0nkJkrz" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/fogef/OneDrive/Desktop/the sacred timeline/FINAL BRANCH/FINAL BRANCH"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/fogef/OneDrive/Desktop/the sacred timeline/FINAL BRANCH/FINAL BRANCH&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

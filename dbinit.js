@@ -7,7 +7,7 @@ function initializeDatabaseConnection(url,dbName){
         client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
         client.connect();
         db = client.db(dbName);
-        console.log("Connected to the Database.");
+        console.log("Connected to the Database successfully!.");
         return db;
     } catch(error) {
         console.log("Failed to connect to the Database! ");
@@ -21,7 +21,7 @@ function initializeFormsCollectionConnection(db){
     var forms;
     try{
         forms = db.collection('forms');
-        console.log("Connected to the Database Forms Collection.");
+        console.log("Connected to the Database Forms Collection successfully!.");
         return forms;
     } catch(error){
         console.log(error);
@@ -33,7 +33,7 @@ function initializeUsersCollectionConnection(db){
     var users;
     try{
         users = db.collection('users');
-        console.log("Connected to the Database Users Collection.");
+        console.log("Connected to the Database Users Collection successfully!.");
         return users;
     }catch(error){
         console.log(error);
@@ -45,7 +45,7 @@ function initializeFilesCollectionConnection(db){
     var files;
     try{
         files = db.collection('files');
-        console.log("Connected to the Database Files Collection.");
+        console.log("Connected to the Database Files Collection successfully!.");
         return files;
     }catch(error){
         console.log(error);
@@ -57,7 +57,7 @@ function initializeNotificationsCollectionConnection(db){
     var notifications;
     try{
         notifications = db.collection('notifications');
-        console.log("Connected to the Database Notifications Collection.");
+        console.log("Connected to the Database Notifications Collection successfully!.");
         return notifications;
     }catch(error){
         console.log(error);
@@ -69,7 +69,7 @@ function initializePrivilegesCollectionConnection(db){
     var privileges;
     try{
         privileges = db.collection('privileges');
-        console.log("Connected to the Database Privileges Collection.");
+        console.log("Connected to the Database Privileges Collection successfully!.");
         return privileges;
     }catch(error){
         console.log(error);
@@ -81,7 +81,7 @@ function initializeWidgetsCollectionConnection(db){
     var widgets;
     try{
         widgets = db.collection('widgets');
-        console.log("Connected to the Database Wdigets Collection.");
+        console.log("Connected to the Database Wdigets Collection successfully!.");
         return widgets;
     }catch(error){
         console.log(error);
@@ -92,7 +92,7 @@ function initializeFilledOutFormCollectionConnection(db){
     var filledoutforms;
     try{
         filledoutforms = db.collection('filledoutforms');
-        console.log("Connected to the Database Filled Out Forms Collection.");
+        console.log("Connected to the Database Filled Out Forms Collection successfully!.");
         return filledoutforms;
     } catch(error){
         console.log(error);

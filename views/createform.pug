@@ -77,14 +77,10 @@ block body
             var formName = document.getElementById('formName').value;
             var formControlNumber = document.getElementById('formControlNumber').value;
 
-            alert("will now call engine!");
+            var inputFieldValuesJSON = [];
+            formBody = elementToJson(formBody,inputFieldValuesJSON);
 
-            formBody = elementToJson(formBody);
             getNewKeyID(formBody);
-            //formBody = JSON.stringify(formBody);
-
-            //console.log(formBody);
-
 
             if (formBody === null || formBody === "" || formName === null || formName === "" || formControlNumber === null || formControlNumber === "") {
                 alert("Form Body, Form Name, or Form Control Number is empty!");

@@ -37,7 +37,13 @@ const filledoutforms = initializeFilledOutFormCollectionConnection(db);
 
 const port = config.port;
 const debug_mode = config.debug_mode;
-const min_idleTime = config.min_idleTime;
+
+var configMinimumHandlingTime = config.min_idleTime;
+if(configMinimumHandlingTime < 60000){
+    configMinimumHandlingTime = 60000;
+}
+const min_idleTime = configMinimumHandlingTime;
+
 const server = http.createServer(app);
 const io = socketIo(server);
 
@@ -65,37 +71,28 @@ app.use(
     })
 );
 
-
-server.listen(port, () => {
+server.listen(port, () =>{
     console.log("Server started \nPort: " + port + "\nDebug mode: " + debug_mode + "\nMinimum User idle time: " + min_idleTime);
 });
 
+io.on('connection', (socket) =>{
 
-// WebSocket logic
-io.on('connection', (socket) => {
-    //console.log('A user connected');
-
-    //const sessionData = socket.handshake.session;
-    //console.log('Session data:', sessionData);
-
-    socket.on('manualPing', (data) => {
+    socket.on('manualPing', (data) =>{
         console.log('Received client ping:', data);
         socket.emit('manualPong', 'Server received: ' + data);
     });
 
-    socket.on('disconnect', () => {
-        //console.log('A user disconnected');
+    socket.on('disconnect', () =>{
     });
 });
 
-
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function (req, file, cb){
         const uploadDirectory = 'uploads/' + req.session.userEmpID;
         fs.mkdirSync(uploadDirectory, { recursive: true });
         cb(null, uploadDirectory);
     },
-    filename: function (req, file, cb) {
+    filename: function (req, file, cb){
         cb(null, file.originalname);
     }
 });
@@ -103,12 +100,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const pictureStorage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function (req, file, cb){
         const uploadDirectory = 'views/profile_pictures/' + req.session.userEmpID;
         fs.mkdirSync(uploadDirectory, { recursive: true });
         cb(null, uploadDirectory);
     },
-    filename: function (req, file, cb) {
+    filename: function (req, file, cb){
         cb(null, file.originalname);
     }
 });
@@ -118,15 +115,14 @@ const pictureUpload = multer({ storage: pictureStorage });
 app.get('/deletefile/:file_name', function(req, res){
     var selectedFileForDeletion = req.params.file_name;
 
-    if(debug_mode){
-        logStatus("No file being deleted get delete file function: " + selectedFileForDeletion);
-    }
+    logStatus("No file being deleted get delete file function: " + selectedFileForDeletion);
 
-    function deleteFile(filePath, callback) {
-        fs.unlink(filePath, function (err) {
-            if (err) {
-                callback(err);
-            } else {
+    function deleteFile(filePath, callback){
+        fs.unlink(filePath, function (error){
+            if(error){
+                logError(error);
+                callback(error);
+            }else{
                 callback(null);
             }
         });
@@ -134,29 +130,21 @@ app.get('/deletefile/:file_name', function(req, res){
 
     var filePathToDelete = "uploads/" + req.session.userEmpID + "/"  + selectedFileForDeletion;
 
-    deleteFile(filePathToDelete, function (err) {
-        if (err) {
-            if(debug_mode){
-                logStatus("Error deleting file:" + err);
-            }
-        } else {
-            if(debug_mode){
-                logStatus("File deleted successfully.");
-            }
+    deleteFile(filePathToDelete, function (error){
+        if(error){
+            logError("Error deleting file:" + error);
+        }else{
+            logStatus("File deleted successfully.");
         }
     });
 
     const deleteCriteria = {file_name: selectedFileForDeletion, uploadedBy: req.session.userEmpID};
 
-    files.deleteOne(deleteCriteria, function (err, result) {
-        if (err) {
-            if(debug_mode){
-                logStatus("Error deleting document:" + err);
-            }
-        } else {
-            if(debug_mode){
-                logStatus("Document deleted successfully.")
-            }
+    files.deleteOne(deleteCriteria, function (error, result){
+        if(error){
+            logError("Error deleting document:" + error);
+        }else{
+           logStatus("Document deleted successfully.")
         }
     });
     res.redirect('/');
@@ -164,10 +152,7 @@ app.get('/deletefile/:file_name', function(req, res){
 
 app.get('/downloadfile/:file_name', function(req, res){
     var selectedFileForDownload = req.params.file_name;
-
-    if(debug_mode){
-        logStatus("User entered download request: " + selectedFileForDownload);
-    }
+    logStatus("User entered download request: " + selectedFileForDownload);
 
     res.download("./uploads/" + req.session.userEmpID + "/" + selectedFileForDownload);
 
@@ -175,7 +160,7 @@ app.get('/downloadfile/:file_name', function(req, res){
 
 //ENGINE
 //-------------------------HTML TO JSON
-async function htmlToJson(element) {
+async function htmlToJson(element){
     const jsonElementFormat = {
         ele_type: element.nodeName ? element.nodeName.toLowerCase() : 'unknown',
         ele_attributes: {
@@ -184,54 +169,54 @@ async function htmlToJson(element) {
         ele_contents: [],
     };
 
-    if (element.attributes) {
-        for (let i = 0; i < element.attributes.length; i++) {
+    if(element.attributes){
+        for (let i = 0; i < element.attributes.length; i++){
             const attr = element.attributes.item(i);
             jsonElementFormat.ele_attributes[attr.name] = attr.value;
         }
     }
 
-    if (element.childNodes) {
-        for (let i = 0; i < element.childNodes.length; i++) {
+    if(element.childNodes){
+        for(let i = 0; i < element.childNodes.length; i++){
             const childNode = element.childNodes[i];
-            if (childNode.nodeType === 1) {
+            if(childNode.nodeType === 1){
                 const childJson = await htmlToJson(childNode);
                 jsonElementFormat.ele_contents.push(childJson);
-            } else if (childNode.nodeType === 3) {
+            }else if (childNode.nodeType === 3){
                 const trimmedText = childNode.textContent.trim();
-                if (trimmedText !== '') {
+                if(trimmedText !== ''){
                     jsonElementFormat.ele_contents.push(trimmedText);
                 }
             }
         }
     }
-
     return jsonElementFormat;
 }
+
 //-------------------------JSON TO HTML
 
-async function jsonToHTML(jsonDataArray, indentLevel = 0) {
+async function jsonToHTML(jsonDataArray, indentLevel = 0){
     const selfClosingTags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
     const indent = '    '.repeat(indentLevel);
 
     let html = '';
 
-    for (const jsonData of jsonDataArray) {
+    for(const jsonData of jsonDataArray){
         html += `${indent}<${jsonData.ele_type}`;
 
-        for (const [attributeName, attributeValue] of Object.entries(jsonData.ele_attributes)) {
+        for(const [attributeName, attributeValue] of Object.entries(jsonData.ele_attributes)){
             html += ` ${attributeName}="${attributeValue}"`;
         }
 
         const isSelfClosing = selfClosingTags.includes(jsonData.ele_type);
 
-        if (isSelfClosing) {
+        if(isSelfClosing){
             html += '>\n';
-        } else {
+        }else{
             html += '>\n';
 
         if(jsonData.ele_contents){
-            for (const child of jsonData.ele_contents) {
+            for(const child of jsonData.ele_contents){
                 if (typeof child === 'object') {
                     html += await jsonToHTML([child], indentLevel + 1);
                 } else {
@@ -240,48 +225,34 @@ async function jsonToHTML(jsonDataArray, indentLevel = 0) {
             }
         }
 
-            html += `${indent}</${jsonData.ele_type}>\n`;
+        html += `${indent}</${jsonData.ele_type}>\n`;
         }
     }
 
     return html;
 }
 
-
-
-
 //END OF ENGINE
+
 app.post('/savecreatedform', async function(req, res){
-    try {
+    try{
         var latestForm;
         var currentDate = new Date();
         var date = currentDate.toDateString();
         var time = currentDate.toTimeString().split(' ')[0];
         var formData = req.body;
-        //------------------ENGINE PLAYGROUND
-        //var v = new JSDOM(formData.formContent);
-        //var rootElement = v.window.document.querySelector('.drop-container');
+
         var jsonArray = [];
-        //var w = await htmlToJson(rootElement);
+
         jsonArray.push(formData.formContent);
-        // var x = JSON.stringify([w],null,2); // goods
-        // console.log(x); // goods
-
-        // var y = JSON.parse(x);
-        // var z = await jsonToHTML(y);
-        // console.log(z);
-        //------------------END OF PLAYGROUND
-
-        // PLAYGROUND NI JIAN
         latestForm = await forms.findOne({ form_name : formData.name });
 
         if(latestForm && formData.name === latestForm.form_name){
-            res.json({ status_code : 1 });// Form Name already exists
-        } else {
+            res.json({ status_code : 1 });
+        }else{
             const formDocument = {
                 form_name: formData.name,
                 form_control_number: formData.formControlNumber.toString(),
-                //form_content: formData.formContent,
                 form_content: jsonArray,
                 form_version: 0,
                 form_status: formData.formStatus,
@@ -291,17 +262,12 @@ app.post('/savecreatedform', async function(req, res){
                 time_saved: getTimeNow()
             };
 
-            //console.log("This is the Form Document: " + JSON.stringify(formDocument));
             const result = await forms.insertOne(formDocument);
-
-            if(debug_mode){
-                logStatus("Created form saved at database: " + result);
-            }
-
+            logStatus("Created form saved at database: " + result);
             res.json({ success: true });
         }
-    }catch (error){
-        logStatus("Error at saved created form: " + error);
+    }catch(error){
+        logError("Error at saved created form: " + error);
     }
 });
 
@@ -326,7 +292,7 @@ app.post('/saveformversion', async function(req, res){
     }
     newVersionNumber = latestVersion + 1;
 
-    try {
+    try{
         var currentDate = new Date();
         var date = currentDate.toDateString();
         var time = currentDate.toTimeString().split(' ')[0];
@@ -347,32 +313,17 @@ app.post('/saveformversion', async function(req, res){
         };
 
         const result = await forms.insertOne(formDocument);
-
-        if(debug_mode){
-            logStatus("Saved new form version in database: " + result);
-        }
-
+        logStatus("Saved new form version in database: " + result);
         res.json({ success: true });
 
-    } catch (error) {
-        logStatus("Error at save form version: " + error);
+    }catch (error){
+        logError("Error at save form version: " + error);
     }
 });
 
 app.post('/savecreatedwidget', async function(req, res){
-    try {
+    try{
         var widgetData = req.body;
-        //------------------ENGINE PLAYGROUND ---- WILL CONVERT WIDGET TO JSON WHEN ENGINE READY
-        //var v = new JSDOM(formData.formContent);
-        //var rootElement = v.window.document.querySelector('.drop-container');
-        //var w = await htmlToJson(rootElement);
-        //var x = JSON.stringify([w],null,2); // goods
-        //console.log(x); // goods
-
-        //var y = JSON.parse(x);
-        //var z = await jsonToHTML(y);
-        //console.log(z);
-        //------------------END OF PLAYGROUND
 
         const widgetDocument = {
             widget_name: widgetData.name,
@@ -381,13 +332,10 @@ app.post('/savecreatedwidget', async function(req, res){
         };
 
         const result = await widgets.insertOne(widgetDocument);
+        logStatus("Saved created widget in database: " + result);
 
-        if(debug_mode){
-            logStatus("Saved created widget in database: " + result);
-        }
-
-    } catch (error) {
-        logStatus("Error at save created widget: " + error);
+    }catch(error){
+        logError("Error at save created widget: " + error);
     }
     res.json({ success: true });
 });
@@ -415,8 +363,8 @@ app.post('/formautosave', async function (req, res){
 
         const result = await filledoutforms.insertOne(formDocument);
         res.send({ status_code : 0});
-    } catch (error) {
-        logStatus("Error at form view POST: " + error);
+    }catch (error){
+        logError("Error at form view POST: " + error);
     }
 
 });
@@ -472,21 +420,18 @@ app.put('/savefilledoutform', async function(req, res){
 
     try{
         var formData = req.body;
-        //var a = new JSDOM(formToSave.formContent);
-        //var rootElement = a.window.document.querySelector('.drop-container');
         var jsonArray = [];
-        //var b = await htmlToJson(rootElement);
         jsonArray.push(formData.formContent);
 
         if(!formData){
             res.send({ status_code: 1 });
-        } else {
+        }else{
             const filledOutDocument = {
                 form_name: currentForm.form_name,
                 form_control_number: currentForm.form_control_number,
                 form_content: jsonArray,
                 form_version: currentForm.form_version,
-                form_status: currentForm.form_status,// add function to identify form type from ongoing to submitted
+                form_status: currentForm.form_status,
                 shared_status: latestSharedStatus,
                 date_saved: getDateNow(),
                 time_saved: getTimeNow(),
@@ -497,7 +442,6 @@ app.put('/savefilledoutform', async function(req, res){
             };
 
             const result = await filledoutforms.insertOne(filledOutDocument);
-
             userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
 
             for(i=0; i < userFormVersions.length; i++){
@@ -507,8 +451,8 @@ app.put('/savefilledoutform', async function(req, res){
             }
             res.send({ status_code : 0, allUserFormVersions : allUserFormVersions });
         }
-    } catch (error) {
-        logStatus("There is an error at save filled out form: " + error);
+    }catch (error){
+        logError("There is an error at save filled out form: " + error);
     }
 });
 
@@ -583,8 +527,7 @@ app.get('/formview/:form_control_number', async function (req, res){
         }
     }
 
-
-    console.log("This is the json object: " + jsonObject);
+    logStatus("This is the json object: " + jsonObject);
     var e = jsonObject.form_content;
     var g = await jsonToHTML(e);
     jsonObject.form_content = g;
@@ -618,7 +561,7 @@ app.put('/shareform', async function(req, res){
 
         if(!formData.shareTo){
             res.send({status_code : 1});
-        } else {
+        }else{
             if(formData.sharedUserPrivileges == 'Viewer'){
                 const result = await filledoutforms.findOneAndUpdate(
                     { form_control_number : selectedFormControlNumberToView, form_version : latestVersion },
@@ -636,7 +579,7 @@ app.put('/shareform', async function(req, res){
                 });
 
                 res.send({ status_code: 0 });
-            } else if (formData.sharedUserPrivileges == 'Editor') {
+            }else if (formData.sharedUserPrivileges == 'Editor'){
                 const result = await filledoutforms.findOneAndUpdate(
                     { form_control_number : selectedFormControlNumberToView, form_version : latestVersion },
                     { $addToSet: { "write_users" : formData.shareTo } },
@@ -654,14 +597,12 @@ app.put('/shareform', async function(req, res){
 
                 res.send({ status_code: 0 });
             } else {
-                if(debug_mode){
-                    logStatus("Could not insert shared user.");
-                }
+                logStatus("Could not insert shared user.");
                 res.send({ status_code: 2 });
             }
         }
-    } catch(error) {
-        logStatus("Error at share form POST: " + error);
+    }catch(error){
+        logError("Error at share form POST: " + error);
     }
 });
 
@@ -687,23 +628,10 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
         currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_version: latestVersion });
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
-        //--
-        //let jsonObject = JSON.parse(currentForm);
         let jsonObject = currentForm;
         var e = jsonObject.form_content;
         var g = await jsonToHTML(e);
-        try{
-            // console.log("hindi nag error");
-            // console.log(g);
-            //console.log(jsonObject.form_content );
-            jsonObject.form_content = g;
-
-
-            //updatedJsonString = JSON.stringify(jsonObject);
-        }catch{
-            console.log('NAG ERROR NA NANG SOBRA')
-        }
-        //--
+        jsonObject.form_content = g;
 
         res.render('viewformtemplate', {
             title: 'View Forms',
@@ -718,12 +646,12 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
         });
 
     }catch(error){
-        logStatus("Error at viewformtemplate with controlnumber: " + error);
+        logError("Error at viewformtemplate with controlnumber: " + error);
     }
 });
 
-app.get('/', async function (req, res) {
-    try {
+app.get('/', async function (req, res){
+    try{
         if (!req.session.loggedIn) {
             res.redirect('login');
             return;
@@ -745,13 +673,13 @@ app.get('/', async function (req, res) {
             });
         }
 
-    } catch (error) {
-        logStatus("Error at index: " + error);
+    }catch (error){
+        logError("Error at index: " + error);
     }
 });
 
-app.get('/accountsettings', async function (req, res) {
-    try {
+app.get('/accountsettings', async function (req, res){
+    try{
         if (!req.session.loggedIn) {
             res.redirect('login');
             return;
@@ -773,65 +701,50 @@ app.get('/accountsettings', async function (req, res) {
             });
         }
 
-    } catch (error) {
-        logStatus("Error at account settings: " + error);
+    }catch (error){
+        logError("Error at account settings: " + error);
     }
 });
 
-app.post('/', upload.single('file'), async function (req, res) {
+app.post('/', upload.single('file'), async function (req, res){
     const uploadedFile = req.file;
+    logStatus("Received file: " + req.file);
 
-    if(debug_mode){
-        logStatus("Received file: " + req.file);
-    }
-
-    if (!uploadedFile) {
-
-        if(debug_mode){
-            logStatus("No file Uploaded");
-        }
-
+    if(!uploadedFile){
+        logStatus("No file Uploaded");
     }else{
         const { originalname, size } = uploadedFile;
-
-        if(debug_mode){
-            logStatus("File Uploaded Successfully in " + `/uploads/${currentUserDetailsBlock.firstName}/${originalname}`);
-        }
+        logStatus("File Uploaded Successfully in " + `/uploads/${currentUserDetailsBlock.firstName}/${originalname}`);
 
         try{
             uploadInfo = {
                 "file_name": originalname,
                 "file_size": size,
-                "uploadedBy": req.session.userEmpID, // Replace with appropriate user information
-                "uploadedAt": new Date() // Include a timestamp
+                "uploadedBy": req.session.userEmpID,
+                "uploadedAt": new Date()
             };
+
             result = await files.insertOne(uploadInfo);
-
-            if(debug_mode){
-                logStatus("Saved file in database : " + uploadInfo);
-            }
-
+            logStatus("Saved file in database : " + uploadInfo);
             const documents = await getFiles(req.session.userEmpID);
 
             res.json({documents});
-        } catch(error){
-            logStatus("Error at index post upload file: " + error);
+        }catch(error){
+            logError("Error at index post upload file: " + error);
         }
     }
 });
 
-app.delete('/ajaxdelete/:file_name', async function (req, res) {
+app.delete('/ajaxdelete/:file_name', async function (req, res){
 
     var selectedFileForDeletion = req.params.file_name;
-
-    if(debug_mode){
-        logStatus("No file being selected to delete: " + selectedFileForDeletion);
-    }
+    logStatus("No file being selected to delete: " + selectedFileForDeletion);
 
     function deleteFile(filePath, callback) {
-        fs.unlink(filePath, function (err) {
-            if (err) {
-                callback(err);
+        fs.unlink(filePath, function (error) {
+            if (error) {
+                logError(error);
+                callback(error);
             } else {
                 callback(null);
             }
@@ -840,29 +753,21 @@ app.delete('/ajaxdelete/:file_name', async function (req, res) {
 
     var filePathToDelete = "uploads/" + req.session.userEmpID + "/"  + selectedFileForDeletion;
 
-    deleteFile(filePathToDelete, function (err) {
-        if (err) {
-            if(debug_mode){
-                logStatus("Error deleting file:" + err);
-            }
-        } else {
-            if(debug_mode){
-                logStatus("File deleted successfully.");
-            }
+    deleteFile(filePathToDelete, function (error) {
+        if(error){
+            logError("Error deleting file:" + error);
+        }else{
+            logStatus("File deleted successfully.");
         }
     });
 
     const deleteCriteria = {file_name: selectedFileForDeletion, uploadedBy: req.session.userEmpID};
 
-    await files.deleteOne(deleteCriteria, function (err, result) {
-        if (err) {
-            if(debug_mode){
-                logStatus("Error deleting file:" + err);
-            }
-        } else {
-            if(debug_mode){
-                logStatus("File deleted successfully.")
-            }
+    await files.deleteOne(deleteCriteria, function (error, result){
+        if(error){
+            logError("Error deleting file:" + error);
+        }else{
+            logStatus("File deleted successfully.")
         }
     });
 
@@ -871,16 +776,16 @@ app.delete('/ajaxdelete/:file_name', async function (req, res) {
     res.json({documents});
 });
 
-app.put('/reseat/:empID', async function (req, res) {
+app.put('/reseat/:empID', async function (req, res){
     var dataPlaceholder = "success!!";
     try{
         var reconnectingEmpID = req.params.empID;
-        req.session.userEmpID = reconnectingEmpID; //possible hacking - TO BE RESOLVED
+        req.session.userEmpID = reconnectingEmpID;
         req.session.loggedIn = true;
         res.json({dataPlaceholder});
         logStatus("User Reseated");
-        console.log("user reseated!");
     }catch(error){
+        logError(error);
         res.json({error});
     }
 
@@ -892,78 +797,67 @@ app.get('/logout', async function(req, res){
     req.session.destroy();
     res.redirect('/login');
 
-    if(debug_mode){
-        logStatus("User has logged out!");
-    }
-
+    logStatus("User has logged out!");
 });
 
 app.get('/login', async function(req, res){
-    try {
-        if (req.session.loggedIn) {
+    try{
+        if(req.session.loggedIn){
             res.redirect('/');
-        } else {
+        }else{
             res.render('login', {
                 title: 'Login Page'
             });
         }
-    } catch (error){
-        if(debug_mode){
-            logStatus("Error at Login: " + error);
-        }
+    }catch (error){
+        logError("Error at Login: " + error);
     }
 });
 
 app.get('/aboutUs', async function(req, res){
-    try {
-        if (req.session.loggedIn) {
+    try{
+        if(req.session.loggedIn){
             res.redirect('/');
         } else {
             res.render('aboutUs', {
                 title: 'About Us'
             });
         }
-    } catch (error){
-        if(debug_mode){
-            logStatus("Error at about us: " + error);
-        }
+    }catch (error){
+        logStatus("Error at about us: " + error);
     }
 });
 
 app.get('/techSupport', async function(req, res){
-    try {
-        if (req.session.loggedIn) {
+    try{
+        if(req.session.loggedIn){
             res.redirect('/');
-        } else {
+        }else{
             res.render('techSupport', {
                 title: 'Tech Support'
             });
         }
-    } catch (error){
-        if(debug_mode){
-            logStatus("Error at tech support: " + error);
-        }
+    }catch (error){
+        logError("Error at tech support: " + error);
     }
 });
 
 app.get('/ourTeam', async function(req, res){
-    try {
-        if (req.session.loggedIn) {
+    try{
+        if(req.session.loggedIn){
             res.redirect('/');
-        } else {
+        }else{
             res.render('ourTeam', {
                 title: 'Our Team'
             });
         }
-    } catch (error){
-        if(debug_mode){
-            logStatus("Error at our team: " + error);
-        }
+    }catch (error){
+        logError("Error at our team: " + error);
     }
 });
 
-app.post('/login', async function (req, res) {
-    if (req.session.loggedIn) {
+app.post('/login', async function (req, res){
+    if(req.session.loggedIn){
         res.redirect('/');
     } else {
         var username = req.body.userName;
@@ -971,14 +865,13 @@ app.post('/login', async function (req, res) {
 
         try {
             const user = await users.findOne({ username: username });
-            if (!user) {
-                if(debug_mode){
-                    logStatus("Cannot find user");
-                }
+            if(!user){
+                logStatus("Cannot find user");
+
                 res.render('login', {
                     title: 'Login Page', receivedError: "Incorrect Username or Password!"
                 });
-            } else if (password === user.password) {
+            }else if (password === user.password){
                 req.session.loggedIn = true;
                 req.session.userEmpID = user.emp_id;
 
@@ -998,17 +891,15 @@ app.post('/login', async function (req, res) {
                     min_idleTime: min_idleTime
                 });
 
-                if(debug_mode){
-                    logStatus("User " + currentUserDetailsBlock.firstName + currentUserDetailsBlock.lastName + currentUserDetailsBlock.empID + " has logged in with " + currentUserDetailsBlock.userLevel + " privileges!");
-                }
+                logStatus("User " + currentUserDetailsBlock.firstName + currentUserDetailsBlock.lastName + currentUserDetailsBlock.empID + " has logged in with " + currentUserDetailsBlock.userLevel + " privileges!");
 
-            } else {
+            }else{
                 res.render('login', {
                     title: 'Login Page', receivedError: "Incorrect Username or Password!"
                 });
             }
-        } catch (error) {
-            console.error(error);
+        }catch (error){
+            logError(error);
             res.status(500).send('Internal Server Error');
         }
     }
@@ -1018,7 +909,7 @@ app.get('/createform', async function(req, res){
     var requiredPrivilege = 'Manage Templates';
     var accessGranted = false;
 
-    if (req.session.loggedIn) {
+    if (req.session.loggedIn){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
@@ -1036,10 +927,9 @@ app.get('/createform', async function(req, res){
                 min_idleTime: min_idleTime
             });
 
-            if(debug_mode){
-                logStatus("Access Granted!");
-            }
-        } else {
+            logStatus("Access Granted!");
+
+        }else{
             res.render('error_screen', {
                 title: 'Create Form',
                 currentUserDetailsBlock : currentUserDetailsBlock,
@@ -1050,11 +940,9 @@ app.get('/createform', async function(req, res){
                 errorMSG : "Access Denied"
             });
 
-            if(debug_mode){
-                logStatus("User Denied");
-            }
+            logStatus("User Denied");
         }
-    } else {
+    }else{
         res.redirect('login');
     }
 });
@@ -1063,7 +951,7 @@ app.get('/createwidget', async function(req, res){
     var requiredPrivilege = 'Manage Templates';
     var accessGranted = false;
 
-    if (req.session.loggedIn) {
+    if(req.session.loggedIn){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
@@ -1079,11 +967,9 @@ app.get('/createwidget', async function(req, res){
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
+            logStatus("Access Granted!");
 
-            if(debug_mode){
-                logStatus("Access Granted!");
-            }
-        } else {
+        }else{
             res.render('error_screen', {
                 title: 'Create Form',
                 currentUserDetailsBlock : currentUserDetailsBlock,
@@ -1094,11 +980,10 @@ app.get('/createwidget', async function(req, res){
                 errorMSG : "Access Denied"
             });
 
-            if(debug_mode){
-                logStatus("User Denied");
-            }
+            logStatus("User Denied");
+
         }
-    } else {
+    }else{
         res.redirect('login');
     }
 });
@@ -1107,8 +992,8 @@ function getUniqueForms(formsGroup){
     var uniqueForms = [];
     var seenControlNumber = {};
 
-    for (const obj of formsGroup) {
-        if (!seenControlNumber[obj.form_control_number]) {
+    for (const obj of formsGroup){
+        if (!seenControlNumber[obj.form_control_number]){
             seenControlNumber[obj.form_control_number] = true;
             uniqueForms.push(obj);
         }
@@ -1120,7 +1005,7 @@ app.get('/viewforms', async function(req, res){
     var requiredPrivilege = 'View Forms Only';
     var accessGranted = false;
 
-    if (req.session.loggedIn) {
+    if(req.session.loggedIn){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
@@ -1131,16 +1016,13 @@ app.get('/viewforms', async function(req, res){
 
         if(accessGranted){
             var allPublishedForms = await forms.find({ form_status : "Published" }).toArray();
-            console.log("This are all the published forms: " + JSON.stringify(allPublishedForms));
             var allAssignedForms = await forms.find({ assigned_users : req.session.userEmpID }).toArray();
-            console.log("This are all the assigned forms: " + JSON.stringify(allAssignedForms));
             var allSharedForms = await forms.find({
                 $or: [
                     { read_users : req.session.userEmpID },
                     { write_users : req.session.userEmpID }
                 ]
             }).toArray();
-            console.log("This are all the shared forms: " + JSON.stringify(allSharedForms));
 
             var publishedForms = getUniqueForms(allPublishedForms);
             var assignedForms = getUniqueForms(allAssignedForms);
@@ -1158,10 +1040,9 @@ app.get('/viewforms', async function(req, res){
                 min_idleTime: min_idleTime
             });
 
-            if(debug_mode){
-                logStatus("Access Granted!");
-            }
-        } else {
+            logStatus("Access Granted!");
+
+        }else{
             res.render('error_screen', {
                 title: 'View Forms',
                 currentUserDetailsBlock : currentUserDetailsBlock,
@@ -1171,13 +1052,10 @@ app.get('/viewforms', async function(req, res){
                 min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
+            logStatus("User Denied");
 
-            if(debug_mode){
-                logStatus("User Denied");
-            }
         }
-
-    } else {
+    }else{
         res.redirect('login');
     }
 });
@@ -1187,7 +1065,7 @@ app.get('/viewformtemplates', async function(req, res){
     var requiredPrivilege = 'Manage Templates';
     var accessGranted = false;
 
-    if (req.session.loggedIn) {
+    if(req.session.loggedIn){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
@@ -1207,10 +1085,9 @@ app.get('/viewformtemplates', async function(req, res){
                 min_idleTime: min_idleTime
             });
 
-            if(debug_mode){
-                logStatus("Access Granted!");
-            }
-        } else {
+            logStatus("Access Granted!");
+
+        }else{
             res.render('error_screen', {
                 title: 'View Forms',
                 currentUserDetailsBlock : currentUserDetailsBlock,
@@ -1221,18 +1098,15 @@ app.get('/viewformtemplates', async function(req, res){
                 errorMSG : "Access Denied"
             });
 
-            if(debug_mode){
-                logStatus("User Denied");
-            }
+            logStatus("User Denied");
         }
-
-    } else {
+    }else{
         res.redirect('login');
     }
 });
 
 app.get('/submission', async function(req, res){
-    if (req.session.loggedIn) {
+    if (req.session.loggedIn){
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
@@ -1248,7 +1122,7 @@ app.get('/submission', async function(req, res){
             currentUserPicture: currentUserPicture,
             min_idleTime: min_idleTime
         });
-    } else {
+    }else{
         res.redirect('login');
     }
 });
@@ -1257,7 +1131,7 @@ app.get('/viewreports', async function(req, res){
     var requiredPrivilege = 'View Reports';
     var accessGranted = false;
 
-    if (req.session.loggedIn) {
+    if (req.session.loggedIn){
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
@@ -1276,7 +1150,7 @@ app.get('/viewreports', async function(req, res){
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
-        } else {
+        }else{
             res.render('error_screen', {
                 title: 'View Reports',
                 currentUserDetailsBlock : currentUserDetailsBlock,
@@ -1287,15 +1161,13 @@ app.get('/viewreports', async function(req, res){
                 errorMSG : "Access Denied"
             });
         }
-
-
-    } else {
+    }else{
         res.redirect('login');
     }
 });
 
 app.get('/managenotifications', async function(req, res){
-    if (req.session.loggedIn) {
+    if (req.session.loggedIn){
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
@@ -1311,7 +1183,7 @@ app.get('/managenotifications', async function(req, res){
             currentUserPicture: currentUserPicture,
             min_idleTime: min_idleTime
         });
-    } else {
+    }else{
         res.redirect('login');
     }
 });
@@ -1333,7 +1205,7 @@ app.get('/managedeadlines', async function(req, res){
             currentUserPicture: currentUserPicture,
             min_idleTime: min_idleTime
         });
-    } else {
+    }else{
         res.redirect('login');
     }
 });
@@ -1342,7 +1214,7 @@ app.get('/createusers', async function(req, res){
     var requiredPrivilege = 'User Management';
     var accessGranted = false;
 
-    if (req.session.loggedIn) {
+    if(req.session.loggedIn){
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
@@ -1351,7 +1223,7 @@ app.get('/createusers', async function(req, res){
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
-        if(accessGranted) {
+        if(accessGranted){
             res.render('createusers', {
                 title: 'Create Users',
                 currentUserDetailsBlock: currentUserDetailsBlock,
@@ -1361,7 +1233,7 @@ app.get('/createusers', async function(req, res){
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime
             });
-        } else {
+        }else{
             res.render('error_screen', {
                 title: 'Create Users',
                 userDetails: currentUserDetailsBlock,
@@ -1373,13 +1245,13 @@ app.get('/createusers', async function(req, res){
             });
         }
 
-    } else {
+    }else{
         res.redirect('login');
     }
 });
 
 app.post('/createusers', async function(req, res){
-    if (req.session.loggedIn) {
+    if(req.session.loggedIn){
         var username = req.body.userName;
         var password = req.body.passWord;
         var emp_id = req.body.empId;
@@ -1388,13 +1260,11 @@ app.post('/createusers', async function(req, res){
         var userlevel = req.body.userLevel;
         var email = req.body.eMail;
 
-        try {
+        try{
             const existingUser = await db.collection('users').findOne({ username: username });
-            if(existingUser) {
-                if(debug_mode){
-                    logStatus("User already exists!");
-                }
-            } else {
+            if(existingUser){
+                logStatus("User already exists!");
+            }else{
                 const newUser = {
                     "email": email,
                     "username": username,
@@ -1406,15 +1276,10 @@ app.post('/createusers', async function(req, res){
                 };
 
                 const result = await db.collection('users').insertOne(newUser);
-                if(debug_mode){
-                    logStatus("User created");
-                }
-
+                logStatus("User created");
             }
-        } catch (error) {
-            if(debug_mode){
-                logStatus("Error creating the user: " + error);
-            }
+        }catch(error){
+            logError("Error creating the user: " + error);
         }
 
         currentUserFiles = await getFiles(req.session.userEmpID);
@@ -1430,7 +1295,7 @@ app.post('/createusers', async function(req, res){
             currentUserNotifications: currentUserNotifications,
             min_idleTime: min_idleTime
         });
-    } else {
+    }else{
        res.render('login', {
             title: 'Login Page'
        });
@@ -1441,7 +1306,7 @@ app.get('/manageuserroles', async function(req, res){
     var requiredPrivilege = 'User Management';
     var accessGranted = false;
 
-    if (req.session.loggedIn) {
+    if(req.session.loggedIn){
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
@@ -1461,11 +1326,9 @@ app.get('/manageuserroles', async function(req, res){
                 min_idleTime: min_idleTime
             });
 
-            if(debug_mode){
-                logStatus("Access Granted!");
-            }
+            logStatus("Access Granted!");
 
-        } else {
+        }else{
             res.render('error_screen', {
                 title: 'Manage User Roles',
                 currentUserDetailsBlock: currentUserDetailsBlock,
@@ -1475,10 +1338,7 @@ app.get('/manageuserroles', async function(req, res){
                 min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
-
-            if(debug_mode){
-                logStatus("User Denied");
-            }
+            logStatus("User Denied");
         }
 
     } else {
@@ -1490,7 +1350,7 @@ app.get('/manageusersettings', async function(req, res){
     var requiredPrivilege = 'User Management';
     var accessGranted = false;
 
-    if (req.session.loggedIn) {
+    if(req.session.loggedIn){
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
@@ -1510,11 +1370,9 @@ app.get('/manageusersettings', async function(req, res){
                 min_idleTime: min_idleTime
             });
 
-            if(debug_mode){
-                logStatus("Access Granted!");
-            }
+            logStatus("Access Granted!");
 
-        } else {
+        }else{
             res.render('error_screen', {
                 title: 'Manage User Settings',
                 currentUserDetailsBlock: currentUserDetailsBlock,
@@ -1525,24 +1383,20 @@ app.get('/manageusersettings', async function(req, res){
                 errorMSG : "Access Denied"
             });
 
-            if(debug_mode){
-                logStatus("User Denied");
-            }
-
+            logStatus("User Denied");
         }
 
-
-    } else {
+    }else{
         res.redirect('login');
     }
 });
 
-app.get('/viewusers', async function(req, res) {
+app.get('/viewusers', async function(req, res){
     var requiredPrivilege = 'View Users';
     var accessGranted = false;
 
     try {
-        if (!req.session.loggedIn) {
+        if(!req.session.loggedIn){
             res.redirect('login');
             return;
         }
@@ -1568,11 +1422,9 @@ app.get('/viewusers', async function(req, res) {
                 userAccounts: userAccounts
             });
 
-            if(debug_mode){
-                logStatus("Access Granted!");
-            }
+            logStatus("Access Granted!");
 
-        } else {
+        }else{
             res.render('error_screen', {
                 title: 'View Users',
                 currentUserDetailsBlock: currentUserDetailsBlock,
@@ -1582,39 +1434,27 @@ app.get('/viewusers', async function(req, res) {
                 min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
-
-            if(debug_mode){
-                logStatus("User Denied");
-            }
+            logStatus("User Denied");
         }
 
-    } catch (error) {
-        if(debug_mode){
-            logStatus("Error at viewing users: " + error);
-        }
-
+    }catch (error){
+        logError("Error at viewing users: " + error);
         res.status(500).send('Internal Server Error');
     }
 });
 
-app.post('/accountsettings', pictureUpload.single('file'), async function (req, res) {
+app.post('/accountsettings', pictureUpload.single('file'), async function (req, res){
     const uploadedPicture = req.file;
 
-    if (debug_mode) {
-        logStatus("Received file: " + req.file);
-    }
+    logStatus("Received file: " + req.file);
 
-    if (!uploadedPicture) {
-        if(debug_mode){
-            logStatus("No file Uploaded");
-        }
-
-    } else {
+    if(!uploadedPicture){
+        logStatus("No file Uploaded");
+    }else{
         const { originalname } = uploadedPicture;
         var uploadedPictureDirectory = "";
-        if(debug_mode){
-            logStatus("File Uploaded Successfully in " + `/views/profile_pictures/${currentUserDetailsBlock.firstName}/${originalname}`);
-        }
+
+        logStatus("File Uploaded Successfully in " + `/views/profile_pictures/${currentUserDetailsBlock.firstName}/${originalname}`);
 
         try{
             var picture = await users.findOne({ emp_id: req.session.userEmpID });
@@ -1624,11 +1464,10 @@ app.post('/accountsettings', pictureUpload.single('file'), async function (req, 
                     { $set: { "user_picture": "/profile_pictures/" + req.session.userEmpID + "/" + originalname } },
                     { returnNewDocument: true }
                 )
-            } else {
+            }else{
                 fs.unlink("./views/" + picture.user_picture, function (error){
-                    if (debug_mode) {
-                       logStatus("Failed to Remove Previous Profile Picture " + error);
-                    }
+                    logStatus("Failed to Remove Previous Profile Picture " + error);
+
                 });
                 userPicture = users.findOneAndUpdate(
                     { "emp_id": currentUserDetailsBlock.empID },
@@ -1638,38 +1477,32 @@ app.post('/accountsettings', pictureUpload.single('file'), async function (req, 
             }
 
             uploadedPictureDirectory = users.user_picture;
-            if(debug_mode){
-                logStatus("Picture saved in database: " + uploadedPictureDirectory);
-            }
+            logStatus("Picture saved in database: " + uploadedPictureDirectory);
 
             res.json({uploadedPictureDirectory});
-        } catch(error){
-            logStatus(error);
+        }catch(error){
+            logError(error);
         }
     }
 });
 
-app.post('/upload', upload.single('file'), async function (req, res) {
+app.post('/upload', upload.single('file'), async function (req, res){
     const uploadedFile = req.file;
 
-    if (!uploadedFile) {
-        if(debug_mode){
-            logStatus("No file Uploaded");
-        }
-
+    if(!uploadedFile){
+        logStatus("No file Uploaded");
     }else{
         const { originalname, size } = uploadedFile;
 
-        if(debug_mode){
-            logStatus("File Uploaded Successfully in " + `/uploads/${userDetailsBlock.firstName}/${originalname}`);
-        }
+        logStatus("File Uploaded Successfully in " + `/uploads/${userDetailsBlock.firstName}/${originalname}`);
+
 
         try{
             uploadInfo = {
                 "file_name": originalname,
                 "file_size": size,
-                "uploadedBy": req.session.userEmpID, // Replace with appropriate user information
-                "uploadedAt": new Date() // Include a timestamp
+                "uploadedBy": req.session.userEmpID,
+                "uploadedAt": new Date()
             };
             result = await files.insertOne(uploadInfo);
 
@@ -1680,14 +1513,14 @@ app.post('/upload', upload.single('file'), async function (req, res) {
             const documents = await getFiles(req.session.userEmpID);
 
             res.json({documents});
-        } catch(error){
-            logStatus(error);
+        }catch(error){
+            logError(error);
         }
     }
 });
 
 app.post('/update-Password', async function(req, res){
-    if(req.session.loggedIn) {
+    if(req.session.loggedIn){
 
         const currentUserPassword = req.body.currentPassword;
         const newUserPassword = req.body.newPassword;
@@ -1702,26 +1535,22 @@ app.post('/update-Password', async function(req, res){
                         { $set: { password: newUserPassword } },
                         { returnNewDocument: false }
                         );
-                    if(debug_mode){
-                        logStatus("Password of " + currentUser.emp_id + " was updated.");
-                    }
+
+                    logStatus("Password of " + currentUser.emp_id + " was updated.");
+
                     res.send({status_code: 0});
-                } else {
-                    if(debug_mode){
-                        logStatus("New password should not be the same as your current password.");
-                    }
+                }else{
+                    logStatus("New password should not be the same as your current password.");
                     res.send({status_code: 1})
                 }
-            } else {
-                if(debug_mode){
-                    logStatus("Current password is incorrect.");
-                }
+            }else{
+                logStatus("Current password is incorrect.");
                 res.send({status_code: 2});
             }
-        } catch(error){
-            logStatus("Failed updating password " + error);
+        }catch(error){
+            logError("Failed updating password " + error);
         }
-    } else {
+    }else{
         res.render('login', {
             title: 'Login Page'
         });
@@ -1734,34 +1563,32 @@ app.put('/AJAX_assignUsers', async function(req, res){
         var selectedFormControlNumberToView = formData.formControlNumber;
         allForms = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
 
-        try {
-            for( i = 0; i < allForms.length; i++) {
-                if(allForms[i].form_control_number == selectedFormControlNumberToView) {
+        try{
+            for( i = 0; i < allForms.length; i++){
+                if(allForms[i].form_control_number == selectedFormControlNumberToView){
                     updateDocument = await forms.updateMany(
                         { form_control_number : selectedFormControlNumberToView },
                         { $addToSet: { "assigned_users" : formData.assignedUser } }
                     );
                     res.send({ status_code : 0 });
-                } else {
+                }else{
                     res.send({ status_code : 1 });
                 }
             }
-        } catch(error) {
-            if(debug_mode) {
-                logStatus('There was an error at AJAX function in assigning users.');
-            }
+        }catch(error){
+            logError('There was an error at AJAX function in assigning users.');
             res.send({ status_code : 2 });
         }
 
-    } else {
+    }else{
         res.render('login', {
             title: 'Login Page'
         });
     }
 });
 
-app.put('/AJAX_togglePublish', async function(req, res) {
-    if(req.session.loggedIn) {
+app.put('/AJAX_togglePublish', async function(req, res){
+    if(req.session.loggedIn){
         var formData = req.body;
         var selectedFormControlNumberToView = formData.formControlNumber;
         formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
@@ -1775,7 +1602,7 @@ app.put('/AJAX_togglePublish', async function(req, res) {
             for(i=0; i < formVersions.length; i++){
                 if(formVersions[i].form_version == targetedVersion){
                     currentStatus = formVersions[i].form_status;
-                    console.log("the found status of : " + targetedVersion + "is : " + currentStatus);
+                    logStatus("the found status of : " + targetedVersion + "is : " + currentStatus);
 
                     if(currentStatus == "Template"){
                         try {
@@ -1785,19 +1612,19 @@ app.put('/AJAX_togglePublish', async function(req, res) {
                                 { $set: { form_status: "Published" } }
                             );
                             updatedStatus = "Published";
-                            console.log("Finished the setting of Status");
-                        } catch(error) {
-                            console.log("May error : " + error);
+                            logStatus("Finished the setting of Status");
+                        }catch(error){
+                            logError(error);
                         }
 
-                        console.log("Setting control number : " + selectedFormControlNumberToView + " with version " + targetedVersion + " to Published");
+                        logStatus("Setting control number : " + selectedFormControlNumberToView + " with version " + targetedVersion + " to Published");
                     }else{
                         updateDocument = await forms.findOneAndUpdate(
                             { form_control_number : selectedFormControlNumberToView, form_version : targetedVersion },
                             { $set: { form_status: "Template" } }
                         );
                         updatedStatus = "Template";
-                        console.log("Setting control number : " + selectedFormControlNumberToView + " with version " + targetedVersion + " to Template");
+                        logStatus("Setting control number : " + selectedFormControlNumberToView + " with version " + targetedVersion + " to Template");
                     }
                 }
             }
@@ -1821,28 +1648,24 @@ app.put('/AJAX_togglePublish', async function(req, res) {
 
         try{
             if(!successfulWow){
-                if(debug_mode){
-                    logStatus('There was an error in AJAX Toggle Publish: ' + error);
-                }
+                logStatus('There was an error in AJAX Toggle Publish: ' + error);
                 res.send({ status_code : 1 });
-            } else {
+            }else{
                 res.send({ status_code : 0 , updatedStatus : updatedStatus});
             }
-        } catch(error) {
-            if(debug_mode){
-                logStatus('There was an error in AJAX Toggle Publish: ' + error);
-            }
+        }catch(error){
+            logError('There was an error in AJAX Toggle Publish: ' + error);
         }
 
-    } else {
+    }else{
         res.render('login', {
             title: 'Login Page'
         });
     }
 });
 
-app.put('/AJAX_toggleAllowFileUpload', async function(req, res) {
-    if(req.session.loggedIn) {
+app.put('/AJAX_toggleAllowFileUpload', async function(req, res){
+    if(req.session.loggedIn){
         var formData = req.body;
         var selectedFormControlNumberToView = formData.formControlNumber;
         formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
@@ -1857,15 +1680,13 @@ app.put('/AJAX_toggleAllowFileUpload', async function(req, res) {
 
                 if(currentStatus == false){
                     try {
-                        console.log("Entering the setting of Status");
                         updateDocument = await forms.updateMany(
                             { form_control_number : selectedFormControlNumberToView },
                             { $set: { allow_file_upload: true } }
                         );
                         updatedStatus = "Allowed";
-                        console.log("Finished the setting of Status");
-                    } catch(error) {
-                        console.log("May error : " + error);
+                    }catch(error){
+                        logError(error);
                     }
 
                 }else{
@@ -1875,39 +1696,34 @@ app.put('/AJAX_toggleAllowFileUpload', async function(req, res) {
                     );
                     updatedStatus = "Not Allowed";
                 }
-
             }
 
             successfulWow = true;
         }catch(error){
+            logError(error);
             successfulWow = false;
         }
 
-
         try{
             if(!successfulWow){
-                if(debug_mode){
-                    logStatus('There was an error in AJAX Toggle Publish: ' + error);
-                }
+                logStatus('There was an error in AJAX Toggle Publish: ' + error);
                 res.send({ status_code : 1 });
-            } else {
+            }else{
                 res.send({ status_code : 0 , updatedStatus : updatedStatus});
             }
-        } catch(error) {
-            if(debug_mode){
-                logStatus('There was an error in AJAX Toggle Publish: ' + error);
-            }
+        }catch(error){
+            logError('There was an error in AJAX Toggle Publish: ' + error);
         }
 
-    } else {
+    }else{
         res.render('login', {
             title: 'Login Page'
         });
     }
 });
 
-app.put('/AJAX_toggleSharing', async function(req, res) {
-    if(req.session.loggedIn) {
+app.put('/AJAX_toggleSharing', async function(req, res){
+    if(req.session.loggedIn){
         var formData = req.body;
         var selectedFormControlNumberToView = formData.formControlNumber;
         formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
@@ -1928,10 +1744,10 @@ app.put('/AJAX_toggleSharing', async function(req, res) {
                             { $set: { shared_status: true } }
                         );
                         updatedStatus = "Allowed";
-                    } catch(error) {
-                        console.log("May error : " + error);
+                    }catch(error){
+                        logError(error);
                     }
-                } else {
+                }else{
                     updateDocument = await forms.updateMany(
                         { form_control_number : selectedFormControlNumberToView },
                         { $set: { shared_status: false } }
@@ -1941,26 +1757,23 @@ app.put('/AJAX_toggleSharing', async function(req, res) {
             }
 
             successfulWow = true;
-        } catch(error) {
+        }catch(error){
+            logError(error);
             successfulWow = false;
         }
 
         try{
             if(!successfulWow){
-                if(debug_mode){
-                    logStatus('There was an error in AJAX Toggle Publish: ' + error);
-                }
+                logStatus('There was an error in AJAX Toggle Publish: ' + error);
                 res.send({ status_code : 1 });
             } else {
                 res.send({ status_code : 0 , updatedStatus : updatedStatus});
             }
-        } catch(error) {
-            if(debug_mode){
-                logStatus('There was an error in AJAX Toggle Publish: ' + error);
-            }
+        }catch(error){
+            logError('There was an error in AJAX Toggle Publish: ' + error);
         }
 
-    } else {
+    }else{
         res.render('login', {
             title: 'Login Page'
         });
@@ -1971,13 +1784,11 @@ app.put('/AJAX_viewFormVersion', async function(req, res) {
     if(req.session.loggedIn){
         var formData = req.body;
         var currentForm = await forms.findOne({ form_control_number: formData.formControlNumber, form_version: parseInt(formData.versionChoice, 10) });
-        console.log("This is the current form: " + currentForm);
+
         if(!currentForm){
-            if(debug_mode){
-                logStatus("Could not find the form.");
-            }
+            logStatus("Could not find the form.");
             res.send({ status_code : 1 });
-        } else {
+        }else{
             let jsonObject = currentForm;
             var e = jsonObject.form_content;
             var g = await jsonToHTML(e);
@@ -1985,14 +1796,12 @@ app.put('/AJAX_viewFormVersion', async function(req, res) {
             try{
                 jsonObject.form_content = g;
                 res.send({ status_code : 0, formContent : jsonObject.form_content, formStatus : currentForm.form_status, sharedStatus : currentForm.shared_status, formVersion : currentForm.form_version });
-            } catch(error) {
-                if(debug_mode){
-                    logStatus("Error at view form version for front end: " + error);
-                }
+            }catch(error){
+                logError("Error at view form version for front end: " + error);
             }
         }
 
-    } else {
+    }else{
         res.render('login', {
             title: 'Login Page'
         });
@@ -2003,38 +1812,34 @@ app.put('/AJAX_formUserViewVersion', async function(req, res) {
     if(req.session.loggedIn){
         var formData = req.body;
         var currentUserForm = await filledoutforms.findOne({ form_control_number: formData.formControlNumber, user_version: parseInt(formData.userVersionChoice, 10) });
-        console.log("This is the current form: " + currentUserForm);
+
         if(!currentUserForm){
-            if(debug_mode){
-                logStatus("Could not find the form.");
-            }
+            logStatus("Could not find the form.");
             res.send({ status_code : 1 });
-        } else {
+        }else{
             let jsonObject = currentUserForm;
 
             try{
                 var e = jsonObject.form_content;
             }catch(error){
-                console.log("ERROR AT ECHO " + error);
+                logError("ERROR AT ECHO " + error);
             }
 
             try{
                 var g = await jsonToHTML(e);
             }catch(error){
-                console.log("ERROR AT golf " + error);
+                logError("ERROR AT golf " + error);
             }
 
             try{
                 jsonObject.form_content = g;
                 res.send({ status_code : 0, formContent : jsonObject.form_content });
-            } catch(error) {
-                if(debug_mode){
-                    logStatus("Error at view form version for front end: " + error);
-                }
+            }catch(error){
+                logError("Error at view form version for front end: " + error);
             }
         }
 
-    } else {
+    }else{
         res.render('login', {
             title: 'Login Page'
         });
@@ -2046,14 +1851,10 @@ async function getUserPicture(empID){
 
     try{
         userPicture = await users.findOne({ emp_id: empID });
+        logStatus("The picture is this: " + JSON.stringify(userPicture));
 
-        if(debug_mode){
-            logStatus("The picture is this: " + JSON.stringify(userPicture));
-        }
-    } catch (error){
-        if(debug_mode){
-            logStatus("Failed to retrieve user picture " + error);
-        }
+    }catch (error){
+        logError("Failed to retrieve user picture " + error);
         throw error;
     }
     return userPicture;
@@ -2066,12 +1867,9 @@ async function getUserDetailsBlock(empID){
         const user = await users.findOne({ emp_id: empID });
 
         if(!user){
-            if(debug_mode){
-                logStatus("user not found!");
-                logStatus("if you are here, you deleted the profile mid-session");
-            }
-
-            userDetailsBlock = ""; // future error handling for respective req-res
+            logStatus("user not found!");
+            logStatus("if you are here, you deleted the profile mid-session");
+            userDetailsBlock = "";
         }else{
             userDetailsBlock = {
                 "firstName": user.first_name,
@@ -2081,23 +1879,18 @@ async function getUserDetailsBlock(empID){
             }
         }
     }catch(error){
-        if(debug_mode){
-            logStatus("Failed to retrieve user details block: " + error);
-        }
+        logError("Failed to retrieve user details block: " + error);
     }
-
-    if(debug_mode){
-        logStatus("Executed getUserDetailsBlock" + userDetailsBlock);
-    }
+    logStatus("Executed getUserDetailsBlock" + userDetailsBlock);
 
     return userDetailsBlock;
 }
 
-async function logError(errorMessage) {
+async function logError(errorMessage){
     const logMessage = `${new Date().toISOString()}: ${errorMessage}\n`;
-    fs.appendFile('error_log.txt', logMessage, (err) => {
-        if (err) {
-            console.error('Error appending to error_log.txt:', err);
+    fs.appendFile('error_log.txt', logMessage, (error) => {
+        if(error){
+            logError('Error appending to error_log.txt:', error);
         }
     });
 }
@@ -2106,191 +1899,155 @@ async function logError(errorMessage) {
 async function getNotifications(empID){
     var userNotifications;
 
-    try { // TO BE FIXED ERROR RECEIVED WHEN NULL
+    try {
         userNotifications = await notifications.find({ recipients: empID }).toArray();
-        if (debug_mode) {
-            logStatus("The notifications are: " + JSON.stringify(userNotifications));
-        }
-    } catch (error) {
-        if (debug_mode) {
-            logStatus("Failed to retrieve unseen notifications: " + error);
-        }
-        throw error; // Re-throw the error to handle it elsewhere if needed
-    }
+        logStatus("The notifications are: " + JSON.stringify(userNotifications));
 
+    }catch(error){
+        logError("Failed to retrieve unseen notifications: " + error);
+
+        throw error;
+    }
     return userNotifications;
 }
 
 async function getUserForms(empID){
     var userFormsCollections;
-    try {
+    try{
         userFormsCollections = await filledoutforms.find().toArray();
+        logStatus("The array forms at function getForms() : " + JSON.stringify(userFormsCollections));
 
-        if(debug_mode){
-            logStatus("The array forms at function getForms() : " + JSON.stringify(userFormsCollections));
-        }
-    } catch (error) {
+    }catch(error){
         userFormsCollections = [];
-        if(debug_mode){
-            logStatus("Failed to retrieve forms: " + error);
-        }
+        logError("Failed to retrieve forms: " + error);
     }
     return userFormsCollections;
 }
 
 async function getForms(empID){
     var formsCollections;
-    try {
+    try{
         formsCollections = await forms.find().toArray();
+        logStatus("The array forms at function getForms() : " + JSON.stringify(formsCollections));
 
-        if(debug_mode){
-            logStatus("The array forms at function getForms() : " + JSON.stringify(formsCollections));
-        }
-    } catch (error) {
+    }catch (error){
         formsCollections = [];
-        if(debug_mode){
-            logStatus("Failed to retrieve forms: " + error);
-        }
+        logError("Failed to retrieve forms: " + error);
+
     }
     return formsCollections;
 }
 
 async function getWidgets(empID){
     var widgetsCollections;
-    try {
+    try{
         widgetsCollections = await widgets.find().toArray();
+        logStatus("The array forms at function getWidgets() : " + JSON.stringify(widgetsCollections));
 
-        if(debug_mode){
-            logStatus("The array forms at function getWidgets() : " + JSON.stringify(widgetsCollections));
-        }
-    } catch (error) {
+    }catch (error){
         widgetsCollections = [];
-        if(debug_mode){
-            logStatus("Failed to retrieve forms: " + error);
-        }
+        logError("Failed to retrieve forms: " + error);
     }
     return widgetsCollections;
 }
 
-async function getFiles(empID) {
-    try {
+async function getFiles(empID){
+    try{
         const filesDocuments = await files.find({ uploadedBy: empID }).toArray();
-
-        if(debug_mode){
-            logStatus("The array documents at function getFiles() : " + JSON.stringify(filesDocuments)); //stringified for logging purposes only
-        }
+        logStatus("The array documents at function getFiles() : " + JSON.stringify(filesDocuments));
 
         return filesDocuments;
-    } catch (error) {
-        if(debug_mode){
-            logStatus("Failed to retrieve documents: " + error);
-        }
-
+    }catch (error){
+        logError("Failed to retrieve documents: " + error);
     }
 }
 
-async function getUserAccounts() {
-    try {
+async function getUserAccounts(){
+    try{
         const documents = await users.find({}).toArray();
-
-        if(debug_mode){
-            logStatus("Found all users: " + JSON.stringify(documents)); //stringified for logging purposes only
-        }
+        logStatus("Found all users: " + JSON.stringify(documents));
 
         return documents;
-    } catch (error) {
-
-        if(debug_mode){
-            logStatus("Error at getting users: " + error);
-        }
-
+    }catch (error){
+        logError("Error at getting users: " + error);
     }
 }
 
-async function getUsersEmails() {
+async function getUsersEmails(){
     var userName;
     var empEmails = [];
     try{
         userName = await users.find({}).toArray();
 
-        for (const user of userName) {
+        for(const user of userName){
             empEmails.push(user.emp_id);
         }
 
         logStatus("This are the user names: " + JSON.stringify(empEmails));
         return empEmails;
-    } catch(error) {
-        logStatus("There is an error retrieving the user names: " + error);
+    }catch(error){
+        logError("There is an error retrieving the user names: " + error);
     }
 }
 
-async function getUserPrivileges(user_level) {
+async function getUserPrivileges(user_level){
     var privilegesDocumentsBlock;
     var privilegesDocuments;
 
-    try {
-        //privilegesDocuments = await db.collection('privileges').findOne({ user_level: user_level });
+    try{
         privilegesDocuments = await privileges.findOne({ user_level: user_level });
 
-        if (!privilegesDocuments || !privilegesDocuments.user_privileges) {
-
-            if(debug_mode){
-                logStatus("No privileges found for user level: " + user_level);
-            }
-
+        if(!privilegesDocuments || !privilegesDocuments.user_privileges){
+            logStatus("No privileges found for user level: " + user_level);
             privilegesDocumentsBlock = [];
-        } else {
+        }else{
             if(debug_mode){
                 logStatus(privilegesDocuments.user_privileges);
             }
-
             privilegesDocumentsBlock = privilegesDocuments.user_privileges;
         }
 
-
-    } catch (error) {
-        if(debug_mode){
-            logStatus("Failed to retrieve privileges: " + error);
-        }
-
+    }catch (error){
+        logError("Failed to retrieve privileges: " + error);
         privilegesDocumentsBlock = [];
     }
+
     return privilegesDocumentsBlock;
 }
 
 function validateAction(privileges,requestedAction ){
     var accessGranted = false;
-    if(debug_mode){
-        logStatus("Received " + privileges + " as privileges");
-    }
+    logStatus("Received " + privileges + " as privileges");
 
     try{
-	    for(i = 0; i < privileges.length; i++) {
+	    for(i = 0; i < privileges.length; i++){
             if(privileges[i] == requestedAction){
                 accessGranted = true;
             }
         }
-    } catch(error) {
-        if(debug_mode){
-            logStatus(error);
-        }
+    }catch(error){
+        logError(error);
+    }
 
-    }
-    if(debug_mode){
-        logStatus("Returning " + accessGranted);
-    }
+    logStatus("Returning " + accessGranted);
 
     return accessGranted;
 }
 
 function logStatus(statusLog){
-    console.log(statusLog);
+    if(debug_mode){
+        console.log(statusLog);
+    }
 }
 
-async function updateToLatestVersion(latestFormTemplate, latestFilledOutForm) {
+function logError(errorMessage){
+    console.log(errorMessage);
+}
+
+async function updateToLatestVersion(latestFormTemplate, latestFilledOutForm){
     for(const key in latestFilledOutForm){
         if(latestFilledOutForm.hasOwnProperty(key)){
-            if(typeof latestFilledOutForm[key] === 'object') {
+            if(typeof latestFilledOutForm[key] === 'object'){
                 if(latestFormTemplate[key]){
                     latestFormTemplate[key] = await updateToLatestVersion(latestFormTemplate[key], latestFilledOutForm[key]);
                 }
