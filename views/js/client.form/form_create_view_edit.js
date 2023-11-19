@@ -150,10 +150,8 @@ function initializeContextMenuForChild(clonedDiv) {
         clonedDiv.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             if (clonedDiv.classList.contains("form-table")) {
-                activateElement(clonedDiv, "table");
                 createContextMenu(e.clientX, e.clientY, null, clonedDiv);
             } else {
-                activateElement(clonedDiv, "div");
                 createContextMenu(e.clientX, e.clientY, clonedDiv, null);
             }
         });
@@ -197,12 +195,10 @@ function adjustTextareaHeight(element) {
           pageHeight += calculateDivHeight(childElement) + 10;
          }
 
-         console.log("Table Parent Page Height: " + pageHeight);
          if ((pageHeight + addedHeight) > (maxHeight+padding)) {
              // alert("Page Already Full"); // REQUIRED MODAL HERE
              adaptSucceedingContent(parentContainer);
          }
-        console.log("New is greater than old");
     }
 
     element.style.height = 'auto'; // Reset the height to auto
@@ -301,7 +297,6 @@ function adaptSucceedingContent(startingPoint, maxHeight) {
                 if ((initialPageHeight + currentDivHeight) <= maxHeight) {
                     initialPageHeight += currentDivHeight; // Step 4
                 } else {
-                    console.log("Move " + startingPointPageChildrenCount[i].id + " to next page"); // Step 5
                     var nextPage = allPages[nextPageIndex];
 
                     if (!nextPage) {
@@ -1038,12 +1033,10 @@ function dropContent(boxHeight, data) {
             }
 
             if (clonedDiv.nodeName === "TEXTAREA") {
-                console.log("Is a textarea");
                 var addHeight = 0;
                 clonedDiv.addEventListener('keydown', () => {
                     adjustTextareaHeight(clonedDiv);
                 });
-                console.log(currentHeight);
             } else {
                 clonedDiv.style.height = 'fixed';
             }
@@ -1243,7 +1236,7 @@ function removeReadOnlyAttributesRecursive(element) {
             }
 
             // Set contentEditable attribute to true
-            element.setAttribute('contentEditable', 'false');
+            element.setAttribute('contentEditable', 'true');
 
             // Iterate through child elements
             const childElements = element.children;
@@ -1255,56 +1248,16 @@ function removeReadOnlyAttributesRecursive(element) {
     return element;
 }
 
-function activateElement(clonedDiv, elementType) {
-    if (userType != "Document Controller" || userType != "Super Admin") {
-        return;
-    }
-
-    if (elementType === "table") {
-        let selectedCells = [];
-
-        clonedDiv.addEventListener('click', (e) => {
-            const cell = e.target;
-
-            if ((cell.tagName === 'TD' || cell.tagName === 'TH') && !cell.classList.contains('merged')) {
-                if (cell.classList.contains('selectedCells')) {
-                    // Deselect the cell
-                    cell.classList.remove('selectedCells');
-                    selectedCells = selectedCells.filter(selectedCell => selectedCell !== cell);
-                } else {
-                    // Select the cell
-                    cell.classList.add('selectedCells'); // Tracker for cells that will be merged
-                    selectedCells.push(cell);
-                }
-            }
-        });
-
-        // Make all cells in the table editable
-        const cells = clonedDiv.querySelectorAll('td');
-        cells.forEach((cell) => {
-            if (!cell.classList.contains("w3-uneditable")) {
-                cell.setAttribute('contenteditable', 'true');
-
-            }
-        });
-        const cells_head = clonedDiv.querySelectorAll('th');
-        cells_head.forEach((cell) => {
-            if (!cell.classList.contains("w3-uneditable")) {
-                cell.setAttribute('contenteditable', 'true');
-            }
-        });
-    }
-    return clonedDiv;
-}
 
 // Click listeners for selected elements
 function selectElement(element) {
     element.addEventListener('click', function (event) {
+
 	    const clickedElement = event.target;
 	    // Unselect the previously selected text box, if any
-	    if (selectedTextBox && selectedTextBox.getAttribute('id') === "selected") {
+	    if (selectedTextBox && selectedTextBox.getAttribute('id') === "selectedElement") {
             // Check if the "id" attribute matches the selectedElement
-	        selectedTextBox.removeAttribute('contentEditable');
+	        selectedTextBox.removeAttribute('id');
         } else if (selectedTextBox && element.classList.contains("drop-container")) {
            selectedTextBox.removeAttribute('contentEditable');
            var pageID = 'page-' + currentPage;
@@ -1323,9 +1276,36 @@ function selectElement(element) {
             clickedElement.removeAttribute('readonly');
         }
 
-        clickedElement.id = 'selectedElement';
-        selectedTextBox = clickedElement; // Update pointer to selected element based on current click
+        let selectedCells = [];
 
+        if ((clickedElement.tagName === 'TD' || clickedElement.tagName === 'TH') && !clickedElement.classList.contains('merged')) {
+            if (clickedElement.classList.contains('selectedCells')) {
+                // Deselect the cell
+                clickedElement.classList.remove('selectedCells');
+                selectedCells = selectedCells.filter(selectedCell => selectedCell !== cell);
+            } else {
+                // Select the cell
+                clickedElement.classList.add('selectedCells'); // Tracker for cells that will be merged
+                selectedCells.push(clickedElement);
+            }
+
+            // Make all cells in the table editable
+            const cells = element.querySelectorAll('td');
+            cells.forEach((cell) => {
+            if (!cell.classList.contains("w3-uneditable")) {
+                cell.setAttribute('contenteditable', 'true');
+                }
+            });
+            const cells_head = element.querySelectorAll('th');
+            cells_head.forEach((cell) => {
+                if (!cell.classList.contains("w3-uneditable")) {
+                    cell.setAttribute('contenteditable', 'true');
+                }
+            });
+        } else {
+           clickedElement.id = 'selectedElement';
+        }
+        selectedTextBox = clickedElement; // Update pointer to selected element based on current click
 	});
     return element;
 }
