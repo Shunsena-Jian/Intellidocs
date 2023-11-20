@@ -94,4 +94,16 @@
   "first_name": "Machian",
   "last_name": "Oliva",
   "user_level": "Faculty"
+},
+{
+  "_id": {
+    "$oid": "655a563c7c709abbea04a447"
+  },
+  "email": "123@gmail.com",
+  "username": "ivy",
+  "password": "123",
+  "emp_id": "9999999",
+  "first_name": "sprikitik",
+  "last_name": "isprook",
+  "user_level": "Faculty"
 }]

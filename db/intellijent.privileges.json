@@ -54,7 +54,8 @@
     "Assign Users",
     "Deploy Templates",
     "Manage Submitted Forms",
-    "View Users"
+    "View Users",
+    "View Forms Only"
   ]
 },
 {
@@ -76,7 +77,8 @@
   "user_privileges": [
     "View Submitted Forms",
     "View Form Editable",
-    "Submit Forms"
+    "Submit Forms",
+    "View Forms Only"
   ]
 },
 {
@@ -86,6 +88,7 @@
   "user_level": "Faculty",
   "user_privileges": [
     "View Form Editable",
-    "Submit Forms"
+    "Submit Forms",
+    "View Forms Only"
   ]
 }]
