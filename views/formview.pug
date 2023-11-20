@@ -3,75 +3,80 @@ extends formviewlayout.pug
 block body
     #main.w3-main(style='margin-left:250px')
         .w3-row.w3-padding-32
-        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Document Controller")
+        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Document Controller" || currentUserDetailsBlock.empID != currentForm.form_owner)
         else
-            .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                .w3-row
-                    h1.w3-center Form Name: #{currentForm.form_name}
+            if (currentUserDetailsBlock.empID == currentForm.form_owner)
+            else
+                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                    .w3-row
+                        h1.w3-center Form Name: #{currentForm.form_name}
 
-                .w3-row
-                    .w3-twothird.w3-container2
-                        h2 Form Details
-                        hr
-                        .w3-third
-                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                h2 Version History
-                                hr
-                                .w3-row
-                                    select#versionDropDown(name='versionDropDown')
-                                        each version in allVersions
-                                            option #{version.user_version}
-                                .w3-row
-                                    br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
-                                        i.fa.fa-refresh.fa-fw.w3-margin-right
-                                        |   Load Form
-                        .w3-third
-                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                h2 Share Document
-                                hr
-                                .w3-row
-                                    input(id='employee_email' name='employee_email' placeholder="Employee Email")
-                                .w3-row
-                                    select#accessLevel(name='accessLevel')
-                                        option(value='Viewer') Viewer
-                                        option(value='Editor') Editor
-                                .w3-row
-                                    br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
-                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
-                                        |   Share
+                    .w3-row
+                        .w3-twothird.w3-container2
+                            h2 Form Details
+                            hr
+                            .w3-third
+                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                    h2 Version History
+                                    hr
+                                    .w3-row
+                                        select#versionDropDown(name='versionDropDown')
+                                            each version in allVersions
+                                                option #{version.user_version}
+                                    .w3-row
+                                        br
+                                        button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
+                                            i.fa.fa-refresh.fa-fw.w3-margin-right
+                                            |   Load Form
+                            .w3-third
+                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                    h2 Share Document
+                                    hr
+                                    .w3-row
+                                        input(id='employee_email' name='employee_email' placeholder="Employee Email")
+                                    .w3-row
+                                        select#accessLevel(name='accessLevel')
+                                            option(value='Viewer') Viewer
+                                            option(value='Editor') Editor
+                                    .w3-row
+                                        br
+                                        button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
+                                            i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                            |   Share
 
-                        .w3-third
-                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                h2 Shared with
-                                hr
-                                h4
-                                    i.fa.fa-eye.fa-fw.w3-margin-right
-                                    |   denmark - View Only
-                                h4
-                                    i.fa.fa-eye.fa-fw.w3-margin-right
-                                    |   jao - View Only
-                                h4
-                                    i.fa.fa-eye.fa-fw.w3-margin-right
-                                    i.fa.fa-pencil-square-o.fa-fw.w3-margin-right
-                                    |   jian - View and Edit
+                            .w3-third
+                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                    h2 Shared with
+                                    hr
+                                    each sharedReadItem in sharedRead
+                                        h4
+                                            i.fa.fa-eye.fa-fw.w3-margin-right
+                                            |   #{sharedReadItem} - View Only
+                                    each sharedWriteItem in sharedWrite
+                                        h4
+                                            i.fa.fa-eye.fa-fw.w3-margin-right
+                                            |   #{sharedWriteItem} - View & Edit
 
-                    .w3-third.w3-container2
-                        h2 Form Settings
-                        hr
-                        .w3-row
-                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                .w3-row
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='showSaveFormModal()')
-                                        i.fa.fa-floppy-o.fa-fw.w3-margin-right
-                                        |   Save Form
-                                    br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='downloadAsPDF()')
-                                        i.fa.fa-download.fa-fw.w3-margin-right
-                                        |   Download as PDF
 
-        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Admin")
+                        .w3-third.w3-container2
+                            h2 Form Settings
+                            hr
+                            .w3-row
+                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                    .w3-row
+                                        button.w3-button.w3-block.w3-theme-dark(onclick='showSaveFormModal()')
+                                            i.fa.fa-floppy-o.fa-fw.w3-margin-right
+                                            |   Save Form
+                                        br
+                                        button.w3-button.w3-block.w3-theme-dark(onclick='submitForm()')
+                                            i.fas.fa-cloud-upload-alt.w3-margin-right
+                                            |   Submit Form
+                                        br
+                                        button.w3-button.w3-block.w3-theme-dark(onclick='downloadAsPDF()')
+                                            i.fa.fa-download.fa-fw.w3-margin-right
+                                            |   Download as PDF
+
+        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Dean" || currentUserDetailsBlock.userLevel === "Department Head" )
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
                     .w3-half.w3-container2
@@ -82,13 +87,12 @@ block body
                                 h2 Details
                                 hr
                                 .w3-row
+                                    h4 #{form_template.form_name}
                                     h4#formDetailsActivateSetting Status: #{form_template.form_status}
                                     if (!form_template.due_date)
                                         h4 Due Date : None
                                     else
                                         h4#formDueDate Due Date : #{form_template.due_date}
-
-
 
                         .w3-third
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
@@ -121,34 +125,24 @@ block body
                     .w3-half.w3-container2
                         h1 Submitted Forms
                         hr
-                        .w3-twothird
-                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                table#submittedFormsTable.display(width='100%')
-                                    thead
+                        .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                            table#submittedFormsTable.display(width='100%')
+                                thead
+                                    tr
+                                        th Employee Number
+                                        th Date Submitted
+                                        th View Form
+                                        th Action
+                                tbody
+                                    each submissions in submittedVersions
                                         tr
-                                            th Employee Name
-                                            th Date Submitted
-                                            th Actions
-                                    tbody
+                                            td #{submissions.form_owner}
+                                            td #{submissions.date_submitted}
+                                            td
+                                                button.w3-button.w3-block.w3-theme-dark(onclick=`renderSubmittedForm("${submissions.form_owner}")`) View
+                                            td
+                                                button.w3-button.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}")`) Approve Form
 
-
-                        .w3-third
-                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                h2 Current Form Details
-                                hr
-                                .w3-row
-                                    p Owner: 22222222@slu.edu.ph
-                                    p Date Submitted: 11/16/2023
-                                    p Status: Pending
-                                .w3-row
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
-                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
-                                        |   Approve
-                                br
-                                .w3-row
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
-                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
-                                        |   Return
 
 
 
@@ -223,51 +217,59 @@ block body
                     button.pure-material-button-contained.active(onclick=`deleteSelectedFile()`) Yes
                 .dialogboxfoot2
                     button.pure-material-button-contained.active(onclick=`hideDeleteModal()`) No
+        if (!currentForm.allow_file_upload)
+        else
+            .w3-row.w3-padding-32
+                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                    .w3-row
+                        h1 File Management
+                        hr
+                        .w3-twothird.w3-container
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
 
-        .w3-row.w3-padding-32
-            .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                .w3-row
-                    h1 File Management
-                    hr
-                    .w3-twothird.w3-container
-                        .w3-container2.w3-card.w3-white.w3-round.w3-margin
-
-                            table#filesTable.display(width='100%')
-                                thead
-                                    tr
-                                        th File Name
-                                        th File Size
-                                        th Uploaded By
-                                        th Uploaded At
-                                        th File Actions
-                                tbody
-                                    each file in currentUserFiles
+                                table#filesTable.display(width='100%')
+                                    thead
                                         tr
-                                            td #{file.file_name}
-                                            td #{file.file_size}
-                                            td #{file.uploadedBy}
-                                            td #{file.uploadedAt}
-                                            td
-                                                a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
-                                                    i.fa.fa-pencil.w3-text-theme
-                                                a.w3-half.w3-hover-white(onclick=`showDeleteModal("${file.file_name}")`)
-                                                    i.fa.fa-times.w3-text-theme
+                                            th File Name
+                                            th File Size
+                                            th Uploaded By
+                                            th Uploaded At
+                                            th File Actions
+                                    tbody
+                                        each file in currentUserFiles
+                                            tr
+                                                td #{file.file_name}
+                                                td #{file.file_size}
+                                                td #{file.uploadedBy}
+                                                td #{file.uploadedAt}
+                                                td
+                                                    a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/' + file.uploadedBy)
+                                                        i.fas.fa-download
+                                                        <i class="fas fa-download"></i>
+                                                    if (currentUserDetailsBlock.empID != currentForm.form_owner)
+                                                    else
+                                                        a.w3-half.w3-hover-white(onclick=`showDeleteModal("${file.file_name}")`)
+                                                            i.fa.fa-times.w3-text-theme
 
-
-                    .w3-third.w3-container
-                        .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                            h1
-                                i.fa.fa-upload.w3-text-theme
-                                |   Upload Files
-                            hr
-                            form(action="/", method="POST", enctype="multipart/form-data" id="upload-form")
-                                .w3-row
-                                    input.bottone5(type="file", name="file", id="file")
-                                    br
-                                    input.bottone5(type="submit", value="Upload")
+                        if (currentUserDetailsBlock.empID != currentForm.form_owner)
+                        else
+                            .w3-third.w3-container
+                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                    h1
+                                        i.fa.fa-upload.w3-text-theme
+                                        |   Upload Files
+                                    hr
+                                    form(action="/", method="POST", enctype="multipart/form-data" id="upload-form")
+                                        .w3-row
+                                            input.bottone5(type="file", name="file", id="file")
+                                            br
+                                            input.bottone5(type="submit", value="Upload")
 
     script(src='https://code.jquery.com/ui/1.13.2/jquery-ui.js')
     link(rel='stylesheet' href='//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css')
+
+    script(src="../js/client.functions/handle_ajax_upload.js")
+    script(src="../js/client.functions/handle_ajax_delete.js")
 
     script.
         var formBlock = !{JSON.stringify(currentForm)};
@@ -336,7 +338,69 @@ block body
             }
         }
 
+    script.
+        function renderSubmittedForm(formOwner){
+            var data = {
+                formOwner: formOwner,
+                formControlNumber: form_template.form_control_number
+            };
 
+            $.ajax({
+                type: 'PUT',
+                url: '/AJAX_renderSubmittedForm',
+                data: data,
+                success: function(response){
+                    if(response.status_code === 0){
+                        alert("Submitted form of " + formOwner + " will be rendered");
+                        document.getElementById("enginePlaceHolder").innerHTML = response.formContent;
+
+                        var table = $('#filesTable').DataTable();
+                        var updatedData = response.currentUserFiles;
+                        table.clear().draw();
+
+                        for(i=0;i<updatedData.length;i++){
+                            console.log("found an object");
+
+                            var curLine = [
+                                updatedData[i].file_name,
+                                updatedData[i].file_size,
+                                updatedData[i].uploadedBy,
+                                updatedData[i].uploadedAt,
+                                `<a class="w3-half w3-hover-white edit-btn" href="/downloadfile/${updatedData[i].file_name}/${updatedData[i].uploadedBy}"><i class="fas fa-download"></i></a>
+                                <a class="w3-half w3-hover-white" onclick="showDeleteModal('${updatedData[i].file_name}')"><i class="fa fa-times w3-text-theme"></i></a>`
+                            ];
+
+                            table.row.add(curLine).draw();
+                        }
+                    }else if(response.status_code === 1){
+                        alert("Error at rendering form");
+                    }
+                },
+            });
+        }
+
+    script.
+        function approveSubmittedForm(formOwner){
+            var data = {
+                formOwner: formOwner,
+                formControlNumber: form_template.form_control_number
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: '/AJAX_approveSubmittedForm',
+                data: data,
+                success: function(response){
+                    if(response.status_code === 0){
+                        alert("Submitted form was approved.");
+                    }else if(response.status_code === 1){
+                        alert("Error in approving the form.");
+                    }else if(response.status_code === 2){
+                        alert("Error in approving the form.");
+                    }
+                }
+            });
+        }
 
     script.
         var form_template = !{JSON.stringify(form_template)};
@@ -415,7 +479,6 @@ block body
             if(!selectedUserToAssign){
                 alert("Please enter an email to assign the form to.");
             } else {
-                alert("the control number is " + formControlNumber);
                 const data = {
                     assignedUser: selectedUserToAssign,
                     formControlNumber: formControlNumber
@@ -439,6 +502,40 @@ block body
                     }
                 });
             }
+        }
+
+        function submitForm(){
+            var inputFieldValuesJSON = iterateAndGetData();
+            //var formBody = document.getElementById('theContainerOfTheForm').innerHTML;
+            var formBody = document.getElementById('form-content');
+
+            formBody = elementToJson(formBody,inputFieldValuesJSON);
+            getNewKeyID(formBody);
+
+
+            const data = {
+                formContent: formBody
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: '/submitform',
+                data: data,
+                success: function(response) {
+                    if (response.status_code === 1) {
+                        alert("Error in saving the form.");
+                    } else if (response.status_code === 0) {
+                        updateDropdownOptions(response.allUserFormVersions);
+                        alert("Successfully saved the form.");
+                        hideSaveFormModal();
+                    } else {
+                        $('.error-message').text(response.error);
+                    }
+                },
+                error: function(error) {
+                    console.error('AJAX error:', error);
+                }
+            });
         }
 
 

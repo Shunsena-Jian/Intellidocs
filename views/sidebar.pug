@@ -16,7 +16,7 @@ block sidebar
                 a.w3-bar-item.w3-button.w3-hover-white(href='/accountsettings')
                     i.fa.fa-user.w3-margin-right
                     |   Account Settings
-                .w3-dropdown-hover.w3-hide-small
+                //.w3-dropdown-hover.w3-hide-small
                     button.w3-button Notifications
                         i.fa.fa-caret-down
                     .w3-dropdown-content.w3-card-4.w3-bar-block
@@ -74,7 +74,7 @@ block sidebar
                     else
                         img.w3-circle#sideBarImage(src='../src/avatar3.png' style='height:23px;width:23px' alt='Avatar')
                     |  Logout
-                a#userFirstNameNav.w3-bar-item.w3-hide-small.w3-hide-medium #{currentUserDetailsBlock.firstName}
+                #userFirstNameNav.w3-bar-item.w3-hide-small.w3-hide-medium
 
     nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
         div
@@ -117,40 +117,11 @@ block sidebar
                             a(href='/viewformtemplates')
                                 i.fa.fa-eye.w3-margin-right
                                 | View Form Templates
-                        p
-                            a(href='/createform')
-                                i.fa.fa-eye.w3-margin-right
-                                | View Active Forms
                     p
                         a(href='/viewforms')
                             i.fa.fa-file.w3-margin-right
                             | View Forms
-                    p
-                        a(href='/submission')
-                            i.fa.fa-info.w3-margin-right
-                            | Submission
-                    #viewReportElement
-                        p
-                            a(href='/viewreports')
-                                i.fa.fa-pie-chart.w3-margin-right
-                                | View Reports
-                        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Admin")
-                            p
-                                a(href='/createform')
-                                    i.fa.fa-eye.w3-margin-right
-                                    | Set Form Due Dates
-                button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo2')")
-                    i.fa.fa-calendar-check-o.fa-fw.w3-margin-right
-                    |  Form Events
-                #Demo2.w3-hide.w3-container
-                    p
-                        a(href='/managenotifications')
-                            i.fa.fa-bell.w3-margin-right
-                            | Set Form notifications
-                    p
-                        a(href='/managedeadlines')
-                            i.fa.fa-calendar-check-o.w3-margin-right
-                            | Set Form due dates
+
                 #userManagementElement
                     button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo3')")
                         i.fa.fa-users.fa-fw.w3-margin-right

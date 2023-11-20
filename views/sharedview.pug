@@ -1,0 +1,470 @@
+extends sharedviewlayout.pug
+
+block body
+    #main.w3-main(style='margin-left:250px')
+        .w3-row.w3-padding-32
+        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Document Controller")
+        else
+            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                .w3-row
+                    h1.w3-center Form Name: #{currentForm.form_name}
+
+                .w3-row
+                    .w3-twothird.w3-container2
+                        h2 Form Details
+                        hr
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Version History
+                                hr
+                                .w3-row
+                                    select#versionDropDown(name='versionDropDown')
+                                        each version in allVersions
+                                            option #{version.user_version}
+                                .w3-row
+                                    br
+                                    button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
+                                        i.fa.fa-refresh.fa-fw.w3-margin-right
+                                        |   Load Form
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Share Document
+                                hr
+                                .w3-row
+                                    input(id='employee_email' name='employee_email' placeholder="Employee Email")
+                                .w3-row
+                                    select#accessLevel(name='accessLevel')
+                                        option(value='Viewer') Viewer
+                                        option(value='Editor') Editor
+                                .w3-row
+                                    br
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
+                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                        |   Share
+
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Shared with
+                                hr
+                                h4
+                                    i.fa.fa-eye.fa-fw.w3-margin-right
+                                    |   denmark - View Only
+                                h4
+                                    i.fa.fa-eye.fa-fw.w3-margin-right
+                                    |   jao - View Only
+                                h4
+                                    i.fa.fa-eye.fa-fw.w3-margin-right
+                                    i.fa.fa-pencil-square-o.fa-fw.w3-margin-right
+                                    |   jian - View and Edit
+
+                    .w3-third.w3-container2
+                        h2 Form Settings
+                        hr
+                        .w3-row
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='showSaveFormModal()')
+                                        i.fa.fa-floppy-o.fa-fw.w3-margin-right
+                                        |   Save Form
+                                    br
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='submitForm()')
+                                        i.fas.fa-cloud-upload-alt.w3-margin-right
+                                        |   Submit Form
+                                    br
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='downloadAsPDF()')
+                                        i.fa.fa-download.fa-fw.w3-margin-right
+                                        |   Download as PDF
+
+        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Admin")
+            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                .w3-row
+                    .w3-half.w3-container2
+                        h1 User Form Settings
+                        hr
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Details
+                                hr
+                                .w3-row
+                                    h4#formDetailsActivateSetting Status: #{form_template.form_status}
+                                    if (!form_template.due_date)
+                                        h4 Due Date : None
+                                    else
+                                        h4#formDueDate Due Date : #{form_template.due_date}
+
+
+
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Settings
+                                hr
+                                .w3-row
+                                    button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
+                                br
+                                .w3-row
+                                    label(for="dueDateInput") Due Date
+                                    input(type="date" id="dueDateInput" name="birthday")
+                                br
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='setDueDate()')
+                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                        |   Set Due Date
+
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Assign User
+                                hr
+                                .w3-row
+                                    input(id='assign_user' name='employee_email' placeholder="Employee Email")
+                                br
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateAssignUsers()')
+                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                        |   Assign Selected User
+
+                    .w3-half.w3-container2
+                        h1 Submitted Forms
+                        hr
+                        .w3-twothird
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                table#submittedFormsTable.display(width='100%')
+                                    thead
+                                        tr
+                                            th Employee Name
+                                            th Date Submitted
+                                            th Actions
+                                    tbody
+
+
+                        .w3-third
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h2 Current Form Details
+                                hr
+                                .w3-row
+                                    p Owner: 22222222@slu.edu.ph
+                                    p Date Submitted: 11/16/2023
+                                    p Status: Pending
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
+                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                        |   Approve
+                                br
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
+                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                        |   Return
+
+
+
+        .w3-row
+            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                #enginePlaceHolder
+                //#theContainerOfTheForm
+
+
+        #saveFormModal
+            #saveFormModalOverLay.dialogoverlay
+            #saveFormModalDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm Saving
+                    .dialogboxbody
+                        p Are you sure you want to save this Form?
+                        p Saved changes will be accessible through loading previous versions
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`saveFilledOutForm()`) Yes
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideSaveFormModal()`) No
+
+        #shareFormAlertModal
+            #shareFormAlertOverLay.dialogoverlay
+            #shareFormAlertDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle
+                        |   Alert
+                    .dialogboxbody
+                        p Please make sure to put a valid Employee Email Address
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`hideShareFormAlertModal()`) Okay
+
+        #shareFormModal
+            #shareFormOverLay.dialogoverlay
+            #shareFormDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm Form Sharing Details
+                    .dialogboxbody
+                        p#sharingMessage
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`shareForm()`) Yes
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideShareFormModal()`) No
+
+        #loadVersionModal
+            #loadVersionOverLay.dialogoverlay
+            #loadVersionDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm Form Rendering
+                    .dialogboxbody
+                        p#formRenderingMessage
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`renderSelectedVersion()`) Yes
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideLoadVersionModal()`) No
+
+        #deleteFileModal
+            #deleteFileOverLay.dialogoverlay
+            #deleteFileDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm File Deletion
+                    .dialogboxbody
+                        p Are you sure you want to delete this file?
+                        h2#selectedFileForDeletionPlaceholder
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`deleteSelectedFile()`) Yes
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideDeleteModal()`) No
+
+        .w3-row.w3-padding-32
+            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                .w3-row
+                    h1 File Management
+                    hr
+                    .w3-twothird.w3-container
+                        .w3-container2.w3-card.w3-white.w3-round.w3-margin
+
+                            table#filesTable.display(width='100%')
+                                thead
+                                    tr
+                                        th File Name
+                                        th File Size
+                                        th Uploaded By
+                                        th Uploaded At
+                                        th File Actions
+                                tbody
+                                    each file in currentUserFiles
+                                        tr
+                                            td #{file.file_name}
+                                            td #{file.file_size}
+                                            td #{file.uploadedBy}
+                                            td #{file.uploadedAt}
+                                            td
+                                                a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
+                                                    i.fa.fa-pencil.w3-text-theme
+                                                a.w3-half.w3-hover-white(onclick=`showDeleteModal("${file.file_name}")`)
+                                                    i.fa.fa-times.w3-text-theme
+
+                    .w3-third.w3-container
+                        .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                            h1
+                                i.fa.fa-upload.w3-text-theme
+                                |   Upload Files
+                            hr
+                            form(action="/", method="POST", enctype="multipart/form-data" id="upload-form")
+                                .w3-row
+                                    input.bottone5(type="file", name="file", id="file")
+                                    br
+                                    input.bottone5(type="submit", value="Upload")
+
+    script(src='https://code.jquery.com/ui/1.13.2/jquery-ui.js')
+    link(rel='stylesheet' href='//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css')
+
+    script.
+        var formBlock = !{JSON.stringify(currentForm)};
+        var empEmails = !{JSON.stringify(retrievedUserEmails)}
+        var receivedFormContent = formBlock.form_content;
+        //console.log("This is the receivedFormContent ", receivedFormContent);
+
+        var enginePlaceHolder = document.getElementById('enginePlaceHolder');
+        var formControlNumber = formBlock.form_control_number;
+
+        enginePlaceHolder.innerHTML = receivedFormContent;
+        //console.log(!{JSON.stringify(currentForm)});
+
+        $(function() {
+            var allEmails = empEmails;
+            $( "#employee_email" ).autocomplete({
+                source: allEmails
+            });
+        });
+
+        $(function() {
+            var allEmails = empEmails;
+            $( "#assign_user" ).autocomplete({
+                source: allEmails
+            });
+        });
+
+    script(src='.../js/client.engine/htmlToJson.js')
+    script(src='.../js/client.functions/handle_ajax_save_filled_out_form.js')
+    script(src='.../js/client.functions/handle_ajax_share_form.js')
+    script(src='.../js/client.functions/handle_ajax_load_version.js')
+    script(src='.../js/client.form/form_create_view_edit.js')
+
+
+    script.
+        var table2 = $('#submittedFormsTable').DataTable();
+
+    script.
+        function setDueDate(){
+            var dueDateInput = document.getElementById("dueDateInput").value;
+
+            if(dueDateInput == '' || dueDateInput == undefined || dueDateInput == null){
+                alert("You did not set a due date.");
+            }else{
+
+                var data = {
+                    dueDateInput: dueDateInput,
+                    formControlNumber: form_template.form_control_number
+                }
+
+                $.ajax({
+                    type: 'PUT',
+                    url: '/AJAX_setDueDate',
+                    data: data,
+                    success: function(response){
+                        if(response.status_code === 0){
+                            alert("Due date has been set.");
+                            formDueDate.innerHTML = "Due Date : " + response.dueDate;
+                        }else if(response.status_code === 1){
+                            alert("Error in setting a due date.");
+                        }else if(response.status_code === 2){
+                            alert("Error in setting a due date.");
+                        }
+                    }
+                });
+            }
+        }
+
+
+
+    script.
+        var form_template = !{JSON.stringify(form_template)};
+        var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting");
+        var toggleActivateFormButton = document.getElementById("toggleActivateFormButton");
+
+        formDetailsActivateSetting.innerHTML = "Status : " + form_template.form_status;
+
+        if(form_template.form_status == "Published"){
+            toggleActivateFormButton.innerHTML = "Activate";
+        }else if(form_template.form_status == "In-active"){
+            toggleActivateFormButton.innerHTML = "Activate";
+        }else if(form_template.form_status == "Template"){
+            toggleActivateFormButton.innerHTML = "Activate";
+        }
+
+        function toggleActivateForm(){
+            var confirmationMessage;
+
+            if(form_template.form_status == "Published"){
+                confirmationMessage = "Are you sure you want to ACTIVATE the form?";
+            }else if(form_template.form_status == "Active"){
+                confirmationMessage = "Are you sure you want to DE-ACTIVATE the form?";
+            }else{
+                confirmationMessage = "Are you sure you want to ACTIVATE the form?";
+            }
+
+            var result = window.confirm(confirmationMessage);
+
+            if(result){
+                if(toggleActivateFormButton.innerHTML == "Activate"){
+                    toggleActivateFormButton.innerHTML = "De-activate";
+                }else{
+                    toggleActivateFormButton.innerHTML = "Activate";
+                }
+                AJAX_toggleActivate();
+            }
+
+
+        }
+
+        function AJAX_toggleActivate(){
+            var toggleActivateFormButton = document.getElementById("toggleActivateFormButton");
+            var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting");
+
+            var data = {
+                formControlNumber: form_template.form_control_number,
+                targetedVersion: form_template.form_version
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: '/AJAX_toggleActivate',
+                data: data,
+                success: function(response){
+                    if(response.status_code === 0){
+                        if(formDetailsActivateSetting.innerHTML == "Status : Published"){
+                            formDetailsActivateSetting.innerHTML = "Status : Active";
+                        }else if(formDetailsActivateSetting.innerHTML == "Status : Active"){
+                            formDetailsActivateSetting.innerHTML = "Status : In-active";
+                        }else{
+                            formDetailsActivateSetting.innerHTML = "Status : Active";
+                        }
+                    }else if(response.status_code === 1){
+                        alert("Failure did not GRADUATE");
+                    }else if(response.status_code === 2){
+                        alert("Server Failed");
+                    }
+                }
+            });
+        }
+
+        function validateAssignUsers(){
+            selectedUserToAssign = document.getElementById('assign_user').value;
+
+            if(!selectedUserToAssign){
+                alert("Please enter an email to assign the form to.");
+            } else {
+                const data = {
+                    assignedUser: selectedUserToAssign,
+                    formControlNumber: formControlNumber
+                };
+
+                $.ajax({
+                    type: 'PUT',
+                    url: '/AJAX_assignUsers',
+                    data: data,
+                    success: function(response) {
+                        if (response.status_code === 1) {
+                            alert("No user was assigned to the form");
+                        } else if (response.status_code === 0) {
+                            alert(selectedUserToAssign + " was assigned to the form.");
+                        } else {
+                            alert("Error at AJAX function in assigning users.");
+                        }
+                    },
+                    error: function(error){
+                        console.log("AJAX Error: " + error);
+                    }
+                });
+            }
+        }
+
+        function submitForm(){
+            //placeholder
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

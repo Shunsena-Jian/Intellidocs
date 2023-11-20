@@ -1,12 +1,10 @@
 var createTemplateElement = document.getElementById("createTemplateElement");
-var viewReportElement = document.getElementById("viewReportElement");
 var addUserElement = document.getElementById("addUserElement");
 var editUserElement = document.getElementById("editUserElement");
 var userManagementElement = document.getElementById("userManagementElement");
 
 function setUpFeatures(privileges){
     var setUpCreateTemplateElement = false;
-    var setUpViewReportElement = false;
     var setUpAddUserElement = false;
     var setUpEditUserElement = false;
 
@@ -16,9 +14,6 @@ function setUpFeatures(privileges){
         if(currentPrivilege == "Manage Templates"){
             setUpCreateTemplateElement = true;
             console.log("THIS USER CAN CREATE TEMPLATES");
-        }else if(currentPrivilege == "Manage Reports"){
-            setUpViewReportElement = true;
-            console.log("THIS USER CAN VIEW REPORT");
         }else if(currentPrivilege == "User Management"){
             setUpAddUserElement = true;
             console.log("THIS USER CAN ADD USERS");
@@ -30,9 +25,6 @@ function setUpFeatures(privileges){
 
     if(!setUpCreateTemplateElement){
         createTemplateElement.remove();
-    }
-    if(!setUpViewReportElement){
-        viewReportElement.remove();
     }
     if(!setUpAddUserElement){
         addUserElement.remove();

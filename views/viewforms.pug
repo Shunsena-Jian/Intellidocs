@@ -39,7 +39,42 @@ block body
                                         b  Version:
                                         |  #{publishedForm.form_version}
                                     a(href=`/formview/${publishedForm.form_control_number}`) View Form
-
+        if (currentUserDetailsBlock.userLevel === "Department Head" || currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Dean")
+            .w3-row
+                .w3-padding
+                    .shadowEffect.w3-container.w3-white.w3-round.w3-margin
+                        h3 Submitted Forms
+                        hr.w3-clear
+                        each submittedForm in submittedForms
+                            .w3-half.w3-container
+                                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
+                                    h3  #{submittedForm.form_name}
+                                    hr.w3-clear
+                                    p
+                                        b  Status:
+                                        if (!submittedForm.form_status)
+                                            |  N/A
+                                        else
+                                            |  #{submittedForm.form_status}
+                                    p
+                                        b  Date Created:
+                                        if (!submittedForm.date_saved)
+                                            |  N/A
+                                        else
+                                            |  #{submittedForm.date_saved}
+                                    p
+                                        b  Time Created:
+                                        if (!submittedForm.time_saved)
+                                            |  N/A
+                                        else
+                                            |  #{submittedForm.time_saved}
+                                    p
+                                        b  Version:
+                                        |  #{submittedForm.form_version}
+                                    a(href=`/formview/${submittedForm.form_control_number}`) View Form
+                br
+                br
+                br
         if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Document Controller")
         else
             .w3-row
@@ -95,7 +130,7 @@ block body
                                             |  N/A
                                         else
                                             |  #{sharedForm.last_edited}
-                                    a(href=`/formview/${sharedForm.form_control_number}`) View Form
+                                    a(href=`/sharedview/${sharedForm.form_control_number}/${sharedForm.form_owner}`) View Form
             br
             br
             br
