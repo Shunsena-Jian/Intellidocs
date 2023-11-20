@@ -633,7 +633,7 @@ function createContextMenu(x,y,element, table) {
         contextMenu.classList.add('context-menu');
 
         if (table) {
-            if (element.classList.contains('table')) {
+            if (table.classList.contains('form-table')) {
                 contextMenuButtonsForTable(element, contextMenu);
             }
         }
@@ -773,7 +773,7 @@ function contextMenuButtonsForContainer(element, contextMenu) {
     return contextMenu;
 }
 
-function contextMenuButtonsForTable(element, contextMenu) {
+function contextMenuButtonsForTable(table, contextMenu) {
     const addRowButton = document.createElement('button');
     addRowButton.classList.add("button-table");
     addRowButton.innerText = 'Add Row';
@@ -820,7 +820,7 @@ function contextMenuButtonsForTable(element, contextMenu) {
     mergeCellsButton.innerText = 'Merge Cells';
 
     mergeCellsButton.addEventListener('click', () => {
-    	const table = element.querySelector('table');
+    	const table = element.querySelector('form-table');
     	mergeCells(table);
     	contextMenu.remove();
     });
@@ -876,11 +876,11 @@ function reassignSectionID() {
 }
 
 function repositionBoxes() {
-	const boxes = Array.from(widgetCanvas.querySelectorAll('.table'));
+	const boxes = Array.from(widgetCanvas.querySelectorAll('.draggable'));
 	boxes.forEach((box) => {
 		box.addEventListener('drop', (e) => {
 			e.preventDefault();
-			const boxes = Array.from(dropBox.querySelectorAll('.box'));
+			const boxes = Array.from(dropBox.querySelectorAll('.draggable'));
 
 			if (activeDraggable) {
 				const draggedIndex = boxes.indexOf(activeDraggable);
@@ -932,7 +932,7 @@ function addEventListenerToDiv(dropBox) {
                 if (clonedDiv.nodeName.toLowerCase() === 'table') {
                   clonedDiv.addEventListener('contextmenu', (e) => {
                     e.preventDefault();
-                    createContextMenu(e.clientX, e.clientY, clonedDiv, null);
+                    createContextMenu(e.clientX, e.clientY, null , clonedDiv);
                   });
                   clonedDiv = activateTable(clonedDiv);
 
@@ -942,11 +942,13 @@ function addEventListenerToDiv(dropBox) {
                         containerSize = boxHeight;
                         isContainer = true;
                         const data = e.dataTransfer.getData('text/html');
+
                         // Create a temporary container to parse and append the data
                         const tempContainer = document.createElement('div');
                         tempContainer.innerHTML = data;
                         tempContainer.firstChild.removeAttribute("draggable");
-                        selectedTextBox.appendChild(tempContainer.firstChild);
+                        selectedTextBox.appendChild(tempContainer);
+
                         // Remove the 'draggable' attribute
                         selectedTextBox.removeAttribute("draggable");
                         activeDraggable = null;
@@ -1000,10 +1002,11 @@ function updatePageHeight() {
 }
 
 function activateTable(clonedDiv) {
+    console.log(clonedDiv);
     let selectedCells = [];
 
 	clonedDiv.addEventListener('click', (e) => {
-	    const cell = e.ta
+	    const cell = e.target;
 	    if (cell.tagName === 'TD' && !cell.classList.contains('merged') || cell.tagName === 'TH' && !cell.classList.contains('merged')) {
 	    	if (cell.classList.contains('selected')) {
 	    		// Deselect the cell
