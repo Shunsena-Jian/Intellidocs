@@ -81,7 +81,7 @@ function initializeWidgetsCollectionConnection(db){
     var widgets;
     try{
         widgets = db.collection('widgets');
-        console.log("Connected to the Database Wdigets Collection successfully!.");
+        console.log("Connected to the Database Widgets Collection successfully!.");
         return widgets;
     }catch(error){
         console.log(error);

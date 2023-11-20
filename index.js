@@ -675,8 +675,6 @@ app.get('/formview/:form_control_number', async function (req, res){
         var selectedFormControlNumberToView = req.params.form_control_number;
         formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
         var allVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID }).toArray();
-        var submittedVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_status : "Submitted" }).toArray();
-        console.log("This are the submitted versions: " + JSON.stringify(submittedVersions[0]));
         var latestVersion = 0;
         var latestUserVersion = 0;
 
@@ -755,7 +753,7 @@ app.get('/formview/:form_control_number', async function (req, res){
         jsonObject.form_content = g;
 
         var currentUserFiles = await files.find({ uploadedBy : latestUserFilledVersion.form_owner, fileFormControlNumber : latestUserFilledVersion.form_control_number }).toArray();
-
+        var submittedVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_status : "Submitted" }).toArray();
     //    currentUserFiles = await getFiles(req.session.userEmpID);
 
         res.render('formview', {
@@ -1113,11 +1111,11 @@ app.post('/login', async function (req, res){
     if(req.session.loggedIn){
         res.redirect('/');
     } else {
-        var username = req.body.userName;
+        var useremail = req.body.userEmail;
         var password = req.body.passWord;
 
         try {
-            const user = await users.findOne({ username: username });
+            const user = await users.findOne({ email: useremail });
             if(!user){
                 logStatus("Cannot find user");
 
@@ -1975,22 +1973,22 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
                     { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
                     { $set: { secretary_approval: "Approved" } },
                     { returnDocument: 'after' }
-                )
+                );
             }else if(currentUserDetailsBlock.userLevel == "Department Head"){
                 updateDocument = filledoutforms.findOneAndUpdate(
                     { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
                     { $set: { department_head_approval: "Approved" } },
                     { returnDocument: 'after' }
-                )
+                );
             }else if(currentUserDetailsBlock.userLevel == "Dean"){
                 updateDocument = filledoutforms.findOneAndUpdate(
                     { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
                     { $set: { dean_approval: "Approved" } },
                     { returnDocument: 'after' }
-                )
+                );
             }
         }
-        res.send({ status_code : 0 });
+        res.send({ status_code : 0, secretary_approval : submittedForm.secretary_approval, dean_approval : submittedForm.dean_approval, department_head_approval : submittedForm.department_head_approval });
     }else{
         res.render('login', {
             title: 'Login Page'
