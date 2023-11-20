@@ -39,8 +39,8 @@
 
 .drop-container {
   background: #FFFFFF;
-  width: 210mm; /* Set the width to match the A4 width */
-  height: 297mm; /* Set the height to match the A4 height */
+  width: 215mm; /* Set the width to match the Long Paper width */
+  height: 330mm; /* Set the height to match the Long Paper height */
   max-width: 100%;
   margin: 10px auto; /* Center horizontally with margin:auto */
   padding: 36px;
@@ -57,8 +57,9 @@
 
 
 .drop-container.landscape {
-    height: 100mm;
-    width: 300mm;
+  width: 330mm; /* Set the width to match the Long Paper width */
+  height: 215mm; /* Set the height to match the Long Paper height */
+  max-height: 100%;
 }
 
 .w3-box {

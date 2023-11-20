@@ -22,7 +22,7 @@ window.onload = function() {
     dropContainers = document.querySelectorAll('.drop-container');
     currentPageContent = document.querySelector('.drop-container');
     currentPage = dropContainers.length;
-    tables = document.querySelectorAll('.table');
+    tables = document.querySelectorAll('.form-table');
     activeDraggable = null;
     sectionCount = 0;
     maxHeight = 0;
@@ -39,7 +39,6 @@ window.onload = function() {
     if (currentPageContent.childElementCount > 0) {
         initializeCurrentPage();
     } else {
-        //console.log("currentPageContent is empty or falsy:", currentPageContent);
     }
 
     currentPageContent.addEventListener('click', (e) => { // Can select the page canvas
@@ -51,7 +50,7 @@ window.onload = function() {
 };
 
 function initializeDraggables() {
-    var tables = document.querySelectorAll('.table');
+    var tables = document.querySelectorAll('.form-table');
     var boxes = document.querySelectorAll('.box');
     var draggables = document.querySelectorAll('.draggable');
 
@@ -65,13 +64,6 @@ function initializeDraggables() {
         });
     });
 
-    draggables.forEach((draggable) => {
-    	draggable.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('text/html', draggable.outerHTML);
-            activeDraggable = draggable;
-
-        });
-    });
 
     boxes.forEach((box) => {
     	box.addEventListener('dragstart', (e) => {
@@ -138,6 +130,9 @@ function initializeContextMenuForChildren(pageCount){
         children = parentElement.children;
 
         for(j = 0; j < children.length; j++){
+            clonedDiv.addEventListener('keydown', () => {
+                adjustTextareaHeight(clonedDiv);
+            });
             initializeContextMenuForChild(children[j].firstElementChild);
         }
     }
@@ -198,129 +193,125 @@ function adjustTextareaHeight(element) {
          if ((pageHeight + addedHeight) > (maxHeight+padding)) {
              // alert("Page Already Full"); // REQUIRED MODAL HERE
              adaptSucceedingContent(parentContainer);
+             dynamicFillEmptySpace();
          }
     }
 
     element.style.height = 'auto'; // Reset the height to auto
     element.style.height = `${element.scrollHeight}px`; // Set the height to match the scroll height
-    dynamicFillEmptySpace(parentContainer);
+    dynamicFillEmptySpace();
 }
 
-function dynamicFillEmptySpace(startingPoint) {
+function dynamicFillEmptySpace() {
     var allPages = document.querySelectorAll(".drop-container"); // Query all pages
-    var sectionID; // Step 1
-    var pageID; // Step 2
+    var currentPageIndex;
 
-    if (startingPoint == null) {
-        sectionID = "section 1-1";
-        pageID = "page-1";
-    } else {
-        sectionID = startingPoint.id;
-        pageID = startingPoint.parentElement.id;
-    }
+    allPages.forEach(function checkEachPage(page, index) {
 
-    var currentPageIndex = Array.from(allPages).findIndex(page => page.id === pageID);
+        if (index === 0) { // Consider only the first page
+            currentPageIndex = index;
+            var currentPageChildren = Array.from(page.children);
+            var currentPageHeight = calculateTotalHeight(currentPageChildren);
 
-    if (currentPageIndex == null) {
-        currentPageIndex = 1;
-    }
+            if (currentPageHeight < maxHeight) {
+                var nextPage = allPages[currentPageIndex + 1]; // Access the second page
 
-    // Step 3: Calculate total height of children in each page
-    for (var i = currentPageIndex; i < allPages.length; i++) {
-        var currentPage = allPages[i];
-        var currentPageChildren = Array.from(currentPage.children);
+                if (nextPage) {
+                    var secondChildOfNextPage = nextPage.children[1]; // Assuming the second child needs to be moved
 
-        var currentPageHeight = calculateTotalHeight(currentPageChildren) + padding;
+                    if (secondChildOfNextPage) {
+                        var spaceAvailable = maxHeight - currentPageHeight;
+                        var secondChildHeight = calculateDivHeight(secondChildOfNextPage);
 
-        // Step 4: If there is still space in a given page
-        if (currentPageHeight < maxHeight) {
-            var nextPageIndex = i + 1;
-            if (nextPageIndex < allPages.length) {
-                var nextPage = allPages[nextPageIndex];
-                var secondChildOfNextPage = nextPage.children[1]; // Assuming the second child needs to be moved
-
-                if (secondChildOfNextPage) {
-                    var spaceAvailable = maxHeight - currentPageHeight;
-                    var secondChildHeight = calculateDivHeight(secondChildOfNextPage);
-
-                    // Step 5: If there's enough space, move the child
-                    if (secondChildHeight <= spaceAvailable) {
-                        currentPage.appendChild(secondChildOfNextPage); // Move the child to the current page
-                        currentPageHeight += secondChildHeight;
+                        if (secondChildHeight <= spaceAvailable) {
+                            page.appendChild(secondChildOfNextPage); // Move the child to the current page
+                            currentPageHeight += secondChildHeight;
+                        }
                     }
-
-                    // Step 6: Adjust the children of the next page
-                    // Assuming the moved child needs to be replaced with the first child of the next page
-                    //var firstChildOfNextPage = nextPage.children[0];
-                    //nextPage.insertBefore(firstChildOfNextPage, secondChildOfNextPage.nextSibling);
                 }
             }
         }
-    }
+    });
 
     updatePageNumbers();
     checkCurrentPage();
 }
 
+
 function calculateTotalHeight(elements) {
     var totalHeight = 0;
     elements.forEach(element => {
-        totalHeight += calculateDivHeight(element);
+        totalHeight += calculateDivHeight(element) + 10;
     });
     return totalHeight;
 }
 
-function adaptSucceedingContent(startingPoint, maxHeight) {
-        var allPages = document.querySelectorAll(".drop-container"); // Query all pages
+function adaptSucceedingContent(startingPoint) {
+    var allPages = document.querySelectorAll(".drop-container"); // Query all pages
+    var sectionID;
+    var pageID;
+    var index = 0;
+    var startingPointSectionID;
+    var startingPointPageSuccChildren = []; // Succeeding children after element pointer
+    var nextPageIndex = 2;
+    var startingPointPageChildrenCount;
 
-        var sectionID = startingPoint.id; // Step 1
-        var pageID = startingPoint.parentElement.id; // Step 2
+    // Step 3: Calculate the page height where the starting point element is located
+    var initialPageHeight = 0;
 
-        // Step 3: Calculate the page height where the starting point element is located
-        var currentPageIndex = Array.from(allPages).findIndex(page => page.id === pageID);
+    allPages.forEach(function checkEachPage(page) {
+        sectionID = "section-1-1";
+        startingPointSectionID = parseInt(sectionID.match(/section-\d+-(\d+)$/)[1]); // section count of starting element
+        startingPointPageChildrenCount = page.children; // Section count page of element pointer
+
+
         var initialPageHeight = 0;
-        for (var i = 0; i <= currentPageIndex; i++) {
-            var currentPage = allPages[i];
-            initialPageHeight += currentPage.offsetHeight;
-        }
+        var nextPageIndex = Array.from(allPages).indexOf(page) + 1;
 
-        var startingPointSectionID = parseInt(sectionID.match(/(\d+)$/)[1]); // section count of starting element
-        var startingPointPageSuccChildren = []; // Succeeding children after element pointer
-        var nextPageIndex = currentPageIndex + 1;
+        for (var i = 0; i < startingPointPageChildrenCount.length - 1; i++) {
 
-        var startingPointPageChildrenCount = startingPoint.parentElement.children; // Section count page of element pointer
+            var currentDivHeight = calculateDivHeight(startingPointPageChildrenCount[i]) + 10;
+            initialPageHeight += currentDivHeight;
 
-        for (var i = 0; i < startingPointPageChildrenCount.length; i++) {
-            if (parseInt(startingPointPageChildrenCount[i].id.match(/(\d+)$/)[1]) > startingPointSectionID) {
-                var currentDivHeight = calculateDivHeight(startingPointPageChildrenCount[i]);
+            if (initialPageHeight > maxHeight) {
+                var nextPage = allPages[nextPageIndex];
 
-                if ((initialPageHeight + currentDivHeight) <= maxHeight) {
-                    initialPageHeight += currentDivHeight; // Step 4
-                } else {
-                    var nextPage = allPages[nextPageIndex];
 
-                    if (!nextPage) {
-                        nextPage = createNewPage(); // Create a new page if nextPage is null
-                        allPages = document.querySelectorAll(".drop-container"); // Update the list of pages
-                    }
-
-                    // Append as the second child in the next page
-                    if (nextPage.children.length >= 2) {
-                        nextPage.insertBefore(startingPointPageChildrenCount[i], nextPage.children[1]);
-                    } else {
-                        nextPage.appendChild(startingPointPageChildrenCount[i]);
-                    }
-
-                    startingPointPageSuccChildren.push(startingPointPageChildrenCount[i]); // Step 3 for the next page
-                    nextPageIndex++;
-                    initialPageHeight = currentDivHeight; // Reset initial page height for the next page
+                if (!nextPage) {
+                    nextPage = createNewPage(); // Create a new page if nextPage is null
+                    allPages = document.querySelectorAll(".drop-container"); // Update the list of pages
                 }
-            } else {
-                initialPageHeight += calculateDivHeight(startingPointPageChildrenCount[i]); // Step 4
+
+                if (nextPage.children.length === 0) {
+                    // If nextPage has no children, append the element
+                    nextPage.appendChild(startingPointPageChildrenCount[startingPointPageChildrenCount.length - 1]);
+                } else {
+                    // If nextPage has children
+
+                    // Store the second child and subsequent children (if any) in an array
+                    var movedChildren = Array.from(nextPage.children).slice(1);
+
+                    // Remove the stored children from the page
+                    movedChildren.forEach(function(child) {
+                        nextPage.removeChild(child);
+                    });
+
+                    var elementToMove = startingPointPageChildrenCount[startingPointPageChildrenCount.length - 1];
+
+                    // Insert the element to be moved to the next page as the second child
+                    nextPage.appendChild(elementToMove);
+
+                    // Insert back the removed initial children, respective of their order before they were removed
+                    movedChildren.forEach(function(child) {
+                        nextPage.appendChild(child);
+                    });
+                }
+
             }
         }
+    nextPageIndex++;
+});
 }
-
 
 // Page Settings
 function setMaxHeight() {
@@ -402,15 +393,20 @@ function modifyOrientation() {
         // Add the 'landscape' class to all drop containers
         dropContainers.forEach(function (dropContainer) {
             dropContainer.classList.add("landscape");
-            setMaxHeight(); // Update page height. Dynamic calculation of max height
         });
     } else if (selectedValue === "portrait") {
         // Remove the 'landscape' class from all drop containers
         dropContainers.forEach(function (dropContainer) {
-        dropContainer.classList.remove("landscape");
-        setMaxHeight(); // Update page height. Dynamic calculation of max height
+            dropContainer.classList.remove("landscape");
         });
     }
+
+     setMaxHeight(); // Update page height. Dynamic calculation of max height
+     adaptSucceedingContent(null);
+
+     dynamicFillEmptySpace();
+     checkCurrentPage();
+     reassignSectionID();
 }
 
 function makeAlignCenter() {
@@ -627,7 +623,7 @@ function addTableRow(table) {
 		}
 	}
     currentHeight += 40;
-    dynamicFillEmptySpace(null);
+    dynamicFillEmptySpace();
 }
 
 // Append a column at the right
@@ -645,7 +641,7 @@ function addTableColumn(table) {
 function removeTableRow(table, rowIndex) {
 	if (table.rows.length > 1) {
 		table.deleteRow(rowIndex);
-		dynamicFillEmptySpace(null);
+		dynamicFillEmptySpace();
 	} else {
 		alert("Cannot remove the last row. You can delete the widget instead"); // REQUIRED MODAL HERE
 	}
@@ -659,7 +655,7 @@ function removeTableColumn(table, columnIndex) {
 			const row = table.rows[i];
 			if (row.cells.length > 1) {
 				row.deleteCell(columnIndex);
-				dynamicFillEmptySpace(null);
+				dynamicFillEmptySpace();
 			} else {
 				alert("Cannot remove the last cell in a row."); // REQUIRED MODAL HERE
 			}
@@ -785,25 +781,34 @@ function createContextMenu(x,y,element, table) {
                             if (tableContainer.nodeName === "TBODY") {
                                 var tableContainerOuter = tableContainer.parentElement;
                                 tableContainerOuter.remove();
+                                repositionBoxes();
                                 reassignSectionID();
-                                var tableContainerSectionCover = tableContainerOuter;
                             } else {
                                 tableContainer.remove();
+                                repositionBoxes();
                                 reassignSectionID();
+                                dynamicFillEmptySpace();
                                 checkCurrentPage();
                             }
+                            sectionCount -= 1;
+                            currentHeight = updatePageHeight();
+                        return;
                         } else {
                             if (element) {
                                 const parentContainer = element.parentElement;
-                                parentContainer.remove(); // Remove the parent container
-                                reassignSectionID();
+                                if (parentContainer.classList.contains("draggable")) {
+                                    parentContainer.parentElement.remove();
+                                } else {
+                                   parentContainer.remove(); // Remove the parent container
+                                   repositionBoxes();
+                                   reassignSectionID();
+                                   dynamicFillEmptySpace();
+                                   checkCurrentPage();
+                                }
+                            sectionCount -= 1;
+                            currentHeight = updatePageHeight();
                             }
-                            checkCurrentPage();
                         }
-                        dynamicFillEmptySpace(null);
-                        sectionCount -= 1;
-                        currentHeight = updatePageHeight();
-                        repositionBoxes();
                     }
                 }
             });
@@ -970,7 +975,7 @@ function contextMenuButtonsForTable(table) {
 
     addRowButton.addEventListener('click', () => {
      addTableRow(table);
-     dynamicFillEmptySpace(null);
+     dynamicFillEmptySpace();
      contextMenu.remove();
     });
 
@@ -1014,6 +1019,7 @@ function dropContent(boxHeight, data) {
     tempDiv.classList.add('hover'); // Hover
     const newDiv = tempDiv.querySelector('.draggable');
 
+
     if (newDiv) {
         var clonedDiv = newDiv.cloneNode(true); // clone dragged element
         clonedDiv.removeAttribute("draggable"); // make it not draggable
@@ -1032,17 +1038,12 @@ function dropContent(boxHeight, data) {
                 createNewPage(); // Current page is full, initialize a new page
             }
 
-            if (clonedDiv.nodeName === "TEXTAREA") {
-                var addHeight = 0;
                 clonedDiv.addEventListener('keydown', () => {
                     adjustTextareaHeight(clonedDiv);
                 });
-            } else {
-                clonedDiv.style.height = 'fixed';
-            }
 
             currentPageContent.appendChild(sectionDiv); // Append to the current page's content
-            currentHeight += calculateDivHeight(clonedDiv); // Update current height
+            currentHeight = updatePageHeight(); // Update current height
         }
 
         // Update page numbers
@@ -1060,7 +1061,7 @@ function calculateDivHeight(element) {
     if (element.nodeName === "TABLE" || element.nodeName === "TH" || element.nodeName === "TD" ) {
         return element.getBoundingClientRect().height + 10;
     } else {
-        return element.getBoundingClientRect().height + 5;
+        return element.getBoundingClientRect().height + 10;
     }
 //    return element.scrollHeight;
 //    return element.offsetHeight;
@@ -1164,24 +1165,28 @@ function updatePageNumbers() {
 		// Inside drop-container, find the div with the class 'header'
 		const headerContainer = container.querySelector('.header');
 
-		// Inside the div with class 'header', find all tables with class name 'header-table'
-		const headerTable = headerContainer.querySelector('.header-table');
+        try {
+            const headerTable = headerContainer.querySelector('.header-table');
 
-		const pageNumberElement = headerTable.querySelector('.page-number');
-		pageNumberElement.textContent = (index) + ' of ' + totalPages;
-		index += 1;
+            const pageNumberElement = headerTable.querySelector('.page-number');
+            pageNumberElement.textContent = (index) + ' of ' + totalPages;
+            index += 1;
+        } catch (error) {
+            // Handle any errors that might occur within the try block
+            return;
+        }
 	});
 }
 
 // Update page sections positioning
 function repositionBoxes() {
-	const boxes = Array.from(currentPageContent.querySelectorAll('.box'));
+	const boxes = Array.from(currentPageContent.querySelectorAll('.draggable'));
 
 	boxes.forEach((box) => {
 
 		box.addEventListener('drop', (e) => {
 			e.preventDefault();
-			const boxes = Array.from(currentPageContent.querySelectorAll('.box'));
+			const boxes = Array.from(currentPageContent.querySelectorAll('.draggable'));
 
 			if (activeDraggable) {
 				const draggedIndex = boxes.indexOf(activeDraggable);
@@ -1194,6 +1199,7 @@ function repositionBoxes() {
 			}
 		});
 	});
+	reassignSectionID();
 }
 
 // Initialize dragging listeners for the current page

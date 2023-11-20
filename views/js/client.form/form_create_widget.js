@@ -16,7 +16,7 @@ var selectedSectionContainer;
 
 // On load of page, initialize global variables
 window.onload = function(){
-    tables = document.querySelectorAll('.table');
+    tables = document.querySelectorAll('.form-table');
     boxes = document.querySelectorAll('.box');
     contextMenu = document.createElement('div');
     widgetCanvas = document.getElementById('widgetCanvas');

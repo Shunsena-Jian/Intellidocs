@@ -21,24 +21,6 @@ block body
                         select#modifyOrientation(onchange='modifyOrientation()')
                             option(value='portrait') Portrait
                             option(value='landscape') Landscape
-
-                    .grid-item
-                        label(for='fontSizeSelect') Font Size:
-                        select#fontSizeSelect(onchange='changeFontSize()')
-                            // Generate font size options using JavaScript
-                            script.
-                                for (let i = 1; i <= 100; i++) {
-                                    document.write(`<option value="${i}">${i}</option>`);
-                                }
-                    .grid-item.borderless
-                    .grid-item
-                        label(for='colorSelect') Select Text Color:
-                        select#colorSelect(onchange='changeTextColor()')
-                            option(value='black') Black
-                            option(value='white') White
-                            option(value='red') Red
-                            option(value='blue') Blue
-                            option(value='grey') Grey
                     .grid-item.borderless
                     .grid-item
                         a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignLeft()')
