@@ -6,7 +6,6 @@ block body
         if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Document Controller" || currentUserDetailsBlock.empID != currentForm.form_owner)
         else
             if (currentUserDetailsBlock.empID == currentForm.form_owner)
-            else
                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
                     .w3-row
                         h1.w3-center Form Name: #{currentForm.form_name}
@@ -243,12 +242,11 @@ block body
                                                 td #{file.uploadedBy}
                                                 td #{file.uploadedAt}
                                                 td
-                                                    a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/' + file.uploadedBy)
+                                                    a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/' + file.file_name + '/' + file.uploadedBy)
                                                         i.fas.fa-download
-                                                        <i class="fas fa-download"></i>
                                                     if (currentUserDetailsBlock.empID != currentForm.form_owner)
                                                     else
-                                                        a.w3-half.w3-hover-white(onclick=`showDeleteModal("${file.file_name}")`)
+                                                        a.w3-half.w3-hover-white(onclick=`showDeleteModal('${file.file_name}', '${file.uploadedBy}')`)
                                                             i.fa.fa-times.w3-text-theme
 
                         if (currentUserDetailsBlock.empID != currentForm.form_owner)
@@ -367,7 +365,7 @@ block body
                                 updatedData[i].uploadedBy,
                                 updatedData[i].uploadedAt,
                                 `<a class="w3-half w3-hover-white edit-btn" href="/downloadfile/${updatedData[i].file_name}/${updatedData[i].uploadedBy}"><i class="fas fa-download"></i></a>
-                                <a class="w3-half w3-hover-white" onclick="showDeleteModal('${updatedData[i].file_name}')"><i class="fa fa-times w3-text-theme"></i></a>`
+                                <a class="w3-half w3-hover-white" onclick="showDeleteModal('${updatedData[i].file_name}','${updatedData[i].uploadedBy}')"><i class="fa fa-times w3-text-theme"></i></a>`
                             ];
 
                             table.row.add(curLine).draw();

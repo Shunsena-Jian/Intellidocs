@@ -23,8 +23,8 @@ $(document).ready(function() {
                         updatedData[i].file_size,
                         updatedData[i].uploadedBy,
                         updatedData[i].uploadedAt,
-                        `<a class="w3-half w3-hover-white edit-btn" href="/downloadfile/${updatedData[i].file_name}"><i class="fas fa-download"></i></a>
-                        <a class="w3-half w3-hover-white" onclick="showDeleteModal('${updatedData[i].file_name}')"><i class="fa fa-times w3-text-theme"></i></a>`
+                        `<a class="w3-half w3-hover-white edit-btn" href="/downloadfile/${updatedData[i].file_name}/${updatedData[i].uploadedBy}"><i class="fas fa-download"></i></a>
+                        <a class="w3-half w3-hover-white" onclick="showDeleteModal('${updatedData[i].file_name}','${updatedData[i].uploadedBy}')"><i class="fa fa-times w3-text-theme"></i></a>`
                     ];
 
                     table.row.add(curLine).draw();

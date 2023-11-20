@@ -1010,7 +1010,7 @@ app.delete('/ajaxdelete/:file_name/:form_owner', async function (req, res){
             }
         });
 
-        const deleteCriteria = {file_name: selectedFileForDeletion, uploadedBy: req.session.userEmpID};
+        const deleteCriteria = {file_name: selectedFileForDeletion, uploadedBy: selectedUser};
 
         await files.deleteOne(deleteCriteria, function (error, result){
             if(error){
@@ -1020,7 +1020,7 @@ app.delete('/ajaxdelete/:file_name/:form_owner', async function (req, res){
             }
         });
 
-        const documents = await getFiles(req.session.userEmpID);
+        const documents = await getFiles(selectedUser);
 
         res.json({documents});
     }else{
