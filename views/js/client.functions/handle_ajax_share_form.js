@@ -39,7 +39,9 @@ function shareForm(){
 
     if(!selectedEmailToShareTo){
         alert("Please enter an email to share the form to!");
-    } else {
+    }else if(!empEmails.includes(selectedEmailToShareTo)){
+        alert("Employee does not exist.");
+    }else{
 
         const data = {
             shareTo: selectedEmailToShareTo,
