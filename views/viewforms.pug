@@ -130,7 +130,46 @@ block body
                                             |  N/A
                                         else
                                             |  #{sharedForm.last_edited}
-                                    a(href=`/sharedview/${sharedForm.form_control_number}/${sharedForm.form_owner}`) View Form
+                                    a(onclick=`viewSharedForm("${String(sharedForm.form_control_number)}", "${String(sharedForm.form_owner)}")`) View Form
             br
             br
             br
+    script.
+        function viewSharedForm(formControlNumber, formOwner){
+            var data = {
+                formControlNumber : formControlNumber,
+                formOwner : formOwner
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: '/AJAX_viewSharedForm',
+                data: data,
+                success: function(response){
+                    if(response.status_code === 0){
+                        window.location.href = '/sharedview';
+                    } else if (response.status_code === 1){
+                        alert("Shared form does not exist.");
+                    }
+                },
+                error: function(error){
+                    console.log("AJAX function error: " + error);
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

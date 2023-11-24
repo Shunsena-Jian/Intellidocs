@@ -19,8 +19,10 @@ block body
                                 hr
                                 .w3-row
                                     select#versionDropDown(name='versionDropDown')
-                                        each version in allVersions
-                                            option #{version.user_version}
+                                        if (!allVersions)
+                                        else
+                                            each version in allVersions
+                                                option #{version.user_version}
                                 .w3-row
                                     br
                                     button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
@@ -227,47 +229,48 @@ block body
                     button.pure-material-button-contained.active(onclick=`deleteSelectedFile()`) Yes
                 .dialogboxfoot2
                     button.pure-material-button-contained.active(onclick=`hideDeleteModal()`) No
+        if (!currentUserFiles)
+        else
+            .w3-row.w3-padding-32
+                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                    .w3-row
+                        h1 File Management
+                        hr
+                        .w3-twothird.w3-container
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
 
-        .w3-row.w3-padding-32
-            .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                .w3-row
-                    h1 File Management
-                    hr
-                    .w3-twothird.w3-container
-                        .w3-container2.w3-card.w3-white.w3-round.w3-margin
-
-                            table#filesTable.display(width='100%')
-                                thead
-                                    tr
-                                        th File Name
-                                        th File Size
-                                        th Uploaded By
-                                        th Uploaded At
-                                        th File Actions
-                                tbody
-                                    each file in currentUserFiles
+                                table#filesTable.display(width='100%')
+                                    thead
                                         tr
-                                            td #{file.file_name}
-                                            td #{file.file_size}
-                                            td #{file.uploadedBy}
-                                            td #{file.uploadedAt}
-                                            td
-                                                a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
-                                                    i.fa.fa-pencil.w3-text-theme
-                                                a.w3-half.w3-hover-white(onclick=`showDeleteModal("${file.file_name}")`)
-                                                    i.fa.fa-times.w3-text-theme
+                                            th File Name
+                                            th File Size
+                                            th Uploaded By
+                                            th Uploaded At
+                                            th File Actions
+                                    tbody
+                                        each file in currentUserFiles
+                                            tr
+                                                td #{file.file_name}
+                                                td #{file.file_size}
+                                                td #{file.uploadedBy}
+                                                td #{file.uploadedAt}
+                                                td
+                                                    a.w3-half.w3-hover-white.edit-btn(href='/downloadfile/'+file.file_name)
+                                                        i.fa.fa-pencil.w3-text-theme
+                                                    a.w3-half.w3-hover-white(onclick=`showDeleteModal("${file.file_name}")`)
+                                                        i.fa.fa-times.w3-text-theme
 
-                    .w3-third.w3-container
-                        .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                            h1
-                                i.fa.fa-upload.w3-text-theme
-                                |   Upload Files
-                            hr
-                            form(action="/", method="POST", enctype="multipart/form-data" id="upload-form")
-                                .w3-row
-                                    input.bottone5(type="file", name="file", id="file")
-                                    br
-                                    input.bottone5(type="submit", value="Upload")
+                        .w3-third.w3-container
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h1
+                                    i.fa.fa-upload.w3-text-theme
+                                    |   Upload Files
+                                hr
+                                form(action="/", method="POST", enctype="multipart/form-data" id="upload-form")
+                                    .w3-row
+                                        input.bottone5(type="file", name="file", id="file")
+                                        br
+                                        input.bottone5(type="submit", value="Upload")
 
     script(src='https://code.jquery.com/ui/1.13.2/jquery-ui.js')
     link(rel='stylesheet' href='//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css')
@@ -298,11 +301,11 @@ block body
             });
         });
 
-    script(src='.../js/client.engine/htmlToJson.js')
-    script(src='.../js/client.functions/handle_ajax_save_filled_out_form.js')
-    script(src='.../js/client.functions/handle_ajax_share_form.js')
-    script(src='.../js/client.functions/handle_ajax_load_version.js')
-    script(src='.../js/client.form/form_create_view_edit.js')
+    script(src='/js/client.engine/htmlToJson.js')
+    script(src='/js/client.functions/handle_ajax_save_filled_out_form.js')
+    script(src='/js/client.functions/handle_ajax_share_form.js')
+    script(src='/js/client.functions/handle_ajax_load_version.js')
+    script(src='/js/client.form/form_create_view_edit.js')
 
 
     script.

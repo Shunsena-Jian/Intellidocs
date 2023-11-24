@@ -587,79 +587,53 @@ app.put('/savefilledoutform', async function(req, res){
     }
 });
 
-//app.get('/sharedview/:form_control_number/:form_owner', async function (req, res){
-//    const form_control_number = req.params.form_control_number;
-//    const form_owner = req.params.form_owner;
-//
-//    console.log("this is the fcn " + form_control_number);
-//    console.log("this is the fo " + form_owner);
-//
-//    currentUserFiles = await getFiles(req.session.userEmpID);//modify to inline query using owner and control number
-//    currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-//    currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-//    currentUserNotifications = await getNotifications(req.session.userEmpID);
-//    currentUserPicture = await getUserPicture(req.session.userEmpID);
-//    retrievedUserEmails = await getUsersEmails();
-//
-//    var retrievedUserEmails;
-//
-//    formVersions = await forms.find({ form_control_number : form_control_number }).toArray();
-//
-//    var allVersions = await filledoutforms.find({ form_control_number : form_control_number, form_owner : form_owner }).toArray();
-//    var latestVersion = 0;
-//    var latestUserVersion = 0;
-//
-//    for(i=0; i < formVersions.length; i++){
-//        if(formVersions[i].form_version >= latestVersion){
-//            latestVersion = formVersions[i].form_version;
-//        }
-//    }
-//    console.log("now looking for  " + form_control_number + "    " + latestVersion);
-//    var currentForm = await forms.findOne({ form_control_number : form_control_number, form_version: latestVersion });
-//    var formTemplate = await forms.findOne({ form_control_number : form_control_number, form_version: latestVersion });
-//    var userFormVersions = await filledoutforms.find({ form_control_number : form_control_number,  form_owner: form_owner}).toArray();
-//
-//    var latestUserForm;
-//    var jsonObject;
-//
-//    if(currentUserDetailsBlock.userLevel == "Secretary"){
-//        jsonObject = currentForm;
-//    }else if(currentUserDetailsBlock.userLevel == "Department Head"){
-//        jsonObject = currentForm;
-//    }else{
-//        for(i = 0; i < userFormVersions.length; i++){
-//            if(userFormVersions[i].user_version >= latestUserVersion){
-//                latestUserVersion = userFormVersions[i].user_version;
-//            }
-//        }
-//        latestUserFilledVersion = await filledoutforms.findOne({ form_control_number : form_control_number, user_version: latestUserVersion });
-//
-//        jsonObject = latestUserFilledVersion;
-//
-//        if(currentForm.form_version != latestUserFilledVersion.form_version){
-//            jsonObject.form_content = await updateToLatestVersion(currentForm.form_content, latestUserFilledVersion.form_content);
-//        }
-//    }
-//
-//    logStatus("This is the json object: " + jsonObject);
-//    var e = jsonObject.form_content;
-//    var g = await jsonToHTML(e);
-//    jsonObject.form_content = g;
-//
-//    res.render('sharedview', {
-//        title: 'View Shared Form',
-//        retrievedUserEmails : retrievedUserEmails,
-//        currentUserDetailsBlock : currentUserDetailsBlock,
-//        currentUserFiles: currentUserFiles,
-//        currentUserPrivileges: currentUserPrivileges,
-//        currentUserNotifications: currentUserNotifications,
-//        currentForm: jsonObject,
-//        currentUserPicture: currentUserPicture,
-//        allVersions: allVersions,
-//        min_idleTime: min_idleTime,
-//        form_template : formTemplate
-//    });
-//});
+app.get('/sharedview', async function (req, res){
+    if(req.session.loggedIn){
+        var sharedFormControlNumber = req.session.form_control_number;
+        var sharedFormOwner = req.session.form_owner;
+        var retrievedUserEmails;
+        var jsonObject;
+
+        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+        currentUserNotifications = await getNotifications(req.session.userEmpID);
+        currentUserPicture = await getUserPicture(req.session.userEmpID);
+        retrievedUserEmails = await getUsersEmails();
+
+        var userVersions = await filledoutforms.find({ form_control_number : sharedFormControlNumber, form_owner : sharedFormOwner }).toArray();
+        var latestVersion = 0;
+        var latestUserVersion = 0;
+
+        for(i=0; i < userVersions.length; i++){
+            if(userVersions[i].form_version >= latestVersion){
+                latestVersion = userVersions[i].form_version;
+            }
+        }
+
+        var currentUserForm = await filledoutforms.findOne({ form_control_number : sharedFormControlNumber, form_owner : sharedFormOwner, form_version: latestVersion });
+
+        jsonObject = currentUserForm;
+        var e = jsonObject.form_content;
+        var g = await jsonToHTML(e);
+        jsonObject.form_content = g;
+
+        res.render('sharedview', {
+            title: 'Shared Form',
+            retrievedUserEmails : retrievedUserEmails,
+            currentUserDetailsBlock : currentUserDetailsBlock,
+            currentUserPrivileges: currentUserPrivileges,
+            currentUserNotifications: currentUserNotifications,
+            currentForm: jsonObject,
+            currentUserPicture: currentUserPicture,
+            min_idleTime: min_idleTime
+        });
+
+    }else{
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
 
 app.get('/formview/:form_control_number', async function (req, res){
     if(req.session.loggedIn){
@@ -1736,6 +1710,28 @@ app.put('/AJAX_toggleActivate', async function(req, res){
     }
 });
 
+app.put('/AJAX_viewSharedForm', async function (req, res){
+    if(req.session.loggedIn){
+        formData = req.body;
+        req.session.form_control_number = formData.formControlNumber;
+        req.session.form_owner = formData.formOwner;
+
+        sharedForm = await filledoutforms.findOne({ form_control_number : req.session.form_control_number, form_owner : req.session.form_owner });
+
+        if(!sharedForm){
+            res.send({ status_code : 1 });
+        }else if(sharedForm){
+            res.send({ status_code : 0 });
+        }else{
+            res.send({ status_code : 2 });
+        }
+    }else{
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
 app.put('/AJAX_togglePublish', async function(req, res){
     if(req.session.loggedIn){
         var formData = req.body;
@@ -1949,7 +1945,6 @@ app.put('/AJAX_viewFormVersion', async function(req, res) {
                 logError("Error at view form version for front end: " + error);
             }
         }
-
     }else{
         res.render('login', {
             title: 'Login Page'
