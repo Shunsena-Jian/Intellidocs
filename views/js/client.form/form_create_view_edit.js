@@ -13,6 +13,7 @@ var contextMenu;
 var rightClickWidgetActive;
 var selectedTextBox;
 var userType;
+var selectedCells;
 
 // On load of page, initialize global variables
 window.onload = function() {
@@ -24,6 +25,7 @@ window.onload = function() {
     currentPage = dropContainers.length;
     tables = document.querySelectorAll('.form-table');
     activeDraggable = null;
+    selectedCells = [];
     sectionCount = 0;
     maxHeight = 0;
     isFirstElement = true;
@@ -130,10 +132,15 @@ function initializeContextMenuForChildren(pageCount){
         children = parentElement.children;
 
         for(j = 0; j < children.length; j++){
-            clonedDiv.addEventListener('keydown', () => {
-                adjustTextareaHeight(clonedDiv);
+            children[j].addEventListener('keydown', () => {
+                adjustTextareaHeight(children[j]);
             });
-            initializeContextMenuForChild(children[j].firstElementChild);
+
+            // Do not allow select element for other user types
+            if (userType == "Document Controller" || userType == "Super Admin") {
+               children[j].firstElementChild = selectElement(children[j]);
+            }
+            initializeContextMenuForChild(children[j]);
         }
     }
 }
@@ -190,9 +197,9 @@ function adjustTextareaHeight(element) {
           pageHeight += calculateDivHeight(childElement) + 10;
          }
 
-         if ((pageHeight + addedHeight) > (maxHeight+padding)) {
+         if ((pageHeight + addedHeight) > (maxHeight)) {
              // alert("Page Already Full"); // REQUIRED MODAL HERE
-             adaptSucceedingContent(parentContainer);
+             adaptSucceedingContent();
              dynamicFillEmptySpace();
          }
     }
@@ -205,37 +212,35 @@ function adjustTextareaHeight(element) {
 function dynamicFillEmptySpace() {
     var allPages = document.querySelectorAll(".drop-container"); // Query all pages
     var currentPageIndex;
+    var padding = 20; // Assuming padding value
 
     allPages.forEach(function checkEachPage(page, index) {
+        var currentPageChildren = Array.from(page.children);
+        var currentPageHeight = calculateTotalHeight(currentPageChildren) + padding;
+        var nextPage = allPages[index + 1];
+        console.log()
 
-        if (index === 0) { // Consider only the first page
-            currentPageIndex = index;
-            var currentPageChildren = Array.from(page.children);
-            var currentPageHeight = calculateTotalHeight(currentPageChildren);
+        if (currentPageHeight < maxHeight && nextPage) {
+            var secondChildOfNextPage = nextPage.querySelector(':scope > .section:not(.header)');
 
-            if (currentPageHeight < maxHeight) {
-                var nextPage = allPages[currentPageIndex + 1]; // Access the second page
+            if (secondChildOfNextPage) {
+                var spaceAvailable = maxHeight - currentPageHeight;
+                var secondChildHeight = calculateDivHeight(secondChildOfNextPage);
 
-                if (nextPage) {
-                    var secondChildOfNextPage = nextPage.children[1]; // Assuming the second child needs to be moved
-
-                    if (secondChildOfNextPage) {
-                        var spaceAvailable = maxHeight - currentPageHeight;
-                        var secondChildHeight = calculateDivHeight(secondChildOfNextPage);
-
-                        if (secondChildHeight <= spaceAvailable) {
-                            page.appendChild(secondChildOfNextPage); // Move the child to the current page
-                            currentPageHeight += secondChildHeight;
-                        }
-                    }
+                if (secondChildHeight <= spaceAvailable) {
+                    page.appendChild(secondChildOfNextPage); // Move the child to the current page
+                    currentPageHeight += secondChildHeight;
                 }
             }
+        } else if (currentPageChildren.length === 1 && currentPageChildren[0].classList.contains('section') && currentPageChildren[0].classList.contains('header')) {
+            page.remove(); // Remove page if it only contains a section with class 'header'
         }
     });
 
     updatePageNumbers();
     checkCurrentPage();
 }
+
 
 
 function calculateTotalHeight(elements) {
@@ -246,72 +251,67 @@ function calculateTotalHeight(elements) {
     return totalHeight;
 }
 
-function adaptSucceedingContent(startingPoint) {
+function adaptSucceedingContent() {
+    console.log("entered: ");
     var allPages = document.querySelectorAll(".drop-container"); // Query all pages
-    var sectionID;
-    var pageID;
-    var index = 0;
-    var startingPointSectionID;
-    var startingPointPageSuccChildren = []; // Succeeding children after element pointer
-    var nextPageIndex = 2;
-    var startingPointPageChildrenCount;
+    var currentPageIndex;
 
-    // Step 3: Calculate the page height where the starting point element is located
-    var initialPageHeight = 0;
+    allPages.forEach(function checkEachPage(page, index) {
+        console.log("Page: " + index);
+        var currentPageChildren = Array.from(page.children);
+        var currentPageHeight = calculateTotalHeight(currentPageChildren) + padding;
+        var nextPage = allPages[index + 1];
+        console.log("Current Page Height: " + currentPageHeight);
+        setMaxHeight();
+        console.log("Max Height: " + maxHeight);
 
-    allPages.forEach(function checkEachPage(page) {
-        sectionID = "section-1-1";
-        startingPointSectionID = parseInt(sectionID.match(/section-\d+-(\d+)$/)[1]); // section count of starting element
-        startingPointPageChildrenCount = page.children; // Section count page of element pointer
+        // Check if the current page exceeds maxHeight and rearrange content accordingly
+        while (currentPageHeight > maxHeight) {
+            var lastChildOfCurrentPage = currentPageChildren[currentPageChildren.length - 1];
 
-
-        var initialPageHeight = 0;
-        var nextPageIndex = Array.from(allPages).indexOf(page) + 1;
-
-        for (var i = 0; i < startingPointPageChildrenCount.length - 1; i++) {
-
-            var currentDivHeight = calculateDivHeight(startingPointPageChildrenCount[i]) + 10;
-            initialPageHeight += currentDivHeight;
-
-            if (initialPageHeight > maxHeight) {
-                var nextPage = allPages[nextPageIndex];
-
-
-                if (!nextPage) {
-                    nextPage = createNewPage(); // Create a new page if nextPage is null
-                    allPages = document.querySelectorAll(".drop-container"); // Update the list of pages
-                }
-
-                if (nextPage.children.length === 0) {
-                    // If nextPage has no children, append the element
-                    nextPage.appendChild(startingPointPageChildrenCount[startingPointPageChildrenCount.length - 1]);
-                } else {
-                    // If nextPage has children
-
-                    // Store the second child and subsequent children (if any) in an array
-                    var movedChildren = Array.from(nextPage.children).slice(1);
-
-                    // Remove the stored children from the page
-                    movedChildren.forEach(function(child) {
-                        nextPage.removeChild(child);
-                    });
-
-                    var elementToMove = startingPointPageChildrenCount[startingPointPageChildrenCount.length - 1];
-
-                    // Insert the element to be moved to the next page as the second child
-                    nextPage.appendChild(elementToMove);
-
-                    // Insert back the removed initial children, respective of their order before they were removed
-                    movedChildren.forEach(function(child) {
-                        nextPage.appendChild(child);
-                    });
-                }
-
+            // Move the last child of the current page to the next page
+            if (nextPage == null) {
+                console.log("Created a new page!");
+                nextPage = createNewPage();
+                //allPages = document.querySelectorAll(".drop-container");
+                adaptSucceedingContent();
             }
+//            nextPage = allPages[index + 1] || createNewPage(); // Create a new page if nextPage is null
+            var secondChildOfNextPage = nextPage.children[1];
+            nextPage.insertBefore(lastChildOfCurrentPage, secondChildOfNextPage);
+
+            // Recalculate current page height after moving the last child
+            currentPageChildren = Array.from(page.children);
+            currentPageHeight = calculateTotalHeight(currentPageChildren) + padding;
         }
-    nextPageIndex++;
-});
+
+         while (currentPageHeight < maxHeight && nextPage) {
+            var secondChildOfNextPage = nextPage.firstElementChild.nextElementSibling;
+            console.log(secondChildOfNextPage);
+
+            if (secondChildOfNextPage) {
+                var spaceAvailable = maxHeight - currentPageHeight;
+                var secondChildHeight = calculateDivHeight(secondChildOfNextPage);
+
+                if (secondChildHeight <= spaceAvailable) {
+                    page.appendChild(secondChildOfNextPage); // Move the child to the current page
+                    currentPageHeight += secondChildHeight;
+                } else {
+                    break; // Break the loop if the child cannot fit in the current page
+                }
+            } else {
+                break; // Break the loop if there is no second child in the next page
+            }
+
+            // Update nextPage for the next iteration
+            nextPage = allPages[index + 1];
+        }
+    });
+
+    updatePageNumbers();
+    checkCurrentPage();
 }
+
 
 // Page Settings
 function setMaxHeight() {
@@ -391,20 +391,23 @@ function modifyOrientation() {
 
     if (selectedValue === "landscape") {
         // Add the 'landscape' class to all drop containers
+        setMaxHeight(); // Update page height. Dynamic calculation of max height
         dropContainers.forEach(function (dropContainer) {
             dropContainer.classList.add("landscape");
+                adaptSucceedingContent()
         });
+        adaptSucceedingContent();
     } else if (selectedValue === "portrait") {
         // Remove the 'landscape' class from all drop containers
+        setMaxHeight();
         dropContainers.forEach(function (dropContainer) {
             dropContainer.classList.remove("landscape");
+            adaptSucceedingContent();
         });
+        adaptSucceedingContent();
     }
 
-     setMaxHeight(); // Update page height. Dynamic calculation of max height
-     adaptSucceedingContent(null);
-
-     dynamicFillEmptySpace();
+     adaptSucceedingContent()
      checkCurrentPage();
      reassignSectionID();
 }
@@ -580,10 +583,10 @@ function addTableRow(table) {
     	pageHeight += calculateDivHeight(childElement) + 10;
     }
 
-    if ((pageHeight + 40) > (maxHeight+padding)) {
+    if ((pageHeight + 40) > (maxHeight)) {
         alert("Cannot add any more row."); // REQUIRED MODAL HERE
         // Append new table rows to next page here
-        adaptSucceedingContent(parentContainer);
+        adaptSucceedingContent();
 //        return;
     }
 
@@ -1018,7 +1021,7 @@ function dropContent(boxHeight, data) {
     tempDiv.innerHTML = data;
     tempDiv.classList.add('hover'); // Hover
     const newDiv = tempDiv.querySelector('.draggable');
-
+    setMaxHeight();
 
     if (newDiv) {
         var clonedDiv = newDiv.cloneNode(true); // clone dragged element
@@ -1034,7 +1037,7 @@ function dropContent(boxHeight, data) {
             sectionDiv.id = "section-" + currentPage + "-" + sectionCount;
             sectionDiv.appendChild(clonedDiv); // enclose dropped element to section div
 
-            if ((currentHeight + boxHeight) > (maxHeight+padding)) {
+            if ((currentHeight + boxHeight) > (maxHeight)) {
                 createNewPage(); // Current page is full, initialize a new page
             }
 
@@ -1282,36 +1285,50 @@ function selectElement(element) {
             clickedElement.removeAttribute('readonly');
         }
 
-        let selectedCells = [];
+  if ((clickedElement.tagName === 'TD' || clickedElement.tagName === 'TH') && !clickedElement.classList.contains('merged')) {
+            const index = selectedCells.indexOf(clickedElement);
 
-        if ((clickedElement.tagName === 'TD' || clickedElement.tagName === 'TH') && !clickedElement.classList.contains('merged')) {
-            if (clickedElement.classList.contains('selectedCells')) {
-                // Deselect the cell
-                clickedElement.classList.remove('selectedCells');
-                selectedCells = selectedCells.filter(selectedCell => selectedCell !== cell);
+            if (index === -1) {
+                const lastSelectedCell = selectedCells[selectedCells.length - 1];
+                if (lastSelectedCell) {
+                    const selectedRowIndex = lastSelectedCell.parentNode.rowIndex;
+                    const selectedCellIndex = lastSelectedCell.cellIndex;
+                    const clickedRowIndex = clickedElement.parentNode.rowIndex;
+                    const clickedCellIndex = clickedElement.cellIndex;
+
+                    const isAdjacent = (
+                        (selectedRowIndex === clickedRowIndex && Math.abs(selectedCellIndex - clickedCellIndex) === 1) ||
+                        (selectedCellIndex === clickedCellIndex && Math.abs(selectedRowIndex - clickedRowIndex) === 1)
+                    );
+
+                    if (isAdjacent) {
+                        // Add the clicked cell to the selection if adjacent
+                        clickedElement.classList.add('selectedCells');
+                        selectedCells.push(clickedElement);
+                    } else {
+                        // Clear the previous selection and start a new selection
+                        selectedCells.forEach(cell => {
+                            cell.classList.remove('selectedCells');
+                        });
+                        selectedCells = [clickedElement];
+                    }
+                } else {
+                    // If no cells are selected, add the clicked cell to the selection
+                    clickedElement.classList.add('selectedCells');
+                    selectedCells.push(clickedElement);
+                }
             } else {
-                // Select the cell
-                clickedElement.classList.add('selectedCells'); // Tracker for cells that will be merged
-                selectedCells.push(clickedElement);
+                // If already selected, deselect the cell
+                clickedElement.classList.remove('selectedCells');
+                selectedCells.splice(index, 1);
             }
-
-            // Make all cells in the table editable
-            const cells = element.querySelectorAll('td');
-            cells.forEach((cell) => {
-            if (!cell.classList.contains("w3-uneditable")) {
-                cell.setAttribute('contenteditable', 'true');
-                }
-            });
-            const cells_head = element.querySelectorAll('th');
-            cells_head.forEach((cell) => {
-                if (!cell.classList.contains("w3-uneditable")) {
-                    cell.setAttribute('contenteditable', 'true');
-                }
-            });
         } else {
-           clickedElement.id = 'selectedElement';
+            // If other types of elements are clicked, handle accordingly
+            // For example, set an ID to identify the selected element
+            clickedElement.id = 'selectedElement';
+            selectedCells = []; // Clear selected cells if non-table elements are clicked
         }
         selectedTextBox = clickedElement; // Update pointer to selected element based on current click
-	});
+    });
     return element;
 }
