@@ -200,45 +200,12 @@ function adjustTextareaHeight(element) {
          if ((pageHeight + addedHeight) > (maxHeight)) {
              // alert("Page Already Full"); // REQUIRED MODAL HERE
              adaptSucceedingContent();
-             dynamicFillEmptySpace();
          }
     }
 
     element.style.height = 'auto'; // Reset the height to auto
     element.style.height = `${element.scrollHeight}px`; // Set the height to match the scroll height
-    dynamicFillEmptySpace();
-}
-
-function dynamicFillEmptySpace() {
-    var allPages = document.querySelectorAll(".drop-container"); // Query all pages
-    var currentPageIndex;
-    var padding = 20; // Assuming padding value
-
-    allPages.forEach(function checkEachPage(page, index) {
-        var currentPageChildren = Array.from(page.children);
-        var currentPageHeight = calculateTotalHeight(currentPageChildren) + padding;
-        var nextPage = allPages[index + 1];
-        console.log()
-
-        if (currentPageHeight < maxHeight && nextPage) {
-            var secondChildOfNextPage = nextPage.querySelector(':scope > .section:not(.header)');
-
-            if (secondChildOfNextPage) {
-                var spaceAvailable = maxHeight - currentPageHeight;
-                var secondChildHeight = calculateDivHeight(secondChildOfNextPage);
-
-                if (secondChildHeight <= spaceAvailable) {
-                    page.appendChild(secondChildOfNextPage); // Move the child to the current page
-                    currentPageHeight += secondChildHeight;
-                }
-            }
-        } else if (currentPageChildren.length === 1 && currentPageChildren[0].classList.contains('section') && currentPageChildren[0].classList.contains('header')) {
-            page.remove(); // Remove page if it only contains a section with class 'header'
-        }
-    });
-
-    updatePageNumbers();
-    checkCurrentPage();
+    adaptSucceedingContent();
 }
 
 
@@ -259,7 +226,7 @@ function adaptSucceedingContent() {
     allPages.forEach(function checkEachPage(page, index) {
         console.log("Page: " + index);
         var currentPageChildren = Array.from(page.children);
-        var currentPageHeight = calculateTotalHeight(currentPageChildren) + padding;
+        var currentPageHeight = calculateTotalHeight(currentPageChildren);
         var nextPage = allPages[index + 1];
         console.log("Current Page Height: " + currentPageHeight);
         setMaxHeight();
@@ -410,6 +377,66 @@ function modifyOrientation() {
      adaptSucceedingContent()
      checkCurrentPage();
      reassignSectionID();
+}
+
+function createPageMargin() {
+	const select = document.getElementById("createPageMargin");
+	const selectedValue = select.value;
+
+	// Get all elements with the class "drop-container"
+	var dropContainers = document.querySelectorAll('.drop-container');
+
+	// Remove any existing margin class from all dropContainers
+	dropContainers.forEach(function (dropContainer) {
+		dropContainer.classList.remove('margin-whole-inch', 'margin-half-inch', 'margin-moderate');
+	});
+
+
+	if (selectedValue === "normal") {
+		// Add the new margin class
+		dropContainers.forEach(function (dropContainer) {
+			dropContainer.classList.add('margin-whole-inch');
+			const computedStyle = getComputedStyle(dropContainer);
+			// Extract the padding value
+			const paddingValue = computedStyle.getPropertyValue('padding');
+
+			// Extract the numeric part of the padding value (removing 'px' or other units)
+			padding = parseFloat(paddingValue);
+			maxHeight = dropContainer.offsetHeight - padding;
+		});
+		adaptSucceedingContent();
+        reassignSectionID();
+	} else if (selectedValue === "narrow") {
+		// Add the new margin class
+		dropContainers.forEach(function (dropContainer) {
+            dropContainer.classList.add('margin-half-inch');
+
+            const computedStyle = getComputedStyle(dropContainer);
+            // Extract the padding value
+            const paddingValue = computedStyle.getPropertyValue('padding');
+
+            // Extract the numeric part of the padding value (removing 'px' or other units)
+            padding = parseFloat(paddingValue) * 2;
+            maxHeight = dropContainer.offsetHeight - padding;
+		});
+		adaptSucceedingContent();
+        reassignSectionID();
+	} else if (selectedValue === "moderate") {
+	    // Add the new margin class
+        dropContainers.forEach(function (dropContainer) {
+            dropContainer.classList.add('margin-moderate');
+            const computedStyle = getComputedStyle(dropContainer);
+            // Extract the padding value
+            const paddingValue = computedStyle.getPropertyValue('padding');
+            // Extract the numeric part of the padding value (removing 'px' or other units)
+            padding = parseFloat(paddingValue);
+            maxHeight = dropContainer.offsetHeight - padding;
+        });
+        adaptSucceedingContent();
+        reassignSectionID();
+	}
+currentHeight = updatePageHeight();
+console.log("end");
 }
 
 function makeAlignCenter() {
@@ -626,7 +653,7 @@ function addTableRow(table) {
 		}
 	}
     currentHeight += 40;
-    dynamicFillEmptySpace();
+    adaptSucceedingContent();
 }
 
 // Append a column at the right
@@ -644,7 +671,7 @@ function addTableColumn(table) {
 function removeTableRow(table, rowIndex) {
 	if (table.rows.length > 1) {
 		table.deleteRow(rowIndex);
-		dynamicFillEmptySpace();
+		adaptSucceedingContent();
 	} else {
 		alert("Cannot remove the last row. You can delete the widget instead"); // REQUIRED MODAL HERE
 	}
@@ -658,7 +685,7 @@ function removeTableColumn(table, columnIndex) {
 			const row = table.rows[i];
 			if (row.cells.length > 1) {
 				row.deleteCell(columnIndex);
-				dynamicFillEmptySpace();
+				adaptSucceedingContent();
 			} else {
 				alert("Cannot remove the last cell in a row."); // REQUIRED MODAL HERE
 			}
@@ -789,8 +816,8 @@ function createContextMenu(x,y,element, table) {
                             } else {
                                 tableContainer.remove();
                                 repositionBoxes();
+                                adaptSucceedingContent();
                                 reassignSectionID();
-                                dynamicFillEmptySpace();
                                 checkCurrentPage();
                             }
                             sectionCount -= 1;
@@ -804,8 +831,8 @@ function createContextMenu(x,y,element, table) {
                                 } else {
                                    parentContainer.remove(); // Remove the parent container
                                    repositionBoxes();
+                                   adaptSucceedingContent();
                                    reassignSectionID();
-                                   dynamicFillEmptySpace();
                                    checkCurrentPage();
                                 }
                             sectionCount -= 1;
@@ -978,7 +1005,7 @@ function contextMenuButtonsForTable(table) {
 
     addRowButton.addEventListener('click', () => {
      addTableRow(table);
-     dynamicFillEmptySpace();
+     adaptSucceedingContent();
      contextMenu.remove();
     });
 
