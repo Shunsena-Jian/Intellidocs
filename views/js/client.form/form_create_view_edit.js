@@ -199,13 +199,13 @@ function adjustTextareaHeight(element) {
 
          if ((pageHeight + addedHeight) > (maxHeight)) {
              // alert("Page Already Full"); // REQUIRED MODAL HERE
-             adaptSucceedingContent();
+             adaptPageContent();
          }
     }
 
     element.style.height = 'auto'; // Reset the height to auto
     element.style.height = `${element.scrollHeight}px`; // Set the height to match the scroll height
-    adaptSucceedingContent();
+    adaptPageContent();
 }
 
 
@@ -218,7 +218,7 @@ function calculateTotalHeight(elements) {
     return totalHeight;
 }
 
-function adaptSucceedingContent() {
+function adaptPageContent() {
     console.log("entered: ");
     var allPages = document.querySelectorAll(".drop-container"); // Query all pages
     var currentPageIndex;
@@ -241,7 +241,7 @@ function adaptSucceedingContent() {
                 console.log("Created a new page!");
                 nextPage = createNewPage();
                 //allPages = document.querySelectorAll(".drop-container");
-                adaptSucceedingContent();
+                adaptPageContent();
             }
 //            nextPage = allPages[index + 1] || createNewPage(); // Create a new page if nextPage is null
             var secondChildOfNextPage = nextPage.children[1];
@@ -361,20 +361,20 @@ function modifyOrientation() {
         setMaxHeight(); // Update page height. Dynamic calculation of max height
         dropContainers.forEach(function (dropContainer) {
             dropContainer.classList.add("landscape");
-                adaptSucceedingContent()
+                adaptPageContent()
         });
-        adaptSucceedingContent();
+        adaptPageContent();
     } else if (selectedValue === "portrait") {
         // Remove the 'landscape' class from all drop containers
         setMaxHeight();
         dropContainers.forEach(function (dropContainer) {
             dropContainer.classList.remove("landscape");
-            adaptSucceedingContent();
+            adaptPageContent();
         });
-        adaptSucceedingContent();
+        adaptPageContent();
     }
 
-     adaptSucceedingContent()
+     adaptPageContent()
      checkCurrentPage();
      reassignSectionID();
 }
@@ -404,7 +404,7 @@ function createPageMargin() {
 			padding = parseFloat(paddingValue);
 			maxHeight = dropContainer.offsetHeight - padding;
 		});
-		adaptSucceedingContent();
+		adaptPageContent();
         reassignSectionID();
 	} else if (selectedValue === "narrow") {
 		// Add the new margin class
@@ -419,7 +419,7 @@ function createPageMargin() {
             padding = parseFloat(paddingValue) * 2;
             maxHeight = dropContainer.offsetHeight - padding;
 		});
-		adaptSucceedingContent();
+		adaptPageContent();
         reassignSectionID();
 	} else if (selectedValue === "moderate") {
 	    // Add the new margin class
@@ -432,7 +432,7 @@ function createPageMargin() {
             padding = parseFloat(paddingValue);
             maxHeight = dropContainer.offsetHeight - padding;
         });
-        adaptSucceedingContent();
+        adaptPageContent();
         reassignSectionID();
 	}
 currentHeight = updatePageHeight();
@@ -613,7 +613,7 @@ function addTableRow(table) {
     if ((pageHeight + 40) > (maxHeight)) {
         alert("Cannot add any more row."); // REQUIRED MODAL HERE
         // Append new table rows to next page here
-        adaptSucceedingContent();
+        adaptPageContent();
 //        return;
     }
 
@@ -653,7 +653,7 @@ function addTableRow(table) {
 		}
 	}
     currentHeight += 40;
-    adaptSucceedingContent();
+    adaptPageContent();
 }
 
 // Append a column at the right
@@ -671,7 +671,7 @@ function addTableColumn(table) {
 function removeTableRow(table, rowIndex) {
 	if (table.rows.length > 1) {
 		table.deleteRow(rowIndex);
-		adaptSucceedingContent();
+		adaptPageContent();
 	} else {
 		alert("Cannot remove the last row. You can delete the widget instead"); // REQUIRED MODAL HERE
 	}
@@ -685,7 +685,7 @@ function removeTableColumn(table, columnIndex) {
 			const row = table.rows[i];
 			if (row.cells.length > 1) {
 				row.deleteCell(columnIndex);
-				adaptSucceedingContent();
+				adaptPageContent();
 			} else {
 				alert("Cannot remove the last cell in a row."); // REQUIRED MODAL HERE
 			}
@@ -816,7 +816,7 @@ function createContextMenu(x,y,element, table) {
                             } else {
                                 tableContainer.remove();
                                 repositionBoxes();
-                                adaptSucceedingContent();
+                                adaptPageContent();
                                 reassignSectionID();
                                 checkCurrentPage();
                             }
@@ -831,7 +831,7 @@ function createContextMenu(x,y,element, table) {
                                 } else {
                                    parentContainer.remove(); // Remove the parent container
                                    repositionBoxes();
-                                   adaptSucceedingContent();
+                                   adaptPageContent();
                                    reassignSectionID();
                                    checkCurrentPage();
                                 }
@@ -1005,7 +1005,7 @@ function contextMenuButtonsForTable(table) {
 
     addRowButton.addEventListener('click', () => {
      addTableRow(table);
-     adaptSucceedingContent();
+     adaptPageContent();
      contextMenu.remove();
     });
 
@@ -1358,4 +1358,53 @@ function selectElement(element) {
         selectedTextBox = clickedElement; // Update pointer to selected element based on current click
     });
     return element;
+}
+
+function makeUnderline() {
+	if (selectedTextBox) {
+         if (!selectedTextBox.classList.contains("w3-underline")) {
+            selectedTextBox.classList.add('w3-underline');
+         } else {
+             // Append the textContent in the current span
+             selectedTextBox.classList.remove('w3-underline');
+         }
+    }
+}
+
+function makeItalic() {
+	if (selectedTextBox) {
+         if (!selectedTextBox.classList.contains("w3-italic")) {
+            selectedTextBox.classList.add('w3-italic');
+         } else {
+             // Append the textContent in the current span
+             selectedTextBox.classList.remove('w3-italic');
+         }
+    }
+}
+
+function makeBold() {
+	if (selectedTextBox) {
+         if (!selectedTextBox.classList.contains("w3-bold")) {
+            selectedTextBox.classList.add('w3-bold');
+         } else {
+             // Append the textContent in the current span
+             selectedTextBox.classList.remove('w3-bold');
+         }
+    }
+}
+
+function changeTextColor() {
+    if (selectedTextBox) {
+        const colorSelect = document.getElementById("colorSelect");
+        const selectedColor = colorSelect.value;
+        var color = "w3-text-" + selectedColor;
+
+        const currentColorClass = Array.from(selectedTextBox.classList).find(cls => cls.startsWith("w3-text-"));
+        if (currentColorClass) {
+            // Remove the current color class
+            selectedTextBox.classList.remove(currentColorClass);
+        }
+        // Add the new color class
+        selectedTextBox.classList.add("w3-text-" + selectedColor);
+    }
 }
