@@ -381,7 +381,7 @@ script.
     for(i = 0; i < widgets.length; i++){
         var tempElement = document.createElement('div');
         widgetChild = `<h4 class="w3-bold w3-padding-16 w3-center">` + widgets[i].widget_name + `</h4>` +
-         `<div class="header w3-row draggable" draggable="true">` + widgets[i].widget_content + `</div>`;
+         `<div class="w3-container box w3-row draggable" draggable="true">` + widgets[i].widget_content + `</div>`;
         tempElement.innerHTML = widgetChild;
         widgetDragBarContainer.appendChild(tempElement);
     }

@@ -101,34 +101,19 @@ function setMaxHeight() {
 
 // Text Editing
 function changeTextColor() {
-	if (selectedTextBox) {
-		const selectedTextDisplay = document.getElementById("selectedTextDisplay");
+    if (selectedTextBox) {
+        const colorSelect = document.getElementById("colorSelect");
+        const selectedColor = colorSelect.value;
+        var color = "w3-text-" + selectedColor;
 
-		const selection = window.getSelection();
-		const selectedText = selection.toString().trim();
-
-		if (selectedText) {
-			// Get the selected color from the dropdown
-			const colorSelect = document.getElementById("colorSelect");
-			const selectedColor = colorSelect.value;
-
-			// Check if the selected element is an input element
-			if (selectedTextBox.tagName.toLowerCase() === "input") {
-				selectedTextBox.style.color = selectedColor; // Change the text color
-			} else {
-				// Create a new HTML structure with the selected text wrapped in a span with the new color class
-				const span = document.createElement("span");
-				span.className = "w3-text-" + selectedColor;
-				span.textContent = selectedText;
-
-				// Replace the selected text with the span
-				const range = selection.getRangeAt(0);
-				range.deleteContents();
-				range.insertNode(span);
-				selection.removeAllRanges(); // Clear the selection
-			}
-		}
-	}
+        const currentColorClass = Array.from(selectedTextBox.classList).find(cls => cls.startsWith("w3-text-"));
+        if (currentColorClass) {
+            // Remove the current color class
+            selectedTextBox.classList.remove(currentColorClass);
+        }
+        // Add the new color class
+        selectedTextBox.classList.add("w3-text-" + selectedColor);
+    }
 }
 
 function appendCheckBoxItem(container) {
@@ -169,37 +154,6 @@ function removeLastGridItem(container) {
     }
 }
 
-function makeBold() {
-    if (selectedTextBox) {
-  		const selectedTextDisplay = document.getElementById("selectedTextDisplay");
-  		const selection = window.getSelection();
-  		const selectedText = selection.toString().trim();
-
-  		if (selectedText) {
-  			// Create a new HTML structure with the selected text wrapped in a span
-  			const span = document.createElement("span");
-  			span.className = "w3-bold";
-  			span.textContent = selectedText;
-
-  			// Replace the selected text with the span
-  			const range = selection.getRangeAt(0);
-  			let currentSpan = checkForExistingTextSpan(range);
-
-  			if (currentSpan == null) {
-  				range.deleteContents();
-  				range.insertNode(span);
-  			} else if (currentSpan != null && !currentSpan.classList.contains("w3-bold")) {
-  				currentSpan.classList.add('w3-bold');
-  			} else {
-  				var textContent = removeElementAndReturnText(currentSpan, 'bold');
-
-  				// Append the textContent in the current span
-  				currentSpan.appendChild(document.createTextNode(textContent));
-  			}
-  		}
-  	}
-  	repositionBoxes();
-}
 
 function makeUnorderedList() {
 	const orderedList = document.createElement('ul');
@@ -308,67 +262,36 @@ function changeFontSize() {
 }
 
 function makeUnderline() {
-    if (selectedTextBox) {
-		const selectedTextDisplay = document.getElementById("selectedTextDisplay");
-
-		const selection = window.getSelection();
-		const selectedText = selection.toString().trim();
-
-		if (selectedText) {
-			// Create a new HTML structure with the selected text wrapped in a span
-			const span = document.createElement("span");
-			span.className = "w3-underline";
-			span.textContent = selectedText;
-
-			// Replace the selected text with the span
-			const range = selection.getRangeAt(0);
-			let currentSpan = checkForExistingTextSpan(range);
-
-			if (currentSpan == null) {
-			    range.deleteContents();
-			    range.insertNode(span);
-			} else if (currentSpan != null && !currentSpan.classList.contains("w3-underline")) {
-				currentSpan.classList.add('w3-underline');
-			} else {
-				var textContent = removeElementAndReturnText(currentSpan, 'w3-underline');
-				// Append the textContent in the current span
-				currentSpan.appendChild(document.createTextNode(textContent));
-			}
-		}
-	}
-	repositionBoxes();
+	if (selectedTextBox) {
+         if (!selectedTextBox.classList.contains("w3-underline")) {
+            selectedTextBox.classList.add('w3-underline');
+         } else {
+             // Append the textContent in the current span
+             selectedTextBox.classList.remove('w3-underline');
+         }
+    }
 }
 
 function makeItalic() {
-    if (selectedTextBox) {
-		const selectedTextDisplay = document.getElementById("selectedTextDisplay");
-		const selection = window.getSelection();
-		const selectedText = selection.toString().trim();
+	if (selectedTextBox) {
+         if (!selectedTextBox.classList.contains("w3-italic")) {
+            selectedTextBox.classList.add('w3-italic');
+         } else {
+             // Append the textContent in the current span
+             selectedTextBox.classList.remove('w3-italic');
+         }
+    }
+}
 
-		if (selectedText) {
-			// Create a new HTML structure with the selected text wrapped in a span
-			const span = document.createElement("span");
-			span.className = "w3-italic";
-			span.textContent = selectedText;
-
-			// Replace the selected text with the span
-			const range = selection.getRangeAt(0);
-			let currentSpan = checkForExistingTextSpan(range);
-
-			if (currentSpan == null) {
-				range.deleteContents();
-				range.insertNode(span);
-			} else if (currentSpan != null && !currentSpan.classList.contains("w3-italic")) {
-				currentSpan.classList.add('w3-italic');
-			} else {
-				var textContent = removeElementAndReturnText(currentSpan, 'w3-italic');
-
-				// Append the textContent in the current span
-				currentSpan.appendChild(document.createTextNode(textContent));
-			}
-		}
-	}
-	repositionBoxes();
+function makeBold() {
+	if (selectedTextBox) {
+         if (!selectedTextBox.classList.contains("w3-bold")) {
+            selectedTextBox.classList.add('w3-bold');
+         } else {
+             // Append the textContent in the current span
+             selectedTextBox.classList.remove('w3-bold');
+         }
+    }
 }
 
 function makeAlignCenter() {
@@ -929,37 +852,36 @@ function addEventListenerToDiv(dropBox) {
                 var clonedDiv = newDiv.cloneNode(true);
 
                 // Check if the clonedDiv is a table or contains tables within divs
-                if (clonedDiv.nodeName.toLowerCase() === 'table') {
-                  clonedDiv.addEventListener('contextmenu', (e) => {
-                    e.preventDefault();
-                    createContextMenu(e.clientX, e.clientY, null , clonedDiv);
-                  });
-                  clonedDiv = activateTable(clonedDiv);
-
-                } else if (selectedTextBox != null) {
-                    if (selectedTextBox.classList.contains("grid-item")) {
-                        addEventListenerToDiv(selectedTextBox);
-                        containerSize = boxHeight;
-                        isContainer = true;
-                        const data = e.dataTransfer.getData('text/html');
-
-                        // Create a temporary container to parse and append the data
-                        const tempContainer = document.createElement('div');
-                        tempContainer.innerHTML = data;
-                        tempContainer.firstChild.removeAttribute("draggable");
-                        selectedTextBox.appendChild(tempContainer);
-
-                        // Remove the 'draggable' attribute
-                        selectedTextBox.removeAttribute("draggable");
-                        activeDraggable = null;
-                        updatePageHeight();
-                        return;
-                    }
-                } else {
+                if (clonedDiv.nodeName.toLowerCase() != 'table') {
                     clonedDiv.addEventListener('contextmenu', (e) => {
                         e.preventDefault();
                         createContextMenu(e.clientX, e.clientY, clonedDiv, null);
                     });
+                }  else {
+                    clonedDiv.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    createContextMenu(e.clientX, e.clientY, null , clonedDiv);
+                  });
+                  clonedDiv = activateTable(clonedDiv);
+                }
+
+                if (selectedTextBox && selectedTextBox.classList.contains("grid-item")) {
+                    addEventListenerToDiv(selectedTextBox);
+                    containerSize = boxHeight;
+                    isContainer = true;
+                    const data = e.dataTransfer.getData('text/html');
+
+                    // Create a temporary container to parse and append the data
+                    const tempContainer = document.createElement('div');
+                    tempContainer.innerHTML = data;
+                    tempContainer.firstChild.removeAttribute("draggable");
+                    selectedTextBox.appendChild(tempContainer);
+
+                    // Remove the 'draggable' attribute
+                    selectedTextBox.removeAttribute("draggable");
+                    activeDraggable = null;
+                    updatePageHeight();
+                    return;
                 }
 
                 clonedDiv.addEventListener('click', (e) => {
@@ -969,16 +891,10 @@ function addEventListenerToDiv(dropBox) {
 
             clonedDiv = selectElement(clonedDiv);
             clonedDiv.removeAttribute("draggable");
-            //clonedDiv.classList.remove("draggable");
-            //      if (isContainer) {
-            //        isContainer = false;
-            //        updatePageHeight();
-            //        return;
-            //      } else
 
             if (widgetCanvas) { // Check if widgetCanvas is defined
                 widgetCanvas.appendChild(clonedDiv);
-                currentHeight += boxHeight;
+                updatePageHeight();
             } else {
                 console.error('widgetCanvas is undefined.');
             }
@@ -1062,9 +978,9 @@ function selectElement(element) {
 	    if (selectedTextBox && selectedTextBox.getAttribute('id') === "selectedElement") {
             // Check if the "id" attribute matches the selectedElement
 	        selectedTextBox.removeAttribute('contentEditable');
-        } else if (selectedTextBox) {
-            selectedTextBox.removeAttribute('contentEditable');
-        } else if (selectedTextBox && element.classList.contains("w3-box")) {
+        }
+
+        if (selectedTextBox && selectedTextBox.classList.contains("drop-container")) {
             selectedTextBox.setAttribute('id', 'widgetCanvas');
         }
 
@@ -1088,4 +1004,16 @@ function selectElement(element) {
 		clickedElement.removeAttribute('readonly');
 	});
     return element;
+}
+
+function makeInputUneditableOnDeployment() {
+	if(selectedTextBox) {
+		selectedTextBox.classList.add('w3-uneditable');
+	}
+}
+
+function makeInputEditableOnDeployment() {
+	if(selectedTextBox) {
+		selectedTextBox.classList.remove('w3-uneditable');
+	}
 }

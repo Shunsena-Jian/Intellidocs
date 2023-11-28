@@ -26,6 +26,7 @@
 .grid-item {
   padding: 5px 5px;
   min-width: 50px; /* Set a minimum width for each column */
+  min-height: 20px;
 }
 
 .grid-container-vertical {

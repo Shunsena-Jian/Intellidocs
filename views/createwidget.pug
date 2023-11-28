@@ -23,6 +23,25 @@ block body
                             option(value='portrait-rectangle') Portrait Rectangle
                     .grid-item.borderless
                     .grid-item
+                        label(for='colorSelect') Select Text Color:
+                        select#colorSelect(onchange='changeTextColor()')
+                            option(value='black') Black
+                            option(value='white') White
+                            option(value='red') Red
+                            option(value='blue') Blue
+                            option(value='grey') Grey
+                    .grid-item.borderless
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeItalic()')
+                            i.fa.fa-italic.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeBold()')
+                            i.fa.fa-bold.icon-light
+                    .grid-item
+                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeUnderline()')
+                            i.fa.fa-underline.icon-light
+                    .grid-item.borderless
+                    .grid-item
                         a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignLeft()')
                             i.fa.fa-align-left.icon-light
                     .grid-item
@@ -45,7 +64,7 @@ block body
                     h6.w3-text-red.w3-bold.w3-italic Click on specific text fields to make them editable
 
                 .w3-twothird.w3-container
-                    #widgetCanvas.w3-box
+                    #widgetCanvas.w3-box.drop-container
 
                 .w3-third
                     //.widget-container.w3-container.w3-white
