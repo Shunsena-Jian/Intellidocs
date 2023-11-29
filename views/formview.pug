@@ -146,7 +146,7 @@ block body
                                             td
                                                 button.w3-button.w3-block.w3-theme-dark(onclick=`renderSubmittedForm("${submissions.form_owner}")`) View
                                             td
-                                                button.w3-button.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}")`) Approve Form
+                                                button.w3-button.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Approve Form
 
 
 
@@ -397,10 +397,10 @@ block body
         }
 
     script.
-        function approveSubmittedForm(formOwner){
+        function approveSubmittedForm(formOwner, formControlNumber){
             var data = {
                 formOwner: formOwner,
-                formControlNumber: form_template.form_control_number
+                formControlNumber: formControlNumber
             };
 
             $.ajax({
@@ -413,20 +413,15 @@ block body
                         var secretaryApproval = response.secretary_approval;
                         var deanApproval = response.dean_approval;
                         var departmentHeadApproval = response.department_head_approval;
-                        console.log("This is yes: " + secretaryApproval + deanApproval + departmentHeadApproval);
 
-                        if(secretaryApproval == undefined || secretaryApproval == ''){
-                        }else{
+                        if(secretaryApproval == undefined || secretaryApproval == '' || secretaryApproval == null){
+                        }else if(secretaryApproval === "Approved"){
                             document.getElementById("secretaryApproval").innerHTML = "Secretary Approval : " + secretaryApproval;
-                        }
-
-                        if(deanApproval == undefined || deanApproval == ''){
-                        }else{
+                        }else if(deanApproval == undefined || deanApproval == '' || deanApproval == null){
+                        }else if(deanApproval === "Approved"){
                             document.getElementById("deanApproval").innerHTML = "Dean Approval : " + deanApproval;
-                        }
-
-                        if(departmentHeadApproval == undefined || departmentHeadApproval == ''){
-                        }else{
+                        }else if(departmentHeadApproval == undefined || departmentHeadApproval == '' || departmentHeadApproval == null){
+                        }else if(departmentHeadApproval === "Approved"){
                             document.getElementById("departmentHeadApproval").innerHTML = "Department Head Approval : " + departmentHeadApproval;
                         }
 

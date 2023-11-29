@@ -605,17 +605,21 @@ app.get('/sharedview', async function (req, res){
         var latestUserVersion = 0;
 
         for(i=0; i < userVersions.length; i++){
-            if(userVersions[i].form_version >= latestVersion){
-                latestVersion = userVersions[i].form_version;
+            if(userVersions[i].user_version >= latestVersion){
+                latestVersion = userVersions[i].user_version;
             }
         }
 
-        var currentUserForm = await filledoutforms.findOne({ form_control_number : sharedFormControlNumber, form_owner : sharedFormOwner, form_version: latestVersion });
+        var currentUserForm = await filledoutforms.findOne({ form_control_number : sharedFormControlNumber, form_owner : sharedFormOwner, user_version: latestVersion });
 
-        jsonObject = currentUserForm;
-        var e = jsonObject.form_content;
-        var g = await jsonToHTML(e);
-        jsonObject.form_content = g;
+        try{
+            jsonObject = currentUserForm;
+            var e = jsonObject.form_content;
+            var g = await jsonToHTML(e);
+            jsonObject.form_content = g;
+        }catch(error){
+            logError("Error at shared view: " + error);
+        }
 
         res.render('sharedview', {
             title: 'Shared Form',
