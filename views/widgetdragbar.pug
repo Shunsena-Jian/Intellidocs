@@ -1,6 +1,26 @@
 .draggable-content
     //.w3-row.w3-padding-16
     .w3-row
+        button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('widgetHeaderContainer')")
+            i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
+            |  Header Table
+        #widgetHeaderContainer.w3-hide.w3-container
+            .header.w3-row.draggable.box.w3-margin-small(draggable='true')
+                table.form-table.w3-bold.form-table.w3-font-size-10.header-table.hori-col
+                    tbody
+                        tr
+                            th Document Code
+                            th FM-SMI-027
+                        tr
+                            th Revision No.
+                            th 01
+                        tr
+                            th Effectivity
+                            th April 01, 2023
+                        tr
+                            th Page
+                            th.page-number 1 of 1
+    .w3-row
         button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('widgetSectionsContainer')")
             i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
             |  Sections
@@ -29,17 +49,17 @@
             i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
             |  Text Fields
         #widgetTextFieldsContainer.w3-hide.w3-container
-            h3.textbox.w3-row.w3-container.box.draggable.w3-hover-light-grey.w3-padding-small(draggable="true")
+            h3.textbox.text-label.w3-row.w3-container.box.draggable.w3-hover-light-grey.w3-padding-small(draggable="true")
                 |                         This is a sample title
             hr.w3-clear
-            h5.textbox.w3-row.w3-container.box.draggable.w3-hover-light-grey.w3-padding-small(draggable="true")
+            h5.textbox.text-label.w3-row.w3-container.box.draggable.w3-hover-light-grey.w3-padding-small(draggable="true")
                 |                         This is a sample normal text
             hr.w3-clear
-            textarea.w3-textarea.w3-row.w3-container.box.draggable.w3-hover-light-grey(draggable="true" readonly type='text' placeholder='This is a sample of a paragraph')
+            textarea.text-label.w3-textarea.w3-row.w3-container.box.draggable.w3-hover-light-grey(draggable="true" readonly type='text' placeholder='This is a sample of a paragraph')
             h3.w3-clear
-            input.textbox.draggable.box.w3-input.w3-hover-light-grey.w3-padding-small(readonly draggable="true" type='date' placeholder='set deadline')
+            input.text-label.textbox.draggable.box.w3-input.w3-hover-light-grey.w3-padding-small(readonly draggable="true" type='date' placeholder='set deadline')
             h3.w3-clear
-            input.w3-input.textbox.draggable.box.w3-hover-light-grey.w3-padding-small(readonly draggable="true" type='text' placeholder='Some Text')
+            input.text-label.w3-input.textbox.draggable.box.w3-hover-light-grey.w3-padding-small(readonly draggable="true" type='text' placeholder='Some Text')
 
             hr.w3-newline-2
 

@@ -37,15 +37,15 @@ window.onload = function() {
     userType = window.userLevel; // User Level determines access to right click functions
     selectedTextBox = null; // Tracker for selected elements
 
+    console.log("User Type is: " + userType);
     initializeDraggables();
     if (currentPageContent.childElementCount > 0) {
         initializeCurrentPage();
-    } else {
     }
 
-    currentPageContent.addEventListener('click', (e) => { // Can select the page canvas
-    	selectElement(currentPageContent);
-    });
+//    currentPageContent.addEventListener('click', (e) => { // Can select the page canvas
+//    	selectElement(currentPageContent);
+//    });
 
 
     addEventListenerToDiv(currentPageContent);
@@ -62,7 +62,6 @@ function initializeDraggables() {
     	table.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/html', table.outerHTML);
             activeDraggable = table;
-
         });
     });
 
@@ -78,10 +77,6 @@ function initializeDraggables() {
             e.dataTransfer.setData('text/html', currentPageContent.outerHTML);
             activeDraggable = currentPageContent;
         });
-
-    currentPageContent.addEventListener('click', (e) => { // Page Canvas can be clicked
-    	selectElement(currentPageContent);
-    });
 }
 
 // Tnitialize current page upon load
@@ -98,6 +93,7 @@ function initializeCurrentPage(){
 
     initializeHeightOfCurrentPage(currentPage); // Calculate height of the last page
     initializeContextMenuForChildren(currentPage); // Enable right click functions for content
+    makeAllReadOnlyRecursive();
 }
 
 
@@ -130,18 +126,27 @@ function initializeContextMenuForChildren(pageCount){
         receivedCurrentPage = "page-" + i;
         parentElement = document.getElementById(receivedCurrentPage);
         children = parentElement.children;
+        console.log(children);
 
         for(j = 0; j < children.length; j++){
-            children[j].addEventListener('keydown', () => {
-                adjustTextareaHeight(children[j]);
-            });
-
             // Do not allow select element for other user types
-            if (userType == "Document Controller" || userType == "Super Admin") {
-               children[j].firstElementChild = selectElement(children[j]);
+            if (!userType == "Secretary") {
+               children[j] = selectElement(children[j]);
             }
             initializeContextMenuForChild(children[j]);
         }
+
+        // Get all elements with class name "label"
+        const elements = parentElement.querySelectorAll('.text-label');
+        console.log(elements);
+
+        // Loop through each element and add event listener
+        elements.forEach(element => {
+            // Add event listener for 'keydown' event
+            element.addEventListener('keydown', () => {
+                adjustTextareaHeight(element);
+            });
+        });
     }
 }
 
@@ -206,6 +211,8 @@ function adjustTextareaHeight(element) {
     element.style.height = 'auto'; // Reset the height to auto
     element.style.height = `${element.scrollHeight}px`; // Set the height to match the scroll height
     adaptPageContent();
+
+    return element;
 }
 
 
@@ -337,9 +344,9 @@ function createNewPage() {
         activeDraggable = newPage;
     });
 
-    newPage.addEventListener('click', (e) => {
-    	selectElement(newPage);
-    });
+//    newPage.addEventListener('click', (e) => {
+//    	selectElement(newPage);
+//    });
 
     currentPageContent.style.pageBreakAfter = 'always'; // Add page break after the current page
     currentPageContent = newPage; // Update pointer of current page
@@ -772,7 +779,6 @@ function downloadPDF(divToPrint) {
 // Context Menus
 function createContextMenu(x,y,element, table) {
     var isChild = false;
-    var parentContainer = selectedTextBox.parentElement;
 
     if (rightClickWidgetActive) { // Right click is active, remove the added buttons to avoid duplication
         while (contextMenu.firstChild) {
@@ -1027,20 +1033,20 @@ function contextMenuButtonsForTable(table) {
 }
 
 // Bugged
-function restrictCheckBoxSelection() {
-    const checkboxes = currentPageContent.querySelectorAll('input[name="academicStatus"]');
-    // Add a change event listener to each checkbox
-        checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener('change', function () {
-                // Uncheck all other checkboxes in the group
-                checkboxes.forEach((otherCheckbox) => {
-                    if (otherCheckbox !== this) {
-                        otherCheckbox.checked = false;
-                    }
-                });
-            });
-        });
-}
+//function restrictCheckBoxSelection() {
+//    const checkboxes = currentPageContent.querySelectorAll('input[name="academicStatus"]');
+//    // Add a change event listener to each checkbox
+//        checkboxes.forEach((checkbox) => {
+//            checkbox.addEventListener('change', function () {
+//                // Uncheck all other checkboxes in the group
+//                checkboxes.forEach((otherCheckbox) => {
+//                    if (otherCheckbox !== this) {
+//                        otherCheckbox.checked = false;
+//                    }
+//                });
+//            });
+//        });
+//}
 
 
 function dropContent(boxHeight, data) {
@@ -1068,9 +1074,9 @@ function dropContent(boxHeight, data) {
                 createNewPage(); // Current page is full, initialize a new page
             }
 
-                clonedDiv.addEventListener('keydown', () => {
-                    adjustTextareaHeight(clonedDiv);
-                });
+            clonedDiv.addEventListener('keydown', () => {
+                clonedDiv = adjustTextareaHeight(clonedDiv);
+            });
 
             currentPageContent.appendChild(sectionDiv); // Append to the current page's content
             currentHeight = updatePageHeight(); // Update current height
@@ -1271,12 +1277,16 @@ function removeReadOnlyAttributesRecursive(element) {
               element.removeAttribute('readonly');
             }
 
-            // Set contentEditable attribute to true
-            element.setAttribute('contentEditable', 'true');
+            if (!(element.nodeName === "LABEL" && element.querySelector('input[type="checkbox"]'))) {
+                // Set contentEditable attribute to true
+                element.setAttribute('contentEditable', 'true');
+            }
+
 
             // Iterate through child elements
             const childElements = element.children;
             for (let i = 0; i < childElements.length; i++) {
+
                 removeReadOnlyAttributesRecursive(childElements[i]);
             }
         }
@@ -1284,11 +1294,52 @@ function removeReadOnlyAttributesRecursive(element) {
     return element;
 }
 
+function makeAllReadOnlyRecursive() {
+    console.log("hehe");
+    // Query all div elements with class "page-container"
+    const pageContainers = document.querySelectorAll('.drop-container');
+
+    // Iterate through each page container
+    pageContainers.forEach(pageContainer => {
+        // Get all children of the current page container
+        const childElements = pageContainer.querySelectorAll('*');
+
+        // Iterate through each child element
+        childElements.forEach(child => {
+            // Check if the element is not a textarea and doesn't have a readonly attribute
+            if (userType == "Secretary") {
+                // Set the readonly attribute to the element
+                child.setAttribute('readonly', 'true');
+
+                // Set contentEditable attribute to false
+                child.setAttribute('contentEditable', 'false');
+            }
+
+            if (
+                !(child instanceof HTMLTextAreaElement
+                || child.nodeName == "INPUT"
+                || child.nodeName == "TABLE"
+                || child.nodeName == "TR"
+                || child.nodeName == "DIV"
+                || child.nodeName == "TD"
+                || child.nodeName == "LABEL")
+                && !child.hasAttribute('readonly'
+                && child.classList.contains("w3-uneditable"))
+                && (userType == "Faculty" || userType == "Department Head")) {
+                // Set the readonly attribute to the element
+                child.setAttribute('readonly', 'true');
+
+                // Set contentEditable attribute to false
+                child.setAttribute('contentEditable', 'false');
+            }
+        });
+    });
+}
+
 
 // Click listeners for selected elements
 function selectElement(element) {
     element.addEventListener('click', function (event) {
-
 	    const clickedElement = event.target;
 	    // Unselect the previously selected text box, if any
 	    if (selectedTextBox && selectedTextBox.getAttribute('id') === "selectedElement") {

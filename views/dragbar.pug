@@ -42,9 +42,9 @@
                     img.w3-image(src='../src/slu_logo.png')
 
                 .w3-col.s6.w3-bold.w3-center
-                    .w3-center
+                    .w3-center.text-label
                         | Saint Louis University
-                    .w3-underline.w3-center.w3-margin-left.w3-margin-right
+                    .w3-underline.w3-center.w3-margin-left.w3-margin-right.text-label
                         | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
                     input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
 
@@ -123,17 +123,17 @@
         #groupedFieldsContainer.w3-hide.w3-container
 
             .w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.box.draggable.w3-margin-small(draggable='true')
-                .w3-center
+                .w3-center.text-label
                     | Saint Louis University, Baguio City
-                .w3-underline.w3-center.w3-margin-left.w3-margin-right
+                .w3-underline.w3-center.w3-margin-left.w3-margin-right.text-label
                     | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
                 input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
             hr.w3-clear
 
             .w3-row.w3-container.w3-margin-right.w3-center.box.draggable.w3-margin-small(draggable='true')
-                .w3-row.w3-center.w3-bold
+                .w3-row.w3-center.w3-bold.text-label
                     | VISION MISSION STATEMENT
-                .w3-row.w3-center
+                .w3-row.w3-center.text-label
                     | We envision Saint Louis University as an excellent missionary and transformative educational institution zealous in developing locally responsive, globally competitive, and empowered human resources who are creative, competent and socially involved, and imbued with Christian Spirit
             hr.w3-clear
 
@@ -157,16 +157,16 @@
             i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
             |  Text Fields
         #textFieldsContainer.w3-hide.w3-container
-            h3.textbox.w3-row.w3-container.box.draggable.w3-margin-small(draggable="true")
-                |                         This is a sample title
+            h3.textbox.w3-row.text-label.w3-container.box.draggable.w3-margin-small.w3-font-size-20(draggable="true")
+                |   Label Text Box
             hr.w3-clear
-            h5.textbox.w3-row.w3-container.box.draggable.w3-margin-small(draggable="true")
-                |                         This is a sample normal text
+            h5.textbox.text-label.w3-row.w3-container.box.draggable.w3-margin-small.w3-font-size-16(draggable="true")
+                |   Normal Text Box
             hr.w3-clear
-            p.textbox.w3-container.box.draggable.w3-margin-small(draggable="true")
-                |                         This is a sample subtitle
+            p.textbox.text-label.w3-container.box.draggable.w3-margin-small(draggable="true")
+                |   Small Text Box
             hr.w3-clear
-            textarea.w3-textarea.textbox.w3-container.box.draggable.w3-margin-small(draggable="true")
+            textarea.w3-textarea.text-label.textbox.w3-container.box.draggable.w3-margin-small(draggable="true")
                 |                         This is a sample text box
             hr.w3-clear
             ol.w3-margin.w3-container.draggable.box.w3-hover-light-grey.w3-ol.list.w3-margin-small(draggable='true')

@@ -6,9 +6,27 @@ block body
         //.w3-row.w3-padding-64
         .w3-row.w3-card.w3-container.w3-white.w3-margin
             h4.w3-bold Create Widget
-            input#widgetName.w3-col.s6.w3-input.w3-margin.w3-padding-16.w3-text-size-30(placeholder="Type Widget Name [Required]" required='')
-            //button.w3-col.s2.w3-right.w3-input.w3-margin.w3-padding-16.w3-text-size-30
-                | Create Widget
+            .w3-row.w3-container
+                .w3-half
+                    input#widgetName.w3-row.w3-input.w3-margin.w3-padding-16.w3-text-size-30(placeholder="Type Widget Name [Required]" required='')
+                    label.w3-margin-left(for='widgetCategory') Widget Category:
+                    select#widgetCategory.w3-margin(onchange='')
+                        option(value='personalized') Personalized
+                        option(value='header') Header
+                        option(value='information') Information
+                        option(value='grouped') Grouped
+                        option(value='text') Text
+                        option(value='signature') Signature
+                        option(value='table') Table
+                .w3-half
+                    .w3-third.w3-right
+                        br
+                        br
+                        br
+                        br
+                        br
+                        button.w3-button.w3-bold.w3-grey.w3-padding-16(onclick='saveWidget()')
+                            | Save Widget
             hr.w3-clear
             p.w3-center
 
@@ -53,10 +71,6 @@ block body
                     .grid-item
                         a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignJustify()')
                             i.fa.fa-align-justify.icon-light
-                    .grid-item.borderless
-                    .grid-item
-                        button.w3-button.w3-bold.w3-grey(onclick='saveWidget()')
-                            | Save Widget
                     .grid-item.borderless
 
             .w3-row.w3-container
