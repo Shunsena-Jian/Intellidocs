@@ -1089,11 +1089,11 @@ app.post('/login', async function (req, res){
     if(req.session.loggedIn){
         res.redirect('/');
     } else {
-        var useremail = req.body.userEmail;
+        var username = req.body.userName.toLowerCase();
         var password = req.body.passWord;
 
         try {
-            const user = await users.findOne({ email: useremail });
+            const user = await users.findOne({ username: username });
             if(!user){
                 logStatus("Cannot find user");
 
@@ -1381,31 +1381,41 @@ app.get('/createusers', async function(req, res){
 
 app.post('/createusers', async function(req, res){
     if(req.session.loggedIn){
-        var username = req.body.userName;
+        var username = req.body.userName.toLowerCase();
         var password = req.body.passWord;
         var emp_id = req.body.empId;
         var firstname = req.body.firstName;
         var lastname = req.body.lastName;
         var userlevel = req.body.userLevel;
-        var email = req.body.eMail;
+        var userdepartment = req.body.userDepartment;
 
         try{
             const existingUser = await db.collection('users').findOne({ username: username });
             if(existingUser){
                 logStatus("User already exists!");
             }else{
-                const newUser = {
-                    "email": email,
-                    "username": username,
-                    "password": password,
-                    "emp_id": emp_id,
-                    "first_name": firstname,
-                    "last_name": lastname,
-                    "user_level": userlevel
-                };
-
-                const result = await db.collection('users').insertOne(newUser);
-                logStatus("User created");
+                if(!userdepartment){
+                    const newUser = {
+                        "username": username,
+                        "password": password,
+                        "emp_id": emp_id,
+                        "first_name": firstname,
+                        "last_name": lastname,
+                        "user_level": userlevel
+                    };
+                }else if(userdepartment){
+                    const newUser = {
+                        "username": username,
+                        "password": password,
+                        "emp_id": emp_id,
+                        "first_name": firstname,
+                        "last_name": lastname,
+                        "user_level": userlevel,
+                        "user_department": userdepartment
+                    };
+                    const result = await db.collection('users').insertOne(newUser);
+                    logStatus("User created");
+                }
             }
         }catch(error){
             logError("Error creating the user: " + error);
@@ -2207,7 +2217,7 @@ async function getUsersEmails(){
         userName = await users.find({}).toArray();
 
         for(const user of userName){
-            empEmails.push(user.emp_id);
+            empEmails.push(user.username);
         }
 
         logStatus("This are the user names: " + JSON.stringify(empEmails));

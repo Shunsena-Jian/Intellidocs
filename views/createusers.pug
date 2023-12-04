@@ -1,19 +1,26 @@
 extends layout.pug
 
 block body
+    script(src='https://code.jquery.com/jquery-3.6.4.min.js')
+
+    script.
+        $(document).ready(function(){
+            $('#userLevel').change(function(){
+                var selectedLevel = $(this).val();
+                if (selectedLevel === 'Document Controller' || selectedLevel === 'Dean' || selectedLevel === 'Admin' || selectedLevel === 'Secretary') {
+                    $('#userDepartment').parent().hide();
+                } else {
+                    $('#userDepartment').parent().show();
+                }
+            });
+        });
+
     #main.w3-main(style='margin-left:250px')
         .w3-row.w3-padding-64
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 .form_container
                     form(name='form' role='form' method='POST')
                         h2.heading CREATE A USER
-                        .form_wrap.fullname
-                            .form_item
-                                label(style='font-family: Courier New, monospace; font-weight:normal;') Email
-                                input#eMail.error(type='text' name='eMail' required='')
-                            .form_item
-                                label(style='font-family:Courier New, monospace;; font-weight:normal;') ID Number
-                                input#empId.error(type='text' name='empId' required='')
                         .form_wrap.fullname
                             .form_item
                                 label(style='font-family: Courier New, monospace; font-weight:normal;') Username
@@ -30,8 +37,12 @@ block body
                                 input#lastName.error(type='text' name='lastName' required='')
                         .form_wrap.fullname
                             .form_item
+                                label(style='font-family:Courier New, monospace;; font-weight:normal;') ID Number
+                                input#empId.error(type='text' name='empId' required='')
+                        .form_wrap.fullname
+                            .form_item
                                 label(for='userLevel' style='font-family: Courier New, monospace;; font-weight:normal;') User Level:
-                                select#userLevel(name='userLevel')
+                                select#userLevel(name='userLevel' required='')
                                     option(value='null') Choose Role
                                     option(value='Document Controller') Document Controller
                                     option(value='Department Head') Department Head
@@ -39,5 +50,12 @@ block body
                                     option(value='Dean') Dean
                                     option(value='Admin') Admin
                                     option(value='Secretary') Secretary
+                            .form_item
+                                label(for='userDepartment' style='font-family: Courier New, monospace;; font-weight:normal;') User Department:
+                                select#userDepartment(name='userDepartment' required='')
+                                    option(value='null') Choose Department
+                                    option(value='Document Controller') Information Technology
+                                    option(value='Department Head') Computer Science
+                                    option(value='Faculty') Multimedia Arts
                         .btnPosition
                               button(class='btn' type='submit') Register
