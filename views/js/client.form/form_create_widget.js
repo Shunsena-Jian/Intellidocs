@@ -556,71 +556,75 @@ function createContextMenu(x,y,element, table) {
         contextMenu.classList.add('context-menu');
 
         if (table) {
-            if (table.classList.contains('form-table')) {
-                contextMenuButtonsForTable(element, contextMenu);
-            }
+            contextMenuButtonsForTable(table);
         }
 
-        contextMenuButtonsForContainer(element, contextMenu);
+        contextMenuButtonsForContainer(element);
 
-        var isChild = false;
-        var deleteButtonSelected;
-        var parentContainer = selectedTextBox.parentElement;
-
-        if (parentContainer.classList.contains("container")) {
-            isChild = true;
-            deleteButtonSelected = document.createElement('button');
-            deleteButtonSelected.classList.add("button-box");
-            deleteButtonSelected.innerText = 'Delete Inner Widget';
-
-            deleteButtonSelected.addEventListener('click', () => {
-                if (confirm('Are you sure you want to delete selected widget?')) {
-                   selectedTextBox.remove();
-                    updatePageHeight();
-                    repositionBoxes();
-                }
-            });
-        }
-
-
-        const deleteButtonGroup = document.createElement('button');
-        deleteButtonGroup.classList.add("button-box");
-        deleteButtonGroup.innerText = 'Delete Widget';
-        deleteButtonGroup.addEventListener('click', () => {
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add("button-box");
+        deleteButton.innerText = 'Delete Widget';
+        deleteButton.addEventListener('click', () => {
             if (confirm('Are you sure you want to delete this box?')) {
-                element.remove();
-                updatePageHeight();
-                repositionBoxes();
-            }
+                if (selectedTextBox.parentElement != null) {
+
+                    if (selectedTextBox.nodeName === "TD" || selectedTextBox.nodeName === "TR") {
+                        var parentNode = selectedTextBox.parentNode;
+                        var tableContainer = parentNode.parentNode;
+
+                         if (tableContainer.nodeName === "TBODY") {
+                             var tableContainerOuter = tableContainer.parentElement;
+                             tableContainerOuter.remove();
+                             repositionBoxes();
+                             reassignSectionID();
+                         } else {
+                             tableContainer.remove();
+                             repositionBoxes();
+                             adaptPageContent();
+                             reassignSectionID();
+                             checkCurrentPage();
+                         }
+                            sectionCount -= 1;
+                            currentHeight = updatePageHeight();
+                    return;
+                    } else {
+                        if (element) {
+                            element.remove(); // Remove the parent container
+                            repositionBoxes();
+                        }
+                        currentHeight = updatePageHeight();
+
+                    }
+                }
+             }
         });
 
-        contextMenu.appendChild(deleteButtonGroup);
-        if (isChild) {
-            contextMenu.appendChild(deleteButtonSelected);
-            isChild = false;
-        }
+        contextMenu.appendChild(deleteButton);
 
         const lockEditOnDeploy = document.createElement('button');
         lockEditOnDeploy.classList.add("button-box");
-        lockEditOnDeploy.innerText = "Lock Field";
+        lockEditOnDeploy.innerText = "Lock field";
         lockEditOnDeploy.addEventListener('click', () => {
             if(confirm('Are you sure you want to lock this editable field on deployment?')) {
                 makeInputUneditableOnDeployment();
             }
             contextMenu.remove();
         })
-        contextMenu.appendChild(lockEditOnDeploy);
 
         const unlockEditOnDeploy = document.createElement('button');
         unlockEditOnDeploy.classList.add("button-box");
-        unlockEditOnDeploy.innerText = "Unlock Field";
+        unlockEditOnDeploy.innerText = "Unlock field";
         unlockEditOnDeploy.addEventListener('click', () => {
             if(confirm('Are you sure you want to unlock this editable field on deployment?')) {
                 makeInputEditableOnDeployment();
             }
             contextMenu.remove();
         })
+
+        contextMenu.appendChild(lockEditOnDeploy);
         contextMenu.appendChild(unlockEditOnDeploy);
+
+
 
         contextMenu.style.position = 'fixed';
         contextMenu.style.left = x + 'px';
@@ -630,22 +634,23 @@ function createContextMenu(x,y,element, table) {
         rightClickWidgetActive = true;
 
         document.addEventListener('click', () => {
-        	contextMenu.remove();
+           contextMenu.remove();
         });
 
         // Prevent the default context menu from appearing
         document.addEventListener('contextmenu', (e) => {
-        	e.preventDefault();
+            e.preventDefault();
         });
     }
 }
 
-function contextMenuButtonsForContainer(element, contextMenu) {
+function contextMenuButtonsForContainer(element) {
     var appendSectionColumn;
     var addCheckBoxItem;
     var removeSectionColumn;
+
     // Add right click functions for grid container
-    if (element.classList.contains('grid-container') && !element.classList.contains('checkbox')) {
+    if (element && element.classList.contains('grid-container') && !element.classList.contains('checkbox')) {
 
         // Add Section column
         appendSectionColumn = document.createElement('button');
@@ -671,7 +676,7 @@ function contextMenuButtonsForContainer(element, contextMenu) {
         })
          contextMenu.appendChild(removeSectionColumn);
 
-    } if (element.classList.contains('grid-container') && element.classList.contains('checkbox')) {
+    } if (element && element.classList.contains('grid-container') && element.classList.contains('checkbox')) {
         addCheckBoxItem = document.createElement('button');
         addCheckBoxItem.classList.add("button-checkbox");
         addCheckBoxItem.innerText = "Add Checkbox Item";
@@ -691,46 +696,22 @@ function contextMenuButtonsForContainer(element, contextMenu) {
             }
             contextMenu.remove();
          })
-         contextMenu.appendChild(removeSectionColumn);
+        contextMenu.appendChild(removeSectionColumn);
     }
-    return contextMenu;
 }
 
-function contextMenuButtonsForTable(table, contextMenu) {
-    const addRowButton = document.createElement('button');
-    addRowButton.classList.add("button-table");
-    addRowButton.innerText = 'Add Row';
-
-    addRowButton.addEventListener('click', () => {
-     addTableRow(table);
-     contextMenu.remove();
-     updatePageHeight();
-    });
-
+function contextMenuButtonsForTable(table) {
     const addColumnButton = document.createElement('button');
     addColumnButton.classList.add("button-table");
     addColumnButton.innerText = 'Add Column';
-
     addColumnButton.addEventListener('click', () => {
         addTableColumn(table);
         contextMenu.remove();
     });
 
-    const removeRowButton = document.createElement('button');
-    removeRowButton.classList.add("button-table");
-    removeRowButton.innerText = 'Remove Row';
-
-    removeRowButton.addEventListener('click', () => {
-        var rowCount = table.rows.length;
-        removeTableRow(table, rowCount-1);
-        contextMenu.remove();
-    });
-
-
     const removeColumnButton = document.createElement('button');
     removeColumnButton.classList.add("button-table");
     removeColumnButton.innerText = 'Remove Column';
-
     removeColumnButton.addEventListener('click', () => {
         const colCount = table.rows[0].cells.length;
         removeTableColumn(table, colCount-1);
@@ -741,28 +722,45 @@ function contextMenuButtonsForTable(table, contextMenu) {
     const mergeCellsButton = document.createElement('button');
     mergeCellsButton.classList.add("button-table");
     mergeCellsButton.innerText = 'Merge Cells';
-
     mergeCellsButton.addEventListener('click', () => {
-    	const table = element.querySelector('form-table');
-    	mergeCells(table);
-    	contextMenu.remove();
+        mergeCells(table);
+        contextMenu.remove();
     });
 
     const unmergeCellButton = document.createElement('button');
     unmergeCellButton.classList.add("button-table");
     unmergeCellButton.innerText = 'Unmerge Cell';
-
     unmergeCellButton.addEventListener('click', () => {
         unmergeCells(table);
-    	contextMenu.remove();
+        contextMenu.remove();
     });
 
-    contextMenu.appendChild(mergeCellsButton);
-    contextMenu.appendChild(unmergeCellButton);
+    // Add Row
+    const addRowButton = document.createElement('button');
+    addRowButton.classList.add("button-table");
+    addRowButton.innerText = 'Add Row';
+    addRowButton.addEventListener('click', () => {
+     addTableRow(table);
+     adaptPageContent();
+     contextMenu.remove();
+    });
+
+    // Remove Row
+    const removeRowButton = document.createElement('button');
+    removeRowButton.classList.add("button-table");
+    removeRowButton.innerText = 'Remove Row';
+    removeRowButton.addEventListener('click', () => {
+        var rowCount = table.rows.length;
+        removeTableRow(table, rowCount-1);
+        contextMenu.remove();
+    });
+
     contextMenu.appendChild(addRowButton);
-    contextMenu.appendChild(addColumnButton);
     contextMenu.appendChild(removeRowButton);
     contextMenu.appendChild(removeColumnButton);
+    contextMenu.appendChild(mergeCellsButton);
+    contextMenu.appendChild(unmergeCellButton);
+    contextMenu.appendChild(addColumnButton);
 
     return contextMenu;
 }
@@ -850,18 +848,20 @@ function addEventListenerToDiv(dropBox) {
 
             if (newDiv) {
                 var clonedDiv = newDiv.cloneNode(true);
-
+                console.log(clonedDiv);
                 // Check if the clonedDiv is a table or contains tables within divs
                 if (clonedDiv.nodeName.toLowerCase() != 'table') {
                     clonedDiv.addEventListener('contextmenu', (e) => {
                         e.preventDefault();
                         createContextMenu(e.clientX, e.clientY, clonedDiv, null);
                     });
-                }  else {
+                }  else if (clonedDiv.nodeName.toLowerCase() == 'table') {
+                    console.log("is a freaking table");
                     clonedDiv.addEventListener('contextmenu', (e) => {
-                    e.preventDefault();
-                    createContextMenu(e.clientX, e.clientY, null , clonedDiv);
-                  });
+                        e.preventDefault();
+                        console.log("is a freaking table");
+                        createContextMenu(e.clientX, e.clientY, null , clonedDiv);
+                    });
                   clonedDiv = activateTable(clonedDiv);
                 }
 
