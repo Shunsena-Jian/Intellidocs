@@ -1,24 +1,24 @@
 extends layout.pug
 
 block body
-    .w3-main#main(style='margin-left:250px; margin-top:100px; margin-bottom:50px;')
-        .w3-row.w3-card.w3-container.w3-white.w3-margin
-            h4.w3-bold Create Form
-            .w3-row.w3-container
-                .w3-half
-                    input#formName.w3-row.w3-input.w3-margin(placeholder="Type Form Name [Required]" type='text' name='formName' required='')
-                    input#formControlNumber.w3-row.w3-input.w3-margin(placeholder="Type Form Control Number [Required]" type='text' name='formControlNumber' required='')
-                .w3-half
-                    .w3-third.w3-right
-                        br
-                        br
-                        br
-                        button.w3-button.w3-bold.w3-grey(onclick='saveForm()')
-                            | Save Form
-            hr.w3-clear
-            p.w3-center
-            .w3-row.w3-container
-                .grid-container.w3-light-grey
+    .w3-main#main(style='margin-left:230px; margin-top:50px; margin-bottom:50px; margin-right:30px;')
+        .w3-row.w3-container
+            .w3-row.w3-container.w3-card
+                h4.w3-bold Create Form
+                .w3-row.w3-container
+                    .w3-half
+                        input#formName.w3-row.w3-input.w3-margin(placeholder="Type Form Name [Required]" type='text' name='formName' required='')
+                        input#formControlNumber.w3-row.w3-input.w3-margin(placeholder="Type Form Control Number [Required]" type='text' name='formControlNumber' required='')
+                    .w3-half
+                        .w3-third.w3-right
+                            br
+                            br
+                            br
+                            button.w3-button.w3-bold.w3-blue-classic(onclick='saveForm()')
+                                | Save Form
+            br
+            .w3-row.w3-card
+                .grid-container.w3-light-grey.w3-padding-16
                     .grid-item
                         label(for='createPageMargin') Page Margin:
                         select#createPageMargin(onchange='createPageMargin()')

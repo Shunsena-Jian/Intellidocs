@@ -1,11 +1,3 @@
-*{
-    list-style: none;
-    text-decoration: none;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'century gothic';
-}
 
 /* Works on Firefox */
 * {
@@ -28,30 +20,17 @@
   border: 3px solid #65647C;
 }
 
-body {
-     background-image:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("../src/bg original.jpg");
-     background-size: cover;
-     background-repeat: no-repeat;
-     background-position: center;
-     background-attachment: fixed;
-     zoom: 80%;
 
+
+
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+
+
+.parent-container {
+    height: 100%; /* Set the maximum height of the parent container */
+    border: 1px solid #000000; /* Optional: Add a border to visualize the container */
+    position: relative; /* Optional: Needed if you want to position child elements */
 }
-
-    style.
-        html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
-        .w3-sidebar {
-        z-index: 3;
-        width: 250px;
-        top: 43px;
-        bottom: 0;
-        height: inherit;
-        }
-        .parent-container {
-            height: 100%; /* Set the maximum height of the parent container */
-            border: 1px solid #000000; /* Optional: Add a border to visualize the container */
-            position: relative; /* Optional: Needed if you want to position child elements */
-        }
 
 
 /* --------------- animation for alert box (cass) ---------------- */
@@ -393,7 +372,7 @@ margin-bottom: 15px;
 
 /*---------- LOGIN HOME (cass) ----------*/
 body {
-    background-image:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("../src/bg original.jpg");
+    background-image:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5));
     background-size: cover;
     background-repeat no-repeat;
     background-attachment-fixed;
@@ -2794,9 +2773,9 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .w3-hoverable tbody tr:hover,.w3-ul.w3-hoverable li:hover{background-color:#ccc}.w3-centered tr th,.w3-centered tr td{text-align:center}
 .w3-table td,.w3-table th,.w3-table-all td,.w3-table-all th{padding:8px 8px;display:table-cell;text-align:left;vertical-align:top}
 .w3-table th:first-child,.w3-table td:first-child,.w3-table-all th:first-child,.w3-table-all td:first-child{padding-left:16px}
-.w3-btn,.w3-button{border:none;display:inline-block;padding:8px 16px;vertical-align:middle;overflow:hidden;text-decoration:none;color:inherit;background-color:inherit;text-align:center;cursor:pointer;white-space:nowrap}
+.w3-btn,.w3-button{border:none; display:inline-block;padding:8px 16px;vertical-align:middle;overflow:hidden;text-decoration:none;color:inherit;background-color:inherit;text-align:center;cursor:pointer;white-space:nowrap}
 .w3-btn:hover{box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)}
-.w3-btn,.w3-button{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.w3-btn,.w3-button{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor: pointer;}
 .w3-disabled,.w3-btn:disabled,.w3-button:disabled{cursor:not-allowed;opacity:0.3}.w3-disabled *,:disabled *{pointer-events:none}
 .w3-btn.w3-disabled:hover,.w3-btn:disabled:hover{box-shadow:none}
 .w3-badge,.w3-tag{background-color:#000;color:#fff;display:inline-block;padding-left:8px;padding-right:8px;text-align:center}.w3-badge{border-radius:50%}
@@ -2919,6 +2898,7 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .w3-light-blue,.w3-hover-light-blue:hover{color:#000!important;background-color:#87CEEB!important}
 .w3-brown,.w3-hover-brown:hover{color:#fff!important;background-color:#795548!important}
 .w3-cyan,.w3-hover-cyan:hover{color:#000!important;background-color:#00bcd4!important}
+.w3-blue-classic{color:#fff!important;background-color: #121B3B!important}
 .w3-blue-grey,.w3-hover-blue-grey:hover,.w3-blue-gray,.w3-hover-blue-gray:hover{color:#fff!important;background-color:#607d8b!important}
 .w3-green,.w3-hover-green:hover{color:#fff!important;background-color:#4CAF50!important}
 .w3-light-green,.w3-hover-light-green:hover{color:#000!important;background-color:#8bc34a!important}

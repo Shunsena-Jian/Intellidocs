@@ -1,3 +1,12 @@
+body {
+    background-image:linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("../src/bg original.jpg");
+    background-size: cover;
+    background-repeat no-repeat;
+    background-attachment-fixed;
+    background-position: center;
+    zoom: 80%;
+}
+
 .fr-clearfix::after {
   clear: both;
   display: block;
