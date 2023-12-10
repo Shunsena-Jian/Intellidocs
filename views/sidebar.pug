@@ -79,7 +79,7 @@ block sidebar
     nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-theme-light.w3-animate-left
         div
             .w3-container
-                h4#userFirstName.w3-center(style='font-family: Acme, monospace') #{currentUserDetailsBlock.firstName}
+                //h4#userFirstName.w3-center.w3-serif #{currentUserDetailsBlock.firstName}
                 p.w3-center
                     if (currentUserPicture && currentUserPicture.user_picture)
                         img.w3-circle#sideBarImage(src=`${currentUserPicture.user_picture}` style='height:106px;width:106px' alt='Avatar')
@@ -104,20 +104,20 @@ block sidebar
                     i.fa.fa-circle-o-notch.fa-fw.w3-margin-right
                     |  Form Management
                 #Demo1.w3-hide.w3-container
-                    #createTemplateElement
-                        p
-                            a(href='/createform')
+                    #createTemplateElement.w3-row
+                        .w3-button
+                            a(href='/createform').w3-button-text
                                 i.fa.fa-plus-circle.w3-margin-right
                                 | Create Forms
-                        p
-                            a(href='/createwidget')
+                        .w3-button
+                            a(href='/createwidget').w3-button-text
                                 i.fa.fa-plus-circle.w3-margin-right
                                 | Create Widgets
-                        p
-                            a(href='/viewformtemplates')
+                        .w3-button
+                            a(href='/viewformtemplates').w3-button-text
                                 i.fa.fa-eye.w3-margin-right
                                 | View Form Templates
-                    p
+                    .w3-button
                         a(href='/viewforms')
                             i.fa.fa-file.w3-margin-right
                             | View Forms
