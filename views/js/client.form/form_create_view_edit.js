@@ -131,9 +131,10 @@ function initializeContextMenuForChildren(pageCount){
         for(j = 0; j < children.length; j++){
             // Do not allow select element for other user types
             if (!userType == "Secretary") {
-               children[j] = selectElement(children[j]);
+               children[j].firstElementChild = selectElement(children[j].firstElementChild);
             }
-            initializeContextMenuForChild(children[j]);
+            initializeContextMenuForChild(children[j].firstElementChild);
+
         }
 
         // Get all elements with class name "label"
@@ -153,9 +154,12 @@ function initializeContextMenuForChildren(pageCount){
 // A branch of initializeContextMenuForChildren() function that calls the contextMenu
 // listener respectively for each child section div
 function initializeContextMenuForChild(clonedDiv) {
+    console.log(clonedDiv);
     function addContextMenuListenerToElement(clonedDiv) {
         clonedDiv.addEventListener('contextmenu', (e) => {
             e.preventDefault();
+            console.log("adding context listener to ");
+            console.log(clonedDiv);
             if (clonedDiv.classList.contains("form-table")) {
                 createContextMenu(e.clientX, e.clientY, null, clonedDiv);
             } else {
@@ -250,16 +254,23 @@ function adaptPageContent() {
                 //allPages = document.querySelectorAll(".drop-container");
                 adaptPageContent();
             }
-//            nextPage = allPages[index + 1] || createNewPage(); // Create a new page if nextPage is null
+            var firstChildOfNextPage = nextPage.children[0];
             var secondChildOfNextPage = nextPage.children[1];
-            nextPage.insertBefore(lastChildOfCurrentPage, secondChildOfNextPage);
+
+            if (firstChildOfNextPage && firstChildOfNextPage.classList.contains('header')) {
+                // If the first child of the next page is a header, append to the second child
+                nextPage.insertBefore(lastChildOfCurrentPage, secondChildOfNextPage);
+            } else {
+                // If the first child of the next page is not a header, append as the first child
+                nextPage.insertBefore(lastChildOfCurrentPage, firstChildOfNextPage);
+            }
 
             // Recalculate current page height after moving the last child
             currentPageChildren = Array.from(page.children);
             currentPageHeight = calculateTotalHeight(currentPageChildren) + padding;
         }
 
-         while (currentPageHeight < maxHeight && nextPage) {
+        while (currentPageHeight < maxHeight && nextPage) {
             var secondChildOfNextPage = nextPage.firstElementChild.nextElementSibling;
             console.log(secondChildOfNextPage);
 
@@ -271,16 +282,32 @@ function adaptPageContent() {
                     page.appendChild(secondChildOfNextPage); // Move the child to the current page
                     currentPageHeight += secondChildHeight;
                 } else {
+                    // Move the second child of the current page to the previous page
+                    var firstChildOfCurrentPage = page.firstElementChild;
+                    if (firstChildOfCurrentPage && firstChildOfCurrentPage.classList.contains('header')) {
+                        var secondChildOfCurrentPage = firstChildOfCurrentPage.nextElementSibling;
+                        if (secondChildOfCurrentPage) {
+                            previousPage.appendChild(secondChildOfCurrentPage);
+                            currentPageHeight -= calculateDivHeight(secondChildOfCurrentPage);
+                        }
+                    } else {
+                        if (firstChildOfCurrentPage) {
+                            previousPage.appendChild(firstChildOfCurrentPage);
+                            currentPageHeight -= calculateDivHeight(firstChildOfCurrentPage);
+                        }
+                    }
                     break; // Break the loop if the child cannot fit in the current page
                 }
             } else {
                 break; // Break the loop if there is no second child in the next page
             }
-
-            // Update nextPage for the next iteration
-            nextPage = allPages[index + 1];
         }
-    });
+
+
+                // Update nextPage for the next iteration
+                nextPage = allPages[index + 1];
+
+        });
 
     updatePageNumbers();
     checkCurrentPage();
@@ -785,7 +812,6 @@ function createContextMenu(x,y,element, table) {
             contextMenu.removeChild(contextMenu.firstChild);
         }
         rightClickWidgetActive = false;
-
     } else {
         contextMenu.classList.add('context-menu');
 
@@ -1067,6 +1093,7 @@ function dropContent(boxHeight, data) {
         if (currentPageContent) { // Check if currentPageContent is defined
             sectionCount += 1; // update section count
             const sectionDiv = document.createElement('div');
+            sectionDiv.classList.add("w3-padding-8");
             sectionDiv.id = "section-" + currentPage + "-" + sectionCount;
             sectionDiv.appendChild(clonedDiv); // enclose dropped element to section div
 
@@ -1077,6 +1104,7 @@ function dropContent(boxHeight, data) {
             clonedDiv.addEventListener('keydown', () => {
                 clonedDiv = adjustTextareaHeight(clonedDiv);
             });
+
 
             currentPageContent.appendChild(sectionDiv); // Append to the current page's content
             currentHeight = updatePageHeight(); // Update current height
@@ -1305,24 +1333,27 @@ function makeAllReadOnlyRecursive() {
         const childElements = pageContainer.querySelectorAll('*');
 
         // Iterate through each child element
+
+        if (userType == "Secretary") {
+            childElements.forEach(child => {
+
+             // Set the readonly attribute to the element
+             child.setAttribute('readonly', 'true');
+
+             // Set contentEditable attribute to false
+             child.setAttribute('contentEditable', 'false');
+            });
+            return;
+        }
+
         childElements.forEach(child => {
-            // Check if the element is not a textarea and doesn't have a readonly attribute
-            if (userType == "Secretary") {
-                // Set the readonly attribute to the element
-                child.setAttribute('readonly', 'true');
-
-                // Set contentEditable attribute to false
-                child.setAttribute('contentEditable', 'false');
-            }
-
             if (
                 !(child instanceof HTMLTextAreaElement
                 || child.nodeName == "INPUT"
                 || child.nodeName == "TABLE"
                 || child.nodeName == "TR"
                 || child.nodeName == "DIV"
-                || child.nodeName == "TD"
-                || child.nodeName == "LABEL")
+                || child.nodeName == "TD")
                 && !child.hasAttribute('readonly'
                 && child.classList.contains("w3-uneditable"))
                 && (userType == "Faculty" || userType == "Department Head")) {
@@ -1331,6 +1362,8 @@ function makeAllReadOnlyRecursive() {
 
                 // Set contentEditable attribute to false
                 child.setAttribute('contentEditable', 'false');
+            } else {
+                child = selectElement(child);
             }
         });
     });
