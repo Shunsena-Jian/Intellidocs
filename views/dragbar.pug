@@ -46,7 +46,107 @@
                         | Saint Louis University
                     .w3-underline.w3-center.w3-margin-left.w3-margin-right.text-label
                         | SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES
-                    input.w3-input.w3-center.w3-row(readonly type='text' maxlength='50' size='50' placeholder='FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+                    h5.w3-center.w3-row    FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')
+                .w3-col.s3
+                    table.form-table.w3-bold.w3-font-size-10.header-table
+                        tbody
+                            tr
+                                th Document Code
+                                th FMI-SMI-027
+                            tr
+                                th Revision No.
+                                th 01
+                            tr
+                                th Effectivity
+                                th April 01, 2023
+                            tr
+                                th Page
+                                th.page-number 1 of 1
+            hr.w3-clear
+            .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.box.draggable.w3-margin-small(draggable='true')
+                .w3-col.s3
+                    img.w3-image(src='../src/slu_logo.png')
+
+                .w3-col.s6.w3-bold.w3-center
+                   br
+                .w3-col.s3
+                    table.form-table.w3-bold.w3-font-size-10.header-table
+                        tbody
+                            tr
+                                th Document Code
+                                th FMI-SMI-027
+                            tr
+                                th Revision No.
+                                th 01
+                            tr
+                                th Effectivity
+                                th April 01, 2023
+                            tr
+                                th Page
+                                th.page-number 1 of 1
+            hr.w3-clear
+            .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.box.draggable.w3-margin-small(draggable='true')
+                .w3-col.s3
+                    img.w3-image(src='../src/slu_logo.png')
+
+                .w3-col.s6.w3-bold.w3-center
+                    .w3-center.text-label
+                        | Saint Louis University
+                    .w3-center
+                        h5 SCHOOL: School of Accountancy, Management, Computing, and Information Studies
+                        h5 DEPARTMENT: Computing and Information Studies
+                        h5.w3-bold SUMMARY OF FACULTY TEACHING AND OTHER ENGAGEMENTS
+                        .center.w3-row
+                            .w3-half
+                                label#term SEMESTER:
+                                    input.w3-input.w3-center.w3-row(readonly for='term' type='text' maxlength='10' size='10' placeholder='1st/2nd')
+
+                            .w3-half
+                                label#schoolYear AY:
+                                    input.w3-input.w3-center.w3-row(readonly for='schoolYear' type='text' maxlength='10' size='10' placeholder='2023-2024')
+                .w3-col.s3
+                    table.form-table.w3-bold.w3-font-size-10.header-table
+                        tbody
+                            tr
+                                th Document Code
+                                th FMI-SMI-027
+                            tr
+                                th Revision No.
+                                th 01
+                            tr
+                                th Effectivity
+                                th April 01, 2023
+                            tr
+                                th Page
+                                th.page-number 1 of 1
+            hr.w3-clear
+            .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.box.draggable.w3-margin-small(draggable='true')
+                .w3-col.s3
+                    img.w3-image(src='../src/slu_logo.png')
+
+                .w3-col.s6.w3-bold.w3-center
+                    .w3-center.text-label
+                        | SAINT LOUIS UNIVERSITY
+                    .w3-center
+                        h5 SCHOOL:
+                        h5 School of Accountancy, Management, Computing, and Information Studies
+                        .center.w3-row
+                            .w3-half
+                                label#term TERM:
+                                    input.w3-input.w3-center.w3-row(readonly for='term' type='text' maxlength='10' size='10' placeholder='PRELIM/MIDTERM/FINAL')
+
+                            .w3-half
+                                label#schoolYear AY:
+                                    input.w3-input.w3-center.w3-row(readonly for='schoolYear' type='text' maxlength='10' size='10' placeholder='2023-2024')
+
+            hr.w3-clear
+
+            .header.w3-row.w3-container.w3-margin-left.w3-margin-right.w3-bold.w3-center.box.draggable.w3-margin-small(draggable='true')
+                .w3-col.s3
+                    img.w3-image(src='../src/slu_logo.png')
+
+                .w3-col.s6.w3-bold.w3-center
+                   br
 
                 .w3-col.s3
                     table.form-table.w3-bold.w3-font-size-10.header-table
@@ -63,7 +163,14 @@
                             tr
                                 th Page
                                 th.page-number 1 of 1
-
+                    .w3-container
+                        label.w3-row
+                            input(type='checkbox' name="notice" value="without notice")
+                            | WITHOUT NOTICE
+                    .w3-container
+                        label.w3-row
+                            input(type='checkbox' name="notice" value="with notice")
+                            | WITH NOTICE
             hr.w3-newline-2
 
     .w3-row
@@ -114,6 +221,48 @@
                         |                         Part Time
                     label.checkbox-label.w3-col.s5
 
+            hr.w3-newline-2
+
+    .w3-row
+        button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('widgetCheckBoxContainer')")
+            i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
+            |  Check Box
+        #widgetCheckBoxContainer.w3-hide.w3-container
+            .grid-container.w3-white.w3-container.draggable.box.w3-ol.w3-hover-light-grey(draggable='true')
+                .grid-item
+                    label.checkbox-label.w3-row(for='text-1')
+                        input#option1(type='radio' name='checkbox-1' value='Option 1' disabled)
+                        |  Option 1
+                .grid-item
+                    label.checkbox-label.w3-row(for='text-2')
+                        input#option2(type='radio' name='checkbox-1' value='Option 2' disabled)
+                        |  Option 2
+                .grid-item
+                    label.checkbox-label.w3-row(for='text-3')
+                        input#option3(type='radio' name='checkbox-1' value='Option 3' disabled)
+                        |  Option 3
+                .grid-item
+                    label.checkbox-label.w3-row(for='text-4')
+                        input#option4(type='radio' name='checkbox-1' value='Option 4' disabled)
+                        |  Option 4
+            br
+            .grid-container.w3-white.w3-container.draggable.box.w3-ol.w3-hover-light-grey(draggable='true')
+                .grid-item
+                    label.checkbox-label.w3-row(for='text-1')
+                        input#apple(type='checkbox' name='checkbox-1' value='text1' disabled)
+                        |  Lorem Ipsum
+                .grid-item
+                    label.checkbox-label.w3-row(for='text2')
+                        input#banana(type='checkbox' name='checkbox-1' value='text2' disabled)
+                        |  Lorem Ipsum
+                .grid-item
+                    label.checkbox-label.w3-row(for='text2')
+                        input#banana(type='checkbox' name='checkbox-1' value='text2' disabled)
+                        |  Lorem Ipsum
+                .grid-item
+                    label.checkbox-label.w3-row(for='text2')
+                        input#banana(type='checkbox' name='checkbox-1' value='text2' disabled)
+                        |  Lorem Ipsum
             hr.w3-newline-2
 
     .w3-row
@@ -369,7 +518,40 @@
                     tr
                         td Row 3
                         td
-    hr.w3-newline-2
+            hr.w3-clear
+            table.draggable.form-table.number.w3-bold.w3-hover-light-grey(draggable='true')
+                tbody
+                    tr
+                        td 1
+                        td
+                        td
+                    tr
+                        td 2
+                        td
+                        td
+                    tr
+                        td 3
+                        td
+
+                        td
+            hr.w3-clear
+            table.draggable.form-table.number-2.w3-bold.w3-hover-light-grey(draggable='true')
+                tbody
+                    tr
+                        td 1
+                        td
+                        td
+                    tr
+                        td 2
+                        td
+                        td
+                    tr
+                        td 3
+                        td
+
+                        td
+
+
 script.
 
     var widgets = !{JSON.stringify(currentUserWidgets)};
@@ -377,14 +559,21 @@ script.
 
     var widgetChild = "";
 
-
-    for(i = 0; i < widgets.length; i++){
-        var tempElement = document.createElement('div');
-        widgetChild = `<h4 class="w3-bold w3-padding-16 w3-center">` + widgets[i].widget_name + `</h4>` +
-         `<div class="w3-container box w3-row draggable" draggable="true">` + widgets[i].widget_content + `</div>`;
-        tempElement.innerHTML = widgetChild;
+    if (widgets.length == 0) {
+        var tempElement = document.createElement('p');
+        tempElement.textContent = "No custom widgets at the moment";
         widgetDragBarContainer.appendChild(tempElement);
+    } else {
+        for(i = 0; i < widgets.length; i++){
+            var tempElement = document.createElement('div');
+            widgetChild = `<h4 class="w3-bold w3-padding-16 w3-center">` + widgets[i].widget_name + `</h4>` +
+             `<div class="w3-container box w3-row draggable" draggable="true">` + widgets[i].widget_content + `</div>`;
+            tempElement.innerHTML = widgetChild;
+            widgetDragBarContainer.appendChild(tempElement);
+        }
     }
+
+
 
 
     function goToCreateWidget(){

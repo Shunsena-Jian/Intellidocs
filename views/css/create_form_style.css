@@ -179,17 +179,6 @@ width:30%;
 float: right;
 }
 
-.selected {
-  background-color: #FFFF99;
-}
-
-.selectedCells {
-  background-color: gray;
-}
-
-.merged {
- background-color: #FFFFCC;
-}
 
 .form-table, .form-table th, .form-table td {
     border: 1px solid black;
@@ -205,6 +194,50 @@ float: right;
 /* Set equal width for each column */
 .form-table th, .form-table td {
     width: 33.33%;
+}
+
+/* Specific columns with different widths */
+.form-table.number th:nth-child(1),
+.form-table.number td:nth-child(1) {
+    width: 10%; /* Adjust the width as needed */
+}
+
+.form-table.number th:nth-child(2),
+.form-table.number td:nth-child(2) {
+    width: 30%; /* Adjust the width as needed */
+}
+
+.form-table.number-2 th:nth-child(3),
+.form-table.number-2 td:nth-child(3) {
+    width: 60%; /* Adjust the width as needed */
+}
+
+/* Specific columns with different widths */
+.form-table.number-2 th:nth-child(1),
+.form-table.number-2 td:nth-child(1) {
+    width: 10%; /* Adjust the width as needed */
+}
+
+.form-table.number-2 th:nth-child(2),
+.form-table.number-2 td:nth-child(2) {
+    width: 60%; /* Adjust the width as needed */
+}
+
+.form-table.number-2 th:nth-child(3),
+.form-table.number-2 td:nth-child(3) {
+    width: 30%; /* Adjust the width as needed */
+}
+
+.selected {
+  background-color: #FFFF99;
+}
+
+.selectedCells {
+  background-color: gray;
+}
+
+.merged {
+ background-color: #FFFFCC;
 }
 
 .margin-half-inch {

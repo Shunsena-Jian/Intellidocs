@@ -90,6 +90,49 @@
                     |    Upload Logo Picture
 
             hr.w3-newline-2
+    .w3-row
+        button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('widgetCheckBoxContainer')")
+            i.fa.fa-caret-square-o-down.fa-fw.w3-margin-right
+            |  Check Box
+        #widgetCheckBoxContainer.w3-hide.w3-container
+            .grid-container.w3-white.w3-container.draggable.box.w3-ol.w3-hover-light-grey(draggable='true')
+                .grid-item
+                    label.checkbox-label.w3-row.checkbox-1(for='text-1')
+                        |  Option 1
+                    label.checkbox-label.w3-row(for='text-1')
+                        input#option1(type='radio' name='checkbox-1' value='Option 1' disabled)
+                        |  Option 1
+                .grid-item
+                    label.checkbox-label.w3-row(for='text-2')
+                        input#option2(type='radio' name='checkbox-1' value='Option 2' disabled)
+                        |  Option 2
+                .grid-item
+                    label.checkbox-label.w3-row(for='text-3')
+                        input#option3(type='radio' name='checkbox-1' value='Option 3' disabled)
+                        |  Option 3
+                .grid-item
+                    label.checkbox-label.w3-row(for='text-4')
+                        input#option4(type='radio' name='checkbox-1' value='Option 4' disabled)
+                        |  Option 4
+            br
+            .grid-container.w3-white.w3-container.draggable.box.w3-ol.w3-hover-light-grey(draggable='true')
+                .grid-item
+                    label.checkbox-label.w3-row(for='text-1')
+                        input#apple(type='checkbox' name='checkbox-1' value='text1' disabled)
+                        |  Lorem Ipsum
+                .grid-item
+                    label.checkbox-label.w3-row(for='text2')
+                        input#banana(type='checkbox' name='checkbox-1' value='text2' disabled)
+                        |  Lorem Ipsum
+                .grid-item
+                    label.checkbox-label.w3-row(for='text2')
+                        input#banana(type='checkbox' name='checkbox-1' value='text2' disabled)
+                        |  Lorem Ipsum
+                .grid-item
+                    label.checkbox-label.w3-row(for='text2')
+                        input#banana(type='checkbox' name='checkbox-1' value='text2' disabled)
+                        |  Lorem Ipsum
+            hr.w3-newline-2
 
     .w3-row
         button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('widgetListsContainer')")
@@ -155,3 +198,35 @@
                     tr
                         td Row 3
                         td
+            hr.w3-clear
+            table.draggable.form-table.number.w3-bold.w3-hover-light-grey(draggable='true')
+                tbody
+                    tr
+                        td 1
+                        td
+                        td
+                    tr
+                        td 2
+                        td
+                        td
+                    tr
+                        td 3
+                        td
+                        td
+            hr.w3-clear
+            table.draggable.form-table.number-2.w3-bold.w3-hover-light-grey(draggable='true')
+                tbody
+                    tr
+                        td 1
+                        td
+                        td
+                    tr
+                        td 2
+                        td
+                        td
+                    tr
+                        td 3
+                        td
+
+                        td
+
