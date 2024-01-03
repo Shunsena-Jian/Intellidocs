@@ -843,14 +843,15 @@ function createContextMenu(x,y,element, table) {
                             if (tableContainer.nodeName === "TBODY") {
                                 var tableContainerOuter = tableContainer.parentElement;
                                 tableContainerOuter.remove();
+                                checkCurrentPage();
                                 repositionBoxes();
                                 reassignSectionID();
                             } else {
                                 tableContainer.remove();
+                                checkCurrentPage();
                                 repositionBoxes();
                                 adaptPageContent();
                                 reassignSectionID();
-                                checkCurrentPage();
                             }
                             sectionCount -= 1;
                             currentHeight = updatePageHeight();
@@ -862,10 +863,10 @@ function createContextMenu(x,y,element, table) {
                                     parentContainer.parentElement.remove();
                                 } else {
                                    parentContainer.remove(); // Remove the parent container
+                                   checkCurrentPage();
                                    repositionBoxes();
                                    adaptPageContent();
                                    reassignSectionID();
-                                   checkCurrentPage();
                                 }
                             sectionCount -= 1;
                             currentHeight = updatePageHeight();
@@ -873,6 +874,7 @@ function createContextMenu(x,y,element, table) {
                         }
                     }
                 }
+
             });
 
              contextMenu.appendChild(deleteButton);
@@ -1145,10 +1147,18 @@ function updatePageHeight() {
 
 // Miscellaneous
 function clearSelection(table) {
-	selectedCells = [];
-	const selected = table.querySelectorAll('.selectedCells');
-	selected.forEach(cell => cell.classList.remove('selectedCells'));
+  if (table === null) {
+    const allTables = document.querySelectorAll('div table');
+    allTables.forEach((table) => {
+      const selected = table.querySelectorAll('.selectedCells');
+      selected.forEach((cell) => cell.classList.remove('selectedCells'));
+    });
+  } else {
+    const selected = table.querySelectorAll('.selectedCells');
+    selected.forEach((cell) => cell.classList.remove('selectedCells'));
+  }
 }
+
 
 function getSelectedCells(table) {
 	const selectedCells = [];
@@ -1192,7 +1202,7 @@ function reassignSectionID() {
 
 function checkCurrentPage() {
     var numberOfChildren = currentPageContent.childElementCount;
-
+    console.log(currentPageContent);
     // Do nothing if current page is the first page
     if (currentPageContent.id != "page-1") {
         if (numberOfChildren <= 1) {
