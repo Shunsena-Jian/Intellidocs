@@ -1,9 +1,9 @@
 extends layout.pug
 
 block body
-    .w3-main#main(style='margin-left:230px; margin-top:50px; margin-bottom:50px; margin-right:30px;')
-        .w3-row.w3-container
-            .w3-row.w3-container.w3-card
+    .w3-main#main(style='margin-left:230px; margin-top:50px; margin-bottom:50px;')
+        .w3-row.w3-container.w3-border-black
+            .w3-row.w3-border-black.w3-container.w3-padding-16.w3-card
                 h4.w3-bold Create Form
                 .w3-row.w3-container
                     .w3-half
@@ -16,54 +16,54 @@ block body
                             br
                             button.w3-button.w3-bold.w3-blue-classic(onclick='saveForm()')
                                 | Save Form
-            br
-            .w3-row.w3-card
-                .grid-container.w3-light-grey.w3-padding-16
-                    .grid-item
-                        label(for='createPageMargin') Page Margin:
-                        select#createPageMargin(onchange='createPageMargin()')
-                            option(value='narrow') Narrow
-                            option(value='normal') Normal
-                            option(value='moderate') Moderate
-                    .grid-item
-                        label(for='modifyOrientation') Orientation:
-                        select#modifyOrientation(onchange='modifyOrientation()')
-                            option(value='portrait') Portrait
-                            option(value='landscape') Landscape
-                    .grid-item.borderless
-                    .grid-item
-                        label(for='colorSelect') Select Text Color:
-                        select#colorSelect(onchange='changeTextColor()')
-                            option(value='black') Black
-                            option(value='white') White
-                            option(value='red') Red
-                            option(value='blue') Blue
-                            option(value='grey') Grey
+                br
+                .w3-row.w3-card
+                    .grid-container.w3-white.w3-padding-16.w3-card
+                        .grid-item
+                            label(for='createPageMargin') Page Margin:
+                            select#createPageMargin(onchange='createPageMargin()')
+                                option(value='narrow') Narrow
+                                option(value='normal') Normal
+                                option(value='moderate') Moderate
+                        .grid-item
+                            label(for='modifyOrientation') Orientation:
+                            select#modifyOrientation(onchange='modifyOrientation()')
+                                option(value='portrait') Portrait
+                                option(value='landscape') Landscape
+                        .grid-item.borderless
+                        .grid-item
+                            label(for='colorSelect') Select Text Color:
+                            select#colorSelect(onchange='changeTextColor()')
+                                option(value='black') Black
+                                option(value='white') White
+                                option(value='red') Red
+                                option(value='blue') Blue
+                                option(value='grey') Grey
 
-                    .grid-item.borderless
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeItalic()')
-                            i.fa.fa-italic.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeBold()')
-                            i.fa.fa-bold.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeUnderline()')
-                            i.fa.fa-underline.icon-light
-                    .grid-item.borderless
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignLeft()')
-                            i.fa.fa-align-left.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignCenter()')
-                            i.fa.fa-align-center.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignRight()')
-                            i.fa.fa-align-right.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignJustify()')
-                            i.fa.fa-align-justify.icon-light
-                    .grid-item.borderless
+                        .grid-item.borderless
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeBold()')
+                                i.fa.fa-bold.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeItalic()')
+                                i.fa.fa-italic.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeUnderline()')
+                                i.fa.fa-underline.icon-light
+                        .grid-item.borderless
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignLeft()')
+                                i.fa.fa-align-left.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignCenter()')
+                                i.fa.fa-align-center.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignRight()')
+                                i.fa.fa-align-right.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignJustify()')
+                                i.fa.fa-align-justify.icon-light
+                        .grid-item.borderless
 
             .w3-row.w3-container
                 .w3-twothird.w3-container
@@ -78,6 +78,7 @@ block body
     script(src='js/client.engine/htmlToJson.js')
     script.
         function saveForm() {
+            clearSelection(null);
             //var formBody = document.getElementById('form-content').innerHTML;
             var formBody = document.getElementById('form-content');
             var formName = document.getElementById('formName').value;
@@ -118,30 +119,6 @@ block body
                 });
             }
         }
-
-
-    script.
-        // Not working, to be debugged
-        function restrictCheckBoxSelection() {
-        const checkboxes = document.querySelectorAll('input[name="academicStatus"]');
-        console.log(checkboxes);
-            console
-          // Add a change event listener to each checkbox
-                    checkboxes.forEach((checkbox) => {
-                        checkbox.addEventListener('change', function () {
-                            // Uncheck all other checkboxes in the group
-                            checkboxes.forEach((otherCheckbox) => {
-                                if (otherCheckbox !== this) {
-                                    otherCheckbox.checked = false;
-                                }
-                            });
-                        });
-                    });
-        }
-
-        restrictCheckBoxSelection();
-
-
 
     link(rel='stylesheet' href='hnodettps://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
     link(rel='stylesheet' href='../css/w3css4.css')

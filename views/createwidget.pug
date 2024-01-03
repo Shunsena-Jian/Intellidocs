@@ -1,9 +1,9 @@
 extends layout.pug
 
 block body
-    .w3-main#main(style='margin-left:230px; margin-top:50px; margin-bottom:50px; margin-right:30px;')
-        .w3-row.w3-container
-            .w3-row.w3-container.w3-card
+    .w3-main#main(style='margin-left:230px; margin-top:50px; margin-bottom:50px;')
+        .w3-row.w3-container.w3-border-black
+            .w3-row.w3-border-black.w3-container.w3-padding-16.w3-card
                 h4.w3-bold Create Widget
                 .w3-row.w3-container
                     .w3-half
@@ -26,48 +26,48 @@ block body
                             br
                             button.w3-button.w3-bold.w3-blue-classic(onclick='saveWidget()')
                                 | Save Widget
-            br
-            .w3-row.w3-card
-                .grid-container.w3-light-grey.w3-padding-16
-                    .grid-item
-                        label(for='modifyOrientation') Orientation:
-                        select#modifyOrientation(onchange='modifyOrientation()')
-                            option(value='square') Square
-                            option(value='landscape-rectangle') Landscape Rectangle
-                            option(value='portrait-rectangle') Portrait Rectangle
-                    .grid-item.borderless
-                    .grid-item
-                        label(for='colorSelect') Select Text Color:
-                        select#colorSelect(onchange='changeTextColor()')
-                            option(value='black') Black
-                            option(value='white') White
-                            option(value='red') Red
-                            option(value='blue') Blue
-                            option(value='grey') Grey
-                    .grid-item.borderless
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeItalic()')
-                            i.fa.fa-italic.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeBold()')
-                            i.fa.fa-bold.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeUnderline()')
-                            i.fa.fa-underline.icon-light
-                    .grid-item.borderless
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignLeft()')
-                            i.fa.fa-align-left.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignRight()')
-                            i.fa.fa-align-right.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignCenter()')
-                            i.fa.fa-align-center.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignJustify()')
-                            i.fa.fa-align-justify.icon-light
-                    .grid-item.borderless
+                br
+                .w3-row.w3-card
+                    .grid-container.w3-light-grey.w3-padding-16
+                        .grid-item
+                            label(for='modifyOrientation') Orientation:
+                            select#modifyOrientation(onchange='modifyOrientation()')
+                                option(value='square') Square
+                                option(value='landscape-rectangle') Landscape Rectangle
+                                option(value='portrait-rectangle') Portrait Rectangle
+                        .grid-item.borderless
+                        .grid-item
+                            label(for='colorSelect') Select Text Color:
+                            select#colorSelect(onchange='changeTextColor()')
+                                option(value='black') Black
+                                option(value='white') White
+                                option(value='red') Red
+                                option(value='blue') Blue
+                                option(value='grey') Grey
+                        .grid-item.borderless
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeBold()')
+                                i.fa.fa-bold.icon-light
+                        .grid-item
+                             a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeItalic()')
+                                i.fa.fa-italic.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeUnderline()')
+                                i.fa.fa-underline.icon-light
+                        .grid-item.borderless
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignLeft()')
+                                i.fa.fa-align-left.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignRight()')
+                                i.fa.fa-align-right.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignCenter()')
+                                i.fa.fa-align-center.icon-light
+                        .grid-item
+                            a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignJustify()')
+                                i.fa.fa-align-justify.icon-light
+                        .grid-item.borderless
 
             .w3-row.w3-container
                 .w3-twothird.w3-container
