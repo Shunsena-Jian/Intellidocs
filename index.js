@@ -279,7 +279,8 @@ app.post('/savecreatedform', async function(req, res){
                     date_saved: getDateNow(),
                     time_saved: getTimeNow(),
                     assigned_users: [],
-                    due_date: null
+                    due_date: null,
+                    quarter_due_date: null
                 };
 
                 const result = await forms.insertOne(formDocument);
@@ -336,7 +337,8 @@ app.post('/saveformversion', async function(req, res){
                 date_saved: getDateNow(),
                 time_saved: getTimeNow(),
                 assigned_users: latestAssignedUsers,
-                due_date: null
+                due_date: null,
+                quarter_due_date: null
             };
 
             const result = await forms.insertOne(formDocument);
@@ -1244,7 +1246,7 @@ app.get('/viewforms', async function(req, res){
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
-            var allPublishedForms = await forms.find({ form_status: { $in: ["Published", "Active"] } }).toArray();
+            var allPublishedForms = await forms.find({ form_status: { $in: ["Published", "Active", "In-active"] } }).toArray();
             var allSubmittedForms = await filledoutforms.find({ form_status: "Submitted" }).toArray();
             var allAssignedForms = await forms.find({ assigned_users : req.session.userEmpID, form_status : { $in: ["Active", "Submitted"] } }).toArray();
             var allSharedForms = await filledoutforms.find({
@@ -1654,7 +1656,9 @@ app.put('/AJAX_setDueDate', async function(req, res){
         try{
             updateDocument = await forms.updateMany(
                 { form_control_number : selectedFormControlNumberToView },
-                { $set: { due_date: formData.dueDateInput } }
+                { $set: {
+                        due_date: formData.dueDateInput,
+                        quarter_due_date: formData.quarterlyDueDate} }
             );
             res.send({ status_code : 0, dueDate : formData.dueDateInput });
 

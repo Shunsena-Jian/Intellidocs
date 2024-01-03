@@ -317,9 +317,12 @@ block body
             if(dueDateInput == '' || dueDateInput == undefined || dueDateInput == null){
                 alert("You did not set a due date.");
             }else{
+                var dueDate = new Date(dueDateInput);
+                var monthDue = getQuarter(dueDateInput);
 
                 var data = {
                     dueDateInput: dueDateInput,
+                    quarterlyDueDate: monthDue,
                     formControlNumber: form_template.form_control_number
                 }
 
@@ -338,6 +341,23 @@ block body
                         }
                     }
                 });
+            }
+        }
+
+        function getQuarter(dueDate){
+            const parts = dueDate.split('-');
+            const month = parseInt(parts[1], 10);
+
+            if(month >= 1 && month <= 3){
+                return 'Quarter 1';
+            }else if (month >= 4 && month <= 6){
+                return 'Quarter 2';
+            }else if (month >= 7 && month <= 9){
+                return 'Quarter 3';
+            }else if (month >= 10 && month <= 12){
+                return 'Quarter 4';
+            }else {
+                return 'Invalid Month';
             }
         }
 
