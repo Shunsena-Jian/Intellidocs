@@ -1315,10 +1315,14 @@ function removeReadOnlyAttributesRecursive(element) {
               element.removeAttribute('readonly');
             }
 
-            if (!(element.nodeName === "LABEL" && element.querySelector('input[type="checkbox"]'))) {
-                // Set contentEditable attribute to true
-                element.setAttribute('contentEditable', 'true');
+            if (element.hasAttribute('disabled')) {
+              element.removeAttribute('disabled');
             }
+
+//            if (!(element.nodeName === "LABEL")) {
+//                // Set contentEditable attribute to true
+//                element.setAttribute('contentEditable', 'true');
+//            }
 
 
             // Iterate through child elements
@@ -1384,10 +1388,22 @@ function makeAllReadOnlyRecursive() {
 function selectElement(element) {
     element.addEventListener('click', function (event) {
 	    const clickedElement = event.target;
+
 	    // Unselect the previously selected text box, if any
 	    if (selectedTextBox && selectedTextBox.getAttribute('id') === "selectedElement") {
-            // Check if the "id" attribute matches the selectedElement
-	        selectedTextBox.removeAttribute('id');
+            // Assuming selectedTextBox is a label containing an input element
+            if (selectedTextBox.tagName.toLowerCase() === 'label') {
+                const inputInsideLabel = selectedTextBox.querySelector('input');
+                if (inputInsideLabel) {
+                    const labelFor = selectedTextBox.getAttribute('for');
+                    if (labelFor) {
+                        inputInsideLabel.setAttribute('id', labelFor);
+                    }
+                }
+            } else {
+                // Check if the "id" attribute matches the selectedElement
+                selectedTextBox.removeAttribute('id');
+            }
         } else if (selectedTextBox && element.classList.contains("drop-container")) {
            selectedTextBox.removeAttribute('contentEditable');
            var pageID = 'page-' + currentPage;
@@ -1396,17 +1412,18 @@ function selectElement(element) {
             selectedTextBox.removeAttribute('contentEditable');
         }
 
+                    clickedElement.removeAttribute('readonly');
+
         if (clickedElement.classList.contains("w3-uneditable")) {
             clickedElement.setAttribute('contentEditable', 'false');
             clickedElement.setAttribute('readOnly', 'true');
+            return; // do not make it selectable
         } else {
-            // Select the clicked element
-            clickedElement.setAttribute('contentEditable', 'true');
             // Ensure the clicked element is editable
             clickedElement.removeAttribute('readonly');
         }
 
-  if ((clickedElement.tagName === 'TD' || clickedElement.tagName === 'TH') && !clickedElement.classList.contains('merged')) {
+        if ((clickedElement.tagName === 'TD' || clickedElement.tagName === 'TH') && !clickedElement.classList.contains('merged')) {
             const index = selectedCells.indexOf(clickedElement);
 
             if (index === -1) {
@@ -1444,9 +1461,15 @@ function selectElement(element) {
                 selectedCells.splice(index, 1);
             }
         } else {
-            // If other types of elements are clicked, handle accordingly
-            // For example, set an ID to identify the selected element
-            clickedElement.id = 'selectedElement';
+
+            if (clickedElement.querySelector('input[type="checkbox"]') && clickedElement.querySelector('input[type="radio"]')) {
+                clickedElement.removeAttribute('contentEditable');
+            } else {
+                // If other types of elements are clicked, handle accordingly
+               // For example, set an ID to identify the selected element
+               clickedElement.id = 'selectedElement';
+            }
+
             selectedCells = []; // Clear selected cells if non-table elements are clicked
         }
         selectedTextBox = clickedElement; // Update pointer to selected element based on current click
