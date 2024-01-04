@@ -1105,6 +1105,7 @@ app.post('/login', async function (req, res){
             }else if (password === user.password){
                 req.session.loggedIn = true;
                 req.session.userEmpID = user.emp_id;
+                req.session.userName = user.username;
 
                 currentUserFiles = await getFiles(req.session.userEmpID);
                 currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
@@ -1248,7 +1249,7 @@ app.get('/viewforms', async function(req, res){
         if(accessGranted){
             var allPublishedForms = await forms.find({ form_status: { $in: ["Published", "Active", "In-active"] } }).toArray();
             var allSubmittedForms = await filledoutforms.find({ form_status: "Submitted" }).toArray();
-            var allAssignedForms = await forms.find({ assigned_users : req.session.userEmpID, form_status : { $in: ["Active", "Submitted"] } }).toArray();
+            var allAssignedForms = await forms.find({ assigned_users : req.session.userName, form_status : { $in: ["Active", "Submitted"] } }).toArray();
             var allSharedForms = await filledoutforms.find({
                 $or: [
                     { read_users : req.session.userEmpID },

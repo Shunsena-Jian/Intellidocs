@@ -87,7 +87,7 @@ block body
                                 hr
                                 .w3-row
                                     h4 #{form_template.form_name}
-                                    h4#formDetailsActivateSetting Status: #{form_template.form_status}
+                                    h4#formDetailsActivateSetting Status : #{form_template.form_status}
                                     if (!form_template.due_date)
                                         h4 Due Date : None
                                     else
@@ -457,10 +457,16 @@ block body
 
     script.
         var form_template = !{JSON.stringify(form_template)};
-        var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting");
+        var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting").innerHTML;
         var toggleActivateFormButton = document.getElementById("toggleActivateFormButton");
 
         formDetailsActivateSetting.innerHTML = "Status : " + form_template.form_status;
+
+        if(formDetailsActivateSetting == "Status : Active"){
+            toggleActivateFormButton.innerHTML = "De-activate";
+        }else{
+            toggleActivateFormButton.innerHTML = "Activate";
+        }
 
         if(form_template.form_status == "Published"){
             toggleActivateFormButton.innerHTML = "Activate";
