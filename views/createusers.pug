@@ -23,8 +23,8 @@ block body
                         h2.heading CREATE A USER
                         .form_wrap.fullname
                             .form_item
-                                label(style='font-family: Courier New, monospace; font-weight:normal;') Username
-                                input#userName.error(type='text' name='userName' required='')
+                                label(style='font-family: Courier New, monospace; font-weight:normal;') Email
+                                input#email.error(type='text' name='email' required='')
                             .form_item
                                 label(style='font-family:Courier New, monospace;; font-weight:normal;') Password
                                 input#passWord.error(type='text' name='passWord' required='')
@@ -54,8 +54,8 @@ block body
                                 label(for='userDepartment' style='font-family: Courier New, monospace;; font-weight:normal;') User Department:
                                 select#userDepartment(name='userDepartment' required='')
                                     option(value='null') Choose Department
-                                    option(value='Document Controller') Information Technology
-                                    option(value='Department Head') Computer Science
-                                    option(value='Faculty') Multimedia Arts
+                                    option(value='Information Technology') Information Technology
+                                    option(value='Computer Science') Computer Science
+                                    option(value='Multimedia Arts') Multimedia Arts
                         .btnPosition
                               button(class='btn' type='submit') Register

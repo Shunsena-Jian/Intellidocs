@@ -1091,11 +1091,11 @@ app.post('/login', async function (req, res){
     if(req.session.loggedIn){
         res.redirect('/');
     } else {
-        var username = req.body.userName.toLowerCase();
+        var email = req.body.email.toLowerCase();
         var password = req.body.passWord;
 
         try {
-            const user = await users.findOne({ username: username });
+            const user = await users.findOne({ email: email });
             if(!user){
                 logStatus("Cannot find user");
 
@@ -1105,7 +1105,7 @@ app.post('/login', async function (req, res){
             }else if (password === user.password){
                 req.session.loggedIn = true;
                 req.session.userEmpID = user.emp_id;
-                req.session.userName = user.username;
+                req.session.email = user.email;
 
                 currentUserFiles = await getFiles(req.session.userEmpID);
                 currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
@@ -1249,7 +1249,7 @@ app.get('/viewforms', async function(req, res){
         if(accessGranted){
             var allPublishedForms = await forms.find({ form_status: { $in: ["Published", "Active", "In-active"] } }).toArray();
             var allSubmittedForms = await filledoutforms.find({ form_status: "Submitted" }).toArray();
-            var allAssignedForms = await forms.find({ assigned_users : req.session.userName, form_status : { $in: ["Active", "Submitted"] } }).toArray();
+            var allAssignedForms = await forms.find({ assigned_users : email, form_status : { $in: ["Active", "Submitted"] } }).toArray();
             var allSharedForms = await filledoutforms.find({
                 $or: [
                     { read_users : req.session.userEmpID },
@@ -1384,7 +1384,7 @@ app.get('/createusers', async function(req, res){
 
 app.post('/createusers', async function(req, res){
     if(req.session.loggedIn){
-        var username = req.body.userName.toLowerCase();
+        var email = req.body.email.toLowerCase();
         var password = req.body.passWord;
         var emp_id = req.body.empId;
         var firstname = req.body.firstName;
@@ -1393,13 +1393,13 @@ app.post('/createusers', async function(req, res){
         var userdepartment = req.body.userDepartment;
 
         try{
-            const existingUser = await db.collection('users').findOne({ username: username });
+            const existingUser = await db.collection('users').findOne({ email: email });
             if(existingUser){
                 logStatus("User already exists!");
             }else{
                 if(!userdepartment){
                     const newUser = {
-                        "username": username,
+                        "email": email,
                         "password": password,
                         "emp_id": emp_id,
                         "first_name": firstname,
@@ -1408,7 +1408,7 @@ app.post('/createusers', async function(req, res){
                     };
                 }else if(userdepartment){
                     const newUser = {
-                        "username": username,
+                        "email": email,
                         "password": password,
                         "emp_id": emp_id,
                         "first_name": firstname,
@@ -2222,7 +2222,7 @@ async function getUsersEmails(){
         userName = await users.find({}).toArray();
 
         for(const user of userName){
-            empEmails.push(user.username);
+            empEmails.push(user.email);
         }
 
         logStatus("This are the user names: " + JSON.stringify(empEmails));
