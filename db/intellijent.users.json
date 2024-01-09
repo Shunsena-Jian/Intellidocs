@@ -2,8 +2,7 @@
   "_id": {
     "$oid": "64e83ea15fab0463809af93e"
   },
-  "email": "SuperAdmin@slu.edu.ph",
-  "username": "superadmin",
+  "email": "superadmin@slu.edu.ph",
   "password": "superadmin",
   "emp_id": "SA-111",
   "first_name": "Jian Raphael",
@@ -15,8 +14,7 @@
   "_id": {
     "$oid": "64e83ea15fab0463809af93f"
   },
-  "email": "SuperAdmin1@slu.edu.ph",
-  "username": "superadmin1",
+  "email": "superadmin1@slu.edu.ph",
   "password": "superadmin1",
   "emp_id": "SA-222",
   "first_name": "John Poul",
@@ -27,8 +25,7 @@
   "_id": {
     "$oid": "64ec006308ac5dd60d32e852"
   },
-  "email": "DepartmentHead@slu.edu.ph",
-  "username": "departmenthead",
+  "email": "departmenthead@slu.edu.ph",
   "password": "departmenthead",
   "emp_id": "DPH-333",
   "first_name": "Cassandra",
@@ -39,8 +36,7 @@
   "_id": {
     "$oid": "64ec00b208ac5dd60d32e853"
   },
-  "email": "DocumentController@slu.edu.ph",
-  "username": "documentcontroller",
+  "email": "documentcontroller@slu.edu.ph",
   "password": "documentcontroller",
   "emp_id": "DCR-444",
   "first_name": "Denmark",
@@ -51,8 +47,7 @@
   "_id": {
     "$oid": "64ec00d108ac5dd60d32e854"
   },
-  "email": "Admin@slu.edu.ph",
-  "username": "admin",
+  "email": "admin@slu.edu.ph",
   "password": "admin",
   "emp_id": "AD-555",
   "first_name": "Leianneza",
@@ -63,8 +58,7 @@
   "_id": {
     "$oid": "64ec011508ac5dd60d32e855"
   },
-  "email": "Dean@slu.edu.ph",
-  "username": "dean",
+  "email": "dean@slu.edu.ph",
   "password": "dean",
   "emp_id": "DN-666",
   "first_name": "Alyanna",
@@ -75,8 +69,7 @@
   "_id": {
     "$oid": "64ec012e08ac5dd60d32e856"
   },
-  "email": "Secretary@slu.edu.ph",
-  "username": "secretary",
+  "email": "secretary@slu.edu.ph",
   "password": "secretary",
   "emp_id": "SEC-777",
   "first_name": "Lywe",
@@ -87,8 +80,7 @@
   "_id": {
     "$oid": "64ec015408ac5dd60d32e858"
   },
-  "email": "Faculty@slu.edu.ph",
-  "username": "faculty",
+  "email": "faculty@slu.edu.ph",
   "password": "faculty",
   "emp_id": "FC-888",
   "first_name": "Machian",
@@ -99,11 +91,22 @@
   "_id": {
     "$oid": "655afcb75b99e01a346d0ff3"
   },
-  "email": "Faculty1@slu.edu.ph",
-  "username": "faculty1",
+  "email": "faculty1@slu.edu.ph",
   "password": "faculty1",
   "emp_id": "FC-999",
   "first_name": "Ivy",
   "last_name": "Bulba",
   "user_level": "Faculty"
+},
+{
+  "_id": {
+    "$oid": "659d07f84461dffeb898ce8c"
+  },
+  "email": "faculty2@slu.edu.ph",
+  "password": "faculty2",
+  "emp_id": "10101010",
+  "first_name": "Jiannis",
+  "last_name": "Cujatis",
+  "user_level": "Faculty",
+  "user_department": "Information Technology"
 }]
