@@ -340,11 +340,11 @@ app.post('/saveformversion', async function(req, res){
                 date_saved: getDateNow(),
                 time_saved: getTimeNow(),
                 assigned_users: latestAssignedUsers,
-                due_date: null,
-                quarter_due_date: null,
-                annual_due_date: null,
-                academic_year: null,
-                semester: null
+                due_date: formData.dueDate,
+                quarter_due_date: formData.quarterDueDate,
+                annual_due_date: formData.annualDueDate,
+                academic_year: formData.academicYear,
+                semester: formData.semester
             };
 
             const result = await forms.insertOne(formDocument);

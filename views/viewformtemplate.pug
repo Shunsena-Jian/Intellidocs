@@ -410,7 +410,12 @@ block body
                 formContent: formBody,
                 formStatus: "Template",
                 sharedStatus: sharedStatus,
-                fileUploadStatus: fileUploadStatus
+                fileUploadStatus: fileUploadStatus,
+                dueDate: formBlock.due_date,
+                quarterDueDate: formBlock.quarter_due_date,
+                annualDueDate: formBlock.annual_due_date,
+                academicYear: formBlock.academic_year,
+                semester: formBlock.semester
             };
 
             $.ajax({
