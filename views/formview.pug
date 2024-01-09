@@ -320,10 +320,16 @@ block body
             }else{
                 var dueDate = new Date(dueDateInput);
                 var monthDue = getQuarter(dueDateInput);
+                var annualDue = getAnnual(dueDateInput);
+                var acadYear = getAcadYear(dueDateInput);
+                var semester = getSemester(dueDateInput);
 
                 var data = {
                     dueDateInput: dueDateInput,
                     quarterlyDueDate: monthDue,
+                    annualDueDate: annualDue,
+                    academicYear: acadYear,
+                    semester: semester,
                     formControlNumber: form_template.form_control_number
                 }
 
@@ -345,20 +351,58 @@ block body
             }
         }
 
+        function getSemester(dueDate){
+            const parts = dueDate.split('-');
+            const month = parseInt(parts[1], 10);
+
+            if(month >= 1 && month <= 5){
+                return '2nd Semester';
+            }else if (month >= 8 && month <= 12){
+                return '1st Semester';
+            }else if (month >= 6 && month <= 7){
+                return 'Short Semester';
+            }else {
+                return 'Invalid Semester';
+            }
+        }
+
+        function getAcadYear(dueDate){
+            const parts = dueDate.split('-');
+            const month = parseInt(parts[1], 10);
+            const year = parseInt(parts[0], 10);
+            var anotherYear;
+
+            if(month >= 1 && month <= 7){
+                anotherYear = year - 1;
+                return anotherYear + ' - ' + year;
+            }else if (month >= 8 && month <= 12){
+                anotherYear = year + 1;
+                return year + '-' + anotherYear;
+            }else {
+                return 'Invalid Academic Year';
+            }
+        }
+
+        function getAnnual(dueDate){
+            const parts = dueDate.split('-');
+            const year = parseInt(parts[0], 10);
+            return year;
+        }
+
         function getQuarter(dueDate){
             const parts = dueDate.split('-');
             const month = parseInt(parts[1], 10);
 
             if(month >= 1 && month <= 3){
-                return 'Quarter 1';
+                return '1st Quarter';
             }else if (month >= 4 && month <= 6){
-                return 'Quarter 2';
+                return '2nd Quarter';
             }else if (month >= 7 && month <= 9){
-                return 'Quarter 3';
+                return '3rd Quarter';
             }else if (month >= 10 && month <= 12){
-                return 'Quarter 4';
+                return '4th Quarter';
             }else {
-                return 'Invalid Month';
+                return 'Invalid Quarterly Due Date';
             }
         }
 

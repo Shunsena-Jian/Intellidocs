@@ -21,7 +21,7 @@ function hideSaveFormModal(){
 
 
 function saveFilledOutForm(){
-    clearSelection(); // Clear selected row box on save filled out form
+    clearSelections(); // Clear selected row box on save filled out form
     var inputFieldValuesJSON = iterateAndGetData();
     //var formBody = document.getElementById('theContainerOfTheForm').innerHTML;
     var formBody = document.getElementById('form-content');
@@ -70,7 +70,7 @@ function updateDropdownOptions(versions) {
     });
 }
 
-function clearSelection() {
+function clearSelections() {
     const allTables = document.querySelectorAll('div table');
     allTables.forEach((table) => {
       const selected = table.querySelectorAll('.selectedCells');

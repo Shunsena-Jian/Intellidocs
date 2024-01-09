@@ -280,7 +280,10 @@ app.post('/savecreatedform', async function(req, res){
                     time_saved: getTimeNow(),
                     assigned_users: [],
                     due_date: null,
-                    quarter_due_date: null
+                    quarter_due_date: null,
+                    annual_due_date: null,
+                    academic_year: null,
+                    semester: null
                 };
 
                 const result = await forms.insertOne(formDocument);
@@ -338,7 +341,10 @@ app.post('/saveformversion', async function(req, res){
                 time_saved: getTimeNow(),
                 assigned_users: latestAssignedUsers,
                 due_date: null,
-                quarter_due_date: null
+                quarter_due_date: null,
+                annual_due_date: null,
+                academic_year: null,
+                semester: null
             };
 
             const result = await forms.insertOne(formDocument);
@@ -566,7 +572,12 @@ app.put('/savefilledoutform', async function(req, res){
                     user_version: latestUserVersion + 1,
                     form_owner: req.session.userEmpID,
                     read_users: latestReadUsers,
-                    write_users: latestWriteUsers
+                    write_users: latestWriteUsers,
+                    due_date: currentForm.due_date,
+                    quarter_due_date: currentForm.quarter_due_date,
+                    annual_due_date: currentForm.annual_due_date,
+                    academic_year: currentForm.academic_year,
+                    semester: currentForm.semester
                 };
 
                 const result = await filledoutforms.insertOne(filledOutDocument);
@@ -688,7 +699,12 @@ app.get('/formview/:form_control_number', async function (req, res){
                 user_version: 0,
                 form_owner: req.session.userEmpID,
                 read_users: latestReadUsers,
-                write_users: latestWriteUsers
+                write_users: latestWriteUsers,
+                due_date: currentForm.due_date,
+                quarter_due_date: currentForm.quarter_due_date,
+                annual_due_date: currentForm.annual_due_date,
+                academic_year: currentForm.academic_year,
+                semester: currentForm.semester
             };
 
             const result = await filledoutforms.insertOne(filledOutDocument);
@@ -1249,7 +1265,7 @@ app.get('/viewforms', async function(req, res){
         if(accessGranted){
             var allPublishedForms = await forms.find({ form_status: { $in: ["Published", "Active", "In-active"] } }).toArray();
             var allSubmittedForms = await filledoutforms.find({ form_status: "Submitted" }).toArray();
-            var allAssignedForms = await forms.find({ assigned_users : email, form_status : { $in: ["Active", "Submitted"] } }).toArray();
+            var allAssignedForms = await forms.find({ assigned_users : req.session.email, form_status : { $in: ["Active", "Submitted"] } }).toArray();
             var allSharedForms = await filledoutforms.find({
                 $or: [
                     { read_users : req.session.userEmpID },
@@ -1295,7 +1311,6 @@ app.get('/viewforms', async function(req, res){
         res.redirect('login');
     }
 });
-
 
 app.get('/viewformtemplates', async function(req, res){
     var requiredPrivilege = 'Manage Templates';
@@ -1653,14 +1668,29 @@ app.put('/AJAX_setDueDate', async function(req, res){
         var selectedFormControlNumberToView = formData.formControlNumber;
 //        var formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
         var updateDocument;
+        var updateFilledOutForms;
 
         try{
             updateDocument = await forms.updateMany(
                 { form_control_number : selectedFormControlNumberToView },
                 { $set: {
                         due_date: formData.dueDateInput,
-                        quarter_due_date: formData.quarterlyDueDate} }
+                        quarter_due_date: formData.quarterlyDueDate,
+                        annual_due_date: formData.annualDueDate,
+                        academic_year: formData.academicYear,
+                        semester: formData.semester } }
             );
+
+            updateFilledOutForms = await filledoutforms.updateMany(
+                { form_control_number : selectedFormControlNumberToView },
+                { $set: {
+                        due_date: formData.dueDateInput,
+                        quarter_due_date: formData.quarterlyDueDate,
+                        annual_due_date: formData.annualDueDate,
+                        academic_year: formData.academicYear,
+                        semester: formData.semester } }
+            );
+
             res.send({ status_code : 0, dueDate : formData.dueDateInput });
 
 
@@ -2136,7 +2166,6 @@ async function logError(errorMessage){
         }
     });
 }
-
 
 async function getNotifications(empID){
     var userNotifications;
