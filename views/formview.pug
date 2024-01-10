@@ -628,10 +628,11 @@ block body
                 data: data,
                 success: function(response) {
                     if (response.status_code === 1) {
-                        alert("Error in saving the form.");
+                        alert("Error in submitting the form.");
                     } else if (response.status_code === 0) {
                         updateDropdownOptions(response.allUserFormVersions);
-                        alert("Successfully saved the form.");
+                        document.getElementById('form-content').innerHTML = response.initialTemplate;
+                        alert("Successfully submitted the form.");
                         hideSaveFormModal();
                     } else {
                         $('.error-message').text(response.error);

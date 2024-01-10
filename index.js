@@ -311,6 +311,7 @@ app.post('/saveformversion', async function(req, res){
         for(i=0; i < formHistory.length; i++){
             if(formHistory[i].form_version >= latestVersion){
                 latestVersion = formHistory[i].form_version;
+                latestSharedStatus = formHistory[i].form_version;
                 fileUploadStatus = formHistory[i].allow_file_upload;
 
                 latestAssignedUsers = formHistory[i].assigned_users;
@@ -335,7 +336,7 @@ app.post('/saveformversion', async function(req, res){
                 form_content: jsonArray,
                 form_version: newVersionNumber,
                 form_status: formData.formStatus,
-                shared_status: Boolean(formData.sharedStatus),
+                shared_status:latestSharedStatus,
                 allow_file_upload: fileUploadStatus,
                 date_saved: getDateNow(),
                 time_saved: getTimeNow(),
@@ -459,6 +460,7 @@ app.put('/submitform', async function(req, res){
             if(userFormVersions[i].user_version >= latestUserVersion){
                 latestUserVersion = userFormVersions[i].user_version;
                 latestSharedStatus = userFormVersions[i].shared_status;
+                latestAllowFileUpload = userFormVersions[i].allow_file_upload;
                 if(userFormVersions[i].read_users){
                     let uniqueReadUsers = new Set([...latestReadUsers, ...userFormVersions[i].read_users]);
                     latestReadUsers = Array.from(uniqueReadUsers);
@@ -485,14 +487,19 @@ app.put('/submitform', async function(req, res){
                     form_version: currentForm.form_version,
                     form_status: "Submitted",
                     shared_status: latestSharedStatus,
-                    allow_file_upload: Boolean(currentForm.form_version),
+                    allow_file_upload: latestAllowFileUpload,
                     date_saved: getDateNow(),
                     time_saved: getTimeNow(),
                     user_version: latestUserVersion + 1,
                     form_owner: req.session.userEmpID,
                     read_users: latestReadUsers,
                     write_users: latestWriteUsers,
-                    date_submitted: getDateNow()
+                    due_date: currentForm.due_date,
+                    quarter_due_date: currentForm.quarter_due_date,
+                    annual_due_date: currentForm.annual_due_date,
+                    academic_year: currentForm.academic_year,
+                    semester: currentForm.semester,
+                    date_submitted: getDateNow(),
                 };
 
                 const result = await filledoutforms.insertOne(filledOutDocument);
@@ -503,7 +510,14 @@ app.put('/submitform', async function(req, res){
                         allUserFormVersions.push(userFormVersions[i].user_version);
                     }
                 }
-                res.send({ status_code : 0, allUserFormVersions : allUserFormVersions });
+
+                var userFormTemplate = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID, user_version: 0 });
+                let jsonObject = userFormTemplate;
+                var e = jsonObject.form_content;
+                var g = await jsonToHTML(e);
+                jsonObject.form_content = g;
+
+                res.send({ status_code : 0, allUserFormVersions : allUserFormVersions, initialTemplate: jsonObject.form_content });
             }
         }catch (error){
             logError("There is an error at save filled out form: " + error);
@@ -540,6 +554,7 @@ app.put('/savefilledoutform', async function(req, res){
             if(userFormVersions[i].user_version >= latestUserVersion){
                 latestUserVersion = userFormVersions[i].user_version;
                 latestSharedStatus = userFormVersions[i].shared_status;
+                latestAllowFileUpload = userFormVersions[i].shared_status;
                 if(userFormVersions[i].read_users){
                     let uniqueReadUsers = new Set([...latestReadUsers, ...userFormVersions[i].read_users]);
                     latestReadUsers = Array.from(uniqueReadUsers);
@@ -566,7 +581,7 @@ app.put('/savefilledoutform', async function(req, res){
                     form_version: currentForm.form_version,
                     form_status: currentForm.form_status,
                     shared_status: latestSharedStatus,
-                    allow_file_upload: Boolean(currentForm.allow_file_upload),
+                    allow_file_upload: latestAllowFileUpload,
                     date_saved: getDateNow(),
                     time_saved: getTimeNow(),
                     user_version: latestUserVersion + 1,
