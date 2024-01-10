@@ -631,8 +631,8 @@ block body
                         alert("Error in submitting the form.");
                     } else if (response.status_code === 0) {
                         updateDropdownOptions(response.allUserFormVersions);
-                        document.getElementById('form-content').innerHTML = response.initialTemplate;
                         alert("Successfully submitted the form.");
+                        document.getElementById('form-content').innerHTML = response.initialTemplate;
                         hideSaveFormModal();
                     } else {
                         $('.error-message').text(response.error);
