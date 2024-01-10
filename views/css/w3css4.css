@@ -2751,6 +2751,12 @@ color: black;
 
 .center-table td {
   padding: 5px 20px;
+  font-size: 17px;
+}
+
+/* Apply all caps to a specific element */
+.all-caps {
+  text-transform: uppercase;
 }
 
 
