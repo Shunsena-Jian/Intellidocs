@@ -49,6 +49,7 @@ window.onload = function() {
 
 
     addEventListenerToDiv(currentPageContent);
+    inputListeners();
 };
 
 function initializeDraggables() {
@@ -188,6 +189,26 @@ function initializeContextMenuForChild(clonedDiv) {
     rightClickWidgetActive = true;
 }
 
+ function inputListeners() {
+  const textInputs = document.querySelectorAll('.text-input');
+
+  textInputs.forEach(input => {
+    input.addEventListener('input', function() {
+      // Remove numbers and special characters using a regular expression
+      this.value = this.value.replace(/[^a-zA-Z]/g, '');
+    });
+  });
+
+  const numericInputs = document.querySelectorAll('.numeric-input');
+
+  numericInputs.forEach(input => {
+    input.addEventListener('input', function() {
+      // Remove numbers and special characters using a regular expression
+      this.value = this.value.replace(/[^0-9]/g, '');
+    });
+  });
+ }
+
 
 function adjustTextareaHeight(element) {
     var parentContainer = element.parentElement;
@@ -311,6 +332,7 @@ function adaptPageContent() {
 
     updatePageNumbers();
     checkCurrentPage();
+    reassignSectionID();
 }
 
 
@@ -984,6 +1006,19 @@ function contextMenuButtonsForContainer(element) {
     }
 }
 
+function appendGridItem(element) {
+    console.log(element);
+    console.log(element.children);
+    // Get the last child element
+    const lastChild = element.lastElementChild;
+
+    // Clone the last child element
+    const clonedLastChild = lastChild.cloneNode(true);
+
+    // Append the cloned element as the last child
+    element.appendChild(clonedLastChild);
+}
+
 function contextMenuButtonsForTable(table) {
     // Do not add these buttons if user type is not one of the two
     if (userType === "Document Controller" || userType === "Super Admin") {
@@ -1116,7 +1151,7 @@ function dropContent(boxHeight, data) {
         if (currentPageContent.querySelector("header-table")) {
             updatePageNumbers();
         }
-
+        inputListeners();
     } else {
         console.error('currentPageContent is undefined.'); // Log an error if currentPageContent is undefined
     }
@@ -1319,10 +1354,10 @@ function removeReadOnlyAttributesRecursive(element) {
               element.removeAttribute('disabled');
             }
 
-//            if (!(element.nodeName === "LABEL")) {
-//                // Set contentEditable attribute to true
-//                element.setAttribute('contentEditable', 'true');
-//            }
+            if (!(element.nodeName === "LABEL")) {
+                // Set contentEditable attribute to true
+                element.setAttribute('contentEditable', 'true');
+            }
 
 
             // Iterate through child elements
