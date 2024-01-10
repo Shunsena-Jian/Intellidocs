@@ -105,22 +105,18 @@ block sidebar
                     |  Form Management
                 #Demo1.w3-hide.w3-container
                     #createTemplateElement.w3-row
-                        .w3-button
-                            a(href='/createform').w3-button-text
-                                i.fa.fa-plus-circle.w3-margin-right
-                                | Create Forms
-                        .w3-button
-                            a(href='/createwidget').w3-button-text
-                                i.fa.fa-plus-circle.w3-margin-right
-                                | Create Widgets
-                        .w3-button
-                            a(href='/viewformtemplates').w3-button-text
-                                i.fa.fa-eye.w3-margin-right
-                                | View Form Templates
-                    .w3-button
-                        a(href='/viewforms')
-                            i.fa.fa-file.w3-margin-right
-                            | View Forms
+                    a(href='/createform').w3-button-text.w3-button
+                        i.fa.fa-plus-circle.w3-margin-right
+                        | Create Forms
+                    a(href='/createwidget').w3-button-text.w3-button
+                        i.fa.fa-plus-circle.w3-margin-right
+                        | Create Widgets
+                    a(href='/viewformtemplates').w3-button-text.w3-button
+                        i.fa.fa-eye.w3-margin-right
+                        | View Form Templates
+                    a(href='/viewforms').w3-button
+                        i.fa.fa-file.w3-margin-right
+                        | View Forms
 
                 #userManagementElement
                     button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo3')")
@@ -129,12 +125,12 @@ block sidebar
                     #Demo3.w3-hide.w3-container
                         #addUserElement
                             p
-                                a(href='/createusers')
+                                a(href='/createusers').w3-button
                                     i.fa.fa-plus-circle.w3-margin-right
                                     | Create User
                         #editUserElement
                             p
-                                a(href='/viewusers')
+                                a(href='/viewusers').w3-button
                                     i.fa.fa-users.w3-margin-right
                                     | View Users
 

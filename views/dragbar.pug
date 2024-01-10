@@ -183,18 +183,18 @@
                 .w3-row
                     p.w3-col.s2.w3-left-align.w3-label SLU ID NO
                     label.w3-col.s9
-                        input.w3-input(readonly type='text' maxlength='7' size='7' placeholder='ID NUMBER')
+                        input.w3-input.numeric-input(readonly type='number' maxlength='7' size='7' placeholder='ID NUMBER')
                         |
                 .w3-row
                     p.w3-col.s2.w3-left-align.w3-label NAME
                     label.checkbox-label.w3-col.s3
-                        input.w3-input(readonly type='text' maxlength='50' minlength='3' placeholder='FAMILY NAME')
+                        input.w3-input.text-input(readonly type='text' maxlength='50' minlength='3' placeholder='FAMILY NAME')
                         |
                     label.checkbox-label.w3-col.s3
-                        input.w3-input(readonly type='text' maxlength='50' minlength='3' placeholder='FIRST NAME')
+                        input.w3-input.text-input(readonly type='text' maxlength='50' minlength='3' placeholder='FIRST NAME')
                         |
                     label.checkbox-label.w3-col.s3
-                        input.w3-input(readonly type='text' maxlength='2' placeholder='MI')
+                        input.w3-input.text-input(readonly type='text' maxlength='2' placeholder='MI')
                         |
 
                 .w3-row.w3-all-center
@@ -310,17 +310,17 @@
                     | Short Term
                 p.w3-col.s2.w3-left-align.w3-label NAME
                 label.checkbox-label.w3-col.s3
-                    input.w3-input(readonly type='text' maxlength='50' minlength='3' placeholder='FAMILY NAME')
+                    input.w3-input.text-input(readonly type='text' maxlength='50' minlength='3' placeholder='FAMILY NAME')
                     |
                 label.checkbox-label.w3-col.s3
-                    input.w3-input(readonly type='text' maxlength='50' minlength='3' placeholder='FIRST NAME')
+                    input.w3-input.text-input(readonly type='text' maxlength='50' minlength='3' placeholder='FIRST NAME')
                     |
                 label.checkbox-label.w3-col.s3
-                    input.w3-input(readonly type='text' maxlength='50' placeholder='MI')
+                    input.w3-input.text-input(readonly type='text' maxlength='50' placeholder='MI')
                     |
 
                 label.checkbox-label.w3-row
-                    input.w3-input(readonly type='text' maxlength='100' placeholder='')
+                    input.w3-input.text-input(readonly type='text' maxlength='100' placeholder='')
                     | Department
             hr.w3-clear
 
@@ -362,6 +362,14 @@
             hr.w3-clear
             textarea.w3-textarea.text-label.textbox.w3-container.box.draggable.w3-margin-small(draggable="true")
                 |                         This is a sample text box
+            hr.w3-clear
+            label.textbox.text-label.draggable.w3-margin-small.box(draggable="true")
+                input.w3-input.numeric-input(readonly type='number')
+                | Sample Numeric Input
+            hr.w3-clear
+            label.textbox.text-label.draggable.w3-margin-small.box(draggable="true")
+                input.w3-input.text-input(readonly type='text' )
+                | Sample Text Input
             hr.w3-clear
             ol.w3-margin.w3-container.draggable.box.w3-hover-light-grey.w3-ol.list.w3-margin-small(draggable='true')
                 li item 1
