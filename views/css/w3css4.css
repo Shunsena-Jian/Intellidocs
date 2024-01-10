@@ -2723,6 +2723,67 @@ color: black;
   *overflow: hidden;
 }
 
+.banner {
+  width: 100%; /* Set the width to fill its parent container */
+  margin: 0 auto; /* Center the banner horizontally */
+  overflow: hidden; /* Hide any overflowing content */
+  position: relative; /* Establish a positioning context for absolute positioning */
+}
+
+/* CSS for individual images */
+.banner img {
+  width: 100%; /* Make images fill their container */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Remove default inline display */
+  transition: opacity 0.5s ease; /* Add a fade transition effect */
+}
+
+.center-table {
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* Optional: Style the table for better readability */
+.center-table table {
+  width: 100%; /* Set the table width to 100% */
+  border-collapse: collapse;
+}
+
+.center-table td {
+  padding: 5px 20px;
+}
+
+
+.w3-padding-row {
+    padding: 40px 40px;
+    background-color: #3D426B;
+    color: black;
+    border-radius: 10px;
+}
+
+.button-container {
+  width: 90%; /* Set width of the container */
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+.full-width-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #121B3B;
+  color: white;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Optional hover effect */
+.full-width-button:hover {
+  background-color: #3D426B;
+  color: white;
+}
+
 /* W3.CSS 4.15 December 2020 by Jan Egil and Borge Refsnes */
 html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}
 /* Extract from normalize.css by Nicolas Gallagher and Jonathan Neal git.io/normalize */

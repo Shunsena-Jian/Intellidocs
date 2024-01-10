@@ -8,28 +8,48 @@ block body
                 hr.w3-clear
                 each forms in currentForms
                     .w3-third.w3-container
-                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
-                            h3  #{forms.form_name}
-                            hr.w3-clear
-                            p
-                                b  Status:
-                                if (!forms.form_status)
-                                    |  N/A
-                                else
-                                    |  #{forms.form_status}
-                            p
-                                b  Date Created:
-                                if (!forms.date_saved)
-                                    |  N/A
-                                else
-                                    |  #{forms.date_saved}
-                            p
-                                b  Time Created:
-                                if (!forms.time_saved)
-                                    |  N/A
-                                else
-                                    |  #{forms.time_saved}
-                            p
-                                b  Version:
-                                    |  #{forms.form_version}
-                            a(href=`/viewformtemplate/${forms.form_control_number}`) View Form
+                        .shadowEffect.w3-white.w3-margin.w3-round-xxlarge
+                            .banner.w3-round-large
+                              img(src='../src/card_banner.png', alt='Card Banner')
+                            .w3-container.w3-center
+                                h3.w3-center  #{forms.form_name}
+                                hr.w3-clear
+
+                                table.center-table.w3-row
+                                    tr
+                                        td
+                                            b Status:
+                                        td
+                                            if !forms.form_status
+                                              | N/A
+                                            else
+                                              | #{forms.form_status}
+                                    tr
+                                        td
+                                            b Date Created:
+                                        td
+                                            if !forms.date_saved
+                                              | N/A
+                                            else
+                                              | #{forms.date_saved}
+                                    tr
+                                        td
+                                            b Time Created:
+                                        td
+                                            if !forms.time_saved
+                                              | N/A
+                                            else
+                                              | #{forms.time_saved}
+                                    tr
+                                        td
+                                            b Version:
+                                        td
+                                            | #{forms.form_version}
+
+                                br
+                            .button-container.w3-row
+                                a.full-width-button.w3-center(href=`/viewformtemplate/${forms.form_control_number}`) View Form
+
+                                br
+                                br
+
