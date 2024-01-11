@@ -278,7 +278,7 @@ function adaptPageContent() {
             var firstChildOfNextPage = nextPage.children[0];
             var secondChildOfNextPage = nextPage.children[1];
 
-            if (firstChildOfNextPage && firstChildOfNextPage.classList.contains('header')) {
+            if (firstChildOfNextPage && firstChildOfNextPage.children[0].classList.contains('header')) {
                 // If the first child of the next page is a header, append to the second child
                 nextPage.insertBefore(lastChildOfCurrentPage, secondChildOfNextPage);
             } else {
@@ -308,12 +308,12 @@ function adaptPageContent() {
                     if (firstChildOfCurrentPage && firstChildOfCurrentPage.classList.contains('header')) {
                         var secondChildOfCurrentPage = firstChildOfCurrentPage.nextElementSibling;
                         if (secondChildOfCurrentPage) {
-                            previousPage.appendChild(secondChildOfCurrentPage);
+                            //previousPage.appendChild(secondChildOfCurrentPage);
                             currentPageHeight -= calculateDivHeight(secondChildOfCurrentPage);
                         }
                     } else {
                         if (firstChildOfCurrentPage) {
-                            previousPage.appendChild(firstChildOfCurrentPage);
+                            //previousPage.appendChild(firstChildOfCurrentPage);
                             currentPageHeight -= calculateDivHeight(firstChildOfCurrentPage);
                         }
                     }
