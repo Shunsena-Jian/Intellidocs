@@ -4,52 +4,29 @@ block body
     .w3-main(style='margin-left:250px')
         .w3-row.w3-padding-64
             .w3-container.w3-white.w3-round.w3-margin
-                h3.w3-bold.w3-margin View Forms
-                each forms in currentForms
-                    .w3-third.w3-container
-                        .shadowEffect.w3-white.w3-round-xxlarge
-                            .banner.w3-round-large
-                              img(src='../src/card_banner.png', alt='Card Banner')
-                            .w3-container.w3-center
-                                h3.w3-center.w3-bold.all-caps  #{forms.form_name}
-                                hr.w3-clear
+                h3.w3-bold View Forms
+                table#formlist.display(widgth='100%')
+                    thead
+                        tr
+                            th.w3-center Form Name
+                            th.w3-center Status
+                            th.w3-center Date Created
+                            th.w3-center Time Created
+                            th.w3-center Version
+                            th.w3-center Action
+                    tbody
+                        each forms in currentForms
+                            tr
+                                td #{forms.form_name}
+                                td #{forms.form_status}
+                                td #{forms.date_saved}
+                                td #{forms.time_saved}
+                                td #{forms.form_version}
+                                td
+                                    .button-container.w3-row
+                                    a.full-width-button.w3-center.all-caps(href=`/viewformtemplate/${forms.form_control_number}`) View Form
 
-                                table.center-table.w3-row
-                                    tr
-                                        td
-                                            b Status:
-                                        td
-                                            if !forms.form_status
-                                              | N/A
-                                            else
-                                              | #{forms.form_status}
-                                    tr
-                                        td
-                                            b Date Created:
-                                        td
-                                            if !forms.date_saved
-                                              | N/A
-                                            else
-                                              | #{forms.date_saved}
-                                    tr
-                                        td
-                                            b Time Created:
-                                        td
-                                            if !forms.time_saved
-                                              | N/A
-                                            else
-                                              | #{forms.time_saved}
-                                    tr
-                                        td
-                                            b Version:
-                                        td
-                                            | #{forms.form_version}
 
-                                br
-                            .button-container.w3-row
-                                a.full-width-button.w3-center.all-caps(href=`/viewformtemplate/${forms.form_control_number}`) View Form
-
-                                br
-                        br
-                        br
-
+    script.
+        //USED FOR TABLE ON THIS PAGE
+        var table = $('#formlist').DataTable();
