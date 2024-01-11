@@ -3,137 +3,121 @@ extends layout.pug
 block body
     .w3-main(style='margin-left:250px')
         .w3-row.w3-padding-32
-            .shadowEffect.w3-container2.w3-card.w3-white.w3-round.w3-margin
+            .w3-container.w3-white.w3-round.w3-margin
                 h1.w3-center View Forms
 
         if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Admin")
             .w3-row
                 .w3-padding
                     .shadowEffect.w3-container.w3-white.w3-round.w3-margin
-                        h3 Published Forms
-                        hr.w3-clear
-                        each publishedForm in publishedForms
-                            .w3-half.w3-container
-                                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
-                                    h3  #{publishedForm.form_name}
-                                    hr.w3-clear
-                                    p
-                                        b  Status:
-                                        if (!publishedForm.form_status)
-                                            |  N/A
-                                        else
-                                            |  #{publishedForm.form_status}
-                                    p
-                                        b  Date Created:
-                                        if (!publishedForm.date_saved)
-                                            |  N/A
-                                        else
-                                            |  #{publishedForm.date_saved}
-                                    p
-                                        b  Time Created:
-                                        if (!publishedForm.time_saved)
-                                            |  N/A
-                                        else
-                                            |  #{publishedForm.time_saved}
-                                    p
-                                        b  Version:
-                                        |  #{publishedForm.form_version}
-                                    a(href=`/formview/${publishedForm.form_control_number}`) View Form
-        if (currentUserDetailsBlock.userLevel === "Department Head" || currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Dean")
+                        h3.w3-bold Published / Active / In-Active Forms
+                        table#publishedFormsTable.display(width='100%')
+                            thead
+                                tr
+                                    th.w3-center Form Name
+                                    th.w3-center Status
+                                    th.w3-center Date Created
+                                    th.w3-center Time Created
+                                    th.w3-center Version
+                                    th.w3-center Action
+                            tbody
+                                each publishedForm in publishedForms
+                                    tr
+                                        td #{publishedForm.form_name}
+                                        td #{publishedForm.form_status}
+                                        td #{publishedForm.date_saved}
+                                        td #{publishedForm.time_saved}
+                                        td #{publishedForm.form_version}
+                                        td
+                                            .button-container.w3-row
+                                            a.full-width-button.w3-center.all-caps(href=`/formview/${publishedForm.form_control_number}`) View Form
+
+        if (currentUserDetailsBlock.userLevel === "Department Head" || currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Dean" || currentUserDetailsBlock.userLevel === "Super Admin")
             .w3-row
                 .w3-padding
                     .shadowEffect.w3-container.w3-white.w3-round.w3-margin
-                        h3 Submitted Forms
-                        hr.w3-clear
-                        each submittedForm in submittedForms
-                            .w3-half.w3-container
-                                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
-                                    h3  #{submittedForm.form_name}
-                                    hr.w3-clear
-                                    p
-                                        b  Status:
-                                        if (!submittedForm.form_status)
-                                            |  N/A
-                                        else
-                                            |  #{submittedForm.form_status}
-                                    p
-                                        b  Date Created:
-                                        if (!submittedForm.date_saved)
-                                            |  N/A
-                                        else
-                                            |  #{submittedForm.date_saved}
-                                    p
-                                        b  Time Created:
-                                        if (!submittedForm.time_saved)
-                                            |  N/A
-                                        else
-                                            |  #{submittedForm.time_saved}
-                                    p
-                                        b  Version:
-                                        |  #{submittedForm.form_version}
-                                    a(href=`/formview/${submittedForm.form_control_number}`) View Form
-                br
-                br
-                br
+                        h3.w3-bold Submitted Forms
+                        table#submittedFormsTable.display(width='100%')
+                            thead
+                                tr
+                                    th.w3-center Form Name
+                                    th.w3-center Status
+                                    th.w3-center Date Created
+                                    th.w3-center Time Created
+                                    th.w3-center Version
+                                    th.w3-center Action
+                            tbody
+                                each submittedForm in submittedForms
+                                    tr
+                                        td #{submittedForm.form_name}
+                                        td #{submittedForm.form_status}
+                                        td #{submittedForm.date_saved}
+                                        td #{submittedForm.time_saved}
+                                        td #{submittedForm.form_version}
+                                        td
+                                            .button-container.w3-row
+                                            a.full-width-button.w3-center.all-caps(href=`/formview/${submittedForm.form_control_number}`) View Form
+
         if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Document Controller")
         else
             .w3-row
-                .w3-half.w3-padding
+                .w3-padding
                     .shadowEffect.w3-container.w3-white.w3-round.w3-margin
-                        h3 To Do
-                        hr.w3-clear
-                        each assignedForm in assignedForms
-                            .w3-half.w3-container
-                                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
-                                    h3  #{assignedForm.form_name}
-                                    hr.w3-clear
-                                    p
-                                        b  Status:
-                                        if (!assignedForm.form_status)
-                                            |  N/A
-                                        else
-                                            |  #{assignedForm.form_status}
-                                    p
-                                        b  Date Created:
-                                        if (!assignedForm.date_created)
-                                            |  N/A
-                                        else
-                                            |  #{assignedForm.date_created}
-                                    p
-                                        b  Version:
-                                        |  #{assignedForm.form_version}
-                                    a(href=`/formview/${assignedForm.form_control_number}`) View Form
-                .w3-half.w3-padding
+                        h3.w3-bold Assigned Forms
+                        table#assignedFormsTable.display(width='100%')
+                            thead
+                                tr
+                                    th.w3-center Form Name
+                                    th.w3-center Status
+                                    th.w3-center Date Created
+                                    th.w3-center Time Created
+                                    th.w3-center Version
+                                    th.w3-center Action
+                            tbody
+                                each assignedForm in assignedForms
+                                    tr
+                                        td #{assignedForm.form_name}
+                                        td #{assignedForm.form_status}
+                                        td #{assignedForm.date_saved}
+                                        td #{assignedForm.time_saved}
+                                        td #{assignedForm.form_version}
+                                        td
+                                            .button-container.w3-row
+                                            a.full-width-button.w3-center.all-caps(href=`/formview/${assignedForm.form_control_number}`) View Form
+
+                .w3-padding
                     .shadowEffect.w3-container.w3-white.w3-round.w3-margin
-                        h3 Forms shared with you
-                        hr.w3-clear
-                        each sharedForm in sharedForms
-                            .w3-third.w3-container
-                                .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round.w3-padding
-                                    h3  #{sharedForm.form_name}
-                                    hr.w3-clear
-                                    p
-                                        b  Status:
-                                        if (!sharedForm.form_status)
-                                            |  N/A
-                                        else
-                                            |  #{sharedForm.form_status}
-                                    p
-                                        b  Date Created:
-                                        if (!sharedForm.date_created)
-                                            |  N/A
-                                        else
-                                            |  #{sharedForm.date_created}
-                                    p
-                                        b  Last Edited:
-                                        if (!sharedForm.last_edited)
-                                            |  N/A
-                                        else
-                                            |  #{sharedForm.last_edited}
-                                    a(onclick=`viewSharedForm("${String(sharedForm.form_control_number)}", "${String(sharedForm.form_owner)}")`) View Form
+                        h3.w3-bold Shared Forms With You
+                        table#sharedFormsTable.display(width='100%')
+                            thead
+                                tr
+                                    th.w3-center Form Name
+                                    th.w3-center Status
+                                    th.w3-center Date Created
+                                    th.w3-center Time Created
+                                    th.w3-center Version
+                                    th.w3-center Action
+                            tbody
+                                each sharedForm in sharedForms
+                                    tr
+                                        td #{sharedForm.form_name}
+                                        td #{sharedForm.form_status}
+                                        td #{sharedForm.date_saved}
+                                        td #{sharedForm.time_saved}
+                                        td #{sharedForm.form_version}
+                                        td
+                                            .button-container.w3-row
+                                            a.full-width-button.w3-center.all-caps(onclick=`viewSharedForm("${String(sharedForm.form_control_number)}", "${String(sharedForm.form_owner)}")`) View Form
             br
             br
             br
+
+    script.
+        var table = $('#publishedFormsTable').DataTable();
+        var table1 = $('#submittedFormsTable').DataTable();
+        var table2 = $('#assignedFormsTable').DataTable();
+        var table3 = $('#sharedFormsTable').DataTable();
+
     script.
         function viewSharedForm(formControlNumber, formOwner){
             var data = {
