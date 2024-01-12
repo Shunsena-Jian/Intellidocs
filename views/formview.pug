@@ -126,6 +126,20 @@ block body
                                     button.w3-button.w3-block.w3-theme-dark(onclick='validateAssignUsers()')
                                         i.fa.fa-share-alt.fa-fw.w3-margin-right
                                         | Assign Selected User
+                                hr
+                                h2 Assign Department
+                                .w3-row
+                                    label(for='assignDepartment') Assign Department:
+                                    select#assignDepartment(name='assignDepartment')
+                                        option(value='null') Choose Department
+                                        option(value='Information Technology') Information Technology
+                                        option(value='Computer Science') Computer Science
+                                        option(value='Multimedia Arts') Multimedia Arts
+                                br
+                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='assignDepartment()')
+                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                        | Assign Selected Department
 
                     .w3-half.w3-container2
                         h1 Submitted Forms
@@ -158,6 +172,7 @@ block body
                                     tr
                                         th Email
                                         th Employee ID
+                                        th Department
                                         th First Name
                                         th Last Name
                                         th Action
@@ -166,6 +181,7 @@ block body
                                         tr
                                             td #{assignedUsers.email}
                                             td #{assignedUsers.emp_id}
+                                            td #{assignedUsers.user_department}
                                             td #{assignedUsers.first_name}
                                             td #{assignedUsers.last_name}
                                             td
@@ -300,6 +316,49 @@ block body
     script(src="../js/client.functions/handle_ajax_delete.js")
 
     script.
+        function assignDepartment(){
+            var chosenDepartment = document.getElementById('assignDepartment').value;
+            var assignDepartmentMessage = "Are you sure to assign to " + chosenDepartment + " in this form?";
+            var result = window.confirm(assignDepartmentMessage);
+
+            if(!result){
+            }else{
+                var table6 = $('#assignedUserTable').DataTable();
+                var data = {
+                    formControlNumber: formBlock.form_control_number,
+                    assignedDepartment: chosenDepartment
+                };
+
+                $.ajax({
+                    url: '/AJAX_assignDepartment',
+                    type: 'PUT',
+                    data: data,
+                    success: function(response){
+                        if(response.status_code === 0){
+                            var updatedData3 = response.allAssignedUsers;
+                            table6.clear().draw();
+
+                            for(e=0; e < updatedData3.length; e++){
+                                var curLine3 = [
+                                    updatedData3[e].email,
+                                    updatedData3[e].emp_id,
+                                    updatedData3[e].user_department,
+                                    updatedData3[e].first_name,
+                                    updatedData3[e].last_name,
+                                    `<a class="full-width-button w3-center all-caps" onclick="removeUser('${updatedData3[e].email}')">Unassign</a>`
+                                ];
+                                table6.row.add(curLine3).draw();
+                            }
+                        }else if(response.status_code === 1){
+                            alert("There was an error in assigning the department.");
+                        }
+                    }
+                });
+            }
+
+        }
+
+    script.
         function removeUser(unassignUser) {
             var unassignMessage = "Are you sure to Unassign " + unassignUser +  " in this form.";
             var result = window.confirm(unassignMessage);
@@ -324,6 +383,7 @@ block body
                                 var curLine1 = [
                                     updatedData1[a].email,
                                     updatedData1[a].emp_id,
+                                    updatedData1[a].user_department,
                                     updatedData1[a].first_name,
                                     updatedData1[a].last_name,
                                     `<a class="full-width-button w3-center all-caps" onclick="removeUser('${updatedData1[a].email}')">Unassign</a>`
@@ -670,6 +730,7 @@ block body
                                 var curLine2 = [
                                     updatedData2[b].email,
                                     updatedData2[b].emp_id,
+                                    updatedData2[b].user_department,
                                     updatedData2[b].first_name,
                                     updatedData2[b].last_name,
                                     `<a class="full-width-button w3-center all-caps" onclick="removeUser('${updatedData2[b].email}')">Unassign</a>`

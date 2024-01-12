@@ -1681,6 +1681,53 @@ app.post('/update-Password', async function(req, res){
     }
 });
 
+app.put('/AJAX_assignDepartment', async function(req, res){
+    if(req.session.loggedIn){
+        try{
+            var formData = req.body;
+            var formControlNumber = formData.formControlNumber;
+            var chosenDepartment = formData.assignedDepartment;
+            var allAssignedDepartment = await users.find({ user_department: chosenDepartment }).toArray();
+            var assignedDepartmentEmails = [];
+            for(const email of allAssignedDepartment){
+                assignedDepartmentEmails.push(email.email);
+            }
+
+            await forms.updateMany(
+                { form_control_number: formControlNumber },
+                { $addToSet: { assigned_users: { $each: assignedDepartmentEmails } } }
+            );
+
+            var formVersions = await forms.find({ form_control_number : formControlNumber }).toArray();
+            var latestAssignedVersion = 0;
+            var latestAssignedUsers;
+
+            for (var i = 0; i < formVersions.length; i++) {
+                if (formVersions[i].form_version >= latestAssignedVersion) {
+                    latestAssignedVersion = formVersions[i].form_version;
+                    latestAssignedUsers = formVersions[i].assigned_users;
+
+                    if (formVersions[i].read_users) {
+                        let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...formVersions[i].assigned_users]);
+                        latestAssignedUsers = Array.from(uniqueAssignedUsers);
+                    }
+                }
+            }
+
+            var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
+            res.send({ status_code : 0, allAssignedUsers : allAssignedUsers });
+        }catch(error){
+            logError('There was an error at AJAX function in assigning the department: ' + error);
+            res.send({ status_code : 1 });
+        }
+    }else{
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+
 app.put('/AJAX_assignUsers', async function(req, res){
     if(req.session.loggedIn){
         try{

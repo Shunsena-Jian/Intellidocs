@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* formview.pug&#10;// Added a new container and table for assigned users to dedicated forms&#10;// Now added an un-assign feature for assigned users&#10;// The assigned users table will automatically update if new assignees or new un-assignees are made.&#10;&#10;* index.js&#10;// Now added a feature where new assigned and unassigned users will be inserted first to the database before sending the new data for the table back to the front end&#10;// Created a new AJAX feature for updating the table when un-assigning users in forms">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* createusers.pug&#10;// Created an AJAX function for handling user creation&#10;&#10;* index.js&#10;// Created validations for existing ID&#10;// If user is Faculty or Department Head they should have a department&#10;// If user is neither a Faculty or Department Head, user department value in a document will not be inserted in the database&#10;&#10;* intellijent.users.json&#10;// Recreated some of the users with different user departments">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/intellijent.privileges.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/intellijent.privileges.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/createusers.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createusers.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,7 +148,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705051079959</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="* createusers.pug&#10;// Created an AJAX function for handling user creation&#10;&#10;* index.js&#10;// Created validations for existing ID&#10;// If user is Faculty or Department Head they should have a department&#10;// If user is neither a Faculty or Department Head, user department value in a document will not be inserted in the database&#10;&#10;* intellijent.users.json&#10;// Recreated some of the users with different user departments">
+      <option name="closed" value="true" />
+      <created>1705060535524</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1705060535524</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -170,6 +179,7 @@
     <MESSAGE value="* sidebar.pug&#10;// Fixed a bug where all sidebar buttons are showing despite having null privileges" />
     <MESSAGE value="* viewforms.pug&#10;// Made all available forms tabular for easier accessibility" />
     <MESSAGE value="* formview.pug&#10;// Added a new container and table for assigned users to dedicated forms&#10;// Now added an un-assign feature for assigned users&#10;// The assigned users table will automatically update if new assignees or new un-assignees are made.&#10;&#10;* index.js&#10;// Now added a feature where new assigned and unassigned users will be inserted first to the database before sending the new data for the table back to the front end&#10;// Created a new AJAX feature for updating the table when un-assigning users in forms" />
-    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug&#10;// Added a new container and table for assigned users to dedicated forms&#10;// Now added an un-assign feature for assigned users&#10;// The assigned users table will automatically update if new assignees or new un-assignees are made.&#10;&#10;* index.js&#10;// Now added a feature where new assigned and unassigned users will be inserted first to the database before sending the new data for the table back to the front end&#10;// Created a new AJAX feature for updating the table when un-assigning users in forms" />
+    <MESSAGE value="* createusers.pug&#10;// Created an AJAX function for handling user creation&#10;&#10;* index.js&#10;// Created validations for existing ID&#10;// If user is Faculty or Department Head they should have a department&#10;// If user is neither a Faculty or Department Head, user department value in a document will not be inserted in the database&#10;&#10;* intellijent.users.json&#10;// Recreated some of the users with different user departments" />
+    <option name="LAST_COMMIT_MESSAGE" value="* createusers.pug&#10;// Created an AJAX function for handling user creation&#10;&#10;* index.js&#10;// Created validations for existing ID&#10;// If user is Faculty or Department Head they should have a department&#10;// If user is neither a Faculty or Department Head, user department value in a document will not be inserted in the database&#10;&#10;* intellijent.users.json&#10;// Recreated some of the users with different user departments" />
   </component>
 </project>
