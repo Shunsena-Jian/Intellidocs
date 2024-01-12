@@ -4,7 +4,7 @@
   },
   "email": "superadmin@slu.edu.ph",
   "password": "superadmin",
-  "emp_id": "SA-111",
+  "emp_id": "SA-001",
   "first_name": "Jian Raphael",
   "last_name": "Cudiamat",
   "user_level": "Super Admin",
@@ -12,101 +12,140 @@
 },
 {
   "_id": {
-    "$oid": "64e83ea15fab0463809af93f"
+    "$oid": "65a1263250305fb2814374a2"
   },
   "email": "superadmin1@slu.edu.ph",
   "password": "superadmin1",
-  "emp_id": "SA-222",
+  "emp_id": "SA-002",
   "first_name": "John Poul",
   "last_name": "Panglao",
   "user_level": "Super Admin"
 },
 {
   "_id": {
-    "$oid": "64ec006308ac5dd60d32e852"
+    "$oid": "65a1267650305fb2814374a3"
   },
-  "email": "departmenthead@slu.edu.ph",
-  "password": "departmenthead",
-  "emp_id": "DPH-333",
+  "email": "admin@slu.edu.ph",
+  "password": "admin",
+  "emp_id": "AD-001",
   "first_name": "Cassandra",
   "last_name": "Narvasa",
-  "user_level": "Department Head"
+  "user_level": "Admin"
 },
 {
   "_id": {
-    "$oid": "64ec00b208ac5dd60d32e853"
+    "$oid": "65a1268950305fb2814374a4"
   },
   "email": "documentcontroller@slu.edu.ph",
   "password": "documentcontroller",
-  "emp_id": "DCR-444",
+  "emp_id": "DC-001",
   "first_name": "Denmark",
   "last_name": "Chan",
   "user_level": "Document Controller"
 },
 {
   "_id": {
-    "$oid": "64ec00d108ac5dd60d32e854"
+    "$oid": "65a126a050305fb2814374a5"
   },
-  "email": "admin@slu.edu.ph",
-  "password": "admin",
-  "emp_id": "AD-555",
+  "email": "secretary@slu.edu.ph",
+  "password": "secretary",
+  "emp_id": "SC-001",
   "first_name": "Leianneza",
   "last_name": "Pioquinto",
-  "user_level": "Admin"
+  "user_level": "Secretary"
 },
 {
   "_id": {
-    "$oid": "64ec011508ac5dd60d32e855"
+    "$oid": "65a126be50305fb2814374a6"
   },
   "email": "dean@slu.edu.ph",
   "password": "dean",
-  "emp_id": "DN-666",
+  "emp_id": "DN-001",
   "first_name": "Alyanna",
   "last_name": "Ramos",
   "user_level": "Dean"
 },
 {
   "_id": {
-    "$oid": "64ec012e08ac5dd60d32e856"
+    "$oid": "65a126f550305fb2814374a7"
   },
-  "email": "secretary@slu.edu.ph",
-  "password": "secretary",
-  "emp_id": "SEC-777",
+  "email": "departmenthead@slu.edu.ph",
+  "password": "departmenthead",
+  "emp_id": "DH-001",
   "first_name": "Lywe",
   "last_name": "Dup-et",
-  "user_level": "Secretary"
+  "user_level": "Department Head",
+  "user_department": "Information Technology"
 },
 {
   "_id": {
-    "$oid": "64ec015408ac5dd60d32e858"
+    "$oid": "65a1271450305fb2814374a8"
   },
   "email": "faculty@slu.edu.ph",
   "password": "faculty",
-  "emp_id": "FC-888",
+  "emp_id": "FC-001",
   "first_name": "Machian",
   "last_name": "Oliva",
-  "user_level": "Faculty"
+  "user_level": "Faculty",
+  "user_department": "Information Technology"
 },
 {
   "_id": {
-    "$oid": "655afcb75b99e01a346d0ff3"
+    "$oid": "65a1273550305fb2814374a9"
   },
   "email": "faculty1@slu.edu.ph",
   "password": "faculty1",
-  "emp_id": "FC-999",
+  "emp_id": "FC-002",
   "first_name": "Ivy",
   "last_name": "Bulba",
-  "user_level": "Faculty"
+  "user_level": "Faculty",
+  "user_department": "Information Technology"
 },
 {
   "_id": {
-    "$oid": "659d07f84461dffeb898ce8c"
+    "$oid": "65a1275e50305fb2814374aa"
   },
   "email": "faculty2@slu.edu.ph",
   "password": "faculty2",
-  "emp_id": "10101010",
+  "emp_id": "FC-003",
   "first_name": "Jiannis",
   "last_name": "Cujatis",
   "user_level": "Faculty",
-  "user_department": "Information Technology"
+  "user_department": "Computer Science"
+},
+{
+  "_id": {
+    "$oid": "65a1279550305fb2814374ab"
+  },
+  "email": "faculty3@slu.edu.ph",
+  "password": "faculty3",
+  "emp_id": "FC-004",
+  "first_name": "Jigger",
+  "last_name": "Cudigger",
+  "user_level": "Faculty",
+  "user_department": "Multimedia Arts"
+},
+{
+  "_id": {
+    "$oid": "65a127bd50305fb2814374ac"
+  },
+  "email": "departmenthead1@slu.edu.ph",
+  "password": "departmenthead1",
+  "emp_id": "DH-002",
+  "first_name": "Dylan",
+  "last_name": "Cudiamat",
+  "user_level": "Department Head",
+  "user_department": "Computer Science"
+},
+{
+  "_id": {
+    "$oid": "65a127d450305fb2814374ad"
+  },
+  "email": "departmenthead2@slu.edu.ph",
+  "password": "departmenthead2",
+  "emp_id": "DH-003",
+  "first_name": "Cromwell",
+  "last_name": "Cudiamat",
+  "user_level": "Department Head",
+  "user_department": "Multimedia Arts"
 }]

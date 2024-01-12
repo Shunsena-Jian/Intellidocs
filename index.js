@@ -1444,31 +1444,41 @@ app.post('/createusers', async function(req, res){
 
         try{
             const existingUser = await db.collection('users').findOne({ email: email });
+            const existingEmpID = await db.collection('users').findOne({ emp_id: emp_id });
             if(existingUser){
                 logStatus("User already exists!");
+                res.send({ status_code : 1 });
+            }else if((userlevel === "Faculty" || userlevel === "Department Head") && (userdepartment === "null" || userdepartment === "undefined" || userdepartment === "")){
+                logStatus("Employee must have a Department");
+                res.send({ status_code : 3 });
+            }else if(existingEmpID){
+                logStatus("Employee ID already exists!");
+                res.send({ status_code : 2 });
+            }else if(userdepartment === "null" || userdepartment === "undefined" || userdepartment === ""){
+                let newUser = {
+                    "email": email,
+                    "password": password,
+                    "emp_id": emp_id,
+                    "first_name": firstname,
+                    "last_name": lastname,
+                    "user_level": userlevel
+                };
+                const result = await db.collection('users').insertOne(newUser);
+                logStatus("User created");
+                res.send({ status_code : 0 });
             }else{
-                if(!userdepartment){
-                    const newUser = {
-                        "email": email,
-                        "password": password,
-                        "emp_id": emp_id,
-                        "first_name": firstname,
-                        "last_name": lastname,
-                        "user_level": userlevel
-                    };
-                }else if(userdepartment){
-                    const newUser = {
-                        "email": email,
-                        "password": password,
-                        "emp_id": emp_id,
-                        "first_name": firstname,
-                        "last_name": lastname,
-                        "user_level": userlevel,
-                        "user_department": userdepartment
-                    };
-                    const result = await db.collection('users').insertOne(newUser);
-                    logStatus("User created");
-                }
+                let newUser = {
+                    "email": email,
+                    "password": password,
+                    "emp_id": emp_id,
+                    "first_name": firstname,
+                    "last_name": lastname,
+                    "user_level": userlevel,
+                    "user_department": userdepartment
+                };
+                const result = await db.collection('users').insertOne(newUser);
+                logStatus("User created");
+                res.send({ status_code : 0 });
             }
         }catch(error){
             logError("Error creating the user: " + error);

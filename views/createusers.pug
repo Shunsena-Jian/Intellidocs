@@ -19,7 +19,7 @@ block body
         .w3-row.w3-padding-64
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 .form_container
-                    form(name='form' role='form' method='POST')
+                    form(name='form' role='form' method='POST' id='createUser')
                         h3.w3-bold.w3-margin CREATE A USER
                         .form_wrap.fullname
                             .form_item
@@ -59,3 +59,44 @@ block body
                                     option(value='Multimedia Arts') Multimedia Arts
                         .btnPosition
                               button(class='btn' type='submit') Register
+
+    script.
+        $(document).ready(function () {
+            $('#createUser').submit(function (event) {
+
+                var data = {
+                    email: document.getElementById('email').value,
+                    passWord: document.getElementById('passWord').value,
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    empId: document.getElementById('empId').value,
+                    userLevel: document.getElementById('userLevel').value,
+                    userDepartment: document.getElementById('userDepartment').value
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/createusers',
+                    data: data,
+                    success: function(response) {
+                        if(response.status_code === 1) {
+                            alert("User Email already exists!");
+                        } else if(response.status_code === 2) {
+                            alert("User Employee ID already exists!");
+                        } else if(response.status_code === 0) {
+                            alert("User successfully created!");
+                            location.reload();
+                        } else if(response.status_code === 3) {
+                            alert("Employee must have a Department");
+                        }
+                    },
+                    error: function (error) {
+                        console.error('AJAX error:', error);
+                    }
+                });
+
+                // Prevent the default form submission
+                event.preventDefault();
+            });
+        });
+

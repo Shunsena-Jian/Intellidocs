@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* viewforms.pug&#10;// Made all available forms tabular for easier accessibility">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* formview.pug&#10;// Added a new container and table for assigned users to dedicated forms&#10;// Now added an un-assign feature for assigned users&#10;// The assigned users table will automatically update if new assignees or new un-assignees are made.&#10;&#10;* index.js&#10;// Now added a feature where new assigned and unassigned users will be inserted first to the database before sending the new data for the table back to the front end&#10;// Created a new AJAX feature for updating the table when un-assigning users in forms">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/createusers.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createusers.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +139,15 @@
       <option name="project" value="LOCAL" />
       <updated>1704980612587</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="* formview.pug&#10;// Added a new container and table for assigned users to dedicated forms&#10;// Now added an un-assign feature for assigned users&#10;// The assigned users table will automatically update if new assignees or new un-assignees are made.&#10;&#10;* index.js&#10;// Now added a feature where new assigned and unassigned users will be inserted first to the database before sending the new data for the table back to the front end&#10;// Created a new AJAX feature for updating the table when un-assigning users in forms">
+      <option name="closed" value="true" />
+      <created>1705051079959</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1705051079959</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -161,6 +169,7 @@
     <MESSAGE value="* formview.pug&#10;// Button for Activating Debugged&#10;&#10;* index.js&#10;// Assigning users using username debugged" />
     <MESSAGE value="* sidebar.pug&#10;// Fixed a bug where all sidebar buttons are showing despite having null privileges" />
     <MESSAGE value="* viewforms.pug&#10;// Made all available forms tabular for easier accessibility" />
-    <option name="LAST_COMMIT_MESSAGE" value="* viewforms.pug&#10;// Made all available forms tabular for easier accessibility" />
+    <MESSAGE value="* formview.pug&#10;// Added a new container and table for assigned users to dedicated forms&#10;// Now added an un-assign feature for assigned users&#10;// The assigned users table will automatically update if new assignees or new un-assignees are made.&#10;&#10;* index.js&#10;// Now added a feature where new assigned and unassigned users will be inserted first to the database before sending the new data for the table back to the front end&#10;// Created a new AJAX feature for updating the table when un-assigning users in forms" />
+    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug&#10;// Added a new container and table for assigned users to dedicated forms&#10;// Now added an un-assign feature for assigned users&#10;// The assigned users table will automatically update if new assignees or new un-assignees are made.&#10;&#10;* index.js&#10;// Now added a feature where new assigned and unassigned users will be inserted first to the database before sending the new data for the table back to the front end&#10;// Created a new AJAX feature for updating the table when un-assigning users in forms" />
   </component>
 </project>
