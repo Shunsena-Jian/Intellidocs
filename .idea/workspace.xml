@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* sidebar.pug&#10;// Fixed a bug where all sidebar buttons are showing despite having null privileges">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* viewforms.pug&#10;// Made all available forms tabular for easier accessibility">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewforms.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewforms.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewformtemplates.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewformtemplates.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +131,15 @@
       <option name="project" value="LOCAL" />
       <updated>1704959013271</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="* viewforms.pug&#10;// Made all available forms tabular for easier accessibility">
+      <option name="closed" value="true" />
+      <created>1704980612587</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1704980612587</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -152,6 +160,7 @@
     <MESSAGE value="* formview.pug&#10;// Created a new function to determine which quarter the due date has been set&#10;// Passes the Quarter Due Date results to backend&#10;&#10;* index.js&#10;// In-Active forms will now also show in the table of Published Forms&#10;// Stores quarter due date to database." />
     <MESSAGE value="* formview.pug&#10;// Button for Activating Debugged&#10;&#10;* index.js&#10;// Assigning users using username debugged" />
     <MESSAGE value="* sidebar.pug&#10;// Fixed a bug where all sidebar buttons are showing despite having null privileges" />
-    <option name="LAST_COMMIT_MESSAGE" value="* sidebar.pug&#10;// Fixed a bug where all sidebar buttons are showing despite having null privileges" />
+    <MESSAGE value="* viewforms.pug&#10;// Made all available forms tabular for easier accessibility" />
+    <option name="LAST_COMMIT_MESSAGE" value="* viewforms.pug&#10;// Made all available forms tabular for easier accessibility" />
   </component>
 </project>

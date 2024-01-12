@@ -765,6 +765,25 @@ app.get('/formview/:form_control_number', async function (req, res){
 
         var currentUserFiles = await files.find({ uploadedBy : latestUserFilledVersion.form_owner, fileFormControlNumber : latestUserFilledVersion.form_control_number }).toArray();
         var submittedVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_status : "Submitted" }).toArray();
+
+        var latestAssignedVersion = 0;
+        var latestAssignedUsers;
+
+        for(i=0; i < formVersions.length; i++){
+            if(formVersions[i].form_version >= latestAssignedVersion){
+                latestVersion = formVersions[i].form_version;
+                latestAssignedUsers = formVersions[i].assigned_users;
+
+                if(formVersions[i].read_users){
+                    let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...formVersions[i].assigned_users]);
+                    latestAssignedUsers = Array.from(uniqueAssignedUsers);
+                }
+            }
+        }
+
+        var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
+
+
     //    currentUserFiles = await getFiles(req.session.userEmpID);
 
         res.render('formview', {
@@ -781,7 +800,8 @@ app.get('/formview/:form_control_number', async function (req, res){
             form_template : formTemplate,
             submittedVersions: submittedVersions,
             sharedRead: sharedRead,
-            sharedWrite: sharedWrite
+            sharedWrite: sharedWrite,
+            allAssignedUsers: allAssignedUsers
         });
     }else{
         res.render('login', {
@@ -1653,24 +1673,86 @@ app.post('/update-Password', async function(req, res){
 
 app.put('/AJAX_assignUsers', async function(req, res){
     if(req.session.loggedIn){
-        var formData = req.body;
-        var formControlNumber = formData.formControlNumber;
-
-        allForms = await forms.find({ form_control_number : formControlNumber }).toArray();
-
         try{
-            updateDocument = await forms.updateMany(
+            var formData = req.body;
+            var formControlNumber = formData.formControlNumber;
+
+            await forms.updateMany(
                 { form_control_number : formControlNumber },
                 { $addToSet: { "assigned_users" : formData.assignedUser } }
-                );
+            );
 
-            res.send({ status_code : 0 });
-        }catch(error){
+            var formVersions = await forms.find({ form_control_number : formControlNumber }).toArray();
+            var latestAssignedVersion = 0;
+            var latestAssignedUsers;
+
+            for (var i = 0; i < formVersions.length; i++) {
+                if (formVersions[i].form_version >= latestAssignedVersion) {
+                    latestAssignedVersion = formVersions[i].form_version;
+                    latestAssignedUsers = formVersions[i].assigned_users;
+
+                    if (formVersions[i].read_users) {
+                        let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...formVersions[i].assigned_users]);
+                        latestAssignedUsers = Array.from(uniqueAssignedUsers);
+                    }
+                }
+            }
+
+            var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
+            console.log("These are the updated assigned users: " + allAssignedUsers);
+
+            res.send({ status_code : 0, allAssignedUsers : allAssignedUsers });
+        } catch(error){
             logError('There was an error at AJAX function in assigning users: ' + error);
             res.send({ status_code : 2 });
         }
+    } else {
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
 
-    }else{
+app.put('/AJAX_removeUser/:email', async function(req, res){
+    if(req.session.loggedIn){
+        try{
+            var unassignedUser = req.params.email;
+            var formData = req.body;
+            var selectedFormControlNumberToView = formData.formControlNumber;
+            var formVersions = await forms.find({ form_control_number: selectedFormControlNumberToView }).toArray();
+
+            var latestAssignedVersion = 0;
+            var latestAssignedUsers;
+
+            for (var i = 0; i < formVersions.length; i++) {
+                if (formVersions[i].form_version >= latestAssignedVersion) {
+                    latestAssignedVersion = formVersions[i].form_version;
+                    latestAssignedUsers = formVersions[i].assigned_users;
+
+                    if (formVersions[i].read_users) {
+                        let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...formVersions[i].assigned_users]);
+                        latestAssignedUsers = Array.from(uniqueAssignedUsers);
+                    }
+                }
+            }
+
+            latestAssignedUsers = latestAssignedUsers.filter(user => user !== unassignedUser);
+
+            updateDocument = await forms.updateMany(
+                { form_control_number : selectedFormControlNumberToView },
+                { $set: { assigned_users : latestAssignedUsers } }
+            );
+
+            var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
+            console.log("This are the updated assigned users: " + JSON.stringify(allAssignedUsers));
+
+            res.send({ status_code : 0, allAssignedUsers : allAssignedUsers });
+
+        } catch(error){
+            logError('There was an error at AJAX function in unassigning users: ' + error);
+            res.send({ status_code : 1 });
+        }
+    } else {
         res.render('login', {
             title: 'Login Page'
         });
