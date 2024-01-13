@@ -2159,8 +2159,8 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
     if(req.session.loggedIn){
         var formData = req.body;
         var selectedFormControlNumberToView = formData.formControlNumber;
-        var submittedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
         var updateDocument;
+        var submittedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
 
         if(!submittedForm){
             logStatus("Could not find the form.");
@@ -2186,7 +2186,8 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
                 );
             }
         }
-        res.send({ status_code : 0, secretary_approval : submittedForm.secretary_approval, dean_approval : submittedForm.dean_approval, department_head_approval : submittedForm.department_head_approval });
+        var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+        res.send({ status_code : 0, secretary_approval : updatedForm.secretary_approval, dean_approval : updatedForm.dean_approval, department_head_approval : updatedForm.department_head_approval });
     }else{
         res.render('login', {
             title: 'Login Page'
@@ -2221,7 +2222,8 @@ app.put('/AJAX_renderSubmittedForm', async function(req, res) {
 
             try{
                 jsonObject.form_content = g;
-                res.send({ status_code : 0, formContent : jsonObject.form_content, submittedForm: submittedForm, currentUserFiles : currentUserFiles });
+                var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+                res.send({ status_code : 0, formContent : jsonObject.form_content, submittedForm: updatedForm, currentUserFiles : currentUserFiles });
             }catch(error){
                 logError("Error at view form version for front end: " + error);
             }

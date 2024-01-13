@@ -549,16 +549,19 @@ block body
                         var userApprovals = response.submittedForm;
 
                         if(userApprovals.secretary_approval == undefined || userApprovals.secretary_approval == ''){
+                            document.getElementById("secretaryApproval").innerHTML = "Secretary : Not Approved";
                         }else{
-                            document.getElementById("secretaryApproval").innerHTML = "Secretary Approval : " + userApprovals.secretary_approval;
+                            document.getElementById("secretaryApproval").innerHTML = "Secretary : " + userApprovals.secretary_approval;
                         }
                         if(userApprovals.dean_approval == undefined || userApprovals.dean_approval == ''){
+                            document.getElementById("deanApproval").innerHTML = "Dean : Not Approved";
                         }else{
-                            document.getElementById("deanApproval").innerHTML = "Dean Approval : " + userApprovals.dean_approval;
+                            document.getElementById("deanApproval").innerHTML = "Dean : " + userApprovals.dean_approval;
                         }
                         if(userApprovals.department_head_approval == undefined || userApprovals.department_head_approval == ''){
+                            document.getElementById("departmentHeadApproval").innerHTML = "Department Head : Not Approved";
                         }else{
-                            document.getElementById("departmentHeadApproval").innerHTML = "Department Head Approval : " + userApprovals.department_head_approval;
+                            document.getElementById("departmentHeadApproval").innerHTML = "Department Head : " + userApprovals.department_head_approval;
                         }
 
                         var table = $('#filesTable').DataTable();
@@ -599,22 +602,26 @@ block body
                 data: data,
                 success: function(response){
                     if(response.status_code === 0){
-                        alert("Submitted form was approved.");
                         var secretaryApproval = response.secretary_approval;
                         var deanApproval = response.dean_approval;
                         var departmentHeadApproval = response.department_head_approval;
 
-                        if(secretaryApproval == undefined || secretaryApproval == '' || secretaryApproval == null){
-                        }else if(secretaryApproval === "Approved"){
-                            document.getElementById("secretaryApproval").innerHTML = "Secretary Approval : " + secretaryApproval;
-                        }else if(deanApproval == undefined || deanApproval == '' || deanApproval == null){
-                        }else if(deanApproval === "Approved"){
-                            document.getElementById("deanApproval").innerHTML = "Dean Approval : " + deanApproval;
-                        }else if(departmentHeadApproval == undefined || departmentHeadApproval == '' || departmentHeadApproval == null){
-                        }else if(departmentHeadApproval === "Approved"){
-                            document.getElementById("departmentHeadApproval").innerHTML = "Department Head Approval : " + departmentHeadApproval;
+                        if(secretaryApproval === "Approved"){
+                            document.getElementById("secretaryApproval").innerHTML = "Secretary : " + secretaryApproval;
+                        }else{
+                            document.getElementById("secretaryApproval").innerHTML = "Secretary : Not Approved";
                         }
-
+                        if(deanApproval === "Approved"){
+                            document.getElementById("deanApproval").innerHTML = "Dean : " + deanApproval;
+                        }else{
+                            document.getElementById("deanApproval").innerHTML = "Dean : Not Approved";
+                        }
+                        if(departmentHeadApproval === "Approved"){
+                            document.getElementById("departmentHeadApproval").innerHTML = "Department Head : " + departmentHeadApproval;
+                        }else{
+                            document.getElementById("departmentHeadApproval").innerHTML = "Department Head : Not Approved";
+                        }
+                        alert("Submitted form was approved.");
                     }else if(response.status_code === 1){
                         alert("Error in approving the form.");
                     }else if(response.status_code === 2){
@@ -770,8 +777,8 @@ block body
                     if (response.status_code === 1) {
                         alert("Error in submitting the form.");
                     } else if (response.status_code === 0) {
-                        updateDropdownOptions(response.allUserFormVersions);
                         alert("Successfully submitted the form.");
+                        updateDropdownOptions(response.allUserFormVersions);
                         document.getElementById('form-content').innerHTML = response.initialTemplate;
                         hideSaveFormModal();
                     } else {
