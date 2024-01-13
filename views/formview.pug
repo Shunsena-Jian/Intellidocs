@@ -32,7 +32,7 @@ block body
                                     h2 Share Document
                                     hr
                                     .w3-row
-                                        input(id='employee_email' name='employee_email' placeholder="Employee ID")
+                                        input(id='employee_email' name='employee_email' placeholder="Employee Email")
                                     .w3-row
                                         select#accessLevel(name='accessLevel')
                                             option(value='Viewer') Viewer
@@ -83,8 +83,7 @@ block body
                         hr
                         .w3-third
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                h2 Details
-                                hr
+                                h2 Form Details
                                 .w3-row
                                     h4 #{form_template.form_name}
                                     h4#formDetailsActivateSetting Status : #{form_template.form_status}
@@ -92,22 +91,24 @@ block body
                                         h4 Due Date : None
                                     else
                                         h4#formDueDate Due Date : #{form_template.due_date}
+                                hr
+                                h2 Approvals
+                                .w3-row
                                     if (!form_template.secretary_approval)
-                                        h4#secretaryApproval Secretary Approval : Not Approved
+                                        h4#secretaryApproval Secretary : Not Approved
                                     if (!form_template.dean_approval)
-                                        h4#deanApproval Dean Approval : Not Approved
+                                        h4#deanApproval Dean : Not Approved
                                     if (!form_template.department_head_approval)
-                                        h4#departmentHeadApproval Department Head Approval : Not Approved
+                                        h4#departmentHeadApproval Department Head : Not Approved
 
                         .w3-third
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                h2 Settings
-                                hr
+                                h2 Form Settings
                                 .w3-row
                                     button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
-                                br
+                                hr
+                                h2 Due Date
                                 .w3-row
-                                    label(for="dueDateInput") Due Date
                                     input(type="date" id="dueDateInput" name="birthday")
                                 br
                                 .w3-row
@@ -118,7 +119,6 @@ block body
                         .w3-third
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h2 Assign User
-                                hr
                                 .w3-row
                                     input(id='assign_user' name='employee_email' placeholder="Employee ID")
                                 br
@@ -129,7 +129,6 @@ block body
                                 hr
                                 h2 Assign Department
                                 .w3-row
-                                    label(for='assignDepartment') Assign Department:
                                     select#assignDepartment(name='assignDepartment')
                                         option(value='null') Choose Department
                                         option(value='Information Technology') Information Technology
@@ -335,6 +334,7 @@ block body
                     data: data,
                     success: function(response){
                         if(response.status_code === 0){
+                            alert("You have assigned " + chosenDepartment + " in this form.");
                             var updatedData3 = response.allAssignedUsers;
                             table6.clear().draw();
 
@@ -723,6 +723,7 @@ block body
                         if (response.status_code === 1) {
                             alert("No user was assigned to the form");
                         } else if (response.status_code === 0) {
+                            alert("You have assigned " + selectedUserToAssign + " in this form.");
                             var updatedData2 = response.allAssignedUsers;
                             table5.clear().draw();
 
