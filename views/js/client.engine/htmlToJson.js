@@ -45,7 +45,7 @@ function elementToJson(element,inputFieldValuesJSON) {
                     if (inputValueFromJson !== null) {
                         jsonElementFormat.ele_attributes.key = inputKeyAttribute;
 
-                        if (inputType.toLowerCase() === 'text' || inputType.toLowerCase() === 'date') {
+                        if (inputType.toLowerCase() === 'text' || inputType.toLowerCase() === 'date' || inputType.toLowerCase() === 'number') {
                             jsonElementFormat.ele_attributes.value = inputValueFromJson;
                         } else if (inputType.toLowerCase() === 'checkbox' || inputType.toLowerCase() === 'radio') {
                             if(inputValueFromJson==="checked"){
@@ -135,7 +135,7 @@ function iterateAndGetData() {
                 var inputValue;
 
                 // Check input type
-                if (inputType.toLowerCase() === 'text' || inputType.toLowerCase() === 'date') {
+                if (inputType.toLowerCase() === 'text' || inputType.toLowerCase() === 'date' || inputType.toLowerCase() === 'number') {
                     inputValue = element.value;
                 } else if (inputType.toLowerCase() === 'checkbox' || inputType.toLowerCase() === 'radio') {
                     inputValue = element.checked ? 'checked' : 'unchecked';
