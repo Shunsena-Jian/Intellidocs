@@ -1,21 +1,21 @@
 extends formviewlayout.pug
 
 block body
-    #main.w3-main(style='margin-left:250px')
+    #main.w3-main(style='margin-left:250px; margin-bottom: 90px;')
         .w3-row.w3-padding-32
         if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Document Controller" || currentUserDetailsBlock.empID != currentForm.form_owner)
         else
             if (currentUserDetailsBlock.empID == currentForm.form_owner)
-                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                .w3-container.w3-card.w3-white.w3-round
                     .w3-row
-                        h1.w3-center Form Name: #{currentForm.form_name}
+                        h1.w3-center.w3-bold #{currentForm.form_name}
 
                     .w3-row
                         .w3-twothird.w3-container2
                             h2 Form Details
                             hr
                             .w3-third
-                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                .w3-container.w3-card.w3-white.w3-round.w3-margin
                                     h2 Version History
                                     hr
                                     .w3-row
@@ -28,7 +28,7 @@ block body
                                             i.fa.fa-refresh.fa-fw.w3-margin-right
                                             |   Load Form
                             .w3-third
-                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                .w3-container.w3-card.w3-white.w3-round.w3-margin
                                     h2 Share Document
                                     hr
                                     .w3-row
@@ -44,7 +44,7 @@ block body
                                             |   Share
 
                             .w3-third
-                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                .w3-container.w3-card.w3-white.w3-round.w3-margin
                                     h2 Shared with
                                     hr
                                     each sharedReadItem in sharedRead
@@ -61,7 +61,7 @@ block body
                             h2 Form Settings
                             hr
                             .w3-row
-                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                .w3-container.w3-white.w3-round.w3-margin
                                     .w3-row
                                         button.w3-button.w3-block.w3-theme-dark(onclick='showSaveFormModal()')
                                             i.fa.fa-floppy-o.fa-fw.w3-margin-right
@@ -70,10 +70,6 @@ block body
                                         button.w3-button.w3-block.w3-theme-dark(onclick='submitForm()')
                                             i.fas.fa-cloud-upload-alt.w3-margin-right
                                             |   Submit Form
-                                        br
-                                        button.w3-button.w3-block.w3-theme-dark(onclick='downloadAsPDF()')
-                                            i.fa.fa-download.fa-fw.w3-margin-right
-                                            |   Download as PDF
 
         if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Dean" || currentUserDetailsBlock.userLevel === "Department Head" )
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
@@ -190,7 +186,7 @@ block body
 
 
         .w3-row
-            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+            .w3-container2.w3-white.w3-round.w3-margin
                 #enginePlaceHolder
                 //#theContainerOfTheForm
 
