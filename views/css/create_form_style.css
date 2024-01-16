@@ -78,6 +78,8 @@
     margin: 10px auto; /* Center horizontally with margin:auto */
     padding: 36px;
     border: 1px solid #000000;
+    margin-bottom: 90px;
+    overflow-x: auto; /* Add horizontal scroll if necessary */
 }
 .w3-landscape-rectangle{
     height:100mm;

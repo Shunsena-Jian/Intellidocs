@@ -216,7 +216,6 @@ function modifyOrientation() {
 		// Remove the 'landscape' class from all drop containers
 	    dropContainer.classList.add("w3-landscape-rectangle");
 	}
-	dropContainer.classList.add("w3-box");
 	const computedStyle = getComputedStyle(dropContainer);
 
     // Extract the padding value
