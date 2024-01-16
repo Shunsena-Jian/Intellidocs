@@ -12,7 +12,6 @@
 
 
 .grid-container {
-  align-items:center;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -29,8 +28,14 @@
   min-height: 20px;
 }
 
+.grid-item-container {
+  padding: 5px 5px;
+  min-width: 50px; /* Set a minimum width for each column */
+  min-height: 20px;
+  flex: 1;
+}
+
 .grid-container-vertical {
-  align-items:center;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -40,10 +45,8 @@
   overflow-x: hidden;
 }
 
-
 .grid-item:hover {
   background: #808080;
-
 }
 
 .borderless {

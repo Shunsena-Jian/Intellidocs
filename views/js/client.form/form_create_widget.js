@@ -131,7 +131,7 @@ function appendCheckBoxItem(container) {
 
 function appendGridItem(container) {
     // Clone one of the existing grid items
-    var childToClone = container.querySelector(".grid-item"); // Select the first child as an example
+    var childToClone = container.querySelector(".grid-item-container"); // Select the first child as an example
     var newGridItem = childToClone.cloneNode(true);
 
     // Clear the content of the new grid item
@@ -142,10 +142,10 @@ function appendGridItem(container) {
 }
 
 function removeLastGridItem(container) {
-    var gridItems = container.querySelectorAll(".grid-item");
+    var gridItems = container.querySelectorAll(".grid-item-container");
     if (gridItems.length > 1) {
         var lastGridItem = gridItems[gridItems.length - 1];
-        lastGridItem.remove();
+        selectedTextBox.remove();
     } else if (gridItems.length === 1) {
         if (confirm("There is only one section left. Confirming deletion would delete the element in the canvas. Proceed?")) {
             // If there's only one grid item, remove the entire container
