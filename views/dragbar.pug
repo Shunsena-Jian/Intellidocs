@@ -604,7 +604,6 @@
 
                         td
 
-
 script.
 
     var widgets = !{JSON.stringify(currentUserWidgets)};
@@ -626,7 +625,80 @@ script.
         }
     }
 
+    function saveExistingWidgets() {
+        const main = document.getElementById("main");
+        const draggableContentElement = main.querySelector('.draggable-content');
+        const draggableElements = draggableContentElement.querySelectorAll('[draggable="true"]');
+        const savedWidgets = [];
 
+        draggableElements.forEach(main => {
+            const parentElement = main.parentElement;
+            var widgetCategory;
+
+            switch (parentElement.id) {
+                case 'personalizedFieldsContainer':
+                    widgetCategory = 'Personalized';
+                    break;
+                case 'headerFieldsContainer':
+                    widgetCategory = 'Header';
+                    break;
+                case 'infoInputFieldsContainer':
+                    widgetCategory = 'Information';
+                    break;
+                case 'widgetCheckBoxContainer':
+                    widgetCategory = 'Checkbox';
+                    break;
+                case 'groupedFieldsContainer':
+                    widgetCategory = 'Grouped';
+                    break;
+                case 'textFieldsContainer':
+                    widgetCategory = 'Text';
+                    break;
+                case 'signatureFieldsContainer':
+                    widgetCategory = 'Signature';
+                    break;
+                case 'tableFieldsContainer':
+                    widgetCategory = 'Table';
+                    break;
+                default:
+                    widgetCategory = 'Unknown Widget Type';
+            }
+
+                // Extract the outerHTML of the element
+                const widgetContentHTML = main.outerHTML;
+
+                const data = {
+                    //name: widgetName, // Ensure you define widgetName appropriately
+                    category: widgetCategory,
+                    widgetContent: widgetContentHTML
+                };
+                savedWidgets.push(data);
+
+                fetch('/savecreatedwidget', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
+                }).then(data => {
+                    const success = data.success; // Assuming the response contains a 'success' property
+                    if (success) {
+                        alert("Widget Created!")
+                        window.location.href = '/';
+                    } else {
+                    }
+                }).catch(error => {
+                    console.error('Fetch error:', error);
+                });
+        });
+        console.log(savedWidgets);
+    }
 
 
     function goToCreateWidget(){
