@@ -369,8 +369,8 @@ app.post('/savecreatedwidget', async function(req, res){
 
             const widgetDocument = {
                 widget_name: widgetData.name,
-                widget_content: widgetData.widgetContent,
-                widget_owner: req.session.userEmpID
+                widget_category: widgetData.category,
+                widget_content: widgetData.widgetContent
             };
 
             const result = await widgets.insertOne(widgetDocument);
