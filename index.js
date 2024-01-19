@@ -1197,7 +1197,14 @@ app.get('/createform', async function(req, res){
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
-        currentUserWidgets = await getWidgets(req.session.userEmpID);
+        currentPersonalizedWidgets = await getPersonalizedWidgets(req.session.userEmpID);
+        currentHeaderWidgets = await getHeaderWidgets(req.session.userEmpID);
+        currentInformationInputWidgets = await getInformationInputWidgets(req.session.userEmpID);
+        currentCheckBoxWidgets = await getCheckBoxWidgets(req.session.userEmpID);
+        currentGroupedWidgets = await getGroupedWidgets(req.session.userEmpID);
+        currentTextWidgets = await getTextWidgets(req.session.userEmpID);
+        currentSignatureWidgets = await getSignatureWidgets(req.session.userEmpID);
+        currentTableWidgets = await getTableWidgets(req.session.userEmpID);
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
@@ -2365,17 +2372,108 @@ async function getForms(empID){
     return formsCollections;
 }
 
-async function getWidgets(empID){
-    var widgetsCollections;
+async function getPersonalizedWidgets(empID){
+    var personalizedWidgets;
     try{
-        widgetsCollections = await widgets.find().toArray();
-        logStatus("The array forms at function getWidgets() : " + JSON.stringify(widgetsCollections));
+        personalizedWidgets = await widgets.find({ widget_category : "Personalized" }).toArray();
+        logStatus("The array forms at function getPersonalizedWidgets() : " + JSON.stringify(personalizedWidgets));
 
     }catch (error){
-        widgetsCollections = [];
+        personalizedWidgets = [];
+        logError("Failed to retrieve personalized widgets: " + error);
+    }
+    return personalizedWidgets;
+}
+
+async function getHeaderWidgets(empID){
+    var headerWidgets;
+    try{
+        headerWidgets = await widgets.find({ widget_category : "Header" }).toArray();
+        logStatus("The array forms at function getHeaderWidgets() : " + JSON.stringify(headerWidgets));
+
+    }catch (error){
+        headerWidgets = [];
+        logError("Failed to retrieve header widgets: " + error);
+    }
+    return headerWidgets;
+}
+
+async function getInformationInputWidgets(empID){
+    var informationWidgets;
+    try{
+        informationWidgets = await widgets.find({ widget_category : "Information" }).toArray();
+        logStatus("The array forms at function getInformationInputWidgets() : " + JSON.stringify(informationWidgets));
+
+    }catch (error){
+        informationWidgets = [];
         logError("Failed to retrieve forms: " + error);
     }
-    return widgetsCollections;
+    return informationWidgets;
+}
+
+async function getCheckBoxWidgets(empID){
+    var checkboxWidgets;
+    try{
+        checkboxWidgets = await widgets.find({ widget_category : "Checkbox" }).toArray();
+        logStatus("The array forms at function getCheckBoxWidgets() : " + JSON.stringify(checkboxWidgets));
+
+    }catch (error){
+        checkboxWidgets = [];
+        logError("Failed to retrieve forms: " + error);
+    }
+    return checkboxWidgets;
+}
+
+async function getGroupedWidgets(empID){
+    var groupedWidgets;
+    try{
+        groupedWidgets = await widgets.find({ widget_category : "Grouped" }).toArray();
+        logStatus("The array forms at function getGroupedWidgets() : " + JSON.stringify(groupedWidgets));
+
+    }catch (error){
+        groupedWidgets = [];
+        logError("Failed to retrieve forms: " + error);
+    }
+    return groupedWidgets;
+}
+
+async function getTextWidgets(empID){
+    var textWidgets;
+    try{
+        textWidgets = await widgets.find({ widget_category : "Text" }).toArray();
+        logStatus("The array forms at function getTextWidgets() : " + JSON.stringify(textWidgets));
+
+    }catch (error){
+        textWidgets = [];
+        logError("Failed to retrieve forms: " + error);
+    }
+    return textWidgets;
+}
+
+async function getSignatureWidgets(empID){
+    var signatureWidgets;
+    try{
+        signatureWidgets = await widgets.find({ widget_category : "Signature" }).toArray();
+        logStatus("The array forms at function getSignatureWidgets() : " + JSON.stringify(signatureWidgets));
+
+    }catch (error){
+        signatureWidgets = [];
+        logError("Failed to retrieve forms: " + error);
+    }
+    return signatureWidgets;
+}
+
+async function getTableWidgets(empID){
+    var tableWidgets;
+    try{
+        tableWidgets = await widgets.find({ widget_category : "Table" }).toArray();
+        logStatus("The array forms at function getTableWidgets() : " + JSON.stringify(tableWidgets));
+
+    }catch (error){
+        tableWidgets = [];
+        logError("Failed to retrieve forms: " + error);
+    }
+    return tableWidgets;
 }
 
 async function getFiles(empID){

@@ -10,14 +10,14 @@ block body
                         input#widgetName.w3-row.w3-input.w3-margin.w3-padding-16.w3-text-size-30(placeholder="Type Widget Name [Required]" required='')
                         label.w3-margin-left(for='widgetCategory') Widget Category:
                         select#widgetCategory.w3-margin(onchange='')
-                            option(value='personalized') Personalized
-                            option(value='header') Header
-                            option(value='information') Information
-                            option(value='checkbox') Checkbox
-                            option(value='grouped') Grouped
-                            option(value='text') Text
-                            option(value='signature') Signature
-                            option(value='table') Table
+                            option(value='Personalized') Personalized
+                            option(value='Header') Header
+                            option(value='Information') Information
+                            option(value='Checkbox') Checkbox
+                            option(value='Grouped') Grouped
+                            option(value='Text') Text
+                            option(value='Signature') Signature
+                            option(value='Table') Table
                     .w3-half
                         .w3-third.w3-right
                             br
@@ -95,34 +95,40 @@ block body
             var widgetCanvas = document.getElementById('widgetCanvas').innerHTML;
             var widgetName = document.getElementById('widgetName').value;
             var widgetCategory = document.getElementById('widgetCategory').value;
-            const data = {
-                name: widgetName,
-                category: widgetCategory,
-                widgetContent: widgetCanvas
-            };
 
-            fetch('/savecreatedwidget', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Network response was not ok');
-                }
-            }).then(data => {
-                const success = data.success; // Assuming the response contains a 'success' property
-                if (success) {
-                    alert("Widget Created!")
-                    window.location.href = '/';
-                } else {
-                }
-            }).catch(error => {
-                console.error('Fetch error:', error);
-            });
+            if(widgetName === null || widgetName === undefined || widgetName === ""){
+                alert("Please put a widget name.");
+            } else {
+                const data = {
+                    name: widgetName,
+                    category: widgetCategory,
+                    widgetContent: widgetCanvas
+                };
+
+                fetch('/savecreatedwidget', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
+                }).then(data => {
+                    const success = data.success; // Assuming the response contains a 'success' property
+                    if (success) {
+                        alert("Widget Created!")
+                        window.location.href = '/';
+                    } else {
+                    }
+                }).catch(error => {
+                    console.error('Fetch error:', error);
+                });
+            }
+
         }
 
         //end of play playground
