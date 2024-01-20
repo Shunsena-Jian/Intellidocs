@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* formview.pug&#10;// Changed placeholder on Assigning Users to Employee Email&#10;// Fixed design of different containers&#10;// Now shows an alert when assigning a user or department has been successful">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* dragbar.pug&#10;// Removed all hardcoded widgets&#10;// Now retrieves all widgets depending on their categories then places them in their respective containers.&#10;&#10;* index.js&#10;// Created functions to retrieve different widgets according to their categories.">
+      <change afterPath="$PROJECT_DIR$/uploads/DC-001/.gitconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/FC-002/1.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/intellijent.widgets.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/intellijent.widgets.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/createwidget.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createwidget.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/dragbar.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/dragbar.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
     </list>
@@ -45,22 +47,25 @@
   <component name="ProjectId" id="2YMlDyWTuW2a3Tes9eOK0nkJkrz" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/fogef/OneDrive/Desktop/the sacred timeline/FINAL BRANCH/FINAL BRANCH&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/fogef/OneDrive/Desktop/the sacred timeline/FINAL BRANCH/FINAL BRANCH",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="intellidocs" />
@@ -173,7 +178,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705135054125</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="* dragbar.pug&#10;// Removed all hardcoded widgets&#10;// Now retrieves all widgets depending on their categories then places them in their respective containers.&#10;&#10;* index.js&#10;// Created functions to retrieve different widgets according to their categories.">
+      <option name="closed" value="true" />
+      <created>1705654139236</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1705654139236</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -188,6 +201,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="* formview.pug&#10;// Created a validation for existing users in assigning users to a form&#10;&#10;* handle_ajax_share_form.js&#10;// Created a validation for existing users in sharing forms to a user" />
     <MESSAGE value="* index.js&#10;// Created an AJAX Function for backend to verify if shared form is present in the database&#10;// Created an app.get function to render sharedview with the proper form to view&#10;&#10;* sharedview.pug &amp;&amp; sharedviewlayout.pug&#10;// Fixed called external files&#10;// created an if else statement for validation if present&#10;&#10;* viewforms.pug&#10;// Created an AJAX function to call the AJAX from backend to reference the sharedview page" />
     <MESSAGE value="* formview.pug&#10;// Debugged for Approval&#10;// Bug at AJAX updating status on table for approvals&#10;&#10;* index.js&#10;// Debugged viewing shared form" />
@@ -199,6 +213,7 @@
     <MESSAGE value="* createusers.pug&#10;// Created an AJAX function for handling user creation&#10;&#10;* index.js&#10;// Created validations for existing ID&#10;// If user is Faculty or Department Head they should have a department&#10;// If user is neither a Faculty or Department Head, user department value in a document will not be inserted in the database&#10;&#10;* intellijent.users.json&#10;// Recreated some of the users with different user departments" />
     <MESSAGE value="* formview.pug&#10;// Created a feature to assign a whole department of employees&#10;// Added an information of what department are the employees in the table&#10;&#10;* index.js&#10;// Created an AJAX function that will properly insert the different faculty departments in the database while retrieving the whole departments information to the front end to update the table&#10;&#10;* intellijent.privileges.json&#10;// WAG NYO TONG PANSININ, PAPANSIN TO" />
     <MESSAGE value="* formview.pug&#10;// Changed placeholder on Assigning Users to Employee Email&#10;// Fixed design of different containers&#10;// Now shows an alert when assigning a user or department has been successful" />
-    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug&#10;// Changed placeholder on Assigning Users to Employee Email&#10;// Fixed design of different containers&#10;// Now shows an alert when assigning a user or department has been successful" />
+    <MESSAGE value="* dragbar.pug&#10;// Removed all hardcoded widgets&#10;// Now retrieves all widgets depending on their categories then places them in their respective containers.&#10;&#10;* index.js&#10;// Created functions to retrieve different widgets according to their categories." />
+    <option name="LAST_COMMIT_MESSAGE" value="* dragbar.pug&#10;// Removed all hardcoded widgets&#10;// Now retrieves all widgets depending on their categories then places them in their respective containers.&#10;&#10;* index.js&#10;// Created functions to retrieve different widgets according to their categories." />
   </component>
 </project>

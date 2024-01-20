@@ -500,6 +500,9 @@ app.put('/submitform', async function(req, res){
                     academic_year: currentForm.academic_year,
                     semester: currentForm.semester,
                     date_submitted: getDateNow(),
+                    dean_approval: "Not Approved",
+                    department_head_approval: "Not Approved",
+                    secretary_approval: "Not Approved",
                 };
 
                 const result = await filledoutforms.insertOne(filledOutDocument);
@@ -592,7 +595,10 @@ app.put('/savefilledoutform', async function(req, res){
                     quarter_due_date: currentForm.quarter_due_date,
                     annual_due_date: currentForm.annual_due_date,
                     academic_year: currentForm.academic_year,
-                    semester: currentForm.semester
+                    semester: currentForm.semester,
+                    dean_approval: "Not Approved",
+                    department_head_approval: "Not Approved",
+                    secretary_approval: "Not Approved",
                 };
 
                 const result = await filledoutforms.insertOne(filledOutDocument);
@@ -719,7 +725,10 @@ app.get('/formview/:form_control_number', async function (req, res){
                 quarter_due_date: currentForm.quarter_due_date,
                 annual_due_date: currentForm.annual_due_date,
                 academic_year: currentForm.academic_year,
-                semester: currentForm.semester
+                semester: currentForm.semester,
+                dean_approval: "Not Approved",
+                department_head_approval: "Not Approved",
+                secretary_approval: "Not Approved",
             };
 
             const result = await filledoutforms.insertOne(filledOutDocument);
@@ -782,8 +791,7 @@ app.get('/formview/:form_control_number', async function (req, res){
         }
 
         var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
-
-
+        var previouslySubmittedForms = await filledoutforms.find({ form_owner : req.session.userEmpID, form_status : "Submitted" }).toArray();
     //    currentUserFiles = await getFiles(req.session.userEmpID);
 
         res.render('formview', {
@@ -801,7 +809,8 @@ app.get('/formview/:form_control_number', async function (req, res){
             submittedVersions: submittedVersions,
             sharedRead: sharedRead,
             sharedWrite: sharedWrite,
-            allAssignedUsers: allAssignedUsers
+            allAssignedUsers: allAssignedUsers,
+            previouslySubmittedForms: previouslySubmittedForms
         });
     }else{
         res.render('login', {

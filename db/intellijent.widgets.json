@@ -2,7 +2,7 @@
   "_id": {
     "$oid": "65a7f570e3f1dc7de47b98a0"
   },
-  "widget_name": null,
+  "widget_name": "Document Header Table",
   "widget_category": "Header",
   "widget_content": "<div class=\"header w3-row draggable box w3-margin-small\" draggable=\"true\"><table class=\"form-table right w3-bold form-table w3-font-size-10 header-table hori-col\"><tbody><tr><th>Document Code</th><th>FM-SMI-027</th></tr><tr><th>Revision No.</th><th>01</th></tr><tr><th>Effectivity</th><th>April 01, 2023</th></tr><tr><th>Page</th><th class=\"page-number\">1 of 1</th></tr></tbody></table></div>"
 },
@@ -10,7 +10,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98a3"
   },
-  "widget_name": null,
+  "widget_name": "Document Header Semester and Academic Year",
   "widget_category": "Header",
   "widget_content": "<div class=\"header w3-row w3-container w3-margin-left w3-margin-right w3-bold w3-center box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col s3\"><img class=\"w3-image\" src=\"../src/slu_logo.png\"></div><div class=\"w3-col s6 w3-bold w3-center\"><div class=\"w3-center text-label\">Saint Louis University</div><div class=\"w3-center\"><h5>SCHOOL: School of Accountancy, Management, Computing, and Information Studies</h5><h5>DEPARTMENT: Computing and Information Studies</h5><h5 class=\"w3-bold\">SUMMARY OF FACULTY TEACHING AND OTHER ENGAGEMENTS</h5><div class=\"center w3-row\"><div class=\"w3-half\"><label id=\"term\">SEMESTER:<input class=\"w3-input w3-center w3-row\" readonly=\"\" for=\"term\" type=\"text\" maxlength=\"10\" size=\"10\" placeholder=\"1st/2nd\"></label></div><div class=\"w3-half\"><label id=\"schoolYear\">AY:<input class=\"w3-input w3-center w3-row\" readonly=\"\" for=\"schoolYear\" type=\"text\" maxlength=\"10\" size=\"10\" placeholder=\"2023-2024\"></label></div></div></div></div><div class=\"w3-col s3\"><table class=\"form-table w3-bold w3-font-size-10 header-table\"><tbody><tr><th>Document Code</th><th>FMI-SMI-027</th></tr><tr><th>Revision No.</th><th>01</th></tr><tr><th>Effectivity</th><th>April 01, 2023</th></tr><tr><th>Page</th><th class=\"page-number\">1 of 1</th></tr></tbody></table></div></div>"
 },
@@ -18,7 +18,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98a4"
   },
-  "widget_name": null,
+  "widget_name": "Document Header Term and Academic Year",
   "widget_category": "Header",
   "widget_content": "<div class=\"header w3-row w3-container w3-margin-left w3-margin-right w3-bold w3-center box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col s3\"><img class=\"w3-image\" src=\"../src/slu_logo.png\"></div><div class=\"w3-col s6 w3-bold w3-center\"><div class=\"w3-center text-label\">SAINT LOUIS UNIVERSITY</div><div class=\"w3-center\"><h5>SCHOOL:</h5><h5>School of Accountancy, Management, Computing, and Information Studies</h5><div class=\"center w3-row\"><div class=\"w3-half\"><label id=\"term\">TERM:<input class=\"w3-input w3-center w3-row\" readonly=\"\" for=\"term\" type=\"text\" maxlength=\"10\" size=\"10\" placeholder=\"PRELIM/MIDTERM/FINAL\"></label></div><div class=\"w3-half\"><label id=\"schoolYear\">AY:<input class=\"w3-input w3-center w3-row\" readonly=\"\" for=\"schoolYear\" type=\"text\" maxlength=\"10\" size=\"10\" placeholder=\"2023-2024\"></label></div></div></div></div></div>"
 },
@@ -26,7 +26,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98a5"
   },
-  "widget_name": null,
+  "widget_name": "Document Header Notice Checkbox",
   "widget_category": "Header",
   "widget_content": "<div class=\"header w3-row w3-container w3-margin-left w3-margin-right w3-bold w3-center box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col s3\"><img class=\"w3-image\" src=\"../src/slu_logo.png\"></div><div class=\"w3-col s6 w3-bold w3-center\"><br></div><div class=\"w3-col s3\"><table class=\"form-table w3-bold w3-font-size-10 header-table\"><tbody><tr><th>Document Code</th><th>FMI-SMI-027</th></tr><tr><th>Revision No.</th><th>01</th></tr><tr><th>Effectivity</th><th>April 01, 2023</th></tr><tr><th>Page</th><th class=\"page-number\">1 of 1</th></tr></tbody></table><div class=\"w3-container\"><label class=\"w3-row\"><input type=\"checkbox\" name=\"notice\" value=\"without notice\">WITHOUT NOTICE</label></div><div class=\"w3-container\"><label class=\"w3-row\"><input type=\"checkbox\" name=\"notice\" value=\"with notice\">WITH NOTICE</label></div></div></div>"
 },
@@ -34,7 +34,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98a1"
   },
-  "widget_name": null,
+  "widget_name": "Document Header Version 1",
   "widget_category": "Header",
   "widget_content": "<div class=\"header w3-row w3-container w3-margin-left w3-margin-right w3-bold w3-center box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col s3\"><img class=\"w3-image\" src=\"../src/slu_logo.png\"></div><div class=\"w3-col s6 w3-bold w3-center\"><div class=\"w3-center text-label\">Saint Louis University</div><div class=\"w3-underline w3-center w3-margin-left w3-margin-right text-label\">SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES</div><h5 class=\"w3-center w3-row\">   FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]')</h5></div><div class=\"w3-col s3\"><table class=\"form-table w3-bold w3-font-size-10 header-table\"><tbody><tr><th>Document Code</th><th>FMI-SMI-027</th></tr><tr><th>Revision No.</th><th>01</th></tr><tr><th>Effectivity</th><th>April 01, 2023</th></tr><tr><th>Page</th><th class=\"page-number\">1 of 1</th></tr></tbody></table></div></div>"
 },
@@ -42,7 +42,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98a2"
   },
-  "widget_name": null,
+  "widget_name": "Document Header Table and Logo",
   "widget_category": "Header",
   "widget_content": "<div class=\"header w3-row w3-container w3-margin-left w3-margin-right w3-bold w3-center box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col s3\"><img class=\"w3-image\" src=\"../src/slu_logo.png\"></div><div class=\"w3-col s6 w3-bold w3-center\"><br></div><div class=\"w3-col s3\"><table class=\"form-table w3-bold w3-font-size-10 header-table\"><tbody><tr><th>Document Code</th><th>FMI-SMI-027</th></tr><tr><th>Revision No.</th><th>01</th></tr><tr><th>Effectivity</th><th>April 01, 2023</th></tr><tr><th>Page</th><th class=\"page-number\">1 of 1</th></tr></tbody></table></div></div>"
 },
@@ -50,7 +50,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98a6"
   },
-  "widget_name": null,
+  "widget_name": "AFAR Personal Information Field",
   "widget_category": "Information",
   "widget_content": "<div class=\"w3-row box draggable w3-margin-left w3-margin-right w3-margin-small\" draggable=\"true\"><div class=\"w3-row\"><p class=\"w3-col s2 w3-left-align w3-label\">SLU ID NO</p><label class=\"w3-col s9\"><input class=\"w3-input numeric-input\" readonly=\"\" type=\"number\" maxlength=\"7\" size=\"7\" placeholder=\"ID NUMBER\"></label></div><div class=\"w3-row\"><p class=\"w3-col s2 w3-left-align w3-label\">NAME</p><label class=\"checkbox-label w3-col s3\"><input class=\"w3-input text-input\" readonly=\"\" type=\"text\" maxlength=\"50\" minlength=\"3\" placeholder=\"FAMILY NAME\"></label><label class=\"checkbox-label w3-col s3\"><input class=\"w3-input text-input\" readonly=\"\" type=\"text\" maxlength=\"50\" minlength=\"3\" placeholder=\"FIRST NAME\"></label><label class=\"checkbox-label w3-col s3\"><input class=\"w3-input text-input\" readonly=\"\" type=\"text\" maxlength=\"2\" placeholder=\"MI\"></label></div><div class=\"w3-row w3-all-center\"><p class=\"w3-col s4 w3-left-align w3-label\">Academic Status/Classification: According to Tenure</p><label class=\"checkbox-label w3-col s6\"><input readonly=\"\" type=\"radio\" value=\"probationary\" name=\"academicStatus\">                        Academic Status</label><label class=\"checkbox-label w3-col s5\"><input readonly=\"\" type=\"radio\" value=\"permanent\" name=\"academicStatus\">                        Permanent</label><label class=\"checkbox-label w3-col s5\"><input readonly=\"\" type=\"radio\" name=\"academicStatus\" value=\"contractual\">                        Contractual</label></div><div class=\"w3-row w3-all-center\"><p class=\"w3-col s4 w3-left-align w3-label\">Subject Load:</p><label class=\"checkbox-label w3-col s5\"><input id=\"full-time\" readonly=\"\" type=\"radio\" name=\"subject_load\" value=\"full-time\">                        Full-Time</label><label class=\"checkbox-label w3-col s5\"><input id=\"part-time\" readonly=\"\" type=\"radio\" name=\"subject_load\" value=\"part-time\">                        Part Time</label><label class=\"checkbox-label w3-col s5\"></label></div></div>"
 },
@@ -58,7 +58,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98a7"
   },
-  "widget_name": null,
+  "widget_name": "Radio Button Classic",
   "widget_category": "Checkbox",
   "widget_content": "<div class=\"grid-container w3-white w3-container draggable box w3-ol w3-hover-light-grey\" draggable=\"true\"><div class=\"grid-item\"><label class=\"checkbox-label w3-row\" for=\"text-1\"><input id=\"option1\" type=\"radio\" name=\"radio-1\" value=\"Option 1\" disabled=\"\"> Option 1</label></div><div class=\"grid-item\"><label class=\"checkbox-label w3-row\" for=\"text-2\"><input id=\"option2\" type=\"radio\" name=\"radio-1\" value=\"Option 2\" disabled=\"\"> Option 2</label></div><div class=\"grid-item\"><label class=\"checkbox-label w3-row\" for=\"text-3\"><input id=\"option3\" type=\"radio\" name=\"radio-1\" value=\"Option 3\" disabled=\"\"> Option 3</label></div><div class=\"grid-item\"><label class=\"checkbox-label w3-row\" for=\"text-4\"><input id=\"option4\" type=\"radio\" name=\"radio-1\" value=\"Option 4\" disabled=\"\"> Option 4</label></div></div>"
 },
@@ -66,7 +66,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98a9"
   },
-  "widget_name": null,
+  "widget_name": "Grouped Field Form Details Version 1",
   "widget_category": "Grouped",
   "widget_content": "<div class=\"w3-row w3-container w3-margin-left w3-margin-right w3-bold w3-center box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-center text-label\">Saint Louis University, Baguio City</div><div class=\"w3-underline w3-center w3-margin-left w3-margin-right text-label\">SCHOOL OF ACCOUNTANCY, MANAGEMENT COMPUTING, AND INFORMATION STUDIES</div><input class=\"w3-input w3-center w3-row\" readonly=\"\" type=\"text\" maxlength=\"50\" size=\"50\" placeholder=\"FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]\"></div>"
 },
@@ -74,7 +74,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98aa"
   },
-  "widget_name": null,
+  "widget_name": "Grouped Field Form Details Version 2",
   "widget_category": "Grouped",
   "widget_content": "<div class=\"w3-row w3-container w3-margin-left w3-margin-right w3-bold w3-center box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-center text-label\">Saint Louis University, Baguio City</div><h5>SCHOOL:</h5><h5>School of Accountancy, Management, Computing, and Information Studies</h5><h5>REPORT ON THE LOAD OF A FACULTY AS A STUDENT</h5><label class=\"w3-col s5 w3-margin\"><input class=\"w3-input w3-center\" type=\"text\" name=\"semester\" placeholder=\"1st/2nd\">Semester</label><label class=\"w3-col s5 w3-margin\"><input class=\"w3-input w3-center\" readonly=\"\" type=\"text\" maxlength=\"10\" size=\"10\" placeholder=\"2023-2024\">AY</label></div>"
 },
@@ -82,7 +82,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98a8"
   },
-  "widget_name": null,
+  "widget_name": "Checkbox Button Classic",
   "widget_category": "Checkbox",
   "widget_content": "<div class=\"grid-container w3-white w3-container draggable box w3-ol w3-hover-light-grey\" draggable=\"true\"><div class=\"grid-item\"><label class=\"checkbox-label w3-row\" for=\"text-1\"><input id=\"apple\" type=\"checkbox\" name=\"checkbox-1\" value=\"text1\" disabled=\"\"> Lorem Ipsum</label></div><div class=\"grid-item\"><label class=\"checkbox-label w3-row\" for=\"text2\"><input id=\"banana\" type=\"checkbox\" name=\"checkbox-1\" value=\"text2\" disabled=\"\"> Lorem Ipsum</label></div><div class=\"grid-item\"><label class=\"checkbox-label w3-row\" for=\"text2\"><input id=\"banana\" type=\"checkbox\" name=\"checkbox-1\" value=\"text2\" disabled=\"\"> Lorem Ipsum</label></div><div class=\"grid-item\"><label class=\"checkbox-label w3-row\" for=\"text2\"><input id=\"banana\" type=\"checkbox\" name=\"checkbox-1\" value=\"text2\" disabled=\"\"> Lorem Ipsum</label></div></div>"
 },
@@ -90,7 +90,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98ab"
   },
-  "widget_name": null,
+  "widget_name": "Personal Information Field Version 2",
   "widget_category": "Grouped",
   "widget_content": "<div class=\"w3-row w3-container w3-margin-left w3-margin-right w3-bold w3-center box draggable w3-margin-small\" draggable=\"true\"><label class=\"w3-col s7\"><input class=\"w3-input w3-center\" readonly=\"\" type=\"text\" maxlength=\"10\" size=\"10\" placeholder=\"2023-2024\">AY:</label><label class=\"w3-col s2\">Semester:</label><label class=\"w3-col s1\"><input type=\"radio\" name=\"semester\" value=\"without notice\">1st</label><label class=\"w3-col s1\"><input type=\"radio\" name=\"semester\" value=\"with notice\">2nd</label><label class=\"w3-col s1\"><input type=\"radio\" name=\"semester\" value=\"with notice\">Short Term</label><p class=\"w3-col s2 w3-left-align w3-label\">NAME</p><label class=\"checkbox-label w3-col s3\"><input class=\"w3-input text-input\" readonly=\"\" type=\"text\" maxlength=\"50\" minlength=\"3\" placeholder=\"FAMILY NAME\"></label><label class=\"checkbox-label w3-col s3\"><input class=\"w3-input text-input\" readonly=\"\" type=\"text\" maxlength=\"50\" minlength=\"3\" placeholder=\"FIRST NAME\"></label><label class=\"checkbox-label w3-col s3\"><input class=\"w3-input text-input\" readonly=\"\" type=\"text\" maxlength=\"50\" placeholder=\"MI\"></label><label class=\"checkbox-label w3-row\"><input class=\"w3-input text-input\" readonly=\"\" type=\"text\" maxlength=\"100\" placeholder=\"\">Department</label></div>"
 },
@@ -98,7 +98,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98ac"
   },
-  "widget_name": null,
+  "widget_name": "Grouped Field Vision Mission Statement",
   "widget_category": "Grouped",
   "widget_content": "<div class=\"w3-row w3-container w3-margin-right w3-center box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-row w3-center w3-bold text-label\">VISION MISSION STATEMENT</div><div class=\"w3-row w3-center text-label\">We envision Saint Louis University as an excellent missionary and transformative educational institution zealous in developing locally responsive, globally competitive, and empowered human resources who are creative, competent and socially involved, and imbued with Christian Spirit</div></div>"
 },
@@ -106,7 +106,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98ae"
   },
-  "widget_name": null,
+  "widget_name": "Label Text Box",
   "widget_category": "Text",
   "widget_content": "<h3 class=\"textbox w3-row text-label w3-container box draggable w3-margin-small w3-font-size-20\" draggable=\"true\">  Label Text Box</h3>"
 },
@@ -114,7 +114,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98ad"
   },
-  "widget_name": null,
+  "widget_name": "Grouped Filed Form Details and Picture",
   "widget_category": "Grouped",
   "widget_content": "<div class=\"w3-row-center w3-container box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col-center s2\"></div><div class=\"w3-col s5 w3-bold\"><input class=\"w3-input w3-center w3-row\" readonly=\"\" type=\"text\" maxlength=\"50\" size=\"50\" placeholder=\"FORM NAME [EX: ANNUAL FACULTY ACTIVITY REPORT (AFAR)]\"><input class=\"w3-input w3-center w3-row\" readonly=\"\" type=\"text\" maxlength=\"50\" size=\"50\" placeholder=\"SCHOOL YEAR [EX: AY 2022-2023]\"><input class=\"w3-input w3-center w3-row\" readonly=\"\" type=\"date\" placeholder=\"set deadline\"></div><div class=\"w3-col-center s3\"><div class=\"w3-all-center\"><a class=\"w3-button w3-hide-small rectangle w3-hover-white\" href=\"\"><i class=\"fa fa-pencil-square icon-light\"></i>            Upload 2x2 picture</a></div></div></div>"
 },
@@ -122,7 +122,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98af"
   },
-  "widget_name": null,
+  "widget_name": "Normal Text Box",
   "widget_category": "Text",
   "widget_content": "<h5 class=\"textbox text-label w3-row w3-container box draggable w3-margin-small w3-font-size-16\" draggable=\"true\">  Normal Text Box</h5>"
 },
@@ -130,7 +130,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98b0"
   },
-  "widget_name": null,
+  "widget_name": "Small Text Box",
   "widget_category": "Text",
   "widget_content": "<p class=\"textbox text-label w3-container box draggable w3-margin-small\" draggable=\"true\">  Small Text Box</p>"
 },
@@ -138,7 +138,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98b1"
   },
-  "widget_name": null,
+  "widget_name": "Sample Text Box",
   "widget_category": "Text",
   "widget_content": "<textarea class=\"w3-textarea text-label textbox w3-container box draggable w3-margin-small\" draggable=\"true\">                        This is a sample text box</textarea>"
 },
@@ -146,7 +146,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98b2"
   },
-  "widget_name": null,
+  "widget_name": "Sample Numeric Input",
   "widget_category": "Text",
   "widget_content": "<label class=\"textbox text-label draggable w3-margin-small box\" draggable=\"true\"><input class=\"w3-input numeric-input\" readonly=\"\" type=\"number\">Sample Numeric Input</label>"
 },
@@ -154,7 +154,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98b3"
   },
-  "widget_name": null,
+  "widget_name": "Sample Text Input",
   "widget_category": "Text",
   "widget_content": "<label class=\"textbox text-label draggable w3-margin-small box\" draggable=\"true\"><input class=\"w3-input text-input\" readonly=\"\" type=\"text\">Sample Text Input</label>"
 },
@@ -162,7 +162,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98b4"
   },
-  "widget_name": null,
+  "widget_name": "Numerical List",
   "widget_category": "Text",
   "widget_content": "<ol class=\"w3-margin w3-container draggable box w3-hover-light-grey w3-ol list w3-margin-small\" draggable=\"true\"><li>item 1</li><li>item 2</li><li>item 3</li></ol>"
 },
@@ -170,7 +170,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98b5"
   },
-  "widget_name": null,
+  "widget_name": "Bullet List",
   "widget_category": "Text",
   "widget_content": "<ul class=\"w3-margin w3-container draggable box w3-hover-light-grey w3-ul list w3-margin-small\" draggable=\"true\"><li>item 1</li><li>item 2</li><li>item 3</li></ul>"
 },
@@ -178,7 +178,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98b6"
   },
-  "widget_name": null,
+  "widget_name": "Signature Version 1",
   "widget_category": "Signature",
   "widget_content": "<div class=\"w3-row-center w3-bold box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col s3 w3-left\"></div><div class=\"w3-col s3 w3-left\"></div><div class=\"w3-col s4 w3-left\"><p>Certified true and correct</p><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\"><p>(SIGNATURE OVER PRINTED NAME)</p><input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\"></div></div>"
 },
@@ -186,7 +186,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98b7"
   },
-  "widget_name": null,
+  "widget_name": "Grouped Signature Version 1",
   "widget_category": "Signature",
   "widget_content": "<div class=\"w3-row-center w3-container w3-bold box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col s3 w3-margin w3-left\"><h6>Reviewed by</h6><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">                    Department Head</div><div class=\"w3-col s3 w3-margin w3-left\"><h6>Noted by</h6><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">                    Director of Libraries</div><div class=\"w3-col s3 w3-margin w3-left\"><h6>Approved by</h6><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">                    OIC-Dean</div></div>"
 },
@@ -194,7 +194,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98b8"
   },
-  "widget_name": null,
+  "widget_name": "Grouped Signature Version 2",
   "widget_category": "Signature",
   "widget_content": "<div class=\"w3-row-center draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col s3 w3-margin w3-left\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"LABEL [NOTED|APPROVED|REVIEWED BY]\"><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"POSITION\"></div><div class=\"w3-col s3 w3-margin w3-left\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"LABEL [NOTED|APPROVED|REVIEWED BY]\"><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"POSITION\"></div><div class=\"w3-col s3 w3-margin w3-left\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"LABEL [NOTED|APPROVED|REVIEWED BY]\"><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"POSITION\"></div><hr class=\"w3-clear\"></div>"
 },
@@ -202,7 +202,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98b9"
   },
-  "widget_name": null,
+  "widget_name": "Grouped Signature Version 3",
   "widget_category": "Signature",
   "widget_content": "<div class=\"w3-row-center box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-row\"><div class=\"w3-col s3\"><p class=\"w3-font-size-14\"> Endorsed by:</p></div><div class=\"w3-col s4 w3-font-size-14\"><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"><input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\"><h6 class=\"w3-center w3-font-size-15\">Associate Dean</h6></div><div class=\"w3-col s4 w3-margin-left\"><input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\"></div></div><div class=\"w3-row\"><div class=\"w3-col s3\"><p class=\"w3-font-size-14\"> Approved By:</p></div><div class=\"w3-col s4\"><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\"><h6 class=\"w3-center w3-font-size-15\">SAMCIS Dean</h6></div><div class=\"w3-col s4 w3-margin-left\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"date\" placeholder=\"Date\"></div></div><div class=\"w3-row\"><div class=\"w3-col s3\"><p class=\"w3-font-size-14\"> Endorsed by:</p></div><div class=\"w3-col s4 w3-font-size-14\"><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"><input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\"><h6 class=\"w3-center w3-font-size-15\">Associate Dean</h6></div><div class=\"w3-col s4 w3-margin-left\"><input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\"></div></div></div>"
 },
@@ -210,7 +210,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98ba"
   },
-  "widget_name": null,
+  "widget_name": "Department Head Signature",
   "widget_category": "Signature",
   "widget_content": "<div class=\"w3-row box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col s3\"><p class=\"w3-font-size-14\"> Prepared By:</p></div><div class=\"w3-col s4\"><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\"><h6 class=\"w3-center w3-font-size-15\">Department Head</h6></div><div class=\"w3-col s4 w3-margin-left\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"date\" placeholder=\"Date\"></div></div>"
 },
@@ -218,7 +218,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98bb"
   },
-  "widget_name": null,
+  "widget_name": "SAAMCIS Dean Signature",
   "widget_category": "Signature",
   "widget_content": "<div class=\"w3-row box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col s3\"><p class=\"w3-font-size-14\"> Approved By:</p></div><div class=\"w3-col s4\"><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\"><h6 class=\"w3-center w3-font-size-15\">SAMCIS Dean</h6></div><div class=\"w3-col s4 w3-margin-left\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"date\" placeholder=\"Date\"></div></div>"
 },
@@ -226,7 +226,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98bc"
   },
-  "widget_name": null,
+  "widget_name": "Associate Dean Signature",
   "widget_category": "Signature",
   "widget_content": "<div class=\"w3-row box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col s3\"><p class=\"w3-font-size-14\"> Endorsed by:</p></div><div class=\"w3-col s4 w3-font-size-14\"><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"><input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\"><h6 class=\"w3-center w3-font-size-15\">Associate Dean</h6></div><div class=\"w3-col s4 w3-margin-left\"><input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\"></div></div>"
 },
@@ -234,7 +234,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98bd"
   },
-  "widget_name": null,
+  "widget_name": "Signature Version 2",
   "widget_category": "Signature",
   "widget_content": "<div class=\"w3-row-center w3-bold box w3-margin-small draggable\" draggable=\"true\"><h6>I attest that all information provided are true and correct and will abide with the policies and procedures of the university</h6><input class=\"w3-col w3-hide-small w3-hover-white w3-center rectangle long\" type=\"image\" value=\"Upload Signature [PNG|JPG] over printed name\"></div>"
 },
@@ -242,7 +242,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98be"
   },
-  "widget_name": null,
+  "widget_name": "Signature Version 3",
   "widget_category": "Signature",
   "widget_content": "<table class=\"draggable box w3-bold w3-margin-small\" draggable=\"true\"><tbody><tr><td>LABEL [NOTED|APPROVED|REVIEWED BY]</td><td></td></tr><tr><td>  POSITION</td><td>  FULL NAME</td></tr></tbody></table>"
 },
@@ -250,7 +250,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98bf"
   },
-  "widget_name": null,
+  "widget_name": "Table Two Columns",
   "widget_category": "Table",
   "widget_content": "<table class=\"draggable form-table w3-bold w3-margin-small\" draggable=\"true\"><tbody><tr><th>Header 1</th><th>Header 2</th></tr><tr><td>Text 1</td><td></td></tr><tr><td>Text 2</td><td></td></tr></tbody></table>"
 },
@@ -258,7 +258,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98c0"
   },
-  "widget_name": null,
+  "widget_name": "Table Four Columns",
   "widget_category": "Table",
   "widget_content": "<table class=\"draggable form-table w3-bold w3-margin-small\" draggable=\"true\"><tbody><tr><th>Header 1</th><th>Header 2</th><th>Header 3</th><th>Header 4</th></tr><tr><td>Text 1</td><td></td><td></td><td></td></tr><tr><td>Text 2</td><td></td><td></td><td></td></tr></tbody></table>"
 },
@@ -266,7 +266,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98c1"
   },
-  "widget_name": null,
+  "widget_name": "Table No Header Row",
   "widget_category": "Table",
   "widget_content": "<table class=\"draggable form-table w3-bold w3-margin-small\" draggable=\"true\"><tbody><tr><td>Row 1</td><td></td></tr><tr><td>Row 2</td><td></td></tr><tr><td>Row 3</td><td></td></tr></tbody></table>"
 },
@@ -274,7 +274,7 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98c2"
   },
-  "widget_name": null,
+  "widget_name": "Table Numbered Uneven Version 1",
   "widget_category": "Table",
   "widget_content": "<table class=\"draggable form-table number w3-bold w3-hover-light-grey\" draggable=\"true\"><tbody><tr><td>1</td><td></td><td></td></tr><tr><td>2</td><td></td><td></td></tr><tr><td>3</td><td></td><td></td></tr></tbody></table>"
 },
@@ -282,7 +282,15 @@
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98c3"
   },
-  "widget_name": null,
+  "widget_name": "Table Numbered Uneven Version 2",
   "widget_category": "Table",
   "widget_content": "<table class=\"draggable form-table number-2 w3-bold w3-hover-light-grey\" draggable=\"true\"><tbody><tr><td>1</td><td></td><td></td></tr><tr><td>2</td><td></td><td></td></tr><tr><td>3</td><td></td><td></td></tr></tbody></table>"
+},
+{
+  "_id": {
+    "$oid": "65a7f570e3f1dc7de47b98a1"
+  },
+  "widget_name": "Basta Signature",
+  "widget_category": "Signature",
+  "widget_content": "<form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\"><div class=\"w3-row\"><input class=\"bottone5\" type=\"file\" name=\"file\" id=\"file\"><br><input class=\"bottone5\" type=\"submit\" value=\"Upload\"></div></form>"
 }]
