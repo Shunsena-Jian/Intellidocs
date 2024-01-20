@@ -43,11 +43,6 @@ window.onload = function() {
         initializeCurrentPage();
     }
 
-//    currentPageContent.addEventListener('click', (e) => { // Can select the page canvas
-//    	selectElement(currentPageContent);
-//    });
-
-
     addEventListenerToDiv(currentPageContent);
     inputListeners();
 };
@@ -131,7 +126,7 @@ function initializeContextMenuForChildren(pageCount){
 
         for(j = 0; j < children.length; j++){
             // Do not allow select element for other user types
-            if (!userType == "Secretary") {
+            if (!(userType === "Secretary")) {
                children[j].firstElementChild = selectElement(children[j].firstElementChild);
             }
             initializeContextMenuForChild(children[j].firstElementChild);
@@ -161,11 +156,17 @@ function initializeContextMenuForChild(clonedDiv) {
             e.preventDefault();
             console.log("adding context listener to ");
             console.log(clonedDiv);
-            if (clonedDiv.classList.contains("form-table")) {
-                createContextMenu(e.clientX, e.clientY, null, clonedDiv);
-            } else {
-                createContextMenu(e.clientX, e.clientY, clonedDiv, null);
-            }
+               try {
+                    if (clonedDiv.classList.contains("form-table") ||
+                      (clonedDiv.firstChild && (clonedDiv.classList && clonedDiv.firstChild.classList.contains("form-table")))) {
+                       console.log("is a table");
+                       createContextMenu(e.clientX, e.clientY, null, clonedDiv);
+                   } else {
+                       createContextMenu(e.clientX, e.clientY, clonedDiv, null);
+                   }
+               } catch {
+                   // Error
+               }
         });
     }
 
@@ -1387,7 +1388,7 @@ function selectElement(element) {
 
             if (index === -1) {
                 const lastSelectedCell = selectedCells[selectedCells.length - 1];
-                if (lastSelectedCell) {
+                if (lastSelectedCell && lastSelectedCell.parentNode) {
                     const selectedRowIndex = lastSelectedCell.parentNode.rowIndex;
                     const selectedCellIndex = lastSelectedCell.cellIndex;
                     const clickedRowIndex = clickedElement.parentNode.rowIndex;
