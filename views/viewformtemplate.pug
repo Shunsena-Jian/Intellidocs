@@ -318,14 +318,6 @@ block body
                             option(value='portrait') Portrait
                             option(value='landscape') Landscape
 
-                    .grid-item
-                        label(for='fontSizeSelect') Font Size:
-                        select#fontSizeSelect(onchange='changeFontSize()')
-                            // Generate font size options using JavaScript
-                            script.
-                                for (let i = 1; i <= 100; i++) {
-                                    document.write(`<option value="${i}">${i}</option>`);
-                                }
                     .grid-item.borderless
                     .grid-item
                         label(for='colorSelect') Select Text Color:
@@ -357,13 +349,6 @@ block body
                     .grid-item
                         a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onclick='makeAlignJustify()')
                             i.fa.fa-align-justify.icon-light
-                    .grid-item.borderless
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onClick='makeUnorderedList()')
-                            i.fa.fa-list-ul.icon-light
-                    .grid-item
-                        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(onClick='makeOrderedList()')
-                            i.fa.fa-list-ol.icon-light
 
 
             .w3-row.w3-container
