@@ -285,7 +285,7 @@ block body
                                         td #{prevSubmitForms.secretary_approval}
                                         td #{prevSubmitForms.dean_approval}
                                         td
-                                            button.w3-button.w3-block.w3-theme-dark(onclick=`renderSubmittedForm("${prevSubmitForms.form_owner}")`) View
+                                            button.w3-button.w3-block.w3-theme-dark(onclick=`renderPrevSubmittedForm("${prevSubmitForms.form_owner}", "${prevSubmitForms.user_version}")`) View
         script.
             var table7 = $('#previouslySubmittedForms').DataTable();
 
@@ -564,6 +564,65 @@ block body
         }
 
     script.
+        function renderPrevSubmittedForm(formOwner, userVersion){
+            var data = {
+                formOwner: formOwner,
+                userVersion: userVersion,
+                formControlNumber: form_template.form_control_number
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: '/AJAX_renderPrevSubmittedForm',
+                data: data,
+                success: function(response){
+                    if(response.status_code === 0){
+                        alert("Submitted form of " + formOwner + " will be rendered");
+                        document.getElementById("enginePlaceHolder").innerHTML = response.formContent;
+                        var userApprovals = response.submittedForm;
+
+                        if(userApprovals.secretary_approval == undefined || userApprovals.secretary_approval == ''){
+                            document.getElementById("secretaryApproval").innerHTML = "Secretary : Not Approved";
+                        }else{
+                            document.getElementById("secretaryApproval").innerHTML = "Secretary : " + userApprovals.secretary_approval;
+                        }
+                        if(userApprovals.dean_approval == undefined || userApprovals.dean_approval == ''){
+                            document.getElementById("deanApproval").innerHTML = "Dean : Not Approved";
+                        }else{
+                            document.getElementById("deanApproval").innerHTML = "Dean : " + userApprovals.dean_approval;
+                        }
+                        if(userApprovals.department_head_approval == undefined || userApprovals.department_head_approval == ''){
+                            document.getElementById("departmentHeadApproval").innerHTML = "Department Head : Not Approved";
+                        }else{
+                            document.getElementById("departmentHeadApproval").innerHTML = "Department Head : " + userApprovals.department_head_approval;
+                        }
+
+                        var table = $('#filesTable').DataTable();
+                        var updatedData = response.currentUserFiles;
+                        table.clear().draw();
+
+                        for(i=0;i<updatedData.length;i++){
+                            console.log("found an object");
+
+                            var curLine = [
+                                updatedData[i].file_name,
+                                updatedData[i].file_size,
+                                updatedData[i].uploadedBy,
+                                updatedData[i].uploadedAt,
+                                `<a class="w3-half w3-hover-white edit-btn" href="/downloadfile/${updatedData[i].file_name}/${updatedData[i].uploadedBy}"><i class="fas fa-download"></i></a>
+                                <a class="w3-half w3-hover-white" onclick="showDeleteModal('${updatedData[i].file_name}','${updatedData[i].uploadedBy}')"><i class="fa fa-times w3-text-theme"></i></a>`
+                            ];
+
+                            table.row.add(curLine).draw();
+                        }
+                    }else if(response.status_code === 1){
+                        alert("Error at rendering form");
+                    }
+                },
+            });
+        }
+
+    script.
         function renderSubmittedForm(formOwner){
             var data = {
                 formOwner: formOwner,
@@ -813,6 +872,25 @@ block body
                         updateDropdownOptions(response.allUserFormVersions);
                         document.getElementById('form-content').innerHTML = response.initialTemplate;
                         hideSaveFormModal();
+
+                        var table1 = $('#previouslySubmittedForms').DataTable();
+                        var updatedData1 = response.prevSubmittedForms;
+                        table1.clear().draw();
+
+                        for(z=0; z < updatedData1.length; z++){
+                            var curLine4 = [
+                                updatedData1[z].form_name,
+                                updatedData1[z].form_control_number,
+                                updatedData1[z].time_saved,
+                                updatedData1[z].date_saved,
+                                updatedData1[z].department_head_approval,
+                                updatedData1[z].secretary_approval,
+                                updatedData1[z].dean_approval,
+                                `<button class="w3-button w3-block w3-theme-dark" onclick="renderPrevSubmittedForm('${updatedData1[z].form_owner}', '${updatedData1[z].user_version}')">View</button>`
+                            ];
+                            table1.row.add(curLine4).draw();
+                        }
+
                     } else {
                         $('.error-message').text(response.error);
                     }
