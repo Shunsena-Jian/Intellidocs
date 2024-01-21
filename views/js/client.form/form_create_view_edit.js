@@ -196,7 +196,7 @@ function initializeContextMenuForChild(clonedDiv) {
   textInputs.forEach(input => {
     input.addEventListener('input', function() {
       // Remove numbers and special characters using a regular expression
-      this.value = this.value.replace(/[^a-zA-Z]/g, '');
+      this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
     });
   });
 
