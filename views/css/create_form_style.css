@@ -107,22 +107,21 @@
     flex: 1 0 auto; /* Allow flex items to grow and shrink */
 }
 
-.rectangle {
-    padding: 5px 5px;
-    margin: 5px;
+.parent-container {
+    display: flex;
+}
+
+.rectangle,
+.rectangle.long {
     border: 1px solid #ccc;
     cursor: grab;
-    min-width: 25%; /* Minimum width for each child */
+    width:100%;
+    display: flex;
     flex: 1 0 auto; /* Allow flex items to grow and shrink */
 }
 
 .rectangle.long {
     padding: 15px 5px;
-    margin: 5px;
-    border: 1px solid #ccc;
-    cursor: grab;
-    min-width: 25%; /* Minimum width for each child */
-    flex: 1 0 auto; /* Allow flex items to grow and shrink */
 }
 
 .draggable {
