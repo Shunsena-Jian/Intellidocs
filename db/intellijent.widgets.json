@@ -288,9 +288,9 @@
 },
 {
   "_id": {
-    "$oid": "65a7f570e3f1dc7de47b98a1"
+    "$oid": "65a7f571e3f1dc7de47b9859"
   },
-  "widget_name": "Basta Signature",
+  "widget_name": "Certificate Container",
   "widget_category": "Signature",
-  "widget_content": "<form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\"><div class=\"w3-row\"><input class=\"bottone5\" type=\"file\" name=\"file\" id=\"file\"><br><input class=\"bottone5\" type=\"submit\" value=\"Upload\"></div></form>"
+  "widget_content": "<div class=\"w3-row box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"certificate-container\">\n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Certificate\"></form>\n</div> \n</div>"
 }]

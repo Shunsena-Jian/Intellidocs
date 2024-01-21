@@ -107,8 +107,23 @@
     flex: 1 0 auto; /* Allow flex items to grow and shrink */
 }
 
-.parent-container {
-    display: flex;
+/* Style for the certificate image container */
+.certificate-container {
+    width: 100%; /* Make the container take up the full width of its parent */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 20px; /* Add padding around the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+
+    /* Add a border and box shadow for visual appeal */
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the certificate image */
+.certificate-image {
+    width: 100%; /* Make the image take up the full width of its container */
+    height: auto; /* Maintain the aspect ratio while adjusting width */
+    display: block; /* Remove any extra spacing below the image */
 }
 
 .rectangle,
