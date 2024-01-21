@@ -1279,10 +1279,10 @@ function removeReadOnlyAttributesRecursive(element) {
               element.removeAttribute('disabled');
             }
 
-//            if (!(element.nodeName === "LABEL")) {
+            if (!(element.nodeName === "INPUT" || element.nodeName === "FORM" )) {
                 // Set contentEditable attribute to true
                 element.setAttribute('contentEditable', 'true');
-//            }
+            }
 
 
             // Iterate through child elements

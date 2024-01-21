@@ -116,12 +116,10 @@
     border: 1px solid #ccc;
     cursor: grab;
     width:100%;
-    display: flex;
-    flex: 1 0 auto; /* Allow flex items to grow and shrink */
 }
 
 .rectangle.long {
-    padding: 15px 5px;
+    padding: 5px 5px;
 }
 
 .draggable {
@@ -129,9 +127,6 @@
 }
 
 .draggable:hover {
-    /*lei's code*/
-    /*background: #FFFFFF;*/
-
     /*animate */
     /*color: #69D2E7;*/
     outline: 4px dotted #ffffff;
