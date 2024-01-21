@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* dragbar.pug&#10;// Renamed Signature Fields to Upload Fields&#10;&#10;* formview.pug&#10;// Created a new table that shows the previously submitted forms by the faculty on faculty view&#10;&#10;* index.js&#10;// Now initiates a value for dean, department head, and secretary approvals for the table&#10;// Now passes the previously submitted forms based on the form owner and status as Submitted&#10;&#10;* intellijent.widgets.json&#10;// Updated the widgets database">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* formview.pug&#10;// Now passes the user form version as a parameter to easily navigate the correct form version&#10;// Now added an AJAX function that will properly render the form chosen in the previously submitted version table&#10;// Created an AJAX function that will properly update the table when a form is submitted&#10;&#10;* index.js&#10;// Now sends the details for the previously submitted forms">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -190,7 +189,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705767121923</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="* formview.pug&#10;// Now passes the user form version as a parameter to easily navigate the correct form version&#10;// Now added an AJAX function that will properly render the form chosen in the previously submitted version table&#10;// Created an AJAX function that will properly update the table when a form is submitted&#10;&#10;* index.js&#10;// Now sends the details for the previously submitted forms">
+      <option name="closed" value="true" />
+      <created>1705814084017</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1705814084017</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -219,6 +226,7 @@
     <MESSAGE value="* formview.pug&#10;// Changed placeholder on Assigning Users to Employee Email&#10;// Fixed design of different containers&#10;// Now shows an alert when assigning a user or department has been successful" />
     <MESSAGE value="* dragbar.pug&#10;// Removed all hardcoded widgets&#10;// Now retrieves all widgets depending on their categories then places them in their respective containers.&#10;&#10;* index.js&#10;// Created functions to retrieve different widgets according to their categories." />
     <MESSAGE value="* dragbar.pug&#10;// Renamed Signature Fields to Upload Fields&#10;&#10;* formview.pug&#10;// Created a new table that shows the previously submitted forms by the faculty on faculty view&#10;&#10;* index.js&#10;// Now initiates a value for dean, department head, and secretary approvals for the table&#10;// Now passes the previously submitted forms based on the form owner and status as Submitted&#10;&#10;* intellijent.widgets.json&#10;// Updated the widgets database" />
-    <option name="LAST_COMMIT_MESSAGE" value="* dragbar.pug&#10;// Renamed Signature Fields to Upload Fields&#10;&#10;* formview.pug&#10;// Created a new table that shows the previously submitted forms by the faculty on faculty view&#10;&#10;* index.js&#10;// Now initiates a value for dean, department head, and secretary approvals for the table&#10;// Now passes the previously submitted forms based on the form owner and status as Submitted&#10;&#10;* intellijent.widgets.json&#10;// Updated the widgets database" />
+    <MESSAGE value="* formview.pug&#10;// Now passes the user form version as a parameter to easily navigate the correct form version&#10;// Now added an AJAX function that will properly render the form chosen in the previously submitted version table&#10;// Created an AJAX function that will properly update the table when a form is submitted&#10;&#10;* index.js&#10;// Now sends the details for the previously submitted forms" />
+    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug&#10;// Now passes the user form version as a parameter to easily navigate the correct form version&#10;// Now added an AJAX function that will properly render the form chosen in the previously submitted version table&#10;// Created an AJAX function that will properly update the table when a form is submitted&#10;&#10;* index.js&#10;// Now sends the details for the previously submitted forms" />
   </component>
 </project>
