@@ -520,7 +520,9 @@ app.put('/submitform', async function(req, res){
                 var g = await jsonToHTML(e);
                 jsonObject.form_content = g;
 
-                res.send({ status_code : 0, allUserFormVersions : allUserFormVersions, initialTemplate: jsonObject.form_content });
+                var prevSubmittedForms = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID, form_status : "Submitted" }).toArray();
+
+                res.send({ status_code : 0, allUserFormVersions : allUserFormVersions, initialTemplate: jsonObject.form_content, prevSubmittedForms: prevSubmittedForms });
             }
         }catch (error){
             logError("There is an error at save filled out form: " + error);
@@ -2204,6 +2206,47 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
         }
         var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
         res.send({ status_code : 0, secretary_approval : updatedForm.secretary_approval, dean_approval : updatedForm.dean_approval, department_head_approval : updatedForm.department_head_approval });
+    }else{
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_renderPrevSubmittedForm', async function(req, res) {
+    if(req.session.loggedIn){
+        var formData = req.body;
+        var selectedFormControlNumberToView = formData.formControlNumber;
+        var prevSubmittedForm = await filledoutforms.findOne({ form_control_number: formData.formControlNumber, form_status : "Submitted", form_owner : formData.formOwner, user_version: parseInt(formData.userVersion) });
+        var currentUserFiles = await files.find({ uploadedBy : formData.formOwner, fileFormControlNumber : formData.formControlNumber }).toArray();
+
+        if(!prevSubmittedForm){
+            logStatus("Could not find the form.");
+            res.send({ status_code : 1 });
+        }else{
+            let jsonObject = prevSubmittedForm;
+
+            try{
+                var e = jsonObject.form_content;
+            }catch(error){
+                logError("Error at storing json object form content to the variable " + error);
+            }
+
+            try{
+                var g = await jsonToHTML(e);
+            }catch(error){
+                logError("Error at converting JSON to HTML " + error);
+            }
+
+            try{
+                jsonObject.form_content = g;
+                var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+                res.send({ status_code : 0, formContent : jsonObject.form_content, currentUserFiles : currentUserFiles });
+            }catch(error){
+                logError("Error at view form version for front end: " + error);
+            }
+        }
+
     }else{
         res.render('login', {
             title: 'Login Page'
