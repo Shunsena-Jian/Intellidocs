@@ -10,13 +10,13 @@ block sidebar
             .w3-bar.w3-theme.w3-left-align.w3-large
                 a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(onclick='openNavigation()')
                     i.fa.fa-bars
-                a.w3-bar-item.w3-button.w3-hover-white(href='/')
+                a.w3-bar-item.w3-button.w3-hover-white(href='#' onclick="showLeavePageModal('/',userCurrentPage)")
                     i.fa.fa-home.w3-margin-right
                     |   Home
-                a.w3-bar-item.w3-button.w3-hover-white(href='/accountsettings')
+                a.w3-bar-item.w3-button.w3-hover-white(href='#' onclick="showLeavePageModal('/accountsettings',userCurrentPage)")
                     i.fa.fa-user.w3-margin-right
                     |   Account Settings
-                //.w3-dropdown-hover.w3-hide-small
+                .w3-dropdown-hover.w3-hide-small
                     button.w3-button Notifications
                         i.fa.fa-caret-down
                     .w3-dropdown-content.w3-card-4.w3-bar-block
@@ -68,7 +68,7 @@ block sidebar
                         hr
                         div(style='text-align:right; padding-bottom: 20px;')
                             a.w3-bar-item.w3-button(href='#') view all
-                a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='/logout')
+                a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='#' onclick="showLeavePageModal('/logout')")
                     if (currentUserPicture && currentUserPicture.user_picture)
                         img.w3-circle(src=`${currentUserPicture.user_picture}` style='height:23px;width:23px' alt='Avatar')
                     else
@@ -105,16 +105,16 @@ block sidebar
                     |  Form Management
                 #Demo1.w3-hide.w3-container
                     #createTemplateElement.w3-row
-                        a(href='/createform').w3-button-text.w3-button
+                        a(href='#' onclick="showLeavePageModal('/createform',userCurrentPage)").w3-button-text.w3-button
                             i.fa.fa-plus-circle.w3-margin-right
                             | Create Forms
-                        a(href='/createwidget').w3-button-text.w3-button
+                        a(href='#' onclick="showLeavePageModal('/createwidget',userCurrentPage)").w3-button-text.w3-button
                             i.fa.fa-plus-circle.w3-margin-right
                             | Create Widgets
-                        a(href='/viewformtemplates').w3-button-text.w3-button
+                        a(href='#' onclick="showLeavePageModal('/viewformtemplates',userCurrentPage)").w3-button-text.w3-button
                             i.fa.fa-eye.w3-margin-right
                             | View Form Templates
-                    a(href='/viewforms').w3-button
+                    a(href='#' onclick="showLeavePageModal('/viewforms',userCurrentPage)").w3-button
                         i.fa.fa-file.w3-margin-right
                         | View Forms
 
@@ -124,11 +124,11 @@ block sidebar
                         |  User Management
                     #Demo3.w3-hide.w3-container
                         #addUserElement
-                            a(href='/createusers').w3-button
+                            a(href='#' onclick="showLeavePageModal('/createusers',userCurrentPage)").w3-button
                                 i.fa.fa-plus-circle.w3-margin-right
                                 | Create User
                         #editUserElement
-                            a(href='/viewusers').w3-button
+                            a(href='#' onclick="showLeavePageModal('/viewusers',userCurrentPage)").w3-button
                                 i.fa.fa-users.w3-margin-right
                                 | View Users
 
@@ -146,10 +146,25 @@ block sidebar
             .dialogboxfoot2
                 button.pure-material-button-contained.active(onclick=`logUserOff()`) Log me out
 
+    #confirmLeavePageModal
+        #confirmLeavePageOverLay.dialogoverlay
+        #confirmLeavePageDialogbox.dialogbox.slit-in-vertical
+            #randomDiv
+                .dialogboxhead
+                    .i.fa.fa-exclamation-circle Confirm Form Saving
+                .dialogboxbody
+                    p Are you sure you want to leave this page?
+                    p Leaving this page without saving would lose unsaved changes
+            .dialogboxfoot
+                button.pure-material-button-contained.active(onclick=`goToSelectedAnchor()`) Yes
+            .dialogboxfoot2
+                button.pure-material-button-contained.active(onclick=`hideLeavePageModal()`) No
+
     footer#myFooter.w3-bottom.w3-container.w3-theme-l1
         h5(style='text-align:center;') Team IntelliJent IT Project
         h6(style='text-align:center;') &copy; 2023 All Rights Reserved
 
     script.
+        var userCurrentPage = !{JSON.stringify(userCurrentPage)};
         window.userLevel = !{JSON.stringify(currentUserDetailsBlock.userLevel)};
         console.log("This is the user details block: " + userLevel);

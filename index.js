@@ -812,7 +812,8 @@ app.get('/formview/:form_control_number', async function (req, res){
             sharedRead: sharedRead,
             sharedWrite: sharedWrite,
             allAssignedUsers: allAssignedUsers,
-            previouslySubmittedForms: previouslySubmittedForms
+            previouslySubmittedForms: previouslySubmittedForms,
+            userCurrentPage: "formview"
         });
     }else{
         res.render('login', {
@@ -917,7 +918,8 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
                 currentForm: jsonObject,
                 currentUserPicture: currentUserPicture,
                 allVersions: allVersions,
-                min_idleTime: min_idleTime
+                min_idleTime: min_idleTime,
+                userCurrentPage: "viewformtemplate"
             });
 
         }catch(error){
@@ -949,7 +951,8 @@ app.get('/', async function (req, res){
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
                 currentUserPicture: currentUserPicture,
-                min_idleTime: min_idleTime
+                min_idleTime: min_idleTime,
+                userCurrentPage: "index"
             });
         }
 
@@ -977,7 +980,8 @@ app.get('/accountsettings', async function (req, res){
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
                 currentUserPicture: currentUserPicture,
-                min_idleTime: min_idleTime
+                min_idleTime: min_idleTime,
+                userCurrentPage: "accountsettings"
             });
         }
 
@@ -1182,7 +1186,8 @@ app.post('/login', async function (req, res){
                     currentUserPrivileges: currentUserPrivileges,
                     currentUserNotifications: currentUserNotifications,
                     currentUserPicture: currentUserPicture,
-                    min_idleTime: min_idleTime
+                    min_idleTime: min_idleTime,
+                    userCurrentPage: "index"
                 });
 
                 logStatus("User " + currentUserDetailsBlock.firstName + currentUserDetailsBlock.lastName + currentUserDetailsBlock.empID + " has logged in with " + currentUserDetailsBlock.userLevel + " privileges!");
@@ -1225,7 +1230,8 @@ app.get('/createform', async function(req, res){
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
                 currentUserPicture: currentUserPicture,
-                min_idleTime: min_idleTime
+                min_idleTime: min_idleTime,
+                userCurrentPage: "createform"
             });
 
             logStatus("Access Granted!");
@@ -1266,7 +1272,8 @@ app.get('/createwidget', async function(req, res){
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
                 currentUserPicture: currentUserPicture,
-                min_idleTime: min_idleTime
+                min_idleTime: min_idleTime,
+                userCurrentPage: "createwidget"
             });
             logStatus("Access Granted!");
 
@@ -1342,7 +1349,8 @@ app.get('/viewforms', async function(req, res){
                 assignedForms: assignedForms,
                 sharedForms: sharedForms,
                 currentUserPicture: currentUserPicture,
-                min_idleTime: min_idleTime
+                min_idleTime: min_idleTime,
+                userCurrentPage: "viewforms"
             });
 
             logStatus("Access Granted!");
@@ -1387,7 +1395,8 @@ app.get('/viewformtemplates', async function(req, res){
                 currentUserNotifications: currentUserNotifications,
                 currentForms: currentForms,
                 currentUserPicture: currentUserPicture,
-                min_idleTime: min_idleTime
+                min_idleTime: min_idleTime,
+                userCurrentPage: "viewformtemplates"
             });
 
             logStatus("Access Granted!");
@@ -1431,7 +1440,8 @@ app.get('/createusers', async function(req, res){
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserNotifications: currentUserNotifications,
                 currentUserPicture: currentUserPicture,
-                min_idleTime: min_idleTime
+                min_idleTime: min_idleTime,
+                userCurrentPage: "createusers"
             });
         }else{
             res.render('error_screen', {
@@ -1513,7 +1523,8 @@ app.post('/createusers', async function(req, res){
             currentUserFiles: currentUserFiles,
             currentUserPrivileges: currentUserPrivileges,
             currentUserNotifications: currentUserNotifications,
-            min_idleTime: min_idleTime
+            min_idleTime: min_idleTime,
+            userCurrentPage: "createusers"
         });
     }else{
        res.render('login', {
@@ -1550,7 +1561,8 @@ app.get('/viewusers', async function(req, res){
                 currentUserNotifications: currentUserNotifications,
                 min_idleTime: min_idleTime,
                 currentUserPicture: currentUserPicture,
-                userAccounts: userAccounts
+                userAccounts: userAccounts,
+                userCurrentPage: "viewusers"
             });
 
             logStatus("Access Granted!");
