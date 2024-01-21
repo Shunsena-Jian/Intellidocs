@@ -92,6 +92,7 @@ block body
         });
 
         function saveWidget(){
+            clearSelection(null);
             var widgetCanvas = document.getElementById('widgetCanvas').innerHTML;
             var widgetName = document.getElementById('widgetName').value;
             var widgetCategory = document.getElementById('widgetCategory').value;

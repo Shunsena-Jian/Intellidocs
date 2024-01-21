@@ -9,7 +9,7 @@ var tables;
 var boxes;
 var contextMenu;
 var selectedTextBox;
-
+var selectedCells;
 var containerSize;
 var parentContainerSize;
 var selectedSectionContainer;
@@ -25,6 +25,7 @@ window.onload = function(){
     containerSize = 0;
     parentContainerSize = 0;
     padding = 36;
+    selectedCells = [];
     activeDraggable = null;
     innerContainer = null;
     updatePageHeight();
@@ -919,7 +920,6 @@ function updatePageHeight() {
 function activateTable(clonedDiv) {
     console.log(clonedDiv);
     let selectedCells = [];
-
 	clonedDiv.addEventListener('click', (e) => {
 	    const cell = e.target;
 	    if (cell.tagName === 'TD' && !cell.classList.contains('merged') || cell.tagName === 'TH' && !cell.classList.contains('merged')) {
@@ -983,6 +983,45 @@ function selectElement(element) {
             selectedTextBox.setAttribute('id', 'widgetCanvas');
         }
 
+        if ((clickedElement.tagName === 'TD' || clickedElement.tagName === 'TH') && !clickedElement.classList.contains('merged')) {
+            const index = selectedCells.indexOf(clickedElement);
+
+            if (index === -1) {
+                const lastSelectedCell = selectedCells[selectedCells.length - 1];
+                if (lastSelectedCell && lastSelectedCell.parentNode) {
+                    const selectedRowIndex = lastSelectedCell.parentNode.rowIndex;
+                    const selectedCellIndex = lastSelectedCell.cellIndex;
+                    const clickedRowIndex = clickedElement.parentNode.rowIndex;
+                    const clickedCellIndex = clickedElement.cellIndex;
+
+                    const isAdjacent = (
+                        (selectedRowIndex === clickedRowIndex && Math.abs(selectedCellIndex - clickedCellIndex) === 1) ||
+                        (selectedCellIndex === clickedCellIndex && Math.abs(selectedRowIndex - clickedRowIndex) === 1)
+                    );
+
+                    if (isAdjacent) {
+                        // Add the clicked cell to the selection if adjacent
+                        clickedElement.classList.add('selected');
+                        selectedCells.push(clickedElement);
+                    } else {
+                        // Clear the previous selection and start a new selection
+                        selectedCells.forEach(cell => {
+                            cell.classList.remove('selected');
+                        });
+                        selectedCells = [clickedElement];
+                    }
+                } else {
+                    // If no cells are selected, add the clicked cell to the selection
+                    clickedElement.classList.add('selected');
+                    selectedCells.push(clickedElement);
+                }
+            } else {
+                // If already selected, deselect the cell
+                clickedElement.classList.remove('selected');
+                selectedCells.splice(index, 1);
+            }
+        }
+
 		// Select the clicked element
 		clickedElement.setAttribute('contentEditable', 'true');
 		clickedElement.id = 'selectedElement';
@@ -1003,6 +1042,19 @@ function selectElement(element) {
 		clickedElement.removeAttribute('readonly');
 	});
     return element;
+}
+
+function clearSelection(table) {
+  if (table === null) {
+    const allTables = document.querySelectorAll('div table');
+    allTables.forEach((table) => {
+      const selected = table.querySelectorAll('.selected');
+      selected.forEach((cell) => cell.classList.remove('selected'));
+    });
+  } else {
+    const selected = table.querySelectorAll('.selectedCells');
+    selected.forEach((cell) => cell.classList.remove('selected'));
+  }
 }
 
 function makeInputUneditableOnDeployment() {
