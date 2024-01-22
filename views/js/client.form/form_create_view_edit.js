@@ -196,7 +196,7 @@ function initializeContextMenuForChild(clonedDiv) {
   textInputs.forEach(input => {
     input.addEventListener('input', function() {
       // Remove numbers and special characters using a regular expression
-      this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+      this.value = this.value.replace(/[^a-zA-Z\s-]/g, '');
     });
   });
 
@@ -1019,23 +1019,6 @@ function contextMenuButtonsForTable(table) {
 
     return contextMenu;
 }
-
-// Bugged
-//function restrictCheckBoxSelection() {
-//    const checkboxes = currentPageContent.querySelectorAll('input[name="academicStatus"]');
-//    // Add a change event listener to each checkbox
-//        checkboxes.forEach((checkbox) => {
-//            checkbox.addEventListener('change', function () {
-//                // Uncheck all other checkboxes in the group
-//                checkboxes.forEach((otherCheckbox) => {
-//                    if (otherCheckbox !== this) {
-//                        otherCheckbox.checked = false;
-//                    }
-//                });
-//            });
-//        });
-//}
-
 
 function dropContent(boxHeight, data) {
     const tempDiv = document.createElement('div');

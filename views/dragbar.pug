@@ -66,7 +66,7 @@ script.
         for(i = 0; i < personalizedWidgets.length; i++){
             var tempElement = document.createElement('div');
             widgetChild = `<h4 class="w3-bold w3-padding-16 w3-center">` + personalizedWidgets[i].widget_name + `</h4>` +
-             `<div class="w3-container box w3-row draggable" draggable="true">` + personalizedWidgets[i].widget_content + `</div>` +
+                personalizedWidgets[i].widget_content +
              `<hr>`;
             tempElement.innerHTML = widgetChild;
             widgetDragBarContainer.appendChild(tempElement);
@@ -87,7 +87,7 @@ script.
         for(i = 0; i < headerWidgets.length; i++){
             var tempElement = document.createElement('div');
             widgetChild = `<h4 class="w3-bold w3-padding-16 w3-center">` + headerWidgets[i].widget_name + `</h4>` +
-             `<div class="w3-container box w3-row draggable" draggable="true">` + headerWidgets[i].widget_content + `</div>` +
+              headerWidgets[i].widget_content +
              `<hr>`;
             tempElement.innerHTML = widgetChild;
             widgetDragBarContainer.appendChild(tempElement);
@@ -108,7 +108,7 @@ script.
         for(i = 0; i < informationInputWidgets.length; i++){
             var tempElement = document.createElement('div');
             widgetChild = `<h4 class="w3-bold w3-padding-16 w3-center">` + informationInputWidgets[i].widget_name + `</h4>` +
-             `<div class="w3-container box w3-row draggable" draggable="true">` + informationInputWidgets[i].widget_content + `</div>` +
+                 informationInputWidgets[i].widget_content  +
              `<hr>`;
             tempElement.innerHTML = widgetChild;
             widgetDragBarContainer.appendChild(tempElement);
@@ -129,7 +129,7 @@ script.
         for(i = 0; i < checkboxWidgets.length; i++){
             var tempElement = document.createElement('div');
             widgetChild = `<h4 class="w3-bold w3-padding-16 w3-center">` + checkboxWidgets[i].widget_name + `</h4>` +
-             `<div class="w3-container box w3-row draggable" draggable="true">` + checkboxWidgets[i].widget_content + `</div>` +
+                 checkboxWidgets[i].widget_content +
              `<hr>`;
             tempElement.innerHTML = widgetChild;
             widgetDragBarContainer.appendChild(tempElement);
@@ -150,7 +150,7 @@ script.
         for(i = 0; i < groupedWidgets.length; i++){
             var tempElement = document.createElement('div');
             widgetChild = `<h4 class="w3-bold w3-padding-16 w3-center">` + groupedWidgets[i].widget_name + `</h4>` +
-             `<div class="w3-container box w3-row draggable" draggable="true">` + groupedWidgets[i].widget_content + `</div>` +
+               groupedWidgets[i].widget_content +
              `<hr>`;
             tempElement.innerHTML = widgetChild;
             widgetDragBarContainer.appendChild(tempElement);
@@ -171,7 +171,7 @@ script.
         for(i = 0; i < textWidgets.length; i++){
             var tempElement = document.createElement('div');
             widgetChild = `<h4 class="w3-bold w3-padding-16 w3-center">` + textWidgets[i].widget_name + `</h4>` +
-             `<div class="w3-container box w3-row draggable" draggable="true">` + textWidgets[i].widget_content + `</div>` +
+               textWidgets[i].widget_content +
              `<hr>`;
             tempElement.innerHTML = widgetChild;
             widgetDragBarContainer.appendChild(tempElement);
@@ -192,7 +192,7 @@ script.
         for(i = 0; i < signatureWidgets.length; i++){
             var tempElement = document.createElement('div');
             widgetChild = `<h4 class="w3-bold w3-padding-16 w3-center">` + signatureWidgets[i].widget_name + `</h4>` +
-             `<div class="w3-container box w3-row draggable" draggable="true">` + signatureWidgets[i].widget_content + `</div>` +
+               signatureWidgets[i].widget_content +
              `<hr>`;
             tempElement.innerHTML = widgetChild;
             widgetDragBarContainer.appendChild(tempElement);
@@ -213,7 +213,7 @@ script.
         for(i = 0; i < tableWidgets.length; i++){
             var tempElement = document.createElement('div');
             widgetChild = `<h4 class="w3-bold w3-padding-16 w3-center">` + tableWidgets[i].widget_name + `</h4>` +
-             `<div class="w3-container box w3-row draggable" draggable="true">` + tableWidgets[i].widget_content + `</div>` +
+               tableWidgets[i].widget_content +
              `<hr>`;
             tempElement.innerHTML = widgetChild;
             widgetDragBarContainer.appendChild(tempElement);
