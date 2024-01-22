@@ -689,7 +689,6 @@ app.get('/formview/:form_control_number', async function (req, res){
         var selectedFormControlNumberToView = req.params.form_control_number;
         formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
         var allVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID }).toArray();
-        var initialUserForm = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID, user_version : 0 });
         var latestVersion = 0;
         var latestUserVersion = 0;
 
@@ -775,12 +774,24 @@ app.get('/formview/:form_control_number', async function (req, res){
         var g = await jsonToHTML(e);
         jsonObject.form_content = g;
 
+        var initialUserForm = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID, user_version : 0 });
         var h = initialUserForm.form_content;
         var i = await jsonToHTML(h);
         initialUserForm.form_content = i;
 
         var currentUserFiles = await files.find({ uploadedBy : latestUserFilledVersion.form_owner, fileFormControlNumber : latestUserFilledVersion.form_control_number }).toArray();
+
         var submittedVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_status : "Submitted" }).toArray();
+
+        for(const form of submittedVersions){
+            const formOwner = form.form_owner;
+            const user = await users.findOne({ emp_id: formOwner });
+            if (user) {
+                form.user_department = user.user_department;
+            } else {
+                logError("User not found for form_owner: " + formOwner);
+            }
+        }
 
         var latestAssignedVersion = 0;
         var latestAssignedUsers;
@@ -2203,19 +2214,19 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
             res.send({ status_code : 1 });
         }else{
             if(currentUserDetailsBlock.userLevel == "Secretary"){
-                updateDocument = filledoutforms.findOneAndUpdate(
+                updateDocument = await filledoutforms.findOneAndUpdate(
                     { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
                     { $set: { secretary_approval: "Returned" } },
                     { returnDocument: 'after' }
                 );
             }else if(currentUserDetailsBlock.userLevel == "Department Head"){
-                updateDocument = filledoutforms.findOneAndUpdate(
+                updateDocument = await filledoutforms.findOneAndUpdate(
                     { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
                     { $set: { department_head_approval: "Returned" } },
                     { returnDocument: 'after' }
                 );
             }else if(currentUserDetailsBlock.userLevel == "Dean"){
-                updateDocument = filledoutforms.findOneAndUpdate(
+                updateDocument = await filledoutforms.findOneAndUpdate(
                     { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
                     { $set: { dean_approval: "Returned" } },
                     { returnDocument: 'after' }
@@ -2243,13 +2254,13 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
             res.send({ status_code : 1 });
         }else{
             if(currentUserDetailsBlock.userLevel == "Secretary"){
-                updateDocument = filledoutforms.findOneAndUpdate(
+                updateDocument = await filledoutforms.findOneAndUpdate(
                     { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
                     { $set: { secretary_approval: "Approved" } },
                     { returnDocument: 'after' }
                 );
             }else if(currentUserDetailsBlock.userLevel == "Department Head"){
-                updateDocument = filledoutforms.findOneAndUpdate(
+                updateDocument = await filledoutforms.findOneAndUpdate(
                     { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
                     { $set: { department_head_approval: "Approved" } },
                     { returnDocument: 'after' }
