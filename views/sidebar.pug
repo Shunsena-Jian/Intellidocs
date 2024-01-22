@@ -95,6 +95,11 @@ block sidebar
                 h6
                     i.fa.fa-briefcase.fa-fw.w3-margin-right.w3-text-theme
                     myelement#userType #{currentUserDetailsBlock.userLevel}
+                if (!currentUserDetailsBlock.userDepartment)
+                else
+                    h6
+                        i.fa.fa-briefcase.fa-fw.w3-margin-right.w3-text-theme
+                        myelement#userType #{currentUserDetailsBlock.userDepartment}
                 hr(style='border-top: 1px dashed black;')
 
 

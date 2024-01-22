@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* formview.pug&#10;// Now shows date submitted for the form instead of date saved">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* dragbar.pug&#10;// Fixed issue in create widget button in viewformtemplate&#10;// Dean and Department Head now cannot access user management in form view">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/dragbar.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/dragbar.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/createusers.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createusers.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/sidebar.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/sidebar.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/viewusers.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewusers.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,7 +208,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705814356960</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="* dragbar.pug&#10;// Fixed issue in create widget button in viewformtemplate&#10;// Dean and Department Head now cannot access user management in form view">
+      <option name="closed" value="true" />
+      <created>1705910368178</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1705910368178</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -237,6 +247,7 @@
     <MESSAGE value="* dragbar.pug&#10;// Renamed Signature Fields to Upload Fields&#10;&#10;* formview.pug&#10;// Created a new table that shows the previously submitted forms by the faculty on faculty view&#10;&#10;* index.js&#10;// Now initiates a value for dean, department head, and secretary approvals for the table&#10;// Now passes the previously submitted forms based on the form owner and status as Submitted&#10;&#10;* intellijent.widgets.json&#10;// Updated the widgets database" />
     <MESSAGE value="* formview.pug&#10;// Now passes the user form version as a parameter to easily navigate the correct form version&#10;// Now added an AJAX function that will properly render the form chosen in the previously submitted version table&#10;// Created an AJAX function that will properly update the table when a form is submitted&#10;&#10;* index.js&#10;// Now sends the details for the previously submitted forms" />
     <MESSAGE value="* formview.pug&#10;// Now shows date submitted for the form instead of date saved" />
-    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug&#10;// Now shows date submitted for the form instead of date saved" />
+    <MESSAGE value="* dragbar.pug&#10;// Fixed issue in create widget button in viewformtemplate&#10;// Dean and Department Head now cannot access user management in form view" />
+    <option name="LAST_COMMIT_MESSAGE" value="* dragbar.pug&#10;// Fixed issue in create widget button in viewformtemplate&#10;// Dean and Department Head now cannot access user management in form view" />
   </component>
 </project>

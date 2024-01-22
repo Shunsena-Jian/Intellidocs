@@ -13,6 +13,7 @@ block body
                             th First Name
                             th Last Name
                             th User Level
+                            th User Department
                             th Actions
                     tbody
                         each user in userAccounts
@@ -21,6 +22,7 @@ block body
                                 td #{user.first_name}
                                 td #{user.last_name}
                                 td #{user.user_level}
+                                td #{user.user_department}
                                 td
                                     a.w3-quarter.w3-hover-white(href='#')
                                         i.fa.fa-pencil-square.w3-text-theme

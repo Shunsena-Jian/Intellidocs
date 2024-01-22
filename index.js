@@ -2374,7 +2374,8 @@ async function getUserDetailsBlock(empID){
                 "firstName": user.first_name,
                 "lastName": user.last_name,
                 "empID": user.emp_id,
-                "userLevel": user.user_level
+                "userLevel": user.user_level,
+                "userDepartment": user.user_department
             }
         }
     }catch(error){
