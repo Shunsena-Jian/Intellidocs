@@ -1332,6 +1332,11 @@ function selectElement(element) {
     element.addEventListener('click', function (event) {
 	    const clickedElement = event.target;
 
+        // Do not allow selection and edit capability for the header table
+        if (findParentTable(clickedElement).classList.contains("form-table")) {
+            return;
+        }
+
 	    // Unselect the previously selected text box, if any
 	    if (selectedTextBox && selectedTextBox.getAttribute('id') === "selectedElement") {
             // Assuming selectedTextBox is a label containing an input element
@@ -1418,6 +1423,14 @@ function selectElement(element) {
         selectedTextBox = clickedElement; // Update pointer to selected element based on current click
     });
     return element;
+}
+
+
+function findParentTable(element) {
+  while (element && element.tagName !== 'TABLE') {
+    element = element.parentElement;
+  }
+  return element; // Returns the parent table element or null if not found
 }
 
 function makeUnderline() {
