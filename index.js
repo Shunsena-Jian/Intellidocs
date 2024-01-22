@@ -689,6 +689,7 @@ app.get('/formview/:form_control_number', async function (req, res){
         var selectedFormControlNumberToView = req.params.form_control_number;
         formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
         var allVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID }).toArray();
+        var initialUserForm = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID, user_version : 0 });
         var latestVersion = 0;
         var latestUserVersion = 0;
 
@@ -774,6 +775,10 @@ app.get('/formview/:form_control_number', async function (req, res){
         var g = await jsonToHTML(e);
         jsonObject.form_content = g;
 
+        var h = initialUserForm.form_content;
+        var i = await jsonToHTML(h);
+        initialUserForm.form_content = i;
+
         var currentUserFiles = await files.find({ uploadedBy : latestUserFilledVersion.form_owner, fileFormControlNumber : latestUserFilledVersion.form_control_number }).toArray();
         var submittedVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_status : "Submitted" }).toArray();
 
@@ -813,7 +818,8 @@ app.get('/formview/:form_control_number', async function (req, res){
             sharedWrite: sharedWrite,
             allAssignedUsers: allAssignedUsers,
             previouslySubmittedForms: previouslySubmittedForms,
-            userCurrentPage: "formview"
+            userCurrentPage: "formview",
+            initialUserForm: initialUserForm
         });
     }else{
         res.render('login', {
@@ -2178,6 +2184,46 @@ app.put('/AJAX_viewFormVersion', async function(req, res) {
                 logError("Error at view form version for front end: " + error);
             }
         }
+    }else{
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_returnSubmittedForm', async function(req, res) {
+    if(req.session.loggedIn){
+        var formData = req.body;
+        var selectedFormControlNumberToView = formData.formControlNumber;
+        var updateDocument;
+        var submittedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+
+        if(!submittedForm){
+            logStatus("Could not find the form.");
+            res.send({ status_code : 1 });
+        }else{
+            if(currentUserDetailsBlock.userLevel == "Secretary"){
+                updateDocument = filledoutforms.findOneAndUpdate(
+                    { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
+                    { $set: { secretary_approval: "Returned" } },
+                    { returnDocument: 'after' }
+                );
+            }else if(currentUserDetailsBlock.userLevel == "Department Head"){
+                updateDocument = filledoutforms.findOneAndUpdate(
+                    { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
+                    { $set: { department_head_approval: "Returned" } },
+                    { returnDocument: 'after' }
+                );
+            }else if(currentUserDetailsBlock.userLevel == "Dean"){
+                updateDocument = filledoutforms.findOneAndUpdate(
+                    { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
+                    { $set: { dean_approval: "Returned" } },
+                    { returnDocument: 'after' }
+                );
+            }
+        }
+        var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+        res.send({ status_code : 0, secretary_approval : updatedForm.secretary_approval, dean_approval : updatedForm.dean_approval, department_head_approval : updatedForm.department_head_approval });
     }else{
         res.render('login', {
             title: 'Login Page'

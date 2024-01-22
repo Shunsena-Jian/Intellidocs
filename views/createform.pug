@@ -106,6 +106,7 @@ block body
                     data: JSON.stringify(data),
                     success: function (data) {
                         if (data.success) {
+                            alert("Form is now saved.");
                             window.location.href = '/';
                         } else if (data.status_code === 1) {
                             alert("Form name already exists. Proceed to view form templates to edit the form instead!");
