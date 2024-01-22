@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* intellijent.users.json&#10;// Added the necessary users for proper system flow soon">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* createform.pug&#10;// Now shows an alert when form template is created.&#10;&#10;* formview.pug&#10;// Now added the 7 departments in assigning departments to forms&#10;// Now added a feature to return form&#10;// Now renders the initial filledoutform instead of the latest filledoutform&#10;// Created an AJAX function for Returned Forms&#10;// Fixed a bug on updating the status of the form&#10;&#10;* index.js&#10;// SHORTCUT - throws instead the first version of the filled out form instead of the latest filled out form">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/createform.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createform.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -231,7 +229,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705913259261</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="* createform.pug&#10;// Now shows an alert when form template is created.&#10;&#10;* formview.pug&#10;// Now added the 7 departments in assigning departments to forms&#10;// Now added a feature to return form&#10;// Now renders the initial filledoutform instead of the latest filledoutform&#10;// Created an AJAX function for Returned Forms&#10;// Fixed a bug on updating the status of the form&#10;&#10;* index.js&#10;// SHORTCUT - throws instead the first version of the filled out form instead of the latest filled out form">
+      <option name="closed" value="true" />
+      <created>1705918324662</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1705918324662</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -265,6 +271,7 @@
     <MESSAGE value="* dragbar.pug&#10;// Fixed issue in create widget button in viewformtemplate&#10;// Dean and Department Head now cannot access user management in form view" />
     <MESSAGE value="* createusers.pug&#10;// Now added the correct 7 departments of SAMCIS&#10;&#10;* index.js&#10;// Added the user department for the user details block&#10;&#10;* sidebar.pug&#10;// Added the user department of the user if present in the sidebar&#10;&#10;* intellijent.users.json&#10;// Added the necessary users for proper system flow soon&#10;&#10;* viewusers.pug&#10;// Now added the user department for the table for easier user visibility" />
     <MESSAGE value="* intellijent.users.json&#10;// Added the necessary users for proper system flow soon" />
-    <option name="LAST_COMMIT_MESSAGE" value="* intellijent.users.json&#10;// Added the necessary users for proper system flow soon" />
+    <MESSAGE value="* createform.pug&#10;// Now shows an alert when form template is created.&#10;&#10;* formview.pug&#10;// Now added the 7 departments in assigning departments to forms&#10;// Now added a feature to return form&#10;// Now renders the initial filledoutform instead of the latest filledoutform&#10;// Created an AJAX function for Returned Forms&#10;// Fixed a bug on updating the status of the form&#10;&#10;* index.js&#10;// SHORTCUT - throws instead the first version of the filled out form instead of the latest filled out form" />
+    <option name="LAST_COMMIT_MESSAGE" value="* createform.pug&#10;// Now shows an alert when form template is created.&#10;&#10;* formview.pug&#10;// Now added the 7 departments in assigning departments to forms&#10;// Now added a feature to return form&#10;// Now renders the initial filledoutform instead of the latest filledoutform&#10;// Created an AJAX function for Returned Forms&#10;// Fixed a bug on updating the status of the form&#10;&#10;* index.js&#10;// SHORTCUT - throws instead the first version of the filled out form instead of the latest filled out form" />
   </component>
 </project>
