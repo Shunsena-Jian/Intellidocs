@@ -2790,6 +2790,15 @@ color: black;
   color: white;
 }
 
+.form-details {
+  border-spacing: 10px;
+  font-size: 16px;
+}
+
+.form-details td, .form-details th {
+  padding: 5px; /* Add padding inside cells */
+}
+
 /* W3.CSS 4.15 December 2020 by Jan Egil and Borge Refsnes */
 html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}
 /* Extract from normalize.css by Nicolas Gallagher and Jonathan Neal git.io/normalize */

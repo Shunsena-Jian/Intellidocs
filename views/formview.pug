@@ -12,11 +12,11 @@ block body
 
                     .w3-row
                         .w3-twothird.w3-container2
-                            h2 Form Details
+                            h4.w3-bold Form Details
                             hr
                             .w3-third
                                 .w3-container.w3-card.w3-white.w3-round.w3-margin
-                                    h2 Saved Form Versions
+                                    h4.w3-bold Saved Form Versions
                                     hr
                                     .w3-row
                                         select#versionDropDown(name='versionDropDown')
@@ -29,7 +29,7 @@ block body
                                             |   Load Form
                             .w3-third
                                 .w3-container.w3-card.w3-white.w3-round.w3-margin
-                                    h2 Share Document
+                                    h4.w3-bold Share Document
                                     hr
                                     .w3-row
                                         input(id='employee_email' name='employee_email' placeholder="Employee Email")
@@ -45,7 +45,7 @@ block body
 
                             .w3-third
                                 .w3-container.w3-card.w3-white.w3-round.w3-margin
-                                    h2 Shared with
+                                    h4.w3-bold Shared with
                                     hr
                                     each sharedReadItem in sharedRead
                                         h4
@@ -58,7 +58,7 @@ block body
 
 
                         .w3-third.w3-container2
-                            h2 Form Settings
+                            h4.w3-bold Form Settings
                             hr
                             .w3-row
                                 .w3-container.w3-white.w3-round.w3-margin
@@ -72,38 +72,58 @@ block body
                                             |   Submit Form
 
         if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Dean" || currentUserDetailsBlock.userLevel === "Department Head" )
-            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+            .w3-container.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
-                    .w3-half.w3-container2
-                        h1 User Form Settings
+                    .w3-half.w3-container
+                        h3.w3-bold User Form Settings
                         hr
                         .w3-third
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                h2 Form Details
+                                h4.w3-bold Form Details
                                 .w3-row
-                                    h4 #{form_template.form_name}
-                                    h4#formDetailsActivateSetting Status : #{form_template.form_status}
-                                    if (!form_template.due_date)
-                                        h4 Due Date : None
-                                    else
-                                        h4#formDueDate Due Date : #{form_template.due_date}
+                                    table.form-details
+                                        tr
+                                            td Form Name:
+                                            td #{form_template.form_name}
+                                        tr
+                                            td Status:
+                                            td#formDetailsActivateSetting Status
+                                        tr
+                                            td Due Date:
+                                            td
+                                                if (!form_template.due_date)
+                                                    | None
+                                                else
+                                                    #{form_template.due_date}
+
                                 hr
-                                h2 Approvals
+                                h4.w3-bold Approvals
                                 .w3-row
-                                    if (!form_template.secretary_approval)
-                                        h4#secretaryApproval Secretary : Not Approved
-                                    if (!form_template.dean_approval)
-                                        h4#deanApproval Dean : Not Approved
-                                    if (!form_template.department_head_approval)
-                                        h4#departmentHeadApproval Department Head : Not Approved
+                                    table.form-details
+                                        tr
+                                            td Secretary:
+                                            td
+                                                if (!form_template.secretary_approval)
+                                                    #secretaryApproval Not Approved
+                                        tr
+                                            td Department Head:
+                                            td
+                                                if (!form_template.dean_approval)
+                                                    #deanApproval  Not Approved
+                                        tr
+                                            td Dean:
+                                            td
+                                                if (!form_template.department_head_approval)
+                                                    #departmentHeadApproval  Not Approved
+
 
                         .w3-third
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                h2 Form Settings
+                                h4.w3-bold Form Settings
                                 .w3-row
                                     button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
                                 hr
-                                h2 Due Date
+                                h4.w3-bold Due Date
                                 .w3-row
                                     input(type="date" id="dueDateInput" name="birthday")
                                 br
@@ -114,7 +134,7 @@ block body
 
                         .w3-third
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                h2 Assign User
+                                h4.w3-bold Assign User
                                 .w3-row
                                     input(id='assign_user' name='employee_email' placeholder="Employee Email")
                                 br
@@ -123,7 +143,7 @@ block body
                                         i.fa.fa-share-alt.fa-fw.w3-margin-right
                                         | Assign Selected User
                                 hr
-                                h2 Assign Department
+                                h4.w3-bold Assign Department
                                 .w3-row
                                     select#assignDepartment(name='assignDepartment')
                                         option(value='null') Choose Department
@@ -137,7 +157,7 @@ block body
                                         | Assign Selected Department
 
                     .w3-half.w3-container2
-                        h1 Submitted Forms
+                        h3.w3-bold Submitted Forms
                         hr
                         .w3-container2.w3-card.w3-white.w3-round.w3-margin
                             table#submittedFormsTable.display(width='100%')
@@ -156,12 +176,12 @@ block body
                                                 button.w3-button.w3-block.w3-theme-dark(onclick=`renderSubmittedForm("${submissions.form_owner}")`) View
                                             td
                                                 button.w3-button.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Approve Form
-            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+            .w3-container.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
-                    .w3-container2
-                        h1 Assigned Users
+                    .w3-container
+                        h3.w3-bold Assigned Users
                         hr
-                        .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                        .w3-white.w3-round.w3-margin
                             table#assignedUserTable.display(width='100%')
                                 thead
                                     tr
@@ -257,12 +277,12 @@ block body
                 .dialogboxfoot2
                     button.pure-material-button-contained.active(onclick=`hideDeleteModal()`) No
 
-        .w3-container2.w3-card.w3-white.w3-round.w3-margin
+        .w3-container.w3-card.w3-white.w3-round.w3-margin
             .w3-row
-                .w3-container2
-                    h1 Previously Submitted Forms
+                .w3-container
+                    h3.w3-bold Previously Submitted Forms
                     hr
-                    .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                    .w3-white.w3-round.w3-margin
                         table#previouslySubmittedForms.display(width='100%')
                             thead
                                 tr
@@ -294,7 +314,7 @@ block body
             .w3-row.w3-padding-32
                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
                     .w3-row
-                        h1 File Management
+                        h3.w3-bold File Management
                         hr
                         .w3-twothird.w3-container
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
