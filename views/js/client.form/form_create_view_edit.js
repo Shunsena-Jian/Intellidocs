@@ -1295,7 +1295,9 @@ function makeAllReadOnlyRecursive() {
             childElements.forEach(child => {
 
              // Set the readonly attribute to the element
-             child.setAttribute('readonly', 'true');
+             child.setAttribute('readonly', true);
+
+             child.disabled = true;
 
              // Set contentEditable attribute to false
              child.setAttribute('contentEditable', 'false');
