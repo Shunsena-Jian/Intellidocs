@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* formview.pug&#10;// Fixed update status for Viewing Submitted Forms">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* formview.pug&#10;// Added table view restriction for department heads on submitted forms to limit on what form they should be seeing&#10;// Fixed a bug on updating the status of the form when rendering, approving, and returning forms&#10;&#10;* index.js&#10;// Fixed a bug in rendering the initial template of the form that is causing the crash of the system&#10;// Fixed a bug in approving and returning forms.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -246,7 +245,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705918833670</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="* formview.pug&#10;// Added table view restriction for department heads on submitted forms to limit on what form they should be seeing&#10;// Fixed a bug on updating the status of the form when rendering, approving, and returning forms&#10;&#10;* index.js&#10;// Fixed a bug in rendering the initial template of the form that is causing the crash of the system&#10;// Fixed a bug in approving and returning forms.">
+      <option name="closed" value="true" />
+      <created>1705923370336</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1705923370336</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -282,6 +289,7 @@
     <MESSAGE value="* intellijent.users.json&#10;// Added the necessary users for proper system flow soon" />
     <MESSAGE value="* createform.pug&#10;// Now shows an alert when form template is created.&#10;&#10;* formview.pug&#10;// Now added the 7 departments in assigning departments to forms&#10;// Now added a feature to return form&#10;// Now renders the initial filledoutform instead of the latest filledoutform&#10;// Created an AJAX function for Returned Forms&#10;// Fixed a bug on updating the status of the form&#10;&#10;* index.js&#10;// SHORTCUT - throws instead the first version of the filled out form instead of the latest filled out form" />
     <MESSAGE value="* formview.pug&#10;// Fixed update status for Viewing Submitted Forms" />
-    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug&#10;// Fixed update status for Viewing Submitted Forms" />
+    <MESSAGE value="* formview.pug&#10;// Added table view restriction for department heads on submitted forms to limit on what form they should be seeing&#10;// Fixed a bug on updating the status of the form when rendering, approving, and returning forms&#10;&#10;* index.js&#10;// Fixed a bug in rendering the initial template of the form that is causing the crash of the system&#10;// Fixed a bug in approving and returning forms." />
+    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug&#10;// Added table view restriction for department heads on submitted forms to limit on what form they should be seeing&#10;// Fixed a bug on updating the status of the form when rendering, approving, and returning forms&#10;&#10;* index.js&#10;// Fixed a bug in rendering the initial template of the form that is causing the crash of the system&#10;// Fixed a bug in approving and returning forms." />
   </component>
 </project>

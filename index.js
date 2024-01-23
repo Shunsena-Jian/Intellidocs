@@ -53,6 +53,10 @@ app.set('view engine', 'pug');
 app.use('/views/src', express.static(path.join(__dirname, 'views', 'src')));
 app.use(express.static(path.join(__dirname, 'views')));
 app.use('/uploads', express.static('uploads'));
+//app.use((req, res, next) => {
+//    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+//    next();
+//});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
