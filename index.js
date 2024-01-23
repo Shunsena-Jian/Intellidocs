@@ -1778,7 +1778,6 @@ app.put('/AJAX_assignDepartment', async function(req, res){
     }
 });
 
-
 app.put('/AJAX_assignUsers', async function(req, res){
     if(req.session.loggedIn){
         try{
@@ -2002,14 +2001,28 @@ app.put('/AJAX_togglePublish', async function(req, res){
                 if(formVersions[i].form_version == targetedVersion){
                     currentStatus = formVersions[i].form_status;
                     logStatus("the found status of : " + targetedVersion + "is : " + currentStatus);
+                    let secretary = await users.findOne({ user_level : "Secretary" });
+                    let senderName = await users.findOne({ emp_id : req.session.userEmpID });
 
                     if(currentStatus == "Template"){
                         try {
                             console.log("Entering the setting of Status");
+
                             updateDocument = await forms.findOneAndUpdate(
                                 { form_control_number : selectedFormControlNumberToView, form_version : targetedVersion },
                                 { $set: { form_status: "Published" } }
                             );
+
+                            let uploadNotif = await notifications.insertOne({
+                                sender: req.session.userEmpID,
+                                sender_name: senderName.first_name,
+                                receiver: secretary.emp_id,
+                                time_sent: getTimeNow(),
+                                date_sent: getDateNow(),
+                                status: "Unseen",
+                                message: "The Document Controller has now Published the form " + formData.formName
+                            });
+
                             updatedStatus = "Published";
                             logStatus("Finished the setting of Status");
                         }catch(error){
@@ -2018,10 +2031,22 @@ app.put('/AJAX_togglePublish', async function(req, res){
 
                         logStatus("Setting control number : " + selectedFormControlNumberToView + " with version " + targetedVersion + " to Published");
                     }else{
+
                         updateDocument = await forms.findOneAndUpdate(
                             { form_control_number : selectedFormControlNumberToView, form_version : targetedVersion },
                             { $set: { form_status: "Template" } }
                         );
+
+                            let uploadNotif2 = await notifications.insertOne({
+                                sender: req.session.userEmpID,
+                                sender_name: senderName.first_name,
+                                receiver: secretary.emp_id,
+                                time_sent: getTimeNow(),
+                                date_sent: getDateNow(),
+                                status: "Unseen",
+                                message: "The Document Controller has Un-Published the form " + formData.formName
+                            });
+
                         updatedStatus = "Template";
                         logStatus("Setting control number : " + selectedFormControlNumberToView + " with version " + targetedVersion + " to Template");
                     }
@@ -2460,7 +2485,7 @@ async function getNotifications(empID){
     var userNotifications;
 
     try {
-        userNotifications = await notifications.find({ recipients: empID }).toArray();
+        userNotifications = await notifications.find({ receiver: empID }).toArray();
         logStatus("The notifications are: " + JSON.stringify(userNotifications));
 
     }catch(error){

@@ -22,52 +22,23 @@ block sidebar
                     .w3-dropdown-content.w3-card-4.w3-bar-block
                         //vvv this gets populated by notifications block
                         #notifItem
-                            .alert.alert-success.alert-white.rounded
-                                .icon
-                                    i.fa.fa-check
-                                p(style='margin-left:50px;')
-                                    | This is a success notification...
-                                    | Delete this Notification
-                                p(style='margin-left:50px;')
-                                    strong Kasima Mendoza
-                                    |  | October 8,2023
-                                    a.w3-bar-item.w3-button View
-                        #notifItem
-                            .alert.alert-info.alert-white.rounded
-                                .icon
-                                    i.fa.fa-info-circle
-                                p(style='margin-left:50px;')
-                                    | This is an info notification...
-                                    | Delete this Notification
-                                p(style='margin-left:50px;')
-                                    strong Kasima Mendoza
-                                    |  | October 8,2023
-                                    a.w3-bar-item.w3-button View
-                        #notifItem
-                            .alert.alert-warning.alert-white.rounded
-                                .icon
-                                    i.fa.fa-warning
-                                p(style='margin-left:50px;')
-                                    | This is a warning notification...
-                                    | Delete this Notification
-                                p(style='margin-left:50px;')
-                                    strong Kasima Mendoza
-                                    |  | October 8,2023
-                                    a.w3-bar-item.w3-button View
-                        #notifItem
-                            .alert.alert-danger.alert-white.rounded
-                                .icon
-                                    i.fa.fa-times-circle
-                                p(style='margin-left:50px;')
-                                    | This is an error notification...
-                                    | Delete this Notification
-                                p(style='margin-left:50px;')
-                                    strong Kasima Mendoza
-                                    |  | October 8,2023
-                                    a.w3-bar-item.w3-button View
-                        hr
-                        div(style='text-align:right; padding-bottom: 20px;')
-                            a.w3-bar-item.w3-button(href='#') view all
+                            if (currentUserNotifications.length > 0)
+                                each notification in currentUserNotifications
+                                    .alert.alert-info.alert-white.rounded
+                                        .icon
+                                            i.fa.fa-info-circle
+                                        p(style='margin-left:50px;')
+                                            | #{notification.message}
+                                        p(style='margin-left:50px;')
+                                            strong #{notification.sender_name}
+                                            |  | #{notification.time_sent}
+                                            |  | #{notification.date_sent}
+                                            a.w3-bar-item.w3-button View
+                            else
+                                p(style='margin-left:50px;') You have no notifications
+                        //hr
+                        //div(style='text-align:right; padding-bottom: 20px;')
+                        //    a.w3-bar-item.w3-button(href='#') view all
                 a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='#' onclick="showLeavePageModal('/logout')")
                     if (currentUserPicture && currentUserPicture.user_picture)
                         img.w3-circle(src=`${currentUserPicture.user_picture}` style='height:23px;width:23px' alt='Avatar')
@@ -172,4 +143,4 @@ block sidebar
     script.
         var userCurrentPage = !{JSON.stringify(userCurrentPage)};
         window.userLevel = !{JSON.stringify(currentUserDetailsBlock.userLevel)};
-        console.log("This is the user details block: " + userLevel);
+        var currentUserNotifications = !{JSON.stringify(currentUserNotifications)};
