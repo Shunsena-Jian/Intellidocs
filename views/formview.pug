@@ -430,6 +430,7 @@ block body
             }else{
                 var table4 = $('#assignedUserTable').DataTable();
                 var data = {
+                    formName: currentForm.form_name,
                     formControlNumber: formBlock.form_control_number
                 };
 
@@ -466,6 +467,7 @@ block body
         var table3 = $('#assignedUserTable').DataTable();
 
         var formBlock = !{JSON.stringify(initialUserForm)};
+        var currentForm = !{JSON.stringify(currentForm)};
         var empEmails = !{JSON.stringify(retrievedUserEmails)}
         var receivedFormContent = formBlock.form_content;
 
@@ -916,6 +918,7 @@ block body
                 alert("Employee does not exist.");
             } else {
                 const data = {
+                    formName: currentForm.form_name,
                     assignedUser: selectedUserToAssign,
                     formControlNumber: formControlNumber
                 };

@@ -1783,11 +1783,23 @@ app.put('/AJAX_assignUsers', async function(req, res){
         try{
             var formData = req.body;
             var formControlNumber = formData.formControlNumber;
+            let secretary = await users.findOne({ user_level : "Secretary" });
+            let notifyUser = await users.findOne({ email : formData.assignedUser });
 
             await forms.updateMany(
                 { form_control_number : formControlNumber },
                 { $addToSet: { "assigned_users" : formData.assignedUser } }
             );
+
+            let uploadNotif = await notifications.insertOne({
+                sender: secretary.emp_id,
+                sender_name: secretary.first_name,
+                receiver: notifyUser.emp_id,
+                time_sent: getTimeNow(),
+                date_sent: getDateNow(),
+                status: "Unseen",
+                message: "You have been assigned to the form " + formData.formName
+            });
 
             var formVersions = await forms.find({ form_control_number : formControlNumber }).toArray();
             var latestAssignedVersion = 0;
@@ -1827,6 +1839,7 @@ app.put('/AJAX_removeUser/:email', async function(req, res){
             var formData = req.body;
             var selectedFormControlNumberToView = formData.formControlNumber;
             var formVersions = await forms.find({ form_control_number: selectedFormControlNumberToView }).toArray();
+            let notifyUser = await users.findOne({ email : unassignedUser });
 
             var latestAssignedVersion = 0;
             var latestAssignedUsers;
@@ -1849,6 +1862,17 @@ app.put('/AJAX_removeUser/:email', async function(req, res){
                 { form_control_number : selectedFormControlNumberToView },
                 { $set: { assigned_users : latestAssignedUsers } }
             );
+
+            let secretary = await users.findOne({ user_level : "Secretary" });
+            let uploadNotif = await notifications.insertOne({
+                sender: secretary.emp_id,
+                sender_name: secretary.first_name,
+                receiver: notifyUser.emp_id,
+                time_sent: getTimeNow(),
+                date_sent: getDateNow(),
+                status: "Unseen",
+                message: "You have been unassigned to the form " + formData.formName
+            });
 
             var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
             console.log("This are the updated assigned users: " + JSON.stringify(allAssignedUsers));
