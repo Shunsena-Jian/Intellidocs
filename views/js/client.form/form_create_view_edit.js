@@ -1421,13 +1421,13 @@ function selectElement(element) {
                 selectedCells = []; // Clear selected cells if non-table elements are clicked
             }
             selectedTextBox = clickedElement; // Update pointer to selected element based on current click
-        });
+
 
     } catch {
         // Handle Error
         // Clicked Element is not a table header
     }
-
+    });
     return element;
 }
 
