@@ -168,18 +168,20 @@ block body
                                 thead
                                     tr
                                         th Employee Number
-                                        th Date Submitted
                                         th User Department
+                                        th Date Submitted
+                                        th Time Submitted
                                         th View Form
-                                        th Action
-                                        th Action
+                                        th Approve Form
+                                        th Return Form
                                 tbody
                                     each submissions in submittedVersions
                                         if (currentUserDetailsBlock.userDepartment === submissions.user_department || currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Dean")
                                             tr
                                                 td #{submissions.form_owner}
-                                                td #{submissions.date_submitted}
                                                 td #{submissions.user_department}
+                                                td #{submissions.date_submitted}
+                                                td #{submissions.time_saved}
                                                 td
                                                     button.w3-button.w3-block.w3-theme-dark(onclick=`renderSubmittedForm("${submissions.form_owner}")`) View
                                                 td
@@ -375,9 +377,6 @@ block body
     script(src="../js/client.functions/handle_ajax_delete.js")
 
     script.
-        function
-
-    script.
         function assignDepartment(){
             var chosenDepartment = document.getElementById('assignDepartment').value;
             var assignDepartmentMessage = "Are you sure to assign to " + chosenDepartment + " in this form?";
@@ -387,6 +386,7 @@ block body
             }else{
                 var table6 = $('#assignedUserTable').DataTable();
                 var data = {
+                    formName: formBlock.form_name,
                     formControlNumber: formBlock.form_control_number,
                     assignedDepartment: chosenDepartment
                 };
@@ -770,7 +770,7 @@ block body
                             document.getElementById("departmentHeadApproval").innerHTML = "Not Approved";
                         }
 
-                        alert("Submitted form was approved.");
+                        alert("Submitted form was returned.");
                     } else if (response.status_code === 1){
                         alert("Error in returning the form.");
                     } else if (response.status_code === 2){
@@ -967,6 +967,7 @@ block body
 
 
             const data = {
+                formName: formBlock.form_name,
                 formContent: formBody
             };
 

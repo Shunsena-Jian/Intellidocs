@@ -64,7 +64,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 var currentUserFiles;
 var currentUserDetailsBlock;
 var currentUserPrivileges;
-var currentUserNotifications;
 var filesDocuments;
 
 app.use(
@@ -443,6 +442,7 @@ app.put('/submitform', async function(req, res){
     if(req.session.loggedIn){
         var selectedFormControlNumberToView = req.session.form_control_number;
         formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+        var addNotif;
         var latestVersion = 0;
         var latestUserVersion = 0;
         var initialUserVersion = 0;
@@ -525,6 +525,21 @@ app.put('/submitform', async function(req, res){
                 jsonObject.form_content = g;
 
                 var prevSubmittedForms = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID, form_status : "Submitted" }).toArray();
+
+                var currentUser = await users.findOne({ emp_id : req.session.userEmpID });
+                var secretary = await users.findOne({ user_level : "Secretary" });
+                var dean = await users.findOne({ user_level : "Dean" });
+                var departmentHead = await users.findOne({ user_level : "Department Head", user_department : currentUser.user_department });
+
+                addNotif = await notifications.insertOne({
+                    sender: req.session.userEmpID,
+                    sender_name: currentUser.first_name,
+                    receiver: [secretary.emp_id, dean.emp_id, departmentHead.emp_id],
+                    time_sent: getTimeNow(),
+                    date_sent: getDateNow(),
+                    status: "Unseen",
+                    message: currentUser.first_name + " has submitted the form: " + formData.formName
+                });
 
                 res.send({ status_code : 0, allUserFormVersions : allUserFormVersions, initialTemplate: jsonObject.form_content, prevSubmittedForms: prevSubmittedForms });
             }
@@ -636,7 +651,6 @@ app.get('/sharedview', async function (req, res){
 
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
         retrievedUserEmails = await getUsersEmails();
 
@@ -666,7 +680,6 @@ app.get('/sharedview', async function (req, res){
             retrievedUserEmails : retrievedUserEmails,
             currentUserDetailsBlock : currentUserDetailsBlock,
             currentUserPrivileges: currentUserPrivileges,
-            currentUserNotifications: currentUserNotifications,
             currentForm: jsonObject,
             currentUserPicture: currentUserPicture,
             min_idleTime: min_idleTime
@@ -685,7 +698,6 @@ app.get('/formview/:form_control_number', async function (req, res){
 
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
         retrievedUserEmails = await getUsersEmails();
 
@@ -822,7 +834,6 @@ app.get('/formview/:form_control_number', async function (req, res){
             currentUserDetailsBlock : currentUserDetailsBlock,
             currentUserFiles: currentUserFiles,
             currentUserPrivileges: currentUserPrivileges,
-            currentUserNotifications: currentUserNotifications,
             currentForm: jsonObject,
             currentUserPicture: currentUserPicture,
             allVersions: allVersions,
@@ -860,14 +871,14 @@ app.put('/shareform', async function(req, res){
                         { returnNewDocument : true }
                     );
 
-                    const secondresult = await notifications.insertOne({
-                        sender: req.session.userEmpID,
-                        receiver: formData.shareTo,
-                        time_sent: getTimeNow(),
-                        date_sent: getDateNow(),
-                        status: "Unseen",
-                        link: "Sample Link"
-                    });
+//                    const secondresult = await notifications.insertOne({
+//                        sender: req.session.userEmpID,
+//                        receiver: formData.shareTo,
+//                        time_sent: getTimeNow(),
+//                        date_sent: getDateNow(),
+//                        status: "Unseen",
+//                        link: "Sample Link"
+//                    });
 
                     res.send({ status_code: 0 });
                 }else if (formData.sharedUserPrivileges == 'Editor'){
@@ -877,14 +888,14 @@ app.put('/shareform', async function(req, res){
                         { returnNewDocument : true }
                     );
 
-                    const secondresult = await notifications.insertOne({
-                        sender: req.session.userEmpID,
-                        receiver: formData.shareTo,
-                        time_sent: getTimeNow(),
-                        date_sent: getDateNow(),
-                        status: "Unseen",
-                        link: "Sample Link"
-                    });
+//                    const secondresult = await notifications.insertOne({
+//                        sender: req.session.userEmpID,
+//                        receiver: formData.shareTo,
+//                        time_sent: getTimeNow(),
+//                        date_sent: getDateNow(),
+//                        status: "Unseen",
+//                        link: "Sample Link"
+//                    });
 
                     res.send({ status_code: 0 });
                 } else {
@@ -921,7 +932,6 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
             currentUserFiles = await getFiles(req.session.userEmpID);
             currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
             currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-            currentUserNotifications = await getNotifications(req.session.userEmpID);
             currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_version: latestVersion });
             currentUserPicture = await getUserPicture(req.session.userEmpID);
 
@@ -935,7 +945,6 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 currentForm: jsonObject,
                 currentUserPicture: currentUserPicture,
                 allVersions: allVersions,
@@ -962,7 +971,6 @@ app.get('/', async function (req, res){
             currentUserFiles = await getFiles(req.session.userEmpID);
             currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
             currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-            currentUserNotifications = await getNotifications(req.session.userEmpID);
             currentUserPicture = await getUserPicture(req.session.userEmpID);
 
             res.render('index', {
@@ -970,7 +978,6 @@ app.get('/', async function (req, res){
                 currentUserDetailsBlock: currentUserDetailsBlock,
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime,
                 userCurrentPage: "index"
@@ -991,7 +998,6 @@ app.get('/accountsettings', async function (req, res){
             currentUserFiles = await getFiles(req.session.userEmpID);
             currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
             currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-            currentUserNotifications = await getNotifications(req.session.userEmpID);
             currentUserPicture = await getUserPicture(req.session.userEmpID);
 
             res.render('accountsettings', {
@@ -999,7 +1005,6 @@ app.get('/accountsettings', async function (req, res){
                 currentUserDetailsBlock: currentUserDetailsBlock,
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime,
                 userCurrentPage: "accountsettings"
@@ -1197,7 +1202,6 @@ app.post('/login', async function (req, res){
                 currentUserFiles = await getFiles(req.session.userEmpID);
                 currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
                 currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-                currentUserNotifications = await getNotifications(req.session.userEmpID);
                 currentUserPicture = await getUserPicture(req.session.userEmpID);
 
                 res.render('index', {
@@ -1205,7 +1209,6 @@ app.post('/login', async function (req, res){
                     currentUserDetailsBlock: currentUserDetailsBlock,
                     currentUserFiles: currentUserFiles,
                     currentUserPrivileges: currentUserPrivileges,
-                    currentUserNotifications: currentUserNotifications,
                     currentUserPicture: currentUserPicture,
                     min_idleTime: min_idleTime,
                     userCurrentPage: "index"
@@ -1232,7 +1235,6 @@ app.get('/createform', async function(req, res){
     if (req.session.loggedIn){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
         currentPersonalizedWidgets = await getPersonalizedWidgets(req.session.userEmpID);
         currentHeaderWidgets = await getHeaderWidgets(req.session.userEmpID);
@@ -1249,7 +1251,6 @@ app.get('/createform', async function(req, res){
                 title: 'Create Form',
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime,
                 userCurrentPage: "createform"
@@ -1263,7 +1264,6 @@ app.get('/createform', async function(req, res){
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
@@ -1282,7 +1282,6 @@ app.get('/createwidget', async function(req, res){
     if(req.session.loggedIn){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
@@ -1291,7 +1290,6 @@ app.get('/createwidget', async function(req, res){
                 title: 'Create Widget',
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime,
                 userCurrentPage: "createwidget"
@@ -1304,7 +1302,6 @@ app.get('/createwidget', async function(req, res){
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
@@ -1337,7 +1334,6 @@ app.get('/viewforms', async function(req, res){
     if(req.session.loggedIn){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentUserForms = await getUserForms(req.session.userEmpID);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
@@ -1364,7 +1360,6 @@ app.get('/viewforms', async function(req, res){
                 title: 'View Forms',
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 publishedForms: publishedForms,
                 submittedForms: submittedForms,
                 assignedForms: assignedForms,
@@ -1382,7 +1377,6 @@ app.get('/viewforms', async function(req, res){
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
@@ -1401,7 +1395,6 @@ app.get('/viewformtemplates', async function(req, res){
     if(req.session.loggedIn){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentForms = await getForms(req.session.userEmpID);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
@@ -1413,7 +1406,6 @@ app.get('/viewformtemplates', async function(req, res){
                 title: 'View Form Templates',
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 currentForms: currentForms,
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime,
@@ -1428,7 +1420,6 @@ app.get('/viewformtemplates', async function(req, res){
                 currentUserDetailsBlock : currentUserDetailsBlock,
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
@@ -1448,7 +1439,6 @@ app.get('/createusers', async function(req, res){
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
@@ -1459,7 +1449,6 @@ app.get('/createusers', async function(req, res){
                 currentUserDetailsBlock: currentUserDetailsBlock,
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime,
                 userCurrentPage: "createusers"
@@ -1470,7 +1459,6 @@ app.get('/createusers', async function(req, res){
                 userDetails: currentUserDetailsBlock,
                 filesData: currentUserFiles,
                 userPrivileges: currentUserPrivileges,
-                userNotifications: currentUserNotifications,
                 min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
@@ -1536,14 +1524,12 @@ app.post('/createusers', async function(req, res){
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        currentUserNotifications = await getNotifications(req.session.userEmpID);
 
         res.render('createusers', {
             title: 'Create Users',
             currentUserDetailsBlock: currentUserDetailsBlock,
             currentUserFiles: currentUserFiles,
             currentUserPrivileges: currentUserPrivileges,
-            currentUserNotifications: currentUserNotifications,
             min_idleTime: min_idleTime,
             userCurrentPage: "createusers"
         });
@@ -1568,7 +1554,6 @@ app.get('/viewusers', async function(req, res){
         currentUserFiles = await getFiles(req.session.userEmpID);
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        currentUserNotifications = await getNotifications(req.session.userEmpID);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
@@ -1579,7 +1564,6 @@ app.get('/viewusers', async function(req, res){
                 currentUserDetailsBlock: currentUserDetailsBlock,
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 min_idleTime: min_idleTime,
                 currentUserPicture: currentUserPicture,
                 userAccounts: userAccounts,
@@ -1594,7 +1578,6 @@ app.get('/viewusers', async function(req, res){
                 currentUserDetailsBlock: currentUserDetailsBlock,
                 currentUserFiles: currentUserFiles,
                 currentUserPrivileges: currentUserPrivileges,
-                currentUserNotifications: currentUserNotifications,
                 min_idleTime: min_idleTime,
                 errorMSG : "Access Denied"
             });
@@ -1740,6 +1723,8 @@ app.put('/AJAX_assignDepartment', async function(req, res){
             var chosenDepartment = formData.assignedDepartment;
             var allAssignedDepartment = await users.find({ user_department: chosenDepartment }).toArray();
             var assignedDepartmentEmails = [];
+            let approver = await users.findOne({ emp_id : req.session.userEmpID });
+
             for(const email of allAssignedDepartment){
                 assignedDepartmentEmails.push(email.email);
             }
@@ -1766,6 +1751,21 @@ app.put('/AJAX_assignDepartment', async function(req, res){
             }
 
             var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
+
+            var empIdsArray = allAssignedUsers.map(function(user) {
+                return user.emp_id;
+            });
+
+            addNotif = await notifications.insertOne({
+                sender: approver.emp_id,
+                sender_name: approver.first_name,
+                receiver: empIdsArray,
+                time_sent: getTimeNow(),
+                date_sent: getDateNow(),
+                status: "Unseen",
+                message: "The Secretary has assigned you to form: " + formData.formName
+            });
+
             res.send({ status_code : 0, allAssignedUsers : allAssignedUsers });
         }catch(error){
             logError('There was an error at AJAX function in assigning the department: ' + error);
@@ -1794,11 +1794,11 @@ app.put('/AJAX_assignUsers', async function(req, res){
             let uploadNotif = await notifications.insertOne({
                 sender: secretary.emp_id,
                 sender_name: secretary.first_name,
-                receiver: notifyUser.emp_id,
+                receiver: [notifyUser.emp_id],
                 time_sent: getTimeNow(),
                 date_sent: getDateNow(),
                 status: "Unseen",
-                message: "You have been assigned to the form " + formData.formName
+                message: "The Secretary has assigned you to form: " + formData.formName
             });
 
             var formVersions = await forms.find({ form_control_number : formControlNumber }).toArray();
@@ -1867,7 +1867,7 @@ app.put('/AJAX_removeUser/:email', async function(req, res){
             let uploadNotif = await notifications.insertOne({
                 sender: secretary.emp_id,
                 sender_name: secretary.first_name,
-                receiver: notifyUser.emp_id,
+                receiver: [notifyUser.emp_id],
                 time_sent: getTimeNow(),
                 date_sent: getDateNow(),
                 status: "Unseen",
@@ -2040,11 +2040,11 @@ app.put('/AJAX_togglePublish', async function(req, res){
                             let uploadNotif = await notifications.insertOne({
                                 sender: req.session.userEmpID,
                                 sender_name: senderName.first_name,
-                                receiver: secretary.emp_id,
+                                receiver: [secretary.emp_id],
                                 time_sent: getTimeNow(),
                                 date_sent: getDateNow(),
                                 status: "Unseen",
-                                message: "The Document Controller has now Published the form " + formData.formName
+                                message: " The Document Controller has now Published the form: " + formData.formName
                             });
 
                             updatedStatus = "Published";
@@ -2064,7 +2064,7 @@ app.put('/AJAX_togglePublish', async function(req, res){
                             let uploadNotif2 = await notifications.insertOne({
                                 sender: req.session.userEmpID,
                                 sender_name: senderName.first_name,
-                                receiver: secretary.emp_id,
+                                receiver: [secretary.emp_id],
                                 time_sent: getTimeNow(),
                                 date_sent: getDateNow(),
                                 status: "Unseen",
@@ -2261,6 +2261,8 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
         var selectedFormControlNumberToView = formData.formControlNumber;
         var updateDocument;
         var submittedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+        let approver = await users.findOne({ emp_id : req.session.userEmpID });
+        var addNotif;
 
         if(!submittedForm){
             logStatus("Could not find the form.");
@@ -2272,18 +2274,48 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
                     { $set: { secretary_approval: "Returned" } },
                     { returnDocument: 'after' }
                 );
+
+                addNotif = await notifications.insertOne({
+                    sender: approver.emp_id,
+                    sender_name: approver.first_name,
+                    receiver: [formData.formOwner],
+                    time_sent: getTimeNow(),
+                    date_sent: getDateNow(),
+                    status: "Unseen",
+                    message: "The Secretary has returned your submitted form: " + submittedForm.form_name
+                });
             }else if(currentUserDetailsBlock.userLevel == "Department Head"){
                 updateDocument = await filledoutforms.findOneAndUpdate(
                     { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
                     { $set: { department_head_approval: "Returned" } },
                     { returnDocument: 'after' }
                 );
+
+                addNotif = await notifications.insertOne({
+                    sender: approver.emp_id,
+                    sender_name: approver.first_name,
+                    receiver: [formData.formOwner],
+                    time_sent: getTimeNow(),
+                    date_sent: getDateNow(),
+                    status: "Unseen",
+                    message: "Your Department Head has returned your submitted form: " + submittedForm.form_name
+                });
             }else if(currentUserDetailsBlock.userLevel == "Dean"){
                 updateDocument = await filledoutforms.findOneAndUpdate(
                     { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
                     { $set: { dean_approval: "Returned" } },
                     { returnDocument: 'after' }
                 );
+
+                addNotif = await notifications.insertOne({
+                    sender: approver.emp_id,
+                    sender_name: approver.first_name,
+                    receiver: [formData.formOwner],
+                    time_sent: getTimeNow(),
+                    date_sent: getDateNow(),
+                    status: "Unseen",
+                    message: "The Dean has returned your submitted form: " + submittedForm.form_name
+                });
             }
         }
         var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
@@ -2301,6 +2333,8 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
         var selectedFormControlNumberToView = formData.formControlNumber;
         var updateDocument;
         var submittedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+        let approver = await users.findOne({ emp_id : req.session.userEmpID });
+        var addNotif;
 
         if(!submittedForm){
             logStatus("Could not find the form.");
@@ -2312,21 +2346,56 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
                     { $set: { secretary_approval: "Approved" } },
                     { returnDocument: 'after' }
                 );
+
+                addNotif = await notifications.insertOne({
+                    sender: approver.emp_id,
+                    sender_name: approver.first_name,
+                    receiver: [formData.formOwner],
+                    time_sent: getTimeNow(),
+                    date_sent: getDateNow(),
+                    status: "Unseen",
+                    message: "The Secretary has approved your submitted form: " + submittedForm.form_name
+                });
+
             }else if(currentUserDetailsBlock.userLevel == "Department Head"){
                 updateDocument = await filledoutforms.findOneAndUpdate(
                     { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
                     { $set: { department_head_approval: "Approved" } },
                     { returnDocument: 'after' }
                 );
+
+                addNotif = await notifications.insertOne({
+                    sender: approver.emp_id,
+                    sender_name: approver.first_name,
+                    receiver: [formData.formOwner],
+                    time_sent: getTimeNow(),
+                    date_sent: getDateNow(),
+                    status: "Unseen",
+                    message: "Your Department Head has approved your submitted form: " + submittedForm.form_name
+                });
+
             }else if(currentUserDetailsBlock.userLevel == "Dean"){
                 updateDocument = filledoutforms.findOneAndUpdate(
                     { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
                     { $set: { dean_approval: "Approved" } },
                     { returnDocument: 'after' }
                 );
+
+                addNotif = await notifications.insertOne({
+                    sender: approver.emp_id,
+                    sender_name: approver.first_name,
+                    receiver: [formData.formOwner],
+                    time_sent: getTimeNow(),
+                    date_sent: getDateNow(),
+                    status: "Unseen",
+                    message: "The Dean has approved your submitted form: " + submittedForm.form_name
+                });
+
             }
         }
         var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+
+
         res.send({ status_code : 0, secretary_approval : updatedForm.secretary_approval, dean_approval : updatedForm.dean_approval, department_head_approval : updatedForm.department_head_approval });
     }else{
         res.render('login', {
@@ -2526,7 +2595,7 @@ async function getNotifications(empID){
     var userNotifications;
 
     try {
-        userNotifications = await notifications.find({ receiver: empID }).toArray();
+        userNotifications = await notifications.find({ receiver: { $in: [empID] } }).toArray();
         // logStatus("The notifications are: " + JSON.stringify(userNotifications));
 
     }catch(error){
