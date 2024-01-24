@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* index.js&#10;// Now starting on notification processes, as of now, only the publishing and un-publishing of forms will send a notification&#10;&#10;* sidebar.pug&#10;// Will now show the notifications dedicated to the user only&#10;&#10;* viewformtemplate.pug&#10;// The form name will now be passed to the backend to properly dictate which form is being published or un-published">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* index.js&#10;// Users will also now be notified if they have been assigned to a form or unassigned">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/sidebar.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/sidebar.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -270,7 +270,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706008554198</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="* index.js&#10;// Users will also now be notified if they have been assigned to a form or unassigned">
+      <option name="closed" value="true" />
+      <created>1706012767023</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1706012767023</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -309,6 +317,7 @@
     <MESSAGE value="* formview.pug&#10;// Added table view restriction for department heads on submitted forms to limit on what form they should be seeing&#10;// Fixed a bug on updating the status of the form when rendering, approving, and returning forms&#10;&#10;* index.js&#10;// Fixed a bug in rendering the initial template of the form that is causing the crash of the system&#10;// Fixed a bug in approving and returning forms." />
     <MESSAGE value="* index.js&#10;// Possible fix for back history to properly update table in view form templates, BUT could pose possible draw backs." />
     <MESSAGE value="* index.js&#10;// Now starting on notification processes, as of now, only the publishing and un-publishing of forms will send a notification&#10;&#10;* sidebar.pug&#10;// Will now show the notifications dedicated to the user only&#10;&#10;* viewformtemplate.pug&#10;// The form name will now be passed to the backend to properly dictate which form is being published or un-published" />
-    <option name="LAST_COMMIT_MESSAGE" value="* index.js&#10;// Now starting on notification processes, as of now, only the publishing and un-publishing of forms will send a notification&#10;&#10;* sidebar.pug&#10;// Will now show the notifications dedicated to the user only&#10;&#10;* viewformtemplate.pug&#10;// The form name will now be passed to the backend to properly dictate which form is being published or un-published" />
+    <MESSAGE value="* index.js&#10;// Users will also now be notified if they have been assigned to a form or unassigned" />
+    <option name="LAST_COMMIT_MESSAGE" value="* index.js&#10;// Users will also now be notified if they have been assigned to a form or unassigned" />
   </component>
 </project>

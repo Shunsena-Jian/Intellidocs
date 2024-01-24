@@ -53,10 +53,10 @@ app.set('view engine', 'pug');
 app.use('/views/src', express.static(path.join(__dirname, 'views', 'src')));
 app.use(express.static(path.join(__dirname, 'views')));
 app.use('/uploads', express.static('uploads'));
-//app.use((req, res, next) => {
-//    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-//    next();
-//});
+app.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    next();
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -2455,6 +2455,23 @@ app.put('/AJAX_formUserViewVersion', async function(req, res) {
     }
 });
 
+app.get('/AJAX_retrieveNotifications', async function(req, res){
+    if(req.session.loggedIn){
+        try{
+            let empID = req.session.userEmpID;
+            let userNotifications = await getNotifications(empID);
+            res.send({ currentUserNotifications : userNotifications });
+
+        }catch(error){
+            logError("Error at ajax back end retrieve notifications: " + error);
+        }
+    }else{
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
 async function getUserPicture(empID){
     var userPicture;
 
@@ -2510,7 +2527,7 @@ async function getNotifications(empID){
 
     try {
         userNotifications = await notifications.find({ receiver: empID }).toArray();
-        logStatus("The notifications are: " + JSON.stringify(userNotifications));
+        // logStatus("The notifications are: " + JSON.stringify(userNotifications));
 
     }catch(error){
         logError("Failed to retrieve unseen notifications: " + error);
