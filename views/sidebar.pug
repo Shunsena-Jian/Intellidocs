@@ -29,7 +29,6 @@ block sidebar
                                         url: '/AJAX_retrieveNotifications',
                                         success: function(response) {
                                             var currentUserNotifications = response.currentUserNotifications;
-                                            console.log("This are your notifs: " + JSON.stringify(currentUserNotifications));
                                             var notificationsHtml = '';
 
                                             if (currentUserNotifications.length > 0) {
@@ -43,13 +42,13 @@ block sidebar
                                                             <p style="margin-left:50px;">
                                                                 <strong>${notification.sender_name}</strong> |
                                                                  ${notification.time_sent} | ${notification.date_sent}
-                                                                <a class="w3-bar-item w3-button" href="">View</a>
+                                                                <a class="w3-bar-item w3-button" href="#">View</a>
                                                             </p>
                                                         </div>
                                                     `;
                                                 });
                                             } else {
-                                                notificationsHtml = '<p style="margin-left:50px;">You have no notifications</p>';
+                                                notificationsHtml = '<p style="margin-left:50px;"> You have no notifications </p>';
                                             }
                                             $('#notifItem').html(notificationsHtml);
                                         },
@@ -168,8 +167,3 @@ block sidebar
         var userCurrentPage = !{JSON.stringify(userCurrentPage)};
         window.userLevel = !{JSON.stringify(currentUserDetailsBlock.userLevel)};
         var currentUserNotifications = !{JSON.stringify(currentUserNotifications)};
-
-
-
-
-        p(style='margin-left:50px;') You have no notifications

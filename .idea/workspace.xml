@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* index.js&#10;// Users will also now be notified if they have been assigned to a form or unassigned">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* index.js&#10;// Pages will now refresh instead of using existing cache from the browser.&#10;// Created an AJAX route for retrieving notifications&#10;&#10;* sidebar.pug&#10;// Created an inline script to retrieve user's notifications every 3 seconds">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/sidebar.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/sidebar.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -278,7 +277,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706012767023</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="* index.js&#10;// Pages will now refresh instead of using existing cache from the browser.&#10;// Created an AJAX route for retrieving notifications&#10;&#10;* sidebar.pug&#10;// Created an inline script to retrieve user's notifications every 3 seconds">
+      <option name="closed" value="true" />
+      <created>1706089954041</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1706089954041</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -318,6 +325,7 @@
     <MESSAGE value="* index.js&#10;// Possible fix for back history to properly update table in view form templates, BUT could pose possible draw backs." />
     <MESSAGE value="* index.js&#10;// Now starting on notification processes, as of now, only the publishing and un-publishing of forms will send a notification&#10;&#10;* sidebar.pug&#10;// Will now show the notifications dedicated to the user only&#10;&#10;* viewformtemplate.pug&#10;// The form name will now be passed to the backend to properly dictate which form is being published or un-published" />
     <MESSAGE value="* index.js&#10;// Users will also now be notified if they have been assigned to a form or unassigned" />
-    <option name="LAST_COMMIT_MESSAGE" value="* index.js&#10;// Users will also now be notified if they have been assigned to a form or unassigned" />
+    <MESSAGE value="* index.js&#10;// Pages will now refresh instead of using existing cache from the browser.&#10;// Created an AJAX route for retrieving notifications&#10;&#10;* sidebar.pug&#10;// Created an inline script to retrieve user's notifications every 3 seconds" />
+    <option name="LAST_COMMIT_MESSAGE" value="* index.js&#10;// Pages will now refresh instead of using existing cache from the browser.&#10;// Created an AJAX route for retrieving notifications&#10;&#10;* sidebar.pug&#10;// Created an inline script to retrieve user's notifications every 3 seconds" />
   </component>
 </project>
