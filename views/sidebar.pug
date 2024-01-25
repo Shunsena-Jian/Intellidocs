@@ -16,11 +16,10 @@ block sidebar
                 a.w3-bar-item.w3-button.w3-hover-white(href='#' onclick="showLeavePageModal('/accountsettings',userCurrentPage)")
                     i.fa.fa-user.w3-margin-right
                     |   Account Settings
-                .w3-dropdown-hover.w3-hide-small
-                    button.w3-button Notifications
+                .w3-dropdown-click.w3-hide-small
+                    button#buttonNotif.w3-button.w3-hover-white(onclick=`seenNotifs()`) Notifications
                         i.fa.fa-caret-down
-                    .w3-dropdown-content.w3-card-4.w3-bar-block
-                        //vvv this gets populated by notifications block
+                    .w3-dropdown-content#notifID.w3-card-4.w3-bar-block
                         #notifItem
                             script.
                                 function fetchNotifications() {
@@ -29,25 +28,53 @@ block sidebar
                                         url: '/AJAX_retrieveNotifications',
                                         success: function(response) {
                                             var currentUserNotifications = response.currentUserNotifications;
+                                            var unseenNotificationCount = 0;
                                             var notificationsHtml = '';
+                                            for (var i = 0; i < currentUserNotifications.length; i++) {
+                                                if (currentUserNotifications[i].status === "Unseen") {
+                                                    unseenNotificationCount++;
+                                                }
+                                            }
 
                                             if (currentUserNotifications.length > 0) {
                                                 currentUserNotifications.forEach(function(notification) {
-                                                    notificationsHtml += `
-                                                        <div class="alert alert-info alert-white rounded">
-                                                            <div class="icon">
-                                                                <i class="fa fa-info-circle"></i>
+                                                    if (notification.status == "Unseen"){
+                                                        notificationsHtml += `
+                                                            <div class="alert alert-info alert-white rounded">
+                                                                <div class="icon">
+                                                                    <i class="fa fa-info-circle"></i>
+                                                                </div>
+                                                                <p style="margin-left:50px;">${notification.message}</p>
+                                                                <p style="margin-left:50px;">
+                                                                    <strong>${notification.sender_name}</strong> |
+                                                                     ${notification.time_sent} | ${notification.date_sent}
+                                                                </p>
                                                             </div>
-                                                            <p style="margin-left:50px;">${notification.message}</p>
-                                                            <p style="margin-left:50px;">
-                                                                <strong>${notification.sender_name}</strong> |
-                                                                 ${notification.time_sent} | ${notification.date_sent}
-                                                            </p>
-                                                        </div>
-                                                    `;
+                                                        `;
+                                                    } else {
+                                                        notificationsHtml += `
+                                                            <div class="alert alert-success alert-white rounded">
+                                                                <div class="icon">
+                                                                    <i class="fa fa-check"></i>
+                                                                </div>
+                                                                <p style="margin-left:50px;">${notification.message}</p>
+                                                                <p style="margin-left:50px;">
+                                                                    <strong>${notification.sender_name}</strong> |
+                                                                     ${notification.time_sent} | ${notification.date_sent}
+                                                                </p>
+                                                            </div>
+                                                        `;
+                                                    }
+
                                                 });
                                             } else {
-                                                notificationsHtml = '<p style="margin-left:50px;"> You have no notifications </p>';
+                                                notificationsHtml = `<div class="alert alert-success alert-white rounded">
+                                                                        <div class="icon">
+                                                                            <i class="fa fa-check"></i>
+                                                                        </div>
+                                                                    <p style="margin-left:50px;"> You have no notifications </p>
+                                                                    <p style="margin-left:50px;"></p>
+                                                                    </div>`;
                                             }
                                             $('#notifItem').html(notificationsHtml);
                                         },
@@ -58,9 +85,6 @@ block sidebar
                                 }
                                 fetchNotifications();
                                 setInterval(fetchNotifications, 3000);
-                        //hr
-                        //div(style='text-align:right; padding-bottom: 20px;')
-                        //    a.w3-bar-item.w3-button(href='#') view all
                 a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white(href='#' onclick="showLeavePageModal('/logout')")
                     if (currentUserPicture && currentUserPicture.user_picture)
                         img.w3-circle(src=`${currentUserPicture.user_picture}` style='height:23px;width:23px' alt='Avatar')
@@ -165,3 +189,27 @@ block sidebar
     script.
         var userCurrentPage = !{JSON.stringify(userCurrentPage)};
         window.userLevel = !{JSON.stringify(currentUserDetailsBlock.userLevel)};
+
+        function toggleDropdownNotif() {
+            $('#notifID').toggle();
+        }
+
+        $('#buttonNotif').click(toggleDropdownNotif);
+
+    script.
+        function seenNotifs() {
+            console.log("Called the seen notifs");
+            $.ajax({
+                type: 'PUT',
+                url: '/AJAX_seenNotifs',
+                success: function (response) {
+                    if (response.status_code === 0) {
+                    } else if (response.status_code === 1) {
+                        alert("There was an error in seen notifications.");
+                    }
+                },
+                error: function (error) {
+                    console.error('AJAX error in seen notifications: ', error);
+                }
+            });
+        }

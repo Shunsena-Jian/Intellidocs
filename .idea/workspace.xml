@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* formview.pug&#10;// Re-arranged and added new information on the table for Submitted Forms&#10;&#10;* index.js&#10;// Removed currentUserNotifications variables and multiple routes calling it as there is now a dedicated route for all notifications&#10;// Now makes sure that the receiver of notifications are in an array&#10;// Now added notifications when:&#10;1. A user submits a form&#10;2. When the secretary assigns a department&#10;3. When a form is returned.&#10;4. When a form is approved.">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* index.js&#10;// Instead of pushing as an array every individual receiver of notifications will have a separate insertion to the notifications collections&#10;&#10;* sidebar.pug&#10;// Removed the Action button on notifications">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/sidebar.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/sidebar.pug" afterDir="false" />
@@ -302,7 +302,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706105099947</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="* index.js&#10;// Instead of pushing as an array every individual receiver of notifications will have a separate insertion to the notifications collections&#10;&#10;* sidebar.pug&#10;// Removed the Action button on notifications">
+      <option name="closed" value="true" />
+      <created>1706162291860</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1706162291860</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -318,7 +326,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="* formview.pug&#10;// Debugged for Approval&#10;// Bug at AJAX updating status on table for approvals&#10;&#10;* index.js&#10;// Debugged viewing shared form" />
     <MESSAGE value="* formview.pug&#10;// Created a new function to determine which quarter the due date has been set&#10;// Passes the Quarter Due Date results to backend&#10;&#10;* index.js&#10;// In-Active forms will now also show in the table of Published Forms&#10;// Stores quarter due date to database." />
     <MESSAGE value="* formview.pug&#10;// Button for Activating Debugged&#10;&#10;* index.js&#10;// Assigning users using username debugged" />
     <MESSAGE value="* sidebar.pug&#10;// Fixed a bug where all sidebar buttons are showing despite having null privileges" />
@@ -343,6 +350,7 @@
     <MESSAGE value="* index.js&#10;// Pages will now refresh instead of using existing cache from the browser.&#10;// Created an AJAX route for retrieving notifications&#10;&#10;* sidebar.pug&#10;// Created an inline script to retrieve user's notifications every 3 seconds" />
     <MESSAGE value="* sidebar.pug&#10;// Fixed a stupid bug" />
     <MESSAGE value="* formview.pug&#10;// Re-arranged and added new information on the table for Submitted Forms&#10;&#10;* index.js&#10;// Removed currentUserNotifications variables and multiple routes calling it as there is now a dedicated route for all notifications&#10;// Now makes sure that the receiver of notifications are in an array&#10;// Now added notifications when:&#10;1. A user submits a form&#10;2. When the secretary assigns a department&#10;3. When a form is returned.&#10;4. When a form is approved." />
-    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug&#10;// Re-arranged and added new information on the table for Submitted Forms&#10;&#10;* index.js&#10;// Removed currentUserNotifications variables and multiple routes calling it as there is now a dedicated route for all notifications&#10;// Now makes sure that the receiver of notifications are in an array&#10;// Now added notifications when:&#10;1. A user submits a form&#10;2. When the secretary assigns a department&#10;3. When a form is returned.&#10;4. When a form is approved." />
+    <MESSAGE value="* index.js&#10;// Instead of pushing as an array every individual receiver of notifications will have a separate insertion to the notifications collections&#10;&#10;* sidebar.pug&#10;// Removed the Action button on notifications" />
+    <option name="LAST_COMMIT_MESSAGE" value="* index.js&#10;// Instead of pushing as an array every individual receiver of notifications will have a separate insertion to the notifications collections&#10;&#10;* sidebar.pug&#10;// Removed the Action button on notifications" />
   </component>
 </project>

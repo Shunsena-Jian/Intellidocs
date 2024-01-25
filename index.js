@@ -318,7 +318,7 @@ app.post('/saveformversion', async function(req, res){
                 fileUploadStatus = formHistory[i].allow_file_upload;
 
                 latestAssignedUsers = formHistory[i].assigned_users;
-                if(formHistory[i].read_users){
+                if(formHistory[i].assigned_users){
                     let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...formHistory[i].assigned_users]);
                     latestAssignedUsers = Array.from(uniqueAssignedUsers);
                 }
@@ -837,7 +837,7 @@ app.get('/formview/:form_control_number', async function (req, res){
                 latestVersion = formVersions[i].form_version;
                 latestAssignedUsers = formVersions[i].assigned_users;
 
-                if(formVersions[i].read_users){
+                if(formVersions[i].assigned_users){
                     let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...formVersions[i].assigned_users]);
                     latestAssignedUsers = Array.from(uniqueAssignedUsers);
                 }
@@ -879,7 +879,6 @@ app.put('/shareform', async function(req, res){
         try {
             var formData = req.body;
             var selectedFormControlNumberToView = formData.formControlNumber;
-            var formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
 
             if(!formData.shareTo){
                 res.send({status_code : 1});
@@ -1366,8 +1365,7 @@ app.get('/viewforms', async function(req, res){
             var allSharedForms = await filledoutforms.find({
                 $or: [
                     { read_users : req.session.userEmpID },
-                    { write_users : req.session.userEmpID },
-                    { form_owner : req.session.userEmpID }
+                    { write_users : req.session.userEmpID }
                 ]
             }).toArray();
 
@@ -1763,7 +1761,7 @@ app.put('/AJAX_assignDepartment', async function(req, res){
                     latestAssignedVersion = formVersions[i].form_version;
                     latestAssignedUsers = formVersions[i].assigned_users;
 
-                    if (formVersions[i].read_users) {
+                    if (formVersions[i].assigned_users) {
                         let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...formVersions[i].assigned_users]);
                         latestAssignedUsers = Array.from(uniqueAssignedUsers);
                     }
@@ -1832,7 +1830,7 @@ app.put('/AJAX_assignUsers', async function(req, res){
                     latestAssignedVersion = formVersions[i].form_version;
                     latestAssignedUsers = formVersions[i].assigned_users;
 
-                    if (formVersions[i].read_users) {
+                    if (formVersions[i].assigned_users) {
                         let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...formVersions[i].assigned_users]);
                         latestAssignedUsers = Array.from(uniqueAssignedUsers);
                     }
@@ -1871,7 +1869,7 @@ app.put('/AJAX_removeUser/:email', async function(req, res){
                     latestAssignedVersion = formVersions[i].form_version;
                     latestAssignedUsers = formVersions[i].assigned_users;
 
-                    if (formVersions[i].read_users) {
+                    if (formVersions[i].assigned_users) {
                         let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...formVersions[i].assigned_users]);
                         latestAssignedUsers = Array.from(uniqueAssignedUsers);
                     }
@@ -2539,6 +2537,30 @@ app.put('/AJAX_formUserViewVersion', async function(req, res) {
             }
         }
 
+    }else{
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_seenNotifs', async function(req, res) {
+    if(req.session.loggedIn){
+        try{
+            var existingNotifications = await notifications.find({ receiver : req.session.userEmpID }).toArray();
+            if(!existingNotifications){
+                res.send({ status_code : 1 });
+            }
+            updateNotifications = await notifications.updateMany(
+                { receiver : req.session.userEmpID },
+                { $set : { status : "Seen" } },
+                { multi : true }
+            );
+            res.send({ status_code : 0 });
+
+        }catch(error){
+            logError("Error at seen notifications: " + error);
+        }
     }else{
         res.render('login', {
             title: 'Login Page'
