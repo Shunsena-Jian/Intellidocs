@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* sidebar.pug&#10;// Fixed a stupid bug">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* formview.pug&#10;// Re-arranged and added new information on the table for Submitted Forms&#10;&#10;* index.js&#10;// Removed currentUserNotifications variables and multiple routes calling it as there is now a dedicated route for all notifications&#10;// Now makes sure that the receiver of notifications are in an array&#10;// Now added notifications when:&#10;1. A user submits a form&#10;2. When the secretary assigns a department&#10;3. When a form is returned.&#10;4. When a form is approved.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/sidebar.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/sidebar.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -295,7 +294,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706090960396</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="* formview.pug&#10;// Re-arranged and added new information on the table for Submitted Forms&#10;&#10;* index.js&#10;// Removed currentUserNotifications variables and multiple routes calling it as there is now a dedicated route for all notifications&#10;// Now makes sure that the receiver of notifications are in an array&#10;// Now added notifications when:&#10;1. A user submits a form&#10;2. When the secretary assigns a department&#10;3. When a form is returned.&#10;4. When a form is approved.">
+      <option name="closed" value="true" />
+      <created>1706105099947</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1706105099947</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -311,7 +318,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="* index.js&#10;// Created an AJAX Function for backend to verify if shared form is present in the database&#10;// Created an app.get function to render sharedview with the proper form to view&#10;&#10;* sharedview.pug &amp;&amp; sharedviewlayout.pug&#10;// Fixed called external files&#10;// created an if else statement for validation if present&#10;&#10;* viewforms.pug&#10;// Created an AJAX function to call the AJAX from backend to reference the sharedview page" />
     <MESSAGE value="* formview.pug&#10;// Debugged for Approval&#10;// Bug at AJAX updating status on table for approvals&#10;&#10;* index.js&#10;// Debugged viewing shared form" />
     <MESSAGE value="* formview.pug&#10;// Created a new function to determine which quarter the due date has been set&#10;// Passes the Quarter Due Date results to backend&#10;&#10;* index.js&#10;// In-Active forms will now also show in the table of Published Forms&#10;// Stores quarter due date to database." />
     <MESSAGE value="* formview.pug&#10;// Button for Activating Debugged&#10;&#10;* index.js&#10;// Assigning users using username debugged" />
@@ -336,6 +342,7 @@
     <MESSAGE value="* index.js&#10;// Users will also now be notified if they have been assigned to a form or unassigned" />
     <MESSAGE value="* index.js&#10;// Pages will now refresh instead of using existing cache from the browser.&#10;// Created an AJAX route for retrieving notifications&#10;&#10;* sidebar.pug&#10;// Created an inline script to retrieve user's notifications every 3 seconds" />
     <MESSAGE value="* sidebar.pug&#10;// Fixed a stupid bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="* sidebar.pug&#10;// Fixed a stupid bug" />
+    <MESSAGE value="* formview.pug&#10;// Re-arranged and added new information on the table for Submitted Forms&#10;&#10;* index.js&#10;// Removed currentUserNotifications variables and multiple routes calling it as there is now a dedicated route for all notifications&#10;// Now makes sure that the receiver of notifications are in an array&#10;// Now added notifications when:&#10;1. A user submits a form&#10;2. When the secretary assigns a department&#10;3. When a form is returned.&#10;4. When a form is approved." />
+    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug&#10;// Re-arranged and added new information on the table for Submitted Forms&#10;&#10;* index.js&#10;// Removed currentUserNotifications variables and multiple routes calling it as there is now a dedicated route for all notifications&#10;// Now makes sure that the receiver of notifications are in an array&#10;// Now added notifications when:&#10;1. A user submits a form&#10;2. When the secretary assigns a department&#10;3. When a form is returned.&#10;4. When a form is approved." />
   </component>
 </project>

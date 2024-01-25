@@ -534,7 +534,27 @@ app.put('/submitform', async function(req, res){
                 addNotif = await notifications.insertOne({
                     sender: req.session.userEmpID,
                     sender_name: currentUser.first_name,
-                    receiver: [secretary.emp_id, dean.emp_id, departmentHead.emp_id],
+                    receiver: secretary.emp_id,
+                    time_sent: getTimeNow(),
+                    date_sent: getDateNow(),
+                    status: "Unseen",
+                    message: currentUser.first_name + " has submitted the form: " + formData.formName
+                });
+
+                addNotif = await notifications.insertOne({
+                    sender: req.session.userEmpID,
+                    sender_name: currentUser.first_name,
+                    receiver: dean.emp_id,
+                    time_sent: getTimeNow(),
+                    date_sent: getDateNow(),
+                    status: "Unseen",
+                    message: currentUser.first_name + " has submitted the form: " + formData.formName
+                });
+
+                addNotif = await notifications.insertOne({
+                    sender: req.session.userEmpID,
+                    sender_name: currentUser.first_name,
+                    receiver: departmentHead.emp_id,
                     time_sent: getTimeNow(),
                     date_sent: getDateNow(),
                     status: "Unseen",
@@ -1756,15 +1776,17 @@ app.put('/AJAX_assignDepartment', async function(req, res){
                 return user.emp_id;
             });
 
-            addNotif = await notifications.insertOne({
-                sender: approver.emp_id,
-                sender_name: approver.first_name,
-                receiver: empIdsArray,
-                time_sent: getTimeNow(),
-                date_sent: getDateNow(),
-                status: "Unseen",
-                message: "The Secretary has assigned you to form: " + formData.formName
-            });
+            for (const empId of empIdsArray) {
+                await notifications.insertOne({
+                    sender: approver.emp_id,
+                    sender_name: approver.first_name,
+                    receiver: empId,
+                    time_sent: getTimeNow(),
+                    date_sent: getDateNow(),
+                    status: "Unseen",
+                    message: "The Secretary has assigned you to form: " + formData.formName
+                });
+            }
 
             res.send({ status_code : 0, allAssignedUsers : allAssignedUsers });
         }catch(error){
@@ -1794,7 +1816,7 @@ app.put('/AJAX_assignUsers', async function(req, res){
             let uploadNotif = await notifications.insertOne({
                 sender: secretary.emp_id,
                 sender_name: secretary.first_name,
-                receiver: [notifyUser.emp_id],
+                receiver: notifyUser.emp_id,
                 time_sent: getTimeNow(),
                 date_sent: getDateNow(),
                 status: "Unseen",
@@ -1867,7 +1889,7 @@ app.put('/AJAX_removeUser/:email', async function(req, res){
             let uploadNotif = await notifications.insertOne({
                 sender: secretary.emp_id,
                 sender_name: secretary.first_name,
-                receiver: [notifyUser.emp_id],
+                receiver: notifyUser.emp_id,
                 time_sent: getTimeNow(),
                 date_sent: getDateNow(),
                 status: "Unseen",
@@ -2040,7 +2062,7 @@ app.put('/AJAX_togglePublish', async function(req, res){
                             let uploadNotif = await notifications.insertOne({
                                 sender: req.session.userEmpID,
                                 sender_name: senderName.first_name,
-                                receiver: [secretary.emp_id],
+                                receiver: secretary.emp_id,
                                 time_sent: getTimeNow(),
                                 date_sent: getDateNow(),
                                 status: "Unseen",
@@ -2064,7 +2086,7 @@ app.put('/AJAX_togglePublish', async function(req, res){
                             let uploadNotif2 = await notifications.insertOne({
                                 sender: req.session.userEmpID,
                                 sender_name: senderName.first_name,
-                                receiver: [secretary.emp_id],
+                                receiver: secretary.emp_id,
                                 time_sent: getTimeNow(),
                                 date_sent: getDateNow(),
                                 status: "Unseen",
@@ -2278,7 +2300,7 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
                 addNotif = await notifications.insertOne({
                     sender: approver.emp_id,
                     sender_name: approver.first_name,
-                    receiver: [formData.formOwner],
+                    receiver: formData.formOwner,
                     time_sent: getTimeNow(),
                     date_sent: getDateNow(),
                     status: "Unseen",
@@ -2294,7 +2316,7 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
                 addNotif = await notifications.insertOne({
                     sender: approver.emp_id,
                     sender_name: approver.first_name,
-                    receiver: [formData.formOwner],
+                    receiver: formData.formOwner,
                     time_sent: getTimeNow(),
                     date_sent: getDateNow(),
                     status: "Unseen",
@@ -2310,7 +2332,7 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
                 addNotif = await notifications.insertOne({
                     sender: approver.emp_id,
                     sender_name: approver.first_name,
-                    receiver: [formData.formOwner],
+                    receiver: formData.formOwner,
                     time_sent: getTimeNow(),
                     date_sent: getDateNow(),
                     status: "Unseen",
@@ -2350,7 +2372,7 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
                 addNotif = await notifications.insertOne({
                     sender: approver.emp_id,
                     sender_name: approver.first_name,
-                    receiver: [formData.formOwner],
+                    receiver: formData.formOwner,
                     time_sent: getTimeNow(),
                     date_sent: getDateNow(),
                     status: "Unseen",
@@ -2367,7 +2389,7 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
                 addNotif = await notifications.insertOne({
                     sender: approver.emp_id,
                     sender_name: approver.first_name,
-                    receiver: [formData.formOwner],
+                    receiver: formData.formOwner,
                     time_sent: getTimeNow(),
                     date_sent: getDateNow(),
                     status: "Unseen",
@@ -2384,7 +2406,7 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
                 addNotif = await notifications.insertOne({
                     sender: approver.emp_id,
                     sender_name: approver.first_name,
-                    receiver: [formData.formOwner],
+                    receiver: formData.formOwner,
                     time_sent: getTimeNow(),
                     date_sent: getDateNow(),
                     status: "Unseen",
@@ -2595,7 +2617,7 @@ async function getNotifications(empID){
     var userNotifications;
 
     try {
-        userNotifications = await notifications.find({ receiver: { $in: [empID] } }).toArray();
+        userNotifications = await notifications.find({ receiver: empID }).toArray();
         // logStatus("The notifications are: " + JSON.stringify(userNotifications));
 
     }catch(error){
