@@ -1336,98 +1336,97 @@ function selectElement(element) {
             if (findParentTable(clickedElement).classList.contains("form-table")) {
                 return;
             }
+        } catch {
+            // Handle Error
+            // Clicked Element is not a table header
+        }
 
-            // Unselect the previously selected text box, if any
-            if (selectedTextBox && selectedTextBox.getAttribute('id') === "selectedElement") {
-                // Assuming selectedTextBox is a label containing an input element
-                if (selectedTextBox.tagName.toLowerCase() === 'label') {
-                    const inputInsideLabel = selectedTextBox.querySelector('input');
-                    if (inputInsideLabel) {
-                        const labelFor = selectedTextBox.getAttribute('for');
-                        if (labelFor) {
-                            inputInsideLabel.setAttribute('id', labelFor);
-                        }
+        // Unselect the previously selected text box, if any
+        if (selectedTextBox && selectedTextBox.getAttribute('id') === "selectedElement") {
+            // Assuming selectedTextBox is a label containing an input element
+            if (selectedTextBox.tagName.toLowerCase() === 'label') {
+                const inputInsideLabel = selectedTextBox.querySelector('input');
+                if (inputInsideLabel) {
+                    const labelFor = selectedTextBox.getAttribute('for');
+                    if (labelFor) {
+                        inputInsideLabel.setAttribute('id', labelFor);
                     }
-                } else {
-                    // Check if the "id" attribute matches the selectedElement
-                    selectedTextBox.removeAttribute('id');
                 }
-            } else if (selectedTextBox && element.classList.contains("drop-container")) {
-               selectedTextBox.removeAttribute('contentEditable');
-               var pageID = 'page-' + currentPage;
-               selectedTextBox.setAttribute('id', pageID);
-            } else if (selectedTextBox) {
-                selectedTextBox.removeAttribute('contentEditable');
-            }
-
-                        clickedElement.removeAttribute('readonly');
-
-            if (clickedElement.classList.contains("w3-uneditable")) {
-                clickedElement.setAttribute('contentEditable', 'false');
-                clickedElement.setAttribute('readOnly', 'true');
-                return; // do not make it selectable
             } else {
-                // Ensure the clicked element is editable
-                clickedElement.removeAttribute('readonly');
+                // Check if the "id" attribute matches the selectedElement
+                selectedTextBox.removeAttribute('id');
             }
+        } else if (selectedTextBox && element.classList.contains("drop-container")) {
+           selectedTextBox.removeAttribute('contentEditable');
+           var pageID = 'page-' + currentPage;
+           selectedTextBox.setAttribute('id', pageID);
+        } else if (selectedTextBox) {
+            selectedTextBox.removeAttribute('contentEditable');
+        }
 
-            if ((clickedElement.tagName === 'TD' || clickedElement.tagName === 'TH') && !clickedElement.classList.contains('merged')) {
-                const index = selectedCells.indexOf(clickedElement);
+        clickedElement.removeAttribute('readonly');
 
-                if (index === -1) {
-                    const lastSelectedCell = selectedCells[selectedCells.length - 1];
-                    if (lastSelectedCell && lastSelectedCell.parentNode) {
-                        const selectedRowIndex = lastSelectedCell.parentNode.rowIndex;
-                        const selectedCellIndex = lastSelectedCell.cellIndex;
-                        const clickedRowIndex = clickedElement.parentNode.rowIndex;
-                        const clickedCellIndex = clickedElement.cellIndex;
+        if (clickedElement.classList.contains("w3-uneditable")) {
+            clickedElement.setAttribute('contentEditable', 'false');
+            clickedElement.setAttribute('readOnly', 'true');
+            return; // do not make it selectable
+        } else {
+            // Ensure the clicked element is editable
+            clickedElement.removeAttribute('readonly');
+        }
 
-                        const isAdjacent = (
-                            (selectedRowIndex === clickedRowIndex && Math.abs(selectedCellIndex - clickedCellIndex) === 1) ||
-                            (selectedCellIndex === clickedCellIndex && Math.abs(selectedRowIndex - clickedRowIndex) === 1)
-                        );
+        if ((clickedElement.tagName === 'TD' || clickedElement.tagName === 'TH') && !clickedElement.classList.contains('merged')) {
+            const index = selectedCells.indexOf(clickedElement);
 
-                        if (isAdjacent) {
-                            // Add the clicked cell to the selection if adjacent
-                            clickedElement.classList.add('selectedCells');
-                            selectedCells.push(clickedElement);
-                        } else {
-                            // Clear the previous selection and start a new selection
-                            selectedCells.forEach(cell => {
-                                cell.classList.remove('selectedCells');
-                            });
-                            selectedCells = [clickedElement];
-                        }
-                    } else {
-                        // If no cells are selected, add the clicked cell to the selection
+            if (index === -1) {
+                const lastSelectedCell = selectedCells[selectedCells.length - 1];
+                if (lastSelectedCell && lastSelectedCell.parentNode) {
+                    const selectedRowIndex = lastSelectedCell.parentNode.rowIndex;
+                    const selectedCellIndex = lastSelectedCell.cellIndex;
+                    const clickedRowIndex = clickedElement.parentNode.rowIndex;
+                    const clickedCellIndex = clickedElement.cellIndex;
+
+                    const isAdjacent = (
+                        (selectedRowIndex === clickedRowIndex && Math.abs(selectedCellIndex - clickedCellIndex) === 1) ||
+                        (selectedCellIndex === clickedCellIndex && Math.abs(selectedRowIndex - clickedRowIndex) === 1)
+                    );
+
+                    if (isAdjacent) {
+                        // Add the clicked cell to the selection if adjacent
                         clickedElement.classList.add('selectedCells');
                         selectedCells.push(clickedElement);
+                    } else {
+                        // Clear the previous selection and start a new selection
+                        selectedCells.forEach(cell => {
+                            cell.classList.remove('selectedCells');
+                        });
+                        selectedCells = [clickedElement];
                     }
                 } else {
-                    // If already selected, deselect the cell
-                    clickedElement.classList.remove('selectedCells');
-                    selectedCells.splice(index, 1);
+                    // If no cells are selected, add the clicked cell to the selection
+                    clickedElement.classList.add('selectedCells');
+                    selectedCells.push(clickedElement);
                 }
             } else {
-
-                if (clickedElement.querySelector('input[type="checkbox"]') && clickedElement.querySelector('input[type="radio"]')) {
-                    clickedElement.removeAttribute('contentEditable');
-                } else {
-                    // If other types of elements are clicked, handle accordingly
-                   // For example, set an ID to identify the selected element
-                   clickedElement.id = 'selectedElement';
-                }
-
-                selectedCells = []; // Clear selected cells if non-table elements are clicked
+                // If already selected, deselect the cell
+                clickedElement.classList.remove('selectedCells');
+                selectedCells.splice(index, 1);
             }
-            selectedTextBox = clickedElement; // Update pointer to selected element based on current click
+        } else {
 
+            if (clickedElement.querySelector('input[type="checkbox"]') && clickedElement.querySelector('input[type="radio"]')) {
+                clickedElement.removeAttribute('contentEditable');
+            } else {
+                // If other types of elements are clicked, handle accordingly
+               // For example, set an ID to identify the selected element
+               clickedElement.id = 'selectedElement';
+            }
 
-    } catch {
-        // Handle Error
-        // Clicked Element is not a table header
-    }
+            selectedCells = []; // Clear selected cells if non-table elements are clicked
+        }
+        selectedTextBox = clickedElement; // Update pointer to selected element based on current click
     });
+
     return element;
 }
 
