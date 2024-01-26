@@ -987,10 +987,96 @@ app.get('/', async function (req, res){
             res.redirect('login');
             return;
         }else{
-            currentUserFiles = await getFiles(req.session.userEmpID);
-            currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-            currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-            currentUserPicture = await getUserPicture(req.session.userEmpID);
+            let finalForms = [];
+            let allForms = await getForms();
+            let userAccounts = await getUserAccounts();
+            let currentUserFiles = await getFiles(req.session.userEmpID);
+            let currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+            let currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+            let currentUserPicture = await getUserPicture(req.session.userEmpID);
+
+            if(currentUserDetailsBlock.userLevel == "Secretary" || currentUserDetailsBlock.userLevel == "Dean"){
+                for (const form of allForms) {
+                    let totalAssignedUsers = 0;
+                    let totalSubmittedForms = 0;
+                    let totalUnsubmittedForms = 0;
+                    if (form.assigned_users && Array.isArray(form.assigned_users)) {
+                        totalAssignedUsers = form.assigned_users.length;
+                        for (const assignedUser of form.assigned_users) {
+                            var assignedUserDetails = await users.findOne({ email: assignedUser });
+                            const submittedForms = await filledoutforms.find({
+                                form_owner: assignedUserDetails.emp_id,
+                                form_status: "Submitted",
+                            }).toArray();
+                            totalSubmittedForms += submittedForms.length;
+                        }
+                        totalUnsubmittedForms = totalAssignedUsers - totalSubmittedForms;
+                    }
+                    finalForms.push({
+                        form_name: form.form_name,
+                        form_control_number: form.form_control_number,
+                        due_date: form.due_date,
+                        total_submitted_forms: totalSubmittedForms,
+                        total_unsubmitted_forms: totalUnsubmittedForms,
+                        total_assigned_users: totalAssignedUsers
+                    });
+                }
+            }else if(currentUserDetailsBlock.userLevel == "Department Head") {
+                for (const form of allForms) {
+                    let totalAssignedUsers = 0;
+                    let totalSubmittedForms = 0;
+                    let totalUnsubmittedForms = 0;
+                    if (form.assigned_users && Array.isArray(form.assigned_users)) {
+                        for (const assignedUser of form.assigned_users) {
+                            var assignedUserDetails = await users.findOne({ email: assignedUser });
+                            if (assignedUserDetails && assignedUserDetails.user_department === currentUserDetailsBlock.userDepartment) {
+                                totalAssignedUsers++;
+                                const submittedForms = await filledoutforms.find({
+                                    form_owner: assignedUserDetails.emp_id,
+                                    user_department: currentUserDetailsBlock.userDepartment,
+                                    form_status: "Submitted"
+                                }).toArray();
+                                totalSubmittedForms += submittedForms.length;
+                            }
+                        }
+                        totalUnsubmittedForms = totalAssignedUsers - totalSubmittedForms;
+                    }
+                    finalForms.push({
+                        form_name: form.form_name,
+                        form_control_number: form.form_control_number,
+                        due_date: form.due_date,
+                        total_submitted_forms: totalSubmittedForms,
+                        total_unsubmitted_forms: totalUnsubmittedForms,
+                        total_assigned_users: totalAssignedUsers
+                    });
+                }
+            }else if(currentUserDetailsBlock.userLevel == "Faculty"){
+                let totalAssignedForms = 0;
+                let totalSubmittedForms = 0;
+                let totalUnsubmittedForms = 0;
+                for (const form of allForms) {
+                    // Check if the current user is assigned to the form
+                    if (form.assigned_users && form.assigned_users.includes(currentUserDetailsBlock.email)) {
+
+
+                        totalAssignedForms++;
+                        var assignedUserDetails = await users.findOne({ email: currentUserDetailsBlock.email });
+                        const submittedForms = await filledoutforms.find({
+                            form_owner: assignedUserDetails.emp_id
+                        }).toArray();
+                        totalSubmittedForms += submittedForms.length;
+
+
+                        totalUnsubmittedForms = totalAssignedForms - totalSubmittedForms;
+                    }
+                }
+                finalForms.push({
+                    total_submitted_forms: totalSubmittedForms,
+                    total_unsubmitted_forms: totalUnsubmittedForms,
+                    total_assigned_forms: totalAssignedForms
+                });
+            }
+            console.log("This are the yes: " + JSON.stringify(finalForms));
 
             res.render('index', {
                 title: 'Home Page',
@@ -999,6 +1085,9 @@ app.get('/', async function (req, res){
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime,
+                userAccounts: userAccounts,
+                allForms: allForms,
+                finalForms: finalForms,
                 userCurrentPage: "index"
             });
         }
@@ -1218,10 +1307,102 @@ app.post('/login', async function (req, res){
                 req.session.userEmpID = user.emp_id;
                 req.session.email = user.email;
 
+                var finalForms = [];
+                let allForms = await getForms();
+                let userAccounts = await getUserAccounts();
+
                 currentUserFiles = await getFiles(req.session.userEmpID);
                 currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
                 currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
                 currentUserPicture = await getUserPicture(req.session.userEmpID);
+
+                if(currentUserDetailsBlock.userLevel == "Secretary" || currentUserDetailsBlock.userLevel == "Dean"){
+                    for (const form of allForms) {
+                        let totalAssignedUsers = 0;
+                        let totalSubmittedForms = 0;
+                        let totalUnsubmittedForms = 0;
+                        if (form.assigned_users && Array.isArray(form.assigned_users)) {
+                            totalAssignedUsers = form.assigned_users.length;
+                            for (const assignedUser of form.assigned_users) {
+                                var assignedUserDetails = await users.findOne({ email: assignedUser });
+                                const submittedForms = await filledoutforms.find({
+                                    form_owner: assignedUserDetails.emp_id,
+                                    form_status: "Submitted",
+                                }).toArray();
+                                totalSubmittedForms += submittedForms.length;
+                            }
+                            totalUnsubmittedForms = totalAssignedUsers - totalSubmittedForms;
+                        }
+                        finalForms.push({
+                            form_name: form.form_name,
+                            form_control_number: form.form_control_number,
+                            due_date: form.due_date,
+                            total_submitted_forms: totalSubmittedForms,
+                            total_unsubmitted_forms: totalUnsubmittedForms,
+                            total_assigned_users: totalAssignedUsers
+                        });
+                    }
+                }else if(currentUserDetailsBlock.userLevel == "Department Head") {
+                    for (const form of allForms) {
+                        let totalAssignedUsers = 0;
+                        let totalSubmittedForms = 0;
+                        let totalUnsubmittedForms = 0;
+
+                        if (form.assigned_users && Array.isArray(form.assigned_users)) {
+                            for (const assignedUser of form.assigned_users) {
+                                var assignedUserDetails = await users.findOne({ email: assignedUser });
+                                if (assignedUserDetails && assignedUserDetails.user_department === currentUserDetailsBlock.userDepartment) {
+                                    totalAssignedUsers++;
+
+                                    const submittedForms = await filledoutforms.find({
+                                        form_owner: assignedUserDetails.emp_id,
+                                        user_department: currentUserDetailsBlock.userDepartment,
+                                        form_status: "Submitted"
+                                    }).toArray();
+
+                                    totalSubmittedForms += submittedForms.length;
+                                }
+                            }
+
+                            totalUnsubmittedForms = totalAssignedUsers - totalSubmittedForms;
+                        }
+
+                        finalForms.push({
+                            form_name: form.form_name,
+                            form_control_number: form.form_control_number,
+                            due_date: form.due_date,
+                            total_submitted_forms: totalSubmittedForms,
+                            total_unsubmitted_forms: totalUnsubmittedForms,
+                            total_assigned_users: totalAssignedUsers
+                        });
+                    }
+                }else if(currentUserDetailsBlock.userLevel == "Faculty"){
+                    let totalAssignedForms = 0;
+                    let totalSubmittedForms = 0;
+                    let totalUnsubmittedForms = 0;
+                    for (const form of allForms) {
+                        // Check if the current user is assigned to the form
+                        if (form.assigned_users && form.assigned_users.includes(currentUserDetailsBlock.email)) {
+                            totalAssignedForms++;
+                            var assignedUserDetails = await users.findOne({ email: currentUserDetailsBlock.email });
+                            const submittedForms = await filledoutforms.find({
+                                form_owner: assignedUserDetails.emp_id
+                            }).toArray();
+                            totalSubmittedForms += submittedForms.length;
+
+
+                            totalUnsubmittedForms = totalAssignedForms - totalSubmittedForms;
+                        }
+                    }
+                    finalForms.push({
+                        total_submitted_forms: totalSubmittedForms,
+                        total_unsubmitted_forms: totalUnsubmittedForms,
+                        total_assigned_forms: totalAssignedForms,
+                        total_submission_rate: totalAssignedForms - totalSubmittedForms
+                    });
+                }
+
+                console.log("This are the yes: " + JSON.stringify(finalForms));
 
                 res.render('index', {
                     title: 'Home Page',
@@ -1230,6 +1411,9 @@ app.post('/login', async function (req, res){
                     currentUserPrivileges: currentUserPrivileges,
                     currentUserPicture: currentUserPicture,
                     min_idleTime: min_idleTime,
+                    userAccounts: userAccounts,
+                    allForms: allForms,
+                    finalForms: finalForms,
                     userCurrentPage: "index"
                 });
 
@@ -1413,7 +1597,7 @@ app.get('/viewformtemplates', async function(req, res){
     if(req.session.loggedIn){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        currentForms = await getForms(req.session.userEmpID);
+        currentForms = await getForms();
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
         currentForms = getUniqueForms(currentForms);
@@ -2615,7 +2799,8 @@ async function getUserDetailsBlock(empID){
                 "lastName": user.last_name,
                 "empID": user.emp_id,
                 "userLevel": user.user_level,
-                "userDepartment": user.user_department
+                "userDepartment": user.user_department,
+                "email": user.email
             }
         }
     }catch(error){
@@ -2663,7 +2848,7 @@ async function getUserForms(empID){
     return userFormsCollections;
 }
 
-async function getForms(empID){
+async function getForms(){
     var formsCollections;
     try{
         formsCollections = await forms.find().toArray();

@@ -1,6 +1,7 @@
 extends layout.pug
 
 block body
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
     .w3-main#main(style='margin-left:250px')
         .w3-half.w3-container
         //ADMIN SUPER ADMIN DASHBOARD
@@ -94,45 +95,326 @@ block body
             script(src="js/client.functions/handle_ajax_delete.js")
         else if(currentUserDetailsBlock.userLevel === "Admin")
             .w3-row.w3-padding-64
-                .w3-container
+                .w3-half.w3-container(style='position: fixed; top: 150px; left: 600px; scale: 1.2;')
                     .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                        h1 Welcome to Intellidocs!
-                        h4 Admin Profile
+                        h1 Admin Dashboard
+                        hr
+                        h4#totalEmp
+                        hr
+                        canvas#userTableCount
+                        script.
+                            let ctx = document.getElementById('userTableCount');
+                            var userAccounts = !{JSON.stringify(userAccounts)};
+                            let itCount = 0;
+                            let accountCount = 0;
+                            let businessCount = 0;
+                            let copsciCount = 0;
+                            let entrepCount = 0;
+                            let hospitalityCount = 0;
+                            let mathCount = 0;
+                            let totalEmployees = 0;
+
+                            for (var i = 0; i < userAccounts.length; i++) {
+                                switch(userAccounts[i].user_department) {
+                                    case "Information Technology":
+                                        itCount++;
+                                        break;
+                                    case "Accountancy Business Laws and Taxation":
+                                        accountCount++;
+                                        break;
+                                    case "Business Economics and Financial Management":
+                                        businessCount++;
+                                        break;
+                                    case "Computer Science and Computer Application":
+                                        copsciCount++;
+                                        break;
+                                    case "Entrepreneurship/Human Resource Development Management/Marketing Management":
+                                        entrepCount++;
+                                        break;
+                                    case "Hospitality and Tourism Management":
+                                        hospitalityCount++;
+                                        break;
+                                    case "Math":
+                                        mathCount++;
+                                        break;
+                                }
+                                totalEmployees++;
+                            }
+
+                            new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: ['Information Technology',
+                                             'Accountancy Business Laws and Taxation',
+                                             'Business Economics and Financial Management',
+                                             'Computer Science and Computer Application',
+                                             'Entrepreneurship/Human Resource Development Management/Marketing Management',
+                                             'Hospitality and Tourism Management',
+                                             'Math'],
+                                    datasets: [{
+                                        label: 'Number of Employees based on Departments',
+                                        data: [itCount, accountCount, businessCount, copsciCount, entrepCount, hospitalityCount, mathCount],
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    maintainAspectRatio: true,
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            ticks: {
+                                                stepSize: 1
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                            $('#totalEmp').html("Total Number of Employees: " + totalEmployees);
+
         else if(currentUserDetailsBlock.userLevel === "Document Controller")
             .w3-row.w3-padding-64
-                .w3-container
+                .w3-half.w3-container(style='position: fixed; top: 150px; left: 600px; scale: 1;')
                     .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                        h1 Welcome to Intellidocs!
-                        h4 Document Controller Profile
-        else if(currentUserDetailsBlock.userLevel === "Secretary")
+                        h1 Document Controller Dashboard
+                        hr
+                        h4#totalForms
+                        hr
+                        canvas#formTableCount
+                        script.
+                            let formTableCount = document.getElementById('formTableCount');
+                            var allForms = !{JSON.stringify(allForms)};
+                            let unpublishedForms = 0;
+                            let publishedForms = 0;
+                            let totalForms = 0;
+                            for (var i = 0; i < allForms.length; i++) {
+                                switch (allForms[i].form_status) {
+                                    case "Template":
+                                        unpublishedForms++;
+                                        break;
+                                    case "Published":
+                                    case "Active":
+                                        publishedForms++;
+                                        break;
+                                }
+                                totalForms++;
+                            }
+                            new Chart(formTableCount, {
+                                type: 'bar',
+                                data: {
+                                    labels: ['Unpublished Forms',
+                                             'Published Forms'],
+                                    datasets: [{
+                                        label: 'Published and Unpublished Forms',
+                                        data: [unpublishedForms, publishedForms],
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    maintainAspectRatio: true,
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            ticks: {
+                                                stepSize: 1
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                            $('#totalForms').html("Total Number of Forms: " + totalForms);
+
+        else if (currentUserDetailsBlock.userLevel === "Secretary")
             .w3-row.w3-padding-64
                 .w3-container
-                    .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                        h1 Welcome to Intellidocs!
-                        h4 Secretary Profile
+                    h1 Secretary Dashboard
+                    hr
+                each form in finalForms
+                    .w3-third.w3-container
+                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                            .w3-row
+                                h2 #{form.form_name}
+                                table.form-details
+                                    tr
+                                        td Completion Rate:
+                                        td(id='completionRate' + form.form_name.replace(/\s+/g, ''))
+                                    tr
+                                        td Due Date:
+                                        td
+                                            if (form.due_date === null || form.due_date === undefined)
+                                                | N/A
+                                            else
+                                                | #{form.due_date}
+                            hr
+                            canvas(id='userFormTableCount' + form.form_name.replace(/\s+/g, ''))
+                            script.
+                                var formName = '#{form.form_name}';
+                                let userFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('userFormTableCount#{form.form_name.replace(/\s+/g, '')}');
+                                var totalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
+                                var totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_unsubmitted_forms};
+                                var totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
+                                var completionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
+
+                                // Check if the canvas element exists before creating the chart
+                                if (userFormChart#{form.form_name.replace(/\s+/g, '')}) {
+                                    new Chart(userFormChart#{form.form_name.replace(/\s+/g, '')}, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: ['Submitted Forms', 'Unsubmitted Forms'],
+                                            datasets: [{
+                                                label: 'Number of Forms',
+                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+                                }
+                                $('#completionRate#{form.form_name.replace(/\s+/g, '')}').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%` + '%');
+
         else if(currentUserDetailsBlock.userLevel === "Dean")
             .w3-row.w3-padding-64
                 .w3-container
-                    .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                        h1 Welcome to Intellidocs!
-                        h4 Dean Profile
+                    h1 Dean Dashboard
+                    hr
+                each form in finalForms
+                    .w3-third.w3-container
+                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                            .w3-row
+                                h2 #{form.form_name}
+                                table.form-details
+                                    tr
+                                        td Completion Rate:
+                                        td(id='completionRate' + form.form_name.replace(/\s+/g, ''))
+                                    tr
+                                        td Due Date:
+                                        td
+                                            if (form.due_date === null || form.due_date === undefined)
+                                                | N/A
+                                            else
+                                                | #{form.due_date}
+                            hr
+                            canvas(id='userFormTableCount' + form.form_name.replace(/\s+/g, ''))
+                            script.
+                                var formName = '#{form.form_name}';
+                                let userFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('userFormTableCount#{form.form_name.replace(/\s+/g, '')}');
+                                var totalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
+                                var totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_unsubmitted_forms};
+                                var totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
+                                var completionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
+
+                                // Check if the canvas element exists before creating the chart
+                                if (userFormChart#{form.form_name.replace(/\s+/g, '')}) {
+                                    new Chart(userFormChart#{form.form_name.replace(/\s+/g, '')}, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: ['Submitted Forms', 'Unsubmitted Forms'],
+                                            datasets: [{
+                                                label: 'Number of Forms',
+                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+                                }
+                                $('#completionRate#{form.form_name.replace(/\s+/g, '')}').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%` + '%');
+
         else if(currentUserDetailsBlock.userLevel === "Department Head")
             .w3-row.w3-padding-64
                 .w3-container
-                    .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                        h1 Welcome to Intellidocs!
-                        h4 Department Head Profile
+                    h1 Department Head Dashboard
+                    hr
+                each form in finalForms
+                    .w3-third.w3-container
+                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                            .w3-row
+                                h2 #{form.form_name}
+                                table.form-details
+                                    tr
+                                        td Completion Rate:
+                                        td(id='completionRate' + form.form_name.replace(/\s+/g, ''))
+                                    tr
+                                        td Due Date:
+                                        td
+                                            if (form.due_date === null || form.due_date === undefined)
+                                                | N/A
+                                            else
+                                                | #{form.due_date}
+                            hr
+                            canvas(id='userFormTableCount' + form.form_name.replace(/\s+/g, ''))
+                            script.
+                                var formName = '#{form.form_name}';
+                                let userFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('userFormTableCount#{form.form_name.replace(/\s+/g, '')}');
+                                var totalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
+                                var totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_unsubmitted_forms};
+                                var totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
+                                var completionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
+
+                                // Check if the canvas element exists before creating the chart
+                                if (userFormChart#{form.form_name.replace(/\s+/g, '')}) {
+                                    new Chart(userFormChart#{form.form_name.replace(/\s+/g, '')}, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: ['Submitted Forms', 'Unsubmitted Forms'],
+                                            datasets: [{
+                                                label: 'Number of Forms',
+                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+                                }
+                                $('#completionRate#{form.form_name.replace(/\s+/g, '')}').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%` + '%');
+
         else if(currentUserDetailsBlock.userLevel === "Faculty")
             .w3-row.w3-padding-64
                 .w3-container
-                    .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
-                        h1 Welcome to Intellidocs!
-                        h4 Faculty Profile
+                    h1 Faculty Dashboard
+                    hr
+                each form in finalForms
+                    .w3-half.w3-container(style='position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);')
+                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                            .w3-row
+                                h2 Form Submissions
+                                table.form-details
+                                    tr
+                                        td Submission Rate:
+                                        td#completionRate
+                                hr
+                                canvas(id='userFormTableCount')
+                                script.
+                                    let userFormChart = document.getElementById('userFormTableCount');
+                                    var totalSubmitForms = #{form.total_submitted_forms};
+                                    var totalUnsubmittedForms = #{form.total_unsubmitted_forms};
+                                    var totalAssignedForms = #{form.total_assigned_forms};
+                                    var completionRate = (totalSubmitForms / totalAssignedForms);
+
+                                    // Check if the canvas element exists before creating the chart
+                                    if (userFormChart) {
+                                        new Chart(userFormChart, {
+                                            type: 'bar',
+                                            data: {
+                                                labels: ['Submitted Forms', 'Unfinished Forms'],
+                                                datasets: [{
+                                                    label: 'Number of Forms',
+                                                    data: [totalSubmitForms, totalUnsubmittedForms],
+                                                    borderWidth: 1
+                                                }]
+                                            },
+                                            options: {
+                                                maintainAspectRatio: true,
+                                                scales: {
+                                                    y: {
+                                                        beginAtZero: true,
+                                                        ticks: {
+                                                            stepSize: 1
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                    $('#completionRate').html(`${completionRate}` + '%');
 
 
-
-
-
-
-
-
+    script.
+        var finalForms = !{JSON.stringify(finalForms)};
+        var allForms = !{JSON.stringify(allForms)};

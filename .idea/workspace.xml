@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* index.js&#10;// Fixed the bug for showing a form in Shared Forms Table despite being the owner&#10;// Fixed a bug for pushing values in uniqueAssignedUsers&#10;// Created an AJAX route for seen notifications to change the status of Unseen Notifications in the database to Seen&#10;&#10;* sidebar.pug&#10;// Created an indication for seen and unseen notifications&#10;// Fixed a bug where all dropdowns will be activate&#10;// Created a function that will count all unseen notifications&#10;// Created a function that will set the status to all notifications that were seen by the receiver&#10;&#10;!! ISSUES TO FIX&#10;1. Show a number of unseen notifications&#10;2. Limit the height of the notification bar and make it scrollable">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* sidebar.pug&#10;// Number of unseen notifications will now be shown beside the notification tab.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/sidebar.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/sidebar.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/index.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -317,7 +318,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706168333187</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="* sidebar.pug&#10;// Number of unseen notifications will now be shown beside the notification tab.">
+      <option name="closed" value="true" />
+      <created>1706194253388</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1706194253388</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -333,7 +342,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="* formview.pug&#10;// Button for Activating Debugged&#10;&#10;* index.js&#10;// Assigning users using username debugged" />
     <MESSAGE value="* sidebar.pug&#10;// Fixed a bug where all sidebar buttons are showing despite having null privileges" />
     <MESSAGE value="* viewforms.pug&#10;// Made all available forms tabular for easier accessibility" />
     <MESSAGE value="* formview.pug&#10;// Added a new container and table for assigned users to dedicated forms&#10;// Now added an un-assign feature for assigned users&#10;// The assigned users table will automatically update if new assignees or new un-assignees are made.&#10;&#10;* index.js&#10;// Now added a feature where new assigned and unassigned users will be inserted first to the database before sending the new data for the table back to the front end&#10;// Created a new AJAX feature for updating the table when un-assigning users in forms" />
@@ -358,6 +366,7 @@
     <MESSAGE value="* formview.pug&#10;// Re-arranged and added new information on the table for Submitted Forms&#10;&#10;* index.js&#10;// Removed currentUserNotifications variables and multiple routes calling it as there is now a dedicated route for all notifications&#10;// Now makes sure that the receiver of notifications are in an array&#10;// Now added notifications when:&#10;1. A user submits a form&#10;2. When the secretary assigns a department&#10;3. When a form is returned.&#10;4. When a form is approved." />
     <MESSAGE value="* index.js&#10;// Instead of pushing as an array every individual receiver of notifications will have a separate insertion to the notifications collections&#10;&#10;* sidebar.pug&#10;// Removed the Action button on notifications" />
     <MESSAGE value="* index.js&#10;// Fixed the bug for showing a form in Shared Forms Table despite being the owner&#10;// Fixed a bug for pushing values in uniqueAssignedUsers&#10;// Created an AJAX route for seen notifications to change the status of Unseen Notifications in the database to Seen&#10;&#10;* sidebar.pug&#10;// Created an indication for seen and unseen notifications&#10;// Fixed a bug where all dropdowns will be activate&#10;// Created a function that will count all unseen notifications&#10;// Created a function that will set the status to all notifications that were seen by the receiver&#10;&#10;!! ISSUES TO FIX&#10;1. Show a number of unseen notifications&#10;2. Limit the height of the notification bar and make it scrollable" />
-    <option name="LAST_COMMIT_MESSAGE" value="* index.js&#10;// Fixed the bug for showing a form in Shared Forms Table despite being the owner&#10;// Fixed a bug for pushing values in uniqueAssignedUsers&#10;// Created an AJAX route for seen notifications to change the status of Unseen Notifications in the database to Seen&#10;&#10;* sidebar.pug&#10;// Created an indication for seen and unseen notifications&#10;// Fixed a bug where all dropdowns will be activate&#10;// Created a function that will count all unseen notifications&#10;// Created a function that will set the status to all notifications that were seen by the receiver&#10;&#10;!! ISSUES TO FIX&#10;1. Show a number of unseen notifications&#10;2. Limit the height of the notification bar and make it scrollable" />
+    <MESSAGE value="* sidebar.pug&#10;// Number of unseen notifications will now be shown beside the notification tab." />
+    <option name="LAST_COMMIT_MESSAGE" value="* sidebar.pug&#10;// Number of unseen notifications will now be shown beside the notification tab." />
   </component>
 </project>
