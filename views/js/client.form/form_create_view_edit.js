@@ -123,7 +123,7 @@ function initializeContextMenuForChildren(pageCount){
 
         for(j = 0; j < children.length; j++){
             // Do not allow select element for other user types
-            if (!(userType === "Secretary")) {
+            if (!(userType === "Secretary" || userType === "Department Head" || userType === "Dean")) {
                children[j].firstElementChild = selectElement(children[j].firstElementChild);
             }
             initializeContextMenuForChild(children[j].firstElementChild);
@@ -1289,7 +1289,7 @@ function makeAllReadOnlyRecursive() {
 
         // Iterate through each child element
 
-        if (userType == "Secretary") {
+        if (userType == "Secretary" || userType === "Department Head" || userType === "Dean")  {
             childElements.forEach(child => {
 
              // Set the readonly attribute to the element
