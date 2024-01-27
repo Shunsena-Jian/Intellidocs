@@ -235,8 +235,11 @@ block body
                                 h2 #{form.form_name}
                                 table.form-details
                                     tr
-                                        td Completion Rate:
-                                        td(id='completionRate' + form.form_name.replace(/\s+/g, ''))
+                                        td Submission Rate:
+                                        td(id='submissionRate' + form.form_name.replace(/\s+/g, ''))
+                                    tr
+                                        td Approval Rate:
+                                        td(id='approvalRate' + form.form_name.replace(/\s+/g, ''))
                                     tr
                                         if (form.due_date === null || form.due_date === undefined)
                                             td No Due Date
@@ -249,25 +252,29 @@ block body
                                 var formName = '#{form.form_name}';
                                 let userFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('userFormTableCount#{form.form_name.replace(/\s+/g, '')}');
                                 var totalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
+                                var totalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
+                                var totalReturnedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_returned_forms};
                                 var totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_unsubmitted_forms};
                                 var totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
-                                var completionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
+                                var submissionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
+                                var approvalRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalApprovedForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
 
                                 // Check if the canvas element exists before creating the chart
                                 if (userFormChart#{form.form_name.replace(/\s+/g, '')}) {
                                     new Chart(userFormChart#{form.form_name.replace(/\s+/g, '')}, {
                                         type: 'doughnut',
                                         data: {
-                                            labels: ['Submitted Forms', 'Unsubmitted Forms'],
+                                            labels: ['Submitted Forms', 'Unfinished Forms', 'Approved Forms', 'Returned Forms'],
                                             datasets: [{
-                                                label: 'Number of Forms',
-                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}],
+                                                label: 'Assigned Users',
+                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}, totalApprovedForms#{form.form_name.replace(/\s+/g, '')}, totalReturnedForms#{form.form_name.replace(/\s+/g, '')}],
                                                 hoverOffset: 4
                                             }]
                                         }
                                     });
                                 }
-                                $('#completionRate#{form.form_name.replace(/\s+/g, '')}').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%`);
+                                $('#submissionRate#{form.form_name.replace(/\s+/g, '')}').html(`${submissionRate#{form.form_name.replace(/\s+/g, '')}}%`);
+                                $('#approvalRate#{form.form_name.replace(/\s+/g, '')}').html(`${approvalRate#{form.form_name.replace(/\s+/g, '')}}%`);
 
         else if (currentUserDetailsBlock.userLevel === "Dean")
             .w3-row.w3-padding-64
@@ -281,8 +288,11 @@ block body
                                 h2 #{form.form_name}
                                 table.form-details
                                     tr
-                                        td Completion Rate:
+                                        td Submission Rate:
                                         td(id='completionRate' + form.form_name.replace(/\s+/g, ''))
+                                    tr
+                                        td Approval Rate:
+                                        td(id='approvalRate' + form.form_name.replace(/\s+/g, ''))
                                     tr
                                         td Due Date:
                                         td
@@ -296,25 +306,29 @@ block body
                                 var formName = '#{form.form_name}';
                                 let userFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('userFormTableCount#{form.form_name.replace(/\s+/g, '')}');
                                 var totalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
+                                var totalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
+                                var totalReturnedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_returned_forms};
                                 var totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_unsubmitted_forms};
                                 var totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
                                 var completionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
+                                var approvalRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalApprovedForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
 
                                 // Check if the canvas element exists before creating the chart
                                 if (userFormChart#{form.form_name.replace(/\s+/g, '')}) {
                                     new Chart(userFormChart#{form.form_name.replace(/\s+/g, '')}, {
                                         type: 'doughnut',
                                         data: {
-                                            labels: ['Submitted Forms', 'Unsubmitted Forms'],
+                                            labels: ['Submitted Forms', 'Unfinished Forms', 'Approved Forms', 'Returned Forms'],
                                             datasets: [{
-                                                label: 'Number of Forms',
-                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}],
+                                                label: 'Assigned Users',
+                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}, totalApprovedForms#{form.form_name.replace(/\s+/g, '')}, totalReturnedForms#{form.form_name.replace(/\s+/g, '')}],
                                                 hoverOffset: 4
                                             }]
                                         }
                                     });
                                 }
                                 $('#completionRate#{form.form_name.replace(/\s+/g, '')}').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%`);
+                                $('#approvalRate#{form.form_name.replace(/\s+/g, '')}').html(`${approvalRate#{form.form_name.replace(/\s+/g, '')}}%`);
 
         else if(currentUserDetailsBlock.userLevel === "Department Head")
             .w3-row.w3-padding-64
@@ -328,8 +342,11 @@ block body
                                 h2 #{form.form_name}
                                 table.form-details
                                     tr
-                                        td Completion Rate:
+                                        td Submission Rate:
                                         td(id='completionRate' + form.form_name.replace(/\s+/g, ''))
+                                    tr
+                                        td Approval Rate:
+                                        td(id='approvalRate' + form.form_name.replace(/\s+/g, ''))
                                     tr
                                         td Due Date:
                                         td
@@ -343,25 +360,29 @@ block body
                                 var formName = '#{form.form_name}';
                                 let userFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('userFormTableCount#{form.form_name.replace(/\s+/g, '')}');
                                 var totalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
+                                var totalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
+                                var totalReturnedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_returned_forms};
                                 var totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_unsubmitted_forms};
                                 var totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
                                 var completionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
+                                var approvalRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalApprovedForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
 
                                 // Check if the canvas element exists before creating the chart
                                 if (userFormChart#{form.form_name.replace(/\s+/g, '')}) {
                                     new Chart(userFormChart#{form.form_name.replace(/\s+/g, '')}, {
                                         type: 'doughnut',
                                         data: {
-                                            labels: ['Submitted Forms', 'Unsubmitted Forms'],
+                                            labels: ['Submitted Forms', 'Unfinished Forms', 'Approved Forms', 'Returned Forms'],
                                             datasets: [{
                                                 label: 'Number of Forms',
-                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}],
+                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}, totalApprovedForms#{form.form_name.replace(/\s+/g, '')}, totalReturnedForms#{form.form_name.replace(/\s+/g, '')}],
                                                 hoverOffset: 4
                                             }]
                                         }
                                     });
                                 }
-                                $('#completionRate#{form.form_name.replace(/\s+/g, '')}').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%` + '%');
+                                $('#completionRate#{form.form_name.replace(/\s+/g, '')}').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%`);
+                                $('#approvalRate#{form.form_name.replace(/\s+/g, '')}').html(`${approvalRate#{form.form_name.replace(/\s+/g, '')}}%`);
 
         else if(currentUserDetailsBlock.userLevel === "Faculty")
             .w3-row.w3-padding-64
@@ -369,7 +390,7 @@ block body
                     h1 Faculty Dashboard
                     hr
                 each form in finalForms
-                    .w3-half.w3-container(style='position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);')
+                    .w3-half.w3-container(style='position: fixed; top: 150px; left: 600px;')
                         .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
                             .w3-row
                                 h2 Form Submissions
@@ -377,25 +398,31 @@ block body
                                     tr
                                         td Submission Rate:
                                         td#completionRate
+                                    tr
+                                        td Approval Rate:
+                                        td(id='approvalRate' + form.form_name.replace(/\s+/g, ''))
                                 hr
-                                canvas(id='userFormTableCount')
+                                canvas(id='userFormTableCount' + form.form_name.replace(/\s+/g, ''))
                                 script.
-                                    let userFormChart = document.getElementById('userFormTableCount');
-                                    var totalSubmitForms = #{form.total_submitted_forms};
-                                    var totalUnsubmittedForms = #{form.total_unsubmitted_forms};
-                                    var totalAssignedForms = #{form.total_assigned_forms};
-                                    var completionRate = (totalSubmitForms / totalAssignedForms);
+                                    let userFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('userFormTableCount#{form.form_name.replace(/\s+/g, '')}');
+                                    var totalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
+                                    var totalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
+                                    var totalReturnedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_returned_forms};
+                                    var totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_unsubmitted_forms};
+                                    var totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_forms};
+                                    var completionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
+                                    var approvalRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalApprovedForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
 
                                     // Check if the canvas element exists before creating the chart
-                                    if (userFormChart) {
-                                        new Chart(userFormChart, {
+                                    if (userFormChart#{form.form_name.replace(/\s+/g, '')}) {
+                                        new Chart(userFormChart#{form.form_name.replace(/\s+/g, '')}, {
                                             type: 'bar',
                                             data: {
-                                                labels: ['Submitted Forms', 'Unfinished Forms'],
+                                                labels: ['Submitted Forms', 'Unfinished Forms', 'Approved Forms', 'Returned Forms'],
                                                 datasets: [{
-                                                    label: 'Number of Submitted and Unfinished Forms',
-                                                    data: [totalSubmitForms, totalUnsubmittedForms],
-                                                    borderWidth: 1
+                                                    label: 'Number of Forms',
+                                                    data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}, totalApprovedForms#{form.form_name.replace(/\s+/g, '')}, totalReturnedForms#{form.form_name.replace(/\s+/g, '')}],
+                                                    borderWidth: 2
                                                 }]
                                             },
                                             options: {
@@ -411,8 +438,8 @@ block body
                                             }
                                         });
                                     }
-                                    $('#completionRate').html(`${completionRate}` + '%');
-
+                                    $('#completionRate').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%`);
+                                    $('#approvalRate#{form.form_name.replace(/\s+/g, '')}').html(`${approvalRate#{form.form_name.replace(/\s+/g, '')}}%`);
 
     script.
         var finalForms = !{JSON.stringify(finalForms)};

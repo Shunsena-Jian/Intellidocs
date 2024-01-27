@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="*** ADDED DASHBOARDS TO ALL USERS&#10;*** IMPORTED chart.js SCRIPT">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* formview.pug&#10;// Added a Form Status on the Submitted Forms Table&#10;&#10;* index.js&#10;// Added a filter on finding filledoutforms that are considered submitted(Returned)&#10;// Added an function that retrieves the count of Approved and Returned Forms&#10;// Fixed a bug - Now Department Heads under the same department as the form with an owner with the same department will now only show in view forms&#10;// Added an algorithm that when one of the three approvers returned a form, the whole status of the form will be set to Returned&#10;// When all approvers Approved a form, the form status will be set to Approved&#10;&#10;* index.pug&#10;// Added a Submission Rate and Approval Rate per form&#10;&#10;* viewforms.pug&#10;// Fixed a bug where no matter who's department, the department head can view the submitted form despite not being the same department as the form owner.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/index.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/sidebar.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/sidebar.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/viewforms.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewforms.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -335,7 +336,23 @@
       <option name="project" value="LOCAL" />
       <updated>1706279599208</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="* index.js&#10;// Fixed a bug where multiple forms on the same form owner and same form will have multiple forms with Submitted Status&#10;!!! CURRENTLY WORKING ON (If a single approval has a returned status, then the form_status will be returned)&#10;&#10;* index.pug&#10;// Fixed labels of some charts&#10;&#10;* sidebar.pug&#10;// Added restrictions to sidebar button managements">
+      <option name="closed" value="true" />
+      <created>1706335358625</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1706335358625</updated>
+    </task>
+    <task id="LOCAL-00033" summary="* index.pug&#10;// Fixed a bug on completion rate computation&#10;&#10;* index.js&#10;// Fixed a bug on displaying the proper forms for the charts">
+      <option name="closed" value="true" />
+      <created>1706336712547</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1706336712547</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -351,9 +368,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="* viewforms.pug&#10;// Made all available forms tabular for easier accessibility" />
-    <MESSAGE value="* formview.pug&#10;// Added a new container and table for assigned users to dedicated forms&#10;// Now added an un-assign feature for assigned users&#10;// The assigned users table will automatically update if new assignees or new un-assignees are made.&#10;&#10;* index.js&#10;// Now added a feature where new assigned and unassigned users will be inserted first to the database before sending the new data for the table back to the front end&#10;// Created a new AJAX feature for updating the table when un-assigning users in forms" />
-    <MESSAGE value="* createusers.pug&#10;// Created an AJAX function for handling user creation&#10;&#10;* index.js&#10;// Created validations for existing ID&#10;// If user is Faculty or Department Head they should have a department&#10;// If user is neither a Faculty or Department Head, user department value in a document will not be inserted in the database&#10;&#10;* intellijent.users.json&#10;// Recreated some of the users with different user departments" />
     <MESSAGE value="* formview.pug&#10;// Created a feature to assign a whole department of employees&#10;// Added an information of what department are the employees in the table&#10;&#10;* index.js&#10;// Created an AJAX function that will properly insert the different faculty departments in the database while retrieving the whole departments information to the front end to update the table&#10;&#10;* intellijent.privileges.json&#10;// WAG NYO TONG PANSININ, PAPANSIN TO" />
     <MESSAGE value="* formview.pug&#10;// Changed placeholder on Assigning Users to Employee Email&#10;// Fixed design of different containers&#10;// Now shows an alert when assigning a user or department has been successful" />
     <MESSAGE value="* dragbar.pug&#10;// Removed all hardcoded widgets&#10;// Now retrieves all widgets depending on their categories then places them in their respective containers.&#10;&#10;* index.js&#10;// Created functions to retrieve different widgets according to their categories." />
@@ -376,6 +390,9 @@
     <MESSAGE value="* index.js&#10;// Fixed the bug for showing a form in Shared Forms Table despite being the owner&#10;// Fixed a bug for pushing values in uniqueAssignedUsers&#10;// Created an AJAX route for seen notifications to change the status of Unseen Notifications in the database to Seen&#10;&#10;* sidebar.pug&#10;// Created an indication for seen and unseen notifications&#10;// Fixed a bug where all dropdowns will be activate&#10;// Created a function that will count all unseen notifications&#10;// Created a function that will set the status to all notifications that were seen by the receiver&#10;&#10;!! ISSUES TO FIX&#10;1. Show a number of unseen notifications&#10;2. Limit the height of the notification bar and make it scrollable" />
     <MESSAGE value="* sidebar.pug&#10;// Number of unseen notifications will now be shown beside the notification tab." />
     <MESSAGE value="*** ADDED DASHBOARDS TO ALL USERS&#10;*** IMPORTED chart.js SCRIPT" />
-    <option name="LAST_COMMIT_MESSAGE" value="*** ADDED DASHBOARDS TO ALL USERS&#10;*** IMPORTED chart.js SCRIPT" />
+    <MESSAGE value="* index.js&#10;// Fixed a bug where multiple forms on the same form owner and same form will have multiple forms with Submitted Status&#10;!!! CURRENTLY WORKING ON (If a single approval has a returned status, then the form_status will be returned)&#10;&#10;* index.pug&#10;// Fixed labels of some charts&#10;&#10;* sidebar.pug&#10;// Added restrictions to sidebar button managements" />
+    <MESSAGE value="* index.pug&#10;// Fixed a bug on completion rate computation&#10;&#10;* index.js&#10;// Fixed a bug on displaying the proper forms for the charts" />
+    <MESSAGE value="* formview.pug&#10;// Added a Form Status on the Submitted Forms Table&#10;&#10;* index.js&#10;// Added a filter on finding filledoutforms that are considered submitted(Returned)&#10;// Added an function that retrieves the count of Approved and Returned Forms&#10;// Fixed a bug - Now Department Heads under the same department as the form with an owner with the same department will now only show in view forms&#10;// Added an algorithm that when one of the three approvers returned a form, the whole status of the form will be set to Returned&#10;// When all approvers Approved a form, the form status will be set to Approved&#10;&#10;* index.pug&#10;// Added a Submission Rate and Approval Rate per form&#10;&#10;* viewforms.pug&#10;// Fixed a bug where no matter who's department, the department head can view the submitted form despite not being the same department as the form owner." />
+    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug&#10;// Added a Form Status on the Submitted Forms Table&#10;&#10;* index.js&#10;// Added a filter on finding filledoutforms that are considered submitted(Returned)&#10;// Added an function that retrieves the count of Approved and Returned Forms&#10;// Fixed a bug - Now Department Heads under the same department as the form with an owner with the same department will now only show in view forms&#10;// Added an algorithm that when one of the three approvers returned a form, the whole status of the form will be set to Returned&#10;// When all approvers Approved a form, the form status will be set to Approved&#10;&#10;* index.pug&#10;// Added a Submission Rate and Approval Rate per form&#10;&#10;* viewforms.pug&#10;// Fixed a bug where no matter who's department, the department head can view the submitted form despite not being the same department as the form owner." />
   </component>
 </project>

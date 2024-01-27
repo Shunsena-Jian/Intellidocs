@@ -172,6 +172,7 @@ block body
                                         th Date Submitted
                                         th Time Submitted
                                         th View Form
+                                        th Form Status
                                         th Approve Form
                                         th Return Form
                                 tbody
@@ -182,6 +183,7 @@ block body
                                                 td #{submissions.user_department}
                                                 td #{submissions.date_submitted}
                                                 td #{submissions.time_saved}
+                                                td #{submissions.form_status}
                                                 td
                                                     button.w3-button.w3-block.w3-theme-dark(onclick=`renderSubmittedForm("${submissions.form_owner}")`) View
                                                 td
