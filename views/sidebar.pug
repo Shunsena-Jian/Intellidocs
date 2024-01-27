@@ -137,13 +137,13 @@ block sidebar
                         |  Form Management
                     #Demo1.w3-hide.w3-container
                         #createTemplateElement.w3-row
-                            a(href='#' onclick="showLeavePageModal('/createform',userCurrentPage)").w3-button-text.w3-button
+                            button.w3-button.w3-block.w3-left-align(onclick="showLeavePageModal('/createform',userCurrentPage)")
                                 i.fa.fa-plus-circle.w3-margin-right
                                 | Create Forms
-                            a(href='#' onclick="showLeavePageModal('/createwidget',userCurrentPage)").w3-button-text.w3-button
+                            button.w3-button.w3-block.w3-left-align(onclick="showLeavePageModal('/createwidget',userCurrentPage)")
                                 i.fa.fa-plus-circle.w3-margin-right
                                 | Create Widgets
-                            a(href='#' onclick="showLeavePageModal('/viewformtemplates',userCurrentPage)").w3-button-text.w3-button
+                            button.w3-button.w3-block.w3-left-align(onclick="showLeavePageModal('/viewformtemplates',userCurrentPage)")
                                 i.fa.fa-eye.w3-margin-right
                                 | View Form Templates
 
@@ -154,11 +154,11 @@ block sidebar
                             |  User Management
                         #Demo3.w3-hide.w3-container
                             #addUserElement
-                                a(href='#' onclick="showLeavePageModal('/createusers',userCurrentPage)").w3-button
+                               button.w3-button.w3-block.w3-left-align(onclick="showLeavePageModal('/createusers',userCurrentPage)")
                                     i.fa.fa-plus-circle.w3-margin-right
                                     | Create User
                             #editUserElement
-                                a(href='#' onclick="showLeavePageModal('/viewusers',userCurrentPage)").w3-button
+                                button.w3-button.w3-block.w3-left-align(onclick="showLeavePageModal('/viewusers',userCurrentPage)")
                                     i.fa.fa-users.w3-margin-right
                                     | View Users
 
