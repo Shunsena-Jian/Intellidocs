@@ -484,6 +484,17 @@ app.put('/submitform', async function(req, res){
             if(!formData){
                 res.send({ status_code: 1 });
             }else{
+
+                userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
+
+                for(const form of userFormVersions){
+                    const result = await filledoutforms.updateMany(
+                        { form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID },
+                        { $set: { form_status : "On-going" } },
+                        { returnNewDocument : true }
+                    );
+                }
+
                 const filledOutDocument = {
                     form_name: currentForm.form_name,
                     form_control_number: currentForm.form_control_number,
@@ -510,7 +521,6 @@ app.put('/submitform', async function(req, res){
                 };
 
                 const result = await filledoutforms.insertOne(filledOutDocument);
-                userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
 
                 for(i=0; i < userFormVersions.length; i++){
                     if(userFormVersions[i].user_version >= initialUserVersion){
@@ -2478,6 +2488,12 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
                     { $set: { secretary_approval: "Returned" } },
                     { returnDocument: 'after' }
                 );
+
+//                updateDocument1 = await filledoutforms.findOneAndUpdate(
+//                    { form_control_number: selectedFormControlNumberToView, form_owner : formData.formOwner },
+//                    { $set: { form_status: "Returned" } },
+//                    { returnDocument: 'after' }
+//                );
 
                 addNotif = await notifications.insertOne({
                     sender: approver.emp_id,

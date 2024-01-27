@@ -152,9 +152,9 @@ block body
                                              'Hospitality and Tourism Management',
                                              'Math'],
                                     datasets: [{
-                                        label: 'Number of Employees based on Departments',
+                                        label: 'Number of Faculty Members per Department',
                                         data: [itCount, accountCount, businessCount, copsciCount, entrepCount, hospitalityCount, mathCount],
-                                        borderWidth: 1
+                                        borderWidth: 2
                                     }]
                                 },
                                 options: {
@@ -204,9 +204,9 @@ block body
                                     labels: ['Unpublished Forms',
                                              'Published Forms'],
                                     datasets: [{
-                                        label: 'Published and Unpublished Forms',
+                                        label: 'Number of Published and Unpublished Forms',
                                         data: [unpublishedForms, publishedForms],
-                                        borderWidth: 1
+                                        borderWidth: 2
                                     }]
                                 },
                                 options: {
@@ -238,12 +238,11 @@ block body
                                         td Completion Rate:
                                         td(id='completionRate' + form.form_name.replace(/\s+/g, ''))
                                     tr
-                                        td Due Date:
-                                        td
-                                            if (form.due_date === null || form.due_date === undefined)
-                                                | N/A
-                                            else
-                                                | #{form.due_date}
+                                        if (form.due_date === null || form.due_date === undefined)
+                                            td No Due Date
+                                        else
+                                            td Due Date:
+                                            td #{form.due_date}
                             hr
                             canvas(id='userFormTableCount' + form.form_name.replace(/\s+/g, ''))
                             script.
@@ -268,9 +267,9 @@ block body
                                         }
                                     });
                                 }
-                                $('#completionRate#{form.form_name.replace(/\s+/g, '')}').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%` + '%');
+                                $('#completionRate#{form.form_name.replace(/\s+/g, '')}').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%`);
 
-        else if(currentUserDetailsBlock.userLevel === "Dean")
+        else if (currentUserDetailsBlock.userLevel === "Dean")
             .w3-row.w3-padding-64
                 .w3-container
                     h1 Dean Dashboard
@@ -315,7 +314,7 @@ block body
                                         }
                                     });
                                 }
-                                $('#completionRate#{form.form_name.replace(/\s+/g, '')}').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%` + '%');
+                                $('#completionRate#{form.form_name.replace(/\s+/g, '')}').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%`);
 
         else if(currentUserDetailsBlock.userLevel === "Department Head")
             .w3-row.w3-padding-64
@@ -394,7 +393,7 @@ block body
                                             data: {
                                                 labels: ['Submitted Forms', 'Unfinished Forms'],
                                                 datasets: [{
-                                                    label: 'Number of Forms',
+                                                    label: 'Number of Submitted and Unfinished Forms',
                                                     data: [totalSubmitForms, totalUnsubmittedForms],
                                                     borderWidth: 1
                                                 }]

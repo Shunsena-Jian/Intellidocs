@@ -125,23 +125,27 @@ block sidebar
 
         div
             div
-                button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo1')")
-                    i.fa.fa-circle-o-notch.fa-fw.w3-margin-right
-                    |  Form Management
-                #Demo1.w3-hide.w3-container
-                    #createTemplateElement.w3-row
-                        a(href='#' onclick="showLeavePageModal('/createform',userCurrentPage)").w3-button-text.w3-button
-                            i.fa.fa-plus-circle.w3-margin-right
-                            | Create Forms
-                        a(href='#' onclick="showLeavePageModal('/createwidget',userCurrentPage)").w3-button-text.w3-button
-                            i.fa.fa-plus-circle.w3-margin-right
-                            | Create Widgets
-                        a(href='#' onclick="showLeavePageModal('/viewformtemplates',userCurrentPage)").w3-button-text.w3-button
-                            i.fa.fa-eye.w3-margin-right
-                            | View Form Templates
-                    a(href='#' onclick="showLeavePageModal('/viewforms',userCurrentPage)").w3-button
-                        i.fa.fa-file.w3-margin-right
-                        | View Forms
+                if (currentUserDetailsBlock.userLevel == "Admin")
+                else
+                    button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo1')")
+                        i.fa.fa-circle-o-notch.fa-fw.w3-margin-right
+                        |  Form Management
+                    #Demo1.w3-hide.w3-container
+                        #createTemplateElement.w3-row
+                            a(href='#' onclick="showLeavePageModal('/createform',userCurrentPage)").w3-button-text.w3-button
+                                i.fa.fa-plus-circle.w3-margin-right
+                                | Create Forms
+                            a(href='#' onclick="showLeavePageModal('/createwidget',userCurrentPage)").w3-button-text.w3-button
+                                i.fa.fa-plus-circle.w3-margin-right
+                                | Create Widgets
+                            a(href='#' onclick="showLeavePageModal('/viewformtemplates',userCurrentPage)").w3-button-text.w3-button
+                                i.fa.fa-eye.w3-margin-right
+                                | View Form Templates
+                        if (currentUserDetailsBlock.userLevel == "Document Controller" || currentUserDetailsBlock.userLevel == "Admin")
+                        else
+                            a(href='#' onclick="showLeavePageModal('/viewforms',userCurrentPage)").w3-button
+                                i.fa.fa-file.w3-margin-right
+                                | View Forms
 
                 #userManagementElement
                     button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo3')")
