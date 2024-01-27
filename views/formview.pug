@@ -172,13 +172,13 @@ block body
                                         th Employee Number
                                         th Date Submitted
                                         th Time Submitted
-                                        th View Form
                                         th Form Status
+                                        th View Form
                                         th Approve Form
                                         th Return Form
                                 tbody
                                     each submissions in submittedVersions
-                                        if (currentUserDetailsBlock.userDepartment === submissions.user_department || currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Dean")
+                                        if ((currentUserDetailsBlock.userLevel === "Department Head" && currentUserDetailsBlock.userDepartment === submissions.user_department) || currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Dean")
                                             tr
                                                 td #{submissions.first_name}
                                                 td #{submissions.last_name}
@@ -188,10 +188,29 @@ block body
                                                 td #{submissions.form_status}
                                                 td
                                                     button.w3-button.w3-block.w3-theme-dark(onclick=`renderSubmittedForm("${submissions.form_owner}")`) View
-                                                td
-                                                    button.w3-button.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Approve Form
-                                                td
-                                                    button.w3-button.w3-block.w3-theme-dark(onclick=`returnSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Return Form
+                                                if (currentUserDetailsBlock.userLevel === "Secretary" && submissions.secretary_approval === "Approved")
+                                                    td Approved
+                                                    td Cannot Return
+                                                else if (currentUserDetailsBlock.userLevel === "Dean" && submissions.dean_approval === "Approved")
+                                                    td Approved
+                                                    td Cannot Return
+                                                else if (currentUserDetailsBlock.userLevel === "Department Head" && submissions.department_head_approval === "Approved")
+                                                    td Approved
+                                                    td Cannot Return
+                                                else if (currentUserDetailsBlock.userLevel === "Secretary" && submissions.secretary_approval === "Returned")
+                                                    td Cannot Approve
+                                                    td Returned
+                                                else if (currentUserDetailsBlock.userLevel === "Dean" && submissions.dean_approval === "Returned")
+                                                    td Cannot Approve
+                                                    td Returned
+                                                else if (currentUserDetailsBlock.userLevel === "Department Head" && submissions.department_head_approval === "Returned")
+                                                    td Cannot Approve
+                                                    td Returned
+                                                else
+                                                    td
+                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Approve Form
+                                                    td
+                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`returnSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Return Form
             if (currentUserDetailsBlock.userLevel === "Secretary")
                 .w3-container.w3-card.w3-white.w3-round.w3-margin
                     .w3-row
@@ -276,8 +295,8 @@ block body
                                         th Employee Number
                                         th Date Submitted
                                         th Time Submitted
-                                        th View Form
                                         th Form Status
+                                        th View Form
                                         th Approve Form
                                         th Return Form
                                 tbody
@@ -292,10 +311,30 @@ block body
                                                 td #{submissions.form_status}
                                                 td
                                                     button.w3-button.w3-block.w3-theme-dark(onclick=`renderSubmittedForm("${submissions.form_owner}")`) View
-                                                td
-                                                    button.w3-button.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Approve Form
-                                                td
-                                                    button.w3-button.w3-block.w3-theme-dark(onclick=`returnSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Return Form
+                                                if (currentUserDetailsBlock.userLevel === "Secretary" && submissions.secretary_approval === "Approved")
+                                                    td Approved
+                                                    td Cannot Return
+                                                else if (currentUserDetailsBlock.userLevel === "Dean" && submissions.dean_approval === "Approved")
+                                                    td Approved
+                                                    td Cannot Return
+                                                else if (currentUserDetailsBlock.userLevel === "Department Head" && submissions.department_head_approval === "Approved")
+                                                    td Approved
+                                                    td Cannot Return
+                                                else if (currentUserDetailsBlock.userLevel === "Secretary" && submissions.secretary_approval === "Returned")
+                                                    td Cannot Approve
+                                                    td Returned
+                                                else if (currentUserDetailsBlock.userLevel === "Dean" && submissions.dean_approval === "Returned")
+                                                    td Cannot Approve
+                                                    td Returned
+                                                else if (currentUserDetailsBlock.userLevel === "Department Head" && submissions.department_head_approval === "Returned")
+                                                    td Cannot Approve
+                                                    td Returned
+                                                else
+                                                    td
+                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Approve Form
+                                                    td
+                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`returnSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Return Form
+
             if (currentUserDetailsBlock.userLevel === "Secretary")
                 .w3-container.w3-card.w3-white.w3-round.w3-margin
                     .w3-row
@@ -603,10 +642,6 @@ block body
     script(src='/js/client.functions/handle_ajax_load_version.js')
     script(src='/js/client.form/form_create_view_edit.js')
 
-
-    script.
-        var table2 = $('#submittedFormsTable').DataTable();
-
     script.
         function setDueDate(){
             var dueDateInput = document.getElementById("dueDateInput").value;
@@ -836,6 +871,7 @@ block body
         }
 
     script.
+        var table10 = $('#submittedFormsTable').DataTable();
         function returnSubmittedForm(formOwner, formControlNumber){
             var data = {
                 formOwner: formOwner,
@@ -848,6 +884,49 @@ block body
                 data: data,
                 success: function(response){
                     if(response.status_code === 0){
+                        var updatedData10 = response.updatedForm1;
+                        table10.clear().draw();
+
+                        for(e=0; e < updatedData10.length; e++){
+                            var approveButton = '';
+                            var returnButton = '';
+                            if (updatedData10[e].secretary_approval === "Approved"){
+                                approveButton = 'Approved';
+                                returnButton = 'Cannot Return';
+                            } else if (updatedData10[e].secretary_approval === "Returned") {
+                                approveButton = 'Cannot Approve';
+                                returnButton = 'Returned';
+                            } else if (updatedData10[e].dean_approval === "Approved"){
+                                approveButton = 'Approved';
+                                returnButton = 'Cannot Return';
+                            } else if (updatedData10[e].dean_approval === "Returned"){
+                                approveButton = 'Cannot Approve';
+                                returnButton = 'Returned';
+                            } else if (updatedData10[e].department_head_approval === "Approved"){
+                                approveButton = 'Approved';
+                                returnButton = 'Cannot Return';
+                            } else if (updatedData10[e].department_head_approval === "Returned"){
+                                approveButton = 'Cannot Approve';
+                                returnButton = 'Returned';
+                            } else {
+                                approveButton = `<button class="w3-button w3-block w3-theme-dark" onclick="approveSubmittedForm('${updatedData10[e].form_owner}', '${String(updatedData10[e].form_control_number)}')">Approve Form</button>`;
+                                returnButton = `<button class="w3-button w3-block w3-theme-dark" onclick="returnSubmittedForm('${updatedData10[e].form_owner}', '${String(updatedData10[e].form_control_number)}')">Return Form</button>`;
+                            }
+
+                            var curLine10 = [
+                                updatedData10[e].first_name,
+                                updatedData10[e].last_name,
+                                updatedData10[e].form_owner,
+                                updatedData10[e].date_submitted,
+                                updatedData10[e].time_saved,
+                                updatedData10[e].form_status,
+                                `<button class="w3-button w3-block w3-theme-dark" onclick="renderSubmittedForm(&quot;${updatedData10.form_owner}&quot;)">View</button>`,
+                                approveButton,
+                                returnButton
+                            ];
+                            table10.row.add(curLine10).draw();
+                        }
+
                         var secretaryApproval = response.secretary_approval;
                         var deanApproval = response.dean_approval;
                         var departmentHeadApproval = response.department_head_approval;
@@ -887,6 +966,7 @@ block body
         }
 
     script.
+        var table9 = $('#submittedFormsTable').DataTable();
         function approveSubmittedForm(formOwner, formControlNumber){
             var data = {
                 formOwner: formOwner,
@@ -899,6 +979,50 @@ block body
                 data: data,
                 success: function(response){
                     if(response.status_code === 0){
+                        var updatedData9 = response.updatedForm1;
+                        table9.clear().draw();
+
+                        for(e=0; e < updatedData9.length; e++){
+                            var approveButton = '';
+                            var returnButton = '';
+                            if (updatedData9[e].secretary_approval === "Approved"){
+                                approveButton = 'Approved';
+                                returnButton = 'Cannot Return';
+                            } else if (updatedData9[e].secretary_approval === "Returned") {
+                                approveButton = 'Cannot Approve';
+                                returnButton = 'Returned';
+                            } else if (updatedData9[e].dean_approval === "Approved"){
+                                approveButton = 'Approved';
+                                returnButton = 'Cannot Return';
+                            } else if (updatedData9[e].dean_approval === "Returned"){
+                                approveButton = 'Cannot Approve';
+                                returnButton = 'Returned';
+                            } else if (updatedData9[e].department_head_approval === "Approved"){
+                                approveButton = 'Approved';
+                                returnButton = 'Cannot Return';
+                            } else if (updatedData9[e].department_head_approval === "Returned"){
+                                approveButton = 'Cannot Approve';
+                                returnButton = 'Returned';
+                            } else {
+                                approveButton = `<button class="w3-button w3-block w3-theme-dark" onclick="approveSubmittedForm('${updatedData9[e].form_owner}', '${String(updatedData9[e].form_control_number)}')">Approve Form</button>`;
+                                returnButton = `<button class="w3-button w3-block w3-theme-dark" onclick="returnSubmittedForm('${updatedData9[e].form_owner}', '${String(updatedData9[e].form_control_number)}')">Return Form</button>`;
+                            }
+                            console.log("This is buttons: " + approveButton + returnButton);
+
+                            var curLine9 = [
+                                updatedData9[e].first_name,
+                                updatedData9[e].last_name,
+                                updatedData9[e].form_owner,
+                                updatedData9[e].date_submitted,
+                                updatedData9[e].time_saved,
+                                updatedData9[e].form_status,
+                                `<button class="w3-button w3-block w3-theme-dark" onclick="renderSubmittedForm(&quot;${updatedData9.form_owner}&quot;)">View</button>`,
+                                approveButton,
+                                returnButton
+                            ];
+                            table9.row.add(curLine9).draw();
+                        }
+
                         var secretaryApproval = response.secretary_approval;
                         var deanApproval = response.dean_approval;
                         var departmentHeadApproval = response.department_head_approval;

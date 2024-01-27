@@ -1724,10 +1724,9 @@ function getUniqueForms(formsGroup){
 }
 
 app.get('/viewforms', async function(req, res){
-    var requiredPrivilege = 'View Forms Only';
-    var accessGranted = false;
-
     if(req.session.loggedIn){
+        var requiredPrivilege = 'View Forms Only';
+        var accessGranted = false;
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserForms = await getUserForms(req.session.userEmpID);
@@ -2837,7 +2836,25 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
             }
         }
         var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : { $in: ["Submitted", "Returned"] }, form_owner : formData.formOwner });
-        res.send({ status_code : 0, secretary_approval : updatedForm.secretary_approval, dean_approval : updatedForm.dean_approval, department_head_approval : updatedForm.department_head_approval });
+
+        var returnedFormsTransfer = await filledoutforms.find({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}}).toArray();
+        console.log("This is count: " + returnedFormsTransfer.length);
+        let finalFormsTransfer = [];
+
+        for (const form of returnedFormsTransfer){
+            const formOwner = form.form_owner;
+            const user = await users.findOne({ emp_id: formOwner });
+
+            if(user){
+                form.first_name = user.first_name;
+                form.last_name = user.last_name;
+                finalFormsTransfer.push(form);
+            } else {
+                logError("User not found for form_owner: " + formOwner);
+            }
+        }
+
+        res.send({ status_code : 0, updatedForm1 : finalFormsTransfer, secretary_approval : updatedForm.secretary_approval, dean_approval : updatedForm.dean_approval, department_head_approval : updatedForm.department_head_approval });
     }else{
         res.render('login', {
             title: 'Login Page'
@@ -2923,7 +2940,24 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
 
         var updatedForm1 = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned", "Approved"]}, form_owner : formData.formOwner });
 
-        res.send({ status_code : 0, secretary_approval : updatedForm1.secretary_approval, dean_approval : updatedForm1.dean_approval, department_head_approval : updatedForm1.department_head_approval });
+        var submittedFormsTransfer = await filledoutforms.find({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}}).toArray();
+        console.log("This is count: " + submittedFormsTransfer.length);
+        let finalFormsTransfer = [];
+
+        for (const form of submittedFormsTransfer){
+            const formOwner = form.form_owner;
+            const user = await users.findOne({ emp_id: formOwner });
+
+            if(user){
+                form.first_name = user.first_name;
+                form.last_name = user.last_name;
+                finalFormsTransfer.push(form);
+            } else {
+                logError("User not found for form_owner: " + formOwner);
+            }
+        }
+
+        res.send({ status_code : 0, updatedForm1 : finalFormsTransfer, secretary_approval : updatedForm1.secretary_approval, dean_approval : updatedForm1.dean_approval, department_head_approval : updatedForm1.department_head_approval });
     }else{
         res.render('login', {
             title: 'Login Page'
