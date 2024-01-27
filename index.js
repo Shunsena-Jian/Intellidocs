@@ -92,13 +92,42 @@ io.on('connection', (socket) =>{
 });
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb){
-        const uploadDirectory = 'uploads/' + req.session.userEmpID;
-        fs.mkdirSync(uploadDirectory, { recursive: true });
-        cb(null, uploadDirectory);
+    destination: function (req, file, cb) {
+        if (req.session.loggedIn) {
+            const uploadDirectory = 'uploads/' + req.session.userEmpID;
+            try {
+                fs.mkdirSync(uploadDirectory, { recursive: true });
+                cb(null, uploadDirectory);
+            } catch (err) {
+                if (err.code === 'EEXIST') {
+                    cb(null, uploadDirectory);
+                } else {
+                    console.error('Error creating directory:', err);
+                    cb(err);
+                }
+            }
+        } else {
+            console.error('User not logged in');
+            cb(new Error('User not logged in'));
+        }
     },
-    filename: function (req, file, cb){
-        cb(null, file.originalname);
+    filename: function (req, file, cb) {
+        if (req.session.loggedIn) {
+            const uploadDirectory = 'uploads/' + req.session.userEmpID;
+            const baseFileName = req.session.userEmpID;
+            let fileName = baseFileName;
+            let index = 1;
+            const extension = path.extname(file.originalname);
+            const nameWithoutExtension = path.basename(file.originalname, extension);
+            while (fs.existsSync(path.join(uploadDirectory, fileName + extension))) {
+                fileName = baseFileName + '_' + index;
+                index++;
+            }
+            cb(null, fileName + extension);
+        } else {
+            console.error('User not logged in');
+            cb(new Error('User not logged in'));
+        }
     }
 });
 
@@ -324,7 +353,6 @@ app.post('/savecreatedform', async function(req, res){
         });
     }
 });
-
 
 app.post('/saveformversion', async function(req, res){
     if(req.session.loggedIn){
@@ -1219,37 +1247,49 @@ app.get('/accountsettings', async function (req, res){
     }
 });
 
-app.post('/', upload.single('file'), async function (req, res){
-    if(req.session.loggedIn){
+app.post('/', upload.single('file'), async function (req, res) {
+    if (req.session.loggedIn) {
         const uploadedFile = req.file;
-        logStatus("Received file: " + req.file);
-        var fileFormControlNumber = req.session.form_control_number;
 
-        if(!uploadedFile){
+        if (!uploadedFile) {
             logStatus("No file Uploaded");
-        }else{
+        } else {
             const { originalname, size } = uploadedFile;
-            logStatus("File Uploaded Successfully in " + `/uploads/${currentUserDetailsBlock.firstName}/${originalname}`);
+            let userFiles = await files.find({ uploadedBy: currentUserDetailsBlock.empID }).toArray();
 
-            try{
-                uploadInfo = {
-                    "fileFormControlNumber": fileFormControlNumber,
-                    "file_name": originalname,
+            try {
+                let file_name = req.session.userEmpID;
+                let iteration = 1;
+
+                // Check if the file name already exists, if it does, increment the iteration
+                while (userFiles.some(file => file.file_name === file_name)) {
+                    file_name = `${currentUserDetailsBlock.empID}_${iteration}`;
+                    iteration++;
+                }
+
+                const uploadInfo = {
+                    "file_name": file_name,
                     "file_size": size,
                     "uploadedBy": req.session.userEmpID,
                     "uploadedAt": new Date()
                 };
 
                 result = await files.insertOne(uploadInfo);
-                logStatus("Saved file in database : " + uploadInfo);
-                const documents = await files.find({ uploadedBy : req.session.userEmpID, fileFormControlNumber : fileFormControlNumber }).toArray();
 
-                res.json({documents});
-            }catch(error){
-                logError("Error at index post upload file: " + error);
+                logStatus("File Uploaded Successfully in " + `/uploads/${currentUserDetailsBlock.empID}/${uploadInfo.file_name}`);
+
+                if (debug_mode) {
+                    logStatus("Inserted : " + uploadInfo);
+                }
+
+                const documents = await getFiles(req.session.userEmpID);
+
+                res.json({ documents });
+            } catch (error) {
+                logError(error);
             }
         }
-    }else{
+    } else {
         res.render('login', {
             title: 'Login Page'
         });
@@ -2013,39 +2053,49 @@ app.post('/accountsettings', pictureUpload.single('file'), async function (req, 
     }
 });
 
-app.post('/upload', upload.single('file'), async function (req, res){
-    if(req.session.loggedIn){
+app.post('/upload', upload.single('file'), async function (req, res) {
+    if (req.session.loggedIn) {
         const uploadedFile = req.file;
 
-        if(!uploadedFile){
+        if (!uploadedFile) {
             logStatus("No file Uploaded");
-        }else{
+        } else {
             const { originalname, size } = uploadedFile;
+            let userFiles = await files.find({ uploadedBy: currentUserDetailsBlock.empID }).toArray();
 
-            logStatus("File Uploaded Successfully in " + `/uploads/${userDetailsBlock.firstName}/${originalname}`);
+            try {
+                let file_name = req.session.userEmpID;
+                let iteration = 1;
 
+                // Check if the file name already exists, if it does, increment the iteration
+                while (userFiles.some(file => file.file_name === file_name)) {
+                    file_name = `${currentUserDetailsBlock.empID}_${iteration}`;
+                    iteration++;
+                }
 
-            try{
-                uploadInfo = {
-                    "file_name": originalname,
+                const uploadInfo = {
+                    "file_name": file_name,
                     "file_size": size,
                     "uploadedBy": req.session.userEmpID,
                     "uploadedAt": new Date()
                 };
+
                 result = await files.insertOne(uploadInfo);
 
-                if(debug_mode){
+                logStatus("File Uploaded Successfully in " + `/uploads/${currentUserDetailsBlock.empID}/${uploadInfo.file_name}`);
+
+                if (debug_mode) {
                     logStatus("Inserted : " + uploadInfo);
                 }
 
                 const documents = await getFiles(req.session.userEmpID);
 
-                res.json({documents});
-            }catch(error){
+                res.json({ documents });
+            } catch (error) {
                 logError(error);
             }
         }
-    }else{
+    } else {
         res.render('login', {
             title: 'Login Page'
         });
