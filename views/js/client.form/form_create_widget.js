@@ -187,7 +187,7 @@ function makeOrderedList() {
 	// Add a context menu event listener to the list
 	orderedList.addEventListener('contextmenu', function (e) {
 		e.preventDefault(); // Prevent the default context menu from showing
-		createContextMenu(e.clientX, e.clientY, orderedList, null); // Call your context menu function
+		createContextMenu(e.clientX, e.clientY, orderedList, null, null); // Call your context menu function
 	});
 
 	orderedList = selectElement(orderedList);
@@ -546,9 +546,10 @@ function addTableColumn(table) {
 }
 
 // Context Menus
-function createContextMenu(x,y,element, table) {
+function createContextMenu(x,y,element, table, container) {
     if (rightClickWidgetActive) {
         while (contextMenu.firstChild) {
+            console.log(contextMenu.firstChild);
             contextMenu.removeChild(contextMenu.firstChild);
         }
         rightClickWidgetActive = false;
@@ -559,7 +560,9 @@ function createContextMenu(x,y,element, table) {
             contextMenuButtonsForTable(table);
         }
 
-        contextMenuButtonsForContainer(element);
+        if (container) {
+           contextMenuButtonsForContainer(container);
+        }
 
         const deleteButton = document.createElement('button');
         deleteButton.classList.add("button-box");
@@ -624,7 +627,15 @@ function createContextMenu(x,y,element, table) {
         contextMenu.appendChild(lockEditOnDeploy);
         contextMenu.appendChild(unlockEditOnDeploy);
 
+        try {
+            if (selectedTextBox.parentElement != null && selectedTextBox.parentElement.classList.contains("form-table")) {
+                contextMenuButtonsForTable(selectedTextBox.parentElement);
+            } else if (selectedTextBox.parentElement != null && selectedTextBox.parentElement.classList.contains("grid-container")) {
+                contextMenuButtonsForContainer(selectedTextBox.parentElement);
+            }
+        } catch {
 
+        }
 
         contextMenu.style.position = 'fixed';
         contextMenu.style.left = x + 'px';
@@ -649,8 +660,10 @@ function contextMenuButtonsForContainer(element) {
     var addCheckBoxItem;
     var removeSectionColumn;
 
+    console.log(element.classList.contains('checkbox'));
+    console.log(element.classList.contains('checkbox'));
     // Add right click functions for grid container
-    if (element && element.classList.contains('grid-container') && !element.classList.contains('checkbox')) {
+    if (element && element.classList.contains('grid-container') && (element.classList.contains('checkbox') == false) ) {
 
         // Add Section column
         appendSectionColumn = document.createElement('button');
@@ -687,6 +700,7 @@ function contextMenuButtonsForContainer(element) {
             contextMenu.remove();
         })
         contextMenu.appendChild(addCheckBoxItem);
+
         removeSectionColumn = document.createElement('button');
         removeSectionColumn.classList.add("button-checkbox");
         removeSectionColumn.innerText = 'Remove Checkbox Item';
@@ -698,6 +712,8 @@ function contextMenuButtonsForContainer(element) {
          })
         contextMenu.appendChild(removeSectionColumn);
     }
+
+    return contextMenu;
 }
 
 function contextMenuButtonsForTable(table) {
@@ -850,10 +866,10 @@ function addEventListenerToDiv(dropBox) {
                 var clonedDiv = newDiv.cloneNode(true);
                 console.log(clonedDiv);
                 // Check if the clonedDiv is a table or contains tables within divs
-                if (clonedDiv.nodeName.toLowerCase() != 'table') {
+                if (clonedDiv.nodeName.toLowerCase() != 'table' && !(clonedDiv.classList.contains("grid-container"))) {
                     clonedDiv.addEventListener('contextmenu', (e) => {
                         e.preventDefault();
-                        createContextMenu(e.clientX, e.clientY, clonedDiv, null);
+                        createContextMenu(e.clientX, e.clientY, clonedDiv, null, null);
                     });
                 }  else if (clonedDiv.nodeName.toLowerCase() == 'table') {
                     console.log("is a freaking table");
@@ -863,6 +879,8 @@ function addEventListenerToDiv(dropBox) {
                         createContextMenu(e.clientX, e.clientY, null , clonedDiv);
                     });
                   clonedDiv = activateTable(clonedDiv);
+                } else if ( clonedDiv.classList.contains("grid-container")) {
+                    createContextMenu(e.clientX, e.clientY, null , null, clonedDiv);
                 }
 
                 if (selectedTextBox && selectedTextBox.classList.contains("grid-item-container")) {
