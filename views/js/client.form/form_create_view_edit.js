@@ -154,8 +154,7 @@ function initializeContextMenuForChild(clonedDiv) {
             console.log("adding context listener to ");
             console.log(clonedDiv);
                try {
-                    if (clonedDiv.classList.contains("form-table") ||
-                      (clonedDiv.firstChild && (clonedDiv.classList && clonedDiv.firstChild.classList.contains("form-table")))) {
+                    if (clonedDiv.classList.contains("form-table")) {
                        console.log("is a table");
                        createContextMenu(e.clientX, e.clientY, null, clonedDiv);
                    } else {
@@ -760,7 +759,7 @@ function createContextMenu(x,y,element, table) {
         contextMenu.classList.add('context-menu');
 
         // Control which buttons will be shown on context menu base on user type
-        if (userType === "Secretary") {
+        if (userType === "Secretary" || userType === "Department Head" || userType === "Dean") {
             // Secretary can only view the form
             return; // Do not enable right click functions
         } else if (userType === "Dean") {
@@ -768,6 +767,7 @@ function createContextMenu(x,y,element, table) {
         } else if (userType === "Super Admin" || userType === "Document Controller")  {
             // All functions
             if (table) {
+                console.log("is a table 2");
                 contextMenuButtonsForTable(table);
             }
 
@@ -1030,6 +1030,7 @@ function dropContent(boxHeight, data) {
 //        clonedDiv.removeEventListener("dragstart", handleDragStart);
         initializeContextMenuForChild(clonedDiv); // initialize right click functions
         clonedDiv = selectElement(clonedDiv); // add selection listener for sub-children elements
+        console.log("added selected");
         clonedDiv = removeReadOnlyAttributesRecursive(clonedDiv); // allow elements to be editable
 
         if (currentPageContent) { // Check if currentPageContent is defined
@@ -1333,7 +1334,7 @@ function selectElement(element) {
 
         try {
             // Do not allow selection and edit capability for the header table
-            if (findParentTable(clickedElement).classList.contains("form-table")) {
+            if (findParentTable(clickedElement).classList.contains("header")) {
                 return;
             }
         } catch {

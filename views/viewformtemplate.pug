@@ -6,7 +6,7 @@ block body
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
 
-                    h1.w3-center Form Name: #{currentForm.form_name}
+                    //h1.w3-center Form Name: #{currentForm.form_name}
 
                 .w3-row
                     .w3-twothird.w3-container2
@@ -18,20 +18,27 @@ block body
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h3 Form Settings
                                 hr
-                                h4 Form Name: #{currentForm.form_name}
-                                h4#settingsVersion Version : #{currentForm.form_version}
-                                hr
-                                if currentForm.shared_status === true
-                                    h4#formDetailsSharingSetting Form Sharing : Allowed
-                                else
-                                    h4#formDetailsSharingSetting Form Sharing : Not Allowed
-                                hr
-                                h4#formDetailsStatusSetting Status : #{currentForm.form_status}
-                                hr
-                                if currentForm.allow_file_upload === true
-                                    h4#formDetailsUploadSetting File Uploading : Allowed
-                                else
-                                    h4#formDetailsUploadSetting File Uploading : Not Allowed
+                                table.form-details
+                                    tr
+                                        td.w3-bold  Form Name:
+                                        td #{currentForm.form_name}
+                                    tr
+                                        td.w3-bold Form Sharing:
+                                        td
+                                            if currentForm.shared_status === true
+                                                p#formDetailsSharingSetting Allowed
+                                            else
+                                                p#formDetailsSharingSetting Not Allowed
+                                    tr
+                                        td.w3-bold  Status:
+                                        td#formDetailsStatusSetting #{currentForm.form_status}
+                                    tr
+                                        td.w3-bold  File Uploading:
+                                        td
+                                            if currentForm.allow_file_upload === true
+                                                p#formDetailsUploadSetting Allowed
+                                            else
+                                                p#formDetailsUploadSetting Not Allowed
                             //WHOEVER IS READING THIS -- THIS SECTION IS CURRENTLY UNDER DEVELOPMENT WHICH IS WHY IT IS HERE ATM. MOVE IT AND FACE THE WRATH OF DENMARK
                             script.
                                 function dropDownUpdateCanvas(formControlNumber){
@@ -265,15 +272,9 @@ block body
                         .w3-row
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 .w3-row
-                                    .w3-half
-                                        button.w3-button.w3-block.w3-theme-dark(onclick='saveForm()')
-                                            i.fa.fa-floppy-o.fa-fw.w3-margin-right
-                                            |   Save Form
-                                    .w3-half
-                                        button.w3-button.w3-block.w3-theme-dark(onclick='downloadAsPDF()')
-                                            i.fa.fa-download.fa-fw.w3-margin-right
-                                            |   Download as PDF
-                                .w3-row
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='saveForm()')
+                                        i.fa.fa-floppy-o.fa-fw.w3-margin-right
+                                        |   Save Form
                                     br
                                     if currentForm.shared_status === true
                                         button#toggleSharingButton.w3-button.w3-block.w3-theme-dark(onclick='toggleSharing()') Un-allow Sharing

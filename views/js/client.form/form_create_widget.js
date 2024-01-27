@@ -879,6 +879,7 @@ function addEventListenerToDiv(dropBox) {
 
                     // Remove the 'draggable' attribute
                     selectedTextBox.removeAttribute("draggable");
+                    selectedTextBox.classList.remove("draggable");
                     activeDraggable = null;
                     updatePageHeight();
                     return;
