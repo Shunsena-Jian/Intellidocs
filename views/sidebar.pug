@@ -127,7 +127,7 @@ block sidebar
             div
                 if (currentUserDetailsBlock.userLevel == "Document Controller" || currentUserDetailsBlock.userLevel == "Admin")
                 else
-                    a(href='#' onclick="showLeavePageModal('/viewforms',userCurrentPage)").w3-button
+                    button.w3-button.w3-block.w3-left-align(onclick="showLeavePageModal('/viewforms',userCurrentPage)")
                         i.fa.fa-file.w3-margin-right
                         | View Forms
                 if (currentUserDetailsBlock.userLevel != "Document Controller")
