@@ -1056,6 +1056,7 @@ app.get('/', async function (req, res){
         }else{
             let finalForms = [];
             let allForms = await getForms();
+            let finalityForms = await getUniqueForms(allForms);
             let userAccounts = await getUserAccounts();
             let currentUserFiles = await getFiles(req.session.userEmpID);
             let currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
@@ -1063,7 +1064,7 @@ app.get('/', async function (req, res){
             let currentUserPicture = await getUserPicture(req.session.userEmpID);
 
             if(currentUserDetailsBlock.userLevel == "Secretary" || currentUserDetailsBlock.userLevel == "Dean"){
-                for (const form of allForms) {
+                for (const form of finalityForms) {
                     let totalAssignedUsers = 0;
                     let totalSubmittedForms = 0;
                     let totalUnsubmittedForms = 0;
@@ -1094,7 +1095,7 @@ app.get('/', async function (req, res){
                             }).toArray();
                             totalReturnedForms += returnedForms.length;
                         }
-                        totalUnsubmittedForms = totalAssignedUsers - totalApprovedForms;
+                        totalUnsubmittedForms = totalAssignedUsers - totalSubmittedForms;
                     }
                     finalForms.push({
                         form_name: form.form_name,
@@ -1108,7 +1109,7 @@ app.get('/', async function (req, res){
                     });
                 }
             }else if(currentUserDetailsBlock.userLevel == "Department Head") {
-                for (const form of allForms) {
+                for (const form of finalityForms) {
                     let totalAssignedUsers = 0;
                     let totalSubmittedForms = 0;
                     let totalUnsubmittedForms = 0;
@@ -1122,7 +1123,6 @@ app.get('/', async function (req, res){
                                 const submittedForms = await filledoutforms.find({
                                     form_owner: assignedUserDetails.emp_id,
                                     form_control_number: form.form_control_number,
-                                    user_department: currentUserDetailsBlock.userDepartment,
                                     form_status: "Submitted"
                                 }).toArray();
                                 totalSubmittedForms += submittedForms.length;
@@ -1142,7 +1142,7 @@ app.get('/', async function (req, res){
                                 totalReturnedForms += returnedForms.length;
                             }
                         }
-                        totalUnsubmittedForms = totalAssignedUsers - totalApprovedForms;
+                        totalUnsubmittedForms = totalAssignedUsers - totalSubmittedForms;
                     }
                     finalForms.push({
                         form_name: form.form_name,
@@ -1162,7 +1162,7 @@ app.get('/', async function (req, res){
                 let totalApprovedForms = 0;
                 let totalReturnedForms = 0;
 
-                for (const form of allForms) {
+                for (const form of finalityForms) {
                     // Check if the current user is assigned to the form
                     if (form.assigned_users && form.assigned_users.includes(currentUserDetailsBlock.email)) {
                         totalAssignedForms++;
@@ -1188,7 +1188,7 @@ app.get('/', async function (req, res){
                         }).toArray();
                         totalReturnedForms += returnedForms.length;
 
-                        totalUnsubmittedForms = totalAssignedForms - totalApprovedForms;
+                        totalUnsubmittedForms = totalAssignedForms - totalSubmittedForms;
                     }
                     finalForms.push({
                         form_name: form.form_name,
@@ -1209,7 +1209,7 @@ app.get('/', async function (req, res){
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime,
                 userAccounts: userAccounts,
-                allForms: allForms,
+                allForms: finalityForms,
                 finalForms: finalForms,
                 userCurrentPage: "index"
             });
@@ -1444,6 +1444,7 @@ app.post('/login', async function (req, res){
 
                 var finalForms = [];
                 let allForms = await getForms();
+                let finalityForms = await getUniqueForms(allForms);
                 let userAccounts = await getUserAccounts();
 
                 currentUserFiles = await getFiles(req.session.userEmpID);
@@ -1452,7 +1453,7 @@ app.post('/login', async function (req, res){
                 currentUserPicture = await getUserPicture(req.session.userEmpID);
 
                 if(currentUserDetailsBlock.userLevel == "Secretary" || currentUserDetailsBlock.userLevel == "Dean"){
-                    for (const form of allForms) {
+                    for (const form of finalityForms) {
                         let totalAssignedUsers = 0;
                         let totalSubmittedForms = 0;
                         let totalUnsubmittedForms = 0;
@@ -1485,7 +1486,7 @@ app.post('/login', async function (req, res){
                                 totalReturnedForms += returnedForms.length;
 
                             }
-                            totalUnsubmittedForms = totalAssignedUsers - totalApprovedForms;
+                            totalUnsubmittedForms = totalAssignedUsers - totalSubmittedForms;
                         }
                         finalForms.push({
                             form_name: form.form_name,
@@ -1499,7 +1500,7 @@ app.post('/login', async function (req, res){
                         });
                     }
                 }else if(currentUserDetailsBlock.userLevel == "Department Head") {
-                    for (const form of allForms) {
+                    for (const form of finalityForms) {
                         let totalAssignedUsers = 0;
                         let totalSubmittedForms = 0;
                         let totalUnsubmittedForms = 0;
@@ -1515,7 +1516,6 @@ app.post('/login', async function (req, res){
                                     const submittedForms = await filledoutforms.find({
                                         form_owner: assignedUserDetails.emp_id,
                                         form_control_number: form.form_control_number,
-                                        user_department: currentUserDetailsBlock.userDepartment,
                                         form_status: "Submitted"
                                     }).toArray();
                                     totalSubmittedForms += submittedForms.length;
@@ -1536,8 +1536,7 @@ app.post('/login', async function (req, res){
 
                                 }
                             }
-
-                            totalUnsubmittedForms = totalAssignedUsers - totalApprovedForms;
+                            totalUnsubmittedForms = totalAssignedUsers - totalSubmittedForms;
                         }
 
                         finalForms.push({
@@ -1558,7 +1557,7 @@ app.post('/login', async function (req, res){
                     let totalApprovedForms = 0;
                     let totalReturnedForms = 0;
 
-                    for (const form of allForms) {
+                    for (const form of finalityForms) {
                         // Check if the current user is assigned to the form
                         if (form.assigned_users && form.assigned_users.includes(currentUserDetailsBlock.email)) {
                             totalAssignedForms++;
@@ -1584,7 +1583,7 @@ app.post('/login', async function (req, res){
                             }).toArray();
                             totalReturnedForms += returnedForms.length;
 
-                            totalUnsubmittedForms = totalAssignedForms - totalApprovedForms;
+                            totalUnsubmittedForms = totalAssignedForms - totalSubmittedForms;
                         }
                         finalForms.push({
                             form_name: form.form_name,
@@ -1605,7 +1604,7 @@ app.post('/login', async function (req, res){
                     currentUserPicture: currentUserPicture,
                     min_idleTime: min_idleTime,
                     userAccounts: userAccounts,
-                    allForms: allForms,
+                    allForms: finalityForms,
                     finalForms: finalForms,
                     userCurrentPage: "index"
                 });
