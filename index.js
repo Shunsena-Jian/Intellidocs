@@ -268,42 +268,63 @@ app.post('/savecreatedform', async function(req, res){
             var jsonArray = [];
 
             jsonArray.push(formData.formContent);
-            latestForm = await forms.findOne({ form_name : formData.name });
+            latestForms = await forms.find().toArray();
+            let formNameExists = false;
+            let formControlNumberExists = false;
 
-            if(latestForm && formData.name === latestForm.form_name){
-                res.json({ status_code : 1 });
-            }else{
-                const formDocument = {
-                    form_name: formData.name,
-                    form_control_number: formData.formControlNumber.toString(),
-                    form_content: jsonArray,
-                    form_version: 0,
-                    form_status: formData.formStatus,
-                    shared_status: false,
-                    allow_file_upload: false,
-                    date_saved: getDateNow(),
-                    time_saved: getTimeNow(),
-                    assigned_users: [],
-                    due_date: null,
-                    quarter_due_date: null,
-                    annual_due_date: null,
-                    academic_year: null,
-                    semester: null
-                };
-
-                const result = await forms.insertOne(formDocument);
-                logStatus("Created form saved at database: " + result);
-                res.json({ success: true });
+            for (const form of latestForms) {
+                if (form.form_name === formData.name) {
+                    formNameExists = true;
+                    break;
+                }
             }
-        }catch(error){
+
+            if(formNameExists){
+                res.json({ status_code : 1 });
+            } else {
+                for (const form of latestForms) {
+                    if (form.form_control_number === formData.formControlNumber) {
+                        formControlNumberExists = true;
+                        break;
+                    }
+                }
+
+                if(formControlNumberExists){
+                    res.json({ status_code : 2 });
+                } else {
+                    const formDocument = {
+                        form_name: formData.name,
+                        form_control_number: formData.formControlNumber.toString(),
+                        form_content: jsonArray,
+                        form_version: 0,
+                        form_status: formData.formStatus,
+                        shared_status: false,
+                        allow_file_upload: false,
+                        date_saved: getDateNow(),
+                        time_saved: getTimeNow(),
+                        assigned_users: [],
+                        due_date: null,
+                        quarter_due_date: null,
+                        annual_due_date: null,
+                        academic_year: null,
+                        semester: null
+                    };
+
+                    const result = await forms.insertOne(formDocument);
+                    logStatus("Created form saved at database: " + result);
+                    res.json({ success: true });
+                }
+            }
+        } catch(error){
             logError("Error at saved created form: " + error);
         }
-    }else{
+    } else {
         res.render('login', {
             title: 'Login Page'
         });
     }
 });
+
 
 app.post('/saveformversion', async function(req, res){
     if(req.session.loggedIn){

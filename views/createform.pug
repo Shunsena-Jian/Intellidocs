@@ -110,6 +110,10 @@ block body
                             window.location.href = '/';
                         } else if (data.status_code === 1) {
                             alert("Form name already exists. Proceed to view form templates to edit the form instead!");
+                            window.location.reload();
+                        } else if(data.status_code === 2){
+                            alert("Form Control Number already exists.");
+                            window.location.reload();
                         } else {
                             alert("Error in AJAX function.");
                         }
