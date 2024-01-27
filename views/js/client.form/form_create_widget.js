@@ -865,7 +865,7 @@ function addEventListenerToDiv(dropBox) {
                   clonedDiv = activateTable(clonedDiv);
                 }
 
-                if (selectedTextBox && selectedTextBox.classList.contains("grid-item")) {
+                if (selectedTextBox && selectedTextBox.classList.contains("grid-item-container")) {
                     addEventListenerToDiv(selectedTextBox);
                     containerSize = boxHeight;
                     isContainer = true;
