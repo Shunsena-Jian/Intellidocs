@@ -71,7 +71,7 @@ block body
                                             i.fas.fa-cloud-upload-alt.w3-margin-right
                                             |   Submit Form
 
-        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Dean" || currentUserDetailsBlock.userLevel === "Department Head" )
+        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Department Head" )
             .w3-container.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
                     .w3-half.w3-container2
@@ -219,8 +219,110 @@ block body
                                                 td
                                                     .button-container.w3-row
                                                     a.full-width-button.w3-center.all-caps(onclick=`removeUser('${assignedUsers.email}')`) Unassign
+        if (currentUserDetailsBlock.userLevel == "Dean")
+            .w3-container.w3-card.w3-white.w3-round.w3-margin
+                .w3-row
+                    .w3-half.w3-container2
+                        h3.w3-bold User Form Settings
+                        hr
+                        .w3-half
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h4.w3-bold Form Details
+                                .w3-row
+                                    table.form-details
+                                        tr
+                                            td Form Name:
+                                            td #{currentForm.form_name}
+                                        tr
+                                            td Status:
+                                            td#formDetailsActivateSetting #{currentForm.form_status}
+                                        tr
+                                            td Due Date:
+                                            td
+                                                if (!currentForm.due_date)
+                                                    | None
+                                                else
+                                                    | #{currentForm.due_date}
+                        .w3-half
+                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                h4.w3-bold Approvals
+                                .w3-row
+                                    table.form-details
+                                        tr
+                                            td Secretary:
+                                            td
+                                                if (!form_template.secretary_approval)
+                                                    #secretaryApproval Not Approved
+                                        tr
+                                            td Department Head:
+                                            td
+                                                if (!form_template.dean_approval)
+                                                    #departmentHeadApproval  Not Approved
+                                        tr
+                                            td Dean:
+                                            td
+                                                if (!form_template.department_head_approval)
+                                                    #deanApproval  Not Approved
 
-
+                    .w3-half.w3-container2
+                        h3.w3-bold Submitted Forms
+                        hr
+                        .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                            table#submittedFormsTable.display(width='100%')
+                                thead
+                                    tr
+                                        th Employee First Name
+                                        th Employee Last Name
+                                        th Employee Number
+                                        th Date Submitted
+                                        th Time Submitted
+                                        th View Form
+                                        th Form Status
+                                        th Approve Form
+                                        th Return Form
+                                tbody
+                                    each submissions in submittedVersions
+                                        if (currentUserDetailsBlock.userDepartment === submissions.user_department || currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Dean")
+                                            tr
+                                                td #{submissions.first_name}
+                                                td #{submissions.last_name}
+                                                td #{submissions.form_owner}
+                                                td #{submissions.date_submitted}
+                                                td #{submissions.time_saved}
+                                                td #{submissions.form_status}
+                                                td
+                                                    button.w3-button.w3-block.w3-theme-dark(onclick=`renderSubmittedForm("${submissions.form_owner}")`) View
+                                                td
+                                                    button.w3-button.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Approve Form
+                                                td
+                                                    button.w3-button.w3-block.w3-theme-dark(onclick=`returnSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Return Form
+            if (currentUserDetailsBlock.userLevel === "Secretary")
+                .w3-container.w3-card.w3-white.w3-round.w3-margin
+                    .w3-row
+                        .w3-container
+                            h3.w3-bold Assigned Users
+                            hr
+                            .w3-white.w3-round.w3-margin
+                                table#assignedUserTable.display(width='100%')
+                                    thead
+                                        tr
+                                            th Email
+                                            th Employee ID
+                                            th Department
+                                            th First Name
+                                            th Last Name
+                                            th Action
+                                    tbody
+                                        each assignedUsers in allAssignedUsers
+                                            tr
+                                                td #{assignedUsers.email}
+                                                td #{assignedUsers.emp_id}
+                                                td #{assignedUsers.user_department}
+                                                td #{assignedUsers.first_name}
+                                                td #{assignedUsers.last_name}
+                                                td
+                                                    .button-container.w3-row
+                                                    a.full-width-button.w3-center.all-caps(onclick=`removeUser('${assignedUsers.email}')`) Unassign
 
         .w3-row
             .w3-container2.w3-white.w3-round.w3-margin
