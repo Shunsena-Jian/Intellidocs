@@ -71,7 +71,7 @@ block body
                                             i.fas.fa-cloud-upload-alt.w3-margin-right
                                             |   Submit Form
 
-        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Department Head" )
+        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin")
             .w3-container.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
                     .w3-half.w3-container2
@@ -219,7 +219,7 @@ block body
                                                 td
                                                     .button-container.w3-row
                                                     a.full-width-button.w3-center.all-caps(onclick=`removeUser('${assignedUsers.email}')`) Unassign
-        if (currentUserDetailsBlock.userLevel == "Dean")
+        if (currentUserDetailsBlock.userLevel == "Department Head" || currentUserDetailsBlock.userLevel == "Dean")
             .w3-container.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
                     .w3-half.w3-container2
