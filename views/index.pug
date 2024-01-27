@@ -384,7 +384,7 @@ block body
                                     var totalSubmitForms = #{form.total_submitted_forms};
                                     var totalUnsubmittedForms = #{form.total_unsubmitted_forms};
                                     var totalAssignedForms = #{form.total_assigned_forms};
-                                    var completionRate = (totalSubmitForms / totalAssignedForms);
+                                    var completionRate = (totalSubmitForms / totalAssignedForms) * 100;
 
                                     // Check if the canvas element exists before creating the chart
                                     if (userFormChart) {

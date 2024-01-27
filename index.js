@@ -1016,6 +1016,7 @@ app.get('/', async function (req, res){
                             var assignedUserDetails = await users.findOne({ email: assignedUser });
                             const submittedForms = await filledoutforms.find({
                                 form_owner: assignedUserDetails.emp_id,
+                                form_control_number: form.form_control_number,
                                 form_status: "Submitted",
                             }).toArray();
                             totalSubmittedForms += submittedForms.length;
@@ -1043,6 +1044,7 @@ app.get('/', async function (req, res){
                                 totalAssignedUsers++;
                                 const submittedForms = await filledoutforms.find({
                                     form_owner: assignedUserDetails.emp_id,
+                                    form_control_number: form.form_control_number,
                                     user_department: currentUserDetailsBlock.userDepartment,
                                     form_status: "Submitted"
                                 }).toArray();
@@ -1067,12 +1069,12 @@ app.get('/', async function (req, res){
                 for (const form of allForms) {
                     // Check if the current user is assigned to the form
                     if (form.assigned_users && form.assigned_users.includes(currentUserDetailsBlock.email)) {
-
-
                         totalAssignedForms++;
                         var assignedUserDetails = await users.findOne({ email: currentUserDetailsBlock.email });
                         const submittedForms = await filledoutforms.find({
-                            form_owner: assignedUserDetails.emp_id
+                            form_control_number: form.form_control_number,
+                            form_owner: currentUserDetailsBlock.empID,
+                            form_status: "Submitted"
                         }).toArray();
                         totalSubmittedForms += submittedForms.length;
 
@@ -1337,7 +1339,8 @@ app.post('/login', async function (req, res){
                                 var assignedUserDetails = await users.findOne({ email: assignedUser });
                                 const submittedForms = await filledoutforms.find({
                                     form_owner: assignedUserDetails.emp_id,
-                                    form_status: "Submitted",
+                                    form_control_number: form.form_control_number,
+                                    form_status: "Submitted"
                                 }).toArray();
                                 totalSubmittedForms += submittedForms.length;
                             }
@@ -1366,6 +1369,7 @@ app.post('/login', async function (req, res){
 
                                     const submittedForms = await filledoutforms.find({
                                         form_owner: assignedUserDetails.emp_id,
+                                        form_control_number: form.form_control_number,
                                         user_department: currentUserDetailsBlock.userDepartment,
                                         form_status: "Submitted"
                                     }).toArray();
@@ -1396,8 +1400,11 @@ app.post('/login', async function (req, res){
                             totalAssignedForms++;
                             var assignedUserDetails = await users.findOne({ email: currentUserDetailsBlock.email });
                             const submittedForms = await filledoutforms.find({
-                                form_owner: assignedUserDetails.emp_id
+                                form_control_number: form.form_control_number,
+                                form_owner: currentUserDetailsBlock.empID,
+                                form_status: "Submitted"
                             }).toArray();
+                            console.log("This is the submittedForms: " + submittedForms[0]);
                             totalSubmittedForms += submittedForms.length;
 
 
@@ -1407,8 +1414,7 @@ app.post('/login', async function (req, res){
                     finalForms.push({
                         total_submitted_forms: totalSubmittedForms,
                         total_unsubmitted_forms: totalUnsubmittedForms,
-                        total_assigned_forms: totalAssignedForms,
-                        total_submission_rate: totalAssignedForms - totalSubmittedForms
+                        total_assigned_forms: totalAssignedForms
                     });
                 }
 
@@ -2488,12 +2494,6 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
                     { $set: { secretary_approval: "Returned" } },
                     { returnDocument: 'after' }
                 );
-
-//                updateDocument1 = await filledoutforms.findOneAndUpdate(
-//                    { form_control_number: selectedFormControlNumberToView, form_owner : formData.formOwner },
-//                    { $set: { form_status: "Returned" } },
-//                    { returnDocument: 'after' }
-//                );
 
                 addNotif = await notifications.insertOne({
                     sender: approver.emp_id,
