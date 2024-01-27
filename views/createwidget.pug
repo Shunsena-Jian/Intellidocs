@@ -93,7 +93,10 @@ block body
 
         function saveWidget(){
             clearSelection(null);
+            var outerContainer = "";
             var widgetCanvas = document.getElementById('widgetCanvas').innerHTML;
+            outerContainer = `<div class="w3-row draggable box w3-margin-small" draggable="true"> ` +
+                    widgetCanvas + `<div>`;
             var widgetName = document.getElementById('widgetName').value;
             var widgetCategory = document.getElementById('widgetCategory').value;
 
@@ -103,7 +106,7 @@ block body
                 const data = {
                     name: widgetName,
                     category: widgetCategory,
-                    widgetContent: widgetCanvas
+                    widgetContent: outerContainer
                 };
 
                 fetch('/savecreatedwidget', {
@@ -131,30 +134,6 @@ block body
             }
 
         }
-
-        //end of play playground
-
-    script.
-        // Not working, to be debugged
-        function restrictCheckBoxSelection() {
-        const checkboxes = document.querySelectorAll('input[name="academicStatus"]');
-        console.log(checkboxes);
-            console
-          // Add a change event listener to each checkbox
-                    checkboxes.forEach((checkbox) => {
-                        checkbox.addEventListener('change', function () {
-                            // Uncheck all other checkboxes in the group
-                            checkboxes.forEach((otherCheckbox) => {
-                                if (otherCheckbox !== this) {
-                                    otherCheckbox.checked = false;
-                                }
-                            });
-                        });
-                    });
-        }
-
-        restrictCheckBoxSelection();
-
 
         /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
         function openNavigation() {
