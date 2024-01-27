@@ -125,7 +125,12 @@ block sidebar
 
         div
             div
-                if (currentUserDetailsBlock.userLevel == "Admin")
+                if (currentUserDetailsBlock.userLevel == "Document Controller" || currentUserDetailsBlock.userLevel == "Admin")
+                else
+                    a(href='#' onclick="showLeavePageModal('/viewforms',userCurrentPage)").w3-button
+                        i.fa.fa-file.w3-margin-right
+                        | View Forms
+                if (currentUserDetailsBlock.userLevel != "Document Controller")
                 else
                     button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo1')")
                         i.fa.fa-circle-o-notch.fa-fw.w3-margin-right
@@ -141,25 +146,21 @@ block sidebar
                             a(href='#' onclick="showLeavePageModal('/viewformtemplates',userCurrentPage)").w3-button-text.w3-button
                                 i.fa.fa-eye.w3-margin-right
                                 | View Form Templates
-                        if (currentUserDetailsBlock.userLevel == "Document Controller" || currentUserDetailsBlock.userLevel == "Admin")
-                        else
-                            a(href='#' onclick="showLeavePageModal('/viewforms',userCurrentPage)").w3-button
-                                i.fa.fa-file.w3-margin-right
-                                | View Forms
 
-                #userManagementElement
-                    button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo3')")
-                        i.fa.fa-users.fa-fw.w3-margin-right
-                        |  User Management
-                    #Demo3.w3-hide.w3-container
-                        #addUserElement
-                            a(href='#' onclick="showLeavePageModal('/createusers',userCurrentPage)").w3-button
-                                i.fa.fa-plus-circle.w3-margin-right
-                                | Create User
-                        #editUserElement
-                            a(href='#' onclick="showLeavePageModal('/viewusers',userCurrentPage)").w3-button
-                                i.fa.fa-users.w3-margin-right
-                                | View Users
+                if (currentUserDetailsBlock.userLevel == "Admin")
+                    #userManagementElement
+                        button.w3-button.w3-block.w3-theme-dark.w3-left-align(onclick="toggleAccordion('Demo3')")
+                            i.fa.fa-users.fa-fw.w3-margin-right
+                            |  User Management
+                        #Demo3.w3-hide.w3-container
+                            #addUserElement
+                                a(href='#' onclick="showLeavePageModal('/createusers',userCurrentPage)").w3-button
+                                    i.fa.fa-plus-circle.w3-margin-right
+                                    | Create User
+                            #editUserElement
+                                a(href='#' onclick="showLeavePageModal('/viewusers',userCurrentPage)").w3-button
+                                    i.fa.fa-users.w3-margin-right
+                                    | View Users
 
     #idleModal
         #idleOverLay.dialogoverlay
