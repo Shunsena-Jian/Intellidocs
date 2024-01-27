@@ -1,0 +1,22 @@
+[{
+  "_id": {
+    "$oid": "65b5024d517f7b70cecbac7d"
+  },
+  "departments": [
+    "Accountancy Business Laws and Taxation",
+    "Business Economics and Financial Management",
+    "Computer Science and Computer Application",
+    "Entrepreneurship/Human Resource Development Management/Marketing Management",
+    "Hospitality and Tourism Management",
+    "Information Technology",
+    "Math"
+  ],
+  "positions": [
+    "Document Controller",
+    "Department Head",
+    "Faculty",
+    "Dean",
+    "Admin",
+    "Secretary"
+  ]
+}]
