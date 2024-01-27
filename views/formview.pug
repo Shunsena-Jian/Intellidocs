@@ -167,8 +167,9 @@ block body
                             table#submittedFormsTable.display(width='100%')
                                 thead
                                     tr
+                                        th Employee First Name
+                                        th Employee Last Name
                                         th Employee Number
-                                        th User Department
                                         th Date Submitted
                                         th Time Submitted
                                         th View Form
@@ -179,8 +180,9 @@ block body
                                     each submissions in submittedVersions
                                         if (currentUserDetailsBlock.userDepartment === submissions.user_department || currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Dean")
                                             tr
+                                                td #{submissions.first_name}
+                                                td #{submissions.last_name}
                                                 td #{submissions.form_owner}
-                                                td #{submissions.user_department}
                                                 td #{submissions.date_submitted}
                                                 td #{submissions.time_saved}
                                                 td #{submissions.form_status}

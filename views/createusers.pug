@@ -44,25 +44,91 @@ block body
                                 label(for='userLevel' style='font-family: Courier New, monospace;; font-weight:normal;') User Level:
                                 select#userLevel(name='userLevel' required='')
                                     option(value='null') Choose Role
-                                    option(value='Document Controller') Document Controller
-                                    option(value='Department Head') Department Head
-                                    option(value='Faculty') Faculty
-                                    option(value='Dean') Dean
-                                    option(value='Admin') Admin
-                                    option(value='Secretary') Secretary
+                                    each position in positions
+                                        option(value=position)= position
                             .form_item
                                 label(for='userDepartment' style='font-family: Courier New, monospace;; font-weight:normal;') User Department:
                                 select#userDepartment(name='userDepartment' required='')
                                     option(value='null') Choose Department
-                                    option(value='Accountancy Business Laws and Taxation') Accountancy Business Laws and Taxation Department
-                                    option(value='Business Economics and Financial Management') Business Economics and Financial Management Department
-                                    option(value='Computer Science and Computer Application') Computer Science and Computer Application Department
-                                    option(value='Entrepreneurship/Human Resource Development Management/Marketing Management') Entrepreneurship/Human Resource Development Management/Marketing Management Department
-                                    option(value='Hospitality and Tourism Management') Hospitality and Tourism Management Department
-                                    option(value='Information Technology') Information Technology Department
-                                    option(value='Math') Math Department
+                                    each department in departments
+                                        option(value=department)= department
+
                         .btnPosition
                               button(class='btn' type='submit') Register
+
+    #main.w3-main(style='margin-left:250px')
+        .w3-row.w3-padding-64
+            .w3-half.w3-container2.w3-card
+                .form_container
+                    h3.w3-bold.w3-margin CREATE A NEW POSITION
+                    .form_wrap.fullname
+                        .form_item
+                            label(style='font-family: Courier New, monospace; font-weight:normal;') User Position
+                            input#userPosition.error(type='text' name='userPosition' required='')
+
+                    .btnPosition
+                          button(class='btn' onclick='createUserPosition()') Create User Position
+
+            .w3-half.w3-container2.w3-card
+                .form_container
+                    h3.w3-bold.w3-margin CREATE A NEW DEPARTMENT
+                    .form_wrap.fullname
+                        .form_item
+                            label(style='font-family: Courier New, monospace; font-weight:normal;') Email
+                            input#newDepartment.error(type='text' name='newDepartment' required='')
+
+                .btnPosition
+                      button(class='btn' onclick='createDepartment()') Create Department
+    script.
+        function createUserPosition(){
+            var data = {
+                newPosition: document.getElementById('userPosition').value
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: '/AJAX_newPosition',
+                data: data,
+                success: function(response){
+                    if(response.status_code === 0){
+                        alert("New position was added.");
+                        window.location.reload();
+                    } else if(response.status_code === 1){
+                        alert("Position already exists.");
+                        window.location.reload();
+                    }
+                },
+                error: function(error){
+                    console.error('AJAX error in creating new position: ' + error);
+                    alert('AJAX error in creating new position: ' + error);
+                }
+            });
+        }
+
+        function createDepartment(){
+            var data = {
+                newDepartment: document.getElementById('newDepartment').value
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: '/AJAX_newDepartment',
+                data: data,
+                success: function(response){
+                    if(response.status_code === 0){
+                        alert("New department was added.");
+                        window.location.reload();
+                    } else if(response.status_code === 1){
+                        alert("Department already exists.");
+                        window.location.reload();
+                    }
+                },
+                error: function(error){
+                    console.error('AJAX error in creating new position: ' + error);
+                    alert('AJAX error in creating new position: ' + error);
+                }
+            });
+        }
 
     script.
         $(document).ready(function () {

@@ -24,7 +24,8 @@ const { MongoClient,
         initializeDatabaseConnection,
         initializeFormsCollectionConnection,
         initializeWidgetsCollectionConnection,
-        initializeFilledOutFormCollectionConnection } = require('./dbinit.js');
+        initializeFilledOutFormCollectionConnection,
+        initializeDropdownsCollectionConnection } = require('./dbinit.js');
 
 const db = initializeDatabaseConnection(url,dbName);
 const users = initializeUsersCollectionConnection(db);
@@ -34,6 +35,7 @@ const notifications = initializeNotificationsCollectionConnection(db);
 const forms = initializeFormsCollectionConnection(db);
 const widgets = initializeWidgetsCollectionConnection(db);
 const filledoutforms = initializeFilledOutFormCollectionConnection(db);
+const dropdowns = initializeDropdownsCollectionConnection(db);
 
 const port = config.port;
 const debug_mode = config.debug_mode;
@@ -829,11 +831,17 @@ app.get('/formview/:form_control_number', async function (req, res){
 
         var submittedVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_status : { $in: ["Submitted", "Returned"]} }).toArray();
 
-        for(const form of submittedVersions){
+        let modifiedVersions = [];
+
+        for(const form of submittedVersions) {
             const formOwner = form.form_owner;
             const user = await users.findOne({ emp_id: formOwner });
+
             if (user) {
                 form.user_department = user.user_department;
+                form.first_name = user.first_name;
+                form.last_name = user.last_name;
+                modifiedVersions.push(form);
             } else {
                 logError("User not found for form_owner: " + formOwner);
             }
@@ -869,7 +877,7 @@ app.get('/formview/:form_control_number', async function (req, res){
             allVersions: allVersions,
             min_idleTime: min_idleTime,
             form_template : formTemplate,
-            submittedVersions: submittedVersions,
+            submittedVersions: modifiedVersions,
             sharedRead: sharedRead,
             sharedWrite: sharedWrite,
             allAssignedUsers: allAssignedUsers,
@@ -1780,6 +1788,8 @@ app.get('/createusers', async function(req, res){
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
 
+        var dropdownDocument = await dropdowns.findOne({});
+
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){
@@ -1790,6 +1800,8 @@ app.get('/createusers', async function(req, res){
                 currentUserPrivileges: currentUserPrivileges,
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime,
+                positions: dropdownDocument.positions,
+                departments: dropdownDocument.departments,
                 userCurrentPage: "createusers"
             });
         }else{
@@ -1799,6 +1811,8 @@ app.get('/createusers', async function(req, res){
                 filesData: currentUserFiles,
                 userPrivileges: currentUserPrivileges,
                 min_idleTime: min_idleTime,
+                positions: dropdownDocument.positions,
+                departments: dropdownDocument.departments,
                 errorMSG : "Access Denied"
             });
         }
@@ -2047,6 +2061,64 @@ app.post('/update-Password', async function(req, res){
         }catch(error){
             logError("Failed updating password " + error);
         }
+    }else{
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_newPosition', async function(req, res){
+    if(req.session.loggedIn){
+        try{
+            var formData = req.body;
+
+            var dropdownDocument = await dropdowns.findOne({});
+
+            if (dropdownDocument.positions.includes(formData.newPosition)) {
+                res.send({ status_code : 1 });
+            } else {
+                updateDocument = await dropdowns.findOneAndUpdate(
+                    {},
+                    { $addToSet: { positions : formData.newPosition } },
+                    { returnNewDocument : true }
+                );
+                res.send({ status_code : 0 });
+            }
+
+        }catch (error){
+            logError('Error at AJAX_newPosition: ' + error);
+        }
+
+    }else{
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_newDepartment', async function(req, res){
+    if(req.session.loggedIn){
+        try{
+            var formData = req.body;
+
+            var dropdownDocument = await dropdowns.findOne({});
+
+            if (dropdownDocument.departments.includes(formData.newDepartment)) {
+                res.send({ status_code : 1 });
+            } else {
+                updateDocument = await dropdowns.findOneAndUpdate(
+                    {},
+                    { $addToSet: { departments : formData.newDepartment } },
+                    { returnNewDocument : true }
+                );
+                res.send({ status_code : 0 });
+            }
+
+        }catch (error){
+            logError('Error at AJAX_newDepartment: ' + error);
+        }
+
     }else{
         res.render('login', {
             title: 'Login Page'

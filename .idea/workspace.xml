@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* formview.pug&#10;// Added a Form Status on the Submitted Forms Table&#10;&#10;* index.js&#10;// Added a filter on finding filledoutforms that are considered submitted(Returned)&#10;// Added an function that retrieves the count of Approved and Returned Forms&#10;// Fixed a bug - Now Department Heads under the same department as the form with an owner with the same department will now only show in view forms&#10;// Added an algorithm that when one of the three approvers returned a form, the whole status of the form will be set to Returned&#10;// When all approvers Approved a form, the form status will be set to Approved&#10;&#10;* index.pug&#10;// Added a Submission Rate and Approval Rate per form&#10;&#10;* viewforms.pug&#10;// Fixed a bug where no matter who's department, the department head can view the submitted form despite not being the same department as the form owner.">
+      <change afterPath="$PROJECT_DIR$/uploads/FAC-001/basta ito.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dbinit.js" beforeDir="false" afterPath="$PROJECT_DIR$/dbinit.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/createusers.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createusers.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewforms.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewforms.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -352,7 +353,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706336712547</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="* formview.pug&#10;// Added a Form Status on the Submitted Forms Table&#10;&#10;* index.js&#10;// Added a filter on finding filledoutforms that are considered submitted(Returned)&#10;// Added an function that retrieves the count of Approved and Returned Forms&#10;// Fixed a bug - Now Department Heads under the same department as the form with an owner with the same department will now only show in view forms&#10;// Added an algorithm that when one of the three approvers returned a form, the whole status of the form will be set to Returned&#10;// When all approvers Approved a form, the form status will be set to Approved&#10;&#10;* index.pug&#10;// Added a Submission Rate and Approval Rate per form&#10;&#10;* viewforms.pug&#10;// Fixed a bug where no matter who's department, the department head can view the submitted form despite not being the same department as the form owner.">
+      <option name="closed" value="true" />
+      <created>1706346502118</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1706346502118</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

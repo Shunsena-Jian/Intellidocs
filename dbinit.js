@@ -40,6 +40,18 @@ function initializeUsersCollectionConnection(db){
     }
 }
 
+// Position collection initialization
+function initializeDropdownsCollectionConnection(db){
+    var dropdowns;
+    try{
+        dropdowns = db.collection('dropdowns');
+        console.log("Connected to the Database Dropdowns Collection successfully!.");
+        return dropdowns;
+    }catch(error){
+        console.log(error);
+    }
+}
+
 // Files collection initialization
 function initializeFilesCollectionConnection(db){
     var files;
@@ -108,5 +120,6 @@ module.exports = {
     initializeNotificationsCollectionConnection,
     initializeFormsCollectionConnection,
     initializeWidgetsCollectionConnection,
-    initializeFilledOutFormCollectionConnection
+    initializeFilledOutFormCollectionConnection,
+    initializeDropdownsCollectionConnection
 };
