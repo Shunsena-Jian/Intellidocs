@@ -827,7 +827,7 @@ app.get('/formview/:form_control_number', async function (req, res){
 
         var currentUserFiles = await files.find({ uploadedBy : latestUserFilledVersion.form_owner, fileFormControlNumber : latestUserFilledVersion.form_control_number }).toArray();
 
-        var submittedVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_status : "Submitted" }).toArray();
+        var submittedVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_status : { $in: ["Submitted", "Returned"]} }).toArray();
 
         for(const form of submittedVersions){
             const formOwner = form.form_owner;
@@ -1010,6 +1010,8 @@ app.get('/', async function (req, res){
                     let totalAssignedUsers = 0;
                     let totalSubmittedForms = 0;
                     let totalUnsubmittedForms = 0;
+                    let totalApprovedForms = 0;
+                    let totalReturnedForms = 0;
                     if (form.assigned_users && Array.isArray(form.assigned_users)) {
                         totalAssignedUsers = form.assigned_users.length;
                         for (const assignedUser of form.assigned_users) {
@@ -1020,8 +1022,22 @@ app.get('/', async function (req, res){
                                 form_status: "Submitted",
                             }).toArray();
                             totalSubmittedForms += submittedForms.length;
+
+                            const approvedForms = await filledoutforms.find({
+                                form_owner: assignedUserDetails.emp_id,
+                                form_control_number: form.form_control_number,
+                                form_status: "Approved"
+                            }).toArray();
+                            totalApprovedForms += approvedForms.length;
+
+                            const returnedForms = await filledoutforms.find({
+                                form_owner: assignedUserDetails.emp_id,
+                                form_control_number: form.form_control_number,
+                                form_status: "Returned"
+                            }).toArray();
+                            totalReturnedForms += returnedForms.length;
                         }
-                        totalUnsubmittedForms = totalAssignedUsers - totalSubmittedForms;
+                        totalUnsubmittedForms = totalAssignedUsers - totalApprovedForms;
                     }
                     finalForms.push({
                         form_name: form.form_name,
@@ -1029,6 +1045,8 @@ app.get('/', async function (req, res){
                         due_date: form.due_date,
                         total_submitted_forms: totalSubmittedForms,
                         total_unsubmitted_forms: totalUnsubmittedForms,
+                        total_approved_forms: totalApprovedForms,
+                        total_returned_forms: totalReturnedForms,
                         total_assigned_users: totalAssignedUsers
                     });
                 }
@@ -1037,6 +1055,8 @@ app.get('/', async function (req, res){
                     let totalAssignedUsers = 0;
                     let totalSubmittedForms = 0;
                     let totalUnsubmittedForms = 0;
+                    let totalApprovedForms = 0;
+                    let totalReturnedForms = 0;
                     if (form.assigned_users && Array.isArray(form.assigned_users)) {
                         for (const assignedUser of form.assigned_users) {
                             var assignedUserDetails = await users.findOne({ email: assignedUser });
@@ -1049,9 +1069,23 @@ app.get('/', async function (req, res){
                                     form_status: "Submitted"
                                 }).toArray();
                                 totalSubmittedForms += submittedForms.length;
+
+                                const approvedForms = await filledoutforms.find({
+                                    form_owner: assignedUserDetails.emp_id,
+                                    form_control_number: form.form_control_number,
+                                    form_status: "Approved"
+                                }).toArray();
+                                totalApprovedForms += approvedForms.length;
+
+                                const returnedForms = await filledoutforms.find({
+                                    form_owner: assignedUserDetails.emp_id,
+                                    form_control_number: form.form_control_number,
+                                    form_status: "Returned"
+                                }).toArray();
+                                totalReturnedForms += returnedForms.length;
                             }
                         }
-                        totalUnsubmittedForms = totalAssignedUsers - totalSubmittedForms;
+                        totalUnsubmittedForms = totalAssignedUsers - totalApprovedForms;
                     }
                     finalForms.push({
                         form_name: form.form_name,
@@ -1059,6 +1093,8 @@ app.get('/', async function (req, res){
                         due_date: form.due_date,
                         total_submitted_forms: totalSubmittedForms,
                         total_unsubmitted_forms: totalUnsubmittedForms,
+                        total_approved_forms: totalApprovedForms,
+                        total_returned_forms: totalReturnedForms,
                         total_assigned_users: totalAssignedUsers
                     });
                 }
@@ -1066,6 +1102,9 @@ app.get('/', async function (req, res){
                 let totalAssignedForms = 0;
                 let totalSubmittedForms = 0;
                 let totalUnsubmittedForms = 0;
+                let totalApprovedForms = 0;
+                let totalReturnedForms = 0;
+
                 for (const form of allForms) {
                     // Check if the current user is assigned to the form
                     if (form.assigned_users && form.assigned_users.includes(currentUserDetailsBlock.email)) {
@@ -1078,17 +1117,32 @@ app.get('/', async function (req, res){
                         }).toArray();
                         totalSubmittedForms += submittedForms.length;
 
+                        const approvedForms = await filledoutforms.find({
+                            form_control_number: form.form_control_number,
+                            form_owner: currentUserDetailsBlock.empID,
+                            form_status: "Approved"
+                        }).toArray();
+                        totalApprovedForms += approvedForms.length;
 
-                        totalUnsubmittedForms = totalAssignedForms - totalSubmittedForms;
+                        const returnedForms = await filledoutforms.find({
+                            form_control_number: form.form_control_number,
+                            form_owner: currentUserDetailsBlock.empID,
+                            form_status: "Returned"
+                        }).toArray();
+                        totalReturnedForms += returnedForms.length;
+
+                        totalUnsubmittedForms = totalAssignedForms - totalApprovedForms;
                     }
+                    finalForms.push({
+                        form_name: form.form_name,
+                        total_submitted_forms: totalSubmittedForms,
+                        total_unsubmitted_forms: totalUnsubmittedForms,
+                        total_approved_forms: totalApprovedForms,
+                        total_returned_forms: totalReturnedForms,
+                        total_assigned_forms: totalAssignedForms
+                    });
                 }
-                finalForms.push({
-                    total_submitted_forms: totalSubmittedForms,
-                    total_unsubmitted_forms: totalUnsubmittedForms,
-                    total_assigned_forms: totalAssignedForms
-                });
             }
-            console.log("This are the yes: " + JSON.stringify(finalForms));
 
             res.render('index', {
                 title: 'Home Page',
@@ -1333,9 +1387,12 @@ app.post('/login', async function (req, res){
                         let totalAssignedUsers = 0;
                         let totalSubmittedForms = 0;
                         let totalUnsubmittedForms = 0;
+                        let totalApprovedForms = 0;
+                        let totalReturnedForms = 0;
                         if (form.assigned_users && Array.isArray(form.assigned_users)) {
                             totalAssignedUsers = form.assigned_users.length;
                             for (const assignedUser of form.assigned_users) {
+
                                 var assignedUserDetails = await users.findOne({ email: assignedUser });
                                 const submittedForms = await filledoutforms.find({
                                     form_owner: assignedUserDetails.emp_id,
@@ -1343,8 +1400,23 @@ app.post('/login', async function (req, res){
                                     form_status: "Submitted"
                                 }).toArray();
                                 totalSubmittedForms += submittedForms.length;
+
+                                const approvedForms = await filledoutforms.find({
+                                    form_owner: assignedUserDetails.emp_id,
+                                    form_control_number: form.form_control_number,
+                                    form_status: "Approved"
+                                }).toArray();
+                                totalApprovedForms += approvedForms.length;
+
+                                const returnedForms = await filledoutforms.find({
+                                    form_owner: assignedUserDetails.emp_id,
+                                    form_control_number: form.form_control_number,
+                                    form_status: "Returned"
+                                }).toArray();
+                                totalReturnedForms += returnedForms.length;
+
                             }
-                            totalUnsubmittedForms = totalAssignedUsers - totalSubmittedForms;
+                            totalUnsubmittedForms = totalAssignedUsers - totalApprovedForms;
                         }
                         finalForms.push({
                             form_name: form.form_name,
@@ -1352,6 +1424,8 @@ app.post('/login', async function (req, res){
                             due_date: form.due_date,
                             total_submitted_forms: totalSubmittedForms,
                             total_unsubmitted_forms: totalUnsubmittedForms,
+                            total_approved_forms: totalApprovedForms,
+                            total_returned_forms: totalReturnedForms,
                             total_assigned_users: totalAssignedUsers
                         });
                     }
@@ -1360,6 +1434,8 @@ app.post('/login', async function (req, res){
                         let totalAssignedUsers = 0;
                         let totalSubmittedForms = 0;
                         let totalUnsubmittedForms = 0;
+                        let totalApprovedForms = 0;
+                        let totalReturnedForms = 0;
 
                         if (form.assigned_users && Array.isArray(form.assigned_users)) {
                             for (const assignedUser of form.assigned_users) {
@@ -1373,12 +1449,26 @@ app.post('/login', async function (req, res){
                                         user_department: currentUserDetailsBlock.userDepartment,
                                         form_status: "Submitted"
                                     }).toArray();
-
                                     totalSubmittedForms += submittedForms.length;
+
+                                    const approvedForms = await filledoutforms.find({
+                                        form_owner: assignedUserDetails.emp_id,
+                                        form_control_number: form.form_control_number,
+                                        form_status: "Approved"
+                                    }).toArray();
+                                    totalApprovedForms += approvedForms.length;
+
+                                    const returnedForms = await filledoutforms.find({
+                                        form_owner: assignedUserDetails.emp_id,
+                                        form_control_number: form.form_control_number,
+                                        form_status: "Returned"
+                                    }).toArray();
+                                    totalReturnedForms += returnedForms.length;
+
                                 }
                             }
 
-                            totalUnsubmittedForms = totalAssignedUsers - totalSubmittedForms;
+                            totalUnsubmittedForms = totalAssignedUsers - totalApprovedForms;
                         }
 
                         finalForms.push({
@@ -1387,6 +1477,8 @@ app.post('/login', async function (req, res){
                             due_date: form.due_date,
                             total_submitted_forms: totalSubmittedForms,
                             total_unsubmitted_forms: totalUnsubmittedForms,
+                            total_approved_forms: totalApprovedForms,
+                            total_returned_forms: totalReturnedForms,
                             total_assigned_users: totalAssignedUsers
                         });
                     }
@@ -1394,6 +1486,9 @@ app.post('/login', async function (req, res){
                     let totalAssignedForms = 0;
                     let totalSubmittedForms = 0;
                     let totalUnsubmittedForms = 0;
+                    let totalApprovedForms = 0;
+                    let totalReturnedForms = 0;
+
                     for (const form of allForms) {
                         // Check if the current user is assigned to the form
                         if (form.assigned_users && form.assigned_users.includes(currentUserDetailsBlock.email)) {
@@ -1404,21 +1499,34 @@ app.post('/login', async function (req, res){
                                 form_owner: currentUserDetailsBlock.empID,
                                 form_status: "Submitted"
                             }).toArray();
-                            console.log("This is the submittedForms: " + submittedForms[0]);
                             totalSubmittedForms += submittedForms.length;
 
+                            const approvedForms = await filledoutforms.find({
+                                form_control_number: form.form_control_number,
+                                form_owner: currentUserDetailsBlock.empID,
+                                form_status: "Approved"
+                            }).toArray();
+                            totalApprovedForms += approvedForms.length;
 
-                            totalUnsubmittedForms = totalAssignedForms - totalSubmittedForms;
+                            const returnedForms = await filledoutforms.find({
+                                form_control_number: form.form_control_number,
+                                form_owner: currentUserDetailsBlock.empID,
+                                form_status: "Returned"
+                            }).toArray();
+                            totalReturnedForms += returnedForms.length;
+
+                            totalUnsubmittedForms = totalAssignedForms - totalApprovedForms;
                         }
+                        finalForms.push({
+                            form_name: form.form_name,
+                            total_submitted_forms: totalSubmittedForms,
+                            total_unsubmitted_forms: totalUnsubmittedForms,
+                            total_approved_forms: totalApprovedForms,
+                            total_returned_forms: totalReturnedForms,
+                            total_assigned_forms: totalAssignedForms
+                        });
                     }
-                    finalForms.push({
-                        total_submitted_forms: totalSubmittedForms,
-                        total_unsubmitted_forms: totalUnsubmittedForms,
-                        total_assigned_forms: totalAssignedForms
-                    });
                 }
-
-                console.log("This are the yes: " + JSON.stringify(finalForms));
 
                 res.render('index', {
                     title: 'Home Page',
@@ -1560,7 +1668,17 @@ app.get('/viewforms', async function(req, res){
 
         if(accessGranted){
             var allPublishedForms = await forms.find({ form_status: { $in: ["Published", "Active", "In-active"] } }).toArray();
-            var allSubmittedForms = await filledoutforms.find({ form_status: "Submitted" }).toArray();
+            var allSubmittedForms = await filledoutforms.find({ form_status: { $in: ["Submitted", "Returned"]} }).toArray();
+            var allFilteredForms = [];
+            if(currentUserDetailsBlock.userLevel === "Department Head"){
+                const findDepHead = await users.findOne({ emp_id : currentUserDetailsBlock.empID });
+                for (const form of allSubmittedForms){
+                    const findOwner = await users.findOne({ emp_id : form.form_owner });
+                    if(findDepHead.user_department == findOwner.user_department){
+                        allFilteredForms.push(form)
+                    }
+                }
+            }
             var allAssignedForms = await forms.find({ assigned_users : req.session.email, form_status : { $in: ["Active", "Submitted"] } }).toArray();
             var allSharedForms = await filledoutforms.find({
                 $or: [
@@ -1569,6 +1687,8 @@ app.get('/viewforms', async function(req, res){
                 ]
             }).toArray();
 
+
+            var filteredForms = getUniqueForms(allFilteredForms);
             var publishedForms = getUniqueForms(allPublishedForms);
             var assignedForms = getUniqueForms(allAssignedForms);
             var sharedForms = getUniqueForms(allSharedForms);
@@ -1580,6 +1700,7 @@ app.get('/viewforms', async function(req, res){
                 currentUserPrivileges: currentUserPrivileges,
                 publishedForms: publishedForms,
                 submittedForms: submittedForms,
+                filteredForms: filteredForms,
                 assignedForms: assignedForms,
                 sharedForms: sharedForms,
                 currentUserPicture: currentUserPicture,
@@ -2480,7 +2601,7 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
         var formData = req.body;
         var selectedFormControlNumberToView = formData.formControlNumber;
         var updateDocument;
-        var submittedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+        var submittedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner });
         let approver = await users.findOne({ emp_id : req.session.userEmpID });
         var addNotif;
 
@@ -2490,8 +2611,19 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
         }else{
             if(currentUserDetailsBlock.userLevel == "Secretary"){
                 updateDocument = await filledoutforms.findOneAndUpdate(
-                    { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
+                    {
+                        form_control_number: selectedFormControlNumberToView,
+                        form_status: { $in: ["Submitted", "Returned"] },
+                        form_owner: formData.formOwner
+                    },
                     { $set: { secretary_approval: "Returned" } },
+                    { returnDocument: 'after' }
+                );
+
+
+                updateDocument1 = await filledoutforms.findOneAndUpdate(
+                    { form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner },
+                    { $set: { form_status: "Returned" } },
                     { returnDocument: 'after' }
                 );
 
@@ -2504,10 +2636,22 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
                     status: "Unseen",
                     message: "The Secretary has returned your submitted form: " + submittedForm.form_name
                 });
+
             }else if(currentUserDetailsBlock.userLevel == "Department Head"){
+
                 updateDocument = await filledoutforms.findOneAndUpdate(
-                    { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
+                    {
+                        form_control_number: selectedFormControlNumberToView,
+                        form_status: { $in: ["Submitted", "Returned"] },
+                        form_owner: formData.formOwner
+                    },
                     { $set: { department_head_approval: "Returned" } },
+                    { returnDocument: 'after' }
+                );
+
+                updateDocument1 = await filledoutforms.findOneAndUpdate(
+                    { form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner },
+                    { $set: { form_status: "Returned" } },
                     { returnDocument: 'after' }
                 );
 
@@ -2520,10 +2664,21 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
                     status: "Unseen",
                     message: "Your Department Head has returned your submitted form: " + submittedForm.form_name
                 });
+
             }else if(currentUserDetailsBlock.userLevel == "Dean"){
                 updateDocument = await filledoutforms.findOneAndUpdate(
-                    { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
+                    {
+                        form_control_number: selectedFormControlNumberToView,
+                        form_status: { $in: ["Submitted", "Returned"] },
+                        form_owner: formData.formOwner
+                    },
                     { $set: { dean_approval: "Returned" } },
+                    { returnDocument: 'after' }
+                );
+
+                updateDocument1 = await filledoutforms.findOneAndUpdate(
+                    { form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner },
+                    { $set: { form_status: "Returned" } },
                     { returnDocument: 'after' }
                 );
 
@@ -2538,7 +2693,7 @@ app.put('/AJAX_returnSubmittedForm', async function(req, res) {
                 });
             }
         }
-        var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+        var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : { $in: ["Submitted", "Returned"] }, form_owner : formData.formOwner });
         res.send({ status_code : 0, secretary_approval : updatedForm.secretary_approval, dean_approval : updatedForm.dean_approval, department_head_approval : updatedForm.department_head_approval });
     }else{
         res.render('login', {
@@ -2552,7 +2707,7 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
         var formData = req.body;
         var selectedFormControlNumberToView = formData.formControlNumber;
         var updateDocument;
-        var submittedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+        var submittedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner });
         let approver = await users.findOne({ emp_id : req.session.userEmpID });
         var addNotif;
 
@@ -2562,7 +2717,7 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
         }else{
             if(currentUserDetailsBlock.userLevel == "Secretary"){
                 updateDocument = await filledoutforms.findOneAndUpdate(
-                    { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
+                    { form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner },
                     { $set: { secretary_approval: "Approved" } },
                     { returnDocument: 'after' }
                 );
@@ -2579,7 +2734,7 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
 
             }else if(currentUserDetailsBlock.userLevel == "Department Head"){
                 updateDocument = await filledoutforms.findOneAndUpdate(
-                    { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
+                    { form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner },
                     { $set: { department_head_approval: "Approved" } },
                     { returnDocument: 'after' }
                 );
@@ -2596,7 +2751,7 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
 
             }else if(currentUserDetailsBlock.userLevel == "Dean"){
                 updateDocument = filledoutforms.findOneAndUpdate(
-                    { form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner },
+                    { form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner },
                     { $set: { dean_approval: "Approved" } },
                     { returnDocument: 'after' }
                 );
@@ -2613,10 +2768,19 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
 
             }
         }
-        var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+        var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner });
 
+        if(updatedForm.secretary_approval === "Approved" && updatedForm.dean_approval === "Approved" && updatedForm.department_head_approval === "Approved"){
+            updateDocument3 = await filledoutforms.findOneAndUpdate(
+                { form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner },
+                { $set: { form_status: "Approved" } },
+                { returnNewDocument: 'after' }
+                );
+        }
 
-        res.send({ status_code : 0, secretary_approval : updatedForm.secretary_approval, dean_approval : updatedForm.dean_approval, department_head_approval : updatedForm.department_head_approval });
+        var updatedForm1 = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned", "Approved"]}, form_owner : formData.formOwner });
+
+        res.send({ status_code : 0, secretary_approval : updatedForm1.secretary_approval, dean_approval : updatedForm1.dean_approval, department_head_approval : updatedForm1.department_head_approval });
     }else{
         res.render('login', {
             title: 'Login Page'
@@ -2628,7 +2792,7 @@ app.put('/AJAX_renderPrevSubmittedForm', async function(req, res) {
     if(req.session.loggedIn){
         var formData = req.body;
         var selectedFormControlNumberToView = formData.formControlNumber;
-        var prevSubmittedForm = await filledoutforms.findOne({ form_control_number: formData.formControlNumber, form_status : "Submitted", form_owner : formData.formOwner, user_version: parseInt(formData.userVersion) });
+        var prevSubmittedForm = await filledoutforms.findOne({ form_control_number: formData.formControlNumber, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner, user_version: parseInt(formData.userVersion) });
         var currentUserFiles = await files.find({ uploadedBy : formData.formOwner, fileFormControlNumber : formData.formControlNumber }).toArray();
 
         if(!prevSubmittedForm){
@@ -2651,7 +2815,7 @@ app.put('/AJAX_renderPrevSubmittedForm', async function(req, res) {
 
             try{
                 jsonObject.form_content = g;
-                var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+                var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner });
                 res.send({ status_code : 0, formContent : jsonObject.form_content, currentUserFiles : currentUserFiles });
             }catch(error){
                 logError("Error at view form version for front end: " + error);
@@ -2669,7 +2833,7 @@ app.put('/AJAX_renderSubmittedForm', async function(req, res) {
     if(req.session.loggedIn){
         var formData = req.body;
         var selectedFormControlNumberToView = formData.formControlNumber;
-        var submittedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+        var submittedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner });
         var currentUserFiles = await files.find({ uploadedBy : formData.formOwner, fileFormControlNumber : formData.formControlNumber }).toArray();
 
         if(!submittedForm){
@@ -2692,7 +2856,7 @@ app.put('/AJAX_renderSubmittedForm', async function(req, res) {
 
             try{
                 jsonObject.form_content = g;
-                var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : "Submitted", form_owner : formData.formOwner });
+                var updatedForm = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}, form_owner : formData.formOwner });
                 res.send({ status_code : 0, formContent : jsonObject.form_content, submittedForm: updatedForm, currentUserFiles : currentUserFiles });
             }catch(error){
                 logError("Error at view form version for front end: " + error);

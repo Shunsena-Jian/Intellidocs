@@ -32,7 +32,7 @@ block body
                                             .button-container.w3-row
                                             a.full-width-button.w3-center.all-caps(href=`/formview/${publishedForm.form_control_number}`) View Form
 
-        if (currentUserDetailsBlock.userLevel === "Department Head" || currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Dean" || currentUserDetailsBlock.userLevel === "Super Admin")
+        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Dean" || currentUserDetailsBlock.userLevel === "Super Admin")
             .w3-row
                 .w3-padding
                     .shadowEffect.w3-container.w3-white.w3-round.w3-margin
@@ -57,6 +57,32 @@ block body
                                         td
                                             .button-container.w3-row
                                             a.full-width-button.w3-center.all-caps(href=`/formview/${submittedForm.form_control_number}`) View Form
+
+        if (currentUserDetailsBlock.userLevel === "Department Head")
+            .w3-row
+                .w3-padding
+                    .shadowEffect.w3-container.w3-white.w3-round.w3-margin
+                        h3.w3-bold Submitted Forms
+                        table#submittedFormsTable.display(width='100%')
+                            thead
+                                tr
+                                    th.w3-center Form Name
+                                    th.w3-center Status
+                                    th.w3-center Date Created
+                                    th.w3-center Time Created
+                                    th.w3-center Version
+                                    th.w3-center Action
+                            tbody
+                                each filteredForm in filteredForms
+                                    tr
+                                        td #{filteredForm.form_name}
+                                        td #{filteredForm.form_status}
+                                        td #{filteredForm.date_saved}
+                                        td #{filteredForm.time_saved}
+                                        td #{filteredForm.form_version}
+                                        td
+                                            .button-container.w3-row
+                                            a.full-width-button.w3-center.all-caps(href=`/formview/${filteredForm.form_control_number}`) View Form
 
         if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Document Controller")
         else
