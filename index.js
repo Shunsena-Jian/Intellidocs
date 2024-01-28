@@ -195,7 +195,6 @@ app.get('/downloadfile/:file_name/:file_owner', function(req, res){
         try{
             var selectedFileForDownload = req.params.file_name;
             var selectedUser = req.params.file_owner;
-            console.log("This is the one: " + selectedUser);
             logStatus("User entered download request: " + selectedFileForDownload);
 
             res.download("./uploads/" + selectedUser + "/" + selectedFileForDownload);
@@ -871,8 +870,22 @@ app.get('/formview/:form_control_number', async function (req, res){
 
         if(currentUserDetailsBlock.userLevel != "Secretary" && currentForm.assigned_users.includes(currentUserDetailsBlock.email)){
             var currentUserFiles = await files.find({ uploadedBy : latestUserFilledVersion.form_owner, fileFormControlNumber : latestUserFilledVersion.form_control_number }).toArray();
+
             var sharedRead = jsonObject.read_users;
+            var sharedReadUsers = [];
+
+            sharedRead.forEach(async function(user) {
+                const userDetails = await users.findOne({ email: user });
+                sharedReadUsers.push(userDetails);
+            });
+
             var sharedWrite = jsonObject.write_users;
+            var sharedWriteUsers = [];
+
+            sharedWrite.forEach(async function(user) {
+                const userDetails = await users.findOne({ email: user });
+                sharedWriteUsers.push(userDetails);
+            });
         }
 
         logStatus("This is the json object: " + JSON.stringify(jsonObject));
@@ -916,8 +929,8 @@ app.get('/formview/:form_control_number', async function (req, res){
             min_idleTime: min_idleTime,
             form_template : formTemplate,
             submittedVersions: modifiedVersions,
-            sharedRead: sharedRead,
-            sharedWrite: sharedWrite,
+            sharedRead: sharedReadUsers,
+            sharedWrite: sharedWriteUsers,
             allAssignedUsers: allAssignedUsers,
             previouslySubmittedForms: previouslySubmittedForms,
             userCurrentPage: "formview"
@@ -935,9 +948,10 @@ app.put('/shareform', async function(req, res){
             var formData = req.body;
             var selectedFormControlNumberToView = formData.formControlNumber;
 
-            if(!formData.shareTo){
+            if (!formData.shareTo) {
                 res.send({status_code : 1});
-            }else{
+            } else {
+                console.log("Entered else");
                 if(formData.sharedUserPrivileges == 'Viewer'){
                     const result = await filledoutforms.updateMany(
                         { form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID },
@@ -945,16 +959,6 @@ app.put('/shareform', async function(req, res){
                         { returnNewDocument : true }
                     );
 
-//                    const secondresult = await notifications.insertOne({
-//                        sender: req.session.userEmpID,
-//                        receiver: formData.shareTo,
-//                        time_sent: getTimeNow(),
-//                        date_sent: getDateNow(),
-//                        status: "Unseen",
-//                        link: "Sample Link"
-//                    });
-
-                    res.send({ status_code: 0 });
                 }else if (formData.sharedUserPrivileges == 'Editor'){
                     const result = await filledoutforms.updateMany(
                         { form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID },
@@ -962,23 +966,61 @@ app.put('/shareform', async function(req, res){
                         { returnNewDocument : true }
                     );
 
-//                    const secondresult = await notifications.insertOne({
-//                        sender: req.session.userEmpID,
-//                        receiver: formData.shareTo,
-//                        time_sent: getTimeNow(),
-//                        date_sent: getDateNow(),
-//                        status: "Unseen",
-//                        link: "Sample Link"
-//                    });
-
-                    res.send({ status_code: 0 });
-                } else {
-                    logStatus("Could not insert shared user.");
-                    res.send({ status_code: 2 });
                 }
+
+                try {
+                    const userFormVersions = await filledoutforms.find({ form_control_number: selectedFormControlNumberToView, form_owner: req.session.userEmpID }).toArray();
+
+                    let latestUserVersion = 0;
+                    let latestWriteUsers = [];
+                    let latestReadUsers = [];
+                    let latestSharedStatus;
+                    let latestAllowFileUpload;
+
+                    for (let i = 0; i < userFormVersions.length; i++) {
+                        const version = userFormVersions[i];
+                        if (version.user_version >= latestUserVersion) {
+                            latestUserVersion = version.user_version;
+                            latestSharedStatus = version.shared_status;
+                            latestAllowFileUpload = version.allow_file_upload;
+
+                            if (version.read_users) {
+                                latestReadUsers = Array.from(new Set([...latestReadUsers, ...version.read_users]));
+                            }
+
+                            if (version.write_users) {
+                                latestWriteUsers = Array.from(new Set([...latestWriteUsers, ...version.write_users]));
+                            }
+                        }
+                    }
+
+                    async function fetchUserDetails(usersList) {
+                        const userDetails = [];
+                        for (let j = 0; j < usersList.length; j++) {
+                            const user = usersList[j];
+                            const userDetailsItem = await users.findOne({ email: user });
+                            userDetails.push(userDetailsItem);
+                        }
+                        return userDetails;
+                    }
+
+                    const sharedReadUsers = await fetchUserDetails(latestReadUsers);
+                    const sharedWriteUsers = await fetchUserDetails(latestWriteUsers);
+
+                    console.log("These are read: " + JSON.stringify(sharedReadUsers));
+                    console.log("These are write: " + JSON.stringify(sharedWriteUsers));
+
+                    res.send({ status_code: 0, latestReadUsers: sharedReadUsers, latestWriteUsers: sharedWriteUsers });
+                } catch (error) {
+                    console.error("Error:", error);
+                    res.status(500).send({ status_code: 1, error: "Internal server error" });
+                }
+
+
             }
         }catch(error){
             logError("Error at share form POST: " + error);
+            res.send({ status_code: 2 });
         }
     }else{
         res.render('login', {
@@ -2310,7 +2352,6 @@ app.put('/AJAX_assignUsers', async function(req, res){
             }
 
             var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
-            console.log("These are the updated assigned users: " + allAssignedUsers);
 
             res.send({ status_code : 0, allAssignedUsers : allAssignedUsers });
         } catch(error){
@@ -2367,7 +2408,6 @@ app.put('/AJAX_removeUser/:email', async function(req, res){
             });
 
             var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
-            console.log("This are the updated assigned users: " + JSON.stringify(allAssignedUsers));
 
             res.send({ status_code : 0, allAssignedUsers : allAssignedUsers });
 
@@ -2524,8 +2564,6 @@ app.put('/AJAX_togglePublish', async function(req, res){
 
                     if(currentStatus == "Template"){
                         try {
-                            console.log("Entering the setting of Status");
-
                             updateDocument = await forms.findOneAndUpdate(
                                 { form_control_number : selectedFormControlNumberToView, form_version : targetedVersion },
                                 { $set: { form_status: "Published" } }
@@ -2951,7 +2989,6 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
         var updatedForm1 = await filledoutforms.findOne({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned", "Approved"]}, form_owner : formData.formOwner });
 
         var submittedFormsTransfer = await filledoutforms.find({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}}).toArray();
-        console.log("This is count: " + submittedFormsTransfer.length);
         let finalFormsTransfer = [];
 
         for (const form of submittedFormsTransfer){

@@ -34,6 +34,7 @@ function hideShareFormModal(){
 }
 
 function shareForm(){
+    var table11 = $('#sharedPeopleTable').DataTable();
     selectedEmailToShareTo = document.getElementById('employee_email').value;
     selectedSharedUserPrivilege = document.getElementById('accessLevel').value
 
@@ -45,7 +46,8 @@ function shareForm(){
 
         const data = {
             shareTo: selectedEmailToShareTo,
-            formControlNumber: formControlNumber,
+            userVersion: currentForm.user_version,
+            formControlNumber: currentForm.form_control_number,
             sharedUserPrivileges: selectedSharedUserPrivilege
         };
 
@@ -59,7 +61,41 @@ function shareForm(){
                 } else if (response.status_code === 0) {
                     alert("You shared the file to " + selectedEmailToShareTo);
                     hideShareFormModal();
-                } else if (response.status_code === 2){
+
+                    // Update the DataTable for both read and write users
+                    var updatedReadData = response.latestReadUsers;
+                    console.log(JSON.stringify(response.latestReadUsers));
+                    var updatedWriteData = response.latestWriteUsers;
+                    console.log(JSON.stringify(response.latestWriteUsers));
+
+                    // Clear the table once
+                    table11.clear().draw();
+
+                    // Add rows for read users
+                    updatedReadData.forEach(function(user) {
+                        var curLine = [
+                            user.first_name + " " + user.last_name,
+                            user.email,
+                            "Read Only",
+                            `<a class="full-width-button w3-center all-caps" onclick="removeUser('${user.email}')">Remove</a>`
+                        ];
+                        table11.row.add(curLine);
+                    });
+
+                    // Add rows for write users
+                    updatedWriteData.forEach(function(user) {
+                        var curLine = [
+                            user.first_name + " " + user.last_name,
+                            user.email,
+                            "Edit",
+                            `<a class="full-width-button w3-center all-caps" onclick="removeUser('${user.email}')">Remove</a>`
+                        ];
+                        table11.row.add(curLine);
+                    });
+
+                    // Redraw the table once after adding all rows
+                    table11.draw();
+                } else if (response.status_code === 2) {
                     alert("Could not insert shared user.");
                 } else {
                     alert("AJAX error: ", error);

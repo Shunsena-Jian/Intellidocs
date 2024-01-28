@@ -44,14 +44,29 @@ block body
                                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                     h4.w3-bold Shared with
                                     hr
-                                    each sharedReadItem in sharedRead
-                                        h4
-                                            i.fa.fa-eye.fa-fw.w3-margin-right
-                                            |   #{sharedReadItem} - View Only
-                                    each sharedWriteItem in sharedWrite
-                                        h4
-                                            i.fa.fa-eye.fa-fw.w3-margin-right
-                                            |   #{sharedWriteItem} - View & Edit
+                                    table#sharedPeopleTable.display(width='100%')
+                                        thead
+                                            tr
+                                                th Employee Name
+                                                th Employee Email
+                                                th Shared Rights
+                                                th Actions
+                                        tbody
+                                            each read in sharedRead
+                                                tr
+                                                    td #{read.first_name} #{read.last_name}
+                                                    td #{read.email}
+                                                    td Read Only
+                                                    td
+                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`removeSharedUser("${read.email}")`) Remove
+                                            each write in sharedWrite
+                                                tr
+                                                    td #{write.first_name} #{write.last_name}
+                                                    td #{write.email}
+                                                    td Edit
+                                                    td
+                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`removeSharedUser("${write.email}")`) Remove
+
 
                         .w3-quarter.w3-container2
                             h3.w3-bold Form Settings
@@ -615,7 +630,6 @@ block body
             }
         }
 
-
     script.
         var table3 = $('#assignedUserTable').DataTable();
 
@@ -885,6 +899,7 @@ block body
         }
 
     script.
+        var table11 = $('#sharedPeopleTable').DataTable();
         var table10 = $('#submittedFormsTable').DataTable();
         function returnSubmittedForm(formOwner, formControlNumber){
             var data = {
