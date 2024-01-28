@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="c26fa4a0-60df-40f2-a3d6-d708be372682" name="Changes" comment="*intelidocs.*&#10;//Adjusted layouts">
-      <change afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_save_form.js" afterDir="false" />
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="*intelidocs.*&#10;//Adjusted layouts">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/createform.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createform.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/css/loginPages.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/loginPages.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/css/w3css4.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/w3css4.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,6 +29,10 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2Z3MaAy6KmXtK37qeooNKRpeyW6" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
