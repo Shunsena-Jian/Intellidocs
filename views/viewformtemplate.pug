@@ -64,16 +64,16 @@ block body
 
 
                                                 if(sharedStatus == true){
-                                                    document.getElementById("formDetailsSharingSetting").innerHTML = "Form Sharing : Allowed";
+                                                    document.getElementById("formDetailsSharingSetting").innerHTML = "Allowed";
                                                 } else {
-                                                    document.getElementById("formDetailsSharingSetting").innerHTML = "Form Sharing : Not Allowed";
+                                                    document.getElementById("formDetailsSharingSetting").innerHTML = "Not Allowed";
                                                 }
 
                                                 if(formStatus === "Template"){
-                                                    document.getElementById("formDetailsStatusSetting").innerHTML = "Status : Template";
+                                                    document.getElementById("formDetailsStatusSetting").innerHTML = "Template";
                                                     document.getElementById("togglePublishButton").innerHTML = "Publish Form";
                                                 } else {
-                                                    document.getElementById("formDetailsStatusSetting").innerHTML = "Status : Published";
+                                                    document.getElementById("formDetailsStatusSetting").innerHTML = "Published";
                                                     document.getElementById("togglePublishButton").innerHTML = "Un-publish Form";
                                                 }
                                             } else if (response.status_code === 1){
@@ -125,10 +125,10 @@ block body
                                                 updatedStatus = response.updatedStatus;
                                                 if(updatedStatus == "Allowed"){
                                                     toggleSharingButton.innerHTML = "Disable Form Sharing";
-                                                    formDetailsSharingSetting.innerHTML = "Form Sharing : Allowed";
+                                                    formDetailsSharingSetting.innerHTML = "Allowed";
                                                 }else{
                                                     toggleSharingButton.innerHTML = "Allow Form Sharing";
-                                                    formDetailsSharingSetting.innerHTML = "Form Sharing : Not Allowed";
+                                                    formDetailsSharingSetting.innerHTML = "Not Allowed";
                                                 }
                                             } else if(response.status_code === 1) {
                                                 // modal error
@@ -195,10 +195,10 @@ block body
                                                 updatedStatus = response.updatedStatus;
                                                 if(updatedStatus == "Allowed"){
                                                     toggleFileUploadButton.innerHTML = "Un-Allow File Uploading";
-                                                    formDetailsUploadSetting.innerHTML = "File Uploading : Allowed";
+                                                    formDetailsUploadSetting.innerHTML = "Allowed";
                                                 }else{
                                                     toggleFileUploadButton.innerHTML = "Allow File Uploading";
-                                                    formDetailsUploadSetting.innerHTML = "File Uploading : Not Allowed";
+                                                    formDetailsUploadSetting.innerHTML = "Not Allowed";
                                                 }
                                             } else if(response.status_code === 1) {
                                                 // modal error
@@ -234,10 +234,10 @@ block body
                                                 updatedStatus = response.updatedStatus;
                                                 if(updatedStatus == "Published"){
                                                     togglePublishButton.innerHTML = "Un-publish Form";
-                                                    formDetailsStatusSetting.innerHTML = "Status : Published";
+                                                    formDetailsStatusSetting.innerHTML = "Published";
                                                 }else{
                                                     togglePublishButton.innerHTML = "Publish Form";
-                                                    formDetailsStatusSetting.innerHTML = "Status : Template";
+                                                    formDetailsStatusSetting.innerHTML = "Template";
                                                 }
                                             } else if(response.status_code === 1) {
                                                 // modal error
@@ -379,13 +379,13 @@ block body
             var formControlNumber = `#{currentForm.form_control_number}`;
             var sharedStatus = document.getElementById('formDetailsSharingSetting').innerHTML;
             var fileUploadStatus = document.getElementById('formDetailsUploadSetting').innerHTML;
-            if(fileUploadStatus == 'File Uploading : Allowed'){
+            if(fileUploadStatus == 'Allowed'){
                 fileUploadStatus = true;
             } else {
                 fileUploadStatus = false;
             }
 
-            if(sharedStatus == 'Form Sharing : Not Allowed'){
+            if(sharedStatus == 'Not Allowed'){
                 sharedStatus = false;
             } else {
                 sharedStatus = true;

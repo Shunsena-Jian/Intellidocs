@@ -93,7 +93,7 @@ block body
                                             td#formDetailsActivateSetting #{currentForm.form_status}
                                         tr
                                             td Due Date:
-                                            td
+                                            td#formDueDateSetting
                                                 if (!currentForm.due_date)
                                                     | None
                                                 else
@@ -120,20 +120,30 @@ block body
                                                     #deanApproval  Not Approved
 
                         if (currentUserDetailsBlock.userLevel === "Secretary")
-                            .w3-third
-                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                    h4.w3-bold Form Settings
-                                    .w3-row
-                                        button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
-                                    hr
-                                    h4.w3-bold Due Date
-                                    .w3-row
-                                        input(type="date" id="dueDateInput" name="birthday")
-                                    br
-                                    .w3-row
-                                        button.w3-button.w3-block.w3-theme-dark(onclick='setDueDate()')
-                                            i.fa.fa-share-alt.fa-fw.w3-margin-right
-                                            |   Set Due Date
+                            if (initialTemplateForm.due_date === null)
+                                .w3-third
+                                    .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                        h4.w3-bold Form Settings
+                                        .w3-row
+                                            button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
+                                        hr
+                                        h4#dueDateH4.w3-bold Due Date
+                                        #dueDateContainer.w3-row
+                                            input(type="date" id="dueDateInput" name="birthday")
+                                        br
+                                        #dueDateContainer1.w3-row
+                                            button#dueDateButton.w3-button.w3-block.w3-theme-dark(onclick='setDueDate()')
+                                                i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                                |   Set Due Date
+                            else
+                                .w3-third
+                                    .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                        h4.w3-bold Form Settings
+                                        .w3-row
+                                            button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
+                                        hr
+                                        h4.w3-bold Due Date Set
+
 
                             .w3-third
                                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
@@ -261,7 +271,7 @@ block body
                                             td#formDetailsActivateSetting #{currentForm.form_status}
                                         tr
                                             td Due Date:
-                                            td
+                                            td#formDueDateSetting
                                                 if (!currentForm.due_date)
                                                     | None
                                                 else
@@ -674,8 +684,13 @@ block body
                     data: data,
                     success: function(response){
                         if(response.status_code === 0){
+                            document.getElementById("formDueDateSetting").innerHTML = response.dueDate;
+                            document.getElementById("dueDateH4").innerHTML = 'Due Date Set';
+                            var dueDateContainer = document.getElementById("dueDateContainer");
+                            var dueDateContainer1 = document.getElementById("dueDateContainer1");
+                            dueDateContainer.remove();
+                            dueDateContainer1.remove();
                             alert("Due date has been set.");
-                            formDueDate.innerHTML = "Due Date : " + response.dueDate;
                         }else if(response.status_code === 1){
                             alert("Error in setting a due date.");
                         }else if(response.status_code === 2){

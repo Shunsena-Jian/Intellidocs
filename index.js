@@ -538,14 +538,6 @@ app.put('/submitform', async function(req, res){
 
                 userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
 
-                for(const form of userFormVersions){
-                    const result = await filledoutforms.updateMany(
-                        { form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID },
-                        { $set: { form_status : "On-going" } },
-                        { returnNewDocument : true }
-                    );
-                }
-
                 const filledOutDocument = {
                     form_name: currentForm.form_name,
                     form_control_number: currentForm.form_control_number,
@@ -913,6 +905,7 @@ app.get('/formview/:form_control_number', async function (req, res){
 
         var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
         var previouslySubmittedForms = await filledoutforms.find({ form_owner : req.session.userEmpID, form_status : "Submitted" }).toArray();
+        var initialTemplateForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
     //    currentUserFiles = await getFiles(req.session.userEmpID);
 
         res.render('formview', {
@@ -922,6 +915,7 @@ app.get('/formview/:form_control_number', async function (req, res){
             currentUserFiles: currentUserFiles,
             currentUserPrivileges: currentUserPrivileges,
             currentForm: jsonObject,
+            initialTemplateForm: initialTemplateForm,
             currentUserPicture: currentUserPicture,
             allVersions: allVersions,
             min_idleTime: min_idleTime,
@@ -2401,7 +2395,9 @@ app.put('/AJAX_setDueDate', async function(req, res){
                         semester: formData.semester } }
             );
 
-            res.send({ status_code : 0, dueDate : formData.dueDateInput });
+            var dueForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
+
+            res.send({ status_code : 0, dueDate : dueForm.due_date });
 
 
         }catch(error){

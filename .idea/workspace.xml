@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="c26fa4a0-60df-40f2-a3d6-d708be372682" name="Changes" comment="*viewformtemplatelayout.pug&#10;//Added anchor handling js">
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="* formview.pug and index.js&#10;// Approve Button and Return Button disabled after clicking by user in session, with AJAX">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/sharedview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/sharedview.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/sharedviewlayout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/sharedviewlayout.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/viewformtemplate.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewformtemplate.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,44 +18,412 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
+  <component name="GitLabMergeRequestFiltersHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPENED&quot;,
+    &quot;assignee&quot;: {
+      &quot;type&quot;: &quot;org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue&quot;,
+      &quot;username&quot;: &quot;2212288&quot;,
+      &quot;fullname&quot;: &quot;JIAN RAPHAEL CUDIAMAT&quot;
+    }
+  }
+}</component>
+  <component name="GitLabMergeRequestsSettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;first&quot;: &quot;https://gitlab.com/2212288/intellidocs.git&quot;,
+    &quot;second&quot;: &quot;a9467bfe-d9e5-4939-b506-830b97f04244&quot;
+  }
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2Z3MaAy6KmXtK37qeooNKRpeyW6" />
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2YMlDyWTuW2a3Tes9eOK0nkJkrz" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/fogef/OneDrive/Desktop/the sacred timeline/FINAL BRANCH/FINAL BRANCH&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="intellidocs" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="intellidocs" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c26fa4a0-60df-40f2-a3d6-d708be372682" name="Changes" comment="" />
-      <created>1701646377478</created>
+      <changelist id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="" />
+      <created>1700343214130</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1701646377478</updated>
+      <updated>1700343214130</updated>
     </task>
-    <task id="LOCAL-00001" summary="*viewformtemplatelayout.pug&#10;//Added anchor handling js">
-      <created>1706408888758</created>
+    <task id="LOCAL-00001" summary="* formview.pug&#10;// Created a validation for existing users in assigning users to a form&#10;&#10;* handle_ajax_share_form.js&#10;// Created a validation for existing users in sharing forms to a user">
+      <option name="closed" value="true" />
+      <created>1700739954416</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1706408888758</updated>
+      <updated>1700739954416</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="* index.js&#10;// Created an AJAX Function for backend to verify if shared form is present in the database&#10;// Created an app.get function to render sharedview with the proper form to view&#10;&#10;* sharedview.pug &amp;&amp; sharedviewlayout.pug&#10;// Fixed called external files&#10;// created an if else statement for validation if present&#10;&#10;* viewforms.pug&#10;// Created an AJAX function to call the AJAX from backend to reference the sharedview page">
+      <option name="closed" value="true" />
+      <created>1700838578944</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1700838578944</updated>
+    </task>
+    <task id="LOCAL-00003" summary="* formview.pug&#10;// Debugged for Approval&#10;// Bug at AJAX updating status on table for approvals&#10;&#10;* index.js&#10;// Debugged viewing shared form">
+      <option name="closed" value="true" />
+      <created>1701219826895</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1701219826895</updated>
+    </task>
+    <task id="LOCAL-00004" summary="* formview.pug&#10;// Created a new function to determine which quarter the due date has been set&#10;// Passes the Quarter Due Date results to backend&#10;&#10;* index.js&#10;// In-Active forms will now also show in the table of Published Forms&#10;// Stores quarter due date to database.">
+      <option name="closed" value="true" />
+      <created>1704257338480</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1704257338480</updated>
+    </task>
+    <task id="LOCAL-00005" summary="* formview.pug&#10;// Button for Activating Debugged&#10;&#10;* index.js&#10;// Assigning users using username debugged">
+      <option name="closed" value="true" />
+      <created>1704374692767</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1704374692767</updated>
+    </task>
+    <task id="LOCAL-00006" summary="* sidebar.pug&#10;// Fixed a bug where all sidebar buttons are showing despite having null privileges">
+      <option name="closed" value="true" />
+      <created>1704959013270</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1704959013271</updated>
+    </task>
+    <task id="LOCAL-00007" summary="* viewforms.pug&#10;// Made all available forms tabular for easier accessibility">
+      <option name="closed" value="true" />
+      <created>1704980612587</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1704980612587</updated>
+    </task>
+    <task id="LOCAL-00008" summary="* formview.pug&#10;// Added a new container and table for assigned users to dedicated forms&#10;// Now added an un-assign feature for assigned users&#10;// The assigned users table will automatically update if new assignees or new un-assignees are made.&#10;&#10;* index.js&#10;// Now added a feature where new assigned and unassigned users will be inserted first to the database before sending the new data for the table back to the front end&#10;// Created a new AJAX feature for updating the table when un-assigning users in forms">
+      <option name="closed" value="true" />
+      <created>1705051079959</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1705051079959</updated>
+    </task>
+    <task id="LOCAL-00009" summary="* createusers.pug&#10;// Created an AJAX function for handling user creation&#10;&#10;* index.js&#10;// Created validations for existing ID&#10;// If user is Faculty or Department Head they should have a department&#10;// If user is neither a Faculty or Department Head, user department value in a document will not be inserted in the database&#10;&#10;* intellijent.users.json&#10;// Recreated some of the users with different user departments">
+      <option name="closed" value="true" />
+      <created>1705060535524</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1705060535524</updated>
+    </task>
+    <task id="LOCAL-00010" summary="* formview.pug&#10;// Created a feature to assign a whole department of employees&#10;// Added an information of what department are the employees in the table&#10;&#10;* index.js&#10;// Created an AJAX function that will properly insert the different faculty departments in the database while retrieving the whole departments information to the front end to update the table&#10;&#10;* intellijent.privileges.json&#10;// WAG NYO TONG PANSININ, PAPANSIN TO">
+      <option name="closed" value="true" />
+      <created>1705064237038</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1705064237038</updated>
+    </task>
+    <task id="LOCAL-00011" summary="* formview.pug&#10;// Changed placeholder on Assigning Users to Employee Email&#10;// Fixed design of different containers&#10;// Now shows an alert when assigning a user or department has been successful">
+      <option name="closed" value="true" />
+      <created>1705135054125</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1705135054125</updated>
+    </task>
+    <task id="LOCAL-00012" summary="* dragbar.pug&#10;// Removed all hardcoded widgets&#10;// Now retrieves all widgets depending on their categories then places them in their respective containers.&#10;&#10;* index.js&#10;// Created functions to retrieve different widgets according to their categories.">
+      <option name="closed" value="true" />
+      <created>1705654139236</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1705654139236</updated>
+    </task>
+    <task id="LOCAL-00013" summary="* dragbar.pug&#10;// Renamed Signature Fields to Upload Fields&#10;&#10;* formview.pug&#10;// Created a new table that shows the previously submitted forms by the faculty on faculty view&#10;&#10;* index.js&#10;// Now initiates a value for dean, department head, and secretary approvals for the table&#10;// Now passes the previously submitted forms based on the form owner and status as Submitted&#10;&#10;* intellijent.widgets.json&#10;// Updated the widgets database">
+      <option name="closed" value="true" />
+      <created>1705767121923</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1705767121923</updated>
+    </task>
+    <task id="LOCAL-00014" summary="* formview.pug&#10;// Now passes the user form version as a parameter to easily navigate the correct form version&#10;// Now added an AJAX function that will properly render the form chosen in the previously submitted version table&#10;// Created an AJAX function that will properly update the table when a form is submitted&#10;&#10;* index.js&#10;// Now sends the details for the previously submitted forms">
+      <option name="closed" value="true" />
+      <created>1705814084017</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1705814084017</updated>
+    </task>
+    <task id="LOCAL-00015" summary="* formview.pug&#10;// Now shows date submitted for the form instead of date saved">
+      <option name="closed" value="true" />
+      <created>1705814356960</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1705814356960</updated>
+    </task>
+    <task id="LOCAL-00016" summary="* dragbar.pug&#10;// Fixed issue in create widget button in viewformtemplate&#10;// Dean and Department Head now cannot access user management in form view">
+      <option name="closed" value="true" />
+      <created>1705910368178</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1705910368178</updated>
+    </task>
+    <task id="LOCAL-00017" summary="* createusers.pug&#10;// Now added the correct 7 departments of SAMCIS&#10;&#10;* index.js&#10;// Added the user department for the user details block&#10;&#10;* sidebar.pug&#10;// Added the user department of the user if present in the sidebar&#10;&#10;* intellijent.users.json&#10;// Added the necessary users for proper system flow soon&#10;&#10;* viewusers.pug&#10;// Now added the user department for the table for easier user visibility">
+      <option name="closed" value="true" />
+      <created>1705913246811</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1705913246811</updated>
+    </task>
+    <task id="LOCAL-00018" summary="* intellijent.users.json&#10;// Added the necessary users for proper system flow soon">
+      <option name="closed" value="true" />
+      <created>1705913259261</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1705913259261</updated>
+    </task>
+    <task id="LOCAL-00019" summary="* createform.pug&#10;// Now shows an alert when form template is created.&#10;&#10;* formview.pug&#10;// Now added the 7 departments in assigning departments to forms&#10;// Now added a feature to return form&#10;// Now renders the initial filledoutform instead of the latest filledoutform&#10;// Created an AJAX function for Returned Forms&#10;// Fixed a bug on updating the status of the form&#10;&#10;* index.js&#10;// SHORTCUT - throws instead the first version of the filled out form instead of the latest filled out form">
+      <option name="closed" value="true" />
+      <created>1705918324662</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1705918324662</updated>
+    </task>
+    <task id="LOCAL-00020" summary="* formview.pug&#10;// Fixed update status for Viewing Submitted Forms">
+      <option name="closed" value="true" />
+      <created>1705918833670</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1705918833670</updated>
+    </task>
+    <task id="LOCAL-00021" summary="* formview.pug&#10;// Added table view restriction for department heads on submitted forms to limit on what form they should be seeing&#10;// Fixed a bug on updating the status of the form when rendering, approving, and returning forms&#10;&#10;* index.js&#10;// Fixed a bug in rendering the initial template of the form that is causing the crash of the system&#10;// Fixed a bug in approving and returning forms.">
+      <option name="closed" value="true" />
+      <created>1705923370336</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1705923370336</updated>
+    </task>
+    <task id="LOCAL-00022" summary="* index.js&#10;// Possible fix for back history to properly update table in view form templates, BUT could pose possible draw backs.">
+      <option name="closed" value="true" />
+      <created>1705992919284</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1705992919284</updated>
+    </task>
+    <task id="LOCAL-00023" summary="* index.js&#10;// Now starting on notification processes, as of now, only the publishing and un-publishing of forms will send a notification&#10;&#10;* sidebar.pug&#10;// Will now show the notifications dedicated to the user only&#10;&#10;* viewformtemplate.pug&#10;// The form name will now be passed to the backend to properly dictate which form is being published or un-published">
+      <option name="closed" value="true" />
+      <created>1706008554198</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1706008554198</updated>
+    </task>
+    <task id="LOCAL-00024" summary="* index.js&#10;// Users will also now be notified if they have been assigned to a form or unassigned">
+      <option name="closed" value="true" />
+      <created>1706012767023</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1706012767023</updated>
+    </task>
+    <task id="LOCAL-00025" summary="* index.js&#10;// Pages will now refresh instead of using existing cache from the browser.&#10;// Created an AJAX route for retrieving notifications&#10;&#10;* sidebar.pug&#10;// Created an inline script to retrieve user's notifications every 3 seconds">
+      <option name="closed" value="true" />
+      <created>1706089954041</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1706089954041</updated>
+    </task>
+    <task id="LOCAL-00026" summary="* sidebar.pug&#10;// Fixed a stupid bug">
+      <option name="closed" value="true" />
+      <created>1706090960396</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1706090960396</updated>
+    </task>
+    <task id="LOCAL-00027" summary="* formview.pug&#10;// Re-arranged and added new information on the table for Submitted Forms&#10;&#10;* index.js&#10;// Removed currentUserNotifications variables and multiple routes calling it as there is now a dedicated route for all notifications&#10;// Now makes sure that the receiver of notifications are in an array&#10;// Now added notifications when:&#10;1. A user submits a form&#10;2. When the secretary assigns a department&#10;3. When a form is returned.&#10;4. When a form is approved.">
+      <option name="closed" value="true" />
+      <created>1706105099947</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1706105099947</updated>
+    </task>
+    <task id="LOCAL-00028" summary="* index.js&#10;// Instead of pushing as an array every individual receiver of notifications will have a separate insertion to the notifications collections&#10;&#10;* sidebar.pug&#10;// Removed the Action button on notifications">
+      <option name="closed" value="true" />
+      <created>1706162291860</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1706162291860</updated>
+    </task>
+    <task id="LOCAL-00029" summary="* index.js&#10;// Fixed the bug for showing a form in Shared Forms Table despite being the owner&#10;// Fixed a bug for pushing values in uniqueAssignedUsers&#10;// Created an AJAX route for seen notifications to change the status of Unseen Notifications in the database to Seen&#10;&#10;* sidebar.pug&#10;// Created an indication for seen and unseen notifications&#10;// Fixed a bug where all dropdowns will be activate&#10;// Created a function that will count all unseen notifications&#10;// Created a function that will set the status to all notifications that were seen by the receiver&#10;&#10;!! ISSUES TO FIX&#10;1. Show a number of unseen notifications&#10;2. Limit the height of the notification bar and make it scrollable">
+      <option name="closed" value="true" />
+      <created>1706168333187</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1706168333187</updated>
+    </task>
+    <task id="LOCAL-00030" summary="* sidebar.pug&#10;// Number of unseen notifications will now be shown beside the notification tab.">
+      <option name="closed" value="true" />
+      <created>1706194253388</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1706194253388</updated>
+    </task>
+    <task id="LOCAL-00031" summary="*** ADDED DASHBOARDS TO ALL USERS&#10;*** IMPORTED chart.js SCRIPT">
+      <option name="closed" value="true" />
+      <created>1706279599208</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1706279599208</updated>
+    </task>
+    <task id="LOCAL-00032" summary="* index.js&#10;// Fixed a bug where multiple forms on the same form owner and same form will have multiple forms with Submitted Status&#10;!!! CURRENTLY WORKING ON (If a single approval has a returned status, then the form_status will be returned)&#10;&#10;* index.pug&#10;// Fixed labels of some charts&#10;&#10;* sidebar.pug&#10;// Added restrictions to sidebar button managements">
+      <option name="closed" value="true" />
+      <created>1706335358625</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1706335358625</updated>
+    </task>
+    <task id="LOCAL-00033" summary="* index.pug&#10;// Fixed a bug on completion rate computation&#10;&#10;* index.js&#10;// Fixed a bug on displaying the proper forms for the charts">
+      <option name="closed" value="true" />
+      <created>1706336712547</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1706336712547</updated>
+    </task>
+    <task id="LOCAL-00034" summary="* formview.pug&#10;// Added a Form Status on the Submitted Forms Table&#10;&#10;* index.js&#10;// Added a filter on finding filledoutforms that are considered submitted(Returned)&#10;// Added an function that retrieves the count of Approved and Returned Forms&#10;// Fixed a bug - Now Department Heads under the same department as the form with an owner with the same department will now only show in view forms&#10;// Added an algorithm that when one of the three approvers returned a form, the whole status of the form will be set to Returned&#10;// When all approvers Approved a form, the form status will be set to Approved&#10;&#10;* index.pug&#10;// Added a Submission Rate and Approval Rate per form&#10;&#10;* viewforms.pug&#10;// Fixed a bug where no matter who's department, the department head can view the submitted form despite not being the same department as the form owner.">
+      <option name="closed" value="true" />
+      <created>1706346502118</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1706346502118</updated>
+    </task>
+    <task id="LOCAL-00035" summary="* dbinit.js&#10;// Now initializes dropdowns collection&#10;&#10;* formview.pug&#10;// Added a first name and last name of the submitted form to Submitted Form table&#10;&#10;* index.js&#10;// Created new AJAX routes to handle creation of roles and departments&#10;// Renders dropdown positions and departments&#10;// Renders first name and last name of submitted form owner&#10;&#10;* createusers.pug&#10;// Department and Role dropdown no longer hard coded&#10;// Can now create new role and department">
+      <option name="closed" value="true" />
+      <created>1706364783868</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1706364783868</updated>
+    </task>
+    <task id="LOCAL-00036" summary="* DATABASE&#10;// Created new collection for dropdown menu/options">
+      <option name="closed" value="true" />
+      <created>1706364847530</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1706364847530</updated>
+    </task>
+    <task id="LOCAL-00037" summary="* createform.pug and index.js&#10;// Now checks whether form control number exists.">
+      <option name="closed" value="true" />
+      <created>1706365951792</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1706365951792</updated>
+    </task>
+    <task id="LOCAL-00038" summary="* sidebar.pug&#10;// Fixed sidebar restrictions">
+      <option name="closed" value="true" />
+      <created>1706366679042</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1706366679042</updated>
+    </task>
+    <task id="LOCAL-00039" summary="* formview.pug&#10;// White spacing for Dean fixed">
+      <option name="closed" value="true" />
+      <created>1706367230405</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1706367230405</updated>
+    </task>
+    <task id="LOCAL-00040" summary="* formview.pug&#10;// White spacing for Dep Head fixed">
+      <option name="closed" value="true" />
+      <created>1706367373734</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1706367373734</updated>
+    </task>
+    <task id="LOCAL-00041" summary="* index.js&#10;// Files now auto renames based on the current users emp id with an index if multiple file names already exists">
+      <option name="closed" value="true" />
+      <created>1706370302516</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1706370302516</updated>
+    </task>
+    <task id="LOCAL-00042" summary="* formview.pug and index.js&#10;// Approve Button and Return Button disabled after clicking by user in session, with AJAX">
+      <option name="closed" value="true" />
+      <created>1706377558545</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1706377558545</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -67,7 +438,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="*viewformtemplatelayout.pug&#10;//Added anchor handling js" />
-    <option name="LAST_COMMIT_MESSAGE" value="*viewformtemplatelayout.pug&#10;//Added anchor handling js" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="* intellijent.users.json&#10;// Added the necessary users for proper system flow soon" />
+    <MESSAGE value="* createform.pug&#10;// Now shows an alert when form template is created.&#10;&#10;* formview.pug&#10;// Now added the 7 departments in assigning departments to forms&#10;// Now added a feature to return form&#10;// Now renders the initial filledoutform instead of the latest filledoutform&#10;// Created an AJAX function for Returned Forms&#10;// Fixed a bug on updating the status of the form&#10;&#10;* index.js&#10;// SHORTCUT - throws instead the first version of the filled out form instead of the latest filled out form" />
+    <MESSAGE value="* formview.pug&#10;// Fixed update status for Viewing Submitted Forms" />
+    <MESSAGE value="* formview.pug&#10;// Added table view restriction for department heads on submitted forms to limit on what form they should be seeing&#10;// Fixed a bug on updating the status of the form when rendering, approving, and returning forms&#10;&#10;* index.js&#10;// Fixed a bug in rendering the initial template of the form that is causing the crash of the system&#10;// Fixed a bug in approving and returning forms." />
+    <MESSAGE value="* index.js&#10;// Possible fix for back history to properly update table in view form templates, BUT could pose possible draw backs." />
+    <MESSAGE value="* index.js&#10;// Now starting on notification processes, as of now, only the publishing and un-publishing of forms will send a notification&#10;&#10;* sidebar.pug&#10;// Will now show the notifications dedicated to the user only&#10;&#10;* viewformtemplate.pug&#10;// The form name will now be passed to the backend to properly dictate which form is being published or un-published" />
+    <MESSAGE value="* index.js&#10;// Users will also now be notified if they have been assigned to a form or unassigned" />
+    <MESSAGE value="* index.js&#10;// Pages will now refresh instead of using existing cache from the browser.&#10;// Created an AJAX route for retrieving notifications&#10;&#10;* sidebar.pug&#10;// Created an inline script to retrieve user's notifications every 3 seconds" />
+    <MESSAGE value="* sidebar.pug&#10;// Fixed a stupid bug" />
+    <MESSAGE value="* formview.pug&#10;// Re-arranged and added new information on the table for Submitted Forms&#10;&#10;* index.js&#10;// Removed currentUserNotifications variables and multiple routes calling it as there is now a dedicated route for all notifications&#10;// Now makes sure that the receiver of notifications are in an array&#10;// Now added notifications when:&#10;1. A user submits a form&#10;2. When the secretary assigns a department&#10;3. When a form is returned.&#10;4. When a form is approved." />
+    <MESSAGE value="* index.js&#10;// Instead of pushing as an array every individual receiver of notifications will have a separate insertion to the notifications collections&#10;&#10;* sidebar.pug&#10;// Removed the Action button on notifications" />
+    <MESSAGE value="* index.js&#10;// Fixed the bug for showing a form in Shared Forms Table despite being the owner&#10;// Fixed a bug for pushing values in uniqueAssignedUsers&#10;// Created an AJAX route for seen notifications to change the status of Unseen Notifications in the database to Seen&#10;&#10;* sidebar.pug&#10;// Created an indication for seen and unseen notifications&#10;// Fixed a bug where all dropdowns will be activate&#10;// Created a function that will count all unseen notifications&#10;// Created a function that will set the status to all notifications that were seen by the receiver&#10;&#10;!! ISSUES TO FIX&#10;1. Show a number of unseen notifications&#10;2. Limit the height of the notification bar and make it scrollable" />
+    <MESSAGE value="* sidebar.pug&#10;// Number of unseen notifications will now be shown beside the notification tab." />
+    <MESSAGE value="*** ADDED DASHBOARDS TO ALL USERS&#10;*** IMPORTED chart.js SCRIPT" />
+    <MESSAGE value="* index.js&#10;// Fixed a bug where multiple forms on the same form owner and same form will have multiple forms with Submitted Status&#10;!!! CURRENTLY WORKING ON (If a single approval has a returned status, then the form_status will be returned)&#10;&#10;* index.pug&#10;// Fixed labels of some charts&#10;&#10;* sidebar.pug&#10;// Added restrictions to sidebar button managements" />
+    <MESSAGE value="* index.pug&#10;// Fixed a bug on completion rate computation&#10;&#10;* index.js&#10;// Fixed a bug on displaying the proper forms for the charts" />
+    <MESSAGE value="* formview.pug&#10;// Added a Form Status on the Submitted Forms Table&#10;&#10;* index.js&#10;// Added a filter on finding filledoutforms that are considered submitted(Returned)&#10;// Added an function that retrieves the count of Approved and Returned Forms&#10;// Fixed a bug - Now Department Heads under the same department as the form with an owner with the same department will now only show in view forms&#10;// Added an algorithm that when one of the three approvers returned a form, the whole status of the form will be set to Returned&#10;// When all approvers Approved a form, the form status will be set to Approved&#10;&#10;* index.pug&#10;// Added a Submission Rate and Approval Rate per form&#10;&#10;* viewforms.pug&#10;// Fixed a bug where no matter who's department, the department head can view the submitted form despite not being the same department as the form owner." />
+    <MESSAGE value="* dbinit.js&#10;// Now initializes dropdowns collection&#10;&#10;* formview.pug&#10;// Added a first name and last name of the submitted form to Submitted Form table&#10;&#10;* index.js&#10;// Created new AJAX routes to handle creation of roles and departments&#10;// Renders dropdown positions and departments&#10;// Renders first name and last name of submitted form owner&#10;&#10;* createusers.pug&#10;// Department and Role dropdown no longer hard coded&#10;// Can now create new role and department" />
+    <MESSAGE value="* DATABASE&#10;// Created new collection for dropdown menu/options" />
+    <MESSAGE value="* createform.pug and index.js&#10;// Now checks whether form control number exists." />
+    <MESSAGE value="* sidebar.pug&#10;// Fixed sidebar restrictions" />
+    <MESSAGE value="* formview.pug&#10;// White spacing for Dean fixed" />
+    <MESSAGE value="* formview.pug&#10;// White spacing for Dep Head fixed" />
+    <MESSAGE value="* index.js&#10;// Files now auto renames based on the current users emp id with an index if multiple file names already exists" />
+    <MESSAGE value="* formview.pug and index.js&#10;// Approve Button and Return Button disabled after clicking by user in session, with AJAX" />
+    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug and index.js&#10;// Approve Button and Return Button disabled after clicking by user in session, with AJAX" />
   </component>
 </project>
