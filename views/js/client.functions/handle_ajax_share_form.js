@@ -77,7 +77,7 @@ function shareForm(){
                             user.first_name + " " + user.last_name,
                             user.email,
                             "Read Only",
-                            `<a class="full-width-button w3-center all-caps" onclick="removeUser('${user.email}')">Remove</a>`
+                            `<a class="full-width-button w3-center all-caps" onclick="removeSharedUser('${user.email}')">Remove</a>`
                         ];
                         table11.row.add(curLine);
                     });
@@ -88,7 +88,7 @@ function shareForm(){
                             user.first_name + " " + user.last_name,
                             user.email,
                             "Edit",
-                            `<a class="full-width-button w3-center all-caps" onclick="removeUser('${user.email}')">Remove</a>`
+                            `<a class="full-width-button w3-center all-caps" onclick="removeSharedUser('${user.email}')">Remove</a>`
                         ];
                         table11.row.add(curLine);
                     });
