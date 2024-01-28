@@ -328,83 +328,6 @@ transform: scale(1.1);
     border-radius: 15px;
 }
 
-/* --------------- create user form (cass) ---------------- */
-.wrapper .form_container .form_item{
-    text-wrap: wrap;
-  margin-bottom: 40px;
-}
-
-.form_wrap.fullname,
-.form_wrap.select_box{
-margin-bottom: 15px;
-  display: flex;
-}
-
-.form_wrap.fullname .form_item,
-.form_wrap.select_box .form_item{
-  width: 50%;
-}
-
-.form_wrap.fullname .form_item:first-child,
-.form_wrap.select_box .form_item:first-child{
-  margin-right: 1%;
-}
-
-.wrapper .form_container .form_item label{
-text-wrap: wrap;
-  display: block;
-  margin-bottom: 5px;
-}
-
-.form_item input[type="text"],
-.form_item select{
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  font-family: Courier New, monospace;;
-  font-weight:normal;
-  border: 1px solid #dadce0;
-  border-radius: 3px;
-}
-
-.form_item input[type="text"]:focus{
-  border-color: #6271f0;
-}
-
-.btn {
-  background:#121B3B;
-  padding: 10px;
-  width: 100%;
-  font-family: 'Aoboshi One';
-  font-weight:normal;
-  font-size: 16px;
-  letter-spacing: 1px;
-  border-radius: 3px;
-  cursor: pointer;
-  color: #fff;
-}
-
-
-.btnPosition {
-  position: relative;
-  top: 15px;
-
-}
-
-.heading{
-  background: #121B3B;
-  margin: 0px;
-  text-align: center;
-  color: white;
-  font-size: 30px;
-  font-family: 'Aoboshi One';
-  font-weight:normal;
-  letter-spacing: 5px;
-  margin-bottom: 40px;
-  padding: 30px;
-
-
-}
 
 /*---------- LOGIN HOME (cass) ----------*/
 body {
@@ -3010,6 +2933,7 @@ a:hover{color:#000000}
 .w3-topbar{border-top:6px solid #ccc!important}.w3-bottombar{border-bottom:6px solid #ccc!important}
 .w3-leftbar{border-left:6px solid #ccc!important}.w3-rightbar{border-right:6px solid #ccc!important}
 .w3-section,.w3-code{margin-top:16px!important;margin-bottom:16px!important}
+.w3-margin-8{margin:8px!important}
 .w3-margin-small{margin:4px!important}.w3-margin{margin:16px!important}.w3-margin-top{margin-top:16px!important}.w3-margin-bottom{margin-bottom:16px!important}
 .w3-margin-left{margin-left:16px!important}.w3-margin-right{margin-right:16px!important}
 .w3-padding-small{padding:4px 8px!important}.w3-padding{padding:8px 16px!important}.w3-padding-large{padding:12px 24px!important}
@@ -3031,6 +2955,7 @@ a:hover{color:#000000}
 .w3-brown,.w3-hover-brown:hover{color:#fff!important;background-color:#795548!important}
 .w3-cyan,.w3-hover-cyan:hover{color:#000!important;background-color:#00bcd4!important}
 .w3-blue-classic{color:#fff!important;background-color: #121B3B!important}
+.w3-blue-classic:hover{color:#000000!important;background-color: #616161!important}
 .w3-blue-grey,.w3-hover-blue-grey:hover,.w3-blue-gray,.w3-hover-blue-gray:hover{color:#fff!important;background-color:#607d8b!important}
 .w3-green,.w3-hover-green:hover{color:#fff!important;background-color:#4CAF50!important}
 .w3-light-green,.w3-hover-light-green:hover{color:#000!important;background-color:#8bc34a!important}

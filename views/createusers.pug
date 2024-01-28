@@ -15,69 +15,75 @@ block body
             });
         });
 
-    #main.w3-main(style='margin-left:250px')
-        .w3-row.w3-padding-64
+    #main.w3-main(style='margin-left:250px; margin-top: 50px; margin-bottom: 100px;')
+        .w3-row.w3-padding-32
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                .form_container
+                .w3-row
                     h3.w3-bold.w3-margin CREATE A USER
-                    .form_wrap.fullname
-                        .form_item
+                    .w3-half
+                        .w3-row.w3-margin-8
                             label(style='font-family: Courier New, monospace; font-weight:normal;') Email
                             input#email.error(type='text' name='email' required='')
-                        .form_item
-                            label(style='font-family:Courier New, monospace;; font-weight:normal;') Password
-                            input#passWord.error(type='password' name='passWord' required='')
-                    .form_wrap.fullname
-                        .form_item
+                        .w3-row.w3-margin-8
                             label(style='font-family: Courier New, monospace;; font-weight:normal;') First Name
                             input#firstName.error(type='text' name='firstName' required='')
-                        .form_item
-                            label(style='font-family: Courier New, monospace;; font-weight:normal;') Last Name
-                            input#lastName.error(type='text' name='lastName' required='')
-                    .form_wrap.fullname
-                        .form_item
+                        .w3-row.w3-margin-8
                             label(style='font-family:Courier New, monospace;; font-weight:normal;') ID Number
                             input#empId.error(type='text' name='empId' required='')
-                    .form_wrap.fullname
-                        .form_item
+                        .w3-row.w3-margin-8
                             label(for='userLevel' style='font-family: Courier New, monospace;; font-weight:normal;') User Level:
                             select#userLevel(name='userLevel' required='')
                                 option(value='null') Choose Role
                                 each position in positions
                                     option(value=position)= position
-                        .form_item
+                    .w3-half
+                        .w3-row.w3-margin-8
+                            label(style='font-family:Courier New, monospace;; font-weight:normal;') Password
+                            input#passWord.error(type='password' name='passWord' required='')
+                        .w3-row.w3-margin-8
+                            label(style='font-family: Courier New, monospace;; font-weight:normal;') Last Name
+                            input#lastName.error(type='text' name='lastName' required='')
+                        .w3-row.w3-margin-8
+                        .w3-row.w3-margin-8
+                        .w3-row.w3-margin-8
+                        .w3-row.w3-margin-8
+                        .w3-row.w3-margin-8
+                        .w3-row.w3-margin-8
+                        .w3-row.w3-margin-8
+                        .w3-row.w3-margin-8
+                        .w3-row.w3-margin-8
+
+                        .w3-row.w3-margin-8
                             label(for='userDepartment' style='font-family: Courier New, monospace;; font-weight:normal;') User Department:
                             select#userDepartment(name='userDepartment' required='')
                                 option(value='null') Choose Department
                                 each department in departments
                                     option(value=department)= department
 
-                    .btnPosition
-                        button(class='pure-material-button-contained active' onclick='validateUserCreation()') Register
+                    br
+                    .w3-row.w3-margin-8
+                        button.w3-button.w3-blue-classic.w3-row.w3-margin-8.w3-margin-top(onclick='validateUserCreation()') Register
 
 
-        .w3-row.w3-padding-64
-            .w3-half.w3-container2.w3-card
-                .form_container
-                    h3.w3-bold.w3-margin CREATE A NEW POSITION
-                    .form_wrap.fullname
-                        .form_item
+
+            .w3-white.w3-round.w3-margin
+                .w3-half.w3-container2.w3-card
+                        h3.w3-bold.w3-margin CREATE A NEW POSITION
+                        .w3-row
                             label(style='font-family: Courier New, monospace; font-weight:normal;') User Position
                             input#userPosition.error(type='text' name='userPosition' required='')
+                            br
+                            button.w3-button.w3-blue-classic.w3-row.w3-margin-top(onclick='validatePosition()') Create User Position
 
-                    .btnPosition
-                          button(class='pure-material-button-contained active' onclick='validatePosition()') Create User Position
 
-            .w3-half.w3-container2.w3-card
-                .form_container
-                    h3.w3-bold.w3-margin CREATE A NEW DEPARTMENT
-                    .form_wrap.fullname
-                        .form_item
+                .w3-half.w3-container2.w3-card
+                        h3.w3-bold.w3-margin CREATE A NEW DEPARTMENT
+                        .w3-row
                             label(style='font-family: Courier New, monospace; font-weight:normal;') Department name
                             input#newDepartment.error(type='text' name='newDepartment' required='')
 
-                .btnPosition
-                      button(class='pure-material-button-contained active' onclick='validateDepartment()') Create Department
+                            button.w3-button.w3-blue-classic.w3-row.w3-margin-top(onclick='validateDepartment()') Create Department
+
 
         #createUserFailedModal
             #createUserFailedOverLay.dialogoverlay-green
