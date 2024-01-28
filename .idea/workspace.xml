@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c26fa4a0-60df-40f2-a3d6-d708be372682" name="Changes" comment="* formview.pug&#10;// Setting of Due Date AJAX fixed&#10;// Button of Set Due Date will be removed after setting a due date&#10;&#10;* index.js&#10;// Removed the algorithm to stop submission if multiple&#10;&#10;* viewformtemplate.pug&#10;// AJAX of setting status fixed">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewforms.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewforms.pug" afterDir="false" />
+    <list default="true" id="c26fa4a0-60df-40f2-a3d6-d708be372682" name="Changes" comment="+handle_ajax_create_department.pug&#10;//Added department creation modal handling&#10;&#10;+handle_ajax_create_position.pug&#10;//Added position creation modal handling&#10;&#10;*createusers.pug&#10;//removed scripts">
+      <change beforePath="$PROJECT_DIR$/views/createusers.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/createusers.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,11 +35,6 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "git-widget-placeholder": "main"
-  }
-}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -66,7 +58,14 @@
       <option name="project" value="LOCAL" />
       <updated>1706410706828</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="+handle_ajax_create_department.pug&#10;//Added department creation modal handling&#10;&#10;+handle_ajax_create_position.pug&#10;//Added position creation modal handling&#10;&#10;*createusers.pug&#10;//removed scripts">
+      <created>1706438824643</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1706438824643</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -84,6 +83,7 @@
     <MESSAGE value="*viewformtemplatelayout.pug&#10;//Added anchor handling js" />
     <MESSAGE value="*intelidocs.*&#10;//Adjusted layouts" />
     <MESSAGE value="* formview.pug&#10;// Setting of Due Date AJAX fixed&#10;// Button of Set Due Date will be removed after setting a due date&#10;&#10;* index.js&#10;// Removed the algorithm to stop submission if multiple&#10;&#10;* viewformtemplate.pug&#10;// AJAX of setting status fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="* formview.pug&#10;// Setting of Due Date AJAX fixed&#10;// Button of Set Due Date will be removed after setting a due date&#10;&#10;* index.js&#10;// Removed the algorithm to stop submission if multiple&#10;&#10;* viewformtemplate.pug&#10;// AJAX of setting status fixed" />
+    <MESSAGE value="+handle_ajax_create_department.pug&#10;//Added department creation modal handling&#10;&#10;+handle_ajax_create_position.pug&#10;//Added position creation modal handling&#10;&#10;*createusers.pug&#10;//removed scripts" />
+    <option name="LAST_COMMIT_MESSAGE" value="+handle_ajax_create_department.pug&#10;//Added department creation modal handling&#10;&#10;+handle_ajax_create_position.pug&#10;//Added position creation modal handling&#10;&#10;*createusers.pug&#10;//removed scripts" />
   </component>
 </project>
