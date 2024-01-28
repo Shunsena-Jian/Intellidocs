@@ -66,7 +66,7 @@ block body
                             input#userPosition.error(type='text' name='userPosition' required='')
 
                     .btnPosition
-                          button(class='pure-material-button-contained active' onclick='createUserPosition()') Create User Position
+                          button(class='pure-material-button-contained active' onclick='validatePosition()') Create User Position
 
             .w3-half.w3-container2.w3-card
                 .form_container
@@ -77,7 +77,7 @@ block body
                             input#newDepartment.error(type='text' name='newDepartment' required='')
 
                 .btnPosition
-                      button(class='pure-material-button-contained active' onclick='createDepartment()') Create Department
+                      button(class='pure-material-button-contained active' onclick='validateDepartment()') Create Department
 
         #createUserFailedModal
             #createUserFailedOverLay.dialogoverlay-green
@@ -94,10 +94,10 @@ block body
             #createUserSuccessOverLay.dialogoverlay-green
             #createUserSuccessDialogbox.dialogbox.slit-in-vertical
                 #randomDiv
-                    .dialogboxhead-red
+                    .dialogboxhead-green
                         .i.fa.fa-exclamation-circle Success
                     .dialogboxbody
-                        p User created successfully!
+                        p#formValidationSuccessMessage
                 .dialogboxfoot
                     button.pure-material-button-contained.active(onclick=`hideCreateUserSuccessModal()`) Ok
 
@@ -120,54 +120,37 @@ block body
                 .dialogboxfoot2
                     button.pure-material-button-contained.active(onclick=`hideConfirmUserCreationModal()`) Cancel
 
+        #confirmPositionCreationModal
+            #confirmPositionCreationOverLay.dialogoverlay
+            #confirmPositionCreationDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm Position creation
+                    .dialogboxbody
+                        h1 Please confirm the details before saving
+                        p#creationPosition
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`createUserPosition()`) Confirm
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideConfirmPositionCreationModal()`) Cancel
+
+        #confirmDepartmentCreationModal
+            #confirmDepartmentCreationOverLay.dialogoverlay
+            #confirmDepartmentCreationDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm Department creation
+                    .dialogboxbody
+                        h1 Please confirm the details before saving
+                        p#creationDepartment
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`createDepartment()`) Confirm
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideConfirmDepartmentCreationModal()`) Cancel
+
     script(src='js/client.functions/handle_ajax_create_user.js')
-    script.
-        function createUserPosition(){
-            var data = {
-                newPosition: document.getElementById('userPosition').value
-            };
+    script(src='js/client.functions/handle_ajax_create_position.js')
+    script(src='js/client.functions/handle_ajax_create_department.js')
 
-            $.ajax({
-                type: 'PUT',
-                url: '/AJAX_newPosition',
-                data: data,
-                success: function(response){
-                    if(response.status_code === 0){
-                        alert("New position was added.");
-                        window.location.reload();
-                    } else if(response.status_code === 1){
-                        alert("Position already exists.");
-                        window.location.reload();
-                    }
-                },
-                error: function(error){
-                    console.error('AJAX error in creating new position: ' + error);
-                    alert('AJAX error in creating new position: ' + error);
-                }
-            });
-        }
 
-        function createDepartment(){
-            var data = {
-                newDepartment: document.getElementById('newDepartment').value
-            };
 
-            $.ajax({
-                type: 'PUT',
-                url: '/AJAX_newDepartment',
-                data: data,
-                success: function(response){
-                    if(response.status_code === 0){
-                        alert("New department was added.");
-                        window.location.reload();
-                    } else if(response.status_code === 1){
-                        alert("Department already exists.");
-                        window.location.reload();
-                    }
-                },
-                error: function(error){
-                    console.error('AJAX error in creating new position: ' + error);
-                    alert('AJAX error in creating new position: ' + error);
-                }
-            });
-        }

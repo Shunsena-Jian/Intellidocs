@@ -2,6 +2,7 @@ var createUserFailedModal = document.getElementById('createUserFailedModal');
 var createUserFailedOverLay = document.getElementById('createUserFailedOverLay');
 var createUserFailedDialogbox = document.getElementById('createUserFailedDialogbox');
 var formValidationFailedMessage = document.getElementById('formValidationFailedMessage');
+var formValidationSuccessMessage = document.getElementById('formValidationSuccessMessage');
 
 var confirmUserCreationModal = document.getElementById('confirmUserCreationModal');
 var confirmUserCreationOverLay = document.getElementById('confirmUserCreationOverLay');
@@ -19,8 +20,8 @@ var userCreationLevel = document.getElementById('userCreationLevel');
 var userCreationDepartment = document.getElementById('userCreationDepartment');
 
 
-function showCreateUserSuccessModal(errorMessage) {
-    formValidationFailedMessage.innerHTML = errorMessage;
+function showCreateUserSuccessModal(successMessage) {
+    formValidationSuccessMessage.innerHTML = successMessage;
     createUserSuccessModal.style.display = 'block';
 
     createUserSuccessOverLay.style.display = 'block';
@@ -35,6 +36,7 @@ function hideCreateUserSuccessModal(){
     createUserSuccessModal.style.display = 'none';
     createUserSuccessOverLay.style.display = "none";
     createUserSuccessDialogbox.style.display = "none";
+    location.reload();
 }
 
 function showCreateUserFailedModalModal(errorMessage) {
@@ -78,7 +80,6 @@ function hideConfirmUserCreationModal(){
     confirmUserCreationModal.style.display = 'none';
     confirmUserCreationOverLay.style.display = "none";
     confirmUserCreationDialogbox.style.display = "none";
-    location.reload();
 }
 
 function validateUserCreation(){
@@ -129,7 +130,7 @@ function createUser(){
             } else if(response.status_code === 2) {
                 showCreateUserFailedModalModal("User Employee ID already exists!");
             } else if(response.status_code === 0) {
-                showCreateUserSuccessModal();
+                showCreateUserSuccessModal("User created successfully!");
             } else if(response.status_code === 3) {
                 showCreateUserFailedModalModal("Employee must have a Department.");
             }
