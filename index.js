@@ -951,7 +951,6 @@ app.put('/shareform', async function(req, res){
             if (!formData.shareTo) {
                 res.send({status_code : 1});
             } else {
-                console.log("Entered else");
                 if(formData.sharedUserPrivileges == 'Viewer'){
                     const result = await filledoutforms.updateMany(
                         { form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID },
@@ -975,14 +974,12 @@ app.put('/shareform', async function(req, res){
                     let latestWriteUsers = [];
                     let latestReadUsers = [];
                     let latestSharedStatus;
-                    let latestAllowFileUpload;
 
                     for (let i = 0; i < userFormVersions.length; i++) {
                         const version = userFormVersions[i];
                         if (version.user_version >= latestUserVersion) {
                             latestUserVersion = version.user_version;
                             latestSharedStatus = version.shared_status;
-                            latestAllowFileUpload = version.allow_file_upload;
 
                             if (version.read_users) {
                                 latestReadUsers = Array.from(new Set([...latestReadUsers, ...version.read_users]));
@@ -2304,6 +2301,64 @@ app.put('/AJAX_assignDepartment', async function(req, res){
         }catch(error){
             logError('There was an error at AJAX function in assigning the department: ' + error);
             res.send({ status_code : 1 });
+        }
+    }else{
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_removeSharedUser', async function(req, res){
+    if(req.session.loggedIn){
+        try{
+        var formData = req.body;
+        var selectedFormControlNumberToView = req.session.form_control_number;
+
+        if(!formData.userToRemove){
+            res.send({ status_code : 1 });
+        }
+        const userFormVersions = await filledoutforms.find({ form_control_number: selectedFormControlNumberToView, form_owner: req.session.userEmpID }).toArray();
+        let latestUserVersion = 0;
+        let latestWriteUsers = [];
+        let latestReadUsers = [];
+        let latestSharedStatus;
+
+        for (let i = 0; i < userFormVersions.length; i++) {
+            const version = userFormVersions[i];
+            if (version.user_version >= latestUserVersion) {
+                latestUserVersion = version.user_version;
+                if (version.read_users) {
+                    latestReadUsers = Array.from(new Set([...latestReadUsers, ...version.read_users.filter(user => !formData.userToRemove.includes(user))]));
+                }
+                if (version.write_users) {
+                    latestWriteUsers = Array.from(new Set([...latestWriteUsers, ...version.write_users.filter(user => !formData.userToRemove.includes(user))]));
+                }
+            }
+        }
+
+        async function fetchUserDetails(usersList) {
+            const userDetails = [];
+            for (let j = 0; j < usersList.length; j++) {
+                const user = usersList[j];
+                const userDetailsItem = await users.findOne({ email: user });
+                userDetails.push(userDetailsItem);
+            }
+            return userDetails;
+        }
+
+        const sharedReadUsers = await fetchUserDetails(latestReadUsers);
+        const sharedWriteUsers = await fetchUserDetails(latestWriteUsers);
+
+        updateDocument = await filledoutforms.updateMany(
+            { form_control_number: selectedFormControlNumberToView, form_owner: req.session.userEmpID },
+            { $set: { read_users: latestReadUsers, write_users: latestWriteUsers } }
+        );
+
+        res.send({ status_code : 0, latestReadUsers : sharedReadUsers, latestWriteUsers : sharedWriteUsers });
+
+        }catch(error){
+            logError('There was an error at AJAX function in removing shared users: ' + error);
         }
     }else{
         res.render('login', {

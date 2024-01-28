@@ -488,6 +488,64 @@ block body
                                             td
                                                 button.w3-button.w3-block.w3-theme-dark(onclick=`renderPrevSubmittedForm("${prevSubmitForms.form_owner}", "${prevSubmitForms.user_version}")`) View
         script.
+            function removeSharedUser(email){
+                var removeSharedUserMessage = "Are you sure to stop sharing the form to " + email + "?";
+                var result = window.confirm(removeSharedUserMessage);
+
+                if(!result){
+                }else{
+                    var data = {
+                        userToRemove: email
+                    };
+
+                    $.ajax({
+                        type: 'PUT',
+                        url: '/AJAX_removeSharedUser',
+                        data: data,
+                        success: function(response){
+                            if (response.status_code === 1){
+                                alert("Error in removing the user.");
+                            } else if (response.status_code === 0){
+                                alert("You stopped sharing the file to " + email);
+
+                                var updatedReadData = response.latestReadUsers;
+                                console.log(JSON.stringify(response.latestReadUsers));
+                                var updatedWriteData = response.latestWriteUsers;
+                                console.log(JSON.stringify(response.latestWriteUsers));
+
+                                table11.clear().draw();
+
+                                updatedReadData.forEach(function(user) {
+                                    var curLine = [
+                                        user.first_name + " " + user.last_name,
+                                        user.email,
+                                        "Read Only",
+                                        `<a class="full-width-button w3-center all-caps" onclick="removeSharedUser('${user.email}')">Remove</a>`
+                                    ];
+                                    table11.row.add(curLine);
+                                });
+
+                                updatedWriteData.forEach(function(user) {
+                                    var curLine = [
+                                        user.first_name + " " + user.last_name,
+                                        user.email,
+                                        "Edit",
+                                        `<a class="full-width-button w3-center all-caps" onclick="removeSharedUser('${user.email}')">Remove</a>`
+                                    ];
+                                    table11.row.add(curLine);
+                                });
+
+                                table11.draw();
+                            }
+                        },
+                        error: function(error) {
+                            console.log("AJAX Error: " + error);
+                        }
+                    });
+                }
+            }
+
+        script.
             var table7 = $('#previouslySubmittedForms').DataTable();
 
         if (!currentForm.allow_file_upload)

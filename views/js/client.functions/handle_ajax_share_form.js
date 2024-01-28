@@ -62,16 +62,13 @@ function shareForm(){
                     alert("You shared the file to " + selectedEmailToShareTo);
                     hideShareFormModal();
 
-                    // Update the DataTable for both read and write users
                     var updatedReadData = response.latestReadUsers;
                     console.log(JSON.stringify(response.latestReadUsers));
                     var updatedWriteData = response.latestWriteUsers;
                     console.log(JSON.stringify(response.latestWriteUsers));
 
-                    // Clear the table once
                     table11.clear().draw();
 
-                    // Add rows for read users
                     updatedReadData.forEach(function(user) {
                         var curLine = [
                             user.first_name + " " + user.last_name,
@@ -82,7 +79,6 @@ function shareForm(){
                         table11.row.add(curLine);
                     });
 
-                    // Add rows for write users
                     updatedWriteData.forEach(function(user) {
                         var curLine = [
                             user.first_name + " " + user.last_name,
@@ -93,7 +89,6 @@ function shareForm(){
                         table11.row.add(curLine);
                     });
 
-                    // Redraw the table once after adding all rows
                     table11.draw();
                 } else if (response.status_code === 2) {
                     alert("Could not insert shared user.");

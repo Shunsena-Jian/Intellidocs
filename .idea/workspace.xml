@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c26fa4a0-60df-40f2-a3d6-d708be372682" name="Changes" comment="* CONFIG&#10;// disabled debug_mode kasi nakaka inis na&#10;&#10;* formview.pug&#10;// Added a table for Shared Users&#10;&#10;* handle_ajax_share_form.js&#10;// Added an AJAX function that will populate the Shared Users table&#10;&#10;* index.js&#10;// Debugged shareform route&#10;// Removed console.logs">
+    <list default="true" id="c26fa4a0-60df-40f2-a3d6-d708be372682" name="Changes" comment="* handle_ajax_share_form.js&#10;// Fixed remove shared user button - NOT YET FUNCTIONAL">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_share_form.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_share_form.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +74,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706440431724</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="* handle_ajax_share_form.js&#10;// Fixed remove shared user button - NOT YET FUNCTIONAL">
+      <option name="closed" value="true" />
+      <created>1706440497809</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1706440497809</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -91,6 +101,7 @@
     <MESSAGE value="*intelidocs.*&#10;//Adjusted layouts" />
     <MESSAGE value="* formview.pug&#10;// Setting of Due Date AJAX fixed&#10;// Button of Set Due Date will be removed after setting a due date&#10;&#10;* index.js&#10;// Removed the algorithm to stop submission if multiple&#10;&#10;* viewformtemplate.pug&#10;// AJAX of setting status fixed" />
     <MESSAGE value="* CONFIG&#10;// disabled debug_mode kasi nakaka inis na&#10;&#10;* formview.pug&#10;// Added a table for Shared Users&#10;&#10;* handle_ajax_share_form.js&#10;// Added an AJAX function that will populate the Shared Users table&#10;&#10;* index.js&#10;// Debugged shareform route&#10;// Removed console.logs" />
-    <option name="LAST_COMMIT_MESSAGE" value="* CONFIG&#10;// disabled debug_mode kasi nakaka inis na&#10;&#10;* formview.pug&#10;// Added a table for Shared Users&#10;&#10;* handle_ajax_share_form.js&#10;// Added an AJAX function that will populate the Shared Users table&#10;&#10;* index.js&#10;// Debugged shareform route&#10;// Removed console.logs" />
+    <MESSAGE value="* handle_ajax_share_form.js&#10;// Fixed remove shared user button - NOT YET FUNCTIONAL" />
+    <option name="LAST_COMMIT_MESSAGE" value="* handle_ajax_share_form.js&#10;// Fixed remove shared user button - NOT YET FUNCTIONAL" />
   </component>
 </project>
