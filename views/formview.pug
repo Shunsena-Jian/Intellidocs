@@ -3,19 +3,14 @@ extends formviewlayout.pug
 block body
     #main.w3-main(style='margin-left:250px; margin-bottom: 90px;')
         .w3-row.w3-padding-32
-        if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Document Controller" || currentUserDetailsBlock.empID != currentForm.form_owner)
+        if (currentUserDetailsBlock.userLevel === "Department Head" || currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Document Controller" || currentUserDetailsBlock.empID != currentForm.form_owner)
         else
             if (currentUserDetailsBlock.empID == currentForm.form_owner)
                 .w3-container.w3-card.w3-white.w3-round.w3-margin
-                    //.w3-row
-                        //h1.w3-center.w3-bold #{currentForm.form_name}
-
                     .w3-row
-                        //.w3-twothird.w3-container2
                         .w3-threequarter.w3-container2
                             h3.w3-bold Form Details
                             hr
-                            //.w3-third
                             .w3-quarter
                                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                     h4.w3-bold Saved Form Versions
@@ -26,7 +21,7 @@ block body
                                                 option #{version.user_version}
                                     .w3-row
                                         br
-                                        button.w3-button2.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
+                                        button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
                                             i.fa.fa-refresh.fa-fw.w3-margin-right
                                             |   Load Form
                             .w3-quarter
@@ -41,7 +36,7 @@ block body
                                             option(value='Editor') Editor
                                     .w3-row
                                         br
-                                        button.w3-button2.w3-block.w3-theme-dark(onclick='validateShareForm()')
+                                        button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
                                             i.fa.fa-share-alt.fa-fw.w3-margin-right
                                             |   Share
 
@@ -49,28 +44,41 @@ block body
                                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                     h4.w3-bold Shared with
                                     hr
-                                    each sharedReadItem in sharedRead
-                                        h4
-                                            i.fa.fa-eye.fa-fw.w3-margin-right
-                                            |   #{sharedReadItem} - View Only
-                                    each sharedWriteItem in sharedWrite
-                                        h4
-                                            i.fa.fa-eye.fa-fw.w3-margin-right
-                                            |   #{sharedWriteItem} - View & Edit
+                                    table#sharedPeopleTable.display(width='100%')
+                                        thead
+                                            tr
+                                                th Employee Name
+                                                th Employee Email
+                                                th Shared Rights
+                                                th Actions
+                                        tbody
+                                            each read in sharedRead
+                                                tr
+                                                    td #{read.first_name} #{read.last_name}
+                                                    td #{read.email}
+                                                    td Read Only
+                                                    td
+                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`removeSharedUser("${read.email}")`) Remove
+                                            each write in sharedWrite
+                                                tr
+                                                    td #{write.first_name} #{write.last_name}
+                                                    td #{write.email}
+                                                    td Edit
+                                                    td
+                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`removeSharedUser("${write.email}")`) Remove
 
 
-                        //.w3-third.w3-container2
                         .w3-quarter.w3-container2
                             h3.w3-bold Form Settings
                             hr
                             .w3-row
                                 .w3-container.w3-white.w3-round.w3-margin
                                     .w3-row
-                                        button.w3-button2.w3-block.w3-theme-dark(onclick='showSaveFormModal()')
+                                        button.w3-button.w3-block.w3-theme-dark(onclick='showSaveFormModal()')
                                             i.fa.fa-floppy-o.fa-fw.w3-margin-right
                                             |   Save Form
                                         br
-                                        button.w3-button2.w3-block.w3-theme-dark(onclick='submitForm()')
+                                        button#submitButton.w3-button.w3-block.w3-theme-dark(onclick='submitForm()')
                                             i.fas.fa-cloud-upload-alt.w3-margin-right
                                             |   Submit Form
 
@@ -120,19 +128,19 @@ block body
                                                     #deanApproval  Not Approved
 
                         if (currentUserDetailsBlock.userLevel === "Secretary")
-                            if (initialTemplateForm.due_date === null)
+                            if (initialTemplateForm && initialTemplateForm.due_date === null)
                                 .w3-third
                                     .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                         h4.w3-bold Form Settings
                                         .w3-row
-                                            button#toggleActivateFormButton.w3-button2.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
+                                            button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
                                         hr
                                         h4#dueDateH4.w3-bold Due Date
                                         #dueDateContainer.w3-row
                                             input(type="date" id="dueDateInput" name="birthday")
                                         br
                                         #dueDateContainer1.w3-row
-                                            button#dueDateButton.w3-button2.w3-block.w3-theme-dark(onclick='setDueDate()')
+                                            button#dueDateButton.w3-button.w3-block.w3-theme-dark(onclick='setDueDate()')
                                                 i.fa.fa-share-alt.fa-fw.w3-margin-right
                                                 |   Set Due Date
                             else
@@ -140,7 +148,7 @@ block body
                                     .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                         h4.w3-bold Form Settings
                                         .w3-row
-                                            button#toggleActivateFormButton.w3-button2.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
+                                            button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
                                         hr
                                         h4.w3-bold Due Date Set
 
@@ -152,7 +160,7 @@ block body
                                         input(id='assign_user' name='employee_email' placeholder="Employee Email")
                                     br
                                     .w3-row
-                                        button.w3-button2.w3-block.w3-theme-dark(onclick='validateAssignUsers()')
+                                        button.w3-button.w3-block.w3-theme-dark(onclick='validateAssignUsers()')
                                             i.fa.fa-share-alt.fa-fw.w3-margin-right
                                             | Assign Selected User
                                     hr
@@ -169,7 +177,7 @@ block body
                                             option(value='Math') Math Department
                                     br
                                     .w3-row
-                                        button.w3-button2.w3-block.w3-theme-dark(onclick='assignDepartment()')
+                                        button.w3-button2.w3-block.w3-theme-dark(onclick='validateDepartmentAssignment()')
                                             i.fa.fa-share-alt.fa-fw.w3-margin-right
                                             | Assign Selected Department
 
@@ -250,7 +258,7 @@ block body
                                                 td #{assignedUsers.last_name}
                                                 td
                                                     .button-container.w3-row
-                                                    a.full-width-button.w3-center.all-caps(onclick=`removeUser('${assignedUsers.email}')`) Unassign
+                                                    a.full-width-button.w3-center.all-caps(onclick=`bridgeRemoveUserModal('${assignedUsers.email}')`) Unassign
         if (currentUserDetailsBlock.userLevel == "Department Head" || currentUserDetailsBlock.userLevel == "Dean")
             .w3-container.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
@@ -380,8 +388,41 @@ block body
         .w3-row
             .w3-container2.w3-white.w3-round.w3-margin
                 #enginePlaceHolder
-                //#theContainerOfTheForm
 
+        #generalConfirmationModal
+            #generalConfirmationModalOverlay.dialogoverlay
+            #generalConfirmationModalDialogBox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .diaglogboxhead
+                        .i.fa.fa-exclamation-circle Confirmation
+                    .dialogboxbody
+                        p#generalConfirmationModalMessage
+                .dialogboxfoot
+                    button.pure-material-button-contained.active#generalConfirmationModalYes Yes
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideGeneralConfirmationModal()`) No
+
+        #generalErrorModal
+            #generalErrorOverLay.dialogoverlay-green
+            #generalErrorDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead-red
+                        .i.fa.fa-exclamation-circle Error Message
+                    .dialogboxbody
+                        p#generalErrorMessage
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`hideGeneralErrorModal()`) Ok
+
+        #generalSuccessModal
+            #generalSuccessOverLay.dialogoverlay-green
+            #generalSuccessDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead-green
+                        .i.fa.fa-exclamation-circle Success
+                    .dialogboxbody
+                        p#generalSuccessMessage
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`hideGeneralSuccessModal()`) Ok
 
         #saveFormModal
             #saveFormModalOverLay.dialogoverlay
@@ -401,7 +442,7 @@ block body
             #shareFormAlertOverLay.dialogoverlay
             #shareFormAlertDialogbox.dialogbox.slit-in-vertical
                 #randomDiv
-                    .dialogboxhead
+                    .dialogboxhead-red
                         .i.fa.fa-exclamation-circle
                         |   Alert
                     .dialogboxbody
@@ -479,7 +520,62 @@ block body
                                         td
                                             button.w3-button2.w3-block.w3-theme-dark(onclick=`renderPrevSubmittedForm("${prevSubmitForms.form_owner}", "${prevSubmitForms.user_version}")`) View
         script.
-            var table7 = $('#previouslySubmittedForms').DataTable();
+            function removeSharedUser(email){
+                var removeSharedUserMessage = "Are you sure to stop sharing the form to " + email + "?";
+                var result = window.confirm(removeSharedUserMessage);
+
+                if(!result){
+                }else{
+                    var data = {
+                        userToRemove: email
+                    };
+
+                    $.ajax({
+                        type: 'PUT',
+                        url: '/AJAX_removeSharedUser',
+                        data: data,
+                        success: function(response){
+                            if (response.status_code === 1){
+                                alert("Error in removing the user.");
+                            } else if (response.status_code === 0){
+                                alert("You stopped sharing the file to " + email);
+
+                                var updatedReadData = response.latestReadUsers;
+                                console.log(JSON.stringify(response.latestReadUsers));
+                                var updatedWriteData = response.latestWriteUsers;
+                                console.log(JSON.stringify(response.latestWriteUsers));
+
+                                table11.clear().draw();
+
+                                updatedReadData.forEach(function(user) {
+                                    var curLine = [
+                                        user.first_name + " " + user.last_name,
+                                        user.email,
+                                        "Read Only",
+                                        `<a class="full-width-button w3-center all-caps" onclick="removeSharedUser('${user.email}')">Remove</a>`
+                                    ];
+                                    table11.row.add(curLine);
+                                });
+
+                                updatedWriteData.forEach(function(user) {
+                                    var curLine = [
+                                        user.first_name + " " + user.last_name,
+                                        user.email,
+                                        "Edit",
+                                        `<a class="full-width-button w3-center all-caps" onclick="removeSharedUser('${user.email}')">Remove</a>`
+                                    ];
+                                    table11.row.add(curLine);
+                                });
+
+                                table11.draw();
+                            }
+                        },
+                        error: function(error) {
+                            console.log("AJAX Error: " + error);
+                        }
+                    });
+                }
+            }
 
         if (!currentForm.allow_file_upload)
         else
@@ -536,93 +632,6 @@ block body
     script(src="../js/client.functions/handle_ajax_delete.js")
 
     script.
-        function assignDepartment(){
-            var chosenDepartment = document.getElementById('assignDepartment').value;
-            var assignDepartmentMessage = "Are you sure to assign to " + chosenDepartment + " in this form?";
-            var result = window.confirm(assignDepartmentMessage);
-
-            if(!result){
-            }else{
-                var table6 = $('#assignedUserTable').DataTable();
-                var data = {
-                    formName: formBlock.form_name,
-                    formControlNumber: formBlock.form_control_number,
-                    assignedDepartment: chosenDepartment
-                };
-
-                $.ajax({
-                    url: '/AJAX_assignDepartment',
-                    type: 'PUT',
-                    data: data,
-                    success: function(response){
-                        if(response.status_code === 0){
-                            alert("You have assigned " + chosenDepartment + " in this form.");
-                            var updatedData3 = response.allAssignedUsers;
-                            table6.clear().draw();
-
-                            for(e=0; e < updatedData3.length; e++){
-                                var curLine3 = [
-                                    updatedData3[e].email,
-                                    updatedData3[e].emp_id,
-                                    updatedData3[e].user_department,
-                                    updatedData3[e].first_name,
-                                    updatedData3[e].last_name,
-                                    `<a class="full-width-button w3-center all-caps" onclick="removeUser('${updatedData3[e].email}')">Unassign</a>`
-                                ];
-                                table6.row.add(curLine3).draw();
-                            }
-                        }else if(response.status_code === 1){
-                            alert("There was an error in assigning the department.");
-                        }
-                    }
-                });
-            }
-
-        }
-
-    script.
-        function removeUser(unassignUser) {
-            var unassignMessage = "Are you sure to Unassign " + unassignUser +  " in this form.";
-            var result = window.confirm(unassignMessage);
-
-            if(!result){
-            }else{
-                var table4 = $('#assignedUserTable').DataTable();
-                var data = {
-                    formName: currentForm.form_name,
-                    formControlNumber: formBlock.form_control_number
-                };
-
-                $.ajax({
-                    url: `/AJAX_removeUser/${unassignUser}`,
-                    type: 'PUT',
-                    data: data,
-                    success: function(response) {
-                        if(response.status_code === 0){
-                            var updatedData1 = response.allAssignedUsers;
-                            table4.clear().draw();
-
-                            for (var a = 0; a < updatedData1.length; a++) {
-                                var curLine1 = [
-                                    updatedData1[a].email,
-                                    updatedData1[a].emp_id,
-                                    updatedData1[a].user_department,
-                                    updatedData1[a].first_name,
-                                    updatedData1[a].last_name,
-                                    `<a class="full-width-button w3-center all-caps" onclick="removeUser('${updatedData1[a].email}')">Unassign</a>`
-                                ];
-                                table4.row.add(curLine1).draw();
-                            }
-                        }else if(response.status_code === 1){
-                            alert("There was an error in unassigning the user.");
-                        }
-                    }
-                });
-            }
-        }
-
-
-    script.
         var table3 = $('#assignedUserTable').DataTable();
 
         var formBlock = !{JSON.stringify(initialUserForm)};
@@ -634,7 +643,7 @@ block body
         var formControlNumber = formBlock.form_control_number;
 
         enginePlaceHolder.innerHTML = receivedFormContent;
-        //console.log(!{JSON.stringify(currentForm)});
+
 
         $(function() {
             var allEmails = empEmails;
@@ -655,432 +664,26 @@ block body
     script(src='/js/client.functions/handle_ajax_share_form.js')
     script(src='/js/client.functions/handle_ajax_load_version.js')
     script(src='/js/client.form/form_create_view_edit.js')
+    script(src='/js/client.functions/handle_ajax_general_modal.js')
+
+    script(src='/js/client.functions/handle_ajax_approve_submitted_form.js')
+    script(src='/js/client.functions/handle_ajax_assign_department.js')
+    script(src='/js/client.functions/handle_ajax_remove_user.js')
+    script(src='/js/client.functions/handle_ajax_render_prev_submitted_form.js')
+    script(src='/js/client.functions/handle_ajax_render_submitted_form.js')
+    script(src='/js/client.functions/handle_ajax_return_submitted_form.js')
+    script(src='/js/client.functions/handle_ajax_set_due_date.js')
+    script(src='/js/client.functions/handle_ajax_submit_form.js')
+    script(src='/js/client.functions/handle_ajax_toggle_form_status.js')
+    script(src='/js/client.functions/handle_ajax_validate_assigned_users.js')
+
 
     script.
-        function setDueDate(){
-            var dueDateInput = document.getElementById("dueDateInput").value;
-
-            if(dueDateInput == '' || dueDateInput == undefined || dueDateInput == null){
-                alert("You did not set a due date.");
-            }else{
-                var dueDate = new Date(dueDateInput);
-                var monthDue = getQuarter(dueDateInput);
-                var annualDue = getAnnual(dueDateInput);
-                var acadYear = getAcadYear(dueDateInput);
-                var semester = getSemester(dueDateInput);
-
-                var data = {
-                    dueDateInput: dueDateInput,
-                    quarterlyDueDate: monthDue,
-                    annualDueDate: annualDue,
-                    academicYear: acadYear,
-                    semester: semester,
-                    formControlNumber: form_template.form_control_number
-                }
-
-                $.ajax({
-                    type: 'PUT',
-                    url: '/AJAX_setDueDate',
-                    data: data,
-                    success: function(response){
-                        if(response.status_code === 0){
-                            document.getElementById("formDueDateSetting").innerHTML = response.dueDate;
-                            document.getElementById("dueDateH4").innerHTML = 'Due Date Set';
-                            var dueDateContainer = document.getElementById("dueDateContainer");
-                            var dueDateContainer1 = document.getElementById("dueDateContainer1");
-                            dueDateContainer.remove();
-                            dueDateContainer1.remove();
-                            alert("Due date has been set.");
-                        }else if(response.status_code === 1){
-                            alert("Error in setting a due date.");
-                        }else if(response.status_code === 2){
-                            alert("Error in setting a due date.");
-                        }
-                    }
-                });
-            }
-        }
-
-        function getSemester(dueDate){
-            const parts = dueDate.split('-');
-            const month = parseInt(parts[1], 10);
-
-            if(month >= 1 && month <= 5){
-                return '2nd Semester';
-            }else if (month >= 8 && month <= 12){
-                return '1st Semester';
-            }else if (month >= 6 && month <= 7){
-                return 'Short Semester';
-            }else {
-                return 'Invalid Semester';
-            }
-        }
-
-        function getAcadYear(dueDate){
-            const parts = dueDate.split('-');
-            const month = parseInt(parts[1], 10);
-            const year = parseInt(parts[0], 10);
-            var anotherYear;
-
-            if(month >= 1 && month <= 7){
-                anotherYear = year - 1;
-                return anotherYear + ' - ' + year;
-            }else if (month >= 8 && month <= 12){
-                anotherYear = year + 1;
-                return year + '-' + anotherYear;
-            }else {
-                return 'Invalid Academic Year';
-            }
-        }
-
-        function getAnnual(dueDate){
-            const parts = dueDate.split('-');
-            const year = parseInt(parts[0], 10);
-            return year;
-        }
-
-        function getQuarter(dueDate){
-            const parts = dueDate.split('-');
-            const month = parseInt(parts[1], 10);
-
-            if(month >= 1 && month <= 3){
-                return '1st Quarter';
-            }else if (month >= 4 && month <= 6){
-                return '2nd Quarter';
-            }else if (month >= 7 && month <= 9){
-                return '3rd Quarter';
-            }else if (month >= 10 && month <= 12){
-                return '4th Quarter';
-            }else {
-                return 'Invalid Quarterly Due Date';
-            }
-        }
-
-    script.
-        function renderPrevSubmittedForm(formOwner, userVersion){
-            var data = {
-                formOwner: formOwner,
-                userVersion: userVersion,
-                formControlNumber: form_template.form_control_number
-            };
-
-            $.ajax({
-                type: 'PUT',
-                url: '/AJAX_renderPrevSubmittedForm',
-                data: data,
-                success: function(response){
-                    if(response.status_code === 0){
-                        alert("Submitted form of " + formOwner + " will be rendered");
-                        document.getElementById("enginePlaceHolder").innerHTML = response.formContent;
-                        var userApprovals = response.submittedForm;
-
-                        if(userApprovals.secretary_approval == "Approved"){
-                            document.getElementById("secretaryApproval").innerHTML = "Approved";
-                        }else if(userApprovals.secretary_approval == "Returned"){
-                            document.getElementById("secretaryApproval").innerHTML = "Returned";
-                        }else{
-                            document.getElementById("secretaryApproval").innerHTML = "Not Approved";
-                        }
-
-                        if(userApprovals.dean_approval == "Approved"){
-                            document.getElementById("deanApproval").innerHTML = "Approved";
-                        }else if(userApprovals.dean_approval == "Returned"){
-                            document.getElementById("deanApproval").innerHTML = "Returned";
-                        }else{
-                            document.getElementById("deanApproval").innerHTML = "Not Approved";
-                        }
-
-                        if(userApprovals.department_head_approval == "Approved"){
-                            document.getElementById("departmentHeadApproval").innerHTML = "Approved";
-                        }else if(userApprovals.department_head_approval == "Returned"){
-                            document.getElementById("departmentHeadApproval").innerHTML = "Returned";
-                        }else{
-                            document.getElementById("departmentHeadApproval").innerHTML = "Not Approved";
-                        }
-
-                        var table = $('#filesTable').DataTable();
-                        var updatedData = response.currentUserFiles;
-                        table.clear().draw();
-
-                        for(i=0;i<updatedData.length;i++){
-                            console.log("found an object");
-
-                            var curLine = [
-                                updatedData[i].file_name,
-                                updatedData[i].file_size,
-                                updatedData[i].uploadedBy,
-                                updatedData[i].uploadedAt,
-                                `<a class="w3-half w3-hover-white edit-btn" href="/downloadfile/${updatedData[i].file_name}/${updatedData[i].uploadedBy}"><i class="fas fa-download"></i></a>
-                                <a class="w3-half w3-hover-white" onclick="showDeleteModal('${updatedData[i].file_name}','${updatedData[i].uploadedBy}')"><i class="fa fa-times w3-text-theme"></i></a>`
-                            ];
-
-                            table.row.add(curLine).draw();
-                        }
-                    }else if(response.status_code === 1){
-                        alert("Error at rendering form");
-                    }
-                },
-            });
-        }
-
-    script.
-        function renderSubmittedForm(formOwner){
-            var data = {
-                formOwner: formOwner,
-                formControlNumber: form_template.form_control_number
-            };
-
-            $.ajax({
-                type: 'PUT',
-                url: '/AJAX_renderSubmittedForm',
-                data: data,
-                success: function(response){
-                    if(response.status_code === 0){
-                        alert("Submitted form of " + formOwner + " will be rendered");
-                        document.getElementById("enginePlaceHolder").innerHTML = response.formContent;
-                        var userApprovals = response.submittedForm;
-
-                        if(userApprovals.secretary_approval == "Approved"){
-                            document.getElementById("secretaryApproval").innerHTML = "Approved";
-                        }else if(userApprovals.secretary_approval == "Returned"){
-                            document.getElementById("secretaryApproval").innerHTML = "Returned";
-                        }else{
-                            document.getElementById("secretaryApproval").innerHTML = "Not Approved";
-                        }
-
-                        if(userApprovals.dean_approval == "Approved"){
-                            document.getElementById("deanApproval").innerHTML = "Approved";
-                        }else if(userApprovals.dean_approval == "Returned"){
-                            document.getElementById("deanApproval").innerHTML = "Returned";
-                        }else{
-                            document.getElementById("deanApproval").innerHTML = "Not Approved";
-                        }
-
-                        if(userApprovals.department_head_approval == "Approved"){
-                            document.getElementById("departmentHeadApproval").innerHTML = "Approved";
-                        }else if(userApprovals.department_head_approval == "Returned"){
-                            document.getElementById("departmentHeadApproval").innerHTML = "Returned";
-                        }else{
-                            document.getElementById("departmentHeadApproval").innerHTML = "Not Approved";
-                        }
-
-                        var table = $('#filesTable').DataTable();
-                        var updatedData = response.currentUserFiles;
-                        table.clear().draw();
-
-                        for(i=0;i<updatedData.length;i++){
-                            console.log("found an object");
-
-                            var curLine = [
-                                updatedData[i].file_name,
-                                updatedData[i].file_size,
-                                updatedData[i].uploadedBy,
-                                updatedData[i].uploadedAt,
-                                `<a class="w3-half w3-hover-white edit-btn" href="/downloadfile/${updatedData[i].file_name}/${updatedData[i].uploadedBy}"><i class="fas fa-download"></i></a>
-                                <a class="w3-half w3-hover-white" onclick="showDeleteModal('${updatedData[i].file_name}','${updatedData[i].uploadedBy}')"><i class="fa fa-times w3-text-theme"></i></a>`
-                            ];
-
-                            table.row.add(curLine).draw();
-                        }
-                    }else if(response.status_code === 1){
-                        alert("Error at rendering form");
-                    }
-                },
-            });
-        }
-
-    script.
+        var table7 = $('#previouslySubmittedForms').DataTable();
+        var table11 = $('#sharedPeopleTable').DataTable();
         var table10 = $('#submittedFormsTable').DataTable();
-        function returnSubmittedForm(formOwner, formControlNumber){
-            var data = {
-                formOwner: formOwner,
-                formControlNumber: formControlNumber
-            };
-
-            $.ajax({
-                type: 'PUT',
-                url: '/AJAX_returnSubmittedForm',
-                data: data,
-                success: function(response){
-                    if(response.status_code === 0){
-                        var updatedData10 = response.updatedForm1;
-                        table10.clear().draw();
-
-                        for(e=0; e < updatedData10.length; e++){
-                            var approveButton = '';
-                            var returnButton = '';
-                            if (updatedData10[e].secretary_approval === "Approved"){
-                                approveButton = 'Approved';
-                                returnButton = 'Cannot Return';
-                            } else if (updatedData10[e].secretary_approval === "Returned") {
-                                approveButton = 'Cannot Approve';
-                                returnButton = 'Returned';
-                            } else if (updatedData10[e].dean_approval === "Approved"){
-                                approveButton = 'Approved';
-                                returnButton = 'Cannot Return';
-                            } else if (updatedData10[e].dean_approval === "Returned"){
-                                approveButton = 'Cannot Approve';
-                                returnButton = 'Returned';
-                            } else if (updatedData10[e].department_head_approval === "Approved"){
-                                approveButton = 'Approved';
-                                returnButton = 'Cannot Return';
-                            } else if (updatedData10[e].department_head_approval === "Returned"){
-                                approveButton = 'Cannot Approve';
-                                returnButton = 'Returned';
-                            } else {
-                                approveButton = `<button class="w3-button2 w3-block w3-theme-dark" onclick="approveSubmittedForm('${updatedData10[e].form_owner}', '${String(updatedData10[e].form_control_number)}')">Approve Form</button>`;
-                                returnButton = `<button class="w3-button2 w3-block w3-theme-dark" onclick="returnSubmittedForm('${updatedData10[e].form_owner}', '${String(updatedData10[e].form_control_number)}')">Return Form</button>`;
-                            }
-
-                            var curLine10 = [
-                                updatedData10[e].first_name,
-                                updatedData10[e].last_name,
-                                updatedData10[e].form_owner,
-                                updatedData10[e].date_submitted,
-                                updatedData10[e].time_saved,
-                                updatedData10[e].form_status,
-                                `<button class="w3-button2 w3-block w3-theme-dark" onclick="renderSubmittedForm(&quot;${updatedData10.form_owner}&quot;)">View</button>`,
-                                approveButton,
-                                returnButton
-                            ];
-                            table10.row.add(curLine10).draw();
-                        }
-
-                        var secretaryApproval = response.secretary_approval;
-                        var deanApproval = response.dean_approval;
-                        var departmentHeadApproval = response.department_head_approval;
-
-                        if(response.secretary_approval == "Approved"){
-                            document.getElementById("secretaryApproval").innerHTML = "Approved";
-                        }else if(secretaryApproval == "Returned"){
-                            document.getElementById("secretaryApproval").innerHTML = "Returned";
-                        }else{
-                            document.getElementById("secretaryApproval").innerHTML = "Not Approved";
-                        }
-
-                        if(deanApproval == "Approved"){
-                            document.getElementById("deanApproval").innerHTML = "Approved";
-                        }else if(deanApproval == "Returned"){
-                            document.getElementById("deanApproval").innerHTML = "Returned";
-                        }else{
-                            document.getElementById("deanApproval").innerHTML = "Not Approved";
-                        }
-
-                        if(departmentHeadApproval == "Approved"){
-                            document.getElementById("departmentHeadApproval").innerHTML = "Approved";
-                        }else if(departmentHeadApproval == "Returned"){
-                            document.getElementById("departmentHeadApproval").innerHTML = "Returned";
-                        }else{
-                            document.getElementById("departmentHeadApproval").innerHTML = "Not Approved";
-                        }
-
-                        alert("Submitted form was returned.");
-                    } else if (response.status_code === 1){
-                        alert("Error in returning the form.");
-                    } else if (response.status_code === 2){
-                        alert("Error in  returning the form.");
-                    }
-                }
-            });
-        }
-
-    script.
         var table9 = $('#submittedFormsTable').DataTable();
-        function approveSubmittedForm(formOwner, formControlNumber){
-            var data = {
-                formOwner: formOwner,
-                formControlNumber: formControlNumber
-            };
 
-            $.ajax({
-                type: 'PUT',
-                url: '/AJAX_approveSubmittedForm',
-                data: data,
-                success: function(response){
-                    if(response.status_code === 0){
-                        var updatedData9 = response.updatedForm1;
-                        table9.clear().draw();
-
-                        for(e=0; e < updatedData9.length; e++){
-                            var approveButton = '';
-                            var returnButton = '';
-                            if (updatedData9[e].secretary_approval === "Approved"){
-                                approveButton = 'Approved';
-                                returnButton = 'Cannot Return';
-                            } else if (updatedData9[e].secretary_approval === "Returned") {
-                                approveButton = 'Cannot Approve';
-                                returnButton = 'Returned';
-                            } else if (updatedData9[e].dean_approval === "Approved"){
-                                approveButton = 'Approved';
-                                returnButton = 'Cannot Return';
-                            } else if (updatedData9[e].dean_approval === "Returned"){
-                                approveButton = 'Cannot Approve';
-                                returnButton = 'Returned';
-                            } else if (updatedData9[e].department_head_approval === "Approved"){
-                                approveButton = 'Approved';
-                                returnButton = 'Cannot Return';
-                            } else if (updatedData9[e].department_head_approval === "Returned"){
-                                approveButton = 'Cannot Approve';
-                                returnButton = 'Returned';
-                            } else {
-                                approveButton = `<button class="\w3-button2 w3-block w3-theme-dark" onclick="approveSubmittedForm('${updatedData9[e].form_owner}', '${String(updatedData9[e].form_control_number)}')">Approve Form</button>`;
-                                returnButton = `<button class="w3-button2 w3-block w3-theme-dark" onclick="returnSubmittedForm('${updatedData9[e].form_owner}', '${String(updatedData9[e].form_control_number)}')">Return Form</button>`;
-                            }
-                            console.log("This is buttons: " + approveButton + returnButton);
-
-                            var curLine9 = [
-                                updatedData9[e].first_name,
-                                updatedData9[e].last_name,
-                                updatedData9[e].form_owner,
-                                updatedData9[e].date_submitted,
-                                updatedData9[e].time_saved,
-                                updatedData9[e].form_status,
-                                `<button class="w3-button2 w3-block w3-theme-dark" onclick="renderSubmittedForm(&quot;${updatedData9.form_owner}&quot;)">View</button>`,
-                                approveButton,
-                                returnButton
-                            ];
-                            table9.row.add(curLine9).draw();
-                        }
-
-                        var secretaryApproval = response.secretary_approval;
-                        var deanApproval = response.dean_approval;
-                        var departmentHeadApproval = response.department_head_approval;
-
-                        if(secretaryApproval == "Approved"){
-                            document.getElementById("secretaryApproval").innerHTML = "Approved";
-                        }else if(secretaryApproval == "Returned"){
-                            document.getElementById("secretaryApproval").innerHTML = "Returned";
-                        }else{
-                            document.getElementById("secretaryApproval").innerHTML = "Not Approved";
-                        }
-
-                        if(deanApproval == "Approved"){
-                            document.getElementById("deanApproval").innerHTML = "Approved";
-                        }else if(deanApproval == "Returned"){
-                            document.getElementById("deanApproval").innerHTML = "Returned";
-                        }else{
-                            document.getElementById("deanApproval").innerHTML = "Not Approved";
-                        }
-
-                        if(departmentHeadApproval == "Approved"){
-                            document.getElementById("departmentHeadApproval").innerHTML = "Approved";
-                        }else if(departmentHeadApproval == "Returned"){
-                            document.getElementById("departmentHeadApproval").innerHTML = "Returned";
-                        }else{
-                            document.getElementById("departmentHeadApproval").innerHTML = "Not Approved";
-                        }
-
-                        alert("Submitted form was approved.");
-                    }else if(response.status_code === 1){
-                        alert("Error in approving the form.");
-                    }else if(response.status_code === 2){
-                        alert("Error in approving the form.");
-                    }
-                }
-            });
-        }
-
-    script.
         var form_template = !{JSON.stringify(form_template)};
         var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting").innerHTML;
         var toggleActivateFormButton = document.getElementById("toggleActivateFormButton");
@@ -1100,185 +703,3 @@ block body
         }else if(form_template.form_status == "Template"){
             toggleActivateFormButton.innerHTML = "Activate";
         }
-
-        function toggleActivateForm(){
-            var confirmationMessage;
-
-            if(form_template.form_status == "Published"){
-                confirmationMessage = "Are you sure you want to ACTIVATE the form?";
-            }else if(form_template.form_status == "Active"){
-                confirmationMessage = "Are you sure you want to DE-ACTIVATE the form?";
-            }else{
-                confirmationMessage = "Are you sure you want to ACTIVATE the form?";
-            }
-
-            var result = window.confirm(confirmationMessage);
-
-            if(result){
-                if(toggleActivateFormButton.innerHTML == "Activate"){
-                    toggleActivateFormButton.innerHTML = "De-activate";
-                }else{
-                    toggleActivateFormButton.innerHTML = "Activate";
-                }
-                AJAX_toggleActivate();
-            }
-
-
-        }
-
-        function AJAX_toggleActivate(){
-            var toggleActivateFormButton = document.getElementById("toggleActivateFormButton");
-            var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting");
-
-            var data = {
-                formControlNumber: form_template.form_control_number,
-                targetedVersion: form_template.form_version
-            };
-
-            $.ajax({
-                type: 'PUT',
-                url: '/AJAX_toggleActivate',
-                data: data,
-                success: function(response){
-                    if(response.status_code === 0){
-                        if(formDetailsActivateSetting.innerHTML == "Published"){
-                            formDetailsActivateSetting.innerHTML = "Active";
-                        }else if(formDetailsActivateSetting.innerHTML == "Active"){
-                            formDetailsActivateSetting.innerHTML = "In-active";
-                        }else{
-                            formDetailsActivateSetting.innerHTML = "Active";
-                        }
-                    }else if(response.status_code === 1){
-                        alert("Failure did not GRADUATE");
-                    }else if(response.status_code === 2){
-                        alert("Server Failed");
-                    }
-                }
-            });
-        }
-
-        function validateAssignUsers() {
-            selectedUserToAssign = document.getElementById('assign_user').value;
-            var table5 = $('#assignedUserTable').DataTable();
-
-            if (!selectedUserToAssign) {
-                alert("Please enter an email to assign the form to.");
-            } else if (!empEmails.includes(selectedUserToAssign)) {
-                alert("Employee does not exist.");
-            } else {
-                const data = {
-                    formName: currentForm.form_name,
-                    assignedUser: selectedUserToAssign,
-                    formControlNumber: formControlNumber
-                };
-
-                $.ajax({
-                    type: 'PUT',
-                    url: '/AJAX_assignUsers',
-                    data: data,
-                    success: function (response) {
-                        if (response.status_code === 1) {
-                            alert("No user was assigned to the form");
-                        } else if (response.status_code === 0) {
-                            alert("You have assigned " + selectedUserToAssign + " in this form.");
-                            var updatedData2 = response.allAssignedUsers;
-                            table5.clear().draw();
-
-                            for (var b = 0; b < updatedData2.length; b++) {
-                                var curLine2 = [
-                                    updatedData2[b].email,
-                                    updatedData2[b].emp_id,
-                                    updatedData2[b].user_department,
-                                    updatedData2[b].first_name,
-                                    updatedData2[b].last_name,
-                                    `<a class="full-width-button w3-center all-caps" onclick="removeUser('${updatedData2[b].email}')">Unassign</a>`
-                                ];
-                                table5.row.add(curLine2).draw();
-                            }
-                        } else {
-                            alert("Error at AJAX function in assigning users.");
-                        }
-                    },
-                    error: function (error) {
-                        console.log("AJAX Error: " + error);
-                    }
-                });
-            }
-        }
-
-        function submitForm(){
-            var inputFieldValuesJSON = iterateAndGetData();
-            //var formBody = document.getElementById('theContainerOfTheForm').innerHTML;
-            var formBody = document.getElementById('form-content');
-
-            formBody = elementToJson(formBody,inputFieldValuesJSON);
-            getNewKeyID(formBody);
-
-
-            const data = {
-                formName: formBlock.form_name,
-                formContent: formBody
-            };
-
-            $.ajax({
-                type: 'PUT',
-                url: '/submitform',
-                data: data,
-                success: function(response) {
-                    if (response.status_code === 1) {
-                        alert("Error in submitting the form.");
-                    } else if (response.status_code === 0) {
-                        alert("Successfully submitted the form.");
-                        updateDropdownOptions(response.allUserFormVersions);
-                        document.getElementById('form-content').innerHTML = response.initialTemplate;
-                        hideSaveFormModal();
-
-                        var table1 = $('#previouslySubmittedForms').DataTable();
-                        var updatedData1 = response.prevSubmittedForms;
-                        table1.clear().draw();
-
-                        for(z=0; z < updatedData1.length; z++){
-                            var curLine4 = [
-                                updatedData1[z].form_name,
-                                updatedData1[z].form_control_number,
-                                updatedData1[z].time_saved,
-                                updatedData1[z].date_submitted,
-                                updatedData1[z].department_head_approval,
-                                updatedData1[z].secretary_approval,
-                                updatedData1[z].dean_approval,
-                                `<button class="w3-button2 w3-block w3-theme-dark" onclick="renderPrevSubmittedForm('${updatedData1[z].form_owner}', '${updatedData1[z].user_version}')">View</button>`
-                            ];
-                            table1.row.add(curLine4).draw();
-                        }
-
-                    } else {
-                        $('.error-message').text(response.error);
-                    }
-                },
-                error: function(error) {
-                    console.error('AJAX error:', error);
-                }
-            });
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

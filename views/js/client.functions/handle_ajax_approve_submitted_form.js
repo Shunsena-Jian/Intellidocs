@@ -38,7 +38,6 @@ function approveSubmittedForm(formOwner, formControlNumber){
                         approveButton = `<button class="w3-button w3-block w3-theme-dark" onclick="approveSubmittedForm('${updatedData9[e].form_owner}', '${String(updatedData9[e].form_control_number)}')">Approve Form</button>`;
                         returnButton = `<button class="w3-button w3-block w3-theme-dark" onclick="returnSubmittedForm('${updatedData9[e].form_owner}', '${String(updatedData9[e].form_control_number)}')">Return Form</button>`;
                     }
-                    console.log("This is buttons: " + approveButton + returnButton);
 
                     var curLine9 = [
                         updatedData9[e].first_name,
@@ -81,12 +80,11 @@ function approveSubmittedForm(formOwner, formControlNumber){
                 }else{
                     document.getElementById("departmentHeadApproval").innerHTML = "Not Approved";
                 }
-
-                alert("Submitted form was approved.");
+                showGeneralSuccessModal("Submitted form was approved.");
             }else if(response.status_code === 1){
-                alert("Error in approving the form.");
+                showGeneralErrorModal("Error in approving the form.");
             }else if(response.status_code === 2){
-                alert("Error in approving the form.");
+                showGeneralErrorModal("Error in approving the form.");
             }
         }
     });

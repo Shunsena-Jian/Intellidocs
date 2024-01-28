@@ -2,7 +2,7 @@ function setDueDate(){
     var dueDateInput = document.getElementById("dueDateInput").value;
 
     if(dueDateInput == '' || dueDateInput == undefined || dueDateInput == null){
-        alert("You did not set a due date.");
+        showGeneralErrorModal("You did not set a due date.");
     }else{
         var dueDate = new Date(dueDateInput);
         var monthDue = getQuarter(dueDateInput);
@@ -31,11 +31,11 @@ function setDueDate(){
                     var dueDateContainer1 = document.getElementById("dueDateContainer1");
                     dueDateContainer.remove();
                     dueDateContainer1.remove();
-                    alert("Due date has been set.");
+                    showGeneralSuccessModal("Due date has been set.");
                 }else if(response.status_code === 1){
-                    alert("Error in setting a due date.");
+                    showGeneralErrorModal("Error in setting a due date.");
                 }else if(response.status_code === 2){
-                    alert("Error in setting a due date.");
+                    showGeneralErrorModal("Error in setting a due date.");
                 }
             }
         });

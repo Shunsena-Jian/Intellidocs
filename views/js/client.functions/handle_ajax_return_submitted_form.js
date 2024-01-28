@@ -80,12 +80,11 @@ function returnSubmittedForm(formOwner, formControlNumber){
                 }else{
                     document.getElementById("departmentHeadApproval").innerHTML = "Not Approved";
                 }
-
-                alert("Submitted form was returned.");
+                showGeneralSuccessModal("Submitted form was returned.");
             } else if (response.status_code === 1){
-                alert("Error in returning the form.");
+                showGeneralErrorModal("Error in returning the form.");
             } else if (response.status_code === 2){
-                alert("Error in  returning the form.");
+                showGeneralErrorModal("Error in  returning the form.");
             }
         }
     });

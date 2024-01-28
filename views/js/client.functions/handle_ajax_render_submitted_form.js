@@ -12,7 +12,7 @@ function renderSubmittedForm(formOwner){
         data: data,
         success: function(response){
             if(response.status_code === 0){
-                alert("Submitted form of " + formOwner + " will be rendered");
+                showGeneralSuccessModal("Submitted form of " + formOwner + " will be rendered");
                 document.getElementById("enginePlaceHolder").innerHTML = response.formContent;
                 var userApprovals = response.submittedForm;
 
@@ -59,7 +59,7 @@ function renderSubmittedForm(formOwner){
                     table.row.add(curLine).draw();
                 }
             }else if(response.status_code === 1){
-                alert("Error at rendering form");
+                showGeneralErrorModal("Error at rendering form");
             }
         },
     });
