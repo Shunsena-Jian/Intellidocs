@@ -31,6 +31,76 @@ script.
 script(src="js/client.navigation/set_features.js")
 script(src="js/socket.io/socket.io.js")
 script(src="js/client.socket/handle_reconnect.js")
+script.
+    function fetchNotifications() {
+        $.ajax({
+            type: 'GET',
+            url: '/AJAX_retrieveNotifications',
+            success: function(response) {
+                var currentUserNotifications = response.currentUserNotifications;
+                var unseenNotificationCount = 0;
+                var notificationsHtml = '';
+                for (var i = 0; i < currentUserNotifications.length; i++) {
+                    if (currentUserNotifications[i].status === "Unseen") {
+                        unseenNotificationCount++;
+                    }
+                }
+
+                if (currentUserNotifications.length > 0) {
+                    currentUserNotifications.forEach(function(notification) {
+                        if (notification.status == "Unseen"){
+                            notificationsHtml += `
+                                <div class="alert alert-info alert-white rounded">
+                                    <div class="icon">
+                                        <i class="fa fa-info-circle"></i>
+                                    </div>
+                                    <p style="margin-left:50px;">${notification.message}</p>
+                                    <p style="margin-left:50px;">
+                                        <strong>${notification.sender_name}</strong> |
+                                         ${notification.time_sent} | ${notification.date_sent}
+                                    </p>
+                                </div>
+                            `;
+                        } else {
+                            notificationsHtml += `
+                                <div class="alert alert-success alert-white rounded">
+                                    <div class="icon">
+                                        <i class="fa fa-check"></i>
+                                    </div>
+                                    <p style="margin-left:50px;">${notification.message}</p>
+                                    <p style="margin-left:50px;">
+                                        <strong>${notification.sender_name}</strong> |
+                                         ${notification.time_sent} | ${notification.date_sent}
+                                    </p>
+                                </div>
+                            `;
+                        }
+
+                    });
+                } else {
+                    notificationsHtml = `<div class="alert alert-success alert-white rounded">
+                                            <div class="icon">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        <p style="margin-left:50px;"> You have no notifications </p>
+                                        <p style="margin-left:50px;"></p>
+                                        </div>`;
+                }
+                $('#unseenNotificationCount').text(unseenNotificationCount);
+                $('#notifItem').html(notificationsHtml);
+            },
+            error: function(error){
+                alert('Error fetching notifications:', error);
+            }
+        });
+    }
+    fetchNotifications();
+
+    if (!clientConnectionStatus){
+    } else {
+        setInterval(fetchNotifications, 3000);
+    }
+
 script(src="js/client.navigation/handle_idle.js")
 script(src="js/client.navigation/handle_side_bar.js")
 script(src="js/client.functions/handle_ajax_upload.js")
