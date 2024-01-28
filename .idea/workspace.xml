@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="changed hover colors of hompage&#10;changed scroll bar color">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/intellijent.widgets.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/intellijent.widgets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/css/loginPages.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/loginPages.css" afterDir="false" />
+    <list default="true" id="0d48d822-1cf3-4930-8d38-37907e2efe0d" name="Changes" comment="*formview.pug&#10;// fixed the table responsiveness in view form&#10;//fixed the button responsiveness in view form&#10;//fixed text responsiveness in view form&#10;&#10;*loginPages.css&#10;//fixed some responsiveness in the login page&#10;&#10;*w3css4.css&#10;// added new fixes, styles &amp; responsiveness">
       <change beforePath="$PROJECT_DIR$/views/css/w3css4.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/css/w3css4.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/dragbar.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/dragbar.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +78,14 @@
       <option name="project" value="LOCAL" />
       <updated>1706427102685</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="*formview.pug&#10;// fixed the table responsiveness in view form&#10;//fixed the button responsiveness in view form&#10;//fixed text responsiveness in view form&#10;&#10;*loginPages.css&#10;//fixed some responsiveness in the login page&#10;&#10;*w3css4.css&#10;// added new fixes, styles &amp; responsiveness">
+      <created>1706457234676</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1706457234676</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -102,6 +104,7 @@
     <MESSAGE value="*intelidocs.*&#10;//Adjusted layouts" />
     <MESSAGE value="changed hover colors of homepage&#10;changed scroll bar color" />
     <MESSAGE value="changed hover colors of hompage&#10;changed scroll bar color" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed hover colors of hompage&#10;changed scroll bar color" />
+    <MESSAGE value="*formview.pug&#10;// fixed the table responsiveness in view form&#10;//fixed the button responsiveness in view form&#10;//fixed text responsiveness in view form&#10;&#10;*loginPages.css&#10;//fixed some responsiveness in the login page&#10;&#10;*w3css4.css&#10;// added new fixes, styles &amp; responsiveness" />
+    <option name="LAST_COMMIT_MESSAGE" value="*formview.pug&#10;// fixed the table responsiveness in view form&#10;//fixed the button responsiveness in view form&#10;//fixed text responsiveness in view form&#10;&#10;*loginPages.css&#10;//fixed some responsiveness in the login page&#10;&#10;*w3css4.css&#10;// added new fixes, styles &amp; responsiveness" />
   </component>
 </project>
