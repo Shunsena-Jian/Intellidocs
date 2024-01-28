@@ -7,15 +7,10 @@ block body
         else
             if (currentUserDetailsBlock.empID == currentForm.form_owner)
                 .w3-container.w3-card.w3-white.w3-round.w3-margin
-                    //.w3-row
-                        //h1.w3-center.w3-bold #{currentForm.form_name}
-
                     .w3-row
-                        //.w3-twothird.w3-container2
                         .w3-threequarter.w3-container2
                             h3.w3-bold Form Details
                             hr
-                            //.w3-third
                             .w3-quarter
                                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                     h4.w3-bold Saved Form Versions
@@ -58,8 +53,6 @@ block body
                                             i.fa.fa-eye.fa-fw.w3-margin-right
                                             |   #{sharedWriteItem} - View & Edit
 
-
-                        //.w3-third.w3-container2
                         .w3-quarter.w3-container2
                             h3.w3-bold Form Settings
                             hr
@@ -70,7 +63,7 @@ block body
                                             i.fa.fa-floppy-o.fa-fw.w3-margin-right
                                             |   Save Form
                                         br
-                                        button.w3-button.w3-block.w3-theme-dark(onclick='submitForm()')
+                                        button#submitButton.w3-button.w3-block.w3-theme-dark(onclick='submitForm()')
                                             i.fas.fa-cloud-upload-alt.w3-margin-right
                                             |   Submit Form
 
@@ -120,7 +113,7 @@ block body
                                                     #deanApproval  Not Approved
 
                         if (currentUserDetailsBlock.userLevel === "Secretary")
-                            if (initialTemplateForm.due_date === null)
+                            if (initialTemplateForm && initialTemplateForm.due_date === null)
                                 .w3-third
                                     .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                         h4.w3-bold Form Settings
@@ -449,35 +442,36 @@ block body
                 .dialogboxfoot2
                     button.pure-material-button-contained.active(onclick=`hideDeleteModal()`) No
 
-        .w3-container.w3-card.w3-white.w3-round.w3-margin
-            .w3-row
-                .w3-container
-                    h3.w3-bold Previously Submitted Forms
-                    hr
-                    .w3-white.w3-round.w3-margin
-                        table#previouslySubmittedForms.display(width='100%')
-                            thead
-                                tr
-                                    th Form Name
-                                    th Form Control Number
-                                    th Time Submitted
-                                    th Date Submitted
-                                    th Department Head Approval
-                                    th Secretary Approval
-                                    th Dean Approval
-                                    th Action
-                            tbody
-                                each prevSubmitForms in previouslySubmittedForms
+        if (currentUserDetailsBlock.empID == currentForm.form_owner)
+            .w3-container.w3-card.w3-white.w3-round.w3-margin
+                .w3-row
+                    .w3-container
+                        h3.w3-bold Previously Submitted Forms
+                        hr
+                        .w3-white.w3-round.w3-margin
+                            table#previouslySubmittedForms.display(width='100%')
+                                thead
                                     tr
-                                        td #{prevSubmitForms.form_name}
-                                        td #{prevSubmitForms.form_control_number}
-                                        td #{prevSubmitForms.time_saved}
-                                        td #{prevSubmitForms.date_submitted}
-                                        td #{prevSubmitForms.department_head_approval}
-                                        td #{prevSubmitForms.secretary_approval}
-                                        td #{prevSubmitForms.dean_approval}
-                                        td
-                                            button.w3-button.w3-block.w3-theme-dark(onclick=`renderPrevSubmittedForm("${prevSubmitForms.form_owner}", "${prevSubmitForms.user_version}")`) View
+                                        th Form Name
+                                        th Form Control Number
+                                        th Time Submitted
+                                        th Date Submitted
+                                        th Department Head Approval
+                                        th Secretary Approval
+                                        th Dean Approval
+                                        th Action
+                                tbody
+                                    each prevSubmitForms in previouslySubmittedForms
+                                        tr
+                                            td #{prevSubmitForms.form_name}
+                                            td #{prevSubmitForms.form_control_number}
+                                            td #{prevSubmitForms.time_saved}
+                                            td #{prevSubmitForms.date_submitted}
+                                            td #{prevSubmitForms.department_head_approval}
+                                            td #{prevSubmitForms.secretary_approval}
+                                            td #{prevSubmitForms.dean_approval}
+                                            td
+                                                button.w3-button.w3-block.w3-theme-dark(onclick=`renderPrevSubmittedForm("${prevSubmitForms.form_owner}", "${prevSubmitForms.user_version}")`) View
         script.
             var table7 = $('#previouslySubmittedForms').DataTable();
 
@@ -545,8 +539,8 @@ block body
             }else{
                 var table6 = $('#assignedUserTable').DataTable();
                 var data = {
-                    formName: formBlock.form_name,
-                    formControlNumber: formBlock.form_control_number,
+                    formName: currentForm.form_name,
+                    formControlNumber: currentForm.form_control_number,
                     assignedDepartment: chosenDepartment
                 };
 
@@ -590,7 +584,7 @@ block body
                 var table4 = $('#assignedUserTable').DataTable();
                 var data = {
                     formName: currentForm.form_name,
-                    formControlNumber: formBlock.form_control_number
+                    formControlNumber: currentForm.form_control_number
                 };
 
                 $.ajax({
@@ -625,16 +619,15 @@ block body
     script.
         var table3 = $('#assignedUserTable').DataTable();
 
-        var formBlock = !{JSON.stringify(initialUserForm)};
         var currentForm = !{JSON.stringify(currentForm)};
         var empEmails = !{JSON.stringify(retrievedUserEmails)}
-        var receivedFormContent = formBlock.form_content;
+        var receivedFormContent = currentForm.form_content;
 
         var enginePlaceHolder = document.getElementById('enginePlaceHolder');
-        var formControlNumber = formBlock.form_control_number;
+        var formControlNumber = currentForm.form_control_number;
 
         enginePlaceHolder.innerHTML = receivedFormContent;
-        //console.log(!{JSON.stringify(currentForm)});
+
 
         $(function() {
             var allEmails = empEmails;
@@ -941,7 +934,7 @@ block body
                                 updatedData10[e].date_submitted,
                                 updatedData10[e].time_saved,
                                 updatedData10[e].form_status,
-                                `<button class="w3-button w3-block w3-theme-dark" onclick="renderSubmittedForm(&quot;${updatedData10.form_owner}&quot;)">View</button>`,
+                                `<button class="w3-button w3-block w3-theme-dark" onclick="renderSubmittedForm('${updatedData10[e].form_owner}')">View</button>`,
                                 approveButton,
                                 returnButton
                             ];
@@ -1037,7 +1030,7 @@ block body
                                 updatedData9[e].date_submitted,
                                 updatedData9[e].time_saved,
                                 updatedData9[e].form_status,
-                                `<button class="w3-button w3-block w3-theme-dark" onclick="renderSubmittedForm(&quot;${updatedData9.form_owner}&quot;)">View</button>`,
+                                `<button class="w3-button w3-block w3-theme-dark" onclick="renderSubmittedForm('${updatedData9[e].form_owner}')">View</button>`,
                                 approveButton,
                                 returnButton
                             ];
@@ -1216,9 +1209,8 @@ block body
             formBody = elementToJson(formBody,inputFieldValuesJSON);
             getNewKeyID(formBody);
 
-
             const data = {
-                formName: formBlock.form_name,
+                formName: currentForm.form_name,
                 formContent: formBody
             };
 
@@ -1252,7 +1244,6 @@ block body
                             ];
                             table1.row.add(curLine4).draw();
                         }
-
                     } else {
                         $('.error-message').text(response.error);
                     }
