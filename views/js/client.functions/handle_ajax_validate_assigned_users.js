@@ -1,15 +1,25 @@
-function validateAssignUsers() {
-    selectedUserToAssign = document.getElementById('assign_user').value;
+function validateAssignUsers(){
+    if(document.getElementById('assign_user').value == "null" || document.getElementById('assign_user').value === null || document.getElementById('assign_user').value == ""){
+        showGeneralErrorModal("Please assign a user.");
+    }else{
+        bridgeAssignUserModal();
+    }
+}
+
+function bridgeAssignUserModal(){
+    showGeneralConfirmationModal("Are you sure to assign " + document.getElementById('assign_user').value + " to this form?", assignUser);
+}
+
+function assignUser() {
+    hideGeneralConfirmationModal();
     var table5 = $('#assignedUserTable').DataTable();
 
-    if (!selectedUserToAssign) {
-        alert("Please enter an email to assign the form to.");
-    } else if (!empEmails.includes(selectedUserToAssign)) {
-        alert("Employee does not exist.");
+    if (!empEmails.includes(document.getElementById('assign_user').value)) {
+        showGeneralErrorModal("Employee does not exist.");
     } else {
         const data = {
             formName: currentForm.form_name,
-            assignedUser: selectedUserToAssign,
+            assignedUser: document.getElementById('assign_user').value,
             formControlNumber: formControlNumber
         };
 
@@ -19,9 +29,9 @@ function validateAssignUsers() {
             data: data,
             success: function (response) {
                 if (response.status_code === 1) {
-                    alert("No user was assigned to the form");
+                    showGeneralErrorModal("No user was assigned to the form");
                 } else if (response.status_code === 0) {
-                    alert("You have assigned " + selectedUserToAssign + " in this form.");
+                    showGeneralSuccessModal("You have assigned " + document.getElementById('assign_user').value + " in this form.");
                     var updatedData2 = response.allAssignedUsers;
                     table5.clear().draw();
 
@@ -37,7 +47,7 @@ function validateAssignUsers() {
                         table5.row.add(curLine2).draw();
                     }
                 } else {
-                    alert("Error at AJAX function in assigning users.");
+                    showGeneralErrorModal("Error at AJAX function in assigning users.");
                 }
             },
             error: function (error) {
