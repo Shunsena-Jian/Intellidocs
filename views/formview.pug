@@ -11,10 +11,12 @@ block body
                         //h1.w3-center.w3-bold #{currentForm.form_name}
 
                     .w3-row
-                        .w3-twothird.w3-container2
+                        //.w3-twothird.w3-container2
+                        .w3-threequarter.w3-container2
                             h3.w3-bold Form Details
                             hr
-                            .w3-third
+                            //.w3-third
+                            .w3-quarter
                                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                     h4.w3-bold Saved Form Versions
                                     hr
@@ -27,7 +29,7 @@ block body
                                         button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
                                             i.fa.fa-refresh.fa-fw.w3-margin-right
                                             |   Load Form
-                            .w3-third
+                            .w3-quarter
                                 .w3-container.w3-card.w3-white.w3-round.w3-margin
                                     h4.w3-bold Share Document
                                     hr
@@ -43,7 +45,7 @@ block body
                                             i.fa.fa-share-alt.fa-fw.w3-margin-right
                                             |   Share
 
-                            .w3-third
+                            .w3-half
                                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                     h4.w3-bold Shared with
                                     hr
@@ -57,7 +59,8 @@ block body
                                             |   #{sharedWriteItem} - View & Edit
 
 
-                        .w3-third.w3-container2
+                        //.w3-third.w3-container2
+                        .w3-quarter.w3-container2
                             h3.w3-bold Form Settings
                             hr
                             .w3-row
@@ -241,7 +244,8 @@ block body
         if (currentUserDetailsBlock.userLevel == "Department Head" || currentUserDetailsBlock.userLevel == "Dean")
             .w3-container.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
-                    .w3-half.w3-container2
+                    //.w3-half.w3-container2
+                    .w3-third.w3-container2
                         h3.w3-bold User Form Settings
                         hr
                         .w3-half
@@ -283,7 +287,7 @@ block body
                                                 if (!form_template.department_head_approval)
                                                     #deanApproval  Not Approved
 
-                    .w3-half.w3-container2
+                    .w3-twothird.w3-container2
                         h3.w3-bold Submitted Forms
                         hr
                         .w3-container2.w3-card.w3-white.w3-round.w3-margin
