@@ -107,6 +107,17 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   z-index: 10;
 }
 
+.dialogoverlay-green{
+  /*display: none;*/
+  opacity: .8;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background: white;
+  width: 100%;
+  z-index: 10;
+}
+
 .dialogbox{
   display: none;
   position: absolute;
@@ -124,6 +135,55 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
 .dialogbox:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.911);
+}
+
+.dialogbox > div > .dialogboxhead{
+  background: #121B3B;
+  font-size:19px;
+  padding:10px;
+  color:rgb(255, 255, 255);
+  font-family: Verdana, Geneva, Tahoma, sans-serif ;
+}
+
+.dialogbox > div > .dialogboxhead-green{
+  background: #90EE90;
+  font-size:19px;
+  padding:10px;
+  color:rgb(255, 255, 255);
+  font-family: Verdana, Geneva, Tahoma, sans-serif ;
+}
+
+.dialogbox > div > .dialogboxhead-red{
+  background: darkred;
+  font-size:19px;
+  padding:10px;
+  color:rgb(255, 255, 255);
+  font-family: Verdana, Geneva, Tahoma, sans-serif ;
+}
+
+.dialogbox > div > .dialogboxbody{
+  background:white;
+  padding:20px;
+  color:black;
+  font-family: Verdana, Geneva, Tahoma, sans-serif ;
+}
+
+.dialogbox > div > .dialogboxfoot{
+  background: white;
+  padding:10px;
+  text-align:right;
+  position: absolute;
+  top: 113px;
+  left: 0;
+  right:10px;
+
+}
+
+.dialogbox > div > .dialogboxfoot2{
+  background: white;
+  padding:10px;
+  text-align:left;
+
 }
 
 .container {
@@ -238,38 +298,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   margin:8px;
 }
 
-.dialogbox > div > .dialogboxhead{
-  background: #121B3B;
-  font-size:19px;
-  padding:10px;
-  color:rgb(255, 255, 255);
-  font-family: Verdana, Geneva, Tahoma, sans-serif ;
-}
 
-.dialogbox > div > .dialogboxbody{
-  background:white;
-  padding:20px;
-  color:black;
-  font-family: Verdana, Geneva, Tahoma, sans-serif ;
-}
-
-.dialogbox > div > .dialogboxfoot{
-  background: white;
-  padding:10px;
-  text-align:right;
-  position: absolute;
-  top: 113px;
-  left: 0;
-  right:10px;
-
-}
-
-.dialogbox > div > .dialogboxfoot2{
-  background: white;
-  padding:10px;
-  text-align:left;
-
-}
 
 
 /* --------------- shadow effect (cass) ---------------- */

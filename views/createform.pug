@@ -14,7 +14,7 @@ block body
                             br
                             br
                             br
-                            button.w3-button.w3-bold.w3-blue-classic(onclick='saveForm()')
+                            button.w3-button.w3-bold.w3-blue-classic(onclick='validateForm()')
                                 | Save Form
                 br
                 .w3-row.w3-card
@@ -75,55 +75,47 @@ block body
                     .page-container.w3-container.w3-light-grey
                         include dragbar
 
+        #confirmSaveFormModal
+            #confirmSaveFormOverLay.dialogoverlay
+            #confirmSaveFormDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm Form Saving
+                    .dialogboxbody
+                        p Are you sure you want to save this form template with the following details?
+                        p#modalFormName
+                        p#modalFormControlNumber
+                        p Once saved, template may be viewed, edited, and published using the View Form Templates option in the sidebar.
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`saveForm()`) Yes
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideSaveFormModal()`) No
+
+        #formSavedModal
+            #formSavedOverLay.dialogoverlay-green
+            #formSavedDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead-green
+                        .i.fa.fa-exclamation-circle Success
+                    .dialogboxbody
+                        p Form successfully saved. You may now view, edit, or publish the form through the View Form Templates option in the sidebar with the following details:
+                        p#savedModalFormName
+                        p#savedModalFormControlNumber
+                    button.pure-material-button-contained.active(onclick=`hideFormSavedModal()`) Ok
+
+        #formValidationFailedModal
+            #formValidationFailedOverLay.dialogoverlay-green
+            #formValidationFailedDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead-red
+                        .i.fa.fa-exclamation-circle Error
+                    .dialogboxbody
+                        p#formValidationFailedMessage
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`hideFormValidationFailedModal()`) Ok
+
+    script(src='js/client.functions/handle_ajax_save_form.js')
     script(src='js/client.engine/htmlToJson.js')
-    script.
-        function saveForm() {
-            clearSelection(null);
-            //var formBody = document.getElementById('form-content').innerHTML;
-            var formBody = document.getElementById('form-content');
-            var formName = document.getElementById('formName').value;
-            var formControlNumber = document.getElementById('formControlNumber').value;
-
-            var inputFieldValuesJSON = [];
-            formBody = elementToJson(formBody,inputFieldValuesJSON);
-
-            getNewKeyID(formBody);
-
-            if (formBody === null || formBody === "" || formName === null || formName === "" || formControlNumber === null || formControlNumber === "") {
-                alert("Form Body, Form Name, or Form Control Number is empty!");
-            } else {
-                const data = {
-                    name: formName,
-                    formControlNumber: formControlNumber,
-                    formContent: formBody,
-                    formStatus: "Template"
-                };
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/savecreatedform',
-                    contentType: 'application/json',
-                    data: JSON.stringify(data),
-                    success: function (data) {
-                        if (data.success) {
-                            alert("Form is now saved.");
-                            window.location.href = '/';
-                        } else if (data.status_code === 1) {
-                            alert("Form name already exists. Proceed to view form templates to edit the form instead!");
-                            window.location.reload();
-                        } else if(data.status_code === 2){
-                            alert("Form Control Number already exists.");
-                            window.location.reload();
-                        } else {
-                            alert("Error in AJAX function.");
-                        }
-                    },
-                    error: function (error) {
-                        console.error('AJAX error:', error);
-                    }
-                });
-            }
-        }
 
     link(rel='stylesheet' href='hnodettps://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
     link(rel='stylesheet' href='../css/w3css4.css')
