@@ -1292,12 +1292,13 @@ function makeAllReadOnlyRecursive() {
 
         if (userType == "Secretary" || userType === "Department Head" || userType === "Dean")  {
             childElements.forEach(child => {
-                 console.log(child);
-                 if (!(child.classList.contains("signature-image") || child.classList.contains("signature=image-button"))) {
-                 // Set the readonly attribute to the element
-                  child.setAttribute('readonly', true);
+                 if (!(child.classList.contains("signature-image") || child.classList.contains("signature=image-button")
+                       || child.classList.contains("signature-image-input") || child.classList.contains("signature-image-date"))) {
 
+                 // Set the readonly attribute to the element
+                  child.readOnly = true;
                   child.disabled = true;
+
 
                   // Set contentEditable attribute to false
                   child.setAttribute('contentEditable', 'false');
