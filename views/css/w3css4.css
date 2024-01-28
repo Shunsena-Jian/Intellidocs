@@ -2768,6 +2768,18 @@ sup {
     vertical-align: super;
 }
 
+.container {
+  display: flex;
+  align-items: center; /* This centers items vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.vertical-separator {
+  border-left: 4px solid #121B3B; /* Adjust border properties as needed */
+  height: 300px; /* Set height for demonstration */
+  margin: 30px;
+}
+
 /* W3.CSS 4.15 December 2020 by Jan Egil and Borge Refsnes */
 html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}
 /* Extract from normalize.css by Nicolas Gallagher and Jonathan Neal git.io/normalize */
@@ -2823,10 +2835,7 @@ a:hover{color:#000000}
 .w3-btn,.w3-button{border:none; display:inline-block;padding:8px 16px;vertical-align:middle;overflow:hidden;text-decoration:none;color:inherit;background-color:inherit;text-align:center;cursor:pointer;}
 .w3-btn,.w3-button2{border:none; display:inline-block;padding:8px 16px;vertical-align:middle;overflow:hidden;text-decoration:none;color:inherit;background-color:inherit;text-align:center;cursor:pointer; display: block;
                                                                                                                                                                                                               width: 3em;
-                                                                                                                                                                                                              line-height: 2em;
-                                                                                                                                                                                                              padding: 0.2em;
-                                                                                                                                                                                                              margin:0.3em;
-                                                                                                                                                                                                              -webkit-appearance:normal;
+                                                                                                                                                                                              -webkit-appearance:normal;
                                                                                                                                                                                                               word-wrap: break-word;}
 .w3-btn:hover{box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19); color:#000000}
 .w3-btn,.w3-button{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor: pointer;}
@@ -2954,6 +2963,7 @@ a:hover{color:#000000}
 .w3-light-blue,.w3-hover-light-blue:hover{color:#000!important;background-color:#87CEEB!important}
 .w3-brown,.w3-hover-brown:hover{color:#fff!important;background-color:#795548!important}
 .w3-cyan,.w3-hover-cyan:hover{color:#000!important;background-color:#00bcd4!important}
+.w3-blue-classic2{color:#fff!important;background-color: #121B3B!important}
 .w3-blue-classic{color:#fff!important;background-color: #121B3B!important}
 .w3-blue-classic:hover{color:#000000!important;background-color: #616161!important}
 .w3-blue-grey,.w3-hover-blue-grey:hover,.w3-blue-gray,.w3-hover-blue-gray:hover{color:#fff!important;background-color:#607d8b!important}
@@ -2984,6 +2994,7 @@ a:hover{color:#000000}
 .w3-text-amber,.w3-hover-text-amber:hover{color:#ffc107!important}
 .w3-text-aqua,.w3-hover-text-aqua:hover{color:#00ffff!important}
 .w3-text-blue,.w3-hover-text-blue:hover{color:#2196F3!important}
+.w3-text-blue-classic{color:#121B3B!important}
 .w3-text-light-blue,.w3-hover-text-light-blue:hover{color:#87CEEB!important}
 .w3-text-brown,.w3-hover-text-brown:hover{color:#795548!important}
 .w3-text-cyan,.w3-hover-text-cyan:hover{color:#00bcd4!important}

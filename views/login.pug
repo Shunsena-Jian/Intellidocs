@@ -4,6 +4,7 @@ html(style='font-size: 16px;', lang='en')
         meta(name='viewport', content='width=device-width, initial-scale=1.0')
         title IntelliDocs
         link(rel='stylesheet', type='text/css', href='../css/w3css4.css')
+        link(rel='stylesheet', type='text/css', href='../css/w3-theme.css')
         link(rel='stylesheet', type='text/css', href='../css/loginPages.css')
         script.u-script(type='text/javascript', src='../js/loginNavbar.js', defer='')
         link#u-theme-google-font(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i')
@@ -47,38 +48,37 @@ html(style='font-size: 16px;', lang='en')
                       li.u-nav-item
                         a.u-button-style.u-nav-link(href='techSupport') tech support
                 .u-black.u-menu-overlay.u-opacity.u-opacity-70
-        section#carousel_0314.mainFrame.u-clearfix.u-image.home(data-image-width='1889', data-image-height='1080')
-          .u-clearfix.u-sheet.centerHeader
-            .data-layout-selected.rightCell.u-clearfix.u-expanded-width.u-gutter-0.u-layout-wrap.centerBody
-              .u-layout
-                .u-layout-row
-                  .u-container-style.u-layout-cell.u-left-cell.u-size-32.logoImageCell
-                    .u-container-layout.leftContainer
-                      img.samicsLogo.u-image.u-image-1-home(src='../src/slu_logo.png')
-                  .u-align-center.u-container-style.u-layout-cell.u-right-cell.u-size-28.rightContainer
-                    .u-container-layout.rightContainerPadding
-                      .loginBox.u-align-center.u-border-20.u-border-no-left.u-border-no-right.u-border-no-top.u-border-palette-3-base.u-container-style.u-custom-border.u-expanded-width-lg.u-expanded-width-md.u-expanded-width-xl.u-expanded-width-xs.u-group.u-radius-46.u-shape-round.u-white.loginBoxGroup
-                        .u-container-layout.loginBoxContainer
-                          h2.loginText.u-text.u-text-default.u-text-palette-3-base.loginTitle Login
-                          .formBox.u-form.u-login-control.loginForm
-                            form.u-clearfix.u-form-custom-backend.u-form-spacing-10.u-form-vertical.u-inner-form(role='form', source='custom', name='form', style='padding: 0px;', method='post')
-                              .u-form-group.u-form-name
-                                label.u-label.u-text-grey-25.u-label-1(for='username-a30d') Email *
-                                input#username-a30d.u-border-2.u-border-grey-10.u-grey-10.u-input.u-input-rectangle.u-input-1(type='text', placeholder='Enter your email', name='email', required='')
-                              .u-form-group.u-form-password
-                                label.u-label.u-text-grey-25.u-label-2(for='password-a30d') Password *
-                                input#password-a30d.u-border-2.u-border-grey-10.u-grey-10.u-input.u-input-rectangle.u-input-2(type='password', placeholder='Enter your password', name='passWord', required='')
-                              .u-align-left.u-form-group.u-form-submit
-                                a.loginButton.u-border-none.u-btn.u-btn-submit.u-button-style.u-palette-3-base.u-btn-1(href='#') Login
-                                input.u-form-control-hidden(type='submit', value='submit')
-                              input(type='hidden', value='', name='recaptchaResponse')
-                          a.u-border-1.u-border-active-palette-2-base.u-border-hover-palette-2-base.u-border-no-left.u-border-no-right.u-border-no-top.u-btn.u-button-style.u-login-control.u-login-create-account.u-none.u-text-palette-2-base.noAccountTextButton Don&apos;t have an account? Register to the admin.
-        footer#sec-d467.footer.u-align-center.u-clearfix.u-custom-color-1.u-footer.u-footer
-          .u-clearfix.u-sheet.centerHeader
-            p.footerText.u-small-text.u-text.u-text-variant.loginTitle
-              | Team IntelliJent IT Project
-              br
-              |  &copy; 2023 All Rights Reserved
+
+        #main.w3-main(style='margin-left:250px; margin-bottom: 90px; margin-top: 10px;')
+            .w3-col.s5
+                br
+                img.w3-image(src='../src/slu_logo.png')
+
+
+            .w3-col.s5
+                br
+                br
+                br
+                br
+                .w3-padding-16.w3-light-gray.w3-round-xlarge.container.w3-card
+                    .w3-row
+                        h3.w3-bold.w3-center.w3-text-blue-classic LOGIN
+                    hr.vertical-separator
+                    form(role='form', source='custom', name='form', method='post')
+                        .w3-row.w3-padding-large
+                            label(for='username-a30d') Email *
+                                input#username-a30d.w3-input(type='text', placeholder='Enter your email', name='email', required='')
+                        .w3-row.w3-padding-large
+                            label(for='password-a30d') Password *
+                                input#password-a30d.w3-input(type='password', placeholder='Enter your password', name='passWord', required='')
+                        .w3-row.w3-padding-large
+                            input.w3-button.w3-blue-classic.w3-round-large(type='submit', value='LOG IN')
+                //.w3-round-large.w3-padding-16.w3-blue-classic2
+
+        footer#myFooter.w3-bottom.w3-container.w3-theme-l1
+            h5(style='text-align:center;') Team IntelliJent IT Project
+            h6(style='text-align:center;') &copy; 2023 All Rights Reserved
+
         script(type='text/javascript').
           var errorMessage = document.getElementById("errorMSG");
           var receivedError = "";
