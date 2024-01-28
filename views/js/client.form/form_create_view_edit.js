@@ -74,6 +74,7 @@ function handleDragStart(e) {
 
 // Tnitialize current page upon load
 function initializeCurrentPage(){
+    console.log("re-initializing current page");
     var pagesParent = document.getElementById("form-content");
     var pagesChildren = pagesParent.children;
     var countOfPages = 0;
@@ -1291,14 +1292,17 @@ function makeAllReadOnlyRecursive() {
 
         if (userType == "Secretary" || userType === "Department Head" || userType === "Dean")  {
             childElements.forEach(child => {
+                 console.log(child);
+                 if (!(child.classList.contains("signature-image") || child.classList.contains("signature=image-button"))) {
+                 // Set the readonly attribute to the element
+                  child.setAttribute('readonly', true);
 
-             // Set the readonly attribute to the element
-             child.setAttribute('readonly', true);
+                  child.disabled = true;
 
-             child.disabled = true;
+                  // Set contentEditable attribute to false
+                  child.setAttribute('contentEditable', 'false');
+                 }
 
-             // Set contentEditable attribute to false
-             child.setAttribute('contentEditable', 'false');
             });
             return;
         }
