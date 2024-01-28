@@ -233,13 +233,11 @@ block body
                         .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
                             .w3-row
                                 h2 #{form.form_name}
+                                h4.w3-bold.w3-underline Submission Rate
                                 table.form-details
                                     tr
                                         td Submission Rate:
                                         td(id='submissionRate' + form.form_name.replace(/\s+/g, ''))
-                                    tr
-                                        td Approval Rate:
-                                        td(id='approvalRate' + form.form_name.replace(/\s+/g, ''))
                                     tr
                                         if (form.due_date === null || form.due_date === undefined)
                                             td No Due Date
@@ -252,29 +250,107 @@ block body
                                 var formName = '#{form.form_name}';
                                 let userFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('userFormTableCount#{form.form_name.replace(/\s+/g, '')}');
                                 var totalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
-                                var totalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
-                                var totalReturnedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_returned_forms};
-                                var totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_unsubmitted_forms};
                                 var totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
                                 var submissionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
-                                var approvalRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalApprovedForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
 
-                                // Check if the canvas element exists before creating the chart
                                 if (userFormChart#{form.form_name.replace(/\s+/g, '')}) {
                                     new Chart(userFormChart#{form.form_name.replace(/\s+/g, '')}, {
                                         type: 'doughnut',
                                         data: {
-                                            labels: ['Submitted Forms', 'Unfinished Forms', 'Approved Forms', 'Returned Forms'],
+                                            labels: ['Submitted Forms', 'Assigned Users'],
                                             datasets: [{
                                                 label: 'Assigned Users',
-                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}, totalApprovedForms#{form.form_name.replace(/\s+/g, '')}, totalReturnedForms#{form.form_name.replace(/\s+/g, '')}],
+                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}],
+                                                backgroundColor: ['#91E3AD', '#FF8324'],
                                                 hoverOffset: 4
                                             }]
                                         }
                                     });
                                 }
                                 $('#submissionRate#{form.form_name.replace(/\s+/g, '')}').html(`${submissionRate#{form.form_name.replace(/\s+/g, '')}}%`);
+
+                    .w3-third.w3-container
+                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                            .w3-row
+                                h2 #{form.form_name}
+                                h4.w3-bold.w3-underline Approval Rate
+                                table.form-details
+                                    tr
+                                        td Approval Rate:
+                                        td(id='approvalRate' + form.form_name.replace(/\s+/g, ''))
+                                    tr
+                                        if (form.due_date === null || form.due_date === undefined)
+                                            td No Due Date
+                                        else
+                                            td Due Date:
+                                            td #{form.due_date}
+                            hr
+                            canvas(id='secondUserFormTableCount' + form.form_name.replace(/\s+/g, ''))
+                            script.
+                                var formName = '#{form.form_name}';
+                                let secondUserFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('secondUserFormTableCount#{form.form_name.replace(/\s+/g, '')}');
+                                var secondTotalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
+                                var secondTotalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
+                                var secondTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
+                                var approvalRate#{form.form_name.replace(/\s+/g, '')} = (secondTotalApprovedForms#{form.form_name.replace(/\s+/g, '')} / ( secondTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')} - secondTotalSubmitForms#{form.form_name.replace(/\s+/g, '')} )) * 100;
+
+                                if (secondUserFormChart#{form.form_name.replace(/\s+/g, '')}) {
+                                    new Chart(secondUserFormChart#{form.form_name.replace(/\s+/g, '')}, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: ['Submitted Forms', 'Approved Forms', 'Assigned Users'],
+                                            datasets: [{
+                                                label: 'Assigned Users',
+                                                data: [secondTotalSubmitForms#{form.form_name.replace(/\s+/g, '')}, secondTotalApprovedForms#{form.form_name.replace(/\s+/g, '')}, secondTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')}],
+                                                backgroundColor: ['#91E3AD', '#009C9A', '#FF8324'],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+                                }
                                 $('#approvalRate#{form.form_name.replace(/\s+/g, '')}').html(`${approvalRate#{form.form_name.replace(/\s+/g, '')}}%`);
+
+                    .w3-third.w3-container
+                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                            .w3-row
+                                h2 #{form.form_name}
+                                h4.w3-bold.w3-underline Return Rate
+                                table.form-details
+                                    tr
+                                        td Return Rate:
+                                        td(id='returnRate' + form.form_name.replace(/\s+/g, ''))
+                                    tr
+                                        if (form.due_date === null || form.due_date === undefined)
+                                            td No Due Date
+                                        else
+                                            td Due Date:
+                                            td #{form.due_date}
+                            hr
+                            canvas(id='thirdUserFormTableCount' + form.form_name.replace(/\s+/g, ''))
+                            script.
+                                var formName = '#{form.form_name}';
+                                let thirdUserFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('thirdUserFormTableCount#{form.form_name.replace(/\s+/g, '')}');
+                                var thirdTotalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
+                                var thirdTotalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
+                                var totalReturnedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_returned_forms};
+                                var thirdTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
+                                var returnRate#{form.form_name.replace(/\s+/g, '')} = (totalReturnedForms#{form.form_name.replace(/\s+/g, '')} / (thirdTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')} - thirdTotalSubmitForms#{form.form_name.replace(/\s+/g, '')})) * 100;
+
+                                if (thirdUserFormChart#{form.form_name.replace(/\s+/g, '')}) {
+                                    new Chart(thirdUserFormChart#{form.form_name.replace(/\s+/g, '')}, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: ['Returned Forms', 'Submitted Forms', 'Assigned Users'],
+                                            datasets: [{
+                                                label: 'Assigned Users',
+                                                data: [totalReturnedForms#{form.form_name.replace(/\s+/g, '')}, thirdTotalSubmitForms#{form.form_name.replace(/\s+/g, '')}, thirdTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')}],
+                                                backgroundColor: ['#FA2F39', '#91E3AD', '#FF8324'],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+                                }
+                                $('#returnRate#{form.form_name.replace(/\s+/g, '')}').html(`${returnRate#{form.form_name.replace(/\s+/g, '')}}%`);
 
         else if (currentUserDetailsBlock.userLevel === "Dean")
             .w3-row.w3-padding-64
@@ -286,49 +362,124 @@ block body
                         .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
                             .w3-row
                                 h2 #{form.form_name}
+                                h4.w3-bold.w3-underline Submission Rate
                                 table.form-details
                                     tr
                                         td Submission Rate:
-                                        td(id='completionRate' + form.form_name.replace(/\s+/g, ''))
+                                        td(id='submissionRate' + form.form_name.replace(/\s+/g, ''))
                                     tr
-                                        td Approval Rate:
-                                        td(id='approvalRate' + form.form_name.replace(/\s+/g, ''))
-                                    tr
-                                        td Due Date:
-                                        td
-                                            if (form.due_date === null || form.due_date === undefined)
-                                                | N/A
-                                            else
-                                                | #{form.due_date}
+                                        if (form.due_date === null || form.due_date === undefined)
+                                            td No Due Date
+                                        else
+                                            td Due Date:
+                                            td #{form.due_date}
                             hr
                             canvas(id='userFormTableCount' + form.form_name.replace(/\s+/g, ''))
                             script.
                                 var formName = '#{form.form_name}';
                                 let userFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('userFormTableCount#{form.form_name.replace(/\s+/g, '')}');
                                 var totalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
-                                var totalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
-                                var totalReturnedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_returned_forms};
-                                var totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_unsubmitted_forms};
                                 var totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
-                                var completionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
-                                var approvalRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalApprovedForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
+                                var submissionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
 
-                                // Check if the canvas element exists before creating the chart
                                 if (userFormChart#{form.form_name.replace(/\s+/g, '')}) {
                                     new Chart(userFormChart#{form.form_name.replace(/\s+/g, '')}, {
                                         type: 'doughnut',
                                         data: {
-                                            labels: ['Submitted Forms', 'Unfinished Forms', 'Approved Forms', 'Returned Forms'],
+                                            labels: ['Submitted Forms', 'Assigned Users'],
                                             datasets: [{
                                                 label: 'Assigned Users',
-                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}, totalApprovedForms#{form.form_name.replace(/\s+/g, '')}, totalReturnedForms#{form.form_name.replace(/\s+/g, '')}],
+                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}],
+                                                backgroundColor: ['#91E3AD', '#FF8324'],
                                                 hoverOffset: 4
                                             }]
                                         }
                                     });
                                 }
-                                $('#completionRate#{form.form_name.replace(/\s+/g, '')}').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%`);
+                                $('#submissionRate#{form.form_name.replace(/\s+/g, '')}').html(`${submissionRate#{form.form_name.replace(/\s+/g, '')}}%`);
+
+                    .w3-third.w3-container
+                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                            .w3-row
+                                h2 #{form.form_name}
+                                h4.w3-bold.w3-underline Approval Rate
+                                table.form-details
+                                    tr
+                                        td Approval Rate:
+                                        td(id='approvalRate' + form.form_name.replace(/\s+/g, ''))
+                                    tr
+                                        if (form.due_date === null || form.due_date === undefined)
+                                            td No Due Date
+                                        else
+                                            td Due Date:
+                                            td #{form.due_date}
+                            hr
+                            canvas(id='secondUserFormTableCount' + form.form_name.replace(/\s+/g, ''))
+                            script.
+                                var formName = '#{form.form_name}';
+                                let secondUserFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('secondUserFormTableCount#{form.form_name.replace(/\s+/g, '')}');
+                                var secondTotalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
+                                var secondTotalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
+                                var secondTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
+                                var approvalRate#{form.form_name.replace(/\s+/g, '')} = (secondTotalApprovedForms#{form.form_name.replace(/\s+/g, '')} / ( secondTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')} - secondTotalSubmitForms#{form.form_name.replace(/\s+/g, '')} )) * 100;
+
+                                if (secondUserFormChart#{form.form_name.replace(/\s+/g, '')}) {
+                                    new Chart(secondUserFormChart#{form.form_name.replace(/\s+/g, '')}, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: ['Submitted Forms', 'Approved Forms', 'Assigned Users'],
+                                            datasets: [{
+                                                label: 'Assigned Users',
+                                                data: [secondTotalSubmitForms#{form.form_name.replace(/\s+/g, '')}, secondTotalApprovedForms#{form.form_name.replace(/\s+/g, '')}, secondTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')}],
+                                                backgroundColor: ['#91E3AD', '#009C9A', '#FF8324'],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+                                }
                                 $('#approvalRate#{form.form_name.replace(/\s+/g, '')}').html(`${approvalRate#{form.form_name.replace(/\s+/g, '')}}%`);
+
+                    .w3-third.w3-container
+                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                            .w3-row
+                                h2 #{form.form_name}
+                                h4.w3-bold.w3-underline Return Rate
+                                table.form-details
+                                    tr
+                                        td Return Rate:
+                                        td(id='returnRate' + form.form_name.replace(/\s+/g, ''))
+                                    tr
+                                        if (form.due_date === null || form.due_date === undefined)
+                                            td No Due Date
+                                        else
+                                            td Due Date:
+                                            td #{form.due_date}
+                            hr
+                            canvas(id='thirdUserFormTableCount' + form.form_name.replace(/\s+/g, ''))
+                            script.
+                                var formName = '#{form.form_name}';
+                                let thirdUserFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('thirdUserFormTableCount#{form.form_name.replace(/\s+/g, '')}');
+                                var thirdTotalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
+                                var thirdTotalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
+                                var totalReturnedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_returned_forms};
+                                var thirdTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
+                                var returnRate#{form.form_name.replace(/\s+/g, '')} = (totalReturnedForms#{form.form_name.replace(/\s+/g, '')} / (thirdTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')} - thirdTotalSubmitForms#{form.form_name.replace(/\s+/g, '')})) * 100;
+
+                                if (thirdUserFormChart#{form.form_name.replace(/\s+/g, '')}) {
+                                    new Chart(thirdUserFormChart#{form.form_name.replace(/\s+/g, '')}, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: ['Returned Forms', 'Submitted Forms', 'Assigned Users'],
+                                            datasets: [{
+                                                label: 'Assigned Users',
+                                                data: [totalReturnedForms#{form.form_name.replace(/\s+/g, '')}, thirdTotalSubmitForms#{form.form_name.replace(/\s+/g, '')}, thirdTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')}],
+                                                backgroundColor: ['#FA2F39', '#91E3AD', '#FF8324'],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+                                }
+                                $('#returnRate#{form.form_name.replace(/\s+/g, '')}').html(`${returnRate#{form.form_name.replace(/\s+/g, '')}}%`);
 
         else if(currentUserDetailsBlock.userLevel === "Department Head")
             .w3-row.w3-padding-64
@@ -340,49 +491,124 @@ block body
                         .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
                             .w3-row
                                 h2 #{form.form_name}
+                                h4.w3-bold.w3-underline Submission Rate
                                 table.form-details
                                     tr
                                         td Submission Rate:
-                                        td(id='completionRate' + form.form_name.replace(/\s+/g, ''))
+                                        td(id='submissionRate' + form.form_name.replace(/\s+/g, ''))
                                     tr
-                                        td Approval Rate:
-                                        td(id='approvalRate' + form.form_name.replace(/\s+/g, ''))
-                                    tr
-                                        td Due Date:
-                                        td
-                                            if (form.due_date === null || form.due_date === undefined)
-                                                | N/A
-                                            else
-                                                | #{form.due_date}
+                                        if (form.due_date === null || form.due_date === undefined)
+                                            td No Due Date
+                                        else
+                                            td Due Date:
+                                            td #{form.due_date}
                             hr
                             canvas(id='userFormTableCount' + form.form_name.replace(/\s+/g, ''))
                             script.
                                 var formName = '#{form.form_name}';
                                 let userFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('userFormTableCount#{form.form_name.replace(/\s+/g, '')}');
                                 var totalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
-                                var totalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
-                                var totalReturnedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_returned_forms};
-                                var totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_unsubmitted_forms};
                                 var totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
-                                var completionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
-                                var approvalRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalApprovedForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
+                                var submissionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
 
-                                // Check if the canvas element exists before creating the chart
                                 if (userFormChart#{form.form_name.replace(/\s+/g, '')}) {
                                     new Chart(userFormChart#{form.form_name.replace(/\s+/g, '')}, {
                                         type: 'doughnut',
                                         data: {
-                                            labels: ['Submitted Forms', 'Unfinished Forms', 'Approved Forms', 'Returned Forms'],
+                                            labels: ['Submitted Forms', 'Assigned Users'],
                                             datasets: [{
-                                                label: 'Number of Forms',
-                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}, totalApprovedForms#{form.form_name.replace(/\s+/g, '')}, totalReturnedForms#{form.form_name.replace(/\s+/g, '')}],
+                                                label: 'Assigned Users',
+                                                data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}],
+                                                backgroundColor: ['#91E3AD', '#FF8324'],
                                                 hoverOffset: 4
                                             }]
                                         }
                                     });
                                 }
-                                $('#completionRate#{form.form_name.replace(/\s+/g, '')}').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%`);
+                                $('#submissionRate#{form.form_name.replace(/\s+/g, '')}').html(`${submissionRate#{form.form_name.replace(/\s+/g, '')}}%`);
+
+                    .w3-third.w3-container
+                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                            .w3-row
+                                h2 #{form.form_name}
+                                h4.w3-bold.w3-underline Approval Rate
+                                table.form-details
+                                    tr
+                                        td Approval Rate:
+                                        td(id='approvalRate' + form.form_name.replace(/\s+/g, ''))
+                                    tr
+                                        if (form.due_date === null || form.due_date === undefined)
+                                            td No Due Date
+                                        else
+                                            td Due Date:
+                                            td #{form.due_date}
+                            hr
+                            canvas(id='secondUserFormTableCount' + form.form_name.replace(/\s+/g, ''))
+                            script.
+                                var formName = '#{form.form_name}';
+                                let secondUserFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('secondUserFormTableCount#{form.form_name.replace(/\s+/g, '')}');
+                                var secondTotalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
+                                var secondTotalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
+                                var secondTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
+                                var approvalRate#{form.form_name.replace(/\s+/g, '')} = (secondTotalApprovedForms#{form.form_name.replace(/\s+/g, '')} / ( secondTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')} - secondTotalSubmitForms#{form.form_name.replace(/\s+/g, '')} )) * 100;
+
+                                if (secondUserFormChart#{form.form_name.replace(/\s+/g, '')}) {
+                                    new Chart(secondUserFormChart#{form.form_name.replace(/\s+/g, '')}, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: ['Submitted Forms', 'Approved Forms', 'Assigned Users'],
+                                            datasets: [{
+                                                label: 'Assigned Users',
+                                                data: [secondTotalSubmitForms#{form.form_name.replace(/\s+/g, '')}, secondTotalApprovedForms#{form.form_name.replace(/\s+/g, '')}, secondTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')}],
+                                                backgroundColor: ['#91E3AD', '#009C9A', '#FF8324'],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+                                }
                                 $('#approvalRate#{form.form_name.replace(/\s+/g, '')}').html(`${approvalRate#{form.form_name.replace(/\s+/g, '')}}%`);
+
+                    .w3-third.w3-container
+                        .shadowEffect.w3-container.w3-card.w3-white.w3-round.w3-margin.round
+                            .w3-row
+                                h2 #{form.form_name}
+                                h4.w3-bold.w3-underline Return Rate
+                                table.form-details
+                                    tr
+                                        td Return Rate:
+                                        td(id='returnRate' + form.form_name.replace(/\s+/g, ''))
+                                    tr
+                                        if (form.due_date === null || form.due_date === undefined)
+                                            td No Due Date
+                                        else
+                                            td Due Date:
+                                            td #{form.due_date}
+                            hr
+                            canvas(id='thirdUserFormTableCount' + form.form_name.replace(/\s+/g, ''))
+                            script.
+                                var formName = '#{form.form_name}';
+                                let thirdUserFormChart#{form.form_name.replace(/\s+/g, '')} = document.getElementById('thirdUserFormTableCount#{form.form_name.replace(/\s+/g, '')}');
+                                var thirdTotalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
+                                var thirdTotalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
+                                var totalReturnedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_returned_forms};
+                                var thirdTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_users};
+                                var returnRate#{form.form_name.replace(/\s+/g, '')} = (totalReturnedForms#{form.form_name.replace(/\s+/g, '')} / (thirdTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')} - thirdTotalSubmitForms#{form.form_name.replace(/\s+/g, '')})) * 100;
+
+                                if (thirdUserFormChart#{form.form_name.replace(/\s+/g, '')}) {
+                                    new Chart(thirdUserFormChart#{form.form_name.replace(/\s+/g, '')}, {
+                                        type: 'doughnut',
+                                        data: {
+                                            labels: ['Returned Forms', 'Submitted Forms', 'Assigned Users'],
+                                            datasets: [{
+                                                label: 'Assigned Users',
+                                                data: [totalReturnedForms#{form.form_name.replace(/\s+/g, '')}, thirdTotalSubmitForms#{form.form_name.replace(/\s+/g, '')}, thirdTotalAssignedUsers#{form.form_name.replace(/\s+/g, '')}],
+                                                backgroundColor: ['#FA2F39', '#91E3AD', '#FF8324'],
+                                                hoverOffset: 4
+                                            }]
+                                        }
+                                    });
+                                }
+                                $('#returnRate#{form.form_name.replace(/\s+/g, '')}').html(`${returnRate#{form.form_name.replace(/\s+/g, '')}}%`);
 
         else if(currentUserDetailsBlock.userLevel === "Faculty")
             .w3-row.w3-padding-64
@@ -397,10 +623,13 @@ block body
                                 table.form-details
                                     tr
                                         td Submission Rate:
-                                        td#completionRate
+                                        td(id='submissionRate' + form.form_name.replace(/\s+/g, ''))
                                     tr
                                         td Approval Rate:
                                         td(id='approvalRate' + form.form_name.replace(/\s+/g, ''))
+                                    tr
+                                        td Return Rate:
+                                        td(id='returnRate' + form.form_name.replace(/\s+/g, ''))
                                 hr
                                 canvas(id='userFormTableCount' + form.form_name.replace(/\s+/g, ''))
                                 script.
@@ -408,20 +637,19 @@ block body
                                     var totalSubmitForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_submitted_forms};
                                     var totalApprovedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_approved_forms};
                                     var totalReturnedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_returned_forms};
-                                    var totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_unsubmitted_forms};
-                                    var totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_forms};
-                                    var completionRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
-                                    var approvalRate#{form.form_name.replace(/\s+/g, '')} = (totalAssignedUsers#{form.form_name.replace(/\s+/g, '')} === 0) ? 0 : (totalApprovedForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedUsers#{form.form_name.replace(/\s+/g, '')}) * 100;
+                                    var totalAssignedForms#{form.form_name.replace(/\s+/g, '')} = #{form.total_assigned_forms};
+                                    var submissionRate#{form.form_name.replace(/\s+/g, '')} = (totalSubmitForms#{form.form_name.replace(/\s+/g, '')} / totalAssignedForms#{form.form_name.replace(/\s+/g, '')}) * 100;
+                                    var approvalRate#{form.form_name.replace(/\s+/g, '')} = (totalApprovedForms#{form.form_name.replace(/\s+/g, '')} / ( totalAssignedForms#{form.form_name.replace(/\s+/g, '')} - totalSubmitForms#{form.form_name.replace(/\s+/g, '')} )) * 100;
+                                    var returnRate#{form.form_name.replace(/\s+/g, '')} = (totalReturnedForms#{form.form_name.replace(/\s+/g, '')} / ( totalAssignedForms#{form.form_name.replace(/\s+/g, '')} - totalSubmitForms#{form.form_name.replace(/\s+/g, '')} )) * 100;
 
-                                    // Check if the canvas element exists before creating the chart
                                     if (userFormChart#{form.form_name.replace(/\s+/g, '')}) {
                                         new Chart(userFormChart#{form.form_name.replace(/\s+/g, '')}, {
                                             type: 'bar',
                                             data: {
-                                                labels: ['Submitted Forms', 'Unfinished Forms', 'Approved Forms', 'Returned Forms'],
+                                                labels: ['Submitted Forms', 'Assigned Forms', 'Approved Forms', 'Returned Forms'],
                                                 datasets: [{
                                                     label: 'Number of Forms',
-                                                    data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalUnsubmittedForms#{form.form_name.replace(/\s+/g, '')}, totalApprovedForms#{form.form_name.replace(/\s+/g, '')}, totalReturnedForms#{form.form_name.replace(/\s+/g, '')}],
+                                                    data: [totalSubmitForms#{form.form_name.replace(/\s+/g, '')}, totalAssignedForms#{form.form_name.replace(/\s+/g, '')}, totalApprovedForms#{form.form_name.replace(/\s+/g, '')}, totalReturnedForms#{form.form_name.replace(/\s+/g, '')}],
                                                     borderWidth: 2
                                                 }]
                                             },
@@ -438,8 +666,9 @@ block body
                                             }
                                         });
                                     }
-                                    $('#completionRate').html(`${completionRate#{form.form_name.replace(/\s+/g, '')}}%`);
+                                    $('#submissionRate#{form.form_name.replace(/\s+/g, '')}').html(`${submissionRate#{form.form_name.replace(/\s+/g, '')}}%`);
                                     $('#approvalRate#{form.form_name.replace(/\s+/g, '')}').html(`${approvalRate#{form.form_name.replace(/\s+/g, '')}}%`);
+                                    $('#returnRate#{form.form_name.replace(/\s+/g, '')}').html(`${returnRate#{form.form_name.replace(/\s+/g, '')}}%`);
 
     script.
         var finalForms = !{JSON.stringify(finalForms)};
