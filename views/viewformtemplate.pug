@@ -12,8 +12,6 @@ block body
                     .w3-twothird.w3-container2
                         h2 Form Details
                         hr
-
-
                         .w3-half
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h3 Form Settings
@@ -39,7 +37,7 @@ block body
                                                 p#formDetailsUploadSetting Allowed
                                             else
                                                 p#formDetailsUploadSetting Not Allowed
-                            //WHOEVER IS READING THIS -- THIS SECTION IS CURRENTLY UNDER DEVELOPMENT WHICH IS WHY IT IS HERE ATM. MOVE IT AND FACE THE WRATH OF DENMARK
+
                             script.
                                 function dropDownUpdateCanvas(formControlNumber){
                                     var versionChoice = document.getElementById("versionDropDown").value;
@@ -55,14 +53,11 @@ block body
                                         data: data,
                                         success: function(response) {
                                             if (response.status_code === 0) {
-                                                // modal success
-                                                alert("Rendering the Chosen Version");
+                                                showGeneralSuccessModal("Rendering the Chosen Version");
                                                 document.getElementById("enginePlaceHolder").innerHTML = response.formContent;
                                                 var formStatus = response.formStatus;
                                                 var sharedStatus = response.sharedStatus;
                                                 document.getElementById("settingsVersion").innerHTML = "Version : " + response.formVersion;
-
-
                                                 if(sharedStatus == true){
                                                     document.getElementById("formDetailsSharingSetting").innerHTML = "Allowed";
                                                 } else {
@@ -77,17 +72,19 @@ block body
                                                     document.getElementById("togglePublishButton").innerHTML = "Un-publish Form";
                                                 }
                                             } else if (response.status_code === 1){
-                                                // modal error
-                                                alert("Error in Viewing Chosen Version");
+                                                showGeneralErrorModal("Error in Viewing Chosen Version");
                                             } else {
-                                                // modal error
-                                                alert("AJAX Error");
+                                                showGeneralErrorModal("AJAX Error");
                                             }
                                         },
                                         error: function(error){
                                             console.error('AJAX Error: ', error);
                                         }
                                     });
+                                }
+
+                                function bridgeToggleSharing(generalModalMessage){
+                                    showGeneralConfirmationModal(generalModalMessage, AJAX_shareStatus);
                                 }
 
                                 function toggleSharing(){
@@ -100,14 +97,11 @@ block body
                                         confirmationMessage = "Are you sure to ENABLE sharing of this form?";
                                     }
 
-                                    var result = window.confirm(confirmationMessage);
-
-                                    if(result){
-                                        AJAX_shareStatus();
-                                    }
+                                    bridgeToggleSharing(confirmationMessage);
                                 }
 
                                 function AJAX_shareStatus(){
+                                    hideGeneralConfirmationModal();
                                     var toggleSharingButton = document.getElementById("toggleSharingButton");
                                     var formDetailsSharingSetting = document.getElementById("formDetailsSharingSetting");
 
@@ -121,7 +115,6 @@ block body
                                         data: data,
                                         success: function(response) {
                                             if(response.status_code === 0) {
-                                                // modal success
                                                 updatedStatus = response.updatedStatus;
                                                 if(updatedStatus == "Allowed"){
                                                     toggleSharingButton.innerHTML = "Disable Form Sharing";
@@ -131,8 +124,7 @@ block body
                                                     formDetailsSharingSetting.innerHTML = "Not Allowed";
                                                 }
                                             } else if(response.status_code === 1) {
-                                                // modal error
-                                                alert("There was an error updating the status");
+                                                showGeneralErrorModal("There was an error updating the status");
                                             } else {
                                                 alert(response.error);
                                             }
@@ -141,6 +133,10 @@ block body
                                             console.error('AJAX Error: ' + error);
                                         }
                                     });
+                                }
+
+                                function bridgeTogglePublish(confirmationMessage){
+                                    showGeneralConfirmationModal(confirmationMessage, AJAX_togglePublish);
                                 }
 
                                 function togglePublish(){
@@ -152,12 +148,11 @@ block body
                                     }else{
                                         confirmationMessage = "Are you sure you want to publish this form?";
                                     }
+                                    bridgeTogglePublish(confirmationMessage);
+                                }
 
-                                    var result = window.confirm(confirmationMessage);
-
-                                    if(result){
-                                        AJAX_togglePublish();
-                                    }
+                                function bridgeToggleFileUpload(confirmationMessage){
+                                    showGeneralConfirmationModal(confirmationMessage, AJAX_toggleFileUpload);
                                 }
 
                                 function toggleAllowFileUpload(){
@@ -169,15 +164,11 @@ block body
                                     } else {
                                         confirmationMessage = "Are you sure you want to ALLOW file uploading in this form?";
                                     }
-
-                                    var result = window.confirm(confirmationMessage);
-
-                                    if(result) {
-                                        AJAX_toggleFileUpload();
-                                    }
+                                    bridgeToggleFileUpload(confirmationMessage);
                                 }
 
                                 function AJAX_toggleFileUpload(){
+                                    hideGeneralConfirmationModal();
                                     var toggleFileUploadButton = document.getElementById("toggleFileUploadButton");
                                     var formDetailsUploadSetting = document.getElementById("formDetailsUploadSetting");
 
@@ -214,6 +205,7 @@ block body
                                 }
 
                                 function AJAX_togglePublish(){
+                                    hideGeneralConfirmationModal();
                                     var togglePublishButton = document.getElementById("togglePublishButton");
                                     var formDetailsStatusSetting = document.getElementById("formDetailsStatusSetting");
                                     var versionChoice = document.getElementById("versionDropDown").value;
@@ -356,26 +348,57 @@ block body
             .w3-row.w3-container
                 .w3-twothird.w3-container
                     #enginePlaceHolder
-                    //#form-content.pages
-
 
                 .w3-third
                     .page-container.w3-container.w3-white
-                        //LEI -- REFER TO createform_draggable_content FOR FUTURE REVISIONS
                         include dragbar
 
+        #generalConfirmationModal
+            #generalConfirmationModalOverlay.dialogoverlay
+            #generalConfirmationModalDialogBox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .diaglogboxhead
+                        .i.fa.fa-exclamation-circle Confirmation
+                    .dialogboxbody
+                        p#generalConfirmationModalMessage
+                .dialogboxfoot
+                    button.pure-material-button-contained.active#generalConfirmationModalYes Yes
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideGeneralConfirmationModal()`) No
+
+        #generalErrorModal
+            #generalErrorOverLay.dialogoverlay-green
+            #generalErrorDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead-red
+                        .i.fa.fa-exclamation-circle Error Message
+                    .dialogboxbody
+                        p#generalErrorMessage
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`hideGeneralErrorModal()`) Ok
+
+        #generalSuccessModal
+            #generalSuccessOverLay.dialogoverlay-green
+            #generalSuccessDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead-green
+                        .i.fa.fa-exclamation-circle Success
+                    .dialogboxbody
+                        p#generalSuccessMessage
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`hideGeneralSuccessModal()`) Ok
+
     script(src='../js/client.engine/htmlToJson.js')
+    script(src='../js/client.functions/handle_ajax_general_modal.js')
     script.
         function saveForm(){
             var inputFieldValuesJSON = iterateAndGetData();
-            //var formBody = document.getElementById('form-content').innerHTML;
             var formBody = document.getElementById('form-content');
 
             formBody = elementToJson(formBody,inputFieldValuesJSON);
             getNewKeyID(formBody);
 
             var formName = document.getElementById('formName').value;
-            // var formControlNumber = document.getElementById('formControlNumber').value;
             var formControlNumber = `#{currentForm.form_control_number}`;
             var sharedStatus = document.getElementById('formDetailsSharingSetting').innerHTML;
             var fileUploadStatus = document.getElementById('formDetailsUploadSetting').innerHTML;
@@ -412,11 +435,12 @@ block body
                 data: JSON.stringify(data),
                 success: function (data) {
                     if (data.success) {
+                        showGeneralSuccessModal("Form Successfully Saved!");
                         window.location.href = '/';
                     } else if (data.status_code === 1) {
-                        alert("Form name already exists. Proceed to view form templates to edit the form instead!");
+                        showGeneralErrorModal("Form name already exists. Proceed to view form templates to edit the form instead!");
                     } else {
-                        alert("Error in AJAX function.");
+                        showGeneralErrorModal("Error in AJAX function.");
                     }
                 },
                 error: function (error) {
@@ -425,15 +449,11 @@ block body
             });
         }
 
-        //end of play playground
-
     script.
         // Not working, to be debugged
         function restrictCheckBoxSelection() {
         const checkboxes = document.querySelectorAll('input[name="academicStatus"]');
         console.log(checkboxes);
-            console
-            // Add a change event listener to each checkbox
             checkboxes.forEach((checkbox) => {
                 checkbox.addEventListener('change', function () {
                     // Uncheck all other checkboxes in the group
@@ -477,7 +497,6 @@ block body
     script(src='https://code.jquery.com/jquery-1.12.4.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js')
     script(src='https://html2canvas.hertzen.com/dist/html2canvas.js')
-    //script(src='../js/viewform.js')
     script(src='/js/client.form/form_create_view_edit.js')
 
 
