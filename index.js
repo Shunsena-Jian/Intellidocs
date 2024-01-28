@@ -754,7 +754,8 @@ app.get('/sharedview', async function (req, res){
             currentUserPrivileges: currentUserPrivileges,
             currentForm: jsonObject,
             currentUserPicture: currentUserPicture,
-            min_idleTime: min_idleTime
+            min_idleTime: min_idleTime,
+            userCurrentPage: "sharedview"
         });
 
     }else{
@@ -1003,9 +1004,6 @@ app.put('/shareform', async function(req, res){
 
                     const sharedReadUsers = await fetchUserDetails(latestReadUsers);
                     const sharedWriteUsers = await fetchUserDetails(latestWriteUsers);
-
-                    console.log("These are read: " + JSON.stringify(sharedReadUsers));
-                    console.log("These are write: " + JSON.stringify(sharedWriteUsers));
 
                     res.send({ status_code: 0, latestReadUsers: sharedReadUsers, latestWriteUsers: sharedWriteUsers });
                 } catch (error) {
@@ -1792,8 +1790,8 @@ app.get('/viewforms', async function(req, res){
             var allAssignedForms = await forms.find({ assigned_users : req.session.email, form_status : { $in: ["Active", "Submitted"] } }).toArray();
             var allSharedForms = await filledoutforms.find({
                 $or: [
-                    { read_users : req.session.userEmpID },
-                    { write_users : req.session.userEmpID }
+                    { read_users : currentUserDetailsBlock.email },
+                    { write_users : currentUserDetailsBlock.email }
                 ]
             }).toArray();
 
