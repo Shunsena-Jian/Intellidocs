@@ -26,7 +26,7 @@ block body
                                                 option #{version.user_version}
                                     .w3-row
                                         br
-                                        button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
+                                        button.w3-button2.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
                                             i.fa.fa-refresh.fa-fw.w3-margin-right
                                             |   Load Form
                             .w3-quarter
@@ -41,7 +41,7 @@ block body
                                             option(value='Editor') Editor
                                     .w3-row
                                         br
-                                        button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
+                                        button.w3-button2.w3-block.w3-theme-dark(onclick='validateShareForm()')
                                             i.fa.fa-share-alt.fa-fw.w3-margin-right
                                             |   Share
 
@@ -66,11 +66,11 @@ block body
                             .w3-row
                                 .w3-container.w3-white.w3-round.w3-margin
                                     .w3-row
-                                        button.w3-button.w3-block.w3-theme-dark(onclick='showSaveFormModal()')
+                                        button.w3-button2.w3-block.w3-theme-dark(onclick='showSaveFormModal()')
                                             i.fa.fa-floppy-o.fa-fw.w3-margin-right
                                             |   Save Form
                                         br
-                                        button.w3-button.w3-block.w3-theme-dark(onclick='submitForm()')
+                                        button.w3-button2.w3-block.w3-theme-dark(onclick='submitForm()')
                                             i.fas.fa-cloud-upload-alt.w3-margin-right
                                             |   Submit Form
 
@@ -125,14 +125,14 @@ block body
                                     .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                         h4.w3-bold Form Settings
                                         .w3-row
-                                            button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
+                                            button#toggleActivateFormButton.w3-button2.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
                                         hr
                                         h4#dueDateH4.w3-bold Due Date
                                         #dueDateContainer.w3-row
                                             input(type="date" id="dueDateInput" name="birthday")
                                         br
                                         #dueDateContainer1.w3-row
-                                            button#dueDateButton.w3-button.w3-block.w3-theme-dark(onclick='setDueDate()')
+                                            button#dueDateButton.w3-button2.w3-block.w3-theme-dark(onclick='setDueDate()')
                                                 i.fa.fa-share-alt.fa-fw.w3-margin-right
                                                 |   Set Due Date
                             else
@@ -140,7 +140,7 @@ block body
                                     .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                         h4.w3-bold Form Settings
                                         .w3-row
-                                            button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
+                                            button#toggleActivateFormButton.w3-button2.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
                                         hr
                                         h4.w3-bold Due Date Set
 
@@ -152,7 +152,7 @@ block body
                                         input(id='assign_user' name='employee_email' placeholder="Employee Email")
                                     br
                                     .w3-row
-                                        button.w3-button.w3-block.w3-theme-dark(onclick='validateAssignUsers()')
+                                        button.w3-button2.w3-block.w3-theme-dark(onclick='validateAssignUsers()')
                                             i.fa.fa-share-alt.fa-fw.w3-margin-right
                                             | Assign Selected User
                                     hr
@@ -169,7 +169,7 @@ block body
                                             option(value='Math') Math Department
                                     br
                                     .w3-row
-                                        button.w3-button.w3-block.w3-theme-dark(onclick='assignDepartment()')
+                                        button.w3-button2.w3-block.w3-theme-dark(onclick='assignDepartment()')
                                             i.fa.fa-share-alt.fa-fw.w3-margin-right
                                             | Assign Selected Department
 
@@ -200,7 +200,7 @@ block body
                                                 td #{submissions.time_saved}
                                                 td #{submissions.form_status}
                                                 td
-                                                    button.w3-button.w3-block.w3-theme-dark(onclick=`renderSubmittedForm("${submissions.form_owner}")`) View
+                                                    button.w3-button2.w3-block.w3-theme-dark(onclick=`renderSubmittedForm("${submissions.form_owner}")`) View
                                                 if (currentUserDetailsBlock.userLevel === "Secretary" && submissions.secretary_approval === "Approved")
                                                     td Approved
                                                     td Cannot Return
@@ -221,9 +221,9 @@ block body
                                                     td Returned
                                                 else
                                                     td
-                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Approve Form
+                                                        button.w3-button2.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Approve Form
                                                     td
-                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`returnSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Return Form
+                                                        button.w3-button2.w3-block.w3-theme-dark(onclick=`returnSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Return Form
             if (currentUserDetailsBlock.userLevel === "Secretary")
                 .w3-container.w3-card.w3-white.w3-round.w3-margin
                     .w3-row
@@ -324,7 +324,7 @@ block body
                                                 td #{submissions.time_saved}
                                                 td #{submissions.form_status}
                                                 td
-                                                    button.w3-button.w3-block.w3-theme-dark(onclick=`renderSubmittedForm("${submissions.form_owner}")`) View
+                                                    button.w3-button2.w3-block.w3-theme-dark(onclick=`renderSubmittedForm("${submissions.form_owner}")`) View
                                                 if (currentUserDetailsBlock.userLevel === "Secretary" && submissions.secretary_approval === "Approved")
                                                     td Approved
                                                     td Cannot Return
@@ -345,9 +345,9 @@ block body
                                                     td Returned
                                                 else
                                                     td
-                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Approve Form
+                                                        button.w3-button2.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Approve Form
                                                     td
-                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`returnSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Return Form
+                                                        button.w3-button2.w3-block.w3-theme-dark(onclick=`returnSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Return Form
 
             if (currentUserDetailsBlock.userLevel === "Secretary")
                 .w3-container.w3-card.w3-white.w3-round.w3-margin
@@ -477,7 +477,7 @@ block body
                                         td #{prevSubmitForms.secretary_approval}
                                         td #{prevSubmitForms.dean_approval}
                                         td
-                                            button.w3-button.w3-block.w3-theme-dark(onclick=`renderPrevSubmittedForm("${prevSubmitForms.form_owner}", "${prevSubmitForms.user_version}")`) View
+                                            button.w3-button2.w3-block.w3-theme-dark(onclick=`renderPrevSubmittedForm("${prevSubmitForms.form_owner}", "${prevSubmitForms.user_version}")`) View
         script.
             var table7 = $('#previouslySubmittedForms').DataTable();
 
@@ -928,8 +928,8 @@ block body
                                 approveButton = 'Cannot Approve';
                                 returnButton = 'Returned';
                             } else {
-                                approveButton = `<button class="w3-button w3-block w3-theme-dark" onclick="approveSubmittedForm('${updatedData10[e].form_owner}', '${String(updatedData10[e].form_control_number)}')">Approve Form</button>`;
-                                returnButton = `<button class="w3-button w3-block w3-theme-dark" onclick="returnSubmittedForm('${updatedData10[e].form_owner}', '${String(updatedData10[e].form_control_number)}')">Return Form</button>`;
+                                approveButton = `<button class="w3-button2 w3-block w3-theme-dark" onclick="approveSubmittedForm('${updatedData10[e].form_owner}', '${String(updatedData10[e].form_control_number)}')">Approve Form</button>`;
+                                returnButton = `<button class="w3-button2 w3-block w3-theme-dark" onclick="returnSubmittedForm('${updatedData10[e].form_owner}', '${String(updatedData10[e].form_control_number)}')">Return Form</button>`;
                             }
 
                             var curLine10 = [
@@ -939,7 +939,7 @@ block body
                                 updatedData10[e].date_submitted,
                                 updatedData10[e].time_saved,
                                 updatedData10[e].form_status,
-                                `<button class="w3-button w3-block w3-theme-dark" onclick="renderSubmittedForm(&quot;${updatedData10.form_owner}&quot;)">View</button>`,
+                                `<button class="w3-button2 w3-block w3-theme-dark" onclick="renderSubmittedForm(&quot;${updatedData10.form_owner}&quot;)">View</button>`,
                                 approveButton,
                                 returnButton
                             ];
@@ -1023,8 +1023,8 @@ block body
                                 approveButton = 'Cannot Approve';
                                 returnButton = 'Returned';
                             } else {
-                                approveButton = `<button class="w3-button w3-block w3-theme-dark" onclick="approveSubmittedForm('${updatedData9[e].form_owner}', '${String(updatedData9[e].form_control_number)}')">Approve Form</button>`;
-                                returnButton = `<button class="w3-button w3-block w3-theme-dark" onclick="returnSubmittedForm('${updatedData9[e].form_owner}', '${String(updatedData9[e].form_control_number)}')">Return Form</button>`;
+                                approveButton = `<button class="\w3-button2 w3-block w3-theme-dark" onclick="approveSubmittedForm('${updatedData9[e].form_owner}', '${String(updatedData9[e].form_control_number)}')">Approve Form</button>`;
+                                returnButton = `<button class="w3-button2 w3-block w3-theme-dark" onclick="returnSubmittedForm('${updatedData9[e].form_owner}', '${String(updatedData9[e].form_control_number)}')">Return Form</button>`;
                             }
                             console.log("This is buttons: " + approveButton + returnButton);
 
@@ -1035,7 +1035,7 @@ block body
                                 updatedData9[e].date_submitted,
                                 updatedData9[e].time_saved,
                                 updatedData9[e].form_status,
-                                `<button class="w3-button w3-block w3-theme-dark" onclick="renderSubmittedForm(&quot;${updatedData9.form_owner}&quot;)">View</button>`,
+                                `<button class="w3-button2 w3-block w3-theme-dark" onclick="renderSubmittedForm(&quot;${updatedData9.form_owner}&quot;)">View</button>`,
                                 approveButton,
                                 returnButton
                             ];
@@ -1246,7 +1246,7 @@ block body
                                 updatedData1[z].department_head_approval,
                                 updatedData1[z].secretary_approval,
                                 updatedData1[z].dean_approval,
-                                `<button class="w3-button w3-block w3-theme-dark" onclick="renderPrevSubmittedForm('${updatedData1[z].form_owner}', '${updatedData1[z].user_version}')">View</button>`
+                                `<button class="w3-button2 w3-block w3-theme-dark" onclick="renderPrevSubmittedForm('${updatedData1[z].form_owner}', '${updatedData1[z].user_version}')">View</button>`
                             ];
                             table1.row.add(curLine4).draw();
                         }
