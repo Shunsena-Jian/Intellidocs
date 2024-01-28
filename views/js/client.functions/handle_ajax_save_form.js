@@ -105,7 +105,6 @@ function hideFormSavedModal(){
 function saveForm() {
     hideSaveFormModal();
     clearSelection(null);
-    //var formBody = document.getElementById('form-content').innerHTML;
     var formBody = document.getElementById('form-content');
     var formName = document.getElementById('formName').value;
     var formControlNumber = document.getElementById('formControlNumber').value;
@@ -116,7 +115,7 @@ function saveForm() {
     getNewKeyID(formBody);
 
     if (formBody === null || formBody === "" || formName === null || formName === "" || formControlNumber === null || formControlNumber === "") {
-        alert("Form Body, Form Name, or Form Control Number is empty!");
+        showGeneralErrorModal("Form Body, Form Name, or Form Control Number is empty!");
     } else {
         const data = {
             name: formName,
@@ -134,13 +133,13 @@ function saveForm() {
                 if (data.success) {
                     showFormSavedModal(formName, formControlNumber);
                 } else if (data.status_code === 1) {
-                    alert("Form name already exists. Proceed to view form templates to edit the form instead!");
+                    showGeneralErrorModal("Form name already exists. Proceed to view form templates to edit the form instead!");
                     window.location.reload();
                 } else if(data.status_code === 2){
-                    alert("Form Control Number already exists.");
+                    showGeneralErrorModal("Form Control Number already exists.");
                     window.location.reload();
                 } else {
-                    alert("Error in AJAX function.");
+                    showGeneralErrorModal("Error in AJAX function.");
                 }
             },
             error: function (error) {

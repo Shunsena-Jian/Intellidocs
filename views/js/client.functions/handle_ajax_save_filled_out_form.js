@@ -21,9 +21,8 @@ function hideSaveFormModal(){
 
 
 function saveFilledOutForm(){
-    clearSelections(); // Clear selected row box on save filled out form
+    clearSelections();
     var inputFieldValuesJSON = iterateAndGetData();
-    //var formBody = document.getElementById('theContainerOfTheForm').innerHTML;
     var formBody = document.getElementById('form-content');
 
     formBody = elementToJson(formBody,inputFieldValuesJSON);
@@ -40,11 +39,11 @@ function saveFilledOutForm(){
         data: data,
         success: function(response) {
             if (response.status_code === 1) {
-                alert("Error in saving the form.");
+                showGeneralErrorModal("Error in saving the form.");
             } else if (response.status_code === 0) {
-                updateDropdownOptions(response.allUserFormVersions);
-                alert("Successfully saved the form.");
                 hideSaveFormModal();
+                updateDropdownOptions(response.allUserFormVersions);
+                showGeneralSuccessModal("Successfully saved the form.");
             } else {
                 $('.error-message').text(response.error);
             }
@@ -58,10 +57,8 @@ function saveFilledOutForm(){
 function updateDropdownOptions(versions) {
     var dropdown = document.getElementById('versionDropDown');
 
-    // Clear existing options
     dropdown.innerHTML = '';
 
-    // Add new options based on the received versions
     versions.forEach(function(version) {
         var option = document.createElement('option');
         option.value = version;

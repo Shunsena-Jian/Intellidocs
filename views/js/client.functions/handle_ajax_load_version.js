@@ -46,10 +46,10 @@ function renderSelectedVersion(){
                 hideLoadVersionModal();
             } else if (response.status_code === 1){
                 // modal error
-                alert("Error in Viewing Chosen Version");
+                showGeneralErrorModal("Error in Viewing Chosen Version");
             } else {
                 // modal error
-                alert("AJAX Error");
+                showGeneralErrorModal("AJAX Error");
             }
         },
         error: function(error){

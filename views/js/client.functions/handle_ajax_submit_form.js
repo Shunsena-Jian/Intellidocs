@@ -16,9 +16,9 @@ function submitForm(){
         data: data,
         success: function(response) {
             if (response.status_code === 1) {
-                alert("Error in submitting the form.");
+                showGeneralErrorModal("Error in submitting the form.");
             } else if (response.status_code === 0) {
-                alert("Successfully submitted the form.");
+                showGeneralSuccessModal("Successfully submitted the form.");
                 updateDropdownOptions(response.allUserFormVersions);
                 document.getElementById('form-content').innerHTML = response.initialTemplate;
                 hideSaveFormModal();
