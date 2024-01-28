@@ -37,7 +37,6 @@ window.onload = function() {
     userType = window.userLevel; // User Level determines access to right click functions
     selectedTextBox = null; // Tracker for selected elements
 
-    console.log("User Type is: " + userType);
     initializeDraggables();
     if (currentPageContent.childElementCount > 0) {
         initializeCurrentPage();
@@ -67,14 +66,12 @@ function initializeDraggables() {
 
 function handleDragStart(e) {
     const widget = this; // 'this' will refer to the element the event listener is attached to
-    console.log(widget);
     e.dataTransfer.setData('text/html', widget.outerHTML);
     activeDraggable = widget;
 }
 
 // Tnitialize current page upon load
 function initializeCurrentPage(){
-    console.log("re-initializing current page");
     var pagesParent = document.getElementById("form-content");
     var pagesChildren = pagesParent.children;
     var countOfPages = 0;
@@ -120,7 +117,6 @@ function initializeContextMenuForChildren(pageCount){
         receivedCurrentPage = "page-" + i;
         parentElement = document.getElementById(receivedCurrentPage);
         children = parentElement.children;
-        console.log(children);
 
         for(j = 0; j < children.length; j++){
             // Do not allow select element for other user types
@@ -133,7 +129,6 @@ function initializeContextMenuForChildren(pageCount){
 
         // Get all elements with class name "label"
         const elements = parentElement.querySelectorAll('.text-label');
-        console.log(elements);
 
         // Loop through each element and add event listener
         elements.forEach(element => {
@@ -148,15 +143,11 @@ function initializeContextMenuForChildren(pageCount){
 // A branch of initializeContextMenuForChildren() function that calls the contextMenu
 // listener respectively for each child section div
 function initializeContextMenuForChild(clonedDiv) {
-    console.log(clonedDiv);
     function addContextMenuListenerToElement(clonedDiv) {
         clonedDiv.addEventListener('contextmenu', (e) => {
             e.preventDefault();
-            console.log("adding context listener to ");
-            console.log(clonedDiv);
                try {
                     if (clonedDiv.classList.contains("form-table")) {
-                       console.log("is a table");
                        createContextMenu(e.clientX, e.clientY, null, clonedDiv);
                    } else {
                        createContextMenu(e.clientX, e.clientY, clonedDiv, null);
@@ -249,18 +240,14 @@ function calculateTotalHeight(elements) {
 }
 
 function adaptPageContent() {
-    console.log("entered: ");
     var allPages = document.querySelectorAll(".drop-container"); // Query all pages
     var currentPageIndex;
 
     allPages.forEach(function checkEachPage(page, index) {
-        console.log("Page: " + index);
         var currentPageChildren = Array.from(page.children);
         var currentPageHeight = calculateTotalHeight(currentPageChildren);
         var nextPage = allPages[index + 1];
-        console.log("Current Page Height: " + currentPageHeight);
         setMaxHeight();
-        console.log("Max Height: " + maxHeight);
 
         // Check if the current page exceeds maxHeight and rearrange content accordingly
         while (currentPageHeight > maxHeight) {
@@ -268,7 +255,6 @@ function adaptPageContent() {
 
             // Move the last child of the current page to the next page
             if (nextPage == null) {
-                console.log("Created a new page!");
                 nextPage = createNewPage();
                 //allPages = document.querySelectorAll(".drop-container");
                 adaptPageContent();
@@ -291,7 +277,6 @@ function adaptPageContent() {
 
         while (currentPageHeight < maxHeight && nextPage) {
             var secondChildOfNextPage = nextPage.firstElementChild.nextElementSibling;
-            console.log(secondChildOfNextPage);
 
             if (secondChildOfNextPage) {
                 var spaceAvailable = maxHeight - currentPageHeight;
@@ -490,7 +475,6 @@ function createPageMargin() {
         reassignSectionID();
 	}
 currentHeight = updatePageHeight();
-console.log("end");
 }
 
 function makeAlignCenter() {
@@ -768,7 +752,6 @@ function createContextMenu(x,y,element, table) {
         } else if (userType === "Super Admin" || userType === "Document Controller")  {
             // All functions
             if (table) {
-                console.log("is a table 2");
                 contextMenuButtonsForTable(table);
             }
 
@@ -930,8 +913,6 @@ function contextMenuButtonsForContainer(element) {
 }
 
 function appendGridItem(element) {
-    console.log(element);
-    console.log(element.children);
     // Get the last child element
     const lastChild = element.lastElementChild;
 
@@ -1031,7 +1012,6 @@ function dropContent(boxHeight, data) {
 //        clonedDiv.removeEventListener("dragstart", handleDragStart);
         initializeContextMenuForChild(clonedDiv); // initialize right click functions
         clonedDiv = selectElement(clonedDiv); // add selection listener for sub-children elements
-        console.log("added selected");
         clonedDiv = removeReadOnlyAttributesRecursive(clonedDiv); // allow elements to be editable
 
         if (currentPageContent) { // Check if currentPageContent is defined
@@ -1144,7 +1124,6 @@ function reassignSectionID() {
 
 function checkCurrentPage() {
     var numberOfChildren = currentPageContent.childElementCount;
-    console.log(currentPageContent);
     // Do nothing if current page is the first page
     if (currentPageContent.id != "page-1") {
         if (numberOfChildren <= 1) {
@@ -1279,7 +1258,6 @@ function removeReadOnlyAttributesRecursive(element) {
 }
 
 function makeAllReadOnlyRecursive() {
-    console.log("hehe");
     // Query all div elements with class "page-container"
     const pageContainers = document.querySelectorAll('.drop-container');
 

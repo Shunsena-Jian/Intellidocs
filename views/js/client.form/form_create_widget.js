@@ -549,7 +549,6 @@ function addTableColumn(table) {
 function createContextMenu(x,y,element, table, container) {
     if (rightClickWidgetActive) {
         while (contextMenu.firstChild) {
-            console.log(contextMenu.firstChild);
             contextMenu.removeChild(contextMenu.firstChild);
         }
         rightClickWidgetActive = false;
@@ -660,8 +659,6 @@ function contextMenuButtonsForContainer(element) {
     var addCheckBoxItem;
     var removeSectionColumn;
 
-    console.log(element.classList.contains('checkbox'));
-    console.log(element.classList.contains('checkbox'));
     // Add right click functions for grid container
     if (element && element.classList.contains('grid-container') && (element.classList.contains('checkbox') == false) ) {
 
@@ -864,7 +861,6 @@ function addEventListenerToDiv(dropBox) {
 
             if (newDiv) {
                 var clonedDiv = newDiv.cloneNode(true);
-                console.log(clonedDiv);
                 // Check if the clonedDiv is a table or contains tables within divs
                 if (clonedDiv.nodeName.toLowerCase() != 'table' && !(clonedDiv.classList.contains("grid-container"))) {
                     clonedDiv.addEventListener('contextmenu', (e) => {
@@ -872,10 +868,8 @@ function addEventListenerToDiv(dropBox) {
                         createContextMenu(e.clientX, e.clientY, clonedDiv, null, null);
                     });
                 }  else if (clonedDiv.nodeName.toLowerCase() == 'table') {
-                    console.log("is a freaking table");
                     clonedDiv.addEventListener('contextmenu', (e) => {
                         e.preventDefault();
-                        console.log("is a freaking table");
                         createContextMenu(e.clientX, e.clientY, null , clonedDiv);
                     });
                   clonedDiv = activateTable(clonedDiv);
@@ -937,7 +931,6 @@ function updatePageHeight() {
 }
 
 function activateTable(clonedDiv) {
-    console.log(clonedDiv);
     let selectedCells = [];
 	clonedDiv.addEventListener('click', (e) => {
 	    const cell = e.target;
