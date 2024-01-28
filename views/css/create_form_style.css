@@ -63,8 +63,8 @@
 }
 
 .w3-box {
-    height:110mm;
-    width: 110mm;
+    height:150mm;
+    width: 150mm;
     background: #FFFFFF;
     margin: 10px auto; /* Center horizontally with margin:auto */
     padding: 36px;
@@ -72,8 +72,8 @@
 
 }
 .w3-portrait-rectangle{
-    height:140mm;
-    width: 100mm;
+    height:170mm;
+    width: 130mm;
     background: #FFFFFF;
     margin: 10px auto; /* Center horizontally with margin:auto */
     padding: 36px;
@@ -82,8 +82,8 @@
     overflow-x: auto; /* Add horizontal scroll if necessary */
 }
 .w3-landscape-rectangle{
-    height:100mm;
-    width: 180mm;
+    height:140mm;
+    width: 220mm;
     background: #FFFFFF;
     margin: 10px auto; /* Center horizontally with margin:auto */
     padding: 36px;
