@@ -3449,7 +3449,7 @@ async function getUsersEmails(){
     var userName;
     var empEmails = [];
     try{
-        userName = await users.find({}).toArray();
+        userName = await users.find({ user_level : "Faculty" }).toArray();
 
         for(const user of userName){
             empEmails.push(user.email);
