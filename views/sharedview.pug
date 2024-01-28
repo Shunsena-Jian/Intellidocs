@@ -7,75 +7,77 @@ block body
         else
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
-                    h1.w3-center Form Name: #{currentForm.form_name}
+                    h1.w3-center #{currentForm.form_name}
+                    h2.w3-center Form Owner: #{currentForm.form_owner}
 
-                .w3-row
-                    .w3-twothird.w3-container2
-                        h2 Form Details
-                        hr
-                        .w3-third
-                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                h2 Version History
-                                hr
-                                .w3-row
-                                    select#versionDropDown(name='versionDropDown')
-                                        if (!allVersions)
-                                        else
-                                            each version in allVersions
-                                                option #{version.user_version}
-                                .w3-row
-                                    br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
-                                        i.fa.fa-refresh.fa-fw.w3-margin-right
-                                        |   Load Form
-                        .w3-third
-                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                h2 Share Document
-                                hr
-                                .w3-row
-                                    input(id='employee_email' name='employee_email' placeholder="Employee Email")
-                                .w3-row
-                                    select#accessLevel(name='accessLevel')
-                                        option(value='Viewer') Viewer
-                                        option(value='Editor') Editor
-                                .w3-row
-                                    br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
-                                        i.fa.fa-share-alt.fa-fw.w3-margin-right
-                                        |   Share
+                if (currentUserDetailsBlock.empID == currentForm.form_owner)
+                    .w3-row
+                        .w3-twothird.w3-container2
+                            h2 Form Details
+                            hr
+                            .w3-third
+                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                    h2 Version History
+                                    hr
+                                    .w3-row
+                                        select#versionDropDown(name='versionDropDown')
+                                            if (!allVersions)
+                                            else
+                                                each version in allVersions
+                                                    option #{version.user_version}
+                                    .w3-row
+                                        br
+                                        button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
+                                            i.fa.fa-refresh.fa-fw.w3-margin-right
+                                            |   Load Form
+                            .w3-third
+                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                    h2 Share Document
+                                    hr
+                                    .w3-row
+                                        input(id='employee_email' name='employee_email' placeholder="Employee Email")
+                                    .w3-row
+                                        select#accessLevel(name='accessLevel')
+                                            option(value='Viewer') Viewer
+                                            option(value='Editor') Editor
+                                    .w3-row
+                                        br
+                                        button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
+                                            i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                            |   Share
 
-                        .w3-third
-                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                h2 Shared with
-                                hr
-                                h4
-                                    i.fa.fa-eye.fa-fw.w3-margin-right
-                                    |   denmark - View Only
-                                h4
-                                    i.fa.fa-eye.fa-fw.w3-margin-right
-                                    |   jao - View Only
-                                h4
-                                    i.fa.fa-eye.fa-fw.w3-margin-right
-                                    i.fa.fa-pencil-square-o.fa-fw.w3-margin-right
-                                    |   jian - View and Edit
+                            .w3-third
+                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                    h2 Shared with
+                                    hr
+                                    h4
+                                        i.fa.fa-eye.fa-fw.w3-margin-right
+                                        |   denmark - View Only
+                                    h4
+                                        i.fa.fa-eye.fa-fw.w3-margin-right
+                                        |   jao - View Only
+                                    h4
+                                        i.fa.fa-eye.fa-fw.w3-margin-right
+                                        i.fa.fa-pencil-square-o.fa-fw.w3-margin-right
+                                        |   jian - View and Edit
 
-                    .w3-third.w3-container2
-                        h2 Form Settings
-                        hr
-                        .w3-row
-                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                .w3-row
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='showSaveFormModal()')
-                                        i.fa.fa-floppy-o.fa-fw.w3-margin-right
-                                        |   Save Form
-                                    br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='submitForm()')
-                                        i.fas.fa-cloud-upload-alt.w3-margin-right
-                                        |   Submit Form
-                                    br
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='downloadAsPDF()')
-                                        i.fa.fa-download.fa-fw.w3-margin-right
-                                        |   Download as PDF
+                        .w3-third.w3-container2
+                            h2 Form Settings
+                            hr
+                            .w3-row
+                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                    .w3-row
+                                        button.w3-button.w3-block.w3-theme-dark(onclick='showSaveFormModal()')
+                                            i.fa.fa-floppy-o.fa-fw.w3-margin-right
+                                            |   Save Form
+                                        br
+                                        button.w3-button.w3-block.w3-theme-dark(onclick='submitForm()')
+                                            i.fas.fa-cloud-upload-alt.w3-margin-right
+                                            |   Submit Form
+                                        br
+                                        button.w3-button.w3-block.w3-theme-dark(onclick='downloadAsPDF()')
+                                            i.fa.fa-download.fa-fw.w3-margin-right
+                                            |   Download as PDF
 
         if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin" || currentUserDetailsBlock.userLevel === "Admin")
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
@@ -279,13 +281,11 @@ block body
         var formBlock = !{JSON.stringify(currentForm)};
         var empEmails = !{JSON.stringify(retrievedUserEmails)}
         var receivedFormContent = formBlock.form_content;
-        //console.log("This is the receivedFormContent ", receivedFormContent);
 
         var enginePlaceHolder = document.getElementById('enginePlaceHolder');
         var formControlNumber = formBlock.form_control_number;
 
         enginePlaceHolder.innerHTML = receivedFormContent;
-        //console.log(!{JSON.stringify(currentForm)});
 
         $(function() {
             var allEmails = empEmails;
@@ -301,173 +301,8 @@ block body
             });
         });
 
-    script(src='../js/client.engine/htmlToJson.js')
-    script(src='../js/client.functions/handle_ajax_save_filled_out_form.js')
-    script(src='../js/client.functions/handle_ajax_share_form.js')
-    script(src='../js/client.functions/handle_ajax_load_version.js')
-    script(src='../js/client.form/form_create_view_edit.js')
-
-
-    script.
-        var table2 = $('#submittedFormsTable').DataTable();
-
-    script.
-        function setDueDate(){
-            var dueDateInput = document.getElementById("dueDateInput").value;
-
-            if(dueDateInput == '' || dueDateInput == undefined || dueDateInput == null){
-                alert("You did not set a due date.");
-            }else{
-
-                var data = {
-                    dueDateInput: dueDateInput,
-                    formControlNumber: form_template.form_control_number
-                }
-
-                $.ajax({
-                    type: 'PUT',
-                    url: '/AJAX_setDueDate',
-                    data: data,
-                    success: function(response){
-                        if(response.status_code === 0){
-                            alert("Due date has been set.");
-                            formDueDate.innerHTML = "Due Date : " + response.dueDate;
-                        }else if(response.status_code === 1){
-                            alert("Error in setting a due date.");
-                        }else if(response.status_code === 2){
-                            alert("Error in setting a due date.");
-                        }
-                    }
-                });
-            }
-        }
-
-
-
-    script.
-        var form_template = !{JSON.stringify(form_template)};
-        var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting");
-        var toggleActivateFormButton = document.getElementById("toggleActivateFormButton");
-
-        formDetailsActivateSetting.innerHTML = "Status : " + form_template.form_status;
-
-        if(form_template.form_status == "Published"){
-            toggleActivateFormButton.innerHTML = "Activate";
-        }else if(form_template.form_status == "In-active"){
-            toggleActivateFormButton.innerHTML = "Activate";
-        }else if(form_template.form_status == "Template"){
-            toggleActivateFormButton.innerHTML = "Activate";
-        }
-
-        function toggleActivateForm(){
-            var confirmationMessage;
-
-            if(form_template.form_status == "Published"){
-                confirmationMessage = "Are you sure you want to ACTIVATE the form?";
-            }else if(form_template.form_status == "Active"){
-                confirmationMessage = "Are you sure you want to DE-ACTIVATE the form?";
-            }else{
-                confirmationMessage = "Are you sure you want to ACTIVATE the form?";
-            }
-
-            var result = window.confirm(confirmationMessage);
-
-            if(result){
-                if(toggleActivateFormButton.innerHTML == "Activate"){
-                    toggleActivateFormButton.innerHTML = "De-activate";
-                }else{
-                    toggleActivateFormButton.innerHTML = "Activate";
-                }
-                AJAX_toggleActivate();
-            }
-
-
-        }
-
-        function AJAX_toggleActivate(){
-            var toggleActivateFormButton = document.getElementById("toggleActivateFormButton");
-            var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting");
-
-            var data = {
-                formControlNumber: form_template.form_control_number,
-                targetedVersion: form_template.form_version
-            };
-
-            $.ajax({
-                type: 'PUT',
-                url: '/AJAX_toggleActivate',
-                data: data,
-                success: function(response){
-                    if(response.status_code === 0){
-                        if(formDetailsActivateSetting.innerHTML == "Status : Published"){
-                            formDetailsActivateSetting.innerHTML = "Status : Active";
-                        }else if(formDetailsActivateSetting.innerHTML == "Status : Active"){
-                            formDetailsActivateSetting.innerHTML = "Status : In-active";
-                        }else{
-                            formDetailsActivateSetting.innerHTML = "Status : Active";
-                        }
-                    }else if(response.status_code === 1){
-                        alert("Failure did not GRADUATE");
-                    }else if(response.status_code === 2){
-                        alert("Server Failed");
-                    }
-                }
-            });
-        }
-
-        function validateAssignUsers(){
-            selectedUserToAssign = document.getElementById('assign_user').value;
-
-            if(!selectedUserToAssign){
-                alert("Please enter an email to assign the form to.");
-            } else {
-                const data = {
-                    assignedUser: selectedUserToAssign,
-                    formControlNumber: formControlNumber
-                };
-
-                $.ajax({
-                    type: 'PUT',
-                    url: '/AJAX_assignUsers',
-                    data: data,
-                    success: function(response) {
-                        if (response.status_code === 1) {
-                            alert("No user was assigned to the form");
-                        } else if (response.status_code === 0) {
-                            alert(selectedUserToAssign + " was assigned to the form.");
-                        } else {
-                            alert("Error at AJAX function in assigning users.");
-                        }
-                    },
-                    error: function(error){
-                        console.log("AJAX Error: " + error);
-                    }
-                });
-            }
-        }
-
-        function submitForm(){
-            //placeholder
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    script(src='js/client.engine/htmlToJson.js')
+    script(src='js/client.functions/handle_ajax_save_filled_out_form.js')
+    script(src='js/client.functions/handle_ajax_share_form.js')
+    script(src='js/client.functions/handle_ajax_load_version.js')
+    script(src='js/client.form/form_create_view_edit.js')

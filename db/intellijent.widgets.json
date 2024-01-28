@@ -180,7 +180,7 @@
   },
   "widget_name": "Signature Version 1",
   "widget_category": "Signature",
-  "widget_content": "<div class=\"w3-row-center w3-bold box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"w3-col s3 w3-left\"></div><div class=\"w3-col s3 w3-left\"></div>\n<div class=\"w3-col s5 w3-left w3-center\"><p>Certified true and correct</p>\n <div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div>\n<input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\"><p>(SIGNATURE OVER PRINTED NAME)</p><input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\"></div></div>"
+  "widget_content": "<div class=\"w3-row-center w3-bold box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"w3-col s3 w3-left\"></div><div class=\"w3-col s3 w3-left\"></div>\n<div class=\"w3-col s5 w3-left w3-center\"><p>Certified true and correct</p>\n <div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" class=\"signature-image\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\" class=\"signature=image-button\"></form>\n   </div>\n<input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\" class=\"signature-image-input\">\n<p>(SIGNATURE OVER PRINTED NAME)</p>\n<input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\" class=\"signature-image-date\"></div></div>"
 },
 {
   "_id": {
@@ -188,23 +188,15 @@
   },
   "widget_name": "Grouped Signature Version 1",
   "widget_category": "Signature",
-  "widget_content": "<div class=\"w3-row-center w3-container w3-bold box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"w3-col s3 w3-margin w3-left\">\n<h6>Reviewed by</h6>\n<div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">                    Department Head</div><div class=\"w3-col s3 w3-margin w3-left\">\n<h6>Noted by</h6>\n<div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">                    Director of Libraries</div><div class=\"w3-col s3 w3-margin w3-left\">\n<h6>Approved by</h6>\n<div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">                    OIC-Dean</div>\n</div>"
-},
-{
-  "_id": {
-    "$oid": "65a7f571e3f1dc7de47b98b8"
-  },
-  "widget_name": "Grouped Signature Version 2",
-  "widget_category": "Signature",
-  "widget_content": "<div class=\"w3-row-center draggable w3-margin-small\" draggable=\"true\">\n<div class=\"w3-col s3 w3-margin w3-left\">\n<input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"LABEL [NOTED|APPROVED|REVIEWED BY]\">\n<div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">\n<input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"POSITION\"></div>\n\n<div class=\"w3-col s3 w3-margin w3-left\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"LABEL [NOTED|APPROVED|REVIEWED BY]\">\n<div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">\n<input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"POSITION\"></div>\n<div class=\"w3-col s3 w3-margin w3-left\">\n<input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"LABEL [NOTED|APPROVED|REVIEWED BY]\">\n<div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\"><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"POSITION\"></div><hr class=\"w3-clear\"></div>"
+  "widget_content": "<div class=\"w3-row-center w3-container w3-bold box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"w3-col s3 w3-margin w3-left\">\n<h6>Reviewed by</h6>\n<div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n<input type=\"file\" name=\"file\" id=\"file\" class=\"signature-image\" ><br>\n<input type=\"submit\" value=\"Upload Signature\" class=\"signature=image-button\"></form>\n   </div><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\" class=\"signature-image-input\">                    Department Head</div>\n<div class=\"w3-col s3 w3-margin w3-left\">\n<h6>Noted by</h6>\n<div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n<input type=\"file\" name=\"file\" id=\"file\" class=\"signature-image\" ><br>\n<input type=\"submit\" value=\"Upload Signature\" class=\"signature=image-button\"></form>\n   </div><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\" class=\"signature-image-input\">                    Director of Libraries</div><div class=\"w3-col s3 w3-margin w3-left\">\n<h6>Approved by</h6>\n<div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n<input type=\"file\" name=\"file\" id=\"file\" class=\"signature-image\" ><br>\n<input type=\"submit\" value=\"Upload Signature\" class=\"signature=image-button\"></form>\n   </div><input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\" class=\"signature-image-input\">                    OIC-Dean</div>\n</div>"
 },
 {
   "_id": {
     "$oid": "65a7f571e3f1dc7de47b98b9"
   },
-  "widget_name": "Grouped Signature Version 3",
+  "widget_name": "Grouped Signature Version 2",
   "widget_category": "Signature",
-  "widget_content": "<div class=\"w3-row box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"w3-row\">\n      <div class=\"w3-col s2\">\n         <p class=\"w3-font-size-14\"> Prepared by:</p>\n      </div>\n      <div class=\"w3-col s6 w3-font-size-14\">\n     <div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div>\n            <input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">\n            <h6 class=\"w3-center w3-font-size-15\">Department Head</h6></div>\n<div class=\"w3-col s3\">\n           <br>\n           <br>\n            <input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\">\n      </div>\n</div>\n\n<div class=\"w3-row\">\n      <div class=\"w3-col s2\">\n         <p class=\"w3-font-size-14\"> Endorsed by:</p>\n      </div>\n      <div class=\"w3-col s6 w3-font-size-14\">\n    <div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div>\n            <input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">\n            <h6 class=\"w3-center w3-font-size-15\">Associate Dean</h6></div>\n<div class=\"w3-col s3\">\n           <br>\n           <br>\n            <input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\">\n      </div>\n</div>\n\n<div class=\"w3-row\">\n      <div class=\"w3-col s2\">\n         <p class=\"w3-font-size-14\"> Approved by:</p>\n      </div>\n      <div class=\"w3-col s6 w3-font-size-14\">\n    <div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div>\n            <input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">\n            <h6 class=\"w3-center w3-font-size-15\">SAMCIS Dean</h6></div>\n<div class=\"w3-col s3\">\n           <br>\n           <br>\n            <input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\">\n      </div>\n</div>\n\n</div>"
+  "widget_content": "<div class=\"w3-row box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"w3-row\">\n      <div class=\"w3-col s2\">\n         <p class=\"w3-font-size-14\"> Prepared by:</p>\n      </div>\n      <div class=\"w3-col s6 w3-font-size-14\">\n     <div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n<input type=\"file\" name=\"file\" id=\"file\" class=\"signature-image\" ><br>\n<input type=\"submit\" value=\"Upload Signature\" class=\"signature=image-button\"></form>\n   </div>\n<input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\" class=\"signature-image-input\">            <h6 class=\"w3-center w3-font-size-15\">Department Head</h6></div>\n<div class=\"w3-col s3\">\n           <br>\n           <br>\n<input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\" class=\"signature-image-date\">      </div>\n</div>\n\n<div class=\"w3-row\">\n      <div class=\"w3-col s2\">\n         <p class=\"w3-font-size-14\"> Endorsed by:</p>\n      </div>\n      <div class=\"w3-col s6 w3-font-size-14\">\n    <div class=\"rectangle box w3-padding-16\"> \n          <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n<input type=\"file\" name=\"file\" id=\"file\" class=\"signature-image\" ><br>\n<input type=\"submit\" value=\"Upload Signature\" class=\"signature=image-button\"></form>\n   </div>\n<input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\" class=\"signature-image-input\">            <h6 class=\"w3-center w3-font-size-15\">Associate Dean</h6></div>\n<div class=\"w3-col s3\">\n           <br>\n           <br>\n<input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\" class=\"signature-image-date\">      </div>\n</div>\n\n<div class=\"w3-row\">\n      <div class=\"w3-col s2\">\n         <p class=\"w3-font-size-14\"> Approved by:</p>\n      </div>\n      <div class=\"w3-col s6 w3-font-size-14\">\n    <div class=\"rectangle box w3-padding-16\"> \n           <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n<input type=\"file\" name=\"file\" id=\"file\" class=\"signature-image\" ><br>\n<input type=\"submit\" value=\"Upload Signature\" class=\"signature=image-button\"></form>\n   </div>\n<input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\" class=\"signature-image-input\">            <h6 class=\"w3-center w3-font-size-15\">SAMCIS Dean</h6></div>\n<div class=\"w3-col s3\">\n           <br>\n           <br>\n<input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\" class=\"signature-image-date\">      </div>\n</div>\n\n</div>"
 },
 {
   "_id": {
@@ -212,7 +204,7 @@
   },
   "widget_name": "Department Head Signature",
   "widget_category": "Signature",
-  "widget_content": "<div class=\"w3-row box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"w3-col s2\"><p class=\"w3-font-size-14\"> Prepared by:</p></div>\n<div class=\"w3-col s6\">\n   <div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div>\n\n   <input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">\n   <h6 class=\"w3-center w3-font-size-15\">Department Head</h6>\n   </div>\n\n<div class=\"w3-col s3 w3-margin-left\">\n<br>\n<br>\n<input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\"></div>\n </div>\n"
+  "widget_content": "<div class=\"w3-row box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"w3-col s2\"><p class=\"w3-font-size-14\"> Prepared by:</p></div>\n<div class=\"w3-col s6\">\n   <div class=\"rectangle box w3-padding-16\"> \n<input type=\"file\" name=\"file\" id=\"file\" class=\"signature-image\" ><br>\n<input type=\"submit\" value=\"Upload Signature\" class=\"signature=image-button\">\n</form>\n   </div>\n\n<input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\" class=\"signature-image-input\">   <h6 class=\"w3-center w3-font-size-15\">Department Head</h6>\n   </div>\n\n<div class=\"w3-col s3 w3-margin-left\">\n<br>\n<br>\n<input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\" class=\"signature-image-date\"> </div>\n"
 },
 {
   "_id": {
@@ -220,7 +212,7 @@
   },
   "widget_name": "SAMCIS Dean Signature",
   "widget_category": "Signature",
-  "widget_content": "<div class=\"w3-row box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"w3-col s2\"><p class=\"w3-font-size-14\"> Approved by:</p></div>\n<div class=\"w3-col s6\">\n  <div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div>\n\n   <input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">\n   <h6 class=\"w3-center w3-font-size-15\">SAMCIS Dean</h6>\n   </div>\n\n<div class=\"w3-col s3 w3-margin-left\">\n<br>\n<br>\n<input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\"></div>\n </div>\n"
+  "widget_content": "<div class=\"w3-row box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"w3-col s2\"><p class=\"w3-font-size-14\"> Approved by:</p></div>\n<div class=\"w3-col s6\">\n   <div class=\"rectangle box w3-padding-16\"> \n<input type=\"file\" name=\"file\" id=\"file\" class=\"signature-image\" ><br>\n<input type=\"submit\" value=\"Upload Signature\" class=\"signature=image-button\">\n</form>\n   </div>\n\n<input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\" class=\"signature-image-input\">   \n<h6 class=\"w3-center w3-font-size-15\">SAMCIS Dean</h6>\n   </div>\n\n<div class=\"w3-col s3 w3-margin-left\">\n<br>\n<br>\n<input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\" class=\"signature-image-date\"> </div>\n"
 },
 {
   "_id": {
@@ -228,7 +220,7 @@
   },
   "widget_name": "Associate Dean Signature",
   "widget_category": "Signature",
-  "widget_content": "<div class=\"w3-row box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"w3-col s2\"><p class=\"w3-font-size-14\"> Endorsed by:</p></div>\n<div class=\"w3-col s6\">\n  <div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div>\n   <input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\">\n   <h6 class=\"w3-center w3-font-size-15\">Associate Dean</h6>\n   </div>\n\n<div class=\"w3-col s3 w3-margin-left\">\n<br>\n<br>\n<input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\"></div>\n </div>\n"
+  "widget_content": "<div class=\"w3-row box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"w3-col s2\"><p class=\"w3-font-size-14\"> Endorsed by:</p></div>\n<div class=\"w3-col s6\">\n   <div class=\"rectangle box w3-padding-16\"> \n<input type=\"file\" name=\"file\" id=\"file\" class=\"signature-image\" ><br>\n<input type=\"submit\" value=\"Upload Signature\" class=\"signature=image-button\">\n</form>\n   </div>\n\n<input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\" class=\"signature-image-input\">   \n<h6 class=\"w3-center w3-font-size-15\">Associate Dean</h6>\n   </div>\n\n<div class=\"w3-col s3 w3-margin-left\">\n<br>\n<br>\n<input class=\"w3-input w3-font-size-12\" readonly=\"\" type=\"date\" placeholder=\"Date\" class=\"signature-image-date\"> </div>\n"
 },
 {
   "_id": {
@@ -236,7 +228,7 @@
   },
   "widget_name": "Signature Version 2",
   "widget_category": "Signature",
-  "widget_content": "<div class=\"w3-row-center w3-bold box w3-margin-small draggable\" draggable=\"true\">\n<h6>I attest that all information provided are true and correct and will abide with the policies and procedures of the university</h6>\n<div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Signature\"></form>\n   </div>\n</div>"
+  "widget_content": "<div class=\"w3-row-center w3-bold box w3-margin-small draggable\" draggable=\"true\">\n<h6>I attest that all information provided are true and correct and will abide with the policies and procedures of the university</h6>\n<div class=\"rectangle box w3-padding-16\"> \n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n     <input type=\"file\" name=\"file\" id=\"file\" class=\"signature-image\" ><br>\n<input type=\"submit\" value=\"Upload Signature\" class=\"signature=image-button\"></form>\n   </div>\n</div>"
 },
 {
   "_id": {
@@ -244,7 +236,7 @@
   },
   "widget_name": "Signature Version 3",
   "widget_category": "Signature",
-  "widget_content": "<table class=\"draggable box w3-bold w3-margin-small\" draggable=\"true\"><tbody><tr><td>LABEL [NOTED|APPROVED|REVIEWED BY]</td><td></td></tr><tr><td>  POSITION</td><td>  FULL NAME</td></tr></tbody></table>"
+  "widget_content": "<table class=\"draggable form-table box w3-bold w3-margin-small\" draggable=\"true\"><tbody><tr><td>LABEL [NOTED|APPROVED|REVIEWED BY]</td><td></td></tr><tr><td>  POSITION</td><td>  FULL NAME</td></tr></tbody></table>"
 },
 {
   "_id": {
@@ -293,4 +285,36 @@
   "widget_name": "Certificate Container",
   "widget_category": "Signature",
   "widget_content": "<div class=\"w3-row box draggable w3-margin-small\" draggable=\"true\">\n<div class=\"certificate-container\">\n      <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n      <input type=\"file\" name=\"file\" id=\"file\" ><br>\n      <input type=\"submit\" value=\"Upload Certificate\"></form>\n</div> \n</div>"
+},
+{
+  "_id": {
+    "$oid": "65b50fff2e91754237788d20"
+  },
+  "widget_name": "sampke",
+  "widget_category": "Grouped",
+  "widget_content": "<div class=\"w3-row draggable box w3-margin-small\" draggable=\"true\"> <div class=\"header w3-row draggable box w3-margin-small\"><table class=\"form-table w3-bold form-table w3-font-size-10 header-table hori-col\"><tbody><tr><th>Document Code</th><th>FM-SMI-027</th></tr><tr><th>Revision No.</th><th>01</th></tr><tr><th>Effectivity</th><th>April 01, 2023</th></tr><tr><th>Page</th><th class=\"page-number\">1 of 1</th></tr></tbody></table></div><div class=\"w3-all-center w3-container box draggable w3-hover-light-grey\"><a class=\"w3-col w3-hide-small w3-hover-white w3-center signature\"><i class=\"fa fa-pencil-square icon-light\"></i>  Upload Signature [PNG|JPG]</a></div><div>"
+},
+{
+  "_id": {
+    "$oid": "65b5102d2e91754237788d21"
+  },
+  "widget_name": "sample table",
+  "widget_category": "Personalized",
+  "widget_content": "<div class=\"w3-row draggable box w3-margin-small\" draggable=\"true\"> <h3 class=\"textbox text-label w3-row w3-container box draggable w3-hover-light-grey w3-padding-small\">                        This is a sample title</h3><table class=\"draggable form-table w3-bold w3-hover-light-grey\"><tbody><tr><th contenteditable=\"true\">Header 1</th><th contenteditable=\"true\">Header 2</th></tr><tr><td contenteditable=\"true\">Text 1</td><td contenteditable=\"true\"></td></tr><tr><td contenteditable=\"true\">Text 2</td><td contenteditable=\"true\"></td></tr></tbody></table><div>"
+},
+{
+  "_id": {
+    "$oid": "65b5f8d7c519e00ec44ecb5f"
+  },
+  "widget_name": "Logo Picture SLU",
+  "widget_category": "Signature",
+  "widget_content": "<div class=\"w3-col s3 w3-container w3-bold w3-center box draggable w3-margin-small\" draggable=\"true\"><img class=\"w3-image\" src=\"../src/slu_logo.png\"></div>"
+},
+{
+  "_id": {
+    "$oid": "65b5faa6c519e00ec44ecb60"
+  },
+  "widget_name": "Logo Picture SLU",
+  "widget_category": "Text",
+  "widget_content": "<div class=\"w3-col s3 w3-container w3-bold w3-center box draggable w3-margin-small\" draggable=\"true\"><img class=\"w3-image\" src=\"../src/slu_logo.png\"></div>"
 }]

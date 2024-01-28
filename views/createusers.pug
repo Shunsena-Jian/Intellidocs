@@ -19,44 +19,43 @@ block body
         .w3-row.w3-padding-64
             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                 .form_container
-                    form(name='form' role='form' method='POST' id='createUser')
-                        h3.w3-bold.w3-margin CREATE A USER
-                        .form_wrap.fullname
-                            .form_item
-                                label(style='font-family: Courier New, monospace; font-weight:normal;') Email
-                                input#email.error(type='text' name='email' required='')
-                            .form_item
-                                label(style='font-family:Courier New, monospace;; font-weight:normal;') Password
-                                input#passWord.error(type='text' name='passWord' required='')
-                        .form_wrap.fullname
-                            .form_item
-                                label(style='font-family: Courier New, monospace;; font-weight:normal;') First Name
-                                input#firstName.error(type='text' name='firstName' required='')
-                            .form_item
-                                label(style='font-family: Courier New, monospace;; font-weight:normal;') Last Name
-                                input#lastName.error(type='text' name='lastName' required='')
-                        .form_wrap.fullname
-                            .form_item
-                                label(style='font-family:Courier New, monospace;; font-weight:normal;') ID Number
-                                input#empId.error(type='text' name='empId' required='')
-                        .form_wrap.fullname
-                            .form_item
-                                label(for='userLevel' style='font-family: Courier New, monospace;; font-weight:normal;') User Level:
-                                select#userLevel(name='userLevel' required='')
-                                    option(value='null') Choose Role
-                                    each position in positions
-                                        option(value=position)= position
-                            .form_item
-                                label(for='userDepartment' style='font-family: Courier New, monospace;; font-weight:normal;') User Department:
-                                select#userDepartment(name='userDepartment' required='')
-                                    option(value='null') Choose Department
-                                    each department in departments
-                                        option(value=department)= department
+                    h3.w3-bold.w3-margin CREATE A USER
+                    .form_wrap.fullname
+                        .form_item
+                            label(style='font-family: Courier New, monospace; font-weight:normal;') Email
+                            input#email.error(type='text' name='email' required='')
+                        .form_item
+                            label(style='font-family:Courier New, monospace;; font-weight:normal;') Password
+                            input#passWord.error(type='password' name='passWord' required='')
+                    .form_wrap.fullname
+                        .form_item
+                            label(style='font-family: Courier New, monospace;; font-weight:normal;') First Name
+                            input#firstName.error(type='text' name='firstName' required='')
+                        .form_item
+                            label(style='font-family: Courier New, monospace;; font-weight:normal;') Last Name
+                            input#lastName.error(type='text' name='lastName' required='')
+                    .form_wrap.fullname
+                        .form_item
+                            label(style='font-family:Courier New, monospace;; font-weight:normal;') ID Number
+                            input#empId.error(type='text' name='empId' required='')
+                    .form_wrap.fullname
+                        .form_item
+                            label(for='userLevel' style='font-family: Courier New, monospace;; font-weight:normal;') User Level:
+                            select#userLevel(name='userLevel' required='')
+                                option(value='null') Choose Role
+                                each position in positions
+                                    option(value=position)= position
+                        .form_item
+                            label(for='userDepartment' style='font-family: Courier New, monospace;; font-weight:normal;') User Department:
+                            select#userDepartment(name='userDepartment' required='')
+                                option(value='null') Choose Department
+                                each department in departments
+                                    option(value=department)= department
 
-                        .btnPosition
-                              button(class='btn' type='submit') Register
+                    .btnPosition
+                        button(class='pure-material-button-contained active' onclick='validateUserCreation()') Register
 
-    #main.w3-main(style='margin-left:250px')
+
         .w3-row.w3-padding-64
             .w3-half.w3-container2.w3-card
                 .form_container
@@ -67,106 +66,91 @@ block body
                             input#userPosition.error(type='text' name='userPosition' required='')
 
                     .btnPosition
-                          button(class='btn' onclick='createUserPosition()') Create User Position
+                          button(class='pure-material-button-contained active' onclick='validatePosition()') Create User Position
 
             .w3-half.w3-container2.w3-card
                 .form_container
                     h3.w3-bold.w3-margin CREATE A NEW DEPARTMENT
                     .form_wrap.fullname
                         .form_item
-                            label(style='font-family: Courier New, monospace; font-weight:normal;') Email
+                            label(style='font-family: Courier New, monospace; font-weight:normal;') Department name
                             input#newDepartment.error(type='text' name='newDepartment' required='')
 
                 .btnPosition
-                      button(class='btn' onclick='createDepartment()') Create Department
-    script.
-        function createUserPosition(){
-            var data = {
-                newPosition: document.getElementById('userPosition').value
-            };
+                      button(class='pure-material-button-contained active' onclick='validateDepartment()') Create Department
 
-            $.ajax({
-                type: 'PUT',
-                url: '/AJAX_newPosition',
-                data: data,
-                success: function(response){
-                    if(response.status_code === 0){
-                        alert("New position was added.");
-                        window.location.reload();
-                    } else if(response.status_code === 1){
-                        alert("Position already exists.");
-                        window.location.reload();
-                    }
-                },
-                error: function(error){
-                    console.error('AJAX error in creating new position: ' + error);
-                    alert('AJAX error in creating new position: ' + error);
-                }
-            });
-        }
+        #createUserFailedModal
+            #createUserFailedOverLay.dialogoverlay-green
+            #createUserFailedDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead-red
+                        .i.fa.fa-exclamation-circle Error
+                    .dialogboxbody
+                        p#formValidationFailedMessage
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`hideCreateUserFailedModalModal()`) Ok
 
-        function createDepartment(){
-            var data = {
-                newDepartment: document.getElementById('newDepartment').value
-            };
+        #createUserSuccessModal
+            #createUserSuccessOverLay.dialogoverlay-green
+            #createUserSuccessDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead-green
+                        .i.fa.fa-exclamation-circle Success
+                    .dialogboxbody
+                        p#formValidationSuccessMessage
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`hideCreateUserSuccessModal()`) Ok
 
-            $.ajax({
-                type: 'PUT',
-                url: '/AJAX_newDepartment',
-                data: data,
-                success: function(response){
-                    if(response.status_code === 0){
-                        alert("New department was added.");
-                        window.location.reload();
-                    } else if(response.status_code === 1){
-                        alert("Department already exists.");
-                        window.location.reload();
-                    }
-                },
-                error: function(error){
-                    console.error('AJAX error in creating new position: ' + error);
-                    alert('AJAX error in creating new position: ' + error);
-                }
-            });
-        }
+        #confirmUserCreationModal
+            #confirmUserCreationOverLay.dialogoverlay
+            #confirmUserCreationDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm User creation
+                    .dialogboxbody
+                        h1 Please confirm the details before saving
+                        p#userCreationEmail
+                        p#userCreationFirstName
+                        p#userCreationLastName
+                        p#userCreationIDNumber
+                        p#userCreationLevel
+                        p#userCreationDepartment
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`createUser()`) Confirm
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideConfirmUserCreationModal()`) Cancel
 
-    script.
-        $(document).ready(function () {
-            $('#createUser').submit(function (event) {
+        #confirmPositionCreationModal
+            #confirmPositionCreationOverLay.dialogoverlay
+            #confirmPositionCreationDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm Position creation
+                    .dialogboxbody
+                        h1 Please confirm the details before saving
+                        p#creationPosition
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`createUserPosition()`) Confirm
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideConfirmPositionCreationModal()`) Cancel
 
-                var data = {
-                    email: document.getElementById('email').value,
-                    passWord: document.getElementById('passWord').value,
-                    firstName: document.getElementById('firstName').value,
-                    lastName: document.getElementById('lastName').value,
-                    empId: document.getElementById('empId').value,
-                    userLevel: document.getElementById('userLevel').value,
-                    userDepartment: document.getElementById('userDepartment').value
-                };
+        #confirmDepartmentCreationModal
+            #confirmDepartmentCreationOverLay.dialogoverlay
+            #confirmDepartmentCreationDialogbox.dialogbox.slit-in-vertical
+                #randomDiv
+                    .dialogboxhead
+                        .i.fa.fa-exclamation-circle Confirm Department creation
+                    .dialogboxbody
+                        h1 Please confirm the details before saving
+                        p#creationDepartment
+                .dialogboxfoot
+                    button.pure-material-button-contained.active(onclick=`createDepartment()`) Confirm
+                .dialogboxfoot2
+                    button.pure-material-button-contained.active(onclick=`hideConfirmDepartmentCreationModal()`) Cancel
 
-                $.ajax({
-                    type: 'POST',
-                    url: '/createusers',
-                    data: data,
-                    success: function(response) {
-                        if(response.status_code === 1) {
-                            alert("User Email already exists!");
-                        } else if(response.status_code === 2) {
-                            alert("User Employee ID already exists!");
-                        } else if(response.status_code === 0) {
-                            alert("User successfully created!");
-                            location.reload();
-                        } else if(response.status_code === 3) {
-                            alert("Employee must have a Department");
-                        }
-                    },
-                    error: function (error) {
-                        console.error('AJAX error:', error);
-                    }
-                });
+    script(src='js/client.functions/handle_ajax_create_user.js')
+    script(src='js/client.functions/handle_ajax_create_position.js')
+    script(src='js/client.functions/handle_ajax_create_department.js')
 
-                // Prevent the default form submission
-                event.preventDefault();
-            });
-        });
+
 

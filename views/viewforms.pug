@@ -41,6 +41,8 @@ block body
                             thead
                                 tr
                                     th.w3-center Form Name
+                                    th.w3-center Form Owner
+                                    th.w3-center Form Owner ID
                                     th.w3-center Status
                                     th.w3-center Date Created
                                     th.w3-center Time Created
@@ -50,6 +52,8 @@ block body
                                 each submittedForm in submittedForms
                                     tr
                                         td #{submittedForm.form_name}
+                                        td #{submittedForm.form_owner_name}
+                                        td #{submittedForm.form_owner}
                                         td #{submittedForm.form_status}
                                         td #{submittedForm.date_saved}
                                         td #{submittedForm.time_saved}
@@ -67,6 +71,8 @@ block body
                             thead
                                 tr
                                     th.w3-center Form Name
+                                    th.w3-center Form Owner
+                                    th.w3-center Form Owner ID
                                     th.w3-center Status
                                     th.w3-center Date Created
                                     th.w3-center Time Created
@@ -76,6 +82,8 @@ block body
                                 each filteredForm in filteredForms
                                     tr
                                         td #{filteredForm.form_name}
+                                        td #{filteredForm.form_owner_name}
+                                        td #{filteredForm.form_owner}
                                         td #{filteredForm.form_status}
                                         td #{filteredForm.date_saved}
                                         td #{filteredForm.time_saved}
