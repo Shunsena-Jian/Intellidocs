@@ -1730,6 +1730,21 @@ function getUniqueForms(formsGroup){
     return uniqueForms;
 }
 
+function getUniqueOwnerandControlNumberForms(formsGroup){
+    var uniqueForms = [];
+    var seenForms = {};
+
+    for (const obj of formsGroup){
+        const formKey = obj.form_owner + '-' + obj.form_control_number;
+        if (!seenForms[formKey]){
+            seenForms[formKey] = true;
+            uniqueForms.push(obj);
+        }
+    }
+    return uniqueForms;
+}
+
+
 function getUniqueControlNumberForms(formsGroup){
     var uniqueForms = [];
     var seenControlNumber = {};
@@ -1782,7 +1797,7 @@ app.get('/viewforms', async function(req, res){
             var publishedForms = getUniqueControlNumberForms(allPublishedForms);
             var assignedForms = getUniqueControlNumberForms(allAssignedForms);
             var sharedForms = getUniqueForms(allSharedForms);
-            var submittedForms = getUniqueForms(allSubmittedForms);
+            var submittedForms = getUniqueOwnerandControlNumberForms(allSubmittedForms);
             var finalSubmittedForms = [];
 
             await Promise.all(submittedForms.map(async function(form) {
