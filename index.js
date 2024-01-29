@@ -895,10 +895,11 @@ app.get('/formview/:form_control_number', async function (req, res){
         jsonObject.form_content = g;
 
         var submittedVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_status : { $in: ["Submitted", "Returned"]} }).toArray();
+        var filteredSubmittedForms = getUniqueControlNumberForms(submittedVersions);
 
         let modifiedVersions = [];
 
-        for(const form of submittedVersions) {
+        for(const form of filteredSubmittedForms) {
             const formOwner = form.form_owner;
             const user = await users.findOne({ emp_id: formOwner });
 
