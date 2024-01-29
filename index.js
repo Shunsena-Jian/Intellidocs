@@ -1778,7 +1778,7 @@ app.get('/viewforms', async function(req, res){
                 ]
             }).toArray();
 
-            var filteredForms = getUniqueForms(allFilteredForms);
+            var filteredForms = getUniqueControlNumberForms(allFilteredForms);
             var publishedForms = getUniqueControlNumberForms(allPublishedForms);
             var assignedForms = getUniqueControlNumberForms(allAssignedForms);
             var sharedForms = getUniqueForms(allSharedForms);
