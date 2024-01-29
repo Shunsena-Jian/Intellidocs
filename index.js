@@ -1779,7 +1779,7 @@ app.get('/viewforms', async function(req, res){
                     const findOwner = await users.findOne({ emp_id: form.form_owner });
                     let find_owner_name = findOwner.first_name + " " + findOwner.last_name;
                     if (findDepHead.user_department == findOwner.user_department) {
-                        form.form_owner_name = find_owner_name; // Add owner name to the form object
+                        form.form_owner_name = find_owner_name;
                         allFilteredForms.push(form);
                     }
                 }
@@ -2477,7 +2477,6 @@ app.put('/AJAX_setDueDate', async function(req, res){
     if(req.session.loggedIn){
         var formData = req.body;
         var selectedFormControlNumberToView = formData.formControlNumber;
-//        var formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
         var updateDocument;
         var updateFilledOutForms;
 

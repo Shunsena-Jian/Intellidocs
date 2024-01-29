@@ -128,30 +128,20 @@ block body
                                                     #deanApproval  Not Approved
 
                         if (currentUserDetailsBlock.userLevel === "Secretary")
-                            if (initialTemplateForm && initialTemplateForm.due_date === null)
-                                .w3-third
-                                    .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                        h4.w3-bold Form Settings
-                                        .w3-row
-                                            button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
-                                        hr
-                                        h4#dueDateH4.w3-bold Due Date
-                                        #dueDateContainer.w3-row
-                                            input(type="date" id="dueDateInput" name="birthday")
-                                        br
-                                        #dueDateContainer1.w3-row
-                                            button#dueDateButton.w3-button.w3-block.w3-theme-dark(onclick='setDueDate()')
-                                                i.fa.fa-share-alt.fa-fw.w3-margin-right
-                                                |   Set Due Date
-                            else
-                                .w3-third
-                                    .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                        h4.w3-bold Form Settings
-                                        .w3-row
-                                            button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
-                                        hr
-                                        h4.w3-bold Due Date Set
-
+                            .w3-third
+                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                    h4.w3-bold Form Settings
+                                    .w3-row
+                                        button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
+                                    hr
+                                    h4#dueDateH4.w3-bold Due Date
+                                    #dueDateContainer.w3-row
+                                        input(type="date" id="dueDateInput" name="birthday")
+                                    br
+                                    #dueDateContainer1.w3-row
+                                        button#dueDateButton.w3-button.w3-block.w3-theme-dark(onclick='setDueDate()')
+                                            i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                            |   Set Due Date
 
                             .w3-third
                                 .w3-container2.w3-card.w3-white.w3-round.w3-margin

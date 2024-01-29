@@ -26,11 +26,6 @@ function setDueDate(){
             success: function(response){
                 if(response.status_code === 0){
                     document.getElementById("formDueDateSetting").innerHTML = response.dueDate;
-                    document.getElementById("dueDateH4").innerHTML = 'Due Date Set';
-                    var dueDateContainer = document.getElementById("dueDateContainer");
-                    var dueDateContainer1 = document.getElementById("dueDateContainer1");
-                    dueDateContainer.remove();
-                    dueDateContainer1.remove();
                     showGeneralSuccessModal("Due date has been set.");
                 }else if(response.status_code === 1){
                     showGeneralErrorModal("Error in setting a due date.");
