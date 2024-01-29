@@ -490,35 +490,37 @@ block body
                 .dialogboxfoot2
                     button.pure-material-button-contained.active(onclick=`hideDeleteModal()`) No
 
-        .w3-container.w3-card.w3-white.w3-round.w3-margin
-            .w3-row
-                .w3-container
-                    h3.w3-bold Previously Submitted Forms
-                    hr
-                    .w3-white.w3-round.w3-margin
-                        table#previouslySubmittedForms.display(width='100%')
-                            thead
-                                tr
-                                    th Form Name
-                                    th Form Control Number
-                                    th Time Submitted
-                                    th Date Submitted
-                                    th Department Head Approval
-                                    th Secretary Approval
-                                    th Dean Approval
-                                    th Action
-                            tbody
-                                each prevSubmitForms in previouslySubmittedForms
+        if (!currentForm.allow_file_upload || currentUserDetailsBlock.empID != currentForm.form_owner)
+        else
+            .w3-container.w3-card.w3-white.w3-round.w3-margin
+                .w3-row
+                    .w3-container
+                        h3.w3-bold Previously Submitted Forms
+                        hr
+                        .w3-white.w3-round.w3-margin
+                            table#previouslySubmittedForms.display(width='100%')
+                                thead
                                     tr
-                                        td #{prevSubmitForms.form_name}
-                                        td #{prevSubmitForms.form_control_number}
-                                        td #{prevSubmitForms.time_saved}
-                                        td #{prevSubmitForms.date_submitted}
-                                        td #{prevSubmitForms.department_head_approval}
-                                        td #{prevSubmitForms.secretary_approval}
-                                        td #{prevSubmitForms.dean_approval}
-                                        td
-                                            button.w3-button2.w3-block.w3-theme-dark(onclick=`renderPrevSubmittedForm("${prevSubmitForms.form_owner}", "${prevSubmitForms.user_version}")`) View
+                                        th Form Name
+                                        th Form Control Number
+                                        th Time Submitted
+                                        th Date Submitted
+                                        th Department Head Approval
+                                        th Secretary Approval
+                                        th Dean Approval
+                                        th Action
+                                tbody
+                                    each prevSubmitForms in previouslySubmittedForms
+                                        tr
+                                            td #{prevSubmitForms.form_name}
+                                            td #{prevSubmitForms.form_control_number}
+                                            td #{prevSubmitForms.time_saved}
+                                            td #{prevSubmitForms.date_submitted}
+                                            td #{prevSubmitForms.department_head_approval}
+                                            td #{prevSubmitForms.secretary_approval}
+                                            td #{prevSubmitForms.dean_approval}
+                                            td
+                                                button.w3-button2.w3-block.w3-theme-dark(onclick=`renderPrevSubmittedForm("${prevSubmitForms.form_owner}", "${prevSubmitForms.user_version}")`) View
         script.
             function removeSharedUser(email){
                 var removeSharedUserMessage = "Are you sure to stop sharing the form to " + email + "?";
@@ -577,14 +579,14 @@ block body
                 }
             }
 
-        if (!currentForm.allow_file_upload)
+        if (!currentForm.allow_file_upload || currentUserDetailsBlock.empID != currentForm.form_owner)
         else
             .w3-row.w3-padding-16
                 .w3-container.w3-card.w3-white.w3-round.w3-margin
                     .w3-row
                         h3.w3-bold File Management
                         hr
-                        .w3-twothird.w3-container
+                        .w3-container
                             .w3-white.w3-round
 
                                 table#filesTable.display(width='100%')

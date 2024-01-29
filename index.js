@@ -772,6 +772,7 @@ app.get('/formview/:form_control_number', async function (req, res){
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
         var retrievedUserEmails = await getUsersEmails();
+        var currentUserFiles = await files.find({ uploadedBy : latestUserFilledVersion.form_owner, fileFormControlNumber : latestUserFilledVersion.form_control_number }).toArray();
         var selectedFormControlNumberToView = req.params.form_control_number;
         formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
         var allVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID }).toArray();
@@ -870,7 +871,6 @@ app.get('/formview/:form_control_number', async function (req, res){
         }
 
         if(currentUserDetailsBlock.userLevel != "Secretary" && currentForm.assigned_users.includes(currentUserDetailsBlock.email)){
-            var currentUserFiles = await files.find({ uploadedBy : latestUserFilledVersion.form_owner, fileFormControlNumber : latestUserFilledVersion.form_control_number }).toArray();
 
             var sharedRead = jsonObject.read_users;
             var sharedReadUsers = [];
@@ -915,7 +915,7 @@ app.get('/formview/:form_control_number', async function (req, res){
         var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
         var previouslySubmittedForms = await filledoutforms.find({ form_owner : req.session.userEmpID, form_status : "Submitted" }).toArray();
         var initialTemplateForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
-    //    currentUserFiles = await getFiles(req.session.userEmpID);
+        // currentUserFiles = await getFiles(req.session.userEmpID);
 
         res.render('formview', {
             title: 'View Forms',
