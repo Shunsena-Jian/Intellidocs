@@ -1083,6 +1083,7 @@ app.get('/', async function (req, res){
             let finalForms = [];
             let allForms = await getForms();
             let finalityForms = await getUniqueControlNumberForms(allForms);
+            finalDocControlForms = getUniqueLatestControlNumberForms(allForms);
             let userAccounts = await getUserAccounts();
             let currentUserFiles = await getFiles(req.session.userEmpID);
             let currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
@@ -1225,6 +1226,7 @@ app.get('/', async function (req, res){
                 currentUserPicture: currentUserPicture,
                 min_idleTime: min_idleTime,
                 userAccounts: userAccounts,
+                finalDocControlForms: finalDocControlForms,
                 allTemplates: allForms,
                 allForms: finalityForms,
                 finalForms: finalForms,
@@ -1463,6 +1465,7 @@ app.post('/login', async function (req, res){
                 let allForms = await getForms();
                 let finalityForms = await getUniqueControlNumberForms(allForms);
                 let userAccounts = await getUserAccounts();
+                finalDocControlForms = getUniqueLatestControlNumberForms(allForms);
 
                 currentUserFiles = await getFiles(req.session.userEmpID);
                 currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
@@ -1610,6 +1613,7 @@ app.post('/login', async function (req, res){
                     currentUserPrivileges: currentUserPrivileges,
                     currentUserPicture: currentUserPicture,
                     min_idleTime: min_idleTime,
+                    finalDocControlForms: finalDocControlForms,
                     userAccounts: userAccounts,
                     allTemplates: allForms,
                     allForms: finalityForms,
@@ -1744,6 +1748,22 @@ function getUniqueOwnerandControlNumberForms(formsGroup){
     return uniqueForms;
 }
 
+function getUniqueLatestControlNumberForms(formsGroup){
+    var uniqueForms = [];
+    var seenControlNumber = {};
+
+    for (const obj of formsGroup){
+        if (!seenControlNumber[obj.form_control_number] || seenControlNumber[obj.form_control_number].form_version < obj.form_version){
+            seenControlNumber[obj.form_control_number] = obj;
+        }
+    }
+
+    for (const controlNumber in seenControlNumber) {
+        uniqueForms.push(seenControlNumber[controlNumber]);
+    }
+
+    return uniqueForms;
+}
 
 function getUniqueControlNumberForms(formsGroup){
     var uniqueForms = [];
@@ -1848,6 +1868,14 @@ app.get('/viewformtemplates', async function(req, res){
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentForms = await getForms();
         currentUserPicture = await getUserPicture(req.session.userEmpID);
+        currentPersonalizedWidgets = await getPersonalizedWidgets(req.session.userEmpID);
+        currentHeaderWidgets = await getHeaderWidgets(req.session.userEmpID);
+        currentInformationInputWidgets = await getInformationInputWidgets(req.session.userEmpID);
+        currentCheckBoxWidgets = await getCheckBoxWidgets(req.session.userEmpID);
+        currentGroupedWidgets = await getGroupedWidgets(req.session.userEmpID);
+        currentTextWidgets = await getTextWidgets(req.session.userEmpID);
+        currentSignatureWidgets = await getSignatureWidgets(req.session.userEmpID);
+        currentTableWidgets = await getTableWidgets(req.session.userEmpID);
 
         currentForms = getUniqueControlNumberForms(currentForms);
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
@@ -2825,7 +2853,7 @@ app.put('/AJAX_viewFormVersion', async function(req, res) {
 
             try{
                 jsonObject.form_content = g;
-                res.send({ status_code : 0, formContent : jsonObject.form_content, formStatus : currentForm.form_status, sharedStatus : currentForm.shared_status, formVersion : currentForm.form_version });
+                res.send({ status_code : 0, formContent : jsonObject.form_content, formStatus : currentForm.form_status, sharedStatus : currentForm.shared_status, formVersion : currentForm.form_version, allowUploadFile: currentForm.allow_file_upload });
             }catch(error){
                 logError("Error at view form version for front end: " + error);
             }

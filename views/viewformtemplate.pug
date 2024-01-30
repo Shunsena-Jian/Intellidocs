@@ -19,22 +19,23 @@ block body
                                         td.w3-bold  Form Name:
                                         td #{currentForm.form_name}
                                     tr
+                                        td.w3-bold  Rendered Form Version:
+                                        td#settingsVersion Version #{currentForm.form_version}
+                                    tr
                                         td.w3-bold Form Sharing:
-                                        td
-                                            if currentForm.shared_status === true
-                                                p#formDetailsSharingSetting Allowed
-                                            else
-                                                p#formDetailsSharingSetting Not Allowed
+                                        if currentForm.shared_status === true
+                                            td#formDetailsSharingSetting Allowed
+                                        else
+                                            td#formDetailsSharingSetting Not Allowed
                                     tr
                                         td.w3-bold  Status:
                                         td#formDetailsStatusSetting #{currentForm.form_status}
                                     tr
                                         td.w3-bold  File Uploading:
-                                        td
-                                            if currentForm.allow_file_upload === true
-                                                p#formDetailsUploadSetting Allowed
-                                            else
-                                                p#formDetailsUploadSetting Not Allowed
+                                        if currentForm.allow_file_upload === true
+                                            td#formDetailsUploadSetting Allowed
+                                        else
+                                            td#formDetailsUploadSetting Not Allowed
 
                             script.
                                 function dropDownUpdateCanvas(formControlNumber){
@@ -55,11 +56,19 @@ block body
                                                 document.getElementById("enginePlaceHolder").innerHTML = response.formContent;
                                                 var formStatus = response.formStatus;
                                                 var sharedStatus = response.sharedStatus;
+                                                var allowUploadFile = response.allowUploadFile;
                                                 document.getElementById("settingsVersion").innerHTML = "Version : " + response.formVersion;
+
                                                 if(sharedStatus == true){
                                                     document.getElementById("formDetailsSharingSetting").innerHTML = "Allowed";
                                                 } else {
                                                     document.getElementById("formDetailsSharingSetting").innerHTML = "Not Allowed";
+                                                }
+
+                                                if(allowUploadFile == true){
+                                                    document.getElementById("formDetailsUploadSetting").innerHTML = "Allowed";
+                                                } else {
+                                                    document.getElementById("formDetailsUploadSetting").innerHTML = "Not Allowed";
                                                 }
 
                                                 if(formStatus === "Template"){
@@ -138,10 +147,9 @@ block body
                                 }
 
                                 function togglePublish(){
-                                    var togglePublishButtonValue = `#{currentForm.form_status}`;
                                     var confirmationMessage;
 
-                                    if(togglePublishButtonValue == "Published"){
+                                    if(document.getElementById('togglePublishButton').innerHTML == "Un-publish Form"){
                                         confirmationMessage = "Are you sure you want to un-publish this form?";
                                     }else{
                                         confirmationMessage = "Are you sure you want to publish this form?";
