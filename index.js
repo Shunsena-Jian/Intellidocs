@@ -1753,8 +1753,16 @@ function getUniqueLatestControlNumberForms(formsGroup){
     var seenControlNumber = {};
 
     for (const obj of formsGroup){
-        if (!seenControlNumber[obj.form_control_number] || seenControlNumber[obj.form_control_number].form_version < obj.form_version){
-            seenControlNumber[obj.form_control_number] = obj;
+        // Check if the control number has been seen or if the form status is "Published"
+        if (!seenControlNumber[obj.form_control_number] || obj.form_status === "Published") {
+            // If the form status is "Published", replace the previous form with this one
+            if (obj.form_status === "Published" && seenControlNumber[obj.form_control_number]) {
+                seenControlNumber[obj.form_control_number] = obj;
+            }
+            // If it's the latest version and form_status is "Published", push it
+            else if (!seenControlNumber[obj.form_control_number] || seenControlNumber[obj.form_control_number].form_version < obj.form_version) {
+                seenControlNumber[obj.form_control_number] = obj;
+            }
         }
     }
 

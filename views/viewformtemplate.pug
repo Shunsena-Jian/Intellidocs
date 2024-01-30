@@ -20,7 +20,7 @@ block body
                                         td #{currentForm.form_name}
                                     tr
                                         td.w3-bold  Rendered Form Version:
-                                        td#settingsVersion Version #{currentForm.form_version}
+                                        td#settingsVersion #{currentForm.form_version}
                                     tr
                                         td.w3-bold Form Sharing:
                                         if currentForm.shared_status === true
@@ -57,7 +57,7 @@ block body
                                                 var formStatus = response.formStatus;
                                                 var sharedStatus = response.sharedStatus;
                                                 var allowUploadFile = response.allowUploadFile;
-                                                document.getElementById("settingsVersion").innerHTML = "Version : " + response.formVersion;
+                                                document.getElementById("settingsVersion").innerHTML = "Version " + response.formVersion;
 
                                                 if(sharedStatus == true){
                                                     document.getElementById("formDetailsSharingSetting").innerHTML = "Allowed";
@@ -214,7 +214,10 @@ block body
                                     hideGeneralConfirmationModal();
                                     var togglePublishButton = document.getElementById("togglePublishButton");
                                     var formDetailsStatusSetting = document.getElementById("formDetailsStatusSetting");
-                                    var versionChoice = document.getElementById("versionDropDown").value;
+                                    var versionChoice = parseInt(document.getElementById("settingsVersion").innerHTML);
+                                    if(isNaN(versionChoice)){
+                                        versionChoice = 0;
+                                    }
 
                                     var data = {
                                         formName: formBlock.form_name,
