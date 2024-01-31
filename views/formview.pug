@@ -114,17 +114,17 @@ block body
                                         tr
                                             td Secretary:
                                             td
-                                                if (!form_template.secretary_approval)
+                                                if (!currentForm.secretary_approval)
                                                     #secretaryApproval Not Approved
                                         tr
                                             td Department Head:
                                             td
-                                                if (!form_template.dean_approval)
+                                                if (!currentForm.dean_approval)
                                                     #departmentHeadApproval  Not Approved
                                         tr
                                             td Dean:
                                             td
-                                                if (!form_template.department_head_approval)
+                                                if (!currentForm.department_head_approval)
                                                     #deanApproval  Not Approved
 
                         if (currentUserDetailsBlock.userLevel === "Secretary")
@@ -282,17 +282,17 @@ block body
                                         tr
                                             td Secretary:
                                             td
-                                                if (!form_template.secretary_approval)
+                                                if (!currentForm.secretary_approval)
                                                     #secretaryApproval Not Approved
                                         tr
                                             td Department Head:
                                             td
-                                                if (!form_template.dean_approval)
+                                                if (!currentForm.dean_approval)
                                                     #departmentHeadApproval  Not Approved
                                         tr
                                             td Dean:
                                             td
-                                                if (!form_template.department_head_approval)
+                                                if (!currentForm.department_head_approval)
                                                     #deanApproval  Not Approved
 
                     .w3-twothird.w3-container2
@@ -675,11 +675,10 @@ block body
         var table10 = $('#submittedFormsTable').DataTable();
         var table9 = $('#submittedFormsTable').DataTable();
 
-        var form_template = !{JSON.stringify(form_template)};
         var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting").innerHTML;
         var toggleActivateFormButton = document.getElementById("toggleActivateFormButton");
 
-        formDetailsActivateSetting.innerHTML = form_template.form_status;
+        formDetailsActivateSetting.innerHTML = currentForm.form_status;
 
         if(formDetailsActivateSetting == "Active" || formDetailsActivateSetting == "On-going"){
             toggleActivateFormButton.innerHTML = "De-activate";
@@ -687,10 +686,10 @@ block body
             toggleActivateFormButton.innerHTML = "Activate";
         }
 
-        if(form_template.form_status == "Published"){
+        if(currentForm.form_status == "Published"){
             toggleActivateFormButton.innerHTML = "Activate";
-        }else if(form_template.form_status == "In-active"){
+        }else if(currentForm.form_status == "In-active"){
             toggleActivateFormButton.innerHTML = "Activate";
-        }else if(form_template.form_status == "Template"){
+        }else if(currentForm.form_status == "Template"){
             toggleActivateFormButton.innerHTML = "Activate";
         }

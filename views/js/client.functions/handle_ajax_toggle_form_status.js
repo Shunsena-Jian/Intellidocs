@@ -1,9 +1,9 @@
 function toggleActivateForm(){
     var confirmationMessage;
 
-    if(form_template.form_status == "Published"){
+    if(currentForm.form_status == "Published"){
         confirmationMessage = "Are you sure you want to ACTIVATE the form?";
-    }else if(form_template.form_status == "Active"){
+    }else if(currentForm.form_status == "Active"){
         confirmationMessage = "Are you sure you want to DE-ACTIVATE the form?";
     }else{
         confirmationMessage = "Are you sure you want to ACTIVATE the form?";
@@ -26,8 +26,8 @@ function AJAX_toggleActivate(){
     var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting");
 
     var data = {
-        formControlNumber: form_template.form_control_number,
-        targetedVersion: form_template.form_version
+        formControlNumber: currentForm.form_control_number,
+        targetedVersion: currentForm.form_version
     };
 
     $.ajax({

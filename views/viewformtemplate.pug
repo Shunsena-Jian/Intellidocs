@@ -57,7 +57,7 @@ block body
                                                 var formStatus = response.formStatus;
                                                 var sharedStatus = response.sharedStatus;
                                                 var allowUploadFile = response.allowUploadFile;
-                                                document.getElementById("settingsVersion").innerHTML = "Version " + response.formVersion;
+                                                document.getElementById("settingsVersion").innerHTML = response.formVersion;
 
                                                 if(sharedStatus == true){
                                                     document.getElementById("formDetailsSharingSetting").innerHTML = "Allowed";
@@ -283,7 +283,7 @@ block body
                                         button#toggleSharingButton.w3-button.w3-block.w3-theme-dark(onclick='toggleSharing()') Allow Sharing
 
                                     br
-                                    if currentForm.form_status === "Template"
+                                    if (currentForm.form_status === "Template")
                                         button#togglePublishButton.w3-button.w3-block.w3-theme-dark(onclick='togglePublish()') Publish Form
                                     else
                                         button#togglePublishButton.w3-button.w3-block.w3-theme-dark(onclick='togglePublish()') Un-publish Form

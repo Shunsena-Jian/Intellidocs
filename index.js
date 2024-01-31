@@ -768,13 +768,14 @@ app.get('/sharedview', async function (req, res){
 app.get('/formview/:form_control_number', async function (req, res){
     if(req.session.loggedIn){
         req.session.form_control_number = req.params.form_control_number;
+
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
         currentUserPicture = await getUserPicture(req.session.userEmpID);
+
         var retrievedUserEmails = await getUsersEmails();
-        // var currentUserFiles = await files.find({ uploadedBy : latestUserFilledVersion.form_owner, fileFormControlNumber : latestUserFilledVersion.form_control_number }).toArray();
         var selectedFormControlNumberToView = req.params.form_control_number;
-        formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+        templateVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
         var allVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID }).toArray();
 
         var latestVersion = 0;
@@ -782,20 +783,20 @@ app.get('/formview/:form_control_number', async function (req, res){
         var latestAssignedVersion = 0;
         var latestAssignedUsers;
 
-        for(i=0; i < formVersions.length; i++){
-            if(formVersions[i].form_version >= latestVersion){
-                latestVersion = formVersions[i].form_version;
-                latestAssignedUsers = formVersions[i].assigned_users;
+        for(i=0; i < templateVersions.length; i++){
+            if(templateVersions[i].form_version >= latestVersion){
+                latestVersion = templateVersions[i].form_version;
+                latestAssignedUsers = templateVersions[i].assigned_users;
 
-                if(formVersions[i].assigned_users){
-                    let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...formVersions[i].assigned_users]);
+                if(templateVersions[i].assigned_users){
+                    let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...templateVersions[i].assigned_users]);
                     latestAssignedUsers = Array.from(uniqueAssignedUsers);
                 }
             }
         }
 
-        var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
-        var formTemplate = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
+        var currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_status: { $in: ["Published", "Active"] }});
+
         var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
         var jsonObject;
 
@@ -860,12 +861,10 @@ app.get('/formview/:form_control_number', async function (req, res){
                 if(currentForm.form_version != latestUserFilledVersion.form_version){
                     jsonObject.form_content = await updateToLatestVersion(currentForm.form_content, latestUserFilledVersion.form_content);
                 }
-
-                jsonObject = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, user_version: 0, form_owner : req.session.userEmpID });
             }
         }else{
 
-            latestTemplateVersion = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
+            latestTemplateVersion = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: currentForm.form_version });
             jsonObject = latestTemplateVersion;
 
         }
@@ -929,7 +928,6 @@ app.get('/formview/:form_control_number', async function (req, res){
             currentUserPicture: currentUserPicture,
             allVersions: allVersions,
             min_idleTime: min_idleTime,
-            form_template : formTemplate,
             submittedVersions: modifiedVersions,
             sharedRead: sharedReadUsers,
             sharedWrite: sharedWriteUsers,
