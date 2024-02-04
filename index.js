@@ -402,6 +402,11 @@ app.post('/saveformversion', async function(req, res){
             };
 
             const result = await forms.insertOne(formDocument);
+            let updateFormName = await forms.updateMany(
+                { form_control_number: formData.formControlNumber.toString() },
+                { $set: { form_name: formData.name } }
+            );
+
             logStatus("Saved new form version in database: " + result);
             res.json({ success: true });
 
@@ -564,12 +569,6 @@ app.put('/submitform', async function(req, res){
 
                 const result = await filledoutforms.insertOne(filledOutDocument);
 
-                for(i=0; i < userFormVersions.length; i++){
-                    if(userFormVersions[i].user_version >= initialUserVersion){
-                        allUserFormVersions.push(userFormVersions[i].user_version);
-                    }
-                }
-
                 var userFormTemplate = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID, user_version: 0 });
                 let jsonObject = userFormTemplate;
                 var e = jsonObject.form_content;
@@ -612,6 +611,14 @@ app.put('/submitform', async function(req, res){
                     status: "Unseen",
                     message: currentUser.first_name + " has submitted the form: " + formData.formName
                 });
+
+                ownerFormVersion = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
+
+                for(i=0; i < ownerFormVersion.length; i++){
+                    if(ownerFormVersion[i].user_version >= initialUserVersion){
+                        allUserFormVersions.push(ownerFormVersion[i].user_version);
+                    }
+                }
 
                 res.send({ status_code : 0, allUserFormVersions : allUserFormVersions, initialTemplate: jsonObject.form_content, prevSubmittedForms: prevSubmittedForms });
             }
@@ -766,179 +773,184 @@ app.get('/sharedview', async function (req, res){
 });
 
 app.get('/formview/:form_control_number', async function (req, res){
-    if(req.session.loggedIn){
-        req.session.form_control_number = req.params.form_control_number;
+    try {
+        if(req.session.loggedIn){
+            req.session.form_control_number = req.params.form_control_number;
 
-        currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
-        currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        currentUserPicture = await getUserPicture(req.session.userEmpID);
+            currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
+            currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
+            currentUserPicture = await getUserPicture(req.session.userEmpID);
 
-        var retrievedUserEmails = await getUsersEmails();
-        var selectedFormControlNumberToView = req.params.form_control_number;
-        templateVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
-        var allVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID }).toArray();
+            var retrievedUserEmails = await getUsersEmails();
+            var selectedFormControlNumberToView = req.params.form_control_number;
+            templateVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
+            var allVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID }).toArray();
 
-        var latestVersion = 0;
-        var latestUserVersion = 0;
-        var latestAssignedVersion = 0;
-        var latestAssignedUsers;
+            var latestVersion = 0;
+            var latestUserVersion = 0;
+            var latestAssignedVersion = 0;
+            var latestAssignedUsers;
 
-        for(i=0; i < templateVersions.length; i++){
-            if(templateVersions[i].form_version >= latestVersion){
-                latestVersion = templateVersions[i].form_version;
-                latestAssignedUsers = templateVersions[i].assigned_users;
+            for(i=0; i < templateVersions.length; i++){
+                if(templateVersions[i].form_version >= latestVersion){
+                    latestVersion = templateVersions[i].form_version;
+                    latestAssignedUsers = templateVersions[i].assigned_users;
 
-                if(templateVersions[i].assigned_users){
-                    let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...templateVersions[i].assigned_users]);
-                    latestAssignedUsers = Array.from(uniqueAssignedUsers);
-                }
-            }
-        }
-
-        var currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_status: { $in: ["Published", "Active"] }});
-
-        var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
-        var jsonObject;
-
-        if (currentUserDetailsBlock.userLevel !== "Secretary" && currentForm.assigned_users.includes(currentUserDetailsBlock.email)){
-            if(userFormVersions == 0){
-
-                var latestWriteUsers = [];
-                var latestReadUsers = [];
-
-                jsonObject = currentForm;
-                const filledOutDocument = {
-                    form_name: currentForm.form_name,
-                    form_control_number: currentForm.form_control_number,
-                    form_content: currentForm.form_content,
-                    form_version: currentForm.form_version,
-                    form_status: "On-going",
-                    shared_status: Boolean(currentForm.shared_status),
-                    allow_file_upload : Boolean(currentForm.allow_file_upload),
-                    date_saved: getDateNow(),
-                    time_saved: getTimeNow(),
-                    user_version: 0,
-                    form_owner: req.session.userEmpID,
-                    read_users: latestReadUsers,
-                    write_users: latestWriteUsers,
-                    due_date: currentForm.due_date,
-                    quarter_due_date: currentForm.quarter_due_date,
-                    annual_due_date: currentForm.annual_due_date,
-                    academic_year: currentForm.academic_year,
-                    semester: currentForm.semester,
-                    dean_approval: "Not Approved",
-                    department_head_approval: "Not Approved",
-                    secretary_approval: "Not Approved",
-                };
-
-                const result = await filledoutforms.insertOne(filledOutDocument);
-
-                for(i = 0; i < userFormVersions.length; i++){
-                    if(userFormVersions[i].user_version >= latestUserVersion){
-                        latestUserVersion = userFormVersions[i].user_version;
+                    if(templateVersions[i].assigned_users){
+                        let uniqueAssignedUsers = new Set([...latestAssignedUsers, ...templateVersions[i].assigned_users]);
+                        latestAssignedUsers = Array.from(uniqueAssignedUsers);
                     }
                 }
+            }
 
-                latestUserFilledVersion = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, user_version: latestUserVersion, form_owner : req.session.userEmpID });
+            var currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_status: { $in: ["Published", "Active", "In-active"] }});
 
-                jsonObject = latestUserFilledVersion;
+            var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
+            var jsonObject;
 
-                if(currentForm.form_version != latestUserFilledVersion.form_version){
-                    jsonObject.form_content = await updateToLatestVersion(currentForm.form_content, latestUserFilledVersion.form_content);
+            if (currentUserDetailsBlock.userLevel !== "Secretary" && currentForm.assigned_users.includes(currentUserDetailsBlock.email)){
+                if(userFormVersions == 0){
+
+                    var latestWriteUsers = [];
+                    var latestReadUsers = [];
+
+                    jsonObject = currentForm;
+                    const filledOutDocument = {
+                        form_name: currentForm.form_name,
+                        form_control_number: currentForm.form_control_number,
+                        form_content: currentForm.form_content,
+                        form_version: currentForm.form_version,
+                        form_status: "On-going",
+                        shared_status: Boolean(currentForm.shared_status),
+                        allow_file_upload : Boolean(currentForm.allow_file_upload),
+                        date_saved: getDateNow(),
+                        time_saved: getTimeNow(),
+                        user_version: 0,
+                        form_owner: req.session.userEmpID,
+                        read_users: latestReadUsers,
+                        write_users: latestWriteUsers,
+                        due_date: currentForm.due_date,
+                        quarter_due_date: currentForm.quarter_due_date,
+                        annual_due_date: currentForm.annual_due_date,
+                        academic_year: currentForm.academic_year,
+                        semester: currentForm.semester,
+                        dean_approval: "Not Approved",
+                        department_head_approval: "Not Approved",
+                        secretary_approval: "Not Approved",
+                    };
+
+                    const result = await filledoutforms.insertOne(filledOutDocument);
+
+                    for(i = 0; i < userFormVersions.length; i++){
+                        if(userFormVersions[i].user_version >= latestUserVersion){
+                            latestUserVersion = userFormVersions[i].user_version;
+                        }
+                    }
+
+                    latestUserFilledVersion = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, user_version: latestUserVersion, form_owner : req.session.userEmpID });
+
+                    jsonObject = latestUserFilledVersion;
+
+                    if(currentForm.form_version != latestUserFilledVersion.form_version){
+                        jsonObject.form_content = await updateToLatestVersion(currentForm.form_content, latestUserFilledVersion.form_content);
+                    }
+
+                    jsonObject = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, user_version: 0, form_owner : req.session.userEmpID });
+                }else{
+                    for(i = 0; i < userFormVersions.length; i++){
+                        if(userFormVersions[i].user_version >= latestUserVersion){
+                            latestUserVersion = userFormVersions[i].user_version;
+                        }
+                    }
+                    latestUserFilledVersion = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, user_version: latestUserVersion, form_owner : req.session.userEmpID });
+
+                    jsonObject = latestUserFilledVersion;
+
+                    if(currentForm.form_version != latestUserFilledVersion.form_version){
+                        jsonObject.form_content = await updateToLatestVersion(currentForm.form_content, latestUserFilledVersion.form_content);
+                    }
                 }
-
-                jsonObject = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, user_version: 0, form_owner : req.session.userEmpID });
             }else{
-                for(i = 0; i < userFormVersions.length; i++){
-                    if(userFormVersions[i].user_version >= latestUserVersion){
-                        latestUserVersion = userFormVersions[i].user_version;
-                    }
-                }
-                latestUserFilledVersion = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, user_version: latestUserVersion, form_owner : req.session.userEmpID });
 
-                jsonObject = latestUserFilledVersion;
+                latestTemplateVersion = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: currentForm.form_version });
+                jsonObject = latestTemplateVersion;
 
-                if(currentForm.form_version != latestUserFilledVersion.form_version){
-                    jsonObject.form_content = await updateToLatestVersion(currentForm.form_content, latestUserFilledVersion.form_content);
+            }
+
+            if(currentUserDetailsBlock.userLevel != "Secretary" && currentForm.assigned_users.includes(currentUserDetailsBlock.email)){
+
+                var sharedRead = jsonObject.read_users;
+                var sharedReadUsers = [];
+
+                sharedRead.forEach(async function(user) {
+                    const userDetails = await users.findOne({ email: user });
+                    sharedReadUsers.push(userDetails);
+                });
+
+                var sharedWrite = jsonObject.write_users;
+                var sharedWriteUsers = [];
+
+                sharedWrite.forEach(async function(user) {
+                    const userDetails = await users.findOne({ email: user });
+                    sharedWriteUsers.push(userDetails);
+                });
+            }
+
+            logStatus("This is the json object: " + JSON.stringify(jsonObject));
+            var e = jsonObject.form_content;
+            var g = await jsonToHTML(e);
+            jsonObject.form_content = g;
+
+            var submittedVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_status : { $in: ["Submitted", "Returned"]} }).toArray();
+            var filteredSubmittedForms = getUniqueForms(submittedVersions);
+
+            let modifiedVersions = [];
+
+            for(const form of filteredSubmittedForms) {
+                const formOwner = form.form_owner;
+                const user = await users.findOne({ emp_id: formOwner });
+
+                if (user) {
+                    form.user_department = user.user_department;
+                    form.first_name = user.first_name;
+                    form.last_name = user.last_name;
+                    modifiedVersions.push(form);
+                } else {
+                    logError("User not found for form_owner: " + formOwner);
                 }
             }
+
+            var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
+            var previouslySubmittedForms = await filledoutforms.find({ form_owner : req.session.userEmpID, form_status : "Submitted" }).toArray();
+            var initialTemplateForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
+            currentUserFiles = await getFiles(req.session.userEmpID);
+
+            res.render('formview', {
+                title: 'View Forms',
+                retrievedUserEmails : retrievedUserEmails,
+                currentUserDetailsBlock : currentUserDetailsBlock,
+                currentUserFiles: currentUserFiles,
+                currentUserPrivileges: currentUserPrivileges,
+                currentForm: jsonObject,
+                initialTemplateForm: initialTemplateForm,
+                currentUserPicture: currentUserPicture,
+                allVersions: allVersions,
+                min_idleTime: min_idleTime,
+                submittedVersions: modifiedVersions,
+                sharedRead: sharedReadUsers,
+                sharedWrite: sharedWriteUsers,
+                allAssignedUsers: allAssignedUsers,
+                previouslySubmittedForms: previouslySubmittedForms,
+                userCurrentPage: "formview"
+            });
         }else{
-
-            latestTemplateVersion = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: currentForm.form_version });
-            jsonObject = latestTemplateVersion;
-
-        }
-
-        if(currentUserDetailsBlock.userLevel != "Secretary" && currentForm.assigned_users.includes(currentUserDetailsBlock.email)){
-
-            var sharedRead = jsonObject.read_users;
-            var sharedReadUsers = [];
-
-            sharedRead.forEach(async function(user) {
-                const userDetails = await users.findOne({ email: user });
-                sharedReadUsers.push(userDetails);
-            });
-
-            var sharedWrite = jsonObject.write_users;
-            var sharedWriteUsers = [];
-
-            sharedWrite.forEach(async function(user) {
-                const userDetails = await users.findOne({ email: user });
-                sharedWriteUsers.push(userDetails);
+            res.render('login', {
+                title: 'Login Page'
             });
         }
-
-        logStatus("This is the json object: " + JSON.stringify(jsonObject));
-        var e = jsonObject.form_content;
-        var g = await jsonToHTML(e);
-        jsonObject.form_content = g;
-
-        var submittedVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView, form_status : { $in: ["Submitted", "Returned"]} }).toArray();
-        var filteredSubmittedForms = getUniqueForms(submittedVersions);
-
-        let modifiedVersions = [];
-
-        for(const form of filteredSubmittedForms) {
-            const formOwner = form.form_owner;
-            const user = await users.findOne({ emp_id: formOwner });
-
-            if (user) {
-                form.user_department = user.user_department;
-                form.first_name = user.first_name;
-                form.last_name = user.last_name;
-                modifiedVersions.push(form);
-            } else {
-                logError("User not found for form_owner: " + formOwner);
-            }
-        }
-
-        var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
-        var previouslySubmittedForms = await filledoutforms.find({ form_owner : req.session.userEmpID, form_status : "Submitted" }).toArray();
-        var initialTemplateForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
-        currentUserFiles = await getFiles(req.session.userEmpID);
-
-        res.render('formview', {
-            title: 'View Forms',
-            retrievedUserEmails : retrievedUserEmails,
-            currentUserDetailsBlock : currentUserDetailsBlock,
-            currentUserFiles: currentUserFiles,
-            currentUserPrivileges: currentUserPrivileges,
-            currentForm: jsonObject,
-            initialTemplateForm: initialTemplateForm,
-            currentUserPicture: currentUserPicture,
-            allVersions: allVersions,
-            min_idleTime: min_idleTime,
-            submittedVersions: modifiedVersions,
-            sharedRead: sharedReadUsers,
-            sharedWrite: sharedWriteUsers,
-            allAssignedUsers: allAssignedUsers,
-            previouslySubmittedForms: previouslySubmittedForms,
-            userCurrentPage: "formview"
-        });
-    }else{
-        res.render('login', {
-            title: 'Login Page'
-        });
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).send("Internal Server Error");
     }
 });
 
@@ -1044,6 +1056,14 @@ app.get('/viewformtemplate/:form_control_number', async function (req, res){
             currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
             currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_version: latestVersion });
             currentUserPicture = await getUserPicture(req.session.userEmpID);
+            currentPersonalizedWidgets = await getPersonalizedWidgets(req.session.userEmpID);
+            currentHeaderWidgets = await getHeaderWidgets(req.session.userEmpID);
+            currentInformationInputWidgets = await getInformationInputWidgets(req.session.userEmpID);
+            currentCheckBoxWidgets = await getCheckBoxWidgets(req.session.userEmpID);
+            currentGroupedWidgets = await getGroupedWidgets(req.session.userEmpID);
+            currentTextWidgets = await getTextWidgets(req.session.userEmpID);
+            currentSignatureWidgets = await getSignatureWidgets(req.session.userEmpID);
+            currentTableWidgets = await getTableWidgets(req.session.userEmpID);
 
             let jsonObject = currentForm;
             var e = jsonObject.form_content;
@@ -1872,18 +1892,19 @@ app.get('/viewformtemplates', async function(req, res){
     if(req.session.loggedIn){
         currentUserDetailsBlock = await getUserDetailsBlock(req.session.userEmpID);
         currentUserPrivileges = await getUserPrivileges(currentUserDetailsBlock.userLevel);
-        currentForms = await getForms();
         currentUserPicture = await getUserPicture(req.session.userEmpID);
-        currentPersonalizedWidgets = await getPersonalizedWidgets(req.session.userEmpID);
-        currentHeaderWidgets = await getHeaderWidgets(req.session.userEmpID);
-        currentInformationInputWidgets = await getInformationInputWidgets(req.session.userEmpID);
-        currentCheckBoxWidgets = await getCheckBoxWidgets(req.session.userEmpID);
-        currentGroupedWidgets = await getGroupedWidgets(req.session.userEmpID);
-        currentTextWidgets = await getTextWidgets(req.session.userEmpID);
-        currentSignatureWidgets = await getSignatureWidgets(req.session.userEmpID);
-        currentTableWidgets = await getTableWidgets(req.session.userEmpID);
 
+        currentForms = await getForms();
         currentForms = getUniqueControlNumberForms(currentForms);
+
+        for (form of currentForms) {
+            let theForm = await forms.find({ form_control_number : form.form_control_number }).toArray();
+            form.count = theForm.length;
+
+            const isPublished = theForm.some(form => form.form_status === "Published");
+            form.published_status = isPublished;
+        }
+
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
 
         if(accessGranted){

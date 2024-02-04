@@ -675,12 +675,12 @@ block body
         var table10 = $('#submittedFormsTable').DataTable();
         var table9 = $('#submittedFormsTable').DataTable();
 
-        var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting").innerHTML;
+        var formDetailsActivateSetting = document.getElementById("formDetailsActivateSetting");
         var toggleActivateFormButton = document.getElementById("toggleActivateFormButton");
 
         formDetailsActivateSetting.innerHTML = currentForm.form_status;
 
-        if(formDetailsActivateSetting == "Active" || formDetailsActivateSetting == "On-going"){
+        if(formDetailsActivateSetting.innerHTML == "Active" || formDetailsActivateSetting.innerHTML == "On-going"){
             toggleActivateFormButton.innerHTML = "De-activate";
         }else{
             toggleActivateFormButton.innerHTML = "Activate";

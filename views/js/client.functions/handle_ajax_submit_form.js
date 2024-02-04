@@ -19,9 +19,9 @@ function submitForm(){
                 showGeneralErrorModal("Error in submitting the form.");
             } else if (response.status_code === 0) {
                 showGeneralSuccessModal("Successfully submitted the form.");
-                updateDropdownOptions(response.allUserFormVersions);
                 document.getElementById('form-content').innerHTML = response.initialTemplate;
                 hideSaveFormModal();
+                updateDropdownOptions(response.allUserFormVersions);
 
                 var table1 = $('#previouslySubmittedForms').DataTable();
                 var updatedData1 = response.prevSubmittedForms;
@@ -47,5 +47,18 @@ function submitForm(){
         error: function(error) {
             console.error('AJAX error:', error);
         }
+    });
+}
+
+function updateDropdownOptions(versions) {
+    var dropdown = document.getElementById('versionDropDown');
+
+    dropdown.innerHTML = '';
+
+    versions.forEach(function(version) {
+        var option = document.createElement('option');
+        option.value = version;
+        option.text = version;
+        dropdown.add(option);
     });
 }

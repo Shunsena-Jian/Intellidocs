@@ -16,7 +16,9 @@ function assignUser() {
 
     if (!empEmails.includes(document.getElementById('assign_user').value)) {
         showGeneralErrorModal("Employee does not exist.");
-    } else {
+    } else if (document.getElementById('formDetailsActivateSetting').innerHTML != "Active") {
+        showGeneralErrorModal("Activate the form before assigning a user to the form!");
+    }else {
         const data = {
             formName: currentForm.form_name,
             assignedUser: document.getElementById('assign_user').value,

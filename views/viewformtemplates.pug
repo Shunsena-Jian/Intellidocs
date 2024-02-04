@@ -12,16 +12,19 @@ block body
                             th.w3-center Status
                             th.w3-center Date Created
                             th.w3-center Time Created
-                            th.w3-center Version
+                            th.w3-center Number of Versions
                             th.w3-center Action
                     tbody
                         each forms in currentForms
                             tr
-                                td #{forms.form_name}
-                                td #{forms.form_status}
-                                td #{forms.date_saved}
-                                td #{forms.time_saved}
-                                td #{forms.form_version}
+                                td.w3-center #{forms.form_name}
+                                if forms.published_status === true
+                                    td.w3-center Published
+                                else
+                                    td.w3-center Template
+                                td.w3-center #{forms.date_saved}
+                                td.w3-center #{forms.time_saved}
+                                td.w3-center #{forms.count}
                                 td
                                     .button-container.w3-row
                                     a.full-width-button.w3-center.all-caps(href=`/viewformtemplate/${forms.form_control_number}`) View Form

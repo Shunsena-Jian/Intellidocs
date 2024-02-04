@@ -16,7 +16,7 @@ function setDueDate(){
             annualDueDate: annualDue,
             academicYear: acadYear,
             semester: semester,
-            formControlNumber: form_template.form_control_number
+            formControlNumber: currentForm.form_control_number
         }
 
         $.ajax({
