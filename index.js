@@ -3261,6 +3261,30 @@ app.put('/AJAX_seenNotifs', async function(req, res) {
     }
 });
 
+app.put('/AJAX_deleteUser', async function(req, res) {
+    if(req.session.loggedIn){
+        try {
+            var formData = req.body;
+            var userToDelete = await users.findOne({ emp_id : formData.userToDelete });
+
+            if(!userToDelete){
+                res.send({ status_code : 1 });
+            } else {
+                const result = await users.deleteOne({ emp_id: formData.userToDelete });
+
+                let latestEmployees = await users.find({}).toArray();
+                res.send({ status_code : 0, latestEmployees : latestEmployees });
+            }
+        } catch(error) {
+            logError("Error at removing user from database: " + error);
+        }
+    } else {
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
 app.get('/AJAX_retrieveNotifications', async function(req, res){
     if(req.session.loggedIn){
         try{

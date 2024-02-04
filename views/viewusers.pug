@@ -6,15 +6,16 @@ block body
             .w3-container.w3-card.w3-white.w3-round.w3-margin
                 h4 Manage Users
                 hr.w3-clear
-                table#usersTable.display(widgth='100%')
+                table#usersTable.display(width='100%')
                     thead
                         tr
-                            th Employee ID
-                            th First Name
-                            th Last Name
-                            th User Level
-                            th User Department
-                            th Actions
+                            th.w3-center Employee ID
+                            th.w3-center First Name
+                            th.w3-center Last Name
+                            th.w3-center User Level
+                            th.w3-center User Department
+                            th.w3-center Edit User
+                            th.w3-center Remove User
                     tbody
                         each user in userAccounts
                             tr
@@ -22,15 +23,61 @@ block body
                                 td #{user.first_name}
                                 td #{user.last_name}
                                 td #{user.user_level}
-                                td #{user.user_department}
+                                td #{user.user_department ? user.user_department : ''}
                                 td
-                                    a.w3-quarter.w3-hover-white(href='#')
-                                        i.fa.fa-pencil-square.w3-text-theme
-                                    a.w3-quarter.w3-hover-white(href='#')
-                                        i.fa.fa-times.w3-text-theme
+                                    button.w3-button.w3-block.w3-theme-dark(onclick=`editUser('${user.emp_id}')`) Edit
+                                td
+                                    button.w3-button.w3-block.w3-theme-dark(onclick=`deleteUser('${user.emp_id}')`) Delete
 
     script.
-        //USED FOR TABLE ON THIS PAGE
-        var table = $('#usersTable').DataTable();
+        var table = $('#usersTable').DataTable({
+            "columnDefs": [
+                { "targets": [5, 6], "orderable": false } // Disable sorting for Edit and Delete columns
+            ]
+        });
 
+        function deleteUser(empID){
+            var deleteUserMessage = "Are you sure you want to delete user " + empID + " ?";
+            var result = window.confirm(deleteUserMessage);
+
+            if(!result){
+            } else {
+                var data = {
+                    userToDelete : empID
+                };
+
+                $.ajax({
+                    type: 'PUT',
+                    url: '/AJAX_deleteUser',
+                    data: data,
+                    success: function(response){
+                        if (response.status_code === 0) {
+                            alert("Employee deleted " + empID);
+                            var updatedData = response.latestEmployees;
+                            table.clear().draw();
+
+                            updatedData.forEach(function(user) {
+                                var userDepartment = user.user_department ? user.user_department : '';
+                                var curLine = [
+                                    user.emp_id,
+                                    user.first_name,
+                                    user.last_name,
+                                    user.user_level,
+                                    user.user_department,
+                                    `<button class="w3-button w3-block w3-theme-dark" onclick="editUser('${user.emp_id}')">Edit</button>`,
+                                    `<button class="w3-button w3-block w3-theme-dark" onclick="deleteUser('${user.emp_id}')">Delete</button>`
+                                ];
+                                table.row.add(curLine);
+                            });
+                            table.draw();
+                        } else if (response.status_code === 1){
+                            alert("Could not find the user to remove!");
+                        }
+                    },
+                    error: function(error){
+                        console.log("AJAX Error: " + error);
+                    }
+                });
+            }
+        }
 
