@@ -668,7 +668,7 @@ function addTableRow(table) {
     for (let i = 0; i < numCells; i++) {
         const cell = newRow.insertCell(i); // Insert cell in each column of the new row
         cell.contentEditable = true;
-        cell.textContent = 'Text';
+        cell.textContent = '';
     }
 
     currentHeight += 40;
@@ -704,12 +704,28 @@ function addTableColumn(table) {
             // If selected column is the last column, add a new cell to the end of each row
             const cell = newRow.insertCell(-1); // Insert cell at the end
             cell.contentEditable = true;
-            cell.textContent = '';
+            if (table.classList.contains('signature-table')) {
+                // Duplicate content of selected cell in new column
+                const selectedCell = newRow.cells[selectedColumnIndex];
+                Array.from(selectedCell.childNodes).forEach(node => {
+                    // Clone and append only the child nodes of the selected cell
+                    const clonedNode = node.cloneNode(true);
+                    cell.appendChild(clonedNode);
+                });
+            }
         } else {
             // Insert cell after the selected column
             const cell = newRow.insertCell(selectedColumnIndex + 1);
             cell.contentEditable = true;
-            cell.textContent = '';
+            if (table.classList.contains('signature-table')) {
+                // Duplicate content of selected cell in new column
+                const selectedCell = newRow.cells[selectedColumnIndex];
+                Array.from(selectedCell.childNodes).forEach(node => {
+                    // Clone and append only the child nodes of the selected cell
+                    const clonedNode = node.cloneNode(true);
+                    cell.appendChild(clonedNode);
+                });
+            }
         }
     }
 }
@@ -717,14 +733,6 @@ function addTableColumn(table) {
 
 
 
-//function removeTableRow(table, rowIndex) {
-//	if (table.rows.length > 1) {
-//		table.deleteRow(rowIndex);
-//		adaptPageContent();
-//	} else {
-//		alert("Cannot remove the last row. You can delete the widget instead"); // REQUIRED MODAL HERE
-//	}
-//}
 
 // Remove the selected column cell
 function removeTableColumn(table) {
@@ -991,7 +999,6 @@ function contextMenuButtonsForTable(table) {
     const addRowButton = document.createElement('button');
     addRowButton.classList.add("button-table");
     addRowButton.innerText = 'Add Row';
-
     addRowButton.addEventListener('click', () => {
      addTableRow(table);
      adaptPageContent();

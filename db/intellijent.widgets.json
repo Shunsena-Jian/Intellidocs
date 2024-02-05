@@ -288,22 +288,6 @@
 },
 {
   "_id": {
-    "$oid": "65b50fff2e91754237788d20"
-  },
-  "widget_name": "sampke",
-  "widget_category": "Grouped",
-  "widget_content": "<div class=\"w3-row draggable box w3-margin-small\" draggable=\"true\"> <div class=\"header w3-row draggable box w3-margin-small\"><table class=\"form-table w3-bold form-table w3-font-size-10 header-table hori-col\"><tbody><tr><th>Document Code</th><th>FM-SMI-027</th></tr><tr><th>Revision No.</th><th>01</th></tr><tr><th>Effectivity</th><th>April 01, 2023</th></tr><tr><th>Page</th><th class=\"page-number\">1 of 1</th></tr></tbody></table></div><div class=\"w3-all-center w3-container box draggable w3-hover-light-grey\"><a class=\"w3-col w3-hide-small w3-hover-white w3-center signature\"><i class=\"fa fa-pencil-square icon-light\"></i>  Upload Signature [PNG|JPG]</a></div><div>"
-},
-{
-  "_id": {
-    "$oid": "65b5102d2e91754237788d21"
-  },
-  "widget_name": "sample table",
-  "widget_category": "Personalized",
-  "widget_content": "<div class=\"w3-row draggable box w3-margin-small\" draggable=\"true\"> <h3 class=\"textbox text-label w3-row w3-container box draggable w3-hover-light-grey w3-padding-small\">                        This is a sample title</h3><table class=\"draggable form-table w3-bold w3-hover-light-grey\"><tbody><tr><th contenteditable=\"true\">Header 1</th><th contenteditable=\"true\">Header 2</th></tr><tr><td contenteditable=\"true\">Text 1</td><td contenteditable=\"true\"></td></tr><tr><td contenteditable=\"true\">Text 2</td><td contenteditable=\"true\"></td></tr></tbody></table><div>"
-},
-{
-  "_id": {
     "$oid": "65b5f8d7c519e00ec44ecb5f"
   },
   "widget_name": "Logo Picture SLU",
@@ -317,4 +301,28 @@
   "widget_name": "Logo Picture SLU",
   "widget_category": "Text",
   "widget_content": "<div class=\"w3-col s3 w3-container w3-bold w3-center box draggable w3-margin-small\" draggable=\"true\"><img class=\"w3-image\" src=\"../src/slu_logo.png\"></div>"
+},
+{
+  "_id": {
+    "$oid": "65b6b823611b2733b5741d80"
+  },
+  "widget_name": "TOS Table",
+  "widget_category": "Grouped",
+  "widget_content": "<div class=\"w3-row draggable box w3-margin-small\" draggable=\"true\"> \n<div class=\"grid-container w3-white w3-container draggable box w3-hover-light-grey hori-col\">\n<div class=\"grid-item-container w3-row w3-border\"><div>\n\n<table class=\"draggable form-table w3-bold w3-hover-light-grey\"><tbody>\n<tr>\n<td class=\"\" >Program<br></td>\n<td></td>\n\n</tr><tr><td class=\"\">Course Code<br></td><td></td></tr><tr><td class=\"\">Description<br></td><td></td></tr></tbody></table></div></div><div class=\"grid-item-container w3-row w3-border\" ><div><table class=\"draggable form-table w3-bold w3-hover-light-grey\"><tbody><tr><td class=\"\" >Term<br></td><td></td></tr><tr><td class=\"\">Semester<br></td><td></td></tr><tr><td class=\"\" contenteditable=\"true\">Academic Year<br></td><td></td></tr></tbody></table></div></div></div><div>"
+},
+{
+  "_id": {
+    "$oid": "65c0fc1e2ce5598b60d74582"
+  },
+  "widget_name": "TOS Signature Table",
+  "widget_category": "Signature",
+  "widget_content": "<table class=\"signature-table draggable form-table box w3-bold w3-margin-small\" draggable=\"true\">\n<tbody>\n<tr>\n<td>LABEL [NOTED|APPROVED|REVIEWED BY] <br>\n  <form action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\">\n     <input type=\"file\" name=\"file\" id=\"file\" class=\"signature-image\" ><br>\n<input type=\"submit\" value=\"Upload Signature\" class=\"signature=image-button\"></form>\n<input class=\"w3-input w3-font-size-14\" readonly=\"\" type=\"text\" placeholder=\"FULL NAME\" class=\"signature-image-input\">   \n\n</td>\n</tr>\n<tr>\n<td>POSITION </td>\n</tr>\n</tbody></table>"
+},
+{
+  "_id": {
+    "$oid": "65c10fe42ce5598b60d74585"
+  },
+  "widget_name": "TOS Data Table",
+  "widget_category": "Table",
+  "widget_content": "<table class=\"draggable form-table w3-bold w3-margin-small\" draggable=\"true\">\n<tbody>\n<tr>\n<th rowspan=\"2\">#</th>\n<th rowspan=\"2\">Topic</th>\n<th rowspan=\"2\">Learning Outcomes</th>\n<th rowspan=\"2\">Hours Spent on Topic</th>\n<th rowspan=\"2\">No. of Points</th>\n<th colspan=\"6\">Hierarchy of Learning</th>\n<th rowspan=\"2\">Type of Test</th>\n</tr>\n\n<tr>\n<th>Remembering</th>\n<th>Explaining</th>\n<th>Applying</th>\n<th>Analyzing</th>\n<th>Evaluating</th>\n<th>Creating</th>\n</tr>\n\n<tr>\n<td>Text 1</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n\n<tr>\n<td>Text 2</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n\n<tr>\n<td></td>\n<td>Total</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n\n</tbody>\n</table>"
 }]
