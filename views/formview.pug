@@ -116,6 +116,12 @@ block body
                                                     | None
                                                 else
                                                     | #{currentForm.due_date}
+                                        tr
+                                            td Academic Year
+                                            td
+                                        tr
+                                            td Semester
+                                            td
 
                                 hr
                                 h4.w3-bold Approvals
@@ -152,6 +158,11 @@ block body
                                         button#dueDateButton.w3-button.w3-block.w3-theme-dark(onclick='setDueDate()')
                                             i.fa.fa-share-alt.fa-fw.w3-margin-right
                                             |   Set Due Date
+
+                                    // Remark below set due date
+                                    //.w3-white.w3-round
+                                    //    h3.w3-bold Remarks:
+                                    //    textarea.w3-row.textArea-noResize(placeholder="Type deployment remarks here")
 
                             .w3-third
                                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
@@ -284,6 +295,12 @@ block body
                                                     | None
                                                 else
                                                     | #{currentForm.due_date}
+                                        tr
+                                            td Academic Year
+                                            td
+                                        tr
+                                            td Semester
+                                            td
                         .w3-half
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h4.w3-bold Approvals
@@ -385,6 +402,9 @@ block body
                                                     .button-container.w3-row
                                                     a.full-width-button.w3-center.all-caps(onclick=`removeUser('${assignedUsers.email}')`) Unassign
 
+        .w3-container2.w3-card.w3-white.w3-round.w3-margin
+            h3.w3-bold Remarks:
+            textarea.w3-row.textArea-noResize(placeholder="Type deployment remarks here")
         .w3-row
             .w3-container2.w3-white.w3-round.w3-margin
                 #enginePlaceHolder
