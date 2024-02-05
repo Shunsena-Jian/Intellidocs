@@ -1897,12 +1897,12 @@ app.get('/viewformtemplates', async function(req, res){
         currentForms = await getForms();
         currentForms = getUniqueControlNumberForms(currentForms);
 
-        for (form of currentForms) {
-            let theForm = await forms.find({ form_control_number : form.form_control_number }).toArray();
-            form.count = theForm.length;
+        for (const form of currentForms) {
+            const theForms = await forms.find({ form_control_number: form.form_control_number }).toArray();
 
-            const isPublished = theForm.some(form => form.form_status === "Published");
-            form.published_status = isPublished;
+            form.count = theForms.length;
+            const hasPublishedOrActiveOrInactive = theForms.some(form => ["Published", "Active", "In-active"].includes(form.form_status));
+            form.published_status = hasPublishedOrActiveOrInactive;
         }
 
         accessGranted = validateAction(currentUserPrivileges, requiredPrivilege);
@@ -2769,6 +2769,10 @@ app.put('/AJAX_toggleAllowFileUpload', async function(req, res){
                             { form_control_number : selectedFormControlNumberToView },
                             { $set: { allow_file_upload: true } }
                         );
+                        updateDocument = await filledoutforms.updateMany(
+                            { form_control_number : selectedFormControlNumberToView },
+                            { $set: { allow_file_upload: true } }
+                        );
                         updatedStatus = "Allowed";
                     }catch(error){
                         logError(error);
@@ -2779,6 +2783,10 @@ app.put('/AJAX_toggleAllowFileUpload', async function(req, res){
                         { form_control_number : selectedFormControlNumberToView },
                         { $set: { allow_file_upload: false } }
                     );
+                        updateDocument = await filledoutforms.updateMany(
+                            { form_control_number : selectedFormControlNumberToView },
+                            { $set: { allow_file_upload: false } }
+                        );
                     updatedStatus = "Not Allowed";
                 }
             }
@@ -2828,6 +2836,10 @@ app.put('/AJAX_toggleSharing', async function(req, res){
                             { form_control_number : selectedFormControlNumberToView },
                             { $set: { shared_status: true } }
                         );
+                        updateDocument = await filledoutforms.updateMany(
+                            { form_control_number : selectedFormControlNumberToView },
+                            { $set: { shared_status: true } }
+                        );
                         updatedStatus = "Allowed";
                     }catch(error){
                         logError(error);
@@ -2837,6 +2849,10 @@ app.put('/AJAX_toggleSharing', async function(req, res){
                         { form_control_number : selectedFormControlNumberToView },
                         { $set: { shared_status: false } }
                     );
+                        updateDocument = await filledoutforms.updateMany(
+                            { form_control_number : selectedFormControlNumberToView },
+                            { $set: { shared_status: false } }
+                        );
                     updatedStatus = "Not Allowed";
                 }
             }

@@ -13,8 +13,7 @@ block body
                             hr
                             .w3-quarter
                                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                    h4.w3-bold Saved Form Versions
-                                    hr
+                                    h4.w3-bold Saved Template Versions
                                     .w3-row
                                         select#versionDropDown(name='versionDropDown')
                                             each version in allVersions
@@ -24,49 +23,60 @@ block body
                                         button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
                                             i.fa.fa-refresh.fa-fw.w3-margin-right
                                             |   Load Form
-                            .w3-quarter
-                                .w3-container.w3-card.w3-white.w3-round.w3-margin
-                                    h4.w3-bold Share Document
                                     hr
+                                    h4.w3-bold Saved Form Versions
                                     .w3-row
-                                        input(id='employee_email' name='employee_email' placeholder="Employee Email")
-                                    .w3-row
-                                        select#accessLevel(name='accessLevel')
-                                            option(value='Viewer') Viewer
-                                            option(value='Editor') Editor
+                                        select#versionDropDown(name='versionDropDown')
+                                            each version in allVersions
+                                                option #{version.user_version}
                                     .w3-row
                                         br
-                                        button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
-                                            i.fa.fa-share-alt.fa-fw.w3-margin-right
-                                            |   Share
+                                        button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
+                                            i.fa.fa-refresh.fa-fw.w3-margin-right
+                                            |   Load Form
+                            if (currentUserDetailsBlock.empID == currentForm.form_owner && currentForm.shared_status == true)
+                                .w3-quarter
+                                    .w3-container.w3-card.w3-white.w3-round.w3-margin
+                                        h4.w3-bold Share Document
+                                        hr
+                                        .w3-row
+                                            input(id='employee_email' name='employee_email' placeholder="Employee Email")
+                                        .w3-row
+                                            select#accessLevel(name='accessLevel')
+                                                option(value='Viewer') Viewer
+                                                option(value='Editor') Editor
+                                        .w3-row
+                                            br
+                                            button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
+                                                i.fa.fa-share-alt.fa-fw.w3-margin-right
+                                                |   Share
 
-                            .w3-half
-                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                    h4.w3-bold Shared with
-                                    hr
-                                    table#sharedPeopleTable.display(width='100%')
-                                        thead
-                                            tr
-                                                th Employee Name
-                                                th Employee Email
-                                                th Shared Rights
-                                                th Actions
-                                        tbody
-                                            each read in sharedRead
+                                .w3-half
+                                    .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                        h4.w3-bold Shared with
+                                        hr
+                                        table#sharedPeopleTable.display(width='100%')
+                                            thead
                                                 tr
-                                                    td #{read.first_name} #{read.last_name}
-                                                    td #{read.email}
-                                                    td Read Only
-                                                    td
-                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`removeSharedUser("${read.email}")`) Remove
-                                            each write in sharedWrite
-                                                tr
-                                                    td #{write.first_name} #{write.last_name}
-                                                    td #{write.email}
-                                                    td Edit
-                                                    td
-                                                        button.w3-button.w3-block.w3-theme-dark(onclick=`removeSharedUser("${write.email}")`) Remove
-
+                                                    th Employee Name
+                                                    th Employee Email
+                                                    th Shared Rights
+                                                    th Actions
+                                            tbody
+                                                each read in sharedRead
+                                                    tr
+                                                        td #{read.first_name} #{read.last_name}
+                                                        td #{read.email}
+                                                        td Read Only
+                                                        td
+                                                            button.w3-button.w3-block.w3-theme-dark(onclick=`removeSharedUser("${read.email}")`) Remove
+                                                each write in sharedWrite
+                                                    tr
+                                                        td #{write.first_name} #{write.last_name}
+                                                        td #{write.email}
+                                                        td Edit
+                                                        td
+                                                            button.w3-button.w3-block.w3-theme-dark(onclick=`removeSharedUser("${write.email}")`) Remove
 
                         .w3-quarter.w3-container2
                             h3.w3-bold Form Settings
