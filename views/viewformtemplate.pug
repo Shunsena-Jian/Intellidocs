@@ -273,9 +273,13 @@ block body
                         .w3-row
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 .w3-row
-                                    button.w3-button.w3-block.w3-theme-dark(onclick='saveForm()')
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='saveFormNewVersion()')
                                         i.fa.fa-floppy-o.fa-fw.w3-margin-right
-                                        |   Save Form
+                                        |   Save Form as a NEW VERSION
+                                    br
+                                    button.w3-button.w3-block.w3-theme-dark(onclick='saveFormTemplate()')
+                                        i.fa.fa-floppy-o.fa-fw.w3-margin-right
+                                        |   Save Form as a TEMPLATE
                                     br
                                     if currentForm.shared_status === true
                                         button#toggleSharingButton.w3-button.w3-block.w3-theme-dark(onclick='toggleSharing()') Un-allow Sharing
@@ -400,7 +404,7 @@ block body
     script(src='../js/client.engine/htmlToJson.js')
     script(src='../js/client.functions/handle_ajax_general_modal.js')
     script.
-        function saveForm(){
+        function saveFormNewVersion(){
             var inputFieldValuesJSON = iterateAndGetData();
             var formBody = document.getElementById('form-content');
 
@@ -408,7 +412,6 @@ block body
             getNewKeyID(formBody);
 
             var formName = document.getElementById('formName').value;
-            var formControlNumber = `#{currentForm.form_control_number}`;
             var sharedStatus = document.getElementById('formDetailsSharingSetting').innerHTML;
             var fileUploadStatus = document.getElementById('formDetailsUploadSetting').innerHTML;
             if(fileUploadStatus == 'Allowed'){
@@ -425,7 +428,7 @@ block body
 
             const data = {
                 name: formName,
-                formControlNumber: formControlNumber,
+                formControlNumber: formBlock.form_control_number,
                 formContent: formBody,
                 formStatus: "Template",
                 sharedStatus: sharedStatus,
@@ -453,6 +456,63 @@ block body
                     }
                 },
                 error: function (error) {
+                    console.error('AJAX error:', error);
+                }
+            });
+        }
+
+    script.
+        function saveFormTemplate(){
+            var inputFieldValuesJSON = iterateAndGetData();
+            var formBody = document.getElementById('form-content');
+            var formStatus = document.getElementById('formDetailsStatusSetting').innerHTML;
+            formBody = elementToJson(formBody,inputFieldValuesJSON);
+            getNewKeyID(formBody);
+
+            var formName = document.getElementById('formName').value;
+            var sharedStatus = document.getElementById('formDetailsSharingSetting').innerHTML;
+            var fileUploadStatus = document.getElementById('formDetailsUploadSetting').innerHTML;
+
+            if(fileUploadStatus == 'Allowed'){
+                fileUploadStatus = true;
+            } else {
+                fileUploadStatus = false;
+            }
+
+            if(sharedStatus == 'Not Allowed'){
+                sharedStatus = false;
+            } else {
+                sharedStatus = true;
+            }
+
+            const data = {
+                name: formName,
+                formControlNumber: formBlock.form_control_number,
+                formStatus: formStatus,
+                formVersion: document.getElementById('settingsVersion').innerHTML,
+                sharedStatus: sharedStatus,
+                fileUploadStatus: fileUploadStatus,
+                dueDate: formBlock.due_date,
+                quarterDueDate: formBlock.quarter_due_date,
+                annualDueDate: formBlock.annual_due_date,
+                academicYear: formBlock.academic_year,
+                semester: formBlock.semester,
+                formContent: formBody
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/saveformtemplate',
+                data: data,
+                success: function(data) {
+                    if(data.success){
+                        alert("Form Template Saved");
+                        window.location.reload();
+                    } else {
+                        alert("Error in AJAX function.");
+                    }
+                },
+                error: function(error){
                     console.error('AJAX error:', error);
                 }
             });

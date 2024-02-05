@@ -420,6 +420,53 @@ app.post('/saveformversion', async function(req, res){
     }
 });
 
+app.post('/saveformtemplate', async function(req, res){
+    if(req.session.loggedIn){
+        try{
+            var formData = req.body;
+            var formTemplateToChange = await forms.findOne({ form_control_number : formData.formControlNumber, form_version : parseInt(formData.formVersion, 10) });
+            var latestSharedStatus = formTemplateToChange.shared_status;
+            var fileUploadStatus = formTemplateToChange.allow_file_upload;
+            var latestAssignedUsers = formTemplateToChange.assigned_users;
+
+            var currentDate = new Date();
+            var date = currentDate.toDateString();
+            var time = currentDate.toTimeString().split(' ')[0];
+            var jsonArray = [];
+            jsonArray.push(formData.formContent);
+
+            let result = await forms.updateOne(
+                { form_control_number: formData.formControlNumber, form_version: parseInt(formData.formVersion, 10) },
+                {
+                    $set: {
+                        form_name: formData.name,
+                        form_content: jsonArray,
+                        form_status: formData.formStatus,
+                        form_version: parseInt(formData.formVersion, 10),
+                        shared_status: latestSharedStatus,
+                        allow_file_upload: fileUploadStatus,
+                        date_saved : getDateNow(),
+                        time_saved : getTimeNow(),
+                        due_date: (formData.dueDate === "" || formData.dueDate === "null" || formData.dueDate === "undefined") ? null : formData.dueDate,
+                        quarter_due_date: (formData.dueDate === "" || formData.dueDate === "null" || formData.dueDate === "undefined") ? null : formData.quarterDueDate,
+                        annual_due_date: (formData.dueDate === "" || formData.dueDate === "null" || formData.dueDate === "undefined") ? null : formData.annualDueDate,
+                        academic_year: (formData.dueDate === "" || formData.dueDate === "null" || formData.dueDate === "undefined") ? null : formData.academicYear,
+                        semester: (formData.dueDate === "" || formData.dueDate === "null" || formData.dueDate === "undefined") ? null : formData.semester
+                    }
+                }
+            );
+            res.json({ success : true });
+        }catch(error){
+            res.json({ success: false })
+            logError("Saving form template error: " + error);
+        }
+    } else {
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
 app.post('/savecreatedwidget', async function(req, res){
     if(req.session.loggedIn){
         try{
@@ -855,7 +902,6 @@ app.get('/formview/:form_control_number', async function (req, res){
                         jsonObject.form_content = await updateToLatestVersion(currentForm.form_content, latestUserFilledVersion.form_content);
                     }
 
-                    jsonObject = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, user_version: 0, form_owner : req.session.userEmpID });
                 }else{
                     for(i = 0; i < userFormVersions.length; i++){
                         if(userFormVersions[i].user_version >= latestUserVersion){
@@ -922,7 +968,12 @@ app.get('/formview/:form_control_number', async function (req, res){
 
             var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
             var previouslySubmittedForms = await filledoutforms.find({ form_owner : req.session.userEmpID, form_status : "Submitted" }).toArray();
-            var initialTemplateForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
+            var initialTemplateForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_status : { $in: [ "Published", "Active", "In-active" ] } });
+
+            var a = initialTemplateForm.form_content;
+            var b = await jsonToHTML(a);
+            initialTemplateForm.form_content = b;
+
             currentUserFiles = await getFiles(req.session.userEmpID);
 
             res.render('formview', {
