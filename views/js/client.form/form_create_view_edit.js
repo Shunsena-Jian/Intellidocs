@@ -566,7 +566,6 @@ function mergeCells(table) {
 		const lastRowIndex = firstRowIndex + rowspan - 1;
 		for (let i = firstRowIndex + 1; i <= lastRowIndex; i++) {
 			const cellToUpdate = table.rows[i].cells[firstCell.cellIndex];
-			cellToUpdate.style.display = 'none'; // Hide cell
 		}
 	}
 
@@ -574,7 +573,6 @@ function mergeCells(table) {
 	if (sameRow && colspan > 1) {
 		for (let i = 1; i < colspan; i++) {
 			const cellToUpdate = firstCell.parentElement.cells[firstCell.cellIndex + i];
-			cellToUpdate.style.display = 'none'; // Hide cell
 		}
 	}
 
@@ -635,10 +633,19 @@ function unmergeCells(table) {
 	clearSelection(table);
 }
 
+function getRowIndex(cell) {
+    const rows = Array.from(cell.parentNode.parentNode.rows);
+    return rows.indexOf(cell.parentNode);
+}
+
+// Add a new row below the selected row
 function addTableRow(table) {
     var parentContainer = table.parentElement; // Section DIV container extractor
     var pageContainer = parentContainer.parentElement; // Page Locator
     var pageHeight = 0 + padding;
+
+    var selectedRow = table.rows[getRowIndex(selectedTextBox)];
+    console.log(selectedRow);
 
     // Iterate through all child elements of currentPageContent
     const childElements = pageContainer.children;
@@ -655,81 +662,90 @@ function addTableRow(table) {
 //        return;
     }
 
-	const newRow = table.insertRow(table.rows.length);
+    const newRow = table.insertRow(selectedRow.rowIndex + 1); // Insert row below the selected row
+    const numCells = selectedRow.cells.length;
 
-	let sumColSpan = -1;
-	let hasColspan = false;
+    for (let i = 0; i < numCells; i++) {
+        const cell = newRow.insertCell(i); // Insert cell in each column of the new row
+        cell.contentEditable = true;
+        cell.textContent = 'Text';
+    }
 
-	// Get the first row of the table
-	const firstRow = table.rows[0];
-
-	// Iterate through the cells in the first row
-	for (let j = 0; j < firstRow.cells.length; j++) {
-        const cell = firstRow.cells[j];
-
-        // Check if the cell has a colspan attribute greater than 1
-        if (cell.colSpan > 1) {
-            sumColSpan += cell.colSpan;
-	    }
-	}
-
-	if (sumColSpan == -1) {
-		sumColSpan = 0;
-	}
-
-	let rowColCount = sumColSpan + table.rows[0].cells.length;
-
-    var onceOnly = true;
-	for (let i = 0; i < rowColCount; i++) {
-		const cell = newRow.insertCell(i);
-		cell.contentEditable = true;
-		if (onceOnly) {
-			onceOnly = false;
-		    cell.textContent = 'Text';
-		} else {
-			cell.textContent = '';
-		}
-	}
     currentHeight += 40;
     adaptPageContent();
 }
 
-// Append a column at the right
+// Remove the selected row
+function removeTableRow(table) {
+    if (getRowIndex(selectedTextBox) == 0) {
+        if (confirm('Are you sure you want to delete the header?')) {
+            var selectedRow = table.rows[getRowIndex(selectedTextBox)];
+            table.deleteRow(selectedRow.rowIndex); // Delete the selected row
+        }
+    }
+
+}
+
+
+// Function to get the column index of a cell within its row
+function getColumnIndex(cell) {
+    const cells = Array.from(cell.parentNode.cells);
+    return cells.indexOf(cell);
+}
+
+// Append a column after the selected column cell
 function addTableColumn(table) {
-	const numRows = table.rows.length;
+    const numRows = table.rows.length;
+    const selectedColumnIndex = getColumnIndex(selectedTextBox);
 
-	for (let i = 0; i < numRows; i++) {
-		const newRow = table.rows[i];
-		const cell = newRow.insertCell(newRow.cells.length);
-		cell.contentEditable = true;
-		cell.textContent = '';
-	}
+    for (let i = 0; i < numRows; i++) {
+        const newRow = table.rows[i];
+        if (selectedColumnIndex === newRow.cells.length - 1) {
+            // If selected column is the last column, add a new cell to the end of each row
+            const cell = newRow.insertCell(-1); // Insert cell at the end
+            cell.contentEditable = true;
+            cell.textContent = '';
+        } else {
+            // Insert cell after the selected column
+            const cell = newRow.insertCell(selectedColumnIndex + 1);
+            cell.contentEditable = true;
+            cell.textContent = '';
+        }
+    }
 }
 
-function removeTableRow(table, rowIndex) {
-	if (table.rows.length > 1) {
-		table.deleteRow(rowIndex);
-		adaptPageContent();
-	} else {
-		alert("Cannot remove the last row. You can delete the widget instead"); // REQUIRED MODAL HERE
-	}
+
+
+
+//function removeTableRow(table, rowIndex) {
+//	if (table.rows.length > 1) {
+//		table.deleteRow(rowIndex);
+//		adaptPageContent();
+//	} else {
+//		alert("Cannot remove the last row. You can delete the widget instead"); // REQUIRED MODAL HERE
+//	}
+//}
+
+// Remove the selected column cell
+function removeTableColumn(table) {
+    const numRows = table.rows.length;
+    const selectedColumnIndex = getColumnIndex(selectedTextBox);
+
+    for (let i = 0; i < numRows; i++) {
+        const row = table.rows[i];
+        if (row.cells.length > 1) {
+          if (selectedColumnIndex >= 0 && selectedColumnIndex < row.cells.length) {
+                    row.deleteCell(selectedColumnIndex);
+          }
+          adaptPageContent();
+        } else {
+            alert("Cannot remove the last cell in a row."); // REQUIRED MODAL HERE
+        }
+
+    }
 }
 
-function removeTableColumn(table, columnIndex) {
-	const numRows = table.rows.length;
 
-	if (numRows > 0) {
-		for (let i = 0; i < numRows; i++) {
-			const row = table.rows[i];
-			if (row.cells.length > 1) {
-				row.deleteCell(columnIndex);
-				adaptPageContent();
-			} else {
-				alert("Cannot remove the last cell in a row."); // REQUIRED MODAL HERE
-			}
-		}
-	}
-}
 
 // Context Menus
 function createContextMenu(x,y,element, table) {
