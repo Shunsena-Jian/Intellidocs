@@ -270,6 +270,12 @@ float: right;
     user-drag: none; /* Disable user dragging */
 }
 
+.textArea-noResize {
+      width: 100%; /* Set your preferred width */
+      height: 80px; /* Set your preferred fixed height */
+      resize: none; /* Disable resizing */
+  }
+
 
 @media screen and (max-width: 299px) {
     .drop-container {
