@@ -58,6 +58,7 @@ block body
                                                 var sharedStatus = response.sharedStatus;
                                                 var allowUploadFile = response.allowUploadFile;
                                                 document.getElementById("settingsVersion").innerHTML = response.formVersion;
+                                                document.getElementById("remarks").innerHTML = response.formRemarks;
 
                                                 if(sharedStatus == true){
                                                     document.getElementById("formDetailsSharingSetting").innerHTML = "Allowed";
@@ -304,7 +305,7 @@ block body
             input#formName.w3-col.s6.w3-input.w3-margin(placeholder="Edit Form Name" required='' value=`${currentForm.form_name}`)
             .w3-container.w3-padding-32
                 h3.w3-bold Remarks:
-                textArea.w3-row.textArea-noResize(placeholder="Type edit remarks here")
+                textArea#remarks.w3-row.textArea-noResize(placeholder="Type edit remarks here") #{currentForm.form_remarks}
             // input#formControlNumber.w3-col.s6.w3-input.w3-margin(placeholder="Type Form Control Number [Required]" required='')
             hr.w3-clear
             p.w3-center
@@ -441,7 +442,8 @@ block body
                 quarterDueDate: formBlock.quarter_due_date,
                 annualDueDate: formBlock.annual_due_date,
                 academicYear: formBlock.academic_year,
-                semester: formBlock.semester
+                semester: formBlock.semester,
+                remarks: document.getElementById('remarks').value
             };
 
             $.ajax({
@@ -501,6 +503,7 @@ block body
                 annualDueDate: formBlock.annual_due_date,
                 academicYear: formBlock.academic_year,
                 semester: formBlock.semester,
+                remarks: document.getElementById('remarks').value,
                 formContent: formBody
             };
 

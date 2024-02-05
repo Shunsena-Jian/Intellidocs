@@ -356,6 +356,7 @@ app.post('/savecreatedform', async function(req, res){
 app.post('/saveformversion', async function(req, res){
     if(req.session.loggedIn){
         var formData = req.body;
+        var latestRemark;
         var latestVersion = 0;
         var newVersionNumber = 0;
         var latestAssignedUsers = [];
@@ -363,6 +364,7 @@ app.post('/saveformversion', async function(req, res){
 
         for(i=0; i < formHistory.length; i++){
             if(formHistory[i].form_version >= latestVersion){
+                latestRemark = formHistory[i].form_remarks;
                 latestVersion = formHistory[i].form_version;
                 latestSharedStatus = formHistory[i].form_version;
                 fileUploadStatus = formHistory[i].allow_file_upload;
@@ -387,6 +389,7 @@ app.post('/saveformversion', async function(req, res){
                 form_name: formData.name,
                 form_control_number: formData.formControlNumber.toString(),
                 form_content: jsonArray,
+                form_remarks: formData.remarks,
                 form_version: newVersionNumber,
                 form_status: formData.formStatus,
                 shared_status:latestSharedStatus,
@@ -441,6 +444,7 @@ app.post('/saveformtemplate', async function(req, res){
                     $set: {
                         form_name: formData.name,
                         form_content: jsonArray,
+                        form_remarks: formData.remarks,
                         form_status: formData.formStatus,
                         form_version: parseInt(formData.formVersion, 10),
                         shared_status: latestSharedStatus,
@@ -866,6 +870,7 @@ app.get('/formview/:form_control_number', async function (req, res){
                         form_name: currentForm.form_name,
                         form_control_number: currentForm.form_control_number,
                         form_content: currentForm.form_content,
+                        form_remarks: currentForm.form_remarks,
                         form_version: currentForm.form_version,
                         form_status: "On-going",
                         shared_status: Boolean(currentForm.shared_status),
@@ -2947,7 +2952,7 @@ app.put('/AJAX_viewFormVersion', async function(req, res) {
 
             try{
                 jsonObject.form_content = g;
-                res.send({ status_code : 0, formContent : jsonObject.form_content, formStatus : currentForm.form_status, sharedStatus : currentForm.shared_status, formVersion : currentForm.form_version, allowUploadFile: currentForm.allow_file_upload });
+                res.send({ status_code : 0, formContent : jsonObject.form_content, formStatus : currentForm.form_status, sharedStatus : currentForm.shared_status, formVersion : currentForm.form_version, allowUploadFile: currentForm.allow_file_upload, formRemarks: currentForm.form_remarks });
             }catch(error){
                 logError("Error at view form version for front end: " + error);
             }

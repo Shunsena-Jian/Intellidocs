@@ -50,6 +50,12 @@ block body
                                             button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
                                                 i.fa.fa-share-alt.fa-fw.w3-margin-right
                                                 |   Share
+                                        hr
+                                        h3.w3-bold Remarks:
+                                        if (currentForm.form_remarks === null || currentForm.form_remarks === undefined || currentForm.form_remarks === "")
+                                            p.w3-row.textArea-noResize.w3-center No Remarks
+                                        else
+                                            p.w3-row.textArea-noResize.w3-center #{currentForm.form_remarks}
 
                                 .w3-half
                                     .w3-container2.w3-card.w3-white.w3-round.w3-margin
@@ -158,11 +164,13 @@ block body
                                         button#dueDateButton.w3-button.w3-block.w3-theme-dark(onclick='setDueDate()')
                                             i.fa.fa-share-alt.fa-fw.w3-margin-right
                                             |   Set Due Date
-
-                                    // Remark below set due date
-                                    //.w3-white.w3-round
-                                    //    h3.w3-bold Remarks:
-                                    //    textarea.w3-row.textArea-noResize(placeholder="Type deployment remarks here")
+                                    hr
+                                    .w3-white.w3-round
+                                        h3.w3-bold Remarks:
+                                        if (currentForm.form_remarks === null || currentForm.form_remarks === undefined || currentForm.form_remarks === "")
+                                            p.w3-row.textArea-noResize.w3-center No Remarks
+                                        else
+                                            p.w3-row.textArea-noResize.w3-center #{currentForm.form_remarks}
 
                             .w3-third
                                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
@@ -321,6 +329,13 @@ block body
                                             td
                                                 if (!currentForm.department_head_approval)
                                                     #deanApproval  Not Approved
+                                    hr
+                                    .w3-white.w3-round
+                                        h3.w3-bold Remarks:
+                                        if (currentForm.form_remarks === null || currentForm.form_remarks === undefined || currentForm.form_remarks === "")
+                                            p.w3-row.textArea-noResize.w3-center No Remarks
+                                        else
+                                            p.w3-row.textArea-noResize.w3-center #{currentForm.form_remarks}
 
                     .w3-twothird.w3-container2
                         h3.w3-bold Submitted Forms
@@ -402,9 +417,6 @@ block body
                                                     .button-container.w3-row
                                                     a.full-width-button.w3-center.all-caps(onclick=`removeUser('${assignedUsers.email}')`) Unassign
 
-        .w3-container2.w3-card.w3-white.w3-round.w3-margin
-            h3.w3-bold Remarks:
-            textarea.w3-row.textArea-noResize(placeholder="Type deployment remarks here")
         .w3-row
             .w3-container2.w3-white.w3-round.w3-margin
                 #enginePlaceHolder
