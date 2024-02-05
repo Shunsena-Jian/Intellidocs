@@ -58,6 +58,7 @@ window.onload = function(){
     addEventListenerToDiv(widgetCanvas);
  };
 
+
 // Page Settings
 function addReadOnlyAttributesRecursive() {
     var element = document.getElementById("widgetCanvas");
@@ -86,6 +87,13 @@ function addReadOnlyAttributesRecursive() {
     }
 
     return element;
+}
+
+function clearSelectionOnAllElements() {
+  const allElements = document.querySelectorAll('*[id="selectedElement"]');
+  allElements.forEach((element) => {
+    element.removeAttribute('id');
+  });
 }
 
 
