@@ -37,7 +37,10 @@ window.onload = function() {
     userType = window.userLevel; // User Level determines access to right click functions
     selectedTextBox = null; // Tracker for selected elements
 
-    initializeDraggables();
+    if (userType == "Document Controller") {
+        initializeDraggables();
+    }
+
     if (currentPageContent.childElementCount > 0) {
         initializeCurrentPage();
     }
