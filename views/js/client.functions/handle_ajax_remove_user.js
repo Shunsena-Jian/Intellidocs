@@ -28,12 +28,14 @@ function removeUser() {
                 table4.clear().draw();
 
                 for (var a = 0; a < updatedData1.length; a++) {
+                    var status = (updatedData1[a].user_submitted_status === true) ? "Submitted" : (updatedData1[a].user_approved_status === true) ? "Approved" : (updatedData1[a].user_returned_status === true) ? "Returned" : "Not Yet Submitted";
                     var curLine1 = [
                         updatedData1[a].email,
                         updatedData1[a].emp_id,
                         updatedData1[a].user_department,
                         updatedData1[a].first_name,
                         updatedData1[a].last_name,
+                        status,
                         `<a class="full-width-button w3-center all-caps" onclick="bridgeRemoveUserModal('${updatedData1[a].email}')">Unassign</a>`
                     ];
                     table4.row.add(curLine1).draw();

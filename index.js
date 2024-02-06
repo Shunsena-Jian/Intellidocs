@@ -974,6 +974,42 @@ app.get('/formview/:form_control_number', async function (req, res){
             }
 
             var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
+            var finalUserDetails = [];
+
+            for (let user of allAssignedUsers) {
+                var user_submitted_status = false;
+                var user_approved_status = false;
+                var user_returned_status = false;
+
+                var userFormOwner = await filledoutforms.find({ form_owner: user.emp_id, form_control_number : selectedFormControlNumberToView }).toArray();
+
+                for (let form of userFormOwner) {
+                    if (form.form_status === "Submitted") {
+                        user_submitted_status = true;
+
+                        if (form.form_status === "Approved") {
+                            user_approved_status = true;
+
+                            if (form.form_status === "Returned"){
+                                user_returned_status = true;
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                finalUserDetails.push({
+                    email: user.email,
+                    emp_id: user.emp_id,
+                    user_department: user.user_department,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    user_submitted_status: user_submitted_status,
+                    user_approved_status: user_approved_status,
+                    user_returned_status: user_returned_status
+                });
+            }
+
             var previouslySubmittedForms = await filledoutforms.find({ form_owner : req.session.userEmpID, form_status : "Submitted" }).toArray();
             var initialTemplateForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_status : { $in: [ "Published", "Active", "In-active" ] } });
 
@@ -997,7 +1033,7 @@ app.get('/formview/:form_control_number', async function (req, res){
                 submittedVersions: modifiedVersions,
                 sharedRead: sharedReadUsers,
                 sharedWrite: sharedWriteUsers,
-                allAssignedUsers: allAssignedUsers,
+                allAssignedUsers: finalUserDetails,
                 previouslySubmittedForms: previouslySubmittedForms,
                 userCurrentPage: "formview"
             });
@@ -2389,6 +2425,41 @@ app.put('/AJAX_assignDepartment', async function(req, res){
             }
 
             var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
+            var finalUserDetails = [];
+
+            for (let user of allAssignedUsers) {
+                var user_submitted_status = false;
+                var user_approved_status = false;
+                var user_returned_status = false;
+
+                var userFormOwner = await filledoutforms.find({ form_owner: user.emp_id, form_control_number : formControlNumber }).toArray();
+
+                for (let form of userFormOwner) {
+                    if (form.form_status === "Submitted") {
+                        user_submitted_status = true;
+
+                        if (form.approval_status === "Approved") {
+                            user_approved_status = true;
+
+                            if (form.form_status === "Returned"){
+                                user_returned_status = true;
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                finalUserDetails.push({
+                    email: user.email,
+                    emp_id: user.emp_id,
+                    user_department: user.user_department,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    user_submitted_status: user_submitted_status,
+                    user_approved_status: user_approved_status,
+                    user_returned_status: user_returned_status
+                });
+            }
 
             var empIdsArray = allAssignedUsers.map(function(user) {
                 return user.emp_id;
@@ -2406,7 +2477,7 @@ app.put('/AJAX_assignDepartment', async function(req, res){
                 });
             }
 
-            res.send({ status_code : 0, allAssignedUsers : allAssignedUsers });
+            res.send({ status_code : 0, allAssignedUsers : finalUserDetails });
         }catch(error){
             logError('There was an error at AJAX function in assigning the department: ' + error);
             res.send({ status_code : 1 });
@@ -2516,8 +2587,43 @@ app.put('/AJAX_assignUsers', async function(req, res){
             }
 
             var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
+            var finalUserDetails = [];
 
-            res.send({ status_code : 0, allAssignedUsers : allAssignedUsers });
+            for (let user of allAssignedUsers) {
+                var user_submitted_status = false;
+                var user_approved_status = false;
+                var user_returned_status = false;
+
+                var userFormOwner = await filledoutforms.find({ form_owner: user.emp_id, form_control_number : formControlNumber }).toArray();
+
+                for (let form of userFormOwner) {
+                    if (form.form_status === "Submitted") {
+                        user_submitted_status = true;
+
+                        if (form.approval_status === "Approved") {
+                            user_approved_status = true;
+
+                            if (form.form_status === "Returned"){
+                                user_returned_status = true;
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                finalUserDetails.push({
+                    email: user.email,
+                    emp_id: user.emp_id,
+                    user_department: user.user_department,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    user_submitted_status: user_submitted_status,
+                    user_approved_status: user_approved_status,
+                    user_returned_status: user_returned_status
+                });
+            }
+
+            res.send({ status_code : 0, allAssignedUsers : finalUserDetails });
         } catch(error){
             logError('There was an error at AJAX function in assigning users: ' + error);
             res.send({ status_code : 2 });
@@ -2572,8 +2678,43 @@ app.put('/AJAX_removeUser/:email', async function(req, res){
             });
 
             var allAssignedUsers = await users.find({ email: { $in: latestAssignedUsers } }).toArray();
+            var finalUserDetails = [];
 
-            res.send({ status_code : 0, allAssignedUsers : allAssignedUsers });
+            for (let user of allAssignedUsers) {
+                var user_submitted_status = false;
+                var user_approved_status = false;
+                var user_returned_status = false;
+
+                var userFormOwner = await filledoutforms.find({ form_owner: user.emp_id, form_control_number : selectedFormControlNumberToView }).toArray();
+
+                for (let form of userFormOwner) {
+                    if (form.form_status === "Submitted") {
+                        user_submitted_status = true;
+
+                        if (form.approval_status === "Approved") {
+                            user_approved_status = true;
+
+                            if (form.form_status === "Returned"){
+                                user_returned_status = true;
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                finalUserDetails.push({
+                    email: user.email,
+                    emp_id: user.emp_id,
+                    user_department: user.user_department,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    user_submitted_status: user_submitted_status,
+                    user_approved_status: user_approved_status,
+                    user_returned_status: user_returned_status
+                });
+            }
+
+            res.send({ status_code : 0, allAssignedUsers : finalUserDetails });
 
         } catch(error){
             logError('There was an error at AJAX function in unassigning users: ' + error);
@@ -2618,9 +2759,9 @@ app.put('/AJAX_setDueDate', async function(req, res){
                 logError("Due date was not set in filledoutforms");
             }
 
-            var dueForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version : formData.formVersion });
+            var dueForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version : parseInt(formData.formVersion, 10) });
 
-            res.send({ status_code : 0, dueDate : dueForm.due_date });
+            res.send({ status_code : 0, dueDate : dueForm.due_date, academicYear : dueForm.academic_year, semester : dueForm.semester });
 
 
         }catch(error){

@@ -27,6 +27,8 @@ function setDueDate(){
             success: function(response){
                 if(response.status_code === 0){
                     document.getElementById("formDueDateSetting").innerHTML = response.dueDate;
+                    document.getElementById("formAcademicYearSetting").innerHTML = response.academicYear;
+                    document.getElementById("Semester").innerHTML = response.semester;
                     showGeneralSuccessModal("Due date has been set.");
                 }else if(response.status_code === 1){
                     showGeneralErrorModal("Error in setting a due date.");

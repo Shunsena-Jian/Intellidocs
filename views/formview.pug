@@ -41,10 +41,10 @@ block body
                                                 |   Share
                                         hr
                                         h3.w3-bold Remarks:
-                                        if (currentForm.form_remarks === null || currentForm.form_remarks === undefined || currentForm.form_remarks === "")
+                                        if (currentForm.secretary_remark === null || currentForm.secretary_remark === undefined || currentForm.secretary_remark === "")
                                             p.w3-row.textArea-noResize.w3-center No Remarks
                                         else
-                                            p.w3-row.textArea-noResize.w3-center #{currentForm.form_remarks}
+                                            p.w3-row.textArea-noResize.w3-center #{currentForm.secretary_remark}
 
                                 .w3-half
                                     .w3-container2.w3-card.w3-white.w3-round.w3-margin
@@ -121,10 +121,19 @@ block body
                                                     | #{currentForm.due_date}
                                         tr
                                             td Academic Year
-                                            td #{currentForm.academic_year}
+                                            td#formAcademicYearSetting
+                                                if (!currentForm.academic_year)
+                                                    | None
+                                                else
+                                                    | #{currentForm.academic_year}
+
                                         tr
                                             td Semester
-                                            td #{currentForm.semester}
+                                            td#Semester
+                                                if (!currentForm.semester)
+                                                    | None
+                                                else
+                                                    | #{currentForm.semester}
 
                                 hr
                                 h4.w3-bold Approvals
@@ -264,6 +273,7 @@ block body
                                             th Department
                                             th First Name
                                             th Last Name
+                                            th Status
                                             th Action
                                     tbody
                                         each assignedUsers in allAssignedUsers
@@ -273,6 +283,14 @@ block body
                                                 td #{assignedUsers.user_department}
                                                 td #{assignedUsers.first_name}
                                                 td #{assignedUsers.last_name}
+                                                if (assignedUsers.user_submitted_status === true)
+                                                    td Submitted
+                                                else if (assignedUsers.user_approved_status === true)
+                                                    td Approved
+                                                else if (assignedUsers.user_returned_status === true)
+                                                    td Returned
+                                                else
+                                                    td Not Yet Submitted
                                                 td
                                                     .button-container.w3-row
                                                     a.full-width-button.w3-center.all-caps(onclick=`bridgeRemoveUserModal('${assignedUsers.email}')`) Unassign
@@ -335,10 +353,10 @@ block body
                                     hr
                                     .w3-white.w3-round
                                         h3.w3-bold Remarks:
-                                        if (currentForm.form_remarks === null || currentForm.form_remarks === undefined || currentForm.form_remarks === "")
+                                        if (currentForm.secretary_remark === null || currentForm.secretary_remark === undefined || currentForm.secretary_remark === "")
                                             p.w3-row.textArea-noResize.w3-center No Remarks
                                         else
-                                            p.w3-row.textArea-noResize.w3-center #{currentForm.form_remarks}
+                                            p.w3-row.textArea-noResize.w3-center #{currentForm.secretary_remark}
 
                     .w3-twothird.w3-container2
                         h3.w3-bold Submitted Forms

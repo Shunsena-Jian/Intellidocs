@@ -3,7 +3,7 @@ function renderSubmittedForm(formOwner){
 
     var data = {
         formOwner: formOwner,
-        formControlNumber: form_template.form_control_number
+        formControlNumber: currentForm.form_control_number
     };
 
     $.ajax({

@@ -34,12 +34,14 @@ function assignDepartment(){
                     table6.clear().draw();
 
                     for(e=0; e < updatedData3.length; e++){
+                        var status = (updatedData1[a].user_submitted_status === true) ? "Submitted" : (updatedData1[a].user_approved_status === true) ? "Approved" : (updatedData1[a].user_returned_status === true) ? "Returned" : "Not Yet Submitted";
                         var curLine3 = [
                             updatedData3[e].email,
                             updatedData3[e].emp_id,
                             updatedData3[e].user_department,
                             updatedData3[e].first_name,
                             updatedData3[e].last_name,
+                            status,
                             `<a class="full-width-button w3-center all-caps" onclick="bridgeRemoveUserModal('${updatedData3[e].email}')">Unassign</a>`
                         ];
                         table6.row.add(curLine3).draw();
