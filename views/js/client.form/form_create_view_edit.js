@@ -114,9 +114,20 @@ function initializeContextMenuForChildren(pageCount){
     var children;
 
     for(i = 1; i <= pageCount; i++){
+
         receivedCurrentPage = "page-" + i;
         parentElement = document.getElementById(receivedCurrentPage);
         children = parentElement.children;
+
+        if (parentElement.classList.contains("landscape")) {
+            // Add the 'landscape' class to all drop containers
+            setMaxHeight(); // Update page height. Dynamic calculation of max height
+            dropContainers.forEach(function (dropContainer) {
+                dropContainer.classList.add("landscape");
+                    adaptPageContent();
+            });
+            adaptPageContent();
+        }
 
         for(j = 0; j < children.length; j++){
             // Do not allow select element for other user types
@@ -415,7 +426,7 @@ function modifyOrientation() {
         setMaxHeight(); // Update page height. Dynamic calculation of max height
         dropContainers.forEach(function (dropContainer) {
             dropContainer.classList.add("landscape");
-                adaptPageContent()
+                adaptPageContent();
         });
         adaptPageContent();
     } else if (selectedValue === "portrait") {
@@ -1080,7 +1091,9 @@ function contextMenuButtonsForTable(table) {
 
         removeColumnButton.addEventListener('click', () => {
             const colCount = table.rows[0].cells.length;
-            removeTableColumn(table, colCount-1);
+            removeTableColumn(table);
+            checkCurrentPage();
+            reassignSectionID();
             contextMenu.remove();
         });
 
@@ -1128,6 +1141,8 @@ function contextMenuButtonsForTable(table) {
         var rowCount = table.rows.length;
         removeTableRow(table);
         adaptPageContent();
+        checkCurrentPage();
+        reassignSectionID();
         contextMenu.remove();
     });
 
@@ -1136,6 +1151,27 @@ function contextMenuButtonsForTable(table) {
 
     return contextMenu;
 }
+
+function clearContentsOfDiv() {
+    var allPages = document.querySelectorAll(".drop-container"); // Query all pages
+
+    allPages.forEach(function(page) {
+        // Clear input fields of all types except buttons
+        var inputFields = page.querySelectorAll('input:not([type="button"]):not([type="image"]), textarea');        inputFields.forEach(function(input) {
+            input.value = '';
+        });
+
+        // Clear table cell contents (except headers)
+        var tables = page.querySelectorAll('table');
+        tables.forEach(function(table) {
+            var cells = table.querySelectorAll('td');
+            cells.forEach(function(cell) {
+                cell.textContent = '';
+            });
+        });
+    });
+}
+
 
 function dropContent(boxHeight, data) {
     const tempDiv = document.createElement('div');

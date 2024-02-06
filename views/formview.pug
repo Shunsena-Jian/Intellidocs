@@ -91,9 +91,15 @@ block body
                                             i.fa.fa-floppy-o.fa-fw.w3-margin-right
                                             |   Save Form
                                         br
+                                        button#clearFieldsButton.w3-button.w3-block.w3-theme-dark(onclick='clearContentsOfDiv()')
+                                            i.fas.fa-cloud-upload-alt.w3-margin-right
+                                            |   Clear All Fields
+                                        br
                                         button#submitButton.w3-button.w3-block.w3-theme-dark(onclick='submitForm()')
                                             i.fas.fa-cloud-upload-alt.w3-margin-right
                                             |   Submit Form
+                                        br
+
 
         if (currentUserDetailsBlock.userLevel === "Secretary" || currentUserDetailsBlock.userLevel === "Super Admin")
             .w3-container.w3-card.w3-white.w3-round.w3-margin
