@@ -20,7 +20,7 @@
   },
   "widget_name": "Document Header Term and Academic Year",
   "widget_category": "Header",
-  "widget_content": "<div class=\"header w3-row w3-container w3-margin-left w3-margin-right w3-bold w3-center box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col s3\"><img class=\"w3-image\" src=\"../src/slu_logo.png\"></div><div class=\"w3-col s6 w3-bold w3-center\"><div class=\"w3-center text-label\">SAINT LOUIS UNIVERSITY</div><div class=\"w3-center\"><h5>SCHOOL:</h5><h5>School of Accountancy, Management, Computing, and Information Studies</h5><div class=\"center w3-row\"><div class=\"w3-half\"><label id=\"term\">TERM:<input class=\"w3-input w3-center w3-row\" readonly=\"\" for=\"term\" type=\"text\" maxlength=\"10\" size=\"10\" placeholder=\"PRELIM/MIDTERM/FINAL\"></label></div><div class=\"w3-half\"><label id=\"schoolYear\">AY:<input class=\"w3-input w3-center w3-row\" readonly=\"\" for=\"schoolYear\" type=\"text\" maxlength=\"10\" size=\"10\" placeholder=\"2023-2024\"></label></div></div></div></div></div>"
+  "widget_content": "<div class=\"header w3-row w3-container w3-margin-left w3-margin-right w3-bold w3-center box draggable w3-margin-small\" draggable=\"true\"><div class=\"w3-col s3\"><img class=\"w3-image\" src=\"../src/slu_logo.png\"></div><div class=\"w3-col s6 w3-bold w3-center\"><div class=\"w3-center text-label\">SAINT LOUIS UNIVERSITY</div><div class=\"w3-center\"><h5>SCHOOL:</h5><h5>School of Accountancy, Management, Computing, and Information Studies</h5><div class=\"center w3-row\"><div class=\"w3-half\"><label id=\"term\">TERM:<input class=\"w3-input w3-center w3-row\" readonly=\"\" for=\"term\" type=\"text\" maxlength=\"10\" size=\"10\" placeholder=\"PRELIM/MIDTERM/FINAL\"></label></div><div class=\"w3-half\"><label id=\"schoolYear\">AY:<input class=\"w3-input w3-center w3-row\" readonly=\"\" for=\"schoolYear\" type=\"text\" maxlength=\"10\" size=\"10\" placeholder=\"2023-2024\"></label></div></div></div></div><div class=\"w3-col s3\"><table class=\"form-table w3-bold w3-font-size-10 header-table\"><tbody><tr><th>Document Code</th><th>FMI-SMI-027</th></tr><tr><th>Revision No.</th><th>01</th></tr><tr><th>Effectivity</th><th>April 01, 2023</th></tr><tr><th>Page</th><th class=\"page-number\">1 of 1</th></tr></tbody></table></div></div>"
 },
 {
   "_id": {
@@ -148,7 +148,7 @@
   },
   "widget_name": "Sample Numeric Input",
   "widget_category": "Text",
-  "widget_content": "<label class=\"textbox text-label draggable w3-margin-small box\" draggable=\"true\"><input class=\"w3-input numeric-input\" readonly=\"\" type=\"number\">Sample Numeric Input</label>"
+  "widget_content": "<label class=\"textbox text-label draggable w3-margin-small box\" draggable=\"true\"><input class=\"w3-row w3-input numeric-input\" readonly=\"\" type=\"number\">Sample Numeric Input</label>"
 },
 {
   "_id": {
@@ -325,4 +325,20 @@
   "widget_name": "TOS Data Table",
   "widget_category": "Table",
   "widget_content": "<table class=\"draggable form-table w3-bold w3-margin-small\" draggable=\"true\">\n<tbody>\n<tr>\n<th rowspan=\"2\">#</th>\n<th rowspan=\"2\">Topic</th>\n<th rowspan=\"2\">Learning Outcomes</th>\n<th rowspan=\"2\">Hours Spent on Topic</th>\n<th rowspan=\"2\">No. of Points</th>\n<th colspan=\"6\">Hierarchy of Learning</th>\n<th rowspan=\"2\">Type of Test</th>\n</tr>\n\n<tr>\n<th>Remembering</th>\n<th>Explaining</th>\n<th>Applying</th>\n<th>Analyzing</th>\n<th>Evaluating</th>\n<th>Creating</th>\n</tr>\n\n<tr>\n<td>Text 1</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n\n<tr>\n<td>Text 2</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n\n<tr>\n<td></td>\n<td>Total</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n\n</tbody>\n</table>"
+},
+{
+  "_id": {
+    "$oid": "65c27ab81107f037e7c29f80"
+  },
+  "widget_name": "test",
+  "widget_category": "Personalized",
+  "widget_content": "<div class=\"w3-row draggable box w3-margin-small\" draggable=\"true\"> <h3 class=\"textbox text-label w3-row w3-container box draggable w3-hover-light-grey w3-padding-small\">                        This is a sample title</h3><div>"
+},
+{
+  "_id": {
+    "$oid": "65c27ba91107f037e7c29f81"
+  },
+  "widget_name": "Signature Half",
+  "widget_category": "Signature",
+  "widget_content": "<div class=\"w3-row draggable box w3-margin-small\" draggable=\"true\"> <div class=\"grid-container w3-white w3-container draggable box w3-hover-light-grey hori-col\"><div class=\"grid-item-container w3-row w3-border\"></div><div class=\"grid-item-container w3-row w3-border\"><div><div class=\"w3-container box w3-padding-16 draggable w3-hover-light-grey\"><div class=\"form\" action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\"><input type=\"file\" name=\"file\" id=\"file\"><br><input type=\"submit\" value=\"Upload Signature\"></div></div></div><div><h5 class=\"textbox text-label w3-row w3-container box draggable w3-hover-light-grey w3-padding-small\" contenteditable=\"true\">POSITION:<br></h5></div><div><input class=\"text-label w3-input textbox draggable box w3-hover-light-grey w3-padding-small\" readonly=\"\" type=\"text\" placeholder=\"Some Text\"></div></div></div><div>"
 }]

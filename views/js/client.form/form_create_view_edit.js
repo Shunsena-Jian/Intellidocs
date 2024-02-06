@@ -692,13 +692,10 @@ function addTableRow(table) {
 
 // Remove the selected row
 function removeTableRow(table) {
-    if (getRowIndex(selectedTextBox) == 0) {
         if (confirm('Are you sure you want to delete the header?')) {
             var selectedRow = table.rows[getRowIndex(selectedTextBox)];
             table.deleteRow(selectedRow.rowIndex); // Delete the selected row
         }
-    }
-
 }
 
 
@@ -1129,7 +1126,8 @@ function contextMenuButtonsForTable(table) {
 
     removeRowButton.addEventListener('click', () => {
         var rowCount = table.rows.length;
-        removeTableRow(table, rowCount-1);
+        removeTableRow(table);
+        adaptPageContent();
         contextMenu.remove();
     });
 

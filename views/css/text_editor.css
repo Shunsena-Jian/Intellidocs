@@ -17,7 +17,6 @@
   width: 100%;
   background: #ccc;
   display: flex;
-  border: 1px solid #ccc;
   overflow-x: auto; /* Add horizontal scroll if necessary */
   box-shadow: rgba(0, 0, 0, 0.05) 3px 3px 3px 3px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
