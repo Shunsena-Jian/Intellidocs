@@ -854,7 +854,7 @@ app.get('/formview/:form_control_number', async function (req, res){
                 }
             }
 
-            var currentForm = await forms.findOne({ form_version : latestVersion , form_control_number: selectedFormControlNumberToView, form_status: { $in: ["Published", "Active", "In-active"] }});
+            var currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_status: { $in: ["Published", "Active", "In-active"] }});
 
             var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
             var jsonObject;
@@ -2595,7 +2595,7 @@ app.put('/AJAX_setDueDate', async function(req, res){
 
         try{
             updateDocument = await forms.updateMany(
-                { form_control_number : selectedFormControlNumberToView },
+                { form_control_number : selectedFormControlNumberToView, form_version : parseInt(formData.formVersion, 10) },
                 { $set: {
                         due_date: formData.dueDateInput,
                         quarter_due_date: formData.quarterlyDueDate,
@@ -2604,17 +2604,21 @@ app.put('/AJAX_setDueDate', async function(req, res){
                         semester: formData.semester } }
             );
 
-            updateFilledOutForms = await filledoutforms.updateMany(
-                { form_control_number : selectedFormControlNumberToView },
-                { $set: {
-                        due_date: formData.dueDateInput,
-                        quarter_due_date: formData.quarterlyDueDate,
-                        annual_due_date: formData.annualDueDate,
-                        academic_year: formData.academicYear,
-                        semester: formData.semester } }
-            );
+            try{
+                updateFilledOutForms = await filledoutforms.updateMany(
+                    { form_control_number : selectedFormControlNumberToView, form_version : parseInt(formData.formVersion, 10) },
+                    { $set: {
+                            due_date: formData.dueDateInput,
+                            quarter_due_date: formData.quarterlyDueDate,
+                            annual_due_date: formData.annualDueDate,
+                            academic_year: formData.academicYear,
+                            semester: formData.semester } }
+                );
+            }catch(error){
+                logError("Due date was not set in filledoutforms");
+            }
 
-            var dueForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView });
+            var dueForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version : formData.formVersion });
 
             res.send({ status_code : 0, dueDate : dueForm.due_date });
 

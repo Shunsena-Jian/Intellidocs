@@ -23,17 +23,6 @@ block body
                                         button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
                                             i.fa.fa-refresh.fa-fw.w3-margin-right
                                             |   Load Form
-                                    hr
-                                    h4.w3-bold Saved Form Versions
-                                    .w3-row
-                                        select#versionDropDown(name='versionDropDown')
-                                            each version in allVersions
-                                                option #{version.user_version}
-                                    .w3-row
-                                        br
-                                        button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
-                                            i.fa.fa-refresh.fa-fw.w3-margin-right
-                                            |   Load Form
                             if (currentUserDetailsBlock.empID == currentForm.form_owner && currentForm.shared_status == true)
                                 .w3-quarter
                                     .w3-container.w3-card.w3-white.w3-round.w3-margin
@@ -83,6 +72,14 @@ block body
                                                         td Edit
                                                         td
                                                             button.w3-button.w3-block.w3-theme-dark(onclick=`removeSharedUser("${write.email}")`) Remove
+                            else
+                                .w3-half
+                                    .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                        h3.w3-bold Remarks by Secretary:
+                                        if (initialTemplateForm.secretary_remark === null || initialTemplateForm.secretary_remark === undefined || initialTemplateForm.secretary_remark === "")
+                                            p.w3-row.textArea-noResize.w3-center No Remarks
+                                        else
+                                            p.w3-row.textArea-noResize.w3-center #{initialTemplateForm.secretary_remark}
 
                         .w3-quarter.w3-container2
                             h3.w3-bold Form Settings
@@ -124,10 +121,10 @@ block body
                                                     | #{currentForm.due_date}
                                         tr
                                             td Academic Year
-                                            td
+                                            td #{currentForm.academic_year}
                                         tr
                                             td Semester
-                                            td
+                                            td #{currentForm.semester}
 
                                 hr
                                 h4.w3-bold Approvals
@@ -167,10 +164,10 @@ block body
                                     hr
                                     .w3-white.w3-round
                                         h3.w3-bold Remarks:
-                                        if (currentForm.form_remarks === null || currentForm.form_remarks === undefined || currentForm.form_remarks === "")
+                                        if (currentForm.doccontrol_remarks === null || currentForm.doccontrol_remarks === undefined || currentForm.doccontrol_remarks === "")
                                             p.w3-row.textArea-noResize.w3-center No Remarks
                                         else
-                                            p.w3-row.textArea-noResize.w3-center #{currentForm.form_remarks}
+                                            p.w3-row.textArea-noResize.w3-center #{currentForm.doccontrol_remarks}
 
                             .w3-third
                                 .table-container.w3-container2.w3-card.w3-white.w3-round.w3-margin
@@ -251,6 +248,7 @@ block body
                                                         button.w3-button2.w3-block.w3-theme-dark(onclick=`approveSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Approve Form
                                                     td
                                                         button.w3-button2.w3-block.w3-theme-dark(onclick=`returnSubmittedForm("${submissions.form_owner}", "${String(submissions.form_control_number)}")`) Return Form
+
             if (currentUserDetailsBlock.userLevel === "Secretary")
                 .w3-container.w3-card.w3-white.w3-round.w3-margin
                     .w3-row
@@ -278,6 +276,10 @@ block body
                                                 td
                                                     .button-container.w3-row
                                                     a.full-width-button.w3-center.all-caps(onclick=`bridgeRemoveUserModal('${assignedUsers.email}')`) Unassign
+                .w3-container.w3-padding-32
+                    h3.w3-bold Remarks for Faculty:
+                    textArea#remarks.w3-row.textArea-noResize(placeholder="Type edit remarks here") #{currentForm.secretary_remark}
+                    button.w3-button2.w3-block.w3-theme-dark(onclick='addSecretaryRemarks()') Add Remarks
         if (currentUserDetailsBlock.userLevel == "Department Head" || currentUserDetailsBlock.userLevel == "Dean")
             .w3-container.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
@@ -305,10 +307,10 @@ block body
                                                     | #{currentForm.due_date}
                                         tr
                                             td Academic Year
-                                            td
+                                            td #{currentForm.academic_year}
                                         tr
                                             td Semester
-                                            td
+                                            td #{currentForm.semester}
 
                         .w3-half
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
@@ -710,6 +712,33 @@ block body
     script(src='/js/client.functions/handle_ajax_toggle_form_status.js')
     script(src='/js/client.functions/handle_ajax_validate_assigned_users.js')
 
+    script.
+        function addSecretaryRemarks(){
+            var remarkMessage = document.getElementById('remarks').value;
+
+            data = {
+                remarkMessage : remarkMessage,
+                formControlNumber : currentForm.form_control_number,
+                formVersion : currentForm.form_version
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: '/AJAX_addSecretaryRemark',
+                data: data,
+                success: function(response){
+                    if(response.status_code === 0){
+                        alert();
+                    }else if(response.status_code === 1){
+                        alert("There was no remark message.");
+                    }
+                },
+                error: function(error){
+                    alert("There was an error at AJAX Function adding secretary remarks.");
+                    console.log("AJAX Error: " + error);
+                }
+            });
+        }
 
     script.
         var table7 = $('#previouslySubmittedForms').DataTable();
