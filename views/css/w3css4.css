@@ -3241,3 +3241,16 @@ section .loginBox{
 .loginBox .formBox {
     width: 50%
 }
+
+/* Media query to hide footer on zoom */
+@media screen and (max-width: 1500px) {
+  .footer {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .footer {
+       display: block; /* Show footer for small screens */
+     }
+}

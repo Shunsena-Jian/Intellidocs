@@ -68,7 +68,7 @@ html(style='font-size: 16px;', lang='en')
                                 input.w3-button.w3-blue-classic.w3-round-large(type='submit', value='LOG IN')
                 //.w3-round-large.w3-padding-16.w3-blue-classic2
 
-        footer#myFooter.w3-bottom.w3-container.w3-theme-l1
+        footer#myfooter.footer.w3-bottom.w3-container.w3-theme-l1
             h5(style='text-align:center;') Team IntelliJent IT Project
             h6(style='text-align:center;') &copy; 2023 All Rights Reserved
 
@@ -77,4 +77,22 @@ html(style='font-size: 16px;', lang='en')
           var receivedError = "";
           if(receivedError){
           errorMessage.innerHTML = "";
+
           }
+
+          script(type='text/javascript').
+            window.addEventListener("scroll", function() {
+              var footer = document.getElementById("footer");
+              var scrollPosition = window.scrollY;
+
+              // Show the footer if the user has scrolled to the bottom
+              if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                footer.style.display = "block";
+              } else {
+                footer.style.display = "none";
+              }
+            });
+
+
+
+
