@@ -198,6 +198,21 @@ function initializeContextMenuForChild(clonedDiv) {
   });
  }
 
+ function duplicateWidget(element) {
+     // Clone the selected element
+     var clone = element.cloneNode(true);
+
+     // Append the clone below the original element
+     element.parentNode.insertBefore(clone, element.nextSibling);
+ }
+
+  function duplicateWidgetOnEnd(element) {
+      // Clone the selected element
+      var clone = element.cloneNode(true);
+
+      // Append the clone below the original element
+      currentPageContent.appendChild(clone);
+  }
 
 function adjustTextareaHeight(element) {
     var parentContainer = element.parentElement;
@@ -831,6 +846,108 @@ function createContextMenu(x,y,element, table) {
 
              contextMenu.appendChild(deleteButton);
 
+            const duplicateWidgetButton = document.createElement('button');
+            duplicateWidgetButton.classList.add("button-box");
+            duplicateWidgetButton.innerText = 'Duplicate Widget Below';
+            duplicateWidgetButton.addEventListener('click', () => {
+                if((element && !(element.classList.contains("header"))) || (table && !(table.classList.contains("header")))) {
+                    if (confirm('Are you sure you want to duplicate this box?')) {
+                        if (selectedTextBox.parentElement != null) {
+
+                            if (selectedTextBox.nodeName === "TD" || selectedTextBox.nodeName === "TR") {
+                                var parentNode = selectedTextBox.parentNode;
+                                var tableContainer = parentNode.parentNode;
+
+                                if (tableContainer.nodeName === "TBODY") {
+                                    var tableContainerOuter = tableContainer.parentElement;
+                                    duplicateWidget(tableContainerOuter);
+                                    checkCurrentPage();
+                                    repositionBoxes();
+                                    reassignSectionID();
+                                } else {
+                                    duplicateWidget(tableContainer);
+                                    checkCurrentPage();
+                                    repositionBoxes();
+                                    adaptPageContent();
+                                    reassignSectionID();
+                                }
+                                sectionCount -= 1;
+                                currentHeight = updatePageHeight();
+                            return;
+                            } else {
+                                if (element) {
+                                    const parentContainer = element.parentElement;
+                                    if (parentContainer.classList.contains("draggable")) {
+                                        duplicateWidget(parentContainer.parentElement);
+                                    } else {
+                                       duplicateWidget(parentContainer);
+                                       checkCurrentPage();
+                                       repositionBoxes();
+                                       adaptPageContent();
+                                       reassignSectionID();
+                                    }
+                                sectionCount += 1;
+                                currentHeight = updatePageHeight();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const duplicateWidgetOnEndButton = document.createElement('button');
+            duplicateWidgetOnEndButton.classList.add("button-box");
+            duplicateWidgetOnEndButton.innerText = 'Duplicate Widget On End';
+            duplicateWidgetOnEndButton.addEventListener('click', () => {
+                if((element && !(element.classList.contains("header"))) || (table && !(table.classList.contains("header")))) {
+                    if (confirm('Are you sure you want to duplicate this widget?')) {
+                        if (selectedTextBox.parentElement != null) {
+
+                            if (selectedTextBox.nodeName === "TD" || selectedTextBox.nodeName === "TR") {
+                                var parentNode = selectedTextBox.parentNode;
+                                var tableContainer = parentNode.parentNode;
+
+                                if (tableContainer.nodeName === "TBODY") {
+                                    var tableContainerOuter = tableContainer.parentElement;
+                                    duplicateWidgetOnEnd(tableContainerOuter);
+                                    checkCurrentPage();
+                                    repositionBoxes();
+                                    reassignSectionID();
+                                } else {
+                                    duplicateWidgetOnEnd(tableContainer);
+                                    checkCurrentPage();
+                                    repositionBoxes();
+                                    adaptPageContent();
+                                    reassignSectionID();
+                                }
+                                sectionCount -= 1;
+                                currentHeight = updatePageHeight();
+                            return;
+                            } else {
+                                if (element) {
+                                    const parentContainer = element.parentElement;
+                                    if (parentContainer.classList.contains("draggable")) {
+                                        duplicateWidgetOnEnd(parentContainer.parentElement);
+                                    } else {
+                                       duplicateWidgetOnEnd(parentContainer);
+                                       checkCurrentPage();
+                                       repositionBoxes();
+                                       adaptPageContent();
+                                       reassignSectionID();
+                                    }
+                                sectionCount += 1;
+                                currentHeight = updatePageHeight();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+             contextMenu.appendChild(deleteButton);
+             contextMenu.appendChild(duplicateWidgetButton);
+             contextMenu.appendChild(duplicateWidgetOnEndButton);
+
              const lockEditOnDeploy = document.createElement('button');
              lockEditOnDeploy.classList.add("button-box");
              lockEditOnDeploy.innerText = "Lock field";
@@ -1040,7 +1157,7 @@ function dropContent(boxHeight, data) {
         if (currentPageContent) { // Check if currentPageContent is defined
             sectionCount += 1; // update section count
             const sectionDiv = document.createElement('div');
-            sectionDiv.classList.add("w3-padding-8");
+            sectionDiv.classList.add("w3-margin-top-small");
             sectionDiv.id = "section-" + currentPage + "-" + sectionCount;
             sectionDiv.appendChild(clonedDiv); // enclose dropped element to section div
 
