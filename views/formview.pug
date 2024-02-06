@@ -13,7 +13,18 @@ block body
                             hr
                             .w3-quarter
                                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                    h4.w3-bold Saved Versions
+                                    h4.w3-bold Saved Template Versions
+                                    .w3-row
+                                        select#versionDropDown(name='versionDropDown')
+                                            each version in allVersions
+                                                option #{version.user_version}
+                                    .w3-row
+                                        br
+                                        button.w3-button.w3-block.w3-theme-dark(onclick=`showLoadVersionModal()`)
+                                            i.fa.fa-refresh.fa-fw.w3-margin-right
+                                            |   Load Form
+                                    hr
+                                    h4.w3-bold Saved Form Versions
                                     .w3-row
                                         select#versionDropDown(name='versionDropDown')
                                             each version in allVersions
@@ -39,6 +50,13 @@ block body
                                             button.w3-button.w3-block.w3-theme-dark(onclick='validateShareForm()')
                                                 i.fa.fa-share-alt.fa-fw.w3-margin-right
                                                 |   Share
+                                        hr
+                                        h3.w3-bold Remarks:
+                                        if (currentForm.form_remarks === null || currentForm.form_remarks === undefined || currentForm.form_remarks === "")
+                                            p.w3-row.textArea-noResize.w3-center No Remarks
+                                        else
+                                            p.w3-row.textArea-noResize.w3-center #{currentForm.form_remarks}
+
                                 .w3-half
                                     .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                         h4.w3-bold Shared with
@@ -65,14 +83,6 @@ block body
                                                         td Edit
                                                         td
                                                             button.w3-button.w3-block.w3-theme-dark(onclick=`removeSharedUser("${write.email}")`) Remove
-                            else
-                                .w3-half
-                                    .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                        h3.w3-bold Remarks by Secretary:
-                                        if (initialTemplateForm.secretary_remark === null || initialTemplateForm.secretary_remark === undefined || initialTemplateForm.secretary_remark === "")
-                                            p.w3-row.textArea-noResize.w3-center No Remarks
-                                        else
-                                            p.w3-row.textArea-noResize.w3-center #{initialTemplateForm.secretary_remark}
 
                         .w3-quarter.w3-container2
                             h3.w3-bold Form Settings
@@ -95,7 +105,7 @@ block body
                         h3.w3-bold User Form Settings
                         hr
                         .w3-third
-                            .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                            .table-container.w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h4.w3-bold Form Details
                                 .w3-row
                                     table.form-details
@@ -141,7 +151,7 @@ block body
 
                         if (currentUserDetailsBlock.userLevel === "Secretary")
                             .w3-third
-                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                .table-container.w3-container2.w3-card.w3-white.w3-round.w3-margin
                                     h4.w3-bold Form Settings
                                     .w3-row
                                         button#toggleActivateFormButton.w3-button.w3-block.w3-theme-dark(onclick='toggleActivateForm()') Activate
@@ -156,14 +166,14 @@ block body
                                             |   Set Due Date
                                     hr
                                     .w3-white.w3-round
-                                        h3.w3-bold Remarks by Document Controller:
-                                        if (currentForm.doccontrol_remarks === null || currentForm.doccontrol_remarks === undefined || currentForm.doccontrol_remarks === "")
+                                        h3.w3-bold Remarks:
+                                        if (currentForm.form_remarks === null || currentForm.form_remarks === undefined || currentForm.form_remarks === "")
                                             p.w3-row.textArea-noResize.w3-center No Remarks
                                         else
-                                            p.w3-row.textArea-noResize.w3-center #{currentForm.doccontrol_remarks}
+                                            p.w3-row.textArea-noResize.w3-center #{currentForm.form_remarks}
 
                             .w3-third
-                                .w3-container2.w3-card.w3-white.w3-round.w3-margin
+                                .table-container.w3-container2.w3-card.w3-white.w3-round.w3-margin
                                     h4.w3-bold Assign User
                                     .w3-row
                                         input(id='assign_user' name='employee_email' placeholder="Employee Email")
@@ -193,8 +203,8 @@ block body
                     .w3-half.w3-container2
                         h3.w3-bold Submitted Forms
                         hr
-                        .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                            table#submittedFormsTable.display(width='100%')
+                        .table-container.w3-container2.w3-card.w3-white.w3-round.w3-margin
+                            table#submittedFormsTable(width='100%')
                                 thead
                                     tr
                                         th Employee First Name
@@ -268,11 +278,6 @@ block body
                                                 td
                                                     .button-container.w3-row
                                                     a.full-width-button.w3-center.all-caps(onclick=`bridgeRemoveUserModal('${assignedUsers.email}')`) Unassign
-                .w3-container.w3-padding-32
-                    h3.w3-bold Remarks for Faculty:
-                    textArea#remarks.w3-row.textArea-noResize(placeholder="Type edit remarks here") #{currentForm.secretary_remark}
-                    button.w3-button2.w3-block.w3-theme-dark(onclick='addSecretaryRemarks()') Add Remarks
-
         if (currentUserDetailsBlock.userLevel == "Department Head" || currentUserDetailsBlock.userLevel == "Dean")
             .w3-container.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
@@ -304,6 +309,7 @@ block body
                                         tr
                                             td Semester
                                             td
+
                         .w3-half
                             .w3-container2.w3-card.w3-white.w3-round.w3-margin
                                 h4.w3-bold Approvals
@@ -657,34 +663,6 @@ block body
 
     script(src="../js/client.functions/handle_ajax_upload.js")
     script(src="../js/client.functions/handle_ajax_delete.js")
-
-    script.
-        function addSecretaryRemarks(){
-            var remarkMessage = document.getElementById('remarks').value;
-
-            data = {
-                remarkMessage : remarkMessage,
-                formControlNumber : currentForm.form_control_number,
-                formVersion : currentForm.form_version
-            };
-
-            $.ajax({
-                type: 'PUT',
-                url: '/AJAX_addSecretaryRemark',
-                data: data,
-                success: function(response){
-                    if(response.status_code === 0){
-                        alert();
-                    }else if(response.status_code === 1){
-                        alert("There was no remark message.");
-                    }
-                },
-                error: function(error){
-                    alert("There was an error at AJAX Function adding secretary remarks.");
-                    console.log("AJAX Error: " + error);
-                }
-            });
-        }
 
     script.
         var table3 = $('#assignedUserTable').DataTable();

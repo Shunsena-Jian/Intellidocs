@@ -50,29 +50,22 @@ html(style='font-size: 16px;', lang='en')
                 .u-black.u-menu-overlay.u-opacity.u-opacity-70
 
         #main.w3-main(style='margin-left:250px; margin-bottom: 90px; margin-top: 10px;')
-            .w3-col.s5
-                br
-                img.w3-image(src='../src/slu_logo.png')
-
-
-            .w3-col.s5
-                br
-                br
-                br
-                br
+        section
+            .loginBox
                 .w3-padding-16.w3-light-gray.w3-round-xlarge.container.w3-card
-                    .w3-row
+                    .contentBox
+                        .logoBox
+                                    img(src='../src/slu_logo.png')
                         h3.w3-bold.w3-center.w3-text-blue-classic LOGIN
-                    hr.vertical-separator
-                    form(role='form', source='custom', name='form', method='post')
-                        .w3-row.w3-padding-large
-                            label(for='username-a30d') Email *
-                                input#username-a30d.w3-input(type='text', placeholder='Enter your email', name='email', required='')
-                        .w3-row.w3-padding-large
-                            label(for='password-a30d') Password *
-                                input#password-a30d.w3-input(type='password', placeholder='Enter your password', name='passWord', required='')
-                        .w3-row.w3-padding-large
-                            input.w3-button.w3-blue-classic.w3-round-large(type='submit', value='LOG IN')
+                        form(role='form', source='custom', name='form', method='post')
+                            .w3-row.w3-padding-large
+                                label(for='username-a30d') Email *
+                                    input#username-a30d.w3-input(type='text', placeholder='Enter your email', name='email', required='')
+                            .w3-row.w3-padding-large
+                                label(for='password-a30d') Password *
+                                    input#password-a30d.w3-input(type='password', placeholder='Enter your password', name='passWord', required='')
+                            .w3-row.w3-padding-large
+                                input.w3-button.w3-blue-classic.w3-round-large(type='submit', value='LOG IN')
                 //.w3-round-large.w3-padding-16.w3-blue-classic2
 
         footer#myFooter.w3-bottom.w3-container.w3-theme-l1

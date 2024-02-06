@@ -20,12 +20,51 @@
   border: 3px solid #65647C;
 }
 
-table {
+/*table {
         border-spacing: 0px;
                     table-layout: fixed;
                     margin-left:auto;
                     margin-right:auto;
-      }
+      }*/
+
+table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        @media only screen and (max-width: 600px) {
+            th, td {
+                display: block;
+                width: 100%;
+            }
+
+            th {
+                text-align: center;
+            }
+
+            td {
+                text-align: left;
+                border-bottom: none;
+            }
+        }
+
+.table-container {
+            max-width: 800px; /* Set your desired max-width */
+            margin: 0 auto; /* Center the container */
+            overflow-x: auto; /* Enable horizontal scrolling if needed */
+            box-shadow: 0 0 5px 1px lightgrey;
+            padding: 20px;
+        }
 
 
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
@@ -81,24 +120,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   }
 }
 
-/** ---------- LOGIN PAGE REMEMBER ME CHECKBOX (cass) ---------- **/
-.label1 {
-  display: block;
-  padding-left: 30px;
-  text-indent: -20px;
-}
-.input1 {
-  width: 20px;
-  height: 13px;
-  padding: 0;
-  margin:0;
-  vertical-align: bottom;
-  position: relative;
-  top: -4px;
-  *overflow: hidden;
-}
-
-
 /* --------------- alert box (cass) ---------------- */
 
 .dialogoverlay{
@@ -151,7 +172,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 }
 
 .dialogbox > div > .dialogboxhead-green{
-  background: #90EE90;
+  background: #43766C;
   font-size:19px;
   padding:10px;
   color:rgb(255, 255, 255);
@@ -2876,7 +2897,8 @@ a:hover{color:#000000}
 .w3-cell-row:before,.w3-cell-row:after,.w3-clear:after,.w3-clear:before,.w3-bar:before,.w3-bar:after{content:"";display:table;clear:both}
 .w3-col,.w3-half,.w3-third,.w3-twothird,.w3-threequarter,.w3-quarter{float:left;width:100% }
 .w3-col.s1{width:8.33333%}.w3-col.s2{width:16.66666%}.w3-col.s3{width:24.99999%}.w3-col.s4{width:33.33333%}
-.w3-col.s5{width:41.66666%}.w3-col.s6{width:49.99999% }.w3-col.s7{width:58.33333%}.w3-col.s8{width:66.66666%}
+.w3-col.s5{width:41.66666%}
+.w3-col.s6{width:49.99999% }.w3-col.s7{width:58.33333%}.w3-col.s8{width:66.66666%}
 .w3-col.s9{width:74.99999%}.w3-col.s10{width:83.33333%}.w3-col.s11{width:91.66666%}.w3-col.s12{width:99.99999%}
 @media (min-width:601px){.w3-col.m1{width:8.33333%}.w3-col.m2{width:16.66666%}.w3-col.m3,.w3-quarter{width:24.99999%}.w3-col.m4,.w3-third{width:33.33333%}
 .w3-col.m5{width:41.66666%}.w3-col.m6,.w3-half{width:49.99999%}.w3-col.m7{width:58.33333%}.w3-col.m8,.w3-twothird{width:66.66666%}
@@ -3159,3 +3181,63 @@ a:hover{color:#000000}
     display: flex;
   flex-wrap: nowrap;
    }
+
+// revised login page
+section {
+    position: relative;
+    width:100%
+    height: 100vh
+    display: flex;
+}
+
+section .logoBox {
+    position: relative;
+    width: 50%
+    height:100%
+}
+
+section .logoBox img {
+    position: absolute;
+    top:0;
+    left: 230px;
+    width: 30%;
+    height: 50%
+    object-fit: cover;
+}
+
+       .detailBox {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .responsive-text {
+            font-size: 16px; /* Default font size */
+        }
+
+        @media screen and (min-width: 600px) {
+            /* Adjust font size for screens with minimum width of 600px */
+            .responsive-text {
+                font-size: 20px;
+            }
+        }
+
+        @media screen and (min-width: 900px) {
+            /* Adjust font size for screens with minimum width of 900px */
+            .responsive-text {
+                font-size: 24px;
+            }
+        }
+
+section .loginBox{
+     display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50;
+        height 100%
+}
+
+.loginBox .formBox {
+    width: 50%
+}
