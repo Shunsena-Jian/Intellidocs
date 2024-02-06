@@ -364,7 +364,7 @@ app.post('/saveformversion', async function(req, res){
 
         for(i=0; i < formHistory.length; i++){
             if(formHistory[i].form_version >= latestVersion){
-                latestRemark = formHistory[i].form_remarks;
+                latestRemark = formHistory[i].doccontrol_remarks;
                 latestVersion = formHistory[i].form_version;
                 latestSharedStatus = formHistory[i].form_version;
                 fileUploadStatus = formHistory[i].allow_file_upload;
@@ -389,7 +389,7 @@ app.post('/saveformversion', async function(req, res){
                 form_name: formData.name,
                 form_control_number: formData.formControlNumber.toString(),
                 form_content: jsonArray,
-                form_remarks: formData.remarks,
+                doccontrol_remarks: formData.remarks,
                 form_version: newVersionNumber,
                 form_status: formData.formStatus,
                 shared_status:latestSharedStatus,
@@ -444,7 +444,7 @@ app.post('/saveformtemplate', async function(req, res){
                     $set: {
                         form_name: formData.name,
                         form_content: jsonArray,
-                        form_remarks: formData.remarks,
+                        doccontrol_remarks: formData.remarks,
                         form_status: formData.formStatus,
                         form_version: parseInt(formData.formVersion, 10),
                         shared_status: latestSharedStatus,
@@ -733,7 +733,7 @@ app.put('/savefilledoutform', async function(req, res){
                     form_control_number: currentForm.form_control_number,
                     form_content: jsonArray,
                     form_version: currentForm.form_version,
-                    form_status: currentForm.form_status,
+                    form_status: "On-going",
                     shared_status: latestSharedStatus,
                     allow_file_upload: latestAllowFileUpload,
                     date_saved: getDateNow(),
@@ -854,7 +854,7 @@ app.get('/formview/:form_control_number', async function (req, res){
                 }
             }
 
-            var currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_status: { $in: ["Published", "Active", "In-active"] }});
+            var currentForm = await forms.findOne({ form_version : latestVersion , form_control_number: selectedFormControlNumberToView, form_status: { $in: ["Published", "Active", "In-active"] }});
 
             var userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
             var jsonObject;
@@ -870,7 +870,7 @@ app.get('/formview/:form_control_number', async function (req, res){
                         form_name: currentForm.form_name,
                         form_control_number: currentForm.form_control_number,
                         form_content: currentForm.form_content,
-                        form_remarks: currentForm.form_remarks,
+                        doccontrol_remarks: currentForm.doccontrol_remarks,
                         form_version: currentForm.form_version,
                         form_status: "On-going",
                         shared_status: Boolean(currentForm.shared_status),
@@ -889,6 +889,8 @@ app.get('/formview/:form_control_number', async function (req, res){
                         dean_approval: "Not Approved",
                         department_head_approval: "Not Approved",
                         secretary_approval: "Not Approved",
+                        doccontrol_remarks: currentForm.doccontrol_remarks,
+                        secretary_remark: currentForm.secretary_remark
                     };
 
                     const result = await filledoutforms.insertOne(filledOutDocument);
@@ -2952,7 +2954,7 @@ app.put('/AJAX_viewFormVersion', async function(req, res) {
 
             try{
                 jsonObject.form_content = g;
-                res.send({ status_code : 0, formContent : jsonObject.form_content, formStatus : currentForm.form_status, sharedStatus : currentForm.shared_status, formVersion : currentForm.form_version, allowUploadFile: currentForm.allow_file_upload, formRemarks: currentForm.form_remarks });
+                res.send({ status_code : 0, formContent : jsonObject.form_content, formStatus : currentForm.form_status, sharedStatus : currentForm.shared_status, formVersion : currentForm.form_version, allowUploadFile: currentForm.allow_file_upload, formRemarks: currentForm.doccontrol_remarks });
             }catch(error){
                 logError("Error at view form version for front end: " + error);
             }
@@ -3349,6 +3351,32 @@ app.put('/AJAX_deleteUser', async function(req, res) {
             }
         } catch(error) {
             logError("Error at removing user from database: " + error);
+        }
+    } else {
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_addSecretaryRemark', async function(req, res) {
+    if(req.session.loggedIn){
+        try {
+            var formData = req.body;
+            var formVersion = parseInt(formData.formVersion, 10);
+            var secretaryRemark = formData.remarkMessage;
+
+            if(!secretaryRemark){
+                res.send({ status_code : 1 });
+            } else {
+                const result = await forms.updateMany(
+                    { form_control_number: formData.formControlNumber, form_version: formVersion },
+                    { $set: { secretary_remark: secretaryRemark } }
+                );
+                res.send({ status_code : 0 });
+            }
+        } catch(error) {
+            logError("Error at adding secretary remark to database: " + error);
         }
     } else {
         res.render('login', {
