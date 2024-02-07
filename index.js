@@ -55,13 +55,14 @@ app.set('view engine', 'pug');
 app.use('/views/src', express.static(path.join(__dirname, 'views', 'src')));
 app.use(express.static(path.join(__dirname, 'views')));
 app.use('/uploads', express.static('uploads'));
+
 app.use((req, res, next) => {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
     next();
 });
 
-app.use(bodyParser.json({ limit: '1gb' }));
-app.use(bodyParser.urlencoded({ limit: '1gb', extended: true }));
+app.use(bodyParser.json({ limit: '100mb' }));
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 
 var currentUserFiles;
 var currentUserDetailsBlock;
