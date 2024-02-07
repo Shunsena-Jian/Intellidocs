@@ -34,7 +34,7 @@ function assignDepartment(){
                     table6.clear().draw();
 
                     for(e=0; e < updatedData3.length; e++){
-                        var status = (updatedData1[a].user_submitted_status === true) ? "Submitted" : (updatedData1[a].user_approved_status === true) ? "Approved" : (updatedData1[a].user_returned_status === true) ? "Returned" : "Not Yet Submitted";
+                        var status = (updatedData3[e].user_submitted_status === true) ? "Submitted" : (updatedData3[e].user_approved_status === true) ? "Approved" : (updatedData3[e].user_returned_status === true) ? "Returned" : "Not Yet Submitted";
                         var curLine3 = [
                             updatedData3[e].email,
                             updatedData3[e].emp_id,

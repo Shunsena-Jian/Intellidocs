@@ -13,7 +13,7 @@ block body
                             hr
                             .w3-quarter
                                 .w3-container2.w3-card.w3-white.w3-round.w3-margin
-                                    h4.w3-bold Saved Template Versions
+                                    h4.w3-bold Saved User Form Versions
                                     .w3-row
                                         select#versionDropDown(name='versionDropDown')
                                             each version in allVersions
@@ -98,6 +98,9 @@ block body
                                         button#submitButton.w3-button.w3-block.w3-theme-dark(onclick='submitForm()')
                                             i.fas.fa-cloud-upload-alt.w3-margin-right
                                             |   Submit Form
+                                        br
+                                        button#mergeButton.w3-button.w3-block.w3-theme-dark(onclick='mergeForm()')
+                                            |   Merge Form
                                         br
 
 
@@ -549,7 +552,7 @@ block body
                 .dialogboxfoot2
                     button.pure-material-button-contained.active(onclick=`hideDeleteModal()`) No
 
-        if (!currentForm.allow_file_upload || currentUserDetailsBlock.empID != currentForm.form_owner)
+        if (currentUserDetailsBlock.empID != currentForm.form_owner)
         else
             .w3-container.w3-card.w3-white.w3-round.w3-margin
                 .w3-row
@@ -636,7 +639,7 @@ block body
                 }
             }
 
-        if (!currentForm.allow_file_upload || currentUserDetailsBlock.empID != currentForm.form_owner)
+        if (currentForm.allow_file_upload === false || currentUserDetailsBlock.empID != currentForm.form_owner)
         else
             .w3-row.w3-padding-16
                 .w3-container.w3-card.w3-white.w3-round.w3-margin
@@ -693,7 +696,7 @@ block body
     script.
         var table3 = $('#assignedUserTable').DataTable();
 
-        var currentForm = !{JSON.stringify(currentForm)};
+        var currentForm = !{JSON.stringify(initialTemplateForm)};
         var initialTemplateForm = !{JSON.stringify(initialTemplateForm)};
         var empEmails = !{JSON.stringify(retrievedUserEmails)};
         var receivedFormContent = currentForm.form_content;
@@ -787,4 +790,41 @@ block body
             toggleActivateFormButton.innerHTML = "Activate";
         }else if(currentForm.form_status == "Template"){
             toggleActivateFormButton.innerHTML = "Activate";
+        }
+
+    script.
+        function mergeForm(){
+            clearSelections();
+            var inputFieldValuesJSON = iterateAndGetData();
+            var formBody = document.getElementById('form-content');
+
+            formBody = elementToJson(formBody,inputFieldValuesJSON);
+            getNewKeyID(formBody);
+
+            const data = {
+                formControlNumber: currentForm.form_control_number,
+                userVersion: document.getElementById('versionDropDown').value,
+                formContent: formBody
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: '/AJAX_mergeForm',
+                data: data,
+                success: function(response) {
+                    if (response.status_code === 0) {
+                        mergedForm = response.mergedTemplate;
+                        document.getElementById("enginePlaceHolder").innerHTML = mergedForm;
+
+                        showGeneralSuccessModal("Successfully saved the form.");
+                    } else if (response.status_code === 1){
+                        alert("The template versions are the same. Merging is not possible.");
+                    } else {
+                        alert("There was an error in merging the form");
+                    }
+                },
+                error: function(error) {
+                    console.error('AJAX error:', error);
+                }
+            });
         }
