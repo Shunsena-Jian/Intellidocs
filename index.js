@@ -61,8 +61,8 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(bodyParser.json({ limit: '100mb' }));
-app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
+app.use(bodyParser.json({ limit: '1gb' }));
+app.use(bodyParser.urlencoded({ limit: '1gb', extended: true }));
 
 var currentUserFiles;
 var currentUserDetailsBlock;
@@ -3314,16 +3314,31 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
         var submittedFormsTransfer = await filledoutforms.find({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}}).toArray();
         let finalFormsTransfer = [];
 
-        for (const form of submittedFormsTransfer){
-            const formOwner = form.form_owner;
-            const user = await users.findOne({ emp_id: formOwner });
+        if(currentUserDetailsBlock.userLevel === "Department Head"){
+            for (const form of submittedFormsTransfer){
+                const formOwner = form.form_owner;
+                const user = await users.findOne({ emp_id: formOwner });
 
-            if(user){
-                form.first_name = user.first_name;
-                form.last_name = user.last_name;
-                finalFormsTransfer.push(form);
-            } else {
-                logError("User not found for form_owner: " + formOwner);
+                if(user.user_department === currentUserDetailsBlock.userDepartment){
+                    form.first_name = user.first_name;
+                    form.last_name = user.last_name;
+                    finalFormsTransfer.push(form);
+                } else {
+                    logError("User not found for form_owner: " + formOwner);
+                }
+            }
+        } else {
+            for (const form of submittedFormsTransfer){
+                const formOwner = form.form_owner;
+                const user = await users.findOne({ emp_id: formOwner });
+
+                if(user){
+                    form.first_name = user.first_name;
+                    form.last_name = user.last_name;
+                    finalFormsTransfer.push(form);
+                } else {
+                    logError("User not found for form_owner: " + formOwner);
+                }
             }
         }
 
@@ -3542,8 +3557,6 @@ app.put('/AJAX_mergeForm', async function(req, res){
             if(parseInt(userForm.form_version, 10) === parseInt(formTemplate.form_version, 10)){
                 res.send({ status_code : 1 });
             } else {
-                console.log("This is the merged form: " + JSON.stringify(mergedForm));
-                console.log("This is the form template: " + JSON.stringify(formTemplate));
 
                 var sharedRead = mergedForm.read_users;
 
