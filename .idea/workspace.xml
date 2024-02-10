@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8ce81f68-34e4-43e3-bae2-6f12b757da9c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/views/viewusers.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewusers.pug" afterDir="false" />
+    <list default="true" id="8ce81f68-34e4-43e3-bae2-6f12b757da9c" name="Changes" comment="*** DATABASE CLEANED FOR DEPLOYMENT&#10;*** COLLECTIONS BACKED UP (DO NOT WORRY HEHE)&#10;&#10;* viewusers.pug&#10;// Now makes sure that admin in session will not be able to delete its own account">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/intellijent.dropdowns.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/intellijent.dropdowns.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/intellijent.privileges.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/intellijent.privileges.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/intellijent.widgets.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/intellijent.widgets.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +41,9 @@
   "associatedIndex": 5
 }]]></component>
   <component name="ProjectId" id="2cAi1K4zOqqcBDl2TMK8ighBhrP" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -61,6 +66,19 @@
       <option name="presentableId" value="Default" />
       <updated>1707560569214</updated>
     </task>
+    <task id="LOCAL-00001" summary="*** DATABASE CLEANED FOR DEPLOYMENT&#10;*** COLLECTIONS BACKED UP (DO NOT WORRY HEHE)&#10;&#10;* viewusers.pug&#10;// Now makes sure that admin in session will not be able to delete its own account">
+      <option name="closed" value="true" />
+      <created>1707561857011</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1707561857011</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="*** DATABASE CLEANED FOR DEPLOYMENT&#10;*** COLLECTIONS BACKED UP (DO NOT WORRY HEHE)&#10;&#10;* viewusers.pug&#10;// Now makes sure that admin in session will not be able to delete its own account" />
+    <option name="LAST_COMMIT_MESSAGE" value="*** DATABASE CLEANED FOR DEPLOYMENT&#10;*** COLLECTIONS BACKED UP (DO NOT WORRY HEHE)&#10;&#10;* viewusers.pug&#10;// Now makes sure that admin in session will not be able to delete its own account" />
   </component>
 </project>

@@ -328,14 +328,6 @@
 },
 {
   "_id": {
-    "$oid": "65c27ab81107f037e7c29f80"
-  },
-  "widget_name": "test",
-  "widget_category": "Personalized",
-  "widget_content": "<div class=\"w3-row draggable box w3-margin-small\" draggable=\"true\"> <h3 class=\"textbox text-label w3-row w3-container box draggable w3-hover-light-grey w3-padding-small\">                        This is a sample title</h3><div>"
-},
-{
-  "_id": {
     "$oid": "65c27ba91107f037e7c29f81"
   },
   "widget_name": "Signature Half",
