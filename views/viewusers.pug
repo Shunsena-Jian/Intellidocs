@@ -24,10 +24,14 @@ block body
                                 td #{user.user_level}
                                 td.w3-center #{user.user_department ? user.user_department : 'N/A'}
                                 td
-                                    button.w3-button.w3-block.w3-theme-dark(onclick=`deleteUser('${user.emp_id}')`) Delete
+                                    if (user.emp_id === currentUserDetailsBlock.empID)
+                                        p.w3-center Cannot Delete User
+                                    else
+                                        button.w3-button.w3-block.w3-theme-dark(onclick=`deleteUser('${user.emp_id}')`) Delete
 
     script.
         var table = $('#usersTable').DataTable();
+        var currentUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
 
         function deleteUser(empID){
             var deleteUserMessage = "Are you sure you want to delete user " + empID + " ?";
@@ -56,9 +60,13 @@ block body
                                     user.first_name,
                                     user.last_name,
                                     user.user_level,
-                                    userDepartment,
-                                    `<button class="w3-button w3-block w3-theme-dark" onclick="deleteUser('${user.emp_id}')">Delete</button>`
+                                    userDepartment
                                 ];
+                                if (user.emp_id === currentUserDetailsBlock.empID) {
+                                    curLine.push(`<p class="w3-center">Cannot Delete User</p>`);
+                                } else {
+                                    curLine.push(`<button class="w3-button w3-block w3-theme-dark" onclick="deleteUser('${user.emp_id}')">Delete</button>`);
+                                }
                                 table.row.add(curLine);
                             });
                             table.draw();
@@ -72,4 +80,3 @@ block body
                 });
             }
         }
-
