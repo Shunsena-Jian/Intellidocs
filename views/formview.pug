@@ -813,11 +813,11 @@ block body
                         mergedForm = response.mergedTemplate;
                         document.getElementById("enginePlaceHolder").innerHTML = mergedForm;
 
-                        showGeneralSuccessModal("Successfully saved the form.");
+                        showGeneralSuccessModal("Successfully merged the form.");
                     } else if (response.status_code === 1){
-                        alert("The template versions are the same. Merging is not possible.");
+                        showGeneralErrorModal("The template versions are the same. Merging is not possible.");
                     } else {
-                        alert("There was an error in merging the form");
+                        showGeneralErrorModal("There was an error in merging the form");
                     }
                 },
                 error: function(error) {

@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8ce81f68-34e4-43e3-bae2-6f12b757da9c" name="Changes" comment="*** DATABASE CLEANED FOR DEPLOYMENT&#10;*** COLLECTIONS BACKED UP (DO NOT WORRY HEHE)">
+      <change afterPath="$PROJECT_DIR$/db/intellijent.forms.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/intellijent.dropdowns.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/intellijent.dropdowns.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/intellijent.privileges.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/intellijent.privileges.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_render_prev_submitted_form.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_render_prev_submitted_form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/formview.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/formview.pug" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +42,7 @@
   <component name="ProjectId" id="2cAi1K4zOqqcBDl2TMK8ighBhrP" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -85,6 +84,17 @@
     </task>
     <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="*** DATABASE CLEANED FOR DEPLOYMENT&#10;*** COLLECTIONS BACKED UP (DO NOT WORRY HEHE)&#10;&#10;* viewusers.pug&#10;// Now makes sure that admin in session will not be able to delete its own account" />
