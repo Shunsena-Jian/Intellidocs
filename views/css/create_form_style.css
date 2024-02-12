@@ -183,6 +183,7 @@
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed; /* Enable fixed table layout */
+    overflow: auto;
 }
 
 .form-table.right {
@@ -198,8 +199,10 @@ float: right;
 .form-table th, .form-table td {
     padding: 8px;
     text-align: left;
-    overflow: hidden;
     text-overflow: ellipsis;
+        white-space: normal;
+        word-wrap: break-word; /* Handle long words */
+        overflow: auto;
 }
 
 /* Set equal width for each column */
@@ -217,6 +220,18 @@ float: right;
 .form-table.number td:nth-child(2) {
     width: 30%; /* Adjust the width as needed */
 }
+
+/* Specific columns with different widths */
+.form-table.clo th:nth-child(1),
+.form-table.clo td:nth-child(1) {
+    width: 40%; /* Adjust the width as needed */
+}
+
+.form-table.clo th:nth-child(2),
+.form-table.clo td:nth-child(2) {
+    width: 10%; /* Adjust the width as needed */
+}
+
 
 .form-table.number-2 th:nth-child(3),
 .form-table.number-2 td:nth-child(3) {

@@ -333,4 +333,44 @@
   "widget_name": "Signature Half",
   "widget_category": "Signature",
   "widget_content": "<div class=\"w3-row draggable box w3-margin-small\" draggable=\"true\"> <div class=\"grid-container w3-white w3-container draggable box w3-hover-light-grey hori-col\"><div class=\"grid-item-container w3-row w3-border\"></div><div class=\"grid-item-container w3-row w3-border\"><div><div class=\"w3-container box w3-padding-16 draggable w3-hover-light-grey\"><div class=\"form\" action=\"/\" method=\"POST\" enctype=\"multipart/form-data\" id=\"upload-form\"><input type=\"file\" name=\"file\" id=\"file\"><br><input type=\"submit\" value=\"Upload Signature\"></div></div></div><div><h5 class=\"textbox text-label w3-row w3-container box draggable w3-hover-light-grey w3-padding-small\" contenteditable=\"true\">POSITION:<br></h5></div><div><input class=\"text-label w3-input textbox draggable box w3-hover-light-grey w3-padding-small\" readonly=\"\" type=\"text\" placeholder=\"Some Text\"></div></div></div><div>"
+},
+{
+  "_id": {
+    "$oid": "65ca15b5ba1568716ea4fa2b"
+  },
+  "widget_name": "CLO VS PLO Mapping Talbe",
+  "widget_category": "Table",
+  "widget_content": "<table class=\"draggable form-table clo w3-bold w3-margin-small\" draggable=\"true\">\n<tbody>\n<tr>\n<th colspan=\"9\">Course Learning Outcomes vs Program Learning Outcomes Mapping Table</th>\n</tr>\n\n<tr>\n<th rowspan=\"2\">Course Learning Outcomes</th>\n<th colspan=\"8\"> Program Learning Outcomes </th>\n</tr>\n\n<tr>\n<th> 1 </th>\n<th> 2 </th>\n<th> 3 </th>\n<th> 4 </th>\n<th> 5 </th>\n<th> 6 </th>\n<th> 7 </th>\n<th> 8 </th>\n</tr>\n\n<tr>\n<td>Text 1</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n\n<tr>\n<td>Text 2</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n\n<tr>\n<td>Text 3</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n\n\n</tbody>\n</table>"
+},
+{
+  "_id": {
+    "$oid": "65ca1b1eba1568716ea4fa2c"
+  },
+  "widget_name": "Course Learning Plan Table",
+  "widget_category": "Table",
+  "widget_content": "<table class=\"draggable form-table clo w3-bold w3-margin-small\" draggable=\"true\">\n<tbody>\n<tr>\n<th colspan=\"5\">Course Learning Plan</th>\n</tr>\n\n<tr>\n<th> Topic Learning Outcomes </th>\n<th> Content/Topic </th>\n<th> Time Allotment </th>\n<th> Learning Strategies </th>\n<th> Assessment</th>\n</tr>\n\n<tr>\n<th colspan=\"5\" class=\"w3-center\"> PRELIMS </th>\n</tr>\n\n<tr>\n<td>Text 1</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n\n<tr>\n<th colspan=\"5\" class=\"w3-center\"> MIDTERMS </th>\n</tr>\n\n<tr>\n<td>Text 1</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n\n<tr>\n<th colspan=\"5\" class=\"w3-center\"> FINALS </th>\n</tr>\n\n<tr>\n<td>Text 1</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n\n\n\n\n</tbody>\n</table>"
+},
+{
+  "_id": {
+    "$oid": "65ca1c28ba1568716ea4fa2d"
+  },
+  "widget_name": "Final Course Requirement",
+  "widget_category": "Table",
+  "widget_content": "<table class=\"draggable form-table clo w3-bold w3-margin-small\" draggable=\"true\">\n<tbody>\n<tr>\n<th colspan=\"3\"> Final Course Requirement\n<br>\n<br>\nAs evidence of attaining the learning outcomes stated, student-learners are required to submit the following requirement during the indicated dates of the term.\n</th>\n</tr>\n\n<tr>\n<th> Course Learning Outcomes </th>\n<th > Required Output </th>\n<th > Due Date </th>\n</tr>\n\n<tr>\n<td></td>\n<td rowspan=\"6\"></td>\n<td rowspan=\"6\"></td>\n</tr>\n\n<tr>\n<td></td>\n</tr>\n\n<tr>\n<td></td>\n</tr>\n\n<tr>\n<td></td>\n</tr>\n\n\n<tr>\n<td></td>\n</tr>\n\n\n<tr>\n<td></td>\n</tr>\n\n</tbody>\n</table>"
+},
+{
+  "_id": {
+    "$oid": "65ca1fd3ba1568716ea4fa2e"
+  },
+  "widget_name": "Rubric Assessment Table",
+  "widget_category": "Table",
+  "widget_content": "<table class=\"draggable form-table w3-bold w3-margin-small\" draggable=\"true\">\n<tbody>\n<tr>\n<th rowspan=\"3\">Rubric Assessment for: (Assessment Title) - SAMPLE</th>\n</tr>\n\n<tr>\n<th>Category</th>\n<th>Criteria</th>\n<th>Score</th>\n</tr>\n\n<tr>\n<td>Text 1</td>\n<td></td>\n<td></td>\n</tr>\n\n<tr>\n<td>Text 2</td>\n<td></td>\n<td></td>\n</tr>\n\n<tr>\n<td>Text 3</td>\n<td></td>\n<td></td>\n</tr>\n\n<tr>\n<td>Text 4</td>\n<td></td>\n<td></td>\n</tr>\n\n<tr>\n<td></td>\n<td>Total</td>\n<td></td>\n</tr>\n\n</tbody>\n</table>"
+},
+{
+  "_id": {
+    "$oid": "65ca20beba1568716ea4fa2f"
+  },
+  "widget_name": "Grading System Table",
+  "widget_category": "Table",
+  "widget_content": "<table class=\"draggable form-table w3-bold w3-margin-small\" draggable=\"true\">\n<tbody>\n<tr>\n<th colspan=\"7\">Grading System\n<br>\nUsing the grading system stipulated in the SLU faculty handbook, the grades will be computed as follows:\n</th>\n</tr>\n\n<tr>\n<td>Prelim</td>\n<td>%</td>\n<td>Class Standing</td>\n<td>%</td>\n<td>Examination</td>\n<td>%</td>\n<td rowspan=\"3\">Final requirement (using the rubric)- takes 20% of the CS during the Final term</td>\n</tr>\n\n<tr>\n<td>Midterm</td>\n<td>%</td>\n<td>Class Standing</td>\n<td>%</td>\n<td>Examination</td>\n<td>%</td>\n</tr>\n\n<tr>\n<td>Tentative Final</td>\n<td>%</td>\n<td>Class Standing</td>\n<td>%</td>\n<td>Examination</td>\n<td>%</td>\n</tr>\n\n<tr>\n<td>Final Grade</td>\n<td>%</td>\n<td colspan=\"5\">(Prelim Grade + Midterm Grade + Tentative Final Grade)/3</td>\n\n</tr>\n</tbody>\n</table>"
 }]
