@@ -2,7 +2,7 @@ function renderPrevSubmittedForm(formOwner, userVersion){
     var data = {
         formOwner: formOwner,
         userVersion: userVersion,
-        formControlNumber: form_template.form_control_number
+        formControlNumber: currentForm.form_control_number
     };
 
     $.ajax({

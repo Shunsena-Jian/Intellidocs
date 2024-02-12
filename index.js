@@ -565,7 +565,7 @@ app.put('/submitform', async function(req, res){
             }
         }
 
-        var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
+        var currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_status: { $in: ["Published", "Active", "In-active"] }});
 
         for(i=0; i < userFormVersions.length; i++){
             if(userFormVersions[i].user_version >= latestUserVersion){
@@ -593,6 +593,14 @@ app.put('/submitform', async function(req, res){
             }else{
 
                 userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
+
+                for(const form of userFormVersions){
+                    const result = await filledoutforms.updateMany(
+                        { form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID },
+                        { $set: { form_status : "On-going" } },
+                        { returnNewDocument : true }
+                    );
+                }
 
                 const filledOutDocument = {
                     form_name: currentForm.form_name,
