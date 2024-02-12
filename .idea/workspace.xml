@@ -4,32 +4,46 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34d1eb95-6a69-47c0-bff5-30292a556454" name="Changes" comment="* form_create_view_edit.js&#10;// Fix duplicating widgets on read-only view" />
+    <list default="true" id="8ce81f68-34e4-43e3-bae2-6f12b757da9c" name="Changes" comment="*** DATABASE CLEANED FOR DEPLOYMENT&#10;*** COLLECTIONS BACKED UP (DO NOT WORRY HEHE)">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/intellijent.dropdowns.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/intellijent.dropdowns.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/intellijent.privileges.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/intellijent.privileges.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_render_prev_submitted_form.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/js/client.functions/handle_ajax_render_prev_submitted_form.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="HTML File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitLabMergeRequestFiltersHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPENED&quot;,
+    &quot;assignee&quot;: {
+      &quot;type&quot;: &quot;org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue&quot;,
+      &quot;username&quot;: &quot;2212288&quot;,
+      &quot;fullname&quot;: &quot;JIAN RAPHAEL CUDIAMAT&quot;
+    }
+  }
+}</component>
+  <component name="GitLabMergeRequestsSettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;first&quot;: &quot;https://gitlab.com/2212288/intellidocs.git&quot;,
+    &quot;second&quot;: &quot;a9467bfe-d9e5-4939-b506-830b97f04244&quot;
+  }
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 2
+  &quot;associatedIndex&quot;: 5
 }</component>
-  <component name="ProjectId" id="2bawce7vhuwg6fVtJ7BVY87GKgg" />
+  <component name="ProjectId" id="2cAi1K4zOqqcBDl2TMK8ighBhrP" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
-    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -37,137 +51,44 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
   }
 }</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task id="LOCAL-00001" summary="* createusers.pug&#10;// Remove the original structure (old css)&#10;// Created a new structure using w3css4.css&#10;&#10;* w3css4.css&#10;// Add hover style on w3-blue-classic for buttons&#10;// Remove create user css ni cass">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8ce81f68-34e4-43e3-bae2-6f12b757da9c" name="Changes" comment="" />
+      <created>1707560569214</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1707560569214</updated>
+    </task>
+    <task id="LOCAL-00001" summary="*** DATABASE CLEANED FOR DEPLOYMENT&#10;*** COLLECTIONS BACKED UP (DO NOT WORRY HEHE)&#10;&#10;* viewusers.pug&#10;// Now makes sure that admin in session will not be able to delete its own account">
       <option name="closed" value="true" />
-      <created>1706465214819</created>
+      <created>1707561857011</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1706465214819</updated>
+      <updated>1707561857011</updated>
     </task>
-    <task id="LOCAL-00002" summary="* intellijent.widgets.json&#10;// Remove duplicated widget&#10;&#10;* widgetdragbar.pug&#10;// Remove draggable SLU image">
+    <task id="LOCAL-00002" summary="*** DATABASE CLEANED FOR DEPLOYMENT&#10;*** COLLECTIONS BACKED UP (DO NOT WORRY HEHE)">
       <option name="closed" value="true" />
-      <created>1706465947474</created>
+      <created>1707562428616</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1706465947474</updated>
+      <updated>1707562428616</updated>
     </task>
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="34d1eb95-6a69-47c0-bff5-30292a556454" name="Changes" comment="* intellijent.widgets.json&#10;// Remove duplicated widget&#10;&#10;* widgetdragbar.pug&#10;// Remove draggable SLU image" />
-      <created>1706466580129</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1706466580129</updated>
-    </task>
-    <task id="LOCAL-00003" summary="* w3css4.css&#10;// Add hover on buttons (w3-classic-blue)&#10;// Add container and vertical separator style for login&#10;&#10;* login.pug&#10;// Remodeled login content and footer">
-      <option name="closed" value="true" />
-      <created>1706471494651</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1706471494651</updated>
-    </task>
-    <task id="LOCAL-00004" summary="* create_form_style.css&#10;// Add css for non-resizable text area used for remarks&#10;&#10;* viewformtemplate.pug&#10;// Add remarks for editing a template&#10;&#10;* formview.pug&#10;// Add remarks for editing a template">
-      <option name="closed" value="true" />
-      <created>1707142711821</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1707142711821</updated>
-    </task>
-    <task id="LOCAL-00005" summary="* form_create_view_edit.js&#10;// Modify add/remove of column or rows on table (i.e. I can add on right/below of selected column cell">
-      <option name="closed" value="true" />
-      <created>1707149674675</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1707149674675</updated>
-    </task>
-    <task id="LOCAL-00006" summary="* createwidget.pug&#10;// Add call function to clear all selected elements before saving widget&#10;&#10;* form_create_widget.js&#10;// Define a call function to clear all selected elements">
-      <option name="closed" value="true" />
-      <created>1707150805856</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1707150805856</updated>
-    </task>
-    <task id="LOCAL-00007" summary="* form_create_widget.js&#10;// Update addTableColumn to duplicate signature column for TOS&#10;&#10;* intellijent.widgets.json&#10;// Add more TOS table widgets&#10;// Soon to add table widgets for Syllabi (Reason: There's a bug in selecting table cells kapag may colspan or rowspan - di ko alam kung aabot)">
-      <option name="closed" value="true" />
-      <created>1707155116599</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1707155116599</updated>
-    </task>
-    <task id="LOCAL-00008" summary="* form_create_view_edit.js&#10;// Add general right click buttons for duplicating dropped widget after or on the most last content of the page&#10;&#10;* w3css4.css&#10;// add margin css for spacing on dropped content sa page">
-      <option name="closed" value="true" />
-      <created>1707241038220</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1707241038220</updated>
-    </task>
-    <task id="LOCAL-00009" summary="+ intellijent.forms.json&#10;// Add two default forms (TOS and Faculty Load Template)&#10;&#10;* intellijent.widgets.json&#10;// Update widget content&#10;&#10;* text_editor.css&#10;// Remove border on grid-container&#10;&#10;* form_create_view_edit.js&#10;// Debug remove table row&#10;// After removing a set of row cells, call the adaptPageContent function so that contents are adjusted accordingly">
-      <option name="closed" value="true" />
-      <created>1707245142893</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1707245142893</updated>
-    </task>
-    <task id="LOCAL-00010" summary="* form_create_view_edit.js&#10;// On load of created/deployed form, consider landscape orientation&#10;// Add function to clear contents of all input fields and table contents (BUGGY)">
-      <option name="closed" value="true" />
-      <created>1707247144622</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1707247144622</updated>
-    </task>
-    <task id="LOCAL-00011" summary="* form_create_view_edit.js&#10;// Fix duplicating widgets on read-only view">
-      <option name="closed" value="true" />
-      <created>1707247343817</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1707247343817</updated>
-    </task>
-    <option name="localTasksCounter" value="12" />
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="* form_create_view_edit.js, form_create_widget.js&#10;// Remove console log debug comments" />
-    <MESSAGE value="* createusers.pug&#10;// Remove the original structure (old css)&#10;// Created a new structure using w3css4.css&#10;&#10;* w3css4.css&#10;// Add hover style on w3-blue-classic for buttons&#10;// Remove create user css ni cass" />
-    <MESSAGE value="* intellijent.widgets.json&#10;// Remove duplicated widget&#10;&#10;* widgetdragbar.pug&#10;// Remove draggable SLU image" />
-    <MESSAGE value="* w3css4.css&#10;// Add hover on buttons (w3-classic-blue)&#10;// Add container and vertical separator style for login&#10;&#10;* login.pug&#10;// Remodeled login content and footer" />
-    <MESSAGE value="* create_form_style.css&#10;// Add css for non-resizable text area used for remarks&#10;&#10;* viewformtemplate.pug&#10;// Add remarks for editing a template&#10;&#10;* formview.pug&#10;// Add remarks for editing a template" />
-    <MESSAGE value="* form_create_view_edit.js&#10;// Modify add/remove of column or rows on table (i.e. I can add on right/below of selected column cell" />
-    <MESSAGE value="* createwidget.pug&#10;// Add call function to clear all selected elements before saving widget&#10;&#10;* form_create_widget.js&#10;// Define a call function to clear all selected elements" />
-    <MESSAGE value="* form_create_widget.js&#10;// Update addTableColumn to duplicate signature column for TOS&#10;&#10;* intellijent.widgets.json&#10;// Add more TOS table widgets&#10;// Soon to add table widgets for Syllabi (Reason: There's a bug in selecting table cells kapag may colspan or rowspan - di ko alam kung aabot)" />
-    <MESSAGE value="* form_create_view_edit.js&#10;// Add general right click buttons for duplicating dropped widget after or on the most last content of the page&#10;&#10;* w3css4.css&#10;// add margin css for spacing on dropped content sa page" />
-    <MESSAGE value="+ intellijent.forms.json&#10;// Add two default forms (TOS and Faculty Load Template)&#10;&#10;* intellijent.widgets.json&#10;// Update widget content&#10;&#10;* text_editor.css&#10;// Remove border on grid-container&#10;&#10;* form_create_view_edit.js&#10;// Debug remove table row&#10;// After removing a set of row cells, call the adaptPageContent function so that contents are adjusted accordingly" />
-    <MESSAGE value="* form_create_view_edit.js&#10;// On load of created/deployed form, consider landscape orientation&#10;// Add function to clear contents of all input fields and table contents (BUGGY)" />
-    <MESSAGE value="* form_create_view_edit.js&#10;// Fix duplicating widgets on read-only view" />
-    <option name="LAST_COMMIT_MESSAGE" value="* form_create_view_edit.js&#10;// Fix duplicating widgets on read-only view" />
+    <MESSAGE value="*** DATABASE CLEANED FOR DEPLOYMENT&#10;*** COLLECTIONS BACKED UP (DO NOT WORRY HEHE)&#10;&#10;* viewusers.pug&#10;// Now makes sure that admin in session will not be able to delete its own account" />
+    <MESSAGE value="*** DATABASE CLEANED FOR DEPLOYMENT&#10;*** COLLECTIONS BACKED UP (DO NOT WORRY HEHE)" />
+    <option name="LAST_COMMIT_MESSAGE" value="*** DATABASE CLEANED FOR DEPLOYMENT&#10;*** COLLECTIONS BACKED UP (DO NOT WORRY HEHE)" />
   </component>
 </project>

@@ -14,7 +14,6 @@ block body
                             th.w3-center Last Name
                             th.w3-center User Level
                             th.w3-center User Department
-                            th.w3-center Edit User
                             th.w3-center Remove User
                     tbody
                         each user in userAccounts
@@ -23,18 +22,16 @@ block body
                                 td #{user.first_name}
                                 td #{user.last_name}
                                 td #{user.user_level}
-                                td #{user.user_department ? user.user_department : ''}
+                                td.w3-center #{user.user_department ? user.user_department : 'N/A'}
                                 td
-                                    button.w3-button.w3-block.w3-theme-dark(onclick=`editUser('${user.emp_id}')`) Edit
-                                td
-                                    button.w3-button.w3-block.w3-theme-dark(onclick=`deleteUser('${user.emp_id}')`) Delete
+                                    if (user.emp_id === currentUserDetailsBlock.empID)
+                                        p.w3-center Cannot Delete User
+                                    else
+                                        button.w3-button.w3-block.w3-theme-dark(onclick=`deleteUser('${user.emp_id}')`) Delete
 
     script.
-        var table = $('#usersTable').DataTable({
-            "columnDefs": [
-                { "targets": [5, 6], "orderable": false } // Disable sorting for Edit and Delete columns
-            ]
-        });
+        var table = $('#usersTable').DataTable();
+        var currentUserDetailsBlock = !{JSON.stringify(currentUserDetailsBlock)};
 
         function deleteUser(empID){
             var deleteUserMessage = "Are you sure you want to delete user " + empID + " ?";
@@ -57,16 +54,19 @@ block body
                             table.clear().draw();
 
                             updatedData.forEach(function(user) {
-                                var userDepartment = user.user_department ? user.user_department : '';
+                                var userDepartment = user.user_department ? user.user_department : 'N/A';
                                 var curLine = [
                                     user.emp_id,
                                     user.first_name,
                                     user.last_name,
                                     user.user_level,
-                                    user.user_department,
-                                    `<button class="w3-button w3-block w3-theme-dark" onclick="editUser('${user.emp_id}')">Edit</button>`,
-                                    `<button class="w3-button w3-block w3-theme-dark" onclick="deleteUser('${user.emp_id}')">Delete</button>`
+                                    userDepartment
                                 ];
+                                if (user.emp_id === currentUserDetailsBlock.empID) {
+                                    curLine.push(`<p class="w3-center">Cannot Delete User</p>`);
+                                } else {
+                                    curLine.push(`<button class="w3-button w3-block w3-theme-dark" onclick="deleteUser('${user.emp_id}')">Delete</button>`);
+                                }
                                 table.row.add(curLine);
                             });
                             table.draw();
@@ -80,4 +80,3 @@ block body
                 });
             }
         }
-

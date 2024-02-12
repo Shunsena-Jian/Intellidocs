@@ -55,13 +55,14 @@ app.set('view engine', 'pug');
 app.use('/views/src', express.static(path.join(__dirname, 'views', 'src')));
 app.use(express.static(path.join(__dirname, 'views')));
 app.use('/uploads', express.static('uploads'));
+
 app.use((req, res, next) => {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
     next();
 });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '1gb' }));
+app.use(bodyParser.urlencoded({ limit: '1gb', extended: true }));
 
 var currentUserFiles;
 var currentUserDetailsBlock;
@@ -564,7 +565,7 @@ app.put('/submitform', async function(req, res){
             }
         }
 
-        var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
+        var currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_status: { $in: ["Published", "Active", "In-active"] }});
 
         for(i=0; i < userFormVersions.length; i++){
             if(userFormVersions[i].user_version >= latestUserVersion){
@@ -592,6 +593,14 @@ app.put('/submitform', async function(req, res){
             }else{
 
                 userFormVersions = await filledoutforms.find({ form_control_number : selectedFormControlNumberToView,  form_owner: req.session.userEmpID}).toArray();
+
+                for(const form of userFormVersions){
+                    const result = await filledoutforms.updateMany(
+                        { form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID },
+                        { $set: { form_status : "On-going" } },
+                        { returnNewDocument : true }
+                    );
+                }
 
                 const filledOutDocument = {
                     form_name: currentForm.form_name,
@@ -702,13 +711,13 @@ app.put('/savefilledoutform', async function(req, res){
             }
         }
 
-        var currentForm = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_version: latestVersion });
+        var currentForm = await forms.findOne({ form_control_number: selectedFormControlNumberToView, form_status: { $in: ["Published", "Active", "In-active"] }});
 
         for(i=0; i < userFormVersions.length; i++){
             if(userFormVersions[i].user_version >= latestUserVersion){
                 latestUserVersion = userFormVersions[i].user_version;
                 latestSharedStatus = userFormVersions[i].shared_status;
-                latestAllowFileUpload = userFormVersions[i].shared_status;
+                latestAllowFileUpload = userFormVersions[i].allow_file_upload;
                 if(userFormVersions[i].read_users){
                     let uniqueReadUsers = new Set([...latestReadUsers, ...userFormVersions[i].read_users]);
                     latestReadUsers = Array.from(uniqueReadUsers);
@@ -931,7 +940,6 @@ app.get('/formview/:form_control_number', async function (req, res){
             }
 
             if(currentUserDetailsBlock.userLevel != "Secretary" && currentForm.assigned_users.includes(currentUserDetailsBlock.email)){
-
                 var sharedRead = jsonObject.read_users;
                 var sharedReadUsers = [];
 
@@ -1132,13 +1140,12 @@ app.put('/shareform', async function(req, res){
 app.get('/viewformtemplate/:form_control_number', async function (req, res){
     if(req.session.loggedIn){
         var selectedFormControlNumberToView = req.params.form_control_number;
-        formVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
         var allVersions = await forms.find({ form_control_number : selectedFormControlNumberToView }).toArray();
         var latestVersion = 0;
 
-        for(i=0; i < formVersions.length; i++){
-            if(formVersions[i].form_version >= latestVersion){
-                latestVersion = formVersions[i].form_version;
+        for(i=0; i < allVersions.length; i++){
+            if(allVersions[i].form_version >= latestVersion){
+                latestVersion = allVersions[i].form_version;
             }
         }
 
@@ -3315,16 +3322,31 @@ app.put('/AJAX_approveSubmittedForm', async function(req, res) {
         var submittedFormsTransfer = await filledoutforms.find({ form_control_number: selectedFormControlNumberToView, form_status : {  $in: ["Submitted", "Returned"]}}).toArray();
         let finalFormsTransfer = [];
 
-        for (const form of submittedFormsTransfer){
-            const formOwner = form.form_owner;
-            const user = await users.findOne({ emp_id: formOwner });
+        if(currentUserDetailsBlock.userLevel === "Department Head"){
+            for (const form of submittedFormsTransfer){
+                const formOwner = form.form_owner;
+                const user = await users.findOne({ emp_id: formOwner });
 
-            if(user){
-                form.first_name = user.first_name;
-                form.last_name = user.last_name;
-                finalFormsTransfer.push(form);
-            } else {
-                logError("User not found for form_owner: " + formOwner);
+                if(user.user_department === currentUserDetailsBlock.userDepartment){
+                    form.first_name = user.first_name;
+                    form.last_name = user.last_name;
+                    finalFormsTransfer.push(form);
+                } else {
+                    logError("User not found for form_owner: " + formOwner);
+                }
+            }
+        } else {
+            for (const form of submittedFormsTransfer){
+                const formOwner = form.form_owner;
+                const user = await users.findOne({ emp_id: formOwner });
+
+                if(user){
+                    form.first_name = user.first_name;
+                    form.last_name = user.last_name;
+                    finalFormsTransfer.push(form);
+                } else {
+                    logError("User not found for form_owner: " + formOwner);
+                }
             }
         }
 
@@ -3491,7 +3513,7 @@ app.put('/AJAX_deleteUser', async function(req, res) {
             } else {
                 const result = await users.deleteOne({ emp_id: formData.userToDelete });
 
-                let latestEmployees = await users.find({}).toArray();
+                let latestEmployees = await users.find().toArray();
                 res.send({ status_code : 0, latestEmployees : latestEmployees });
             }
         } catch(error) {
@@ -3524,6 +3546,55 @@ app.put('/AJAX_addSecretaryRemark', async function(req, res) {
             logError("Error at adding secretary remark to database: " + error);
         }
     } else {
+        res.render('login', {
+            title: 'Login Page'
+        });
+    }
+});
+
+app.put('/AJAX_mergeForm', async function(req, res){
+    if(req.session.loggedIn){
+        try{
+            var formData = req.body;
+            var selectedFormControlNumberToView = formData.formControlNumber;
+            var userVersion = parseInt(formData.userVersion, 10);
+            var userForm = await filledoutforms.findOne({ form_control_number : selectedFormControlNumberToView, form_owner : req.session.userEmpID, user_version : userVersion });
+            var formTemplate = await forms.findOne({ form_control_number : selectedFormControlNumberToView, form_status: { $in: ["Published", "Active", "In-active"] }});
+            var mergedForm = userForm;
+
+            if(parseInt(userForm.form_version, 10) === parseInt(formTemplate.form_version, 10)){
+                res.send({ status_code : 1 });
+            } else {
+
+                var sharedRead = mergedForm.read_users;
+
+                var sharedReadUsers = [];
+
+                sharedRead.forEach(async function(user) {
+                    const userDetails = await users.findOne({ email: user });
+                    sharedReadUsers.push(userDetails);
+                });
+
+                var sharedWrite = mergedForm.write_users;
+                var sharedWriteUsers = [];
+                sharedWrite.forEach(async function(user) {
+                    const userDetails = await users.findOne({ email: user });
+                    sharedWriteUsers.push(userDetails);
+                });
+
+                mergedForm.form_content = await updateToLatestVersion(formTemplate.form_content, mergedForm.form_content);
+
+                var e = mergedForm.form_content;
+                var g = await jsonToHTML(e);
+                mergedForm.form_content = g;
+
+                res.send({ status_code : 0, mergedTemplate : mergedForm.form_content });
+            }
+        }catch(error){
+            logError("Error at AJAX Function merging form.");
+            res.send({ status_code : 2 });
+        }
+    }else{
         res.render('login', {
             title: 'Login Page'
         });

@@ -38,7 +38,7 @@ function assignUser() {
                     table5.clear().draw();
 
                     for (var b = 0; b < updatedData2.length; b++) {
-                        var status = (updatedData1[a].user_submitted_status === true) ? "Submitted" : (updatedData1[a].user_approved_status === true) ? "Approved" : (updatedData1[a].user_returned_status === true) ? "Returned" : "Not Yet Submitted";
+                        var status = (updatedData2[b].user_submitted_status === true) ? "Submitted" : (updatedData2[b].user_approved_status === true) ? "Approved" : (updatedData2[b].user_returned_status === true) ? "Returned" : "Not Yet Submitted";
                         var curLine2 = [
                             updatedData2[b].email,
                             updatedData2[b].emp_id,
